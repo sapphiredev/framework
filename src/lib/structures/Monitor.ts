@@ -40,12 +40,12 @@ export abstract class Monitor extends Piece {
 
 	public async run(message: Message) {
 		if (
-			!this.enabled
-			|| (this.ignoreBots && message.author.bot)
-			|| (this.ignoreSelf && this.client.user === message.author)
-			|| (this.ignoreOthers && this.client.user !== message.author)
-			|| (this.ignoreWebhooks && message.webhookID)
-			|| (this.ignoreEdits && message.editedTimestamp)
+			!this.enabled ||
+			(this.ignoreBots && message.author.bot) ||
+			(this.ignoreSelf && this.client.user === message.author) ||
+			(this.ignoreOthers && this.client.user !== message.author) ||
+			(this.ignoreWebhooks && message.webhookID) ||
+			(this.ignoreEdits && message.editedTimestamp)
 		) {
 			return;
 		}
