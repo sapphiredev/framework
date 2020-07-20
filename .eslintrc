@@ -1,11 +1,3 @@
 {
-	"extends": ["@skyra"],
-	"rules": {
-		// Handled by Prettier
-		"padded-blocks": "off",
-		"space-before-function-paren": "off",
-		"arrow-parens": "off",
-		"@typescript-eslint/no-throw-literal": "off",
-		"function-paren-newline": "off"
-	}
+	"extends": ["@skyra", "plugin:prettier/recommended"]
 }
