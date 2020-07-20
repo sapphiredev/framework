@@ -6,6 +6,7 @@
 		"space-before-function-paren": "off",
 		"arrow-parens": "off",
 		"@typescript-eslint/no-throw-literal": "off",
-		"function-paren-newline": "off"
+		"function-paren-newline": "off",
+		"operator-linebreak": "off"
 	}
 }
