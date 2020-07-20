@@ -61,7 +61,7 @@ export abstract class Monitor extends Piece {
 			await this.handle(message);
 		} catch (error) {
 			// TODO: Change this into an enum
-			this.client.emit('MonitorError', message, error, this);
+			this.client.emit('monitorError', message, error, this);
 		}
 	}
 }
