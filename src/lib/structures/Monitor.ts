@@ -9,6 +9,12 @@ export abstract class Monitor extends Piece {
 	public ignoreBots = false;
 
 	/**
+	 * Should this monitor ignore users
+	 * @default false
+	 */
+	public ignoreUsers = false;
+
+	/**
 	 * Should this monitor ignore messages sent by the bot itself
 	 * @default false
 	 */
@@ -42,6 +48,7 @@ export abstract class Monitor extends Piece {
 		if (
 			!this.enabled ||
 			(this.ignoreBots && message.author.bot) ||
+			(this.ignoreBots && !message.author.bot) ||
 			(this.ignoreSelf && this.client.user === message.author) ||
 			(this.ignoreOthers && this.client.user !== message.author) ||
 			(this.ignoreWebhooks && message.webhookID) ||
