@@ -23,7 +23,9 @@
 		"commit": "git-cz",
 		"cz": "git-cz"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@klasa/ratelimits": "^0.1.0"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "^9.1.1",
 		"@commitlint/config-conventional": "^9.1.1",

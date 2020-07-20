@@ -653,6 +653,13 @@
   resolved "https://registry.yarnpkg.com/@klasa/event-iterator/-/event-iterator-0.0.11.tgz#2c7df21a7b57129333f08838769caca2a2e81028"
   integrity sha512-G/YbJpxPu7ZpTO8OueqITzvcz5fwl5dPazPOhn3IYXqhIqSdxo0pDAGAj2R3J8eKCLDpXcU8ngK/Sg12okdxzA==
 
+"@klasa/ratelimits@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@klasa/ratelimits/-/ratelimits-0.1.0.tgz#34e1e49fd68d16e6db03801b3a6c2ec4457b78c6"
+  integrity sha512-fms8ZAB5gVHj5i0wPzM0Pmb6KEDv+gR+A6le0ZY1X9+6r8jH3R1kakVgysDePiObiUI3yqiNhUpPyuz4syXGeQ==
+  dependencies:
+    "@klasa/cache" "^0.0.3"
+
 "@klasa/rest@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.5.4.tgz#fe1798f4670149646375c9e3e5dd9f0a3c2167d1"
