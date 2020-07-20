@@ -1,6 +1,8 @@
-import { Store } from '@klasa/core';
-import type { Monitor } from '../structures/Monitor';
+import { Store, Client, PieceConstructor } from '@klasa/core';
+import { Monitor } from '../structures/Monitor';
 
 export class MonitorStore extends Store<Monitor> {
-	// Am I supposed to put anything here or what
+	public constructor(client: Client) {
+		super(client, 'monitors', Monitor as PieceConstructor<Monitor>);
+	}
 }
