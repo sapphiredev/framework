@@ -46,7 +46,9 @@ export abstract class Monitor extends Piece {
 			|| (this.ignoreOthers && this.client.user !== message.author)
 			|| (this.ignoreWebhooks && message.webhookID)
 			|| (this.ignoreEdits && message.editedTimestamp)
-		) { return; }
+		) {
+			return;
+		}
 
 		try {
 			await this.handle(message);
