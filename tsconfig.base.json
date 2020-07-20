@@ -1,0 +1,10 @@
+{
+	"extends": "@skyra/eslint-config",
+	"compilerOptions": {
+		"target": "ES2019",
+		"declaration": true,
+		"declarationMap": true,
+		"removeComments": false,
+		"importsNotUsedAsValues": "error"
+	}
+}

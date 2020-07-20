@@ -1,0 +1,116 @@
+name: Continuous Integration
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    Linting:
+        name: Linting
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
+        steps:
+            - name: Checkout Project
+              uses: actions/checkout@v2
+            - name: Use Node.js 12
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - name: Restore CI Cache
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+            - name: Install Dependencies
+              run: yarn --ignore-scripts --frozen-lockfile
+            - name: Run ESLint
+              uses: icrawl/action-eslint@v1
+
+    Formatting:
+        name: Prettier Formatting
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
+        steps:
+            - name: Checkout Project
+              uses: actions/checkout@v2
+            - name: Use Node.js 12
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - name: Restore CI Cache
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+            - name: Install Dependencies
+              run: yarn --ignore-scripts --frozen-lockfile
+            - name: Run Prettier check
+              run: yarn format:check
+
+    Testing:
+        name: Unit Tests
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
+        steps:
+            - name: Checkout Project
+              uses: actions/checkout@v2
+            - name: Use Node.js v12
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - name: Restore CI Cache
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+            - name: Install Dependencies
+              run: yarn --frozen-lockfile
+            - name: Run tests
+              run: yarn test --coverage
+            - name: Store code coverage report
+              uses: actions/upload-artifact@v2-preview
+              with:
+                  name: coverage
+                  path: coverage/
+
+    Building:
+        name: Compile source code
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
+        steps:
+            - name: Checkout Project
+              uses: actions/checkout@v2
+            - name: Use Node.js 12
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - name: Restore CI Cache
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+            - name: Install Dependencies
+              run: yarn --ignore-scripts --frozen-lockfile
+            - name: Build Code
+              uses: icrawl/action-tsc@v1
+              with:
+                  build: src
+
+    Upload_Coverage_Report:
+        name: Upload coverage report to coveralls
+        needs: [Testing]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Project
+              uses: actions/checkout@v2
+            - name: Download Coverage report
+              uses: actions/download-artifact@v2-preview
+              with:
+                  name: coverage
+                  path: coverage/
+            - name: Coveralls Upload
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
