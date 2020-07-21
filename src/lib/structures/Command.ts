@@ -1,11 +1,13 @@
-import { AliasPiece, AliasPieceOptions, Permissions, PermissionsResolvable, Message } from '@klasa/core';
+import { AliasPiece, AliasPieceOptions, Permissions, PermissionsResolvable } from '@klasa/core';
 
 import type { CommandStore } from './CommandStore';
 import type { ChannelType } from '@klasa/dapi-types';
 
 import { RateLimitManager } from '@klasa/ratelimits';
+import { mergeDefault } from '@klasa/utils';
 
-export type CooldownLevel = 'author' | 'channel' | 'guild';
+import { commandDefaults } from '../util/constants';
+import { CooldownLevel } from '../types/Enums';
 
 export abstract class Command extends AliasPiece {
 	/**
@@ -75,10 +77,10 @@ export abstract class Command extends AliasPiece {
 	public promptTime: number;
 
 	/**
-	 * Whether to have flag support for the command
+	 * Accepted flags for the command
 	 * @since 0.0.1
 	 */
-	public flagSupport: boolean;
+	public flags: string[];
 
 	/**
 	 * Allow use of quoted strings for arguments
@@ -91,12 +93,6 @@ export abstract class Command extends AliasPiece {
 	 * @since 0.0.1
 	 */
 	public runIn: ChannelType[];
-
-	/**
-	 * Whether the command has sub-commands or not
-	 * @since 0.0.1
-	 */
-	public subcommands: boolean;
 
 	// todo - public usage: CommandUsage;
 
@@ -121,7 +117,7 @@ export abstract class Command extends AliasPiece {
 	 */
 	public constructor(store: CommandStore, directory: string, files: readonly string[], options: CommandOptions = {}) {
 		super(store, directory, files, options);
-		options = options as Required<CommandOptions>;
+		options = mergeDefault((commandDefaults as unknown) as Required<CommandOptions>, options);
 
 		this.name = this.name.toLowerCase();
 		this.requiredPermissions = new Permissions(options.requiredPermissions).freeze();
@@ -137,13 +133,13 @@ export abstract class Command extends AliasPiece {
 		this.permissionLevel = options.permissionLevel as number;
 		this.promptLimit = options.promptLimit as number;
 		this.promptTime = options.promptTime as number;
-		this.flagSupport = options.flagSupport as boolean;
+		this.flags = options.flags as string[];
 		this.quotedStringSupport = options.quotedStringSupport as boolean;
 		this.runIn = options.runIn as ChannelType[];
-		this.subcommands = options.subcommands as boolean;
 		// todo - this.usage = new CommandUsage(this.client, options.usage as string, options.usageDelim as string, this);
 		this.cooldownLevel = options.cooldownLevel as CooldownLevel;
-		if (!['author', 'channel', 'guild'].includes(this.cooldownLevel)) throw new Error('Invalid cooldownLevel');
+		if (![CooldownLevel.Author, CooldownLevel.Channel, CooldownLevel.Guild].includes(this.cooldownLevel))
+			throw new Error('Invalid cooldownLevel');
 		this.cooldowns = new RateLimitManager(options.cooldown as number, options.bucket as number);
 	}
 
@@ -153,7 +149,7 @@ export abstract class Command extends AliasPiece {
 	 * @readonly
 	 */
 	public get category(): string {
-		return this.fullCategory[0] || 'General';
+		return this.fullCategory.length > 0 ? this.fullCategory[0] : 'General';
 	}
 
 	/**
@@ -162,7 +158,7 @@ export abstract class Command extends AliasPiece {
 	 * @readonly
 	 */
 	public get subCategory(): string {
-		return this.fullCategory[1] || 'General';
+		return this.fullCategory.length > 1 ? this.fullCategory[1] : 'General';
 	}
 
 	/**
@@ -186,8 +182,7 @@ export abstract class Command extends AliasPiece {
 			promptTime: this.promptTime,
 			quotedStringSupport: this.quotedStringSupport,
 			runIn: this.runIn.slice(0),
-			subCategory: this.subCategory,
-			subcommands: this.subcommands
+			subCategory: this.subCategory
 			/* todo - usage: {
 				usageString: this.usage.usageString,
 				usageDelim: this.usage.usageDelim,
@@ -197,17 +192,6 @@ export abstract class Command extends AliasPiece {
 	}
 }
 
-export interface Command {
-	/**
-	 * The run method to be overwritten in commands
-	 * @since 0.0.1
-	 * @param message The command message mapped on top of the message used to trigger this command
-	 * @param params The fully resolved parameters based on your usage / usageDelim
-	 * @returns Should return the response message whenever possible
-	 */
-	run?(message: Message, params: any[]): Promise<Message[]>;
-}
-
 export interface CommandOptions extends AliasPieceOptions {
 	bucket?: number;
 	cooldown?: number;
@@ -215,7 +199,7 @@ export interface CommandOptions extends AliasPieceOptions {
 	deletable?: boolean;
 	description?: string;
 	extendedHelp?: string;
-	flagSupport?: boolean;
+	flags?: string[];
 	guarded?: boolean;
 	hidden?: boolean;
 	nsfw?: boolean;
@@ -225,7 +209,6 @@ export interface CommandOptions extends AliasPieceOptions {
 	quotedStringSupport?: boolean;
 	requiredPermissions?: PermissionsResolvable;
 	runIn?: ChannelType[];
-	subcommands?: boolean;
 	usage?: string;
 	usageDelim?: string | undefined;
 }
