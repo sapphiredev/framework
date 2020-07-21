@@ -1,5 +1,2 @@
-# Kyra
-/src/ @kyranet
-
-# Favna
-/src/ @favna
+/src/ @kyranet @favna
+/tests/ @kyranet @favna
