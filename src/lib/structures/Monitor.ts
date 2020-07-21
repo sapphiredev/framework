@@ -32,6 +32,10 @@ export abstract class Monitor extends Piece {
 	}
 }
 
+/**
+ * The Interface defining all ignore groups.
+ * @since 1.0.0
+ */
 export interface Monitor {
 	/**
 	 * Should this monitor ignore bots
