@@ -4,9 +4,6 @@ import type { CommandStore } from './CommandStore';
 import type { ChannelType } from '@klasa/dapi-types';
 
 import { RateLimitManager } from '@klasa/ratelimits';
-import { mergeDefault } from '@klasa/utils';
-
-import { commandDefaults } from '../util/constants';
 import { CooldownLevel } from '../types/Enums';
 
 export abstract class Command extends AliasPiece {
@@ -117,7 +114,7 @@ export abstract class Command extends AliasPiece {
 	 */
 	public constructor(store: CommandStore, directory: string, files: readonly string[], options: CommandOptions = {}) {
 		super(store, directory, files, options);
-		options = mergeDefault((commandDefaults as unknown) as Required<CommandOptions>, options);
+		options = options as Required<CommandOptions>;
 
 		this.name = this.name.toLowerCase();
 		this.requiredPermissions = new Permissions(options.requiredPermissions).freeze();
