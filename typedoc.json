@@ -5,8 +5,6 @@
 	"exclude": ["**/node_modules/**", "tests/**"],
 	"mode": "file",
 	"excludeExternals": true,
-	"excludePrivate": true,
-	"excludeProtected": true,
 	"excludeNotExported": true,
 	"tsconfig": "./tsconfig.base.json"
 }

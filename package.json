@@ -24,6 +24,7 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
+		"@skyra/decorators": "^2.2.0",
 		"@klasa/ratelimits": "^0.1.0",
 		"@klasa/utils": "^0.1.0"
 	},
