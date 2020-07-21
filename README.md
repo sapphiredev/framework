@@ -1,3 +1,29 @@
+<div style="text-align:center;"><h1>@skyra/framework</h1></div>
+
+[![GitHub](https://img.shields.io/github/license/skyra-project/framework)](https://github.com/skyra-project/framework/blob/main/LICENSE.md)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/skyra-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/skyra-project/framework/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/skyra-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/skyra-project/framework/context:javascript)
+[![Coverage Status](https://coveralls.io/repos/github/skyra-project/framework/badge.svg?branch=main)](https://coveralls.io/github/skyra-project/framework?branch=main)
+[![npm](https://img.shields.io/npm/v/@skyra/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@skyra/framework)
+[![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/skyra-project/framework?project_id=14147)
+
+Discord bot framework built on top of [@klasa/core] for advanced and amazing bots.
+
+**Much of the code in this repository is based on the ideas in [klasa]. This project would not exist without it.**
+
+## Features
+
+- This
+- Needs
+- Some
+- More
+- Filling
+- In
+
+## API Documentation
+
+For the full API documentation please refer to [the TypeDoc generated documentation](https://skyra-project.github.io/framework)
+
 ## Buy us some doughnuts
 
 Skyra Project is open source and always will be, even if we don't get donations. That said, we know there are amazing people who
@@ -8,7 +34,7 @@ We accept donations through Patreon, BitCoin, Ethereum, and Litecoin. You can us
 | Donate With |         QR         |                                                                  Address                                                                  |
 | :---------: | :----------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
 |   Patreon   | ![PatreonImage][]  |                                               [Click Here](https://www.patreon.com/kyranet)                                               |
-|   PayPal    | ![PayPalImage][]   |                [Click Here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CET28NRZTDQ8L)                |
+|   PayPal    |  ![PayPalImage][]  |                     [Click Here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CET28NRZTDQ8L)                      |
 |   BitCoin   | ![BitcoinImage][]  |         [3JNzCHMTFtxYFWBnVtDM9Tt34zFbKvdwco](bitcoin:3JNzCHMTFtxYFWBnVtDM9Tt34zFbKvdwco?amount=0.01&label=Skyra%20Discord%20Bot)          |
 |  Ethereum   | ![EthereumImage][] | [0xcB5EDB76Bc9E389514F905D9680589004C00190c](ethereum:0xcB5EDB76Bc9E389514F905D9680589004C00190c?amount=0.01&label=Skyra%20Discord%20Bot) |
 |  Litecoin   | ![LitecoinImage][] |         [MNVT1keYGMfGp7vWmcYjCS8ntU8LNvjnqM](litecoin:MNVT1keYGMfGp7vWmcYjCS8ntU8LNvjnqM?amount=0.01&label=Skyra%20Discord%20Bot)         |
@@ -29,12 +55,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-[patreonimage]:                      https://raw.githubusercontent.com/skyra-project/Skyra/master/assets/github/patreon.png
-[paypalimage]:                       https://raw.githubusercontent.com/skyra-project/Skyra/master/assets/github/paypal.png
-[bitcoinimage]:                      https://raw.githubusercontent.com/skyra-project/Skyra/master/assets/github/bitcoin.png
-[ethereumimage]:                     https://raw.githubusercontent.com/skyra-project/Skyra/master/assets/github/ethereum.png
-[litecoinimage]:                     https://raw.githubusercontent.com/skyra-project/Skyra/master/assets/github/litecoin.png
+[@klasa/core]: https://github.com/dirigeants/core
+[@skyra/framework]: https://github.com/skyra-project/framework
+[klasa]: https://github.com/dirigeants/klasa
+[patreonimage]: https://cdn.skyra.pw/gh-assets/patreon.png
+[paypalimage]: https://cdn.skyra.pw/gh-assets/paypal.png
+[bitcoinimage]: https://cdn.skyra.pw/gh-assets/bitcoin.png
+[ethereumimage]: https://cdn.skyra.pw/gh-assets/ethereum.png
+[litecoinimage]: https://cdn.skyra.pw/gh-assets/litecoin.png
