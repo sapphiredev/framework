@@ -11,85 +11,85 @@ import { CooldownLevel } from '../types/Enums';
 export abstract class Command extends AliasPiece {
 	/**
 	 * Permissions required by the bot to run the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public requiredPermissions: Permissions;
 
 	/**
 	 * Delete command's response if the trigger message was deleted
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public deletable: boolean;
 
 	/**
 	 * A basic summary about the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public description: string;
 
 	/**
 	 * Longer version of command's summary and how to use it
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public extendedHelp: string;
 
 	/**
 	 * Full category name of the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public fullCategory: string[];
 
 	/**
 	 * Allow disabling of the command in a guild or not
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public guarded: boolean;
 
 	/**
 	 * Whehter to show the command in the help message or not
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public hidden: boolean;
 
 	/**
 	 * If the command will only work in NSFW channels
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public nsfw: boolean;
 
 	/**
 	 * Required level of permission to use the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public permissionLevel: number;
 
 	/**
 	 * Number of re-prompts of an argument
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public promptLimit: number;
 
 	/**
 	 * Time allowed for re-prompts
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public promptTime: number;
 
 	/**
 	 * Accepted flags for the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public flags: string[];
 
 	/**
 	 * Allow use of quoted strings for arguments
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public quotedStringSupport: boolean;
 
 	/**
 	 * Which type of channel the command can execute in
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public runIn: ChannelType[];
 
@@ -97,18 +97,18 @@ export abstract class Command extends AliasPiece {
 
 	/**
 	 * Whether the cooldown applies to author, channel or guild
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public cooldownLevel: CooldownLevel;
 
 	/**
 	 * The time and limit for cooldown
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public cooldowns: RateLimitManager;
 
 	/**
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @param store The command store
 	 * @param directory The base directory to the pieces folder
 	 * @param file The path from the pieces folder to the command file
@@ -144,7 +144,7 @@ export abstract class Command extends AliasPiece {
 
 	/**
 	 * The main category for the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @readonly
 	 */
 	public get category(): string {
@@ -153,7 +153,7 @@ export abstract class Command extends AliasPiece {
 
 	/**
 	 * The sub category for the command
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @readonly
 	 */
 	public get subCategory(): string {
