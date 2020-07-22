@@ -42,40 +42,40 @@ export interface Monitor {
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreBots: boolean;
+	ignoreBots?: boolean;
 
 	/**
 	 * Should this monitor ignore users
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreUsers: boolean;
+	ignoreUsers?: boolean;
 
 	/**
 	 * Should this monitor ignore messages sent by the bot itself
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreSelf: boolean;
+	ignoreSelf?: boolean;
 
 	/**
 	 * Should this monitor ignore everyone except itself
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreOthers: boolean;
+	ignoreOthers?: boolean;
 
 	/**
 	 * Should this monitor ignore webhook messages
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreWebhooks: boolean;
+	ignoreWebhooks?: boolean;
 
 	/**
 	 * Should this monitor ignore message edits
 	 * @since 1.0.0
 	 * @public
 	 */
-	ignoreEdits: boolean;
+	ignoreEdits?: boolean;
 }
