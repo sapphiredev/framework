@@ -5,12 +5,12 @@ import { AliasStore, PieceConstructor, Client } from '@klasa/core';
 
 /**
  * Stores all Command pieces
- * @since 0.0.1
+ * @since 1.0.0
  */
 export class CommandStore extends AliasStore<Command> {
 	/**
 	 * Constructs the Command Store for use
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @param client The framework client
 	 */
 	public constructor(client: Client) {

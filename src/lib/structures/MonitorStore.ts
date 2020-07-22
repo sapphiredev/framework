@@ -5,12 +5,12 @@ import { Monitor } from './Monitor';
 
 /**
  * Stores all Monitor pieces
- * @since 0.0.1
+ * @since 1.0.0
  */
 export class MonitorStore extends Store<Monitor> {
 	/**
 	 * Constructs the Monitor Store for use
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @param client The framework client
 	 */
 	public constructor(client: Client) {

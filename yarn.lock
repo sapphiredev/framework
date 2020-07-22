@@ -723,11 +723,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skyra/decorators@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@skyra/decorators/-/decorators-2.2.0.tgz#baf6feecf893fc972666ff626dec06c67eefa719"
-  integrity sha512-pUfcInGEv2cDctE1xRYJIxLHEks4aEe2OlR73DFsM2xGbNSoqVq85EZrAJCiuGJP/+UsPbmAYb4jpButeiwp+w==
-
 "@skyra/eslint-config@^5.2.1":
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@skyra/eslint-config/-/eslint-config-5.2.1.tgz#c9444c578855f6511e0184956c8ea98161d8fb99"

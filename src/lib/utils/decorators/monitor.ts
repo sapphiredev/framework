@@ -1,5 +1,5 @@
 import type { Constructor } from '@klasa/core';
-import { createClassDecorator, createProxy } from '@skyra/decorators';
+import { createClassDecorator, createProxy } from './skyra-decorators-utils';
 import type { Monitor } from '../../structures/Monitor';
 
 /**
