@@ -1,3 +1,5 @@
+// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
+
 import { Piece, PieceOptions, Message } from '@klasa/core';
 import type { MonitorStore } from './MonitorStore';
 

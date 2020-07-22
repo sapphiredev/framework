@@ -1,3 +1,5 @@
+// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
+
 import { Command } from './Command';
 import { AliasStore, PieceConstructor, Client } from '@klasa/core';
 

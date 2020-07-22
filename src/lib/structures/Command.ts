@@ -1,3 +1,5 @@
+// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
+
 import { AliasPiece, AliasPieceOptions, Permissions, PermissionsResolvable } from '@klasa/core';
 
 import type { CommandStore } from './CommandStore';
