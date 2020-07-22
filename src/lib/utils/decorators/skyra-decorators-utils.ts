@@ -40,7 +40,6 @@ export function createClassDecorator<TFunction extends (...args: any[]) => void>
  * @license MIT
  * @param target The constructor of the class to modify
  * @param handler The handler function to modify the constructor behaviour for the target
- * @hidden
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function createProxy<T extends object>(target: T, handler: Omit<ProxyHandler<T>, 'get'>): T {
