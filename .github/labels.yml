@@ -1,8 +1,50 @@
-- name: 'Meta: Examples'
-  description: Issues and PRs related to examples.
+- name: 'Bug: Already Fixed'
+  description: Issues that report already fixed bugs.
+  color: B3E88C
+- name: 'Bug: Cannot Reproduce'
+  description: Issues that report bugs that cannot be reproduced.
+  color: f9d0c4
+- name: 'Bug: Confirmed'
+  description: Issues that report confirmed bugs.
+  color: f9d0c4
+- name: 'Bug: Fixed'
+  description: Issues that report bugs and have been fixed.
+  color: 00fa9a
+- name: 'Bug: Fixed in main'
+  description: Issues that report bugs from stable, but that are fixed in main.
+  color: b3e88c
+- name: 'Bug: Pending Response'
+  description: Issues that report bugs and are pending of a response from the author.
+  color: f9d0c4
+- name: 'Bug: Unverified'
+  description: Issues that report unverified bugs. Pending for inspection.
+  color: f9d0c4
+- name: 'Event: Hacktoberfest'
+  description: Issues and PRs related to Hacktoberfest.
+  color: FF4500
+- name: 'Meta: Bike-Shedding'
+  description: Issues and PRs that nit pick
+  color: f9253a
+- name: 'Meta: BugFix'
+  description: PRs that fix bugs or issues.
+  color: 4cce4a
+- name: 'Meta: Cleanup'
+  description: Issues and PRs related to code cleanup.
+  color: ffff00
+- name: 'Meta: Dependencies'
+  description: Issues and PRs related to dependencies.
   color: ffff00
 - name: 'Meta: Documentation'
   description: Issues and PRs related to documentation.
+  color: ffff00
+- name: 'Meta: Error Handling'
+  description: Issues and PRs related to error handling.
+  color: ffff00
+- name: 'Meta: Examples'
+  description: Issues and PRs related to examples.
+  color: ffff00
+- name: 'Meta: Feature'
+  description: Issues and PRs related to new features.
   color: ffff00
 - name: 'Meta: Github'
   description: Issues and PRs related to GitHub.
@@ -10,150 +52,123 @@
 - name: 'Meta: Refactor'
   description: Issues and PRs related to refactors.
   color: ffff00
-- name: 'Meta: Error Handling'
-  description: Issues and PRs related to error handling.
-  color: ffff00
-- name: 'Meta: Feature'
-  description: Issues and PRs related to new features.
-  color: ffff00
-- name: 'Meta: Cleanup'
-  description: Issues and PRs related to code cleanup.
-  color: ffff00
-- name: 'Meta: Dependencies'
-  description: Issues and PRs related to dependencies.
-  color: ffff00
 - name: 'Meta: Typings'
   description: Issues and PRs related to typings.
   color: ffff00
 - name: 'Meta: V8'
   description: Issues and PRs related to the V8 engine.
   color: ffff00
-- name: 'Meta: Bike-Shedding'
-  description: Issues and PRs that nit pick
-  color: f9253a
-- name: 'Bug: Unverified'
-  description: Issues that report unverified bugs. Pending for inspection.
-  color: f9d0c4
-- name: 'Meta: BugFix'
-  description: PRs that fix bugs or issues.
-  color: 4cce4a
-- name: 'Bug: Fixed'
-  description: Issues that report bugs and have been fixed.
-  color: 00fa9a
-- name: 'Event: Hacktoberfest'
-  description: Issues and PRs related to Hacktoberfest.
-  color: FF4500
-- name: 'Bug: Pending Response'
-  description: Issues that report bugs and are pending of a response from the author.
-  color: f9d0c4
-- name: 'Bug: Cannot Reproduce'
-  description: Issues that report bugs that cannot be reproduced.
-  color: f9d0c4
-- name: 'Bug: Fixed in main'
-  description: Issues that report bugs from stable, but that are fixed in main.
-  color: b3e88c
-- name: 'Bug: Confirmed'
-  description: Issues that report confirmed bugs.
-  color: f9d0c4
-- name: 'Bug: Already Fixed'
-  description: Issues that report already fixed bugs.
-  color: B3E88C
-- name: 'Type: Maintenance'
-  description: Issues and PRs related to the maintenance of a module.
-  color: 1d76db
-- name: 'Type: Caching'
-  description: Issues and PRs related to caching.
-  color: 1d76db
-- name: 'Type: Proposal'
-  description: Issues that request a new feature or a change in the api's interface.
-  color: ffffff
-- name: 'Type: Performance'
-  description: Issues and PRs related to the performance of the api's interface.
-  color: 1d76db
-- name: 'Type: Sharding'
-  description: Issues and PRs related to sharding.
-  color: 1d76db
-- name: 'Type: Enhancement'
-  description: Issues and PRs related to feature enhancement.
-  color: 1d76db
-- name: 'Status: WIP'
-  description: Issues and PRs that are still a work in progress.
+- name: 'Priority: Critical'
+  description: Issues that must be fixed or PRs that must be finished and merged with
+      maximum priority.
   color: b60205
-- name: 'Type: Consistency'
-  description: Issues and PRs related to code consistency.
-  color: 1d76db
+- name: 'Priority: High'
+  description: Issues that must be fixed or PRs that must be finished and merged with
+      high priority.
+  color: d93f0b
+- name: 'Priority: Kirito Level'
+  description: Issues/PR's that have a priority so low that even a quantum computer
+      couldn't calculate it.
+  color: '818181'
+- name: 'Priority: Low'
+  description: Issues that must be fixed or PRs that must be finished and merged with
+      low priority.
+  color: 0e8a16
+- name: 'Priority: Medium'
+  description: Issues that must be fixed or PRs that must be finished and merged with
+      medium priority.
+  color: fbca04
+- name: 'SEM: Major'
+  description: PRs that contain breaking changes and should be released in the next
+      major version.
+  color: 9a35be
+- name: 'SEM: Minor'
+  description: PRs that contain new features and should be released in the next minor
+      version.
+  color: d38dfa
+- name: 'SEM: N/A'
+  description: PRs that only contain documentation changes and do not change the api's
+      interface.
+  color: a7f9f3
+- name: 'SEM: Patch'
+  description: PRs that contain bugfixes and should be released in the next patch
+      version.
+  color: 66d8eb
+- name: 'Status: Blocked'
+  description: PRs that are blocked by other issues/PRs.
+  color: d81a0d
+- name: 'Status: Changes Requested'
+  description: PRs that have requested changes.
+  color: d93f0b
+- name: 'Status: Denied'
+  description: Issues or PRs that have been denied by the team.
+  color: bc1202
+- name: 'Status: Duplicate'
+  description: Issues/PRs that are duplicated.
+  color: d93f0b
+- name: 'Status: Help Wanted'
+  description: Issues that need assistance from volunteers or PRs that need help to
+      proceed.
+  color: 128A0C
+- name: 'Status: Invalid'
+  description: Issues that will not be fixed or PRs that will not merge, e.g. due
+      to backwards compatibility.
+  color: 671df0
+- name: 'Status: Needs Docs'
+  description: PRs that need documentation
+  color: d4c5f9
+- name: 'Status: Needs Migration'
+  description: PRs that need a database migration script.
+  color: d93f0b
 - name: 'Status: Needs Testing'
   description: PRs that need testing from the author or volunteers.
   color: d93f0b
-- name: 'Status: Stalled'
-  description: Issues and PRs that are being set aside for now for rethinking
-  color: fbca04
+- name: 'Status: Needs Typings'
+  description: PRs that need typings
+  color: d4c5f9
 - name: 'Status: Ready To Merge'
   description: PRs that are ready to merge.
   color: 05F541
 - name: 'Status: Review Ready'
   description: PRs that are ready for author review.
   color: 05F541
-- name: 'Status: Needs Typings'
-  description: PRs that need typings
-  color: d4c5f9
-- name: 'Status: Needs Docs'
-  description: PRs that need documentation
-  color: d4c5f9
-- name: 'Status: Help Wanted'
-  description: Issues that need assistance from volunteers or PRs that need help to proceed.
-  color: 128A0C
-- name: 'Status: Invalid'
-  description: Issues that will not be fixed or PRs that will not merge, e.g. due to backwards compatibility.
-  color: 671df0
-- name: 'Status: Duplicate'
-  description: Issues/PRs that are duplicated.
-  color: d93f0b
-- name: 'Status: Denied'
-  description: Issues or PRs that have been denied by the team.
-  color: bc1202
-- name: 'Status: Changes Requested'
-  description: PRs that have requested changes.
-  color: d93f0b
-- name: 'Status: Blocked'
-  description: PRs that are blocked by other issues/PRs.
-  color: d81a0d
-- name: 'SEM: Patch'
-  description: PRs that contain bugfixes and should be released in the next patch version.
-  color: 66d8eb
-- name: 'SEM: N/A'
-  description: PRs that only contain documentation changes and do not change the api's interface.
-  color: a7f9f3
-- name: 'SEM: Major'
-  description: PRs that contain breaking changes and should be released in the next major version.
-  color: 9a35be
-- name: 'SEM: Minor'
-  description: PRs that contain new features and should be released in the next minor version.
-  color: d38dfa
-- name: 'Priority: Low'
-  description: Issues that must be fixed or PRs that must be finished and merged with low priority.
-  color: 0e8a16
-- name: 'Priority: Kirito Level'
-  description: Issues/PR's that have a priority so low that even a quantum computer couldn't calculate it.
-  color: '818181'
-- name: 'Priority: Medium'
-  description: Issues that must be fixed or PRs that must be finished and merged with medium priority.
+- name: 'Status: Stalled'
+  description: Issues and PRs that are being set aside for now for rethinking
   color: fbca04
-- name: 'Priority: High'
-  description: Issues that must be fixed or PRs that must be finished and merged with high priority.
-  color: d93f0b
-- name: 'Priority: Critical'
-  description: Issues that must be fixed or PRs that must be finished and merged with maximum priority.
+- name: 'Status: WIP'
+  description: Issues and PRs that are still a work in progress.
   color: b60205
-- name: 'Type: Typo'
-  description: Issues and PRs related to typos in the documentation or code.
-  color: c5def5
-- name: 'Type: Question'
-  description: Issues that do not belong to the Issue Tracker and should be asked in the official Discord Server.
-  color: cc317c
+- name: 'Type: Caching'
+  description: Issues and PRs related to caching.
+  color: 1d76db
+- name: 'Type: Consistency'
+  description: Issues and PRs related to code consistency.
+  color: 1d76db
 - name: 'Type: Dependencies'
   description: Pull requests that update a dependency file
   color: 0025ff
+- name: 'Type: Enhancement'
+  description: Issues and PRs related to feature enhancement.
+  color: 1d76db
+- name: 'Type: Maintenance'
+  description: Issues and PRs related to the maintenance of a module.
+  color: 1d76db
+- name: 'Type: Performance'
+  description: Issues and PRs related to the performance of the api's interface.
+  color: 1d76db
+- name: 'Type: Proposal'
+  description: Issues that request a new feature or a change in the api's interface.
+  color: ffffff
+- name: 'Type: Question'
+  description: Issues that do not belong to the Issue Tracker and should be asked
+      in the official Discord Server.
+  color: cc317c
 - name: 'Type: Security'
   description: Pull requests that address a security vulnerability
   color: ee0701
+- name: 'Type: Sharding'
+  description: Issues and PRs related to sharding.
+  color: 1d76db
+- name: 'Type: Typo'
+  description: Issues and PRs related to typos in the documentation or code.
+  color: c5def5
