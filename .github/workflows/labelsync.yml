@@ -5,7 +5,7 @@ on:
     label:
     push:
         branches:
-            - maser
+            - main
         paths:
             - '.github/labels.yml'
 
