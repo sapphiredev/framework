@@ -639,7 +639,7 @@
     "@klasa/timer-manager" "^0.0.1"
     "@klasa/utils" "^0.1.0"
     "@klasa/ws" "^0.0.14"
-    "@types/node" "^14.0.24"
+    "@types/node" "^14.0.23"
     "@types/node-fetch" "^2.5.7"
     fs-nextra "^0.5.1"
 
@@ -723,10 +723,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skyra/eslint-config@^5.2.1":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@skyra/eslint-config/-/eslint-config-5.2.1.tgz#c9444c578855f6511e0184956c8ea98161d8fb99"
-  integrity sha512-Pfyy0BS6FCaHruFu19KOuMvxOm33UFa6mg2t1rySCq24sC4q8FNtJkwaqPUG3mVmdgzR/AxjjMt2+6w1DMn1mQ==
+"@skyra/eslint-config@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@skyra/eslint-config/-/eslint-config-5.3.0.tgz#9f4f49bea425d0aac6877fa42daec0c4fc00f0ad"
+  integrity sha512-MO/JbDZjd5NvdS82pooOBiDHq3Njb54lo8XsMBYUM2vUxYAzpFcjZ2SIVnfj76MWZS9yQcvV+2MFLtTKaOuFOQ==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.9"
