@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright © `2018-2020` `Kyra`
+Copyright © `2018-2020` `The Sapphire Project`
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
