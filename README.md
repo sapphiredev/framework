@@ -1,11 +1,11 @@
 <div style="text-align:center;"><h1>Sapphire - A pleasant Discord Bot framework</h1></div>
 
-[![GitHub](https://img.shields.io/github/license/skyra-project/framework)](https://github.com/skyra-project/framework/blob/main/LICENSE.md)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/skyra-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/skyra-project/framework/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/skyra-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/skyra-project/framework/context:javascript)
-[![Coverage Status](https://coveralls.io/repos/github/skyra-project/framework/badge.svg?branch=main)](https://coveralls.io/github/skyra-project/framework?branch=main)
-[![npm](https://img.shields.io/npm/v/@skyra/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@skyra/framework)
-[![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/skyra-project/framework?project_id=14147)
+[![GitHub](https://img.shields.io/github/license/sapphire-project/framework)](https://github.com/sapphire-project/framework/blob/main/LICENSE.md)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/context:javascript)
+[![Coverage Status](https://coveralls.io/repos/github/sapphire-project/framework/badge.svg?branch=main)](https://coveralls.io/github/sapphire-project/framework?branch=main)
+[![npm](https://img.shields.io/npm/v/@spfw/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@spfw/framework)
+[![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-project/framework?project_id=14147)
 
 Discord bot framework built on top of [@klasa/core] for advanced and amazing bots.
 
