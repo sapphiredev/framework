@@ -1,5 +1,5 @@
 {
-	"name": "@skyra/framework",
+	"name": "@spfw/framework",
 	"version": "0.0.1",
 	"description": "Discord bot framework built on top of @klasa/core for advanced and amazing bots.",
 	"main": "dist/index.js",
