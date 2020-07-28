@@ -1,4 +1,4 @@
-<div style="text-align:center;"><h1>@skyra/framework</h1></div>
+<div style="text-align:center;"><h1>Sapphire - A pleasant Discord Bot framework</h1></div>
 
 [![GitHub](https://img.shields.io/github/license/skyra-project/framework)](https://github.com/skyra-project/framework/blob/main/LICENSE.md)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/skyra-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/skyra-project/framework/alerts/)
