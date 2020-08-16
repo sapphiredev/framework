@@ -1,12 +1,10 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
 import { AliasPiece, AliasPieceOptions, Permissions, PermissionsResolvable } from '@klasa/core';
-
-import type { CommandStore } from './CommandStore';
 import type { ChannelType } from '@klasa/dapi-types';
-
 import { RateLimitManager } from '@klasa/ratelimits';
 import { CooldownLevel } from '../types/Enums';
+import type { CommandStore } from './CommandStore';
 
 export abstract class Command extends AliasPiece {
 	/**

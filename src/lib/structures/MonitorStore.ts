@@ -1,6 +1,6 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
-import { Store, Client, PieceConstructor } from '@klasa/core';
+import { Client, PieceConstructor, Store } from '@klasa/core';
 import { Monitor } from './Monitor';
 
 /**

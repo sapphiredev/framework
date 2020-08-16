@@ -1,8 +1,11 @@
 {
 	"out": "./docs/",
 	"readme": "./README.md",
-	"name": "@skyra/framework",
-	"exclude": ["**/node_modules/**", "tests/**"],
+	"name": "@sapphire/framework",
+	"exclude": [
+		"**/node_modules/**",
+		"tests/**"
+	],
 	"mode": "file",
 	"excludeExternals": true,
 	"excludeNotExported": true,
