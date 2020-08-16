@@ -1,6 +1,6 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
-import { Piece, PieceOptions, Message } from '@klasa/core';
+import { Message, Piece, PieceOptions } from '@klasa/core';
 import type { MonitorStore } from './MonitorStore';
 
 export abstract class Monitor extends Piece {

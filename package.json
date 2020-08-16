@@ -1,10 +1,10 @@
 {
-	"name": "@skyra/framework",
+	"name": "@sapphire/framework",
 	"version": "0.0.1",
-	"description": "Discord bot framework built on top of @klasa/core for advanced and amazing bots.",
+	"description": "Discord bot framework built on top of @sapphire/lib for advanced and amazing bots.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"author": "@skyra",
+	"author": "@sapphire",
 	"license": "MIT",
 	"private": false,
 	"scripts": {
@@ -55,7 +55,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/skyra-project/framework.git"
+		"url": "git+https://github.com/sapphire-project/framework.git"
 	},
 	"files": [
 		"dist",
@@ -66,19 +66,19 @@
 		"npm": ">=6"
 	},
 	"keywords": [
-		"@klasa/core",
+		"@sapphire/lib",
 		"bot",
 		"typescript",
 		"ts",
 		"yarn",
 		"discord",
-		"skyra",
+		"sapphire",
 		"standalone"
 	],
 	"bugs": {
-		"url": "https://github.com/skyra-project/framework/issues"
+		"url": "https://github.com/sapphire-project/framework/issues"
 	},
-	"homepage": "https://skyra-project.github.io/framework",
+	"homepage": "https://sapphire-project.github.io/framework",
 	"husky": {
 		"hooks": {
 			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
