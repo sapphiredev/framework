@@ -29,12 +29,13 @@ For the full API documentation please refer to [the TypeDoc generated documentat
 Sapphire Project is open source and always will be, even if we don't get donations. That said, we know there are amazing people who
 may still want to donate just to show their appreciation. Thanks you very much in advance!
 
-We accept donations through Open Collective, Ko-fi, Paypal and GitHub Sponsorships. You can use the buttoms below to donate through your method of choice.
+We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttoms below to donate through your method of choice.
 
 |   Donate With   |                                             Address                                              |
 | :-------------: | :----------------------------------------------------------------------------------------------: |
 | Open Collective |                    [Click Here](https://opencollective.com/sapphire-project)                     |
 |      Ko-fi      |                         [Click Here](https://ko-fi.com/sapphireproject)                          |
+|     Patreon     |                      [Click Here](https://www.patreon.com/sapphire_project)                      |
 |     PayPal      | [Click Here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SP738BQTQQYZY) |
 
 ## Contributors ✨
