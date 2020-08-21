@@ -4,7 +4,7 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/context:javascript)
 [![Coverage Status](https://coveralls.io/repos/github/sapphire-project/framework/badge.svg?branch=main)](https://coveralls.io/github/sapphire-project/framework?branch=main)
-[![npm](https://img.shields.io/npm/v/@spfw/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@spfw/framework)
+[![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
 [![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-project/framework?project_id=14147)
 
 Discord bot framework built on top of [@sapphire/lib] for advanced and amazing bots.
@@ -29,15 +29,14 @@ For the full API documentation please refer to [the TypeDoc generated documentat
 Sapphire Project is open source and always will be, even if we don't get donations. That said, we know there are amazing people who
 may still want to donate just to show their appreciation. Thanks you very much in advance!
 
-We accept donations through Patreon, BitCoin, Ethereum, and Litecoin. You can use the buttoms below to donate through your method of choice.
+We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttoms below to donate through your method of choice.
 
-| Donate With |         QR         |                                                                 Address                                                                  |
-| :---------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-|   Patreon   | ![PatreonImage][]  |                                              [Click Here](https://www.patreon.com/kyranet)                                               |
-|   PayPal    |  ![PayPalImage][]  |                     [Click Here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CET28NRZTDQ8L)                     |
-|   BitCoin   | ![BitcoinImage][]  |         [3JNzCHMTFtxYFWBnVtDM9Tt34zFbKvdwco](bitcoin:3JNzCHMTFtxYFWBnVtDM9Tt34zFbKvdwco?amount=0.01&label=Sapphire%20Framework)          |
-|  Ethereum   | ![EthereumImage][] | [0xcB5EDB76Bc9E389514F905D9680589004C00190c](ethereum:0xcB5EDB76Bc9E389514F905D9680589004C00190c?amount=0.01&label=Sapphire%20Framework) |
-|  Litecoin   | ![LitecoinImage][] |         [MNVT1keYGMfGp7vWmcYjCS8ntU8LNvjnqM](litecoin:MNVT1keYGMfGp7vWmcYjCS8ntU8LNvjnqM?amount=0.01&label=Sapphire%20Framework)         |
+|   Donate With   |                                             Address                                              |
+| :-------------: | :----------------------------------------------------------------------------------------------: |
+| Open Collective |                    [Click Here](https://opencollective.com/sapphire-project)                     |
+|      Ko-fi      |                         [Click Here](https://ko-fi.com/sapphireproject)                          |
+|     Patreon     |                      [Click Here](https://www.patreon.com/sapphire_project)                      |
+|     PayPal      | [Click Here](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SP738BQTQQYZY) |
 
 ## Contributors ✨
 
@@ -65,8 +64,3 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [@sapphire/lib]: https://github.com/sapphire-project/lib
 [@skyra/framework]: https://github.com/sapphire-project/framework
 [klasa]: https://github.com/dirigeants/klasa
-[patreonimage]: https://cdn.skyra.pw/gh-assets/patreon.png
-[paypalimage]: https://cdn.skyra.pw/gh-assets/paypal.png
-[bitcoinimage]: https://cdn.skyra.pw/gh-assets/bitcoin.png
-[ethereumimage]: https://cdn.skyra.pw/gh-assets/ethereum.png
-[litecoinimage]: https://cdn.skyra.pw/gh-assets/litecoin.png
