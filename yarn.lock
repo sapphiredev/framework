@@ -688,7 +688,7 @@
 
 "@sapphire/pieces@github:sapphire-project/pieces#build":
   version "1.0.0"
-  resolved "https://codeload.github.com/sapphire-project/pieces/tar.gz/6060312a37c151dd0443c8e4f7dfd42c8588be8b"
+  resolved "https://codeload.github.com/sapphire-project/pieces/tar.gz/b5de8d963137c76853f9bd31863e5b054927dafa"
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
