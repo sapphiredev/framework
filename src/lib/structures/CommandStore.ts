@@ -1,19 +1,19 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
-import { AliasStore, Client, PieceConstructor } from '@klasa/core';
 import { Command } from './Command';
+import { AliasStore } from '@sapphire/pieces';
+import type { Client } from 'discord.js';
 
 /**
  * Stores all Command pieces
  * @since 1.0.0
  */
 export class CommandStore extends AliasStore<Command> {
-	/**
-	 * Constructs the Command Store for use
-	 * @since 1.0.0
-	 * @param client The framework client
-	 */
+	public client: Client;
+
 	public constructor(client: Client) {
-		super(client, 'commands', Command as PieceConstructor<Command>);
+		// @ts-expect-error Abstract classes are not assignable to Ctor<T>.
+		super(Command);
+		this.client = client;
 	}
 }
