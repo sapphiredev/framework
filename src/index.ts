@@ -10,3 +10,4 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/utils/Types';
+export * from './lib/SapphireClient';

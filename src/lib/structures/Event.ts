@@ -6,26 +6,29 @@ import { BasePiece } from './base/BasePiece';
 export abstract class Event extends BasePiece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
+	public readonly once: boolean;
 
 	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
-	readonly #listener: ((...args: any[]) => void) | null;
+	#listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: PieceContext, options: EventOptions = {}) {
 		super(context, options);
 
 		this.emitter = (typeof options.emitter === 'string' ? ((this.client[options.emitter] as unknown) as EventEmitter) : options.emitter) ?? null;
 		this.event = options.event ?? '';
-		this.#listener = this.emitter && this.event ? this.run.bind(this) : null;
+		this.once = options.once ?? false;
+
+		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
 	}
 
 	public abstract run(...args: readonly any[]): unknown;
 
 	public onLoad() {
-		if (this.#listener) this.emitter!.on(this.event, this.#listener);
+		if (this.#listener) this.emitter![this.once ? 'once' : 'on'](this.event, this.#listener);
 	}
 
 	public onUnload() {
-		if (this.#listener) this.emitter!.off(this.event, this.#listener);
+		if (!this.once && this.#listener) this.emitter!.off(this.event, this.#listener);
 	}
 
 	public toJSON(): Record<PropertyKey, unknown> {
@@ -34,9 +37,23 @@ export abstract class Event extends BasePiece {
 			event: this.event
 		};
 	}
+
+	private async _run(...args: any[]) {
+		try {
+			await this.run(...args);
+		} catch (error) {
+			this.client.emit('error', error);
+		}
+	}
+
+	private async _runOnce(...args: any[]) {
+		await this._run(...args);
+		await this.store.unload(this);
+	}
 }
 
 export interface EventOptions extends PieceOptions {
-	emitter?: keyof Client | EventEmitter;
-	event?: string;
+	readonly emitter?: keyof Client | EventEmitter;
+	readonly event?: string;
+	readonly once?: boolean;
 }
