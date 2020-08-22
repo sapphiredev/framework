@@ -1,3 +1,6 @@
 {
-	"extends": ["@skyra", "plugin:prettier/recommended"]
+	"extends": ["@skyra", "plugin:prettier/recommended"],
+	"rules": {
+		"@typescript-eslint/naming-convention": 0
+	}
 }

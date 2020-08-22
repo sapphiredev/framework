@@ -1,18 +1,12 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
-import { AliasPiece, AliasPieceOptions, Permissions, PermissionsResolvable } from '@klasa/core';
-import type { ChannelType } from '@klasa/dapi-types';
-import { RateLimitManager } from '@klasa/ratelimits';
-import { CooldownLevel } from '../types/Enums';
-import type { CommandStore } from './CommandStore';
+import { AliasPiece, AliasPieceOptions } from '@sapphire/pieces';
+import type { PreconditionContext } from './Precondition';
+import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
+import type { Awaited } from '../utils/Types';
+import type { Message } from 'discord.js';
 
 export abstract class Command extends AliasPiece {
-	/**
-	 * Permissions required by the bot to run the command
-	 * @since 1.0.0
-	 */
-	public requiredPermissions: Permissions;
-
 	/**
 	 * Delete command's response if the trigger message was deleted
 	 * @since 1.0.0
@@ -26,16 +20,16 @@ export abstract class Command extends AliasPiece {
 	public description: string;
 
 	/**
+	 * The preconditions to be run.
+	 * @since 1.0.0
+	 */
+	public preconditions: readonly CommandPrecondition[];
+
+	/**
 	 * Longer version of command's summary and how to use it
 	 * @since 1.0.0
 	 */
 	public extendedHelp: string;
-
-	/**
-	 * Full category name of the command
-	 * @since 1.0.0
-	 */
-	public fullCategory: string[];
 
 	/**
 	 * Allow disabling of the command in a guild or not
@@ -44,34 +38,10 @@ export abstract class Command extends AliasPiece {
 	public guarded: boolean;
 
 	/**
-	 * Whehter to show the command in the help message or not
+	 * Whether to show the command in the help message or not
 	 * @since 1.0.0
 	 */
 	public hidden: boolean;
-
-	/**
-	 * If the command will only work in NSFW channels
-	 * @since 1.0.0
-	 */
-	public nsfw: boolean;
-
-	/**
-	 * Required level of permission to use the command
-	 * @since 1.0.0
-	 */
-	public permissionLevel: number;
-
-	/**
-	 * Number of re-prompts of an argument
-	 * @since 1.0.0
-	 */
-	public promptLimit: number;
-
-	/**
-	 * Time allowed for re-prompts
-	 * @since 1.0.0
-	 */
-	public promptTime: number;
 
 	/**
 	 * Accepted flags for the command
@@ -86,77 +56,28 @@ export abstract class Command extends AliasPiece {
 	public quotedStringSupport: boolean;
 
 	/**
-	 * Which type of channel the command can execute in
 	 * @since 1.0.0
+	 * @param context The context.
+	 * @param options Optional Command settings.
 	 */
-	public runIn: ChannelType[];
-
-	// todo - public usage: CommandUsage;
-
-	/**
-	 * Whether the cooldown applies to author, channel or guild
-	 * @since 1.0.0
-	 */
-	public cooldownLevel: CooldownLevel;
-
-	/**
-	 * The time and limit for cooldown
-	 * @since 1.0.0
-	 */
-	public cooldowns: RateLimitManager;
-
-	/**
-	 * @since 1.0.0
-	 * @param store The command store
-	 * @param directory The base directory to the pieces folder
-	 * @param file The path from the pieces folder to the command file
-	 * @param options Optional Command settings
-	 */
-	public constructor(store: CommandStore, directory: string, files: readonly string[], options: CommandOptions = {}) {
-		super(store, directory, files, options);
-		options = options as Required<CommandOptions>;
-
-		this.name = this.name.toLowerCase();
-		this.requiredPermissions = new Permissions(options.requiredPermissions).freeze();
-		this.deletable = options.deletable as boolean;
-
-		this.description = options.description as string;
-		this.extendedHelp = options.extendedHelp as string;
-
-		this.fullCategory = files.slice(0, -1);
-		this.guarded = options.guarded as boolean;
-		this.hidden = options.hidden as boolean;
-		this.nsfw = options.nsfw as boolean;
-		this.permissionLevel = options.permissionLevel as number;
-		this.promptLimit = options.promptLimit as number;
-		this.promptTime = options.promptTime as number;
-		this.flags = options.flags as string[];
-		this.quotedStringSupport = options.quotedStringSupport as boolean;
-		this.runIn = options.runIn as ChannelType[];
-		// todo - this.usage = new CommandUsage(this.client, options.usage as string, options.usageDelim as string, this);
-		this.cooldownLevel = options.cooldownLevel as CooldownLevel;
-		if (![CooldownLevel.Author, CooldownLevel.Channel, CooldownLevel.Guild].includes(this.cooldownLevel))
-			throw new Error('Invalid cooldownLevel');
-		this.cooldowns = new RateLimitManager(options.cooldown as number, options.bucket as number);
+	protected constructor(context: PieceContext, { name, ...options }: CommandOptions = {}) {
+		super(context, { ...options, name: name?.toLowerCase() });
+		this.deletable = options.deletable ?? false;
+		this.description = options.description ?? '';
+		this.preconditions =
+			options.preconditions?.map((precondition) =>
+				typeof precondition === 'string'
+					? { name: precondition, context: {} }
+					: { name: precondition.name, context: precondition.context ?? {} }
+			) ?? [];
+		this.extendedHelp = options.extendedHelp!;
+		this.guarded = options.guarded!;
+		this.hidden = options.hidden!;
+		this.flags = options.flags!;
+		this.quotedStringSupport = options.quotedStringSupport!;
 	}
 
-	/**
-	 * The main category for the command
-	 * @since 1.0.0
-	 * @readonly
-	 */
-	public get category(): string {
-		return this.fullCategory.length > 0 ? this.fullCategory[0] : 'General';
-	}
-
-	/**
-	 * The sub category for the command
-	 * @since 1.0.0
-	 * @readonly
-	 */
-	public get subCategory(): string {
-		return this.fullCategory.length > 1 ? this.fullCategory[1] : 'General';
-	}
+	public abstract run(message: Message): Awaited<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command
@@ -165,47 +86,31 @@ export abstract class Command extends AliasPiece {
 	public toJSON(): Record<string, any> {
 		return {
 			...super.toJSON(),
-			requiredPermissions: this.requiredPermissions.toArray(),
-			category: this.category,
 			deletable: this.deletable,
 			description: this.description,
 			extendedHelp: this.extendedHelp,
-			fullCategory: this.fullCategory,
 			guarded: this.guarded,
 			hidden: this.hidden,
-			nsfw: this.nsfw,
-			permissionLevel: this.permissionLevel,
-			promptLimit: this.promptLimit,
-			promptTime: this.promptTime,
-			quotedStringSupport: this.quotedStringSupport,
-			runIn: this.runIn.slice(0),
-			subCategory: this.subCategory
-			/* todo - usage: {
-				usageString: this.usage.usageString,
-				usageDelim: this.usage.usageDelim,
-				nearlyFullUsage: this.usage.nearlyFullUsage
-			} */
+			quotedStringSupport: this.quotedStringSupport
 		};
 	}
 }
 
+export interface CommandPrecondition {
+	readonly name: string;
+	readonly context: Readonly<PreconditionContext>;
+}
+
+export type PreconditionResolvable = string | { name: string; context?: PreconditionContext };
+
 export interface CommandOptions extends AliasPieceOptions {
 	bucket?: number;
-	cooldown?: number;
-	cooldownLevel?: CooldownLevel;
 	deletable?: boolean;
 	description?: string;
+	preconditions?: PreconditionResolvable[];
 	extendedHelp?: string;
 	flags?: string[];
 	guarded?: boolean;
 	hidden?: boolean;
-	nsfw?: boolean;
-	permissionLevel?: number;
-	promptLimit?: number;
-	promptTime?: number;
 	quotedStringSupport?: boolean;
-	requiredPermissions?: PermissionsResolvable;
-	runIn?: ChannelType[];
-	usage?: string;
-	usageDelim?: string | undefined;
 }
