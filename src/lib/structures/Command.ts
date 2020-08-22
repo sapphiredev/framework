@@ -1,12 +1,13 @@
 // Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
 
-import { AliasPiece, AliasPieceOptions } from '@sapphire/pieces';
-import type { PreconditionContext } from './Precondition';
+import type { AliasPieceOptions } from '@sapphire/pieces';
 import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
-import type { Awaited } from '../utils/Types';
 import type { Message } from 'discord.js';
+import type { Awaited } from '../utils/Types';
+import { BaseAliasPiece } from './base/BaseAliasPiece';
+import type { PreconditionContext } from './Precondition';
 
-export abstract class Command extends AliasPiece {
+export abstract class Command extends BaseAliasPiece {
 	/**
 	 * Delete command's response if the trigger message was deleted
 	 * @since 1.0.0
