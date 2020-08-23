@@ -1,6 +1,7 @@
 import type { PieceContext, PieceOptions } from '@sapphire/pieces';
 import type { Client } from 'discord.js';
 import type { EventEmitter } from 'events';
+import { Events } from '../types/Events';
 import { BasePiece } from './base/BasePiece';
 
 export abstract class Event extends BasePiece {
@@ -42,7 +43,7 @@ export abstract class Event extends BasePiece {
 		try {
 			await this.run(...args);
 		} catch (error) {
-			this.client.emit('error', error);
+			this.client.emit(Events.Error, error);
 		}
 	}
 
