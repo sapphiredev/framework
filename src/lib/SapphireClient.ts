@@ -6,7 +6,7 @@ import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 
 export interface SapphirePrefixHook {
-	(message: Message): Awaited<string | string[] | null>;
+	(message: Message): Awaited<string | readonly string[] | null>;
 }
 
 export class SapphireClient extends Client {
@@ -32,7 +32,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		this.clientID = options.clientID ?? null;
+		this.clientID = options.id ?? null;
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
 		this.preconditions = new PreconditionStore(this).registerPath(join(__dirname, '..', 'preconditions'));
@@ -68,7 +68,7 @@ export class SapphireClient extends Client {
 
 declare module 'discord.js' {
 	interface Client {
-		clientID: string | null;
+		id: string | null;
 		commands: CommandStore;
 		events: EventStore;
 		preconditions: PreconditionStore;
@@ -76,6 +76,6 @@ declare module 'discord.js' {
 	}
 
 	interface ClientOptions {
-		clientID?: string;
+		id?: string;
 	}
 }
