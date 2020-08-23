@@ -1,3 +1,4 @@
+import type { Piece, Store } from '@sapphire/pieces';
 import {
 	Channel,
 	Collection,
@@ -22,7 +23,7 @@ import {
 	VoiceState
 } from 'discord.js';
 
-export const enum ClientEvents {
+export const enum Events {
 	// #region Discord.js base events
 	ChannelCreate = 'channelCreate',
 	ChannelDelete = 'channelDelete',
@@ -73,61 +74,71 @@ export const enum ClientEvents {
 	ShardError = 'shardError',
 	SharedReady = 'shardReady',
 	ShardReconnecting = 'shardReconnecting',
-	ShardResume = 'shardResume'
+	ShardResume = 'shardResume',
 	// #endregion Discord.js base events
+
+	// #region Sapphire load cycle events
+	Unload = 'unload',
+	PostLoad = 'postLoad'
+	// #endregion Sapphire load cycle events
 }
 
-export interface ClientEventParams {
+export interface EventParameters {
 	// #region Discord.js base events
-	[ClientEvents.ChannelCreate]: [Channel];
-	[ClientEvents.ChannelDelete]: [Channel | PartialDMChannel];
-	[ClientEvents.ChannelPinsUpdate]: [Channel | PartialDMChannel, Date];
-	[ClientEvents.ChannelUpdate]: [Channel, Channel];
-	[ClientEvents.Debug]: [string];
-	[ClientEvents.Warn]: [string];
-	[ClientEvents.Disconnect]: [unknown, number];
-	[ClientEvents.EmojiCreate]: [GuildEmoji];
-	[ClientEvents.EmojiDelete]: [GuildEmoji];
-	[ClientEvents.EmojiUpdate]: [GuildEmoji, GuildEmoji];
-	[ClientEvents.Error]: [Error | string];
-	[ClientEvents.GuildBanAdd]: [Guild, User | PartialUser];
-	[ClientEvents.GuildBanRemove]: [Guild, User | PartialUser];
-	[ClientEvents.GuildCreate]: [Guild];
-	[ClientEvents.GuildDelete]: [Guild];
-	[ClientEvents.GuildUnavailable]: [Guild];
-	[ClientEvents.GuildIntegrationsUpdate]: [Guild];
-	[ClientEvents.GuildMemberAdd]: [GuildMember | PartialGuildMember];
-	[ClientEvents.GuildMemberAvailable]: [GuildMember | PartialGuildMember];
-	[ClientEvents.GuildMemberRemove]: [GuildMember | PartialGuildMember];
-	[ClientEvents.GuildMembersChunk]: [Collection<Snowflake, GuildMember | PartialGuildMember>, Guild];
-	[ClientEvents.GuildMemberSpeaking]: [GuildMember | PartialGuildMember, Readonly<Speaking>];
-	[ClientEvents.GuildMemberUpdate]: [GuildMember | PartialGuildMember, GuildMember | PartialGuildMember];
-	[ClientEvents.GuildUpdate]: [Guild, Guild];
-	[ClientEvents.InviteCreate]: [Invite];
-	[ClientEvents.InviteDelete]: [Invite];
-	[ClientEvents.Message]: [DjSMessage];
-	[ClientEvents.MessageDelete]: [DjSMessage | PartialMessage];
-	[ClientEvents.MessageReactionRemoveAll]: [DjSMessage | PartialMessage];
-	[ClientEvents.MessageReactionRemoveEmoji]: [MessageReaction];
-	[ClientEvents.MessageDeleteBulk]: [Collection<Snowflake, DjSMessage | PartialMessage>];
-	[ClientEvents.MessageReactionAdd]: [MessageReaction, User | PartialUser];
-	[ClientEvents.MessageReactionRemove]: [MessageReaction, User | PartialUser];
-	[ClientEvents.MessageUpdate]: [DjSMessage | PartialMessage, DjSMessage | PartialMessage];
-	[ClientEvents.PresenceUpdate]: [Presence | undefined, Presence];
-	[ClientEvents.RateLimit]: [RateLimitData];
-	[ClientEvents.Ready]: [];
-	[ClientEvents.Invalidated]: [];
-	[ClientEvents.RoleCreate]: [Role];
-	[ClientEvents.RoleDelete]: [Role];
-	[ClientEvents.RoleUpdate]: [Role, Role];
-	[ClientEvents.TypingsStart]: [Channel | PartialDMChannel, User | PartialUser];
-	[ClientEvents.UserUpdate]: [User | PartialUser, User | PartialUser];
-	[ClientEvents.VoiceStateUpdate]: [VoiceState, VoiceState];
-	[ClientEvents.WebhookUpdate]: [TextChannel];
-	[ClientEvents.ShardDisconnect]: [CloseEvent, number];
-	[ClientEvents.ShardError]: [Error, number];
-	[ClientEvents.SharedReady]: [number];
-	[ClientEvents.ShardReconnecting]: [number];
-	[ClientEvents.ShardResume]: [number, number];
+	[Events.ChannelCreate]: [Channel];
+	[Events.ChannelDelete]: [Channel | PartialDMChannel];
+	[Events.ChannelPinsUpdate]: [Channel | PartialDMChannel, Date];
+	[Events.ChannelUpdate]: [Channel, Channel];
+	[Events.Debug]: [string];
+	[Events.Warn]: [string];
+	[Events.Disconnect]: [unknown, number];
+	[Events.EmojiCreate]: [GuildEmoji];
+	[Events.EmojiDelete]: [GuildEmoji];
+	[Events.EmojiUpdate]: [GuildEmoji, GuildEmoji];
+	[Events.Error]: [Error | string];
+	[Events.GuildBanAdd]: [Guild, User | PartialUser];
+	[Events.GuildBanRemove]: [Guild, User | PartialUser];
+	[Events.GuildCreate]: [Guild];
+	[Events.GuildDelete]: [Guild];
+	[Events.GuildUnavailable]: [Guild];
+	[Events.GuildIntegrationsUpdate]: [Guild];
+	[Events.GuildMemberAdd]: [GuildMember | PartialGuildMember];
+	[Events.GuildMemberAvailable]: [GuildMember | PartialGuildMember];
+	[Events.GuildMemberRemove]: [GuildMember | PartialGuildMember];
+	[Events.GuildMembersChunk]: [Collection<Snowflake, GuildMember | PartialGuildMember>, Guild];
+	[Events.GuildMemberSpeaking]: [GuildMember | PartialGuildMember, Readonly<Speaking>];
+	[Events.GuildMemberUpdate]: [GuildMember | PartialGuildMember, GuildMember | PartialGuildMember];
+	[Events.GuildUpdate]: [Guild, Guild];
+	[Events.InviteCreate]: [Invite];
+	[Events.InviteDelete]: [Invite];
+	[Events.Message]: [DjSMessage];
+	[Events.MessageDelete]: [DjSMessage | PartialMessage];
+	[Events.MessageReactionRemoveAll]: [DjSMessage | PartialMessage];
+	[Events.MessageReactionRemoveEmoji]: [MessageReaction];
+	[Events.MessageDeleteBulk]: [Collection<Snowflake, DjSMessage | PartialMessage>];
+	[Events.MessageReactionAdd]: [MessageReaction, User | PartialUser];
+	[Events.MessageReactionRemove]: [MessageReaction, User | PartialUser];
+	[Events.MessageUpdate]: [DjSMessage | PartialMessage, DjSMessage | PartialMessage];
+	[Events.PresenceUpdate]: [Presence | undefined, Presence];
+	[Events.RateLimit]: [RateLimitData];
+	[Events.Ready]: [];
+	[Events.Invalidated]: [];
+	[Events.RoleCreate]: [Role];
+	[Events.RoleDelete]: [Role];
+	[Events.RoleUpdate]: [Role, Role];
+	[Events.TypingsStart]: [Channel | PartialDMChannel, User | PartialUser];
+	[Events.UserUpdate]: [User | PartialUser, User | PartialUser];
+	[Events.VoiceStateUpdate]: [VoiceState, VoiceState];
+	[Events.WebhookUpdate]: [TextChannel];
+	[Events.ShardDisconnect]: [CloseEvent, number];
+	[Events.ShardError]: [Error, number];
+	[Events.SharedReady]: [number];
+	[Events.ShardReconnecting]: [number];
+	[Events.ShardResume]: [number, number];
 	// #endregion Discord.js base events
+
+	// #region Sapphire load cycle events
+	[Events.Unload]: [Store<Piece>, Piece];
+	[Events.PostLoad]: [Store<Piece>, Piece];
+	// #endregion Sapphire load cycle events
 }
