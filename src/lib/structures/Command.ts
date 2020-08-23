@@ -3,6 +3,8 @@
 import type { AliasPieceOptions } from '@sapphire/pieces';
 import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
 import type { Message } from 'discord.js';
+import { PreconditionContainerAll } from '../utils/preconditions/PreconditionContainer';
+import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
 import type { Awaited } from '../utils/Types';
 import { BaseAliasPiece } from './base/BaseAliasPiece';
 import type { PreconditionContext } from './Precondition';
@@ -24,7 +26,7 @@ export abstract class Command extends BaseAliasPiece {
 	 * The preconditions to be run.
 	 * @since 1.0.0
 	 */
-	public preconditions: readonly CommandPrecondition[];
+	public preconditions: PreconditionContainerAll;
 
 	/**
 	 * Longer version of command's summary and how to use it
@@ -65,12 +67,7 @@ export abstract class Command extends BaseAliasPiece {
 		super(context, { ...options, name: name?.toLowerCase() });
 		this.deletable = options.deletable ?? false;
 		this.description = options.description ?? '';
-		this.preconditions =
-			options.preconditions?.map((precondition) =>
-				typeof precondition === 'string'
-					? { name: precondition, context: {} }
-					: { name: precondition.name, context: precondition.context ?? {} }
-			) ?? [];
+		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
 		this.extendedHelp = options.extendedHelp!;
 		this.guarded = options.guarded!;
 		this.hidden = options.hidden!;
@@ -108,7 +105,7 @@ export interface CommandOptions extends AliasPieceOptions {
 	bucket?: number;
 	deletable?: boolean;
 	description?: string;
-	preconditions?: PreconditionResolvable[];
+	preconditions?: PreconditionContainerResolvable;
 	extendedHelp?: string;
 	flags?: string[];
 	guarded?: boolean;
