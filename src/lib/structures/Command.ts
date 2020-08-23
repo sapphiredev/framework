@@ -8,6 +8,8 @@ import type { PreconditionContainerResolvable } from '../utils/preconditions/Pre
 import type { Awaited } from '../utils/Types';
 import { BaseAliasPiece } from './base/BaseAliasPiece';
 import type { PreconditionContext } from './Precondition';
+import * as Lexure from 'lexure';
+import { Args } from '../utils/Args';
 
 export abstract class Command extends BaseAliasPiece {
 	/**
@@ -56,7 +58,7 @@ export abstract class Command extends BaseAliasPiece {
 	 * Allow use of quoted strings for arguments
 	 * @since 1.0.0
 	 */
-	public quotedStringSupport: boolean;
+	public quotes: [string, string][];
 
 	/**
 	 * @since 1.0.0
@@ -72,10 +74,18 @@ export abstract class Command extends BaseAliasPiece {
 		this.guarded = options.guarded!;
 		this.hidden = options.hidden!;
 		this.flags = options.flags!;
-		this.quotedStringSupport = options.quotedStringSupport!;
+		this.quotes = options.quotes ?? [];
 	}
 
-	public abstract run(message: Message): Awaited<unknown>;
+	public preParse(message: Message, commandName: string, prefix: string): Awaited<unknown> {
+		const input = message.content.substr(prefix.length + commandName.length);
+		const lexer = new Lexure.Lexer().setInput(input).setQuotes(this.quotes);
+		const parser = new Lexure.Parser(lexer.lex());
+		const args = new Lexure.Args(parser.parse());
+		return new Args(message, this, args);
+	}
+
+	public abstract run(message: Message, args: any): Awaited<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command
@@ -89,7 +99,7 @@ export abstract class Command extends BaseAliasPiece {
 			extendedHelp: this.extendedHelp,
 			guarded: this.guarded,
 			hidden: this.hidden,
-			quotedStringSupport: this.quotedStringSupport
+			quotedStringSupport: this.quotes
 		};
 	}
 }
@@ -110,5 +120,5 @@ export interface CommandOptions extends AliasPieceOptions {
 	flags?: string[];
 	guarded?: boolean;
 	hidden?: boolean;
-	quotedStringSupport?: boolean;
+	quotes?: [string, string][];
 }

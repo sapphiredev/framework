@@ -43,7 +43,7 @@ export abstract class Event extends BasePiece {
 		try {
 			await this.run(...args);
 		} catch (error) {
-			this.client.emit(Events.Error, error);
+			this.client.emit(Events.EventError, error, this);
 		}
 	}
 

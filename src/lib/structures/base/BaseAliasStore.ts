@@ -11,8 +11,8 @@ export class BaseAliasStore<T extends BaseAliasPiece> extends AliasStore<T> {
 	public constructor(client: Client, Ctor: Constructor<T>) {
 		super(Ctor, {
 			onError: (error) => client.emit(Events.Error, error),
-			onUnload: (store, piece) => client.emit(Events.Unload, (store as unknown) as Store<Piece>, piece),
-			onPostLoad: (store, piece) => client.emit(Events.PostLoad, (store as unknown) as Store<Piece>, piece)
+			onUnload: (store, piece) => client.emit(Events.PieceUnload, (store as unknown) as Store<Piece>, piece),
+			onPostLoad: (store, piece) => client.emit(Events.PiecePostLoad, (store as unknown) as Store<Piece>, piece)
 		});
 		this.client = client;
 	}

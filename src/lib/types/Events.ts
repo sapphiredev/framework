@@ -57,21 +57,27 @@ export enum Events {
 	// #endregion Discord.js base events
 
 	// #region Sapphire load cycle events
-	Unload = 'unload',
-	PostLoad = 'postLoad',
+	PieceUnload = 'pieceUnload',
+	PiecePostLoad = 'piecePostLoad',
 	MentionPrefixOnly = 'mentionPrefixOnly',
+	EventError = 'eventError',
 	PrefixedMessage = 'prefixedMessage',
 	UnknownCommandName = 'unknownCommandName',
 	UnknownCommand = 'unknownCommand',
-	PreCommandRun = 'preCommandRun'
+	PreCommandRun = 'preCommandRun',
+	CommandDenied = 'commandDenied',
+	CommandAccepted = 'commandAccepted',
+	CommandRun = 'commandRun',
+	CommandFinish = 'commandFinish',
+	CommandError = 'commandError'
 	// #endregion Sapphire load cycle events
 }
 
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
-		[Events.Unload]: [Store<Piece>, Piece];
-		[Events.PostLoad]: [Store<Piece>, Piece];
+		[Events.PieceUnload]: [Store<Piece>, Piece];
+		[Events.PiecePostLoad]: [Store<Piece>, Piece];
 		[Events.MentionPrefixOnly]: [DjSMessage];
 		[Events.PrefixedMessage]: [DjSMessage, string];
 		[Events.UnknownCommandName]: [DjSMessage, string];
