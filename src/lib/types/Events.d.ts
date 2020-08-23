@@ -1,4 +1,3 @@
-import type { Piece, Store } from '@sapphire/pieces';
 import {
 	Channel,
 	Collection,
@@ -138,7 +137,7 @@ export interface EventParameters {
 	// #endregion Discord.js base events
 
 	// #region Sapphire load cycle events
-	[Events.Unload]: [Store<Piece>, Piece];
-	[Events.PostLoad]: [Store<Piece>, Piece];
+	[Events.Unload]: [unknown, unknown];
+	[Events.PostLoad]: [unknown, unknown];
 	// #endregion Sapphire load cycle events
 }

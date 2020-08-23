@@ -4,6 +4,7 @@ import { join } from 'path';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
+import type { EventParameters } from './types/Events';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
@@ -73,6 +74,11 @@ declare module 'discord.js' {
 		events: EventStore;
 		preconditions: PreconditionStore;
 		fetchPrefix: SapphirePrefixHook;
+
+		on<K extends keyof EventParameters>(event: K, listener: (...args: EventParameters[K]) => void): this;
+		once<K extends keyof EventParameters>(event: K, listener: (...args: EventParameters[K]) => void): this;
+		emit<K extends keyof EventParameters>(event: K, ...args: EventParameters[K]): boolean;
+		off<K extends keyof EventParameters>(event: K, listener: (...args: EventParameters[K]) => void): this;
 	}
 
 	interface ClientOptions {
