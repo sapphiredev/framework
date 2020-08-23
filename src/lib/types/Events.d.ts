@@ -21,6 +21,7 @@ import {
 	User,
 	VoiceState
 } from 'discord.js';
+import type { Command } from '../structures/Command';
 
 export const enum Events {
 	// #region Discord.js base events
@@ -80,7 +81,10 @@ export const enum Events {
 	Unload = 'unload',
 	PostLoad = 'postLoad',
 	MentionPrefixOnly = 'mentionPrefixOnly',
-	PrefixedMessage = 'prefixedMessage'
+	PrefixedMessage = 'prefixedMessage',
+	UnknownCommandName = 'unknownCommandName',
+	UnknownCommand = 'unknownCommand',
+	PreCommandRun = 'preCommandRun'
 	// #endregion Sapphire load cycle events
 }
 
@@ -143,5 +147,8 @@ export interface EventParameters {
 	[Events.PostLoad]: [unknown, unknown];
 	[Events.MentionPrefixOnly]: [DjSMessage];
 	[Events.PrefixedMessage]: [DjSMessage, string];
+	[Events.UnknownCommandName]: [DjSMessage, string];
+	[Events.UnknownCommand]: [DjSMessage, string, string];
+	[Events.PreCommandRun]: [DjSMessage, Command, string, string];
 	// #endregion Sapphire load cycle events
 }
