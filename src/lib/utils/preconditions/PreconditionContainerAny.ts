@@ -1,5 +1,8 @@
+import type { Awaited } from '@sapphire/pieces';
 import type { Client, Message } from 'discord.js';
+import type { UserError } from '../../errors/UserError';
 import type { Command } from '../../structures/Command';
+import { isOk, ok, Result } from '../Result';
 import type { IPreconditionContainer } from './IPreconditionContainer';
 import { PreconditionContainerSingle, PreconditionContainerSingleResolvable } from './PreconditionContainerSimple';
 
@@ -34,21 +37,31 @@ export class PreconditionContainerAny implements IPreconditionContainer {
 		}
 	}
 
-	public async run(message: Message, command: Command) {
+	public run(message: Message, command: Command): Awaited<Result<unknown, UserError>> {
 		return this.mode === PreconditionRunMode.Sequential ? this.runSequential(message, command) : this.runParallel(message, command);
 	}
 
-	protected async runSequential(message: Message, command: Command) {
+	protected async runSequential(message: Message, command: Command): Promise<Result<unknown, UserError>> {
+		let error: Result<unknown, UserError> | null = null;
 		for (const child of this.entries) {
-			if (await child.run(message, command)) return true;
+			const result = await child.run(message, command);
+			if (isOk(result)) return result;
+			error = result;
 		}
 
-		return false;
+		return error ?? ok();
 	}
 
-	protected async runParallel(message: Message, command: Command) {
+	protected async runParallel(message: Message, command: Command): Promise<Result<unknown, UserError>> {
 		const results = await Promise.all(this.entries.map((entry) => entry.run(message, command)));
-		return results.some((result) => result);
+
+		let error: Result<unknown, UserError> | null = null;
+		for (const result of results) {
+			if (isOk(result)) return result;
+			error = result;
+		}
+
+		return error ?? ok();
 	}
 
 	private static resolveData(data: PreconditionContainerResolvable): [PreconditionRunMode, Entries] {

@@ -1,11 +1,13 @@
-import { Precondition } from '../lib/structures/Precondition';
-import type { Message } from 'discord.js';
 import type { Awaited } from '@sapphire/pieces';
+import type { Message } from 'discord.js';
+import { UserError } from '../lib/errors/UserError';
+import { Precondition } from '../lib/structures/Precondition';
+import { err, ok, Result } from '../lib/utils/Result';
 
 export class CorePrecondition extends Precondition {
-	public run(message: Message): Awaited<boolean> {
+	public run(message: Message): Awaited<Result<unknown, UserError>> {
 		// `nsfw` is undefined in DMChannel, doing `=== true`
 		// will result on it returning`false`.
-		return Reflect.get(message.channel, 'nsfw') === true;
+		return Reflect.get(message.channel, 'nsfw') === true ? err(new UserError(this.name, 'You cannot run this command in DMs.')) : ok();
 	}
 }
