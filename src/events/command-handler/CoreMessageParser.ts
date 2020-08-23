@@ -1,6 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import { Event } from '../../lib/structures/Event';
+import { Events } from '../../lib/types/Events';
 
 export class CoreEvent extends Event {
 	public constructor(context: PieceContext) {
@@ -13,7 +14,7 @@ export class CoreEvent extends Event {
 		let prefix = '';
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
-				this.client.emit('mentionPrefixOnly', message);
+				this.client.emit(Events.MentionPrefixOnly, message);
 				return;
 			}
 
@@ -24,7 +25,7 @@ export class CoreEvent extends Event {
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix) this.client.emit('prefixedMessage', message, prefix);
+		if (prefix) this.client.emit(Events.PrefixedMessage, message, prefix);
 	}
 
 	private getMentionPrefix(content: string): string | null {

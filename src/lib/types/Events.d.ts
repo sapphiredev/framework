@@ -78,7 +78,9 @@ export const enum Events {
 
 	// #region Sapphire load cycle events
 	Unload = 'unload',
-	PostLoad = 'postLoad'
+	PostLoad = 'postLoad',
+	MentionPrefixOnly = 'mentionPrefixOnly',
+	PrefixedMessage = 'prefixedMessage'
 	// #endregion Sapphire load cycle events
 }
 
@@ -139,5 +141,7 @@ export interface EventParameters {
 	// #region Sapphire load cycle events
 	[Events.Unload]: [unknown, unknown];
 	[Events.PostLoad]: [unknown, unknown];
+	[Events.MentionPrefixOnly]: [DjSMessage];
+	[Events.PrefixedMessage]: [DjSMessage, string];
 	// #endregion Sapphire load cycle events
 }
