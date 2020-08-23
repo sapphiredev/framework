@@ -1,3 +1,4 @@
+import type { Piece } from '@sapphire/pieces';
 import type { Message as DjSMessage } from 'discord.js';
 import type { Command } from '../structures/Command';
 
@@ -69,8 +70,8 @@ export enum Events {
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
-		[Events.Unload]: [unknown, unknown];
-		[Events.PostLoad]: [unknown, unknown];
+		[Events.Unload]: [unknown, Piece];
+		[Events.PostLoad]: [unknown, Piece];
 		[Events.MentionPrefixOnly]: [DjSMessage];
 		[Events.PrefixedMessage]: [DjSMessage, string];
 		[Events.UnknownCommandName]: [DjSMessage, string];
