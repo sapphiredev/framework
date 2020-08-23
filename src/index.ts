@@ -9,5 +9,6 @@ export * from './lib/structures/EventStore';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
+export * from './lib/types/Events';
 export * from './lib/utils/Types';
 export * from './lib/SapphireClient';
