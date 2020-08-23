@@ -1,3 +1,4 @@
+export * from './lib/errors/UserError';
 export * from './lib/structures/base/BaseAliasPiece';
 export * from './lib/structures/base/BaseAliasStore';
 export * from './lib/structures/base/BasePiece';
@@ -10,5 +11,10 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
+export * from './lib/utils/preconditions/IPreconditionContainer';
+export * from './lib/utils/preconditions/PreconditionContainer';
+export * from './lib/utils/preconditions/PreconditionContainerAny';
+export * from './lib/utils/preconditions/PreconditionContainerSimple';
+export * from './lib/utils/Result';
 export * from './lib/utils/Types';
 export * from './lib/SapphireClient';
