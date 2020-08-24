@@ -80,7 +80,7 @@ declare module 'discord.js' {
 		// #endregion Sapphire load cycle events
 
 		// #region Termination
-		[K: string]: any[];
+		[K: string]: unknown[];
 		// #endregion Termination
 	}
 }

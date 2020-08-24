@@ -22,7 +22,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
 	}
 
-	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]): unknown;
+	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
 	public onLoad() {
 		if (this.#listener) this.emitter![this.once ? 'once' : 'on'](this.event, this.#listener);
@@ -39,7 +39,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 		};
 	}
 
-	private async _run(...args: any[]) {
+	private async _run(...args: unknown[]) {
 		try {
 			// @ts-expect-error Argument of type 'any[]' is not assignable to parameter of type 'E extends string | number ? ClientEvents[E] : any[]'. (2345)
 			await this.run(...args);
@@ -48,7 +48,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 		}
 	}
 
-	private async _runOnce(...args: any[]) {
+	private async _runOnce(...args: unknown[]) {
 		await this._run(...args);
 		await this.store.unload(this);
 	}
