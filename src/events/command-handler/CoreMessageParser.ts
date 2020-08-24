@@ -3,9 +3,9 @@ import type { Message } from 'discord.js';
 import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event {
+export class CoreEvent extends Event<Events.Message> {
 	public constructor(context: PieceContext) {
-		super(context, { event: 'message' });
+		super(context, { event: Events.Message });
 	}
 
 	public async run(message: Message) {

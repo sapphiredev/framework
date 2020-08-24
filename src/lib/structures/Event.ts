@@ -1,10 +1,10 @@
 import type { PieceContext, PieceOptions } from '@sapphire/pieces';
-import type { Client } from 'discord.js';
+import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { Events } from '../types/Events';
 import { BasePiece } from './base/BasePiece';
 
-export abstract class Event extends BasePiece {
+export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends BasePiece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
 	public readonly once: boolean;
@@ -22,7 +22,7 @@ export abstract class Event extends BasePiece {
 		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
 	}
 
-	public abstract run(...args: readonly any[]): unknown;
+	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
 	public onLoad() {
 		if (this.#listener) this.emitter![this.once ? 'once' : 'on'](this.event, this.#listener);
@@ -39,15 +39,16 @@ export abstract class Event extends BasePiece {
 		};
 	}
 
-	private async _run(...args: any[]) {
+	private async _run(...args: unknown[]) {
 		try {
+			// @ts-expect-error Argument of type 'unknown[]' is not assignable to parameter of type 'E extends string | number ? ClientEvents[E] : unknown[]'. (2345)
 			await this.run(...args);
 		} catch (error) {
 			this.client.emit(Events.EventError, error, this);
 		}
 	}
 
-	private async _runOnce(...args: any[]) {
+	private async _runOnce(...args: unknown[]) {
 		await this._run(...args);
 		await this.store.unload(this);
 	}
