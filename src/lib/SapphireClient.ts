@@ -1,9 +1,10 @@
-import type { Awaited } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
+import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
+import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
@@ -13,7 +14,12 @@ export class SapphireClient extends Client {
 	/**
 	 * The client's ID, used for the user prefix.
 	 */
-	public clientID: string | null = null;
+	public id: string | null = null;
+
+	/**
+	 * The commands the framework has registered.
+	 */
+	public arguments: ArgumentStore;
 
 	/**
 	 * The commands the framework has registered.
@@ -32,7 +38,8 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		this.clientID = options.id ?? null;
+		this.id = options.id ?? null;
+		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
 		this.preconditions = new PreconditionStore(this).registerPath(join(__dirname, '..', 'preconditions'));
@@ -69,6 +76,7 @@ export class SapphireClient extends Client {
 declare module 'discord.js' {
 	interface Client {
 		id: string | null;
+		arguments: ArgumentStore;
 		commands: CommandStore;
 		events: EventStore;
 		preconditions: PreconditionStore;

@@ -3,6 +3,8 @@
 import type { AliasPieceOptions } from '@sapphire/pieces';
 import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
 import type { Message } from 'discord.js';
+import * as Lexure from 'lexure';
+import { Args } from '../utils/Args';
 import { PreconditionContainerAll } from '../utils/preconditions/PreconditionContainer';
 import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
 import type { Awaited } from '../utils/Types';
@@ -35,28 +37,18 @@ export abstract class Command extends BaseAliasPiece {
 	public extendedHelp: string;
 
 	/**
-	 * Allow disabling of the command in a guild or not
-	 * @since 1.0.0
-	 */
-	public guarded: boolean;
-
-	/**
-	 * Whether to show the command in the help message or not
-	 * @since 1.0.0
-	 */
-	public hidden: boolean;
-
-	/**
 	 * Accepted flags for the command
 	 * @since 1.0.0
 	 */
 	public flags: string[];
 
 	/**
-	 * Allow use of quoted strings for arguments
+	 * The lexer to be used for command parsing
 	 * @since 1.0.0
+	 * @private
 	 */
-	public quotedStringSupport: boolean;
+	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+	#lexer = new Lexure.Lexer();
 
 	/**
 	 * @since 1.0.0
@@ -69,13 +61,24 @@ export abstract class Command extends BaseAliasPiece {
 		this.description = options.description ?? '';
 		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
 		this.extendedHelp = options.extendedHelp!;
-		this.guarded = options.guarded!;
-		this.hidden = options.hidden!;
 		this.flags = options.flags!;
-		this.quotedStringSupport = options.quotedStringSupport!;
+		this.#lexer.setQuotes(
+			options.quotes ?? [
+				['"', '"'], // Double quotes
+				['“', '”'], // Fancy quotes (on iOS)
+				['「', '」'] // Corner brackets (CJK)
+			]
+		);
 	}
 
-	public abstract run(message: Message): Awaited<unknown>;
+	public preParse(message: Message, commandName: string, prefix: string): Awaited<unknown> {
+		const input = message.content.substr(prefix.length + commandName.length);
+		const parser = new Lexure.Parser(this.#lexer.setInput(input).lex());
+		const args = new Lexure.Args(parser.parse());
+		return new Args(message, this, args);
+	}
+
+	public abstract run(message: Message, args: unknown): Awaited<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command
@@ -86,10 +89,7 @@ export abstract class Command extends BaseAliasPiece {
 			...super.toJSON(),
 			deletable: this.deletable,
 			description: this.description,
-			extendedHelp: this.extendedHelp,
-			guarded: this.guarded,
-			hidden: this.hidden,
-			quotedStringSupport: this.quotedStringSupport
+			extendedHelp: this.extendedHelp
 		};
 	}
 }
@@ -108,7 +108,5 @@ export interface CommandOptions extends AliasPieceOptions {
 	preconditions?: PreconditionContainerResolvable;
 	extendedHelp?: string;
 	flags?: string[];
-	guarded?: boolean;
-	hidden?: boolean;
-	quotedStringSupport?: boolean;
+	quotes?: [string, string][];
 }
