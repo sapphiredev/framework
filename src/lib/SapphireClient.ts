@@ -1,3 +1,4 @@
+import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import { ArgumentStore } from './structures/ArgumentStore';
@@ -13,28 +14,39 @@ export interface SapphirePrefixHook {
 export class SapphireClient extends Client {
 	/**
 	 * The client's ID, used for the user prefix.
+	 * @since 1.0.0
 	 */
 	public id: string | null = null;
 
 	/**
 	 * The commands the framework has registered.
+	 * @since 1.0.0
 	 */
 	public arguments: ArgumentStore;
 
 	/**
 	 * The commands the framework has registered.
+	 * @since 1.0.0
 	 */
 	public commands: CommandStore;
 
 	/**
 	 * The events the framework has registered.
+	 * @since 1.0.0
 	 */
 	public events: EventStore;
 
 	/**
 	 * The precondition the framework has registered.
+	 * @since 1.0.0
 	 */
 	public preconditions: PreconditionStore;
+
+	/**
+	 * The registered stores.
+	 * @since 1.0.0
+	 */
+	public stores: Set<Store<Piece>>;
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
@@ -43,10 +55,26 @@ export class SapphireClient extends Client {
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
 		this.preconditions = new PreconditionStore(this).registerPath(join(__dirname, '..', 'preconditions'));
+
+		this.stores = new Set();
+		this.registerStore(this.arguments) //
+			.registerStore(this.commands)
+			.registerStore(this.events)
+			.registerStore(this.preconditions);
+	}
+
+	/**
+	 * Registers a store.
+	 * @param store The store to register.
+	 */
+	public registerStore<T extends Piece>(store: Store<T>): this {
+		this.stores.add((store as unknown) as Store<Piece>);
+		return this;
 	}
 
 	/**
 	 * The method to be overriden by the developer.
+	 * @since 1.0.0
 	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
 	 * @example
 	 * ```typescript
@@ -71,6 +99,17 @@ export class SapphireClient extends Client {
 	 * ```
 	 */
 	public fetchPrefix: SapphirePrefixHook = () => null;
+
+	/**
+	 * Loads all pieces, then logs the client in, establishing a websocket connection to Discord.
+	 * @since 1.0.0
+	 * @param token Token of the account to log in with.
+	 * @retrun Token of the account used.
+	 */
+	public async login(token?: string) {
+		await Promise.all([...this.stores].map((store) => store.loadAll()));
+		return super.login(token);
+	}
 }
 
 declare module 'discord.js' {
