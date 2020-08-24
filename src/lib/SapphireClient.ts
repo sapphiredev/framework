@@ -11,6 +11,10 @@ export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
 }
 
+export interface SapphireInitializationPluginHook {
+	(this: Client, options: ClientOptions): unknown;
+}
+
 export class SapphireClient extends Client {
 	/**
 	 * The client's ID, used for the user prefix.
