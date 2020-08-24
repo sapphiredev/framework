@@ -1,10 +1,10 @@
-import type { Awaited } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
+import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
-import { ArgumentStore } from './structures/ArgumentStore';
+import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
@@ -39,7 +39,7 @@ export class SapphireClient extends Client {
 		super(options);
 
 		this.clientID = options.id ?? null;
-		this.arguments = new ArgumentStore(this);
+		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
 		this.preconditions = new PreconditionStore(this).registerPath(join(__dirname, '..', 'preconditions'));

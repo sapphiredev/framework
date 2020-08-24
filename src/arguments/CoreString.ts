@@ -1,7 +1,8 @@
-import type { Awaited, PieceContext } from '@sapphire/pieces';
+import type { PieceContext } from '@sapphire/pieces';
 import { UserError } from '../lib/errors/UserError';
 import { Argument, ArgumentContext } from '../lib/structures/Argument';
 import { err, ok, Result } from '../lib/utils/Result';
+import type { Awaited } from '../lib/utils/Types';
 
 export class CoreArgument extends Argument {
 	public constructor(context: PieceContext) {
