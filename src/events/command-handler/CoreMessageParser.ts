@@ -9,9 +9,11 @@ export class CoreEvent extends Event<Events.Message> {
 	}
 
 	public async run(message: Message) {
-		const mentionPrefix = this.getMentionPrefix(message.content);
+		// Stop bots from running commands.
+		if (message.author.bot) return;
 
 		let prefix = '';
+		const mentionPrefix = this.getMentionPrefix(message.content);
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
 				this.client.emit(Events.MentionPrefixOnly, message);
