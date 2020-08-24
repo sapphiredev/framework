@@ -16,10 +16,10 @@ export class CoreArgument extends Argument {
 			return err(new UserError('ArgumentNumberInvalidNumber', 'The argument did not resolve to an integer.'));
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return err(new UserError('ArgumentStringTooShort', 'The argument is too short.'));
+			return err(new UserError('ArgumentStringTooShort', 'The argument is too small.'));
 		}
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return err(new UserError('ArgumentStringTooLong', 'The argument is too long.'));
+			return err(new UserError('ArgumentStringTooLong', 'The argument is too big.'));
 		}
 
 		return ok(parsed);
