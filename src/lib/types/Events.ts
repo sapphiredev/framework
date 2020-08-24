@@ -1,4 +1,5 @@
 import type { Piece, Store } from '@sapphire/pieces';
+import type { Message } from 'discord.js';
 import type { Command } from '../structures/Command';
 import type { Event } from '../structures/Event';
 
@@ -73,13 +74,22 @@ export enum Events {
 	// #endregion Sapphire load cycle events
 }
 
+export interface EventErrorPayload {
+	piece: Event;
+}
+
+export interface CommandErrorPayload {
+	piece: Command;
+	message: Message;
+}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
 		[Events.PieceUnload]: [Store<Piece>, Piece];
 		[Events.PiecePostLoad]: [Store<Piece>, Piece];
 		[Events.MentionPrefixOnly]: [Message];
-		[Events.EventError]: [Error, Event];
+		[Events.EventError]: [Error, EventErrorPayload];
 		[Events.PrefixedMessage]: [Message, string];
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
@@ -88,7 +98,7 @@ declare module 'discord.js' {
 		[Events.CommandAccepted]: [Message, Command, string, string];
 		[Events.CommandRun]: [Message, Command];
 		[Events.CommandFinish]: [Message, Command, unknown];
-		[Events.CommandError]: [Error, Command, Message];
+		[Events.CommandError]: [Error, CommandErrorPayload];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination
