@@ -63,12 +63,8 @@ export enum Events {
 	PrefixedMessage = 'prefixedMessage',
 	UnknownCommandName = 'unknownCommandName',
 	UnknownCommand = 'unknownCommand',
-	PreCommandRun = 'preCommandRun',
+	PreCommandRun = 'preCommandRun'
 	// #endregion Sapphire load cycle events
-
-	// #region Termination
-	TERMINATION = 'TERMINATION'
-	// #endregion Termination
 }
 
 declare module 'discord.js' {
@@ -84,7 +80,7 @@ declare module 'discord.js' {
 		// #endregion Sapphire load cycle events
 
 		// #region Termination
-		[Events.TERMINATION]: any[];
+		[K: string]: any[];
 		// #endregion Termination
 	}
 }

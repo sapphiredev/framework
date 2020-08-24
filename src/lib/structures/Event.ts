@@ -4,7 +4,7 @@ import type { EventEmitter } from 'events';
 import { Events } from '../types/Events';
 import { BasePiece } from './base/BasePiece';
 
-export abstract class Event<E extends keyof ClientEvents | symbol = Events.TERMINATION> extends BasePiece {
+export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends BasePiece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
 	public readonly once: boolean;
