@@ -45,6 +45,7 @@ export abstract class Command extends BaseAliasPiece {
 	/**
 	 * The lexer to be used for command parsing
 	 * @since 1.0.0
+	 * @private
 	 */
 	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
 	#lexer = new Lexure.Lexer();
@@ -77,7 +78,7 @@ export abstract class Command extends BaseAliasPiece {
 		return new Args(message, this, args);
 	}
 
-	public abstract run(message: Message, args: any): Awaited<unknown>;
+	public abstract run(message: Message, args: unknown): Awaited<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command

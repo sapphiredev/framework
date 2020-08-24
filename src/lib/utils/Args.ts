@@ -12,13 +12,13 @@ export class Args {
 	/**
 	 * The original message that triggered the command.
 	 */
-	public message: Message;
+	public readonly message: Message;
 
 	/**
 	 * The command that is being running.
 	 */
-	public command: Command;
-	private parser: Lexure.Args;
+	public readonly command: Command;
+	private readonly parser: Lexure.Args;
 	private states: Lexure.ArgsState[] = [];
 
 	public constructor(message: Message, command: Command, parser: Lexure.Args) {
@@ -57,7 +57,7 @@ export class Args {
 	 */
 	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
 		const argument = this.message.client.arguments.get(type);
-		if (!argument) throw new TypeError(`The Argument ${type} was not found.`);
+		if (!argument) throw new TypeError(`The argument "${type}" was not found.`);
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
 			argument.run(arg, {
@@ -107,7 +107,7 @@ export class Args {
 	 */
 	public async restResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
 		const argument = this.message.client.arguments.get(type);
-		if (!argument) throw new TypeError(`The Argument ${type} was not found.`);
+		if (!argument) throw new TypeError(`The argument "${type}" was not found.`);
 
 		if (this.parser.finished) throw new UserError('MissingArguments', 'There are no more arguments.');
 
