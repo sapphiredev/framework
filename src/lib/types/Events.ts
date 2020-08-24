@@ -74,11 +74,15 @@ export enum Events {
 	// #endregion Sapphire load cycle events
 }
 
-export interface EventErrorPayload {
+export interface IPieceError {
+	piece: Piece;
+}
+
+export interface EventErrorPayload extends IPieceError {
 	piece: Event;
 }
 
-export interface CommandErrorPayload {
+export interface CommandErrorPayload extends IPieceError {
 	piece: Command;
 	message: Message;
 }
