@@ -57,7 +57,7 @@ export class Args {
 	 */
 	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
 		const argument = this.message.client.arguments.get(type);
-		if (!argument) throw new TypeError(`The argument "${type}" was not found.`);
+		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type}" was not found.`));
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
 			argument.run(arg, {
@@ -107,9 +107,9 @@ export class Args {
 	 */
 	public async restResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
 		const argument = this.message.client.arguments.get(type);
-		if (!argument) throw new TypeError(`The argument "${type}" was not found.`);
+		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type}" was not found.`));
 
-		if (this.parser.finished) throw new UserError('MissingArguments', 'There are no more arguments.');
+		if (this.parser.finished) return err(new UserError('MissingArguments', 'There are no more arguments.'));
 
 		const state = this.parser.save();
 		const data = this.parser.many().reduce((acc, token) => `${acc}${token.value}${token.trailing}`, '');
