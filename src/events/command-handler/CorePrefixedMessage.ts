@@ -3,9 +3,9 @@ import type { Message } from 'discord.js';
 import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event {
+export class CoreEvent extends Event<Events.PrefixedMessage> {
 	public constructor(context: PieceContext) {
-		super(context, { event: 'prefixedMessage' });
+		super(context, { event: Events.PrefixedMessage });
 	}
 
 	public run(message: Message, prefix: string) {

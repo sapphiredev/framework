@@ -78,5 +78,9 @@ declare module 'discord.js' {
 		[Events.UnknownCommand]: [DjSMessage, string, string];
 		[Events.PreCommandRun]: [DjSMessage, Command, string, string];
 		// #endregion Sapphire load cycle events
+
+		// #region Termination
+		[K: string]: unknown[];
+		// #endregion Termination
 	}
 }
