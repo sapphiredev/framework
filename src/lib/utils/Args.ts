@@ -59,18 +59,15 @@ export class Args {
 		const argument = this.message.client.arguments.get(type);
 		if (!argument) throw new TypeError(`The Argument ${type} was not found.`);
 
-		const state = this.parser.save();
-		const data = this.parser.single();
-		if (!data) return err(new UserError('MissingArguments', 'There are no more arguments.'));
-
-		const result = await argument.run(data, {
-			message: this.message,
-			command: this.command,
-			...options
-		});
+		const result = await this.parser.singleParseAsync(async (arg) =>
+			argument.run(arg, {
+				message: this.message,
+				command: this.command,
+				...options
+			})
+		);
+		if (result === null) return err(new UserError('MissingArguments', 'There are no more arguments.'));
 		if (isOk(result)) return result as Ok<ArgType[K]>;
-
-		this.parser.restore(state);
 		return result;
 	}
 
@@ -112,10 +109,10 @@ export class Args {
 		const argument = this.message.client.arguments.get(type);
 		if (!argument) throw new TypeError(`The Argument ${type} was not found.`);
 
+		if (this.parser.finished) throw new UserError('MissingArguments', 'There are no more arguments.');
+
 		const state = this.parser.save();
 		const data = this.parser.many().reduce((acc, token) => `${acc}${token.value}${token.trailing}`, '');
-		if (!data) throw new UserError('MissingArguments', 'There are no more arguments.');
-
 		const result = await argument.run(data, {
 			message: this.message,
 			command: this.command,

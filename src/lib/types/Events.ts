@@ -1,6 +1,6 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import type { Message as DjSMessage } from 'discord.js';
 import type { Command } from '../structures/Command';
+import type { Event } from '../structures/Event';
 
 export enum Events {
 	// #region Discord.js base events
@@ -78,11 +78,17 @@ declare module 'discord.js' {
 		// #region Sapphire load cycle events
 		[Events.PieceUnload]: [Store<Piece>, Piece];
 		[Events.PiecePostLoad]: [Store<Piece>, Piece];
-		[Events.MentionPrefixOnly]: [DjSMessage];
-		[Events.PrefixedMessage]: [DjSMessage, string];
-		[Events.UnknownCommandName]: [DjSMessage, string];
-		[Events.UnknownCommand]: [DjSMessage, string, string];
-		[Events.PreCommandRun]: [DjSMessage, Command, string, string];
+		[Events.MentionPrefixOnly]: [Message];
+		[Events.EventError]: [Error, Event];
+		[Events.PrefixedMessage]: [Message, string];
+		[Events.UnknownCommandName]: [Message, string];
+		[Events.UnknownCommand]: [Message, string, string];
+		[Events.PreCommandRun]: [Message, Command, string, string];
+		[Events.CommandDenied]: [Message, Command, string, string];
+		[Events.CommandAccepted]: [Message, Command, string, string];
+		[Events.CommandRun]: [Message, Command];
+		[Events.CommandFinish]: [Message, Command, unknown];
+		[Events.CommandError]: [Error, Command, Message];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination

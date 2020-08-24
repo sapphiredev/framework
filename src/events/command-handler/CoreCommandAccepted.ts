@@ -16,7 +16,7 @@ export class CoreEvent extends Event {
 			const result = await command.run(message, args);
 			this.client.emit(Events.CommandFinish, message, command, result);
 		} catch (error) {
-			this.client.emit(Events.CommandError, error, message, command);
+			this.client.emit(Events.CommandError, error, command, message);
 		}
 	}
 }
