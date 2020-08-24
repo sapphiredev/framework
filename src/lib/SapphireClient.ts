@@ -14,7 +14,7 @@ export class SapphireClient extends Client {
 	/**
 	 * The client's ID, used for the user prefix.
 	 */
-	public clientID: string | null = null;
+	public id: string | null = null;
 
 	/**
 	 * The commands the framework has registered.
@@ -38,7 +38,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		this.clientID = options.id ?? null;
+		this.id = options.id ?? null;
 		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
