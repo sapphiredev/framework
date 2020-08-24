@@ -4,7 +4,7 @@ import { Events } from '../lib/types/Events';
 
 export class CoreEvent extends Event<Events.Ready> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.Ready });
+		super(context, { event: Events.Ready, once: true });
 	}
 
 	public run() {
