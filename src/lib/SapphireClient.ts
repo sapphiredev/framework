@@ -145,19 +145,30 @@ export class SapphireClient extends Client {
 		return login;
 	}
 
-	protected static _plugins: Set<SapphirePluginHookEntry> = new Set();
+	protected static readonly _plugins: Set<SapphirePluginHookEntry> = new Set();
 
-	public static registerPreInitializationPlugin(hook: SapphirePluginHook, name?: string) {
-		// TODO: Add checks
-		return this._plugins.add({ hook, type: PluginHook.PreInitialization, name });
+	public static registerPluginHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
+		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
+		return this._plugins.add({ hook, type, name });
 	}
 
-	public static registerPostInitializationPlugin(hook: SapphirePluginHook, name?: string) {
-		// TODO: Add checks
-		return this._plugins.add({ hook, type: PluginHook.PostInitialization, name });
+	public static registerPreInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerPluginHook(hook, PluginHook.PreInitialization, name);
 	}
 
-	protected static *plugins(hook?: PluginHook) {
+	public static registerPostInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerPluginHook(hook, PluginHook.PostInitialization, name);
+	}
+
+	public static registerPreLoginPluginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerPluginHook(hook, PluginHook.PreLogin, name);
+	}
+
+	public static registerPostLoginPluginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerPluginHook(hook, PluginHook.PostLogin, name);
+	}
+
+	public static *plugins(hook?: PluginHook) {
 		for (const plugin of SapphireClient._plugins) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
