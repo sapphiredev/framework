@@ -1,2 +1,4 @@
 /src/ @kyranet @favna
 /tests/ @kyranet @favna
+
+/src/lib/types/Events.ts @quantumlytangled

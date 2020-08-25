@@ -5,9 +5,9 @@ import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 import { isErr } from '../../lib/utils/Result';
 
-export class CoreEvent extends Event {
+export class CoreEvent extends Event<Events.PreCommandRun> {
 	public constructor(context: PieceContext) {
-		super(context, { event: 'preCommandRun' });
+		super(context, { event: Events.PreCommandRun });
 	}
 
 	public async run(message: Message, command: Command, commandName: string, prefix: string) {
