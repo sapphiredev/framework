@@ -1,6 +1,7 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
+import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
@@ -137,6 +138,11 @@ export class SapphireClient extends Client {
 	}
 
 	public static plugins = new PluginManager();
+
+	public static use(plugin: typeof Plugin) {
+		this.plugins.usePlugin(plugin);
+		return SapphireClient;
+	}
 }
 
 declare module 'discord.js' {
