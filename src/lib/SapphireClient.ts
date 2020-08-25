@@ -1,8 +1,7 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
-import type { Plugin } from './plugins/Plugin';
-import { postInitialization, postLogin, preInitialization, preLogin } from './plugins/symbols';
+import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
@@ -13,16 +12,6 @@ import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
-}
-
-export interface SapphirePluginHook {
-	(this: SapphireClient, options?: ClientOptions): unknown;
-}
-
-export interface SapphirePluginHookEntry {
-	hook: SapphirePluginHook;
-	type: PluginHook;
-	name?: string;
 }
 
 export class SapphireClient extends Client {
@@ -64,7 +53,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		for (const plugin of SapphireClient.plugins(PluginHook.PreInitialization)) {
+		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -81,7 +70,7 @@ export class SapphireClient extends Client {
 			.registerStore(this.events)
 			.registerStore(this.preconditions);
 
-		for (const plugin of SapphireClient.plugins(PluginHook.PostInitialization)) {
+		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -131,7 +120,7 @@ export class SapphireClient extends Client {
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
-		for (const plugin of SapphireClient.plugins(PluginHook.PreLogin)) {
+		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PreLogin)) {
 			plugin.hook.call(this);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -139,7 +128,7 @@ export class SapphireClient extends Client {
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
-		for (const plugin of SapphireClient.plugins(PluginHook.PostLogin)) {
+		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PostLogin)) {
 			plugin.hook.call(this);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -147,44 +136,7 @@ export class SapphireClient extends Client {
 		return login;
 	}
 
-	protected static readonly registeredPlugins = new Set<SapphirePluginHookEntry>();
-
-	public static registerPluginHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
-		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
-		this.registeredPlugins.add({ hook, type, name });
-		return SapphireClient;
-	}
-
-	public static registerPreInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PreInitialization, name);
-	}
-
-	public static registerPostInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PostInitialization, name);
-	}
-
-	public static registerPreLoginPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PreLogin, name);
-	}
-
-	public static registerPostLoginPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PostLogin, name);
-	}
-
-	public static usePlugin(plugin: typeof Plugin) {
-		if (typeof plugin[preInitialization] === 'function') this.registerPreInitializationPluginHook(plugin[preInitialization]!);
-		if (typeof plugin[postInitialization] === 'function') this.registerPostInitializationPluginHook(plugin[postInitialization]!);
-		if (typeof plugin[preLogin] === 'function') this.registerPreLoginPluginHook(plugin[preLogin]!);
-		if (typeof plugin[postLogin] === 'function') this.registerPostLoginPluginHook(plugin[postLogin]!);
-		return SapphireClient;
-	}
-
-	public static *plugins(hook?: PluginHook) {
-		for (const plugin of SapphireClient.registeredPlugins) {
-			if (hook && plugin.type !== hook) continue;
-			yield plugin;
-		}
-	}
+	public static pluginManager = new PluginManager();
 }
 
 declare module 'discord.js' {

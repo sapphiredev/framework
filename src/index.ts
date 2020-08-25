@@ -1,5 +1,6 @@
 export * from './lib/errors/UserError';
 export * from './lib/plugins/Plugin';
+export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
 export * from './lib/structures/base/BaseAliasPiece';
 export * from './lib/structures/base/BaseAliasStore';
