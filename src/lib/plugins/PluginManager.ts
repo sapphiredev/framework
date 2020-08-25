@@ -15,7 +15,7 @@ export interface SapphirePluginHookEntry {
 export class PluginManager {
 	public readonly registeredPlugins = new Set<SapphirePluginHookEntry>();
 
-	public *plugins(hook?: PluginHook) {
+	public *values(hook?: PluginHook) {
 		for (const plugin of this.registeredPlugins) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;

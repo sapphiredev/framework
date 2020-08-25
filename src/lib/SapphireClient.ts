@@ -53,7 +53,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PreInitialization)) {
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -70,7 +70,7 @@ export class SapphireClient extends Client {
 			.registerStore(this.events)
 			.registerStore(this.preconditions);
 
-		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PostInitialization)) {
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -120,7 +120,7 @@ export class SapphireClient extends Client {
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
-		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PreLogin)) {
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
 			plugin.hook.call(this);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -128,7 +128,7 @@ export class SapphireClient extends Client {
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
-		for (const plugin of SapphireClient.pluginManager.plugins(PluginHook.PostLogin)) {
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
 			plugin.hook.call(this);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -136,7 +136,7 @@ export class SapphireClient extends Client {
 		return login;
 	}
 
-	public static pluginManager = new PluginManager();
+	public static plugins = new PluginManager();
 }
 
 declare module 'discord.js' {
