@@ -4,9 +4,9 @@ import type { Command } from '../../lib/structures/Command';
 import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event {
+export class CoreEvent extends Event<Events.CommandAccepted> {
 	public constructor(context: PieceContext) {
-		super(context, { event: 'commandAccepted' });
+		super(context, { event: Events.CommandAccepted });
 	}
 
 	public async run(message: Message, command: Command, commandName: string, prefix: string) {
