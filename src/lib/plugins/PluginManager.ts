@@ -1,6 +1,6 @@
-import type { PluginHook } from '../types/Enums';
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
+import type { PluginHook } from '../types/Enums';
 
 export interface SapphirePluginHook {
 	(this: SapphireClient, options?: ClientOptions): unknown;
