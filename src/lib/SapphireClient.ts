@@ -1,10 +1,14 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
+import type { Plugin } from './plugins/Plugin';
+import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
+import { PluginHook } from './types/Enums';
+import { Events } from './types/Events';
 import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
@@ -50,6 +54,11 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
+			plugin.hook.call(this, options);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+
 		this.id = options.id ?? null;
 		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
 		this.commands = new CommandStore(this);
@@ -61,6 +70,11 @@ export class SapphireClient extends Client {
 			.registerStore(this.commands)
 			.registerStore(this.events)
 			.registerStore(this.preconditions);
+
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
+			plugin.hook.call(this, options);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
 	}
 
 	/**
@@ -107,8 +121,27 @@ export class SapphireClient extends Client {
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
+			plugin.hook.call(this);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
-		return super.login(token);
+		const login = await super.login(token);
+
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
+			plugin.hook.call(this);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+
+		return login;
+	}
+
+	public static plugins = new PluginManager();
+
+	public static use(plugin: typeof Plugin) {
+		this.plugins.use(plugin);
+		return SapphireClient;
 	}
 }
 
