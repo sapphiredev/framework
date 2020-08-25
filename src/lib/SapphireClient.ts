@@ -173,9 +173,9 @@ export class SapphireClient extends Client {
 
 	public static usePlugin(plugin: typeof Plugin) {
 		if (typeof plugin[preInitialization] === 'function') this.registerPreInitializationPluginHook(plugin[preInitialization]!);
-		if (typeof plugin[postInitialization] === 'function') this.registerPreInitializationPluginHook(plugin[postInitialization]!);
-		if (typeof plugin[preLogin] === 'function') this.registerPreInitializationPluginHook(plugin[preLogin]!);
-		if (typeof plugin[postLogin] === 'function') this.registerPreInitializationPluginHook(plugin[postLogin]!);
+		if (typeof plugin[postInitialization] === 'function') this.registerPostInitializationPluginHook(plugin[postInitialization]!);
+		if (typeof plugin[preLogin] === 'function') this.registerPreLoginPluginHook(plugin[preLogin]!);
+		if (typeof plugin[postLogin] === 'function') this.registerPostLoginPluginHook(plugin[postLogin]!);
 		return SapphireClient;
 	}
 
