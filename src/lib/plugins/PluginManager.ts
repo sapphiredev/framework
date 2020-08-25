@@ -15,28 +15,28 @@ export interface SapphirePluginHookEntry {
 }
 
 export class PluginManager {
-	public readonly registeredPlugins = new Set<SapphirePluginHookEntry>();
+	public readonly registry = new Set<SapphirePluginHookEntry>();
 
-	public registerPluginHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
+	public registerHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
-		this.registeredPlugins.add({ hook, type, name });
+		this.registry.add({ hook, type, name });
 		return this;
 	}
 
-	public registerPreInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PreInitialization, name);
+	public registerPreInitializationHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerHook(hook, PluginHook.PreInitialization, name);
 	}
 
-	public registerPostInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PostInitialization, name);
+	public registerPostInitializationHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerHook(hook, PluginHook.PostInitialization, name);
 	}
 
-	public registerPreLoginPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PreLogin, name);
+	public registerPreLoginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerHook(hook, PluginHook.PreLogin, name);
 	}
 
-	public registerPostLoginPluginHook(hook: SapphirePluginHook, name?: string) {
-		return this.registerPluginHook(hook, PluginHook.PostLogin, name);
+	public registerPostLoginHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerHook(hook, PluginHook.PostLogin, name);
 	}
 
 	public use(plugin: typeof Plugin) {
@@ -49,13 +49,13 @@ export class PluginManager {
 		for (const [hookSymbol, hookType] of possibleSymbolHooks) {
 			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook;
 			if (typeof hook !== 'function') continue;
-			this.registerPluginHook(hook, hookType);
+			this.registerHook(hook, hookType);
 		}
 		return this;
 	}
 
 	public *values(hook?: PluginHook) {
-		for (const plugin of this.registeredPlugins) {
+		for (const plugin of this.registry) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
 		}
