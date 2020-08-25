@@ -2,6 +2,7 @@ import type { Piece, Store } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { Command } from '../structures/Command';
 import type { Event } from '../structures/Event';
+import type { PluginHook } from './Enums';
 
 export enum Events {
 	// #region Discord.js base events
@@ -70,7 +71,8 @@ export enum Events {
 	CommandAccepted = 'commandAccepted',
 	CommandRun = 'commandRun',
 	CommandFinish = 'commandFinish',
-	CommandError = 'commandError'
+	CommandError = 'commandError',
+	PluginLoaded = 'pluginLoaded'
 	// #endregion Sapphire load cycle events
 }
 
@@ -103,6 +105,7 @@ declare module 'discord.js' {
 		[Events.CommandRun]: [Message, Command];
 		[Events.CommandFinish]: [Message, Command, unknown];
 		[Events.CommandError]: [Error, CommandErrorPayload];
+		[Events.PluginLoaded]: [PluginHook, string | undefined];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination

@@ -6,6 +6,7 @@ import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
+import { Events } from './types/Events';
 import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
@@ -64,6 +65,7 @@ export class SapphireClient extends Client {
 		for (const plugin of SapphireClient.plugins) {
 			if (plugin.type !== PluginHook.PreInitialization) continue;
 			plugin.hook.call(this, options);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 
 		this.id = options.id ?? null;
@@ -81,6 +83,7 @@ export class SapphireClient extends Client {
 		for (const plugin of SapphireClient.plugins) {
 			if (plugin.type !== PluginHook.PostInitialization) continue;
 			plugin.hook.call(this, options);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 	}
 
