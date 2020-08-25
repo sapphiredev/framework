@@ -3,3 +3,8 @@ export const enum CooldownLevel {
 	Channel = 'channel',
 	Guild = 'guild'
 }
+
+export const enum PluginHook {
+	PreInitialization,
+	PostInitialization
+}
