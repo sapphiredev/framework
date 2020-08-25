@@ -140,7 +140,7 @@ export class SapphireClient extends Client {
 	public static plugins = new PluginManager();
 
 	public static use(plugin: typeof Plugin) {
-		this.plugins.usePlugin(plugin);
+		this.plugins.use(plugin);
 		return SapphireClient;
 	}
 }

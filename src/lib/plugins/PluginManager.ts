@@ -39,7 +39,7 @@ export class PluginManager {
 		return this.registerPluginHook(hook, PluginHook.PostLogin, name);
 	}
 
-	public usePlugin(plugin: typeof Plugin) {
+	public use(plugin: typeof Plugin) {
 		const possibleSymbolHooks: [symbol, PluginHook][] = [
 			[preInitialization, PluginHook.PreInitialization],
 			[postInitialization, PluginHook.PostInitialization],
