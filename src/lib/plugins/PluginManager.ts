@@ -47,8 +47,7 @@ export class PluginManager {
 			[postLogin, PluginHook.PostLogin]
 		];
 		for (const [hookSymbol, hookType] of possibleSymbolHooks) {
-			// @ts-expect-error Element implicitly has an 'any' type because expression of type 'symbol' can't be used to index type 'typeof Plugin'. (7053)
-			const hook = plugin[hookSymbol] as SapphirePluginHook;
+			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook;
 			if (typeof hook !== 'function') continue;
 			this.registerPluginHook(hook, hookType);
 		}
