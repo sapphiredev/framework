@@ -6,5 +6,7 @@ export const enum CooldownLevel {
 
 export const enum PluginHook {
 	PreInitialization,
-	PostInitialization
+	PostInitialization,
+	PreLogin,
+	PostLogin
 }

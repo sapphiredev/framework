@@ -14,7 +14,7 @@ export interface SapphirePrefixHook {
 }
 
 export interface SapphirePluginHook {
-	(this: Client, options: ClientOptions): unknown;
+	(this: Client, options?: ClientOptions): unknown;
 }
 
 export interface SapphirePluginHookEntry {
@@ -62,8 +62,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		for (const plugin of SapphireClient.plugins) {
-			if (plugin.type !== PluginHook.PreInitialization) continue;
+		for (const plugin of SapphireClient.plugins(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -80,8 +79,7 @@ export class SapphireClient extends Client {
 			.registerStore(this.events)
 			.registerStore(this.preconditions);
 
-		for (const plugin of SapphireClient.plugins) {
-			if (plugin.type !== PluginHook.PostInitialization) continue;
+		for (const plugin of SapphireClient.plugins(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
@@ -131,20 +129,39 @@ export class SapphireClient extends Client {
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
+		for (const plugin of SapphireClient.plugins(PluginHook.PreLogin)) {
+			plugin.hook.call(this);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
-		return super.login(token);
+		const login = await super.login(token);
+
+		for (const plugin of SapphireClient.plugins(PluginHook.PostLogin)) {
+			plugin.hook.call(this);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+
+		return login;
 	}
 
-	protected static plugins: Set<SapphirePluginHookEntry> = new Set();
+	protected static _plugins: Set<SapphirePluginHookEntry> = new Set();
 
 	public static registerPreInitializationPlugin(hook: SapphirePluginHook, name?: string) {
 		// TODO: Add checks
-		return this.plugins.add({ hook, type: PluginHook.PreInitialization, name });
+		return this._plugins.add({ hook, type: PluginHook.PreInitialization, name });
 	}
 
 	public static registerPostInitializationPlugin(hook: SapphirePluginHook, name?: string) {
 		// TODO: Add checks
-		return this.plugins.add({ hook, type: PluginHook.PostInitialization, name });
+		return this._plugins.add({ hook, type: PluginHook.PostInitialization, name });
+	}
+
+	protected static *plugins(hook?: PluginHook) {
+		for (const plugin of SapphireClient._plugins) {
+			if (hook && plugin.type !== hook) continue;
+			yield plugin;
+		}
 	}
 }
 
