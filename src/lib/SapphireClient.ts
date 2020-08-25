@@ -1,6 +1,8 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
+import type { Plugin } from './plugins/Plugin';
+import { postInitialization, postLogin, preInitialization, preLogin } from './plugins/symbols';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
@@ -14,7 +16,7 @@ export interface SapphirePrefixHook {
 }
 
 export interface SapphirePluginHook {
-	(this: Client, options?: ClientOptions): unknown;
+	(this: SapphireClient, options?: ClientOptions): unknown;
 }
 
 export interface SapphirePluginHookEntry {
@@ -145,11 +147,12 @@ export class SapphireClient extends Client {
 		return login;
 	}
 
-	protected static readonly _plugins: Set<SapphirePluginHookEntry> = new Set();
+	protected static readonly registeredPlugins = new Set<SapphirePluginHookEntry>();
 
 	public static registerPluginHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
-		return this._plugins.add({ hook, type, name });
+		this.registeredPlugins.add({ hook, type, name });
+		return SapphireClient;
 	}
 
 	public static registerPreInitializationPluginHook(hook: SapphirePluginHook, name?: string) {
@@ -168,8 +171,16 @@ export class SapphireClient extends Client {
 		return this.registerPluginHook(hook, PluginHook.PostLogin, name);
 	}
 
+	public static usePlugin(plugin: typeof Plugin) {
+		if (typeof plugin[preInitialization] === 'function') this.registerPreInitializationPluginHook(plugin[preInitialization]!);
+		if (typeof plugin[postInitialization] === 'function') this.registerPreInitializationPluginHook(plugin[postInitialization]!);
+		if (typeof plugin[preLogin] === 'function') this.registerPreInitializationPluginHook(plugin[preLogin]!);
+		if (typeof plugin[postLogin] === 'function') this.registerPreInitializationPluginHook(plugin[postLogin]!);
+		return SapphireClient;
+	}
+
 	public static *plugins(hook?: PluginHook) {
-		for (const plugin of SapphireClient._plugins) {
+		for (const plugin of SapphireClient.registeredPlugins) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
 		}
