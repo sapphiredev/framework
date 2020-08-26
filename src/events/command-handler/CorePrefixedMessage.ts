@@ -11,7 +11,8 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 	public run(message: Message, prefix: string) {
 		// Retrieve the command name and validate:
 		const prefixLess = message.content.slice(prefix.length).trim();
-		const commandName = /.+\b/.exec(prefixLess)?.[0];
+		const spaceIndex = prefixLess.indexOf(' ');
+		const commandName = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
 		if (!commandName) {
 			this.client.emit(Events.UnknownCommandName, message, prefix);
 			return;
