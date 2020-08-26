@@ -83,7 +83,7 @@ export class Args {
 	 * // Sends "The result is: 3"
 	 * ```
 	 */
-	public async pick<K extends keyof ArgType>(type: K, options: ArgOptions): Promise<ArgType[K]> {
+	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.pickResult(type, options);
 		if (isOk(result)) return result.value;
 		throw result.error;
@@ -136,7 +136,7 @@ export class Args {
 	 * // Sends "The repeated value is... Hello World!Hello World!"
 	 * ```
 	 */
-	public async rest<K extends keyof ArgType>(type: K, options: ArgOptions): Promise<ArgType[K]> {
+	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.restResult(type, options);
 		if (isOk(result)) return result.value;
 		throw result.error;
