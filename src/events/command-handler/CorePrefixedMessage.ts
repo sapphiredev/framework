@@ -26,7 +26,7 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 		}
 
 		// Run the last stage before running the command:
-		const parameters = spaceIndex === -1 ? '' : message.content.substr(spaceIndex + 1).trim();
+		const parameters = spaceIndex === -1 ? '' : prefixLess.substr(spaceIndex + 1).trim();
 		this.client.emit(Events.PreCommandRun, message, command, parameters, name, prefix);
 	}
 }
