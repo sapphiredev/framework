@@ -72,7 +72,7 @@ export abstract class Command extends BaseAliasPiece {
 	}
 
 	public preParse(message: Message, commandName: string, prefix: string): Awaited<unknown> {
-		const input = message.content.substr(prefix.length + commandName.length);
+		const input = message.content.substr(prefix.length + commandName.length + 1);
 		const parser = new Lexure.Parser(this.#lexer.setInput(input).lex());
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this, args);
