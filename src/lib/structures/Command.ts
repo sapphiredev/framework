@@ -60,8 +60,8 @@ export abstract class Command extends BaseAliasPiece {
 		this.deletable = options.deletable ?? false;
 		this.description = options.description ?? '';
 		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
-		this.extendedHelp = options.extendedHelp!;
-		this.flags = options.flags!;
+		this.extendedHelp = options.extendedHelp ?? '';
+		this.flags = options.flags ?? [];
 		this.#lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -71,9 +71,8 @@ export abstract class Command extends BaseAliasPiece {
 		);
 	}
 
-	public preParse(message: Message, commandName: string, prefix: string): Awaited<unknown> {
-		const input = message.content.substr(prefix.length + commandName.length);
-		const parser = new Lexure.Parser(this.#lexer.setInput(input).lex());
+	public preParse(message: Message, parameters: string): Awaited<unknown> {
+		const parser = new Lexure.Parser(this.#lexer.setInput(parameters).lex());
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this, args);
 	}

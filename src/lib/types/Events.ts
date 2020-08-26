@@ -99,9 +99,9 @@ declare module 'discord.js' {
 		[Events.PrefixedMessage]: [Message, string];
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
-		[Events.PreCommandRun]: [Message, Command, string, string];
-		[Events.CommandDenied]: [Message, Command, string, string];
-		[Events.CommandAccepted]: [Message, Command, string, string];
+		[Events.PreCommandRun]: [Message, Command, string, string, string];
+		[Events.CommandDenied]: [Message, Command, string, string, string];
+		[Events.CommandAccepted]: [Message, Command, string, string, string];
 		[Events.CommandRun]: [Message, Command];
 		[Events.CommandFinish]: [Message, Command, unknown];
 		[Events.CommandError]: [Error, CommandErrorPayload];
