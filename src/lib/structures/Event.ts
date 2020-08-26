@@ -15,7 +15,10 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 	public constructor(context: PieceContext, options: EventOptions = {}) {
 		super(context, options);
 
-		this.emitter = (typeof options.emitter === 'string' ? ((this.client[options.emitter] as unknown) as EventEmitter) : options.emitter) ?? null;
+		this.emitter =
+			typeof options.emitter === 'undefined'
+				? this.client
+				: (typeof options.emitter === 'string' ? (Reflect.get(this.client, options.emitter) as EventEmitter) : options.emitter) ?? null;
 		this.event = options.event ?? '';
 		this.once = options.once ?? false;
 
