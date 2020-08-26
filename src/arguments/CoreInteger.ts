@@ -13,13 +13,13 @@ export class CoreArgument extends Argument {
 		const parsed = Number(argument);
 
 		if (!Number.isInteger(parsed)) {
-			return err(new UserError('ArgumentNumberInvalidNumber', 'The argument did not resolve to an integer.'));
+			return err(new UserError('ArgumentIntegerInvalidNumber', 'The argument did not resolve to an integer.'));
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return err(new UserError('ArgumentStringTooShort', 'The argument is too small.'));
+			return err(new UserError('ArgumentIntegerTooSmall', 'The argument is too small.'));
 		}
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return err(new UserError('ArgumentStringTooLong', 'The argument is too big.'));
+			return err(new UserError('ArgumentIntegerTooBig', 'The argument is too big.'));
 		}
 
 		return ok(parsed);
