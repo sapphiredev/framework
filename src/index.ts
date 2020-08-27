@@ -16,6 +16,8 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
+export * from './lib/utils/logger/ILogger';
+export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerAny';
