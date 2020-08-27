@@ -9,6 +9,8 @@ import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
+import { ILogger, LogLevel } from './utils/logger/ILogger';
+import { Logger } from './utils/logger/Logger';
 import { getRootDirectory } from './utils/RootDir';
 import type { Awaited } from './utils/Types';
 
@@ -22,6 +24,12 @@ export class SapphireClient extends Client {
 	 * @since 1.0.0
 	 */
 	public id: string | null = null;
+
+	/**
+	 * The logger to be used by the framework and plugins.
+	 * @since 1.0.0
+	 */
+	public logger: ILogger;
 
 	/**
 	 * The commands the framework has registered.
@@ -52,8 +60,12 @@ export class SapphireClient extends Client {
 	 * @since 1.0.0
 	 */
 	public stores: Set<Store<Piece>>;
+
 	public constructor(options: ClientOptions = {}) {
 		super(options);
+
+		// The logger is created before plugins so they can use, or even, override it.
+		this.logger = new Logger(options.logger?.level ?? LogLevel.Warn);
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
@@ -178,6 +190,7 @@ export class SapphireClient extends Client {
 declare module 'discord.js' {
 	interface Client {
 		id: string | null;
+		logger: ILogger;
 		arguments: ArgumentStore;
 		commands: CommandStore;
 		events: EventStore;
@@ -187,5 +200,10 @@ declare module 'discord.js' {
 
 	interface ClientOptions {
 		id?: string;
+		logger?: ClientLoggerOptions;
+	}
+
+	interface ClientLoggerOptions {
+		level: LogLevel;
 	}
 }
