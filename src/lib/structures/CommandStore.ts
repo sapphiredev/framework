@@ -10,7 +10,6 @@ import { Command } from './Command';
  */
 export class CommandStore extends BaseAliasStore<Command> {
 	public constructor(client: Client) {
-		// @ts-expect-error Abstract classes are not assignable to Ctor<T>.
-		super(client, Command);
+		super(client, Command as any, { name: 'commands' });
 	}
 }

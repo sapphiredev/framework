@@ -4,7 +4,6 @@ import { BaseStore } from './base/BaseStore';
 
 export class ArgumentStore extends BaseStore<Argument> {
 	public constructor(client: Client) {
-		// @ts-expect-error Abstract classes are not assignable to Ctor<T>.
-		super(client, Argument);
+		super(client, Argument as any, { name: 'arguments' });
 	}
 }

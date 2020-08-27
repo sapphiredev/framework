@@ -9,6 +9,7 @@ import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
+import { getRootDirectory } from './utils/RootDir';
 import type { Awaited } from './utils/Types';
 
 export interface SapphirePrefixHook {
@@ -70,6 +71,11 @@ export class SapphireClient extends Client {
 			.registerStore(this.commands)
 			.registerStore(this.events)
 			.registerStore(this.preconditions);
+
+		const rootDirectory = options.rootDirectory ?? getRootDirectory();
+		for (const store of this.stores) {
+			store.registerPath(join(rootDirectory, store.name));
+		}
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
@@ -157,5 +163,6 @@ declare module 'discord.js' {
 
 	interface ClientOptions {
 		id?: string;
+		rootDirectory?: string;
 	}
 }

@@ -1,4 +1,4 @@
-import { Piece, PieceContextExtras, Store } from '@sapphire/pieces';
+import { Piece, PieceContextExtras, Store, StoreOptions } from '@sapphire/pieces';
 import type { Client } from 'discord.js';
 import { Events } from '../../types/Events';
 import type { BasePiece } from './BasePiece';
@@ -8,11 +8,12 @@ declare type Constructor<T> = new (...args: any[]) => T;
 export class BaseStore<T extends BasePiece> extends Store<T> {
 	public readonly client: Client;
 
-	public constructor(client: Client, Ctor: Constructor<T>) {
+	public constructor(client: Client, Ctor: Constructor<T>, options: StoreOptions<T>) {
 		super(Ctor, {
 			onError: (error) => client.emit(Events.Error, error),
 			onUnload: (store, piece) => client.emit(Events.PieceUnload, (store as unknown) as Store<Piece>, piece),
-			onPostLoad: (store, piece) => client.emit(Events.PiecePostLoad, (store as unknown) as Store<Piece>, piece)
+			onPostLoad: (store, piece) => client.emit(Events.PiecePostLoad, (store as unknown) as Store<Piece>, piece),
+			...options
 		});
 		this.client = client;
 	}
