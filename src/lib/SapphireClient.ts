@@ -74,8 +74,11 @@ export class SapphireClient extends Client {
 
 	public constructor(options: ClientOptions = {}) {
 		super(options);
+		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
+			plugin.hook.call(this, options);
+			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
 
-		// The logger is created before plugins so they can use, or even, override it.
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Warn);
 		this.i18n = options.i18n?.instance ?? new Internationalization(options.i18n?.defaultName ?? 'en-US');
 

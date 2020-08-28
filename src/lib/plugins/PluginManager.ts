@@ -2,7 +2,7 @@ import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
 import type { Plugin } from './Plugin';
-import { postInitialization, postLogin, preInitialization, preLogin } from './symbols';
+import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
 export interface SapphirePluginHook {
 	(this: SapphireClient, options?: ClientOptions): unknown;
@@ -23,6 +23,10 @@ export class PluginManager {
 		return this;
 	}
 
+	public registerPreGenericsInitializationHook(hook: SapphirePluginHook, name?: string) {
+		return this.registerHook(hook, PluginHook.PreGenericsInitialization, name);
+	}
+
 	public registerPreInitializationHook(hook: SapphirePluginHook, name?: string) {
 		return this.registerHook(hook, PluginHook.PreInitialization, name);
 	}
@@ -41,6 +45,7 @@ export class PluginManager {
 
 	public use(plugin: typeof Plugin) {
 		const possibleSymbolHooks: [symbol, PluginHook][] = [
+			[preGenericsInitialization, PluginHook.PreGenericsInitialization],
 			[preInitialization, PluginHook.PreInitialization],
 			[postInitialization, PluginHook.PostInitialization],
 			[preLogin, PluginHook.PreLogin],
