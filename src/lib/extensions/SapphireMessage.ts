@@ -32,3 +32,5 @@ export class SapphireMessage extends Structures.get('Message') {
 		return this.channel.send(content, options);
 	}
 }
+
+Structures.extend('Message', () => SapphireMessage);
