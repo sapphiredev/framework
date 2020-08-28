@@ -9,10 +9,15 @@ import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
+import type { IInternationalization } from './utils/i18n/IInternationalization';
+import { Internationalization } from './utils/i18n/Internationalization';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 import { getRootDirectory } from './utils/RootDir';
 import type { Awaited } from './utils/Types';
+
+// Extensions
+import './extensions/SapphireMessage';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
@@ -30,6 +35,12 @@ export class SapphireClient extends Client {
 	 * @since 1.0.0
 	 */
 	public logger: ILogger;
+
+	/**
+	 * The internationalization handler to be used by the framework and plugins.
+	 * @since 1.0.0
+	 */
+	public i18n: IInternationalization;
 
 	/**
 	 * The arguments the framework has registered.
@@ -65,7 +76,8 @@ export class SapphireClient extends Client {
 		super(options);
 
 		// The logger is created before plugins so they can use, or even, override it.
-		this.logger = new Logger(options.logger?.level ?? LogLevel.Warn);
+		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Warn);
+		this.i18n = options.i18n?.instance ?? new Internationalization(options.i18n?.defaultName ?? 'en-US');
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
@@ -191,6 +203,7 @@ declare module 'discord.js' {
 	interface Client {
 		id: string | null;
 		logger: ILogger;
+		i18n: IInternationalization;
 		arguments: ArgumentStore;
 		commands: CommandStore;
 		events: EventStore;
@@ -201,9 +214,30 @@ declare module 'discord.js' {
 	interface ClientOptions {
 		id?: string;
 		logger?: ClientLoggerOptions;
+		i18n?: ClientInternationalizationOptions;
 	}
 
 	interface ClientLoggerOptions {
-		level: LogLevel;
+		level?: LogLevel;
+		instance?: ILogger;
+	}
+
+	interface ClientInternationalizationOptions {
+		defaultName?: string;
+		instance?: IInternationalization;
+	}
+
+	interface Message {
+		fetchLanguage(): Awaited<string>;
+		fetchLanguageKey(key: string, ...values: readonly unknown[]): Promise<string>;
+
+		sendTranslated(
+			key: string,
+			values?: readonly unknown[],
+			options?: MessageOptions | (MessageOptions & { split?: false }) | MessageAdditions
+		): Promise<Message>;
+		sendTranslated(key: string, values?: readonly unknown[], options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
+		sendTranslated(key: string, options?: MessageOptions | (MessageOptions & { split?: false }) | MessageAdditions): Promise<Message>;
+		sendTranslated(key: string, options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
 	}
 }
