@@ -7,15 +7,8 @@ import { PreconditionContainerAll } from '../utils/preconditions/PreconditionCon
 import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
 import type { Awaited } from '../utils/Types';
 import { BaseAliasPiece } from './base/BaseAliasPiece';
-import type { PreconditionContext } from './Precondition';
 
-export abstract class Command extends BaseAliasPiece {
-	/**
-	 * Delete command's response if the trigger message was deleted
-	 * @since 1.0.0
-	 */
-	public deletable: boolean;
-
+export abstract class Command<T = Args> extends BaseAliasPiece {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -32,7 +25,7 @@ export abstract class Command extends BaseAliasPiece {
 	 * Longer version of command's summary and how to use it
 	 * @since 1.0.0
 	 */
-	public extendedHelp: string;
+	public detailedDescription: string;
 
 	/**
 	 * Accepted flags for the command
@@ -54,11 +47,10 @@ export abstract class Command extends BaseAliasPiece {
 	 * @param options Optional Command settings.
 	 */
 	protected constructor(context: PieceContext, { name, ...options }: CommandOptions = {}) {
-		super(context, { ...options, name: name?.toLowerCase() });
-		this.deletable = options.deletable ?? false;
+		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
+		this.detailedDescription = options.detailedDescription ?? '';
 		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
-		this.extendedHelp = options.extendedHelp ?? '';
 		this.flags = options.flags ?? [];
 		this.#lexer.setQuotes(
 			options.quotes ?? [
@@ -69,41 +61,79 @@ export abstract class Command extends BaseAliasPiece {
 		);
 	}
 
-	public preParse(message: Message, parameters: string): Awaited<unknown> {
+	/**
+	 * The pre-parse method. This method can be overriden by plugins to define their own argument parser.
+	 * @param message The message that triggered the command.
+	 * @param parameters The raw parameters as a single string.
+	 */
+	public preParse(message: Message, parameters: string): Awaited<T> {
 		const parser = new Lexure.Parser(this.#lexer.setInput(parameters).lex());
 		const args = new Lexure.Args(parser.parse());
-		return new Args(message, this, args);
+		return new Args(message, this as any, args) as any;
 	}
 
-	public abstract run(message: Message, args: unknown): Awaited<unknown>;
+	/**
+	 * Executes the command's logic.
+	 * @param message The message that triggered the command.
+	 * @param args The value returned by [[Command.preParse]], by default an instance of [[Args]].
+	 */
+	public abstract run(message: Message, args: T): Awaited<unknown>;
 
 	/**
-	 * Defines the JSON.stringify behavior of the command
-	 * @returns {Object}
+	 * Defines the JSON.stringify behavior of the command.
 	 */
 	public toJSON(): Record<string, any> {
 		return {
 			...super.toJSON(),
-			deletable: this.deletable,
 			description: this.description,
-			extendedHelp: this.extendedHelp
+			detailedDescription: this.detailedDescription,
+			flags: this.flags
 		};
 	}
 }
 
-export interface CommandPrecondition {
-	readonly name: string;
-	readonly context: Readonly<PreconditionContext>;
-}
-
-export type PreconditionResolvable = string | { name: string; context?: PreconditionContext };
-
+/**
+ * The [[Command]] options.
+ * @since 1.0.0
+ */
 export interface CommandOptions extends AliasPieceOptions {
-	bucket?: number;
-	deletable?: boolean;
+	/**
+	 * The description for the command.
+	 * @since 1.0.0
+	 * @default ''
+	 */
 	description?: string;
+
+	/**
+	 * The detailed description for the command.
+	 * @since 1.0.0
+	 * @default ''
+	 */
+	detailedDescription?: string;
+
+	/**
+	 * The [[Precondition]]s to be run, accepts an array of their names.
+	 * @since 1.0.0
+	 * @default []
+	 */
 	preconditions?: PreconditionContainerResolvable;
-	extendedHelp?: string;
+
+	/**
+	 * The accepted flags by the command.
+	 * @since 1.0.0
+	 * @default []
+	 */
 	flags?: string[];
+
+	/**
+	 * The quotes accepted by this command, pass `[]` to disable them.
+	 * @since 1.0.0
+	 * @default
+	 * [
+	 *   ['"', '"'], // Double quotes
+	 *   ['“', '”'], // Fancy quotes (on iOS)
+	 *   ['「', '」'] // Corner brackets (CJK)
+	 * ]
+	 */
 	quotes?: [string, string][];
 }
