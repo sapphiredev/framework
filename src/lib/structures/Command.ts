@@ -1,5 +1,3 @@
-// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
-
 import type { AliasPieceOptions } from '@sapphire/pieces';
 import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
 import type { Message } from 'discord.js';
