@@ -1,7 +1,6 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
-import './extensions/SapphireMessage';
 import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
@@ -16,6 +15,9 @@ import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 import { getRootDirectory } from './utils/RootDir';
 import type { Awaited } from './utils/Types';
+
+// Extensions
+import './extensions/SapphireMessage';
 
 export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
