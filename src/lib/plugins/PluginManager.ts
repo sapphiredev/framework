@@ -15,8 +15,8 @@ export interface SapphirePluginHook {
 	(this: SapphireClient, options: ClientOptions): unknown;
 }
 
-export interface SapphirePluginHookEntry {
-	hook: SapphirePluginHook | SapphirePluginAsyncHook;
+export interface SapphirePluginHookEntry<T = SapphirePluginHook | SapphirePluginAsyncHook> {
+	hook: T;
 	type: PluginHook;
 	name?: string;
 }
@@ -68,7 +68,9 @@ export class PluginManager {
 		return this;
 	}
 
-	public *values(hook?: PluginHook) {
+	public values(hook?: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
+	public values(hook?: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
+	public *values(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
 		for (const plugin of this.registry) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
