@@ -7,9 +7,12 @@ import { postInitialization, postLogin, preGenericsInitialization, preInitializa
 export interface SapphirePluginHook {
 	(this: SapphireClient, options: ClientOptions): unknown;
 }
+export interface SapphirePluginAsyncHook {
+	(this: SapphireClient, options: ClientOptions): Promise<unknown>;
+}
 
 export interface SapphirePluginHookEntry {
-	hook: SapphirePluginHook;
+	hook: SapphirePluginHook | SapphirePluginAsyncHook;
 	type: PluginHook;
 	name?: string;
 }
@@ -17,7 +20,7 @@ export interface SapphirePluginHookEntry {
 export class PluginManager {
 	public readonly registry = new Set<SapphirePluginHookEntry>();
 
-	public registerHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
+	public registerHook(hook: SapphirePluginHook | SapphirePluginAsyncHook, type: PluginHook, name?: string) {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
 		this.registry.add({ hook, type, name });
 		return this;
@@ -35,11 +38,11 @@ export class PluginManager {
 		return this.registerHook(hook, PluginHook.PostInitialization, name);
 	}
 
-	public registerPreLoginHook(hook: SapphirePluginHook, name?: string) {
+	public registerPreLoginHook(hook: SapphirePluginAsyncHook, name?: string) {
 		return this.registerHook(hook, PluginHook.PreLogin, name);
 	}
 
-	public registerPostLoginHook(hook: SapphirePluginHook, name?: string) {
+	public registerPostLoginHook(hook: SapphirePluginAsyncHook, name?: string) {
 		return this.registerHook(hook, PluginHook.PostLogin, name);
 	}
 

@@ -7,6 +7,6 @@ export abstract class Plugin {
 	public static [preGenericsInitialization]?: (this: SapphireClient, options: ClientOptions) => void;
 	public static [preInitialization]?: (this: SapphireClient, options: ClientOptions) => void;
 	public static [postInitialization]?: (this: SapphireClient, options: ClientOptions) => void;
-	public static [preLogin]?: (this: SapphireClient, options: ClientOptions) => void;
-	public static [postLogin]?: (this: SapphireClient, options: ClientOptions) => void;
+	public static [preLogin]?: (this: SapphireClient, options: ClientOptions) => Promise<void>;
+	public static [postLogin]?: (this: SapphireClient, options: ClientOptions) => Promise<void>;
 }

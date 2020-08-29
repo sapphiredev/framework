@@ -2,7 +2,7 @@ import type { Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
-import { PluginManager } from './plugins/PluginManager';
+import { PluginManager, SapphirePluginAsyncHook } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
@@ -178,17 +178,17 @@ export class SapphireClient extends Client {
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
-			plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		for (const { hook, type, name } of SapphireClient.plugins.values(PluginHook.PreLogin)) {
+			await (hook as SapphirePluginAsyncHook).call(this, this.options);
+			this.emit(Events.PluginLoaded, type, name);
 		}
 
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
-			plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		for (const { hook, type, name } of SapphireClient.plugins.values(PluginHook.PostLogin)) {
+			await (hook as SapphirePluginAsyncHook).call(this, this.options);
+			this.emit(Events.PluginLoaded, type, name);
 		}
 
 		return login;
