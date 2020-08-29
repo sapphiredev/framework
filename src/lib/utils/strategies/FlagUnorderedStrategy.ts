@@ -10,7 +10,9 @@ export const flagUnorderedStrategy: UnorderedStrategy = {
 	*/
 	matchFlag(s: string): string | null {
 		const fullFlag = fullFlagIndicators.includes(s.substr(0, 2));
-		return (fullFlag || singleFlagIndicators.includes(s.substr(0, 1))) && s.includes('=') ? s.substr(fullFlag ? 2 : 1).toLowerCase() : null;
+		return (fullFlag || (singleFlagIndicators.includes(s.substr(0, 1)) && s.length === 2)) && !s.includes('=')
+			? s.substr(fullFlag ? 2 : 1).toLowerCase()
+			: null;
 	},
 
 	matchOption(s: string): string | null {
