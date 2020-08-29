@@ -5,7 +5,7 @@ import type { Plugin } from './Plugin';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
 export interface SapphirePluginHook {
-	(this: SapphireClient, options?: ClientOptions): unknown;
+	(this: SapphireClient, options: ClientOptions): unknown;
 }
 
 export interface SapphirePluginHookEntry {

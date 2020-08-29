@@ -179,7 +179,7 @@ export class SapphireClient extends Client {
 	 */
 	public async login(token?: string) {
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
-			plugin.hook.call(this);
+			plugin.hook.call(this, this.options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 
@@ -187,7 +187,7 @@ export class SapphireClient extends Client {
 		const login = await super.login(token);
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
-			plugin.hook.call(this);
+			plugin.hook.call(this, this.options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 
