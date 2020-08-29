@@ -23,6 +23,6 @@ export const flagUnorderedStrategy: UnorderedStrategy = {
 		const index = s.indexOf('=');
 		if (!fullFlagIndicators.includes(s.substr(0, 2)) || index < 0) return null;
 
-		return [s.slice(2, index).toLowerCase(), s.slice(index)];
+		return [s.slice(2, index).toLowerCase(), s.slice(index + 1)];
 	}
 };
