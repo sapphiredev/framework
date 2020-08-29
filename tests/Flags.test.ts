@@ -1,5 +1,5 @@
 import { Lexer, Parser } from 'lexure';
-import { flagUnorderedStrategy } from '../src/lib/utils/strategies/FlagUnorderedStrategy';
+import { FlagStrategy } from '../src/lib/utils/strategies/FlagUnorderedStrategy';
 
 const parse = (testString: string) => {
 	return new Parser(
@@ -11,7 +11,7 @@ const parse = (testString: string) => {
 			])
 			.lex()
 	)
-		.setUnorderedStrategy(flagUnorderedStrategy)
+		.setUnorderedStrategy(new FlagStrategy(['f', 'hello']))
 		.parse();
 };
 

@@ -1,33 +1,47 @@
 import type { UnorderedStrategy } from 'lexure';
 
-const optionHyphens = ['—', '--'];
-const flagHyphens = ['—', '-'];
+export class FlagStrategy implements UnorderedStrategy {
+	public readonly flags: ReadonlySet<string>;
+	public readonly optionHyphens = ['—', '--'];
+	public readonly flagHyphens = ['—', '-'];
+	private readonly kHyphenRegex = /(?:-|—){1,2}/;
 
-const startsWith = (arr: string[], str: string) => {
-	for (const i of arr) {
-		if (str.startsWith(i)) return true;
+	public constructor(flags: readonly string[]) {
+		this.flags = new Set(flags);
 	}
-	return false;
-};
-export const flagUnorderedStrategy: UnorderedStrategy = {
-	/* Note for future explorers
-	   FLAGS: booleans (example: --yes, -y), WIHTOUT an equal sign(=)
-	   OPTIONS: **double**-dashed flags with options (example: --idiot=enkiel), but only return the NAME
-	   COMPACT OPTIONS: Options with their values
-	*/
-	matchFlag(s: string): string | null {
-		const fullFlag = startsWith(optionHyphens, s);
-		return (fullFlag || (startsWith(flagHyphens, s) && s.length === 2)) && !s.includes('=') ? s.substr(fullFlag ? 2 : 1).toLowerCase() : null;
-	},
 
-	matchOption(s: string): string | null {
-		return startsWith(optionHyphens, s) && !s.includes('=') ? s.slice(1, -1).toLowerCase() : null;
-	},
+	public matchFlag(s: string): string | null {
+		return (this.startsWithArrayString(this.optionHyphens, s) ||
+			(this.startsWithArrayString(this.flagHyphens, s) && s.length === 2 && !s.includes('='))) &&
+			this.flags.has(this.getFlagName(s))
+			? this.getFlagName(s)
+			: null;
+	}
 
-	matchCompactOption(s: string): [string, string] | null {
+	public matchOption(s: string): string | null {
+		return this.startsWithArrayString(this.optionHyphens, s) && s.includes('=') && this.flags.has(this.getFlagName(s))
+			? this.getFlagName(s)
+			: null;
+	}
+
+	public matchCompactOption(s: string): [string, string] | null {
 		const index = s.indexOf('=');
-		if (!startsWith(optionHyphens, s) || index < 0) return null;
+		if (!this.startsWithArrayString(this.optionHyphens, s) || index < 0) return null;
 
-		return [s.slice(2, index).toLowerCase(), s.slice(index + 1)];
+		const flagName = this.getFlagName(s.substr(0, index));
+		if (!this.flags.has(flagName)) return null;
+
+		return [this.getFlagName(s.substr(0, index)), s.substr(index + 1)];
 	}
-};
+
+	private startsWithArrayString(arr: string[], s: string) {
+		for (const i of arr) {
+			if (s.startsWith(i)) return true;
+		}
+		return false;
+	}
+
+	private getFlagName(s: string) {
+		return s.replace(this.kHyphenRegex, '').toLowerCase();
+	}
+}
