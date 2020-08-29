@@ -1,3 +1,4 @@
+export const preGenericsInitialization: unique symbol = Symbol('SapphireFrameworkPluginsPreGenericsInitialization');
 export const preInitialization: unique symbol = Symbol('SapphireFrameworkPluginsPreInitialization');
 export const postInitialization: unique symbol = Symbol('SapphireFrameworkPluginsPostInitialization');
 

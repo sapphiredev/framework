@@ -4,7 +4,8 @@
 		"rootDir": "./",
 		"outDir": "../dist",
 		"composite": true,
-		"preserveConstEnums": true
+		"preserveConstEnums": true,
+		"useDefineForClassFields": false
 	},
 	"include": ["."]
 }
