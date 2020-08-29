@@ -1,15 +1,22 @@
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
+import type { Awaited } from '../utils/Types';
 import type { Plugin } from './Plugin';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
-export interface SapphirePluginHook {
-	(this: SapphireClient, options?: ClientOptions): unknown;
+export type AsyncPluginHooks = PluginHook.PreLogin | PluginHook.PostLogin;
+export interface SapphirePluginAsyncHook {
+	(this: SapphireClient, options: ClientOptions): Awaited<unknown>;
 }
 
-export interface SapphirePluginHookEntry {
-	hook: SapphirePluginHook;
+export type SyncPluginHooks = Exclude<PluginHook, AsyncPluginHooks>;
+export interface SapphirePluginHook {
+	(this: SapphireClient, options: ClientOptions): unknown;
+}
+
+export interface SapphirePluginHookEntry<T = SapphirePluginHook | SapphirePluginAsyncHook> {
+	hook: T;
 	type: PluginHook;
 	name?: string;
 }
@@ -17,7 +24,9 @@ export interface SapphirePluginHookEntry {
 export class PluginManager {
 	public readonly registry = new Set<SapphirePluginHookEntry>();
 
-	public registerHook(hook: SapphirePluginHook, type: PluginHook, name?: string) {
+	public registerHook(hook: SapphirePluginHook, type: SyncPluginHooks, name?: string): this;
+	public registerHook(hook: SapphirePluginAsyncHook, type: AsyncPluginHooks, name?: string): this;
+	public registerHook(hook: SapphirePluginHook | SapphirePluginAsyncHook, type: PluginHook, name?: string): this {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
 		this.registry.add({ hook, type, name });
 		return this;
@@ -35,11 +44,11 @@ export class PluginManager {
 		return this.registerHook(hook, PluginHook.PostInitialization, name);
 	}
 
-	public registerPreLoginHook(hook: SapphirePluginHook, name?: string) {
+	public registerPreLoginHook(hook: SapphirePluginAsyncHook, name?: string) {
 		return this.registerHook(hook, PluginHook.PreLogin, name);
 	}
 
-	public registerPostLoginHook(hook: SapphirePluginHook, name?: string) {
+	public registerPostLoginHook(hook: SapphirePluginAsyncHook, name?: string) {
 		return this.registerHook(hook, PluginHook.PostLogin, name);
 	}
 
@@ -52,14 +61,17 @@ export class PluginManager {
 			[postLogin, PluginHook.PostLogin]
 		];
 		for (const [hookSymbol, hookType] of possibleSymbolHooks) {
-			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook;
+			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook | SapphirePluginAsyncHook;
 			if (typeof hook !== 'function') continue;
-			this.registerHook(hook, hookType);
+			this.registerHook(hook, hookType as any);
 		}
 		return this;
 	}
 
-	public *values(hook?: PluginHook) {
+	public values(): Generator<SapphirePluginHookEntry, void, unknown>;
+	public values(hook: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
+	public values(hook: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
+	public *values(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
 		for (const plugin of this.registry) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;

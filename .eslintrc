@@ -1,5 +1,5 @@
 {
-	"extends": ["@sapphire", "plugin:prettier/recommended"],
+	"extends": "@sapphire",
 	"rules": {
 		"@typescript-eslint/naming-convention": 0
 	}
