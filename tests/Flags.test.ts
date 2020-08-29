@@ -16,6 +16,9 @@ const parse = (testString: string) => {
 };
 
 describe('Flag parsing strategy', () => {
+	test('GIVEN typeof FlagStrategy RETURNS function', () => {
+		expect(typeof FlagStrategy).toBe('function');
+	});
 	test('GIVEN signle-hypen flag RETURNS flag', () => {
 		const { flags, options } = parse('-f');
 		expect(flags.size).toBe(1);
