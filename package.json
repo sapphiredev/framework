@@ -25,8 +25,8 @@
 	},
 	"dependencies": {
 		"@klasa/ratelimits": "^0.1.0",
-		"@sapphire/utilities": "github:sapphire-project/utilities#build-utilities",
 		"@sapphire/pieces": "github:sapphire-project/pieces#build",
+		"@sapphire/utilities": "github:sapphire-project/utilities#build-utilities",
 		"lexure": "^0.17.0"
 	},
 	"peerDependencies": {
@@ -38,15 +38,10 @@
 		"@sapphire/eslint-config": "github:sapphire-project/utilities#build-eslint-config",
 		"@sapphire/ts-config": "github:sapphire-project/utilities#build-tsconfig",
 		"@types/jest": "^26.0.10",
-		"@types/node": "^14.6.1",
+		"@types/node": "^14.6.2",
 		"@types/ws": "^7.2.6",
-		"@typescript-eslint/eslint-plugin": "^3.10.1",
-		"@typescript-eslint/parser": "^3.10.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^12.3.1",
-		"eslint": "^7.7.0",
-		"eslint-config-prettier": "^6.11.0",
-		"eslint-plugin-prettier": "^3.1.4",
 		"husky": "^4.2.5",
 		"jest": "^26.4.2",
 		"jest-circus": "^26.4.2",
@@ -55,7 +50,7 @@
 		"pretty-quick": "^3.0.0",
 		"standard-version": "^9.0.0",
 		"ts-jest": "^26.3.0",
-		"typedoc": "^0.18.0",
+		"typedoc": "^0.19.0",
 		"typescript": "^4.0.2"
 	},
 	"repository": {
