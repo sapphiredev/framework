@@ -1,14 +1,18 @@
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
+import type { Awaited } from '../utils/Types';
 import type { Plugin } from './Plugin';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
+export type AsyncPluginHooks = PluginHook.PreLogin | PluginHook.PostLogin;
+export interface SapphirePluginAsyncHook {
+	(this: SapphireClient, options: ClientOptions): Awaited<unknown>;
+}
+
+export type SyncPluginHooks = Exclude<PluginHook, AsyncPluginHooks>;
 export interface SapphirePluginHook {
 	(this: SapphireClient, options: ClientOptions): unknown;
-}
-export interface SapphirePluginAsyncHook {
-	(this: SapphireClient, options: ClientOptions): Promise<unknown>;
 }
 
 export interface SapphirePluginHookEntry {
@@ -20,7 +24,9 @@ export interface SapphirePluginHookEntry {
 export class PluginManager {
 	public readonly registry = new Set<SapphirePluginHookEntry>();
 
-	public registerHook(hook: SapphirePluginHook | SapphirePluginAsyncHook, type: PluginHook, name?: string) {
+	public registerHook(hook: SapphirePluginHook, type: SyncPluginHooks, name?: string): this;
+	public registerHook(hook: SapphirePluginAsyncHook, type: AsyncPluginHooks, name?: string): this;
+	public registerHook(hook: SapphirePluginHook | SapphirePluginAsyncHook, type: PluginHook, name?: string): this {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
 		this.registry.add({ hook, type, name });
 		return this;
@@ -55,9 +61,9 @@ export class PluginManager {
 			[postLogin, PluginHook.PostLogin]
 		];
 		for (const [hookSymbol, hookType] of possibleSymbolHooks) {
-			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook;
+			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook | SapphirePluginAsyncHook;
 			if (typeof hook !== 'function') continue;
-			this.registerHook(hook, hookType);
+			this.registerHook(hook, hookType as any);
 		}
 		return this;
 	}
