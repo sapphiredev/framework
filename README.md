@@ -1,4 +1,10 @@
-<div style="text-align:center;"><h1>Sapphire - A pleasant Discord Bot framework</h1></div>
+<div align="center">
+
+![Sapphire Logo](https://cdn.skyra.pw/gh-assets/sapphire.png)
+
+# Sapphire
+
+A pleasant Discord Bot framework</h4>
 
 [![GitHub](https://img.shields.io/github/license/sapphire-project/framework)](https://github.com/sapphire-project/framework/blob/main/LICENSE.md)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/alerts/)
@@ -7,27 +13,31 @@
 [![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
 [![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-project/framework?project_id=14147)
 
-Discord bot framework built on top of [@sapphire/lib] for advanced and amazing bots.
+</div>
 
-**Much of the code in this repository is based on the ideas in [klasa]. This project would not exist without it.**
+---
+
+## Description
+
+Sapphire is a Discord bot framework built on top of [discord.js](https://github.com/discordjs/discord.js) for advance and amazing bots.
+
+**Much of the code in this repository is inspired and based on the ideas from [klasa].**
 
 ## Features
 
--   This
--   Needs
--   Some
--   More
--   Filling
--   In
+-   Written in TypeScript
+-   Command Handler, Arguments, Pre-conditions and Events Store
+-   Completely Modular and Extendable
+-   Advance Plugins Support
+-   Complete i18n Integration
 
 ## API Documentation
 
-For the full API documentation please refer to [the TypeDoc generated documentation](https://sapphire-project.github.io/framework)
+For the full API documentation please refer to the TypeDoc generated [documentation](https://sapphire-project.github.io/framework).
 
 ## Buy us some doughnuts
 
-Sapphire Project is open source and always will be, even if we don't get donations. That said, we know there are amazing people who
-may still want to donate just to show their appreciation. Thanks you very much in advance!
+Sapphire Project is and always will be open source, even if we don't get donations. That being said, we know there are amazing people who may still want to donate just to show their appreciation. Thanks you very much in advance!
 
 We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttoms below to donate through your method of choice.
 
@@ -57,6 +67,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
