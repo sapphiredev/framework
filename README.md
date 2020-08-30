@@ -1,4 +1,4 @@
-<div style="text-align:center;">
+<div align="center">
 
 ![Sapphire Logo](https://i.imgur.com/4BB7v1b.png)
 
