@@ -2,36 +2,36 @@ import type { UnorderedStrategy } from 'lexure';
 
 export class FlagStrategy implements UnorderedStrategy {
 	public readonly flags: ReadonlySet<string>;
-	public readonly optionHyphens = ['—', '--'];
-	public readonly flagHyphens = ['—', '-'];
-	private readonly kHyphenRegex = /(?:-|—){1,2}/;
+	public readonly flagPrefixes;
+	private readonly letterRegex = /[a-zA-Z0-9=]{1,}/g;
 
-	public constructor(flags: readonly string[]) {
+	public constructor(flags: readonly string[], flagPrefixes = ['--', '-', '—']) {
 		this.flags = new Set(flags);
+		this.flagPrefixes = flagPrefixes;
 	}
 
 	public matchFlag(s: string): string | null {
-		return (this.startsWithArrayString(this.optionHyphens, s) ||
-			(this.startsWithArrayString(this.flagHyphens, s) && s.length === 2 && !s.includes('='))) &&
-			this.flags.has(this.getFlagName(s))
-			? this.getFlagName(s)
-			: null;
+		const flagName = this.getFlagName(s);
+		const result = this.startsWithArrayString(this.flagPrefixes, s);
+		return result && !s.includes('=') && flagName && this.flags.has(flagName) ? this.getFlagName(s) : null;
 	}
 
 	public matchOption(s: string): string | null {
-		return this.startsWithArrayString(this.optionHyphens, s) && s.includes('=') && this.flags.has(this.getFlagName(s))
+		const flagName = this.getFlagName(s);
+		return this.startsWithArrayString(this.flagPrefixes, s) && s.includes('=') && flagName && this.flags.has(flagName)
 			? this.getFlagName(s)
 			: null;
 	}
 
 	public matchCompactOption(s: string): [string, string] | null {
 		const index = s.indexOf('=');
-		if (!this.startsWithArrayString(this.optionHyphens, s) || index < 0) return null;
+		if (!this.startsWithArrayString(this.flagPrefixes, s) || index < 0) return null;
 
 		const flagName = this.getFlagName(s.substr(0, index));
-		if (!this.flags.has(flagName)) return null;
+		if (!flagName || !this.flags.has(flagName)) return null;
 
-		return [this.getFlagName(s.substr(0, index)), s.substr(index + 1)];
+		const value = s.substr(index + 1);
+		return [flagName, value];
 	}
 
 	private startsWithArrayString(arr: string[], s: string) {
@@ -42,6 +42,8 @@ export class FlagStrategy implements UnorderedStrategy {
 	}
 
 	private getFlagName(s: string) {
-		return s.replace(this.kHyphenRegex, '').toLowerCase();
+		const clone = s;
+		const res = this.letterRegex.exec(clone);
+		return res === null ? null : res[0].toLowerCase();
 	}
 }
