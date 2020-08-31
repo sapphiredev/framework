@@ -28,27 +28,6 @@ jobs:
             - name: Run ESLint
               uses: icrawl/action-eslint@v1
 
-    Formatting:
-        name: Prettier Formatting
-        runs-on: ubuntu-latest
-        if: "!contains(github.event.head_commit.message, '[skip ci]')"
-        steps:
-            - name: Checkout Project
-              uses: actions/checkout@v2
-            - name: Use Node.js 12
-              uses: actions/setup-node@v1
-              with:
-                  node-version: 12
-            - name: Restore CI Cache
-              uses: actions/cache@v1
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
-            - name: Install Dependencies
-              run: yarn --ignore-scripts --frozen-lockfile
-            - name: Run Prettier check
-              run: yarn format:check
-
     Testing:
         name: Unit Tests
         runs-on: ubuntu-latest
