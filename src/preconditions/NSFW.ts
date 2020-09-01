@@ -8,6 +8,8 @@ export class CorePrecondition extends Precondition {
 	public run(message: Message): Awaited<Result<unknown, UserError>> {
 		// `nsfw` is undefined in DMChannel, doing `=== true`
 		// will result on it returning`false`.
-		return Reflect.get(message.channel, 'nsfw') === true ? err(new UserError(this.name, 'You cannot run this command in DMs.')) : ok();
+		return Reflect.get(message.channel, 'nsfw') === true
+			? err(new UserError(this.name, 'You cannot run this command outside NSFW channels.'))
+			: ok();
 	}
 }
