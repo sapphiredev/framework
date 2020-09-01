@@ -6,6 +6,6 @@ import type { Awaited } from '../lib/utils/Types';
 
 export class CorePrecondition extends Precondition {
 	public run(message: Message): Awaited<Result<unknown, UserError>> {
-		return message.guild === null ? err(new UserError(this.name, 'You cannot run this command outside DMs.')) : ok();
+		return message.guild === null ? ok() : err(new UserError(this.name, 'You cannot run this command outside DMs.'));
 	}
 }
