@@ -4,7 +4,7 @@
 
 # Sapphire
 
-A pleasant Discord Bot framework</h4>
+**A pleasant Discord Bot framework**
 
 [![GitHub](https://img.shields.io/github/license/sapphire-project/framework)](https://github.com/sapphire-project/framework/blob/main/LICENSE.md)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/alerts/)
