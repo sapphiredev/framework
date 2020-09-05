@@ -25,7 +25,7 @@
 	"dependencies": {
 		"@klasa/ratelimits": "^0.1.0",
 		"@sapphire/pieces": "github:sapphire-project/pieces#build",
-		"@sapphire/utilities": "github:sapphire-project/utilities#build-utilities",
+		"@sapphire/utilities": "^1.0.0",
 		"lexure": "^0.17.0"
 	},
 	"peerDependencies": {
@@ -34,8 +34,8 @@
 	"devDependencies": {
 		"@commitlint/cli": "^9.1.2",
 		"@commitlint/config-conventional": "^9.1.2",
-		"@sapphire/eslint-config": "github:sapphire-project/utilities#build-eslint-config",
-		"@sapphire/ts-config": "github:sapphire-project/utilities#build-tsconfig",
+		"@sapphire/eslint-config": "^1.0.1",
+		"@sapphire/ts-config": "^1.0.0",
 		"@types/jest": "^26.0.10",
 		"@types/node": "^14.6.2",
 		"@types/ws": "^7.2.6",
