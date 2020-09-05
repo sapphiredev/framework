@@ -19,7 +19,7 @@ A pleasant Discord Bot framework</h4>
 
 ## Description
 
-Sapphire is a Discord bot framework built on top of [discord.js] for advance and amazing bots.
+Sapphire is a Discord bot framework built on top of [discord.js] for advanced and amazing bots.
 
 **Much of the code in this repository is inspired and based on the ideas from [klasa].**
 
