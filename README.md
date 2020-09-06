@@ -4,7 +4,7 @@
 
 # Sapphire
 
-A pleasant Discord Bot framework</h4>
+**A pleasant Discord Bot framework**
 
 [![GitHub](https://img.shields.io/github/license/sapphire-project/framework)](https://github.com/sapphire-project/framework/blob/main/LICENSE.md)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/sapphire-project/framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/sapphire-project/framework/alerts/)
@@ -19,7 +19,7 @@ A pleasant Discord Bot framework</h4>
 
 ## Description
 
-Sapphire is a Discord bot framework built on top of [discord.js](https://github.com/discordjs/discord.js) for advance and amazing bots.
+Sapphire is a Discord bot framework built on top of [discord.js] for advanced and amazing bots.
 
 **Much of the code in this repository is inspired and based on the ideas from [klasa].**
 
@@ -37,7 +37,7 @@ For the full API documentation please refer to the TypeDoc generated [documentat
 
 ## Buy us some doughnuts
 
-Sapphire Project is and always will be open source, even if we don't get donations. That being said, we know there are amazing people who may still want to donate just to show their appreciation. Thanks you very much in advance!
+Sapphire Project is and always will be open source, even if we don't get donations. That being said, we know there are amazing people who may still want to donate just to show their appreciation. Thank you very much in advance!
 
 We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttons below to donate through your method of choice.
 
@@ -72,6 +72,5 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-[@sapphire/lib]: https://github.com/sapphire-project/lib
-[@skyra/framework]: https://github.com/sapphire-project/framework
+[discord.js]: https://github.com/discordjs/discord.js
 [klasa]: https://github.com/dirigeants/klasa
