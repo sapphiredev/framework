@@ -1,4 +1,5 @@
 export { LoaderError, MissingExportsError, PieceContext } from '@sapphire/pieces';
+export * from './lib/errors/ArgumentError';
 export * from './lib/errors/UserError';
 export * from './lib/extensions/SapphireMessage';
 export * from './lib/plugins/Plugin';

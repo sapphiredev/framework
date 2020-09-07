@@ -1,5 +1,6 @@
 import type { Message } from 'discord.js';
 import type * as Lexure from 'lexure';
+import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, IArgument } from '../structures/Argument';
 import type { Command } from '../structures/Command';
@@ -327,8 +328,29 @@ export class Args {
 	 * Converts a callback into an usable argument.
 	 * @param cb The callback to convert into an [[IArgument]].
 	 */
-	public static make<T>(cb: IArgument<T>['run']): IArgument<T> {
-		return { run: cb };
+	public static make<T>(cb: IArgument<T>['run'], name = ''): IArgument<T> {
+		return { run: cb, name };
+	}
+
+	/**
+	 * Constructs an [[ArgumentError]] with [[ArgumentError#type]] set to the [[IArgument<T>#name]].
+	 * @param argument The argument that caused the rejection.
+	 * @param parameter The parameter that triggered the argument.
+	 * @param message The description message for the rejection.
+	 */
+	public static error<T>(argument: IArgument<T>, parameter: string, message: string): ArgumentError<T>;
+	/**
+	 * Constructs an [[ArgumentError]] with a custom type.
+	 * @param argument The argument that caused the rejection.
+	 * @param parameter The parameter that triggered the argument.
+	 * @param type The identifier for the error.
+	 * @param message The description message for the rejection.
+	 */
+	// eslint-disable-next-line @typescript-eslint/unified-signatures
+	public static error<T>(argument: IArgument<T>, parameter: string, type: string, message: string): ArgumentError<T>;
+	public static error<T>(argument: IArgument<T>, parameter: string, typeOrMessage: string, rawMessage?: string): ArgumentError<T> {
+		const [type, message] = typeof rawMessage === 'undefined' ? [argument.name, typeOrMessage] : [typeOrMessage, rawMessage];
+		return new ArgumentError<T>(argument, parameter, type, message);
 	}
 }
 

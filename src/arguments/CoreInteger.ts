@@ -1,27 +1,24 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { UserError } from '../lib/errors/UserError';
-import { Argument, ArgumentContext } from '../lib/structures/Argument';
-import { err, ok, Result } from '../lib/utils/Result';
-import type { Awaited } from '../lib/utils/Types';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends Argument {
+export class CoreArgument extends Argument<number> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'integer' });
 	}
 
-	public run(argument: string, context: ArgumentContext): Awaited<Result<number, UserError>> {
+	public run(argument: string, context: ArgumentContext): ArgumentResult<number> {
 		const parsed = Number(argument);
 
 		if (!Number.isInteger(parsed)) {
-			return err(new UserError('ArgumentIntegerInvalidNumber', 'The argument did not resolve to an integer.'));
+			return this.error(argument, 'ArgumentIntegerInvalidNumber', 'The argument did not resolve to an integer.');
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return err(new UserError('ArgumentIntegerTooSmall', 'The argument is too small.'));
+			return this.error(argument, 'ArgumentIntegerTooSmall', 'The argument is too small.');
 		}
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return err(new UserError('ArgumentIntegerTooBig', 'The argument is too big.'));
+			return this.error(argument, 'ArgumentIntegerTooBig', 'The argument is too big.');
 		}
 
-		return ok(parsed);
+		return this.ok(parsed);
 	}
 }
