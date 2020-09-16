@@ -5,7 +5,7 @@ import * as Lexure from 'lexure';
 import { Args } from '../utils/Args';
 import { PreconditionContainerAll } from '../utils/preconditions/PreconditionContainer';
 import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
-import { flagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
+import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 import type { Awaited } from '../utils/Types';
 import { BaseAliasPiece } from './base/BaseAliasPiece';
 
@@ -29,10 +29,10 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 	public detailedDescription: string;
 
 	/**
-	 * Accepted flags for the command
+	 * The strategy to use for the lexer.
 	 * @since 1.0.0
 	 */
-	public flags: string[];
+	public strategy: Lexure.UnorderedStrategy;
 
 	/**
 	 * The lexer to be used for command parsing
@@ -52,7 +52,7 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
-		this.flags = options.flags ?? [];
+		this.strategy = new FlagUnorderedStrategy(options.strategyOptions ?? {});
 		this.#lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -68,7 +68,7 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 	 * @param parameters The raw parameters as a single string.
 	 */
 	public preParse(message: Message, parameters: string): Awaited<T> {
-		const parser = new Lexure.Parser(this.#lexer.setInput(parameters).lex()).setUnorderedStrategy(flagUnorderedStrategy);
+		const parser = new Lexure.Parser(this.#lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args) as any;
 	}
@@ -88,7 +88,7 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 			...super.toJSON(),
 			description: this.description,
 			detailedDescription: this.detailedDescription,
-			flags: this.flags
+			strategy: this.strategy
 		};
 	}
 }
@@ -120,11 +120,11 @@ export interface CommandOptions extends AliasPieceOptions {
 	preconditions?: PreconditionContainerResolvable;
 
 	/**
-	 * The accepted flags by the command.
+	 * The options for the lexer strategy.
 	 * @since 1.0.0
-	 * @default []
+	 * @default {}
 	 */
-	flags?: string[];
+	strategyOptions?: FlagStrategyOptions;
 
 	/**
 	 * The quotes accepted by this command, pass `[]` to disable them.

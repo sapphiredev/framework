@@ -1,8 +1,8 @@
 import { Lexer, Parser } from 'lexure';
-import { FlagStrategy } from '../src/lib/utils/strategies/FlagUnorderedStrategy';
+import { FlagUnorderedStrategy } from '../src/lib/utils/strategies/FlagUnorderedStrategy';
 
-const parse = (testString: string) => {
-	return new Parser(
+const parse = (testString: string) =>
+	new Parser(
 		new Lexer(testString)
 			.setQuotes([
 				['"', '"'],
@@ -11,71 +11,64 @@ const parse = (testString: string) => {
 			])
 			.lex()
 	)
-		.setUnorderedStrategy(new FlagStrategy(['f', 'hello']))
+		.setUnorderedStrategy(new FlagUnorderedStrategy({ flags: ['f', 'hello'], options: ['o', 'option'] }))
 		.parse();
-};
 
 describe('Flag parsing strategy', () => {
 	test('GIVEN typeof FlagStrategy RETURNS function', () => {
-		expect(typeof FlagStrategy).toBe('function');
+		expect(typeof FlagUnorderedStrategy).toBe('function');
 	});
-	test('GIVEN signle-hypen flag RETURNS flag', () => {
+	test('GIVEN value-less flag RETURNS flag', () => {
 		const { flags, options } = parse('-f');
 		expect(flags.size).toBe(1);
 		expect([...flags]).toStrictEqual(['f']);
 		expect(options.size).toBe(0);
 	});
 
-	test('GIVEN signle-hypen flag inside text RETURNS flag', () => {
+	test('GIVEN value-less flag inside text RETURNS flag', () => {
 		const { flags, options } = parse('commit "hello there" -f');
 		expect(flags.size).toBe(1);
 		expect([...flags]).toStrictEqual(['f']);
 		expect(options.size).toBe(0);
 	});
 
-	test('GIVEN double-hyphen option without value RETURNS flag', () => {
-		const { flags, options } = parse('--hello');
-		expect(flags.size).toBe(1);
-		expect([...flags]).toStrictEqual(['hello']);
-		expect(options.size).toBe(0);
-	});
-	test('GIVEN double-hyphen option without value inside text RETURNS flag', () => {
-		const { flags, options } = parse('mention --hello');
-		expect(flags.size).toBe(1);
-		expect([...flags]).toStrictEqual(['hello']);
+	test('GIVEN flag with value RETURNS flag', () => {
+		const { flags, options } = parse('-f=hi');
+		expect(flags.size).toBe(0);
 		expect(options.size).toBe(0);
 	});
 
-	test('GIVEN double-hyphen option with value RETURNS option', () => {
-		const { flags, options } = parse('--hello=world');
+	test('GIVEN flag with value inside text RETURNS flag', () => {
+		const { flags, options } = parse('commit "hello there" -f=hi');
 		expect(flags.size).toBe(0);
-		expect(options.size).toBe(1);
-		expect(options.has('hello')).toBe(true);
-		expect(options.get('hello')).toStrictEqual(['world']);
+		expect(options.size).toBe(0);
 	});
 
-	test('GIVEN double-hyphen option inside text with value RETURNS option', () => {
-		const { flags, options } = parse('command --hello=world');
+	test('GIVEN option with value RETURNS option', () => {
+		const { flags, options } = parse('--option=world');
 		expect(flags.size).toBe(0);
 		expect(options.size).toBe(1);
-		expect(options.has('hello')).toBe(true);
-		expect(options.get('hello')).toStrictEqual(['world']);
+		expect(options.has('option')).toBe(true);
+		expect(options.get('option')).toStrictEqual(['world']);
+	});
+
+	test('GIVEN option with value inside text RETURNS option', () => {
+		const { flags, options } = parse('command --option=world');
+		expect(flags.size).toBe(0);
+		expect(options.size).toBe(1);
+		expect(options.has('option')).toBe(true);
+		expect(options.get('option')).toStrictEqual(['world']);
 	});
 
 	test('GIVEN double-hyphen option with multiple occurences inside text with value RETURNS option with multiple values', () => {
-		const { flags, options } = parse('command --hello=world --hello=sammy');
+		const { flags, options } = parse('command --option=world --option=sammy');
 		expect(flags.size).toBe(0);
 		expect(options.size).toBe(1);
-		expect(options.has('hello')).toBe(true);
-		expect(options.get('hello')).toStrictEqual(['world', 'sammy']);
-	});
-	test('GIVEN signle-hypen multiple-character flag RETURNS nothing', () => {
-		const { flags, options } = parse('-flags');
-		expect(flags.size).toBe(0);
-		expect(options.size).toBe(0);
+		expect(options.has('option')).toBe(true);
+		expect(options.get('option')).toStrictEqual(['world', 'sammy']);
 	});
 
-	test('GIVEN signle-hypen flag inside quotes RETURNS nothing', () => {
+	test('GIVEN single-hypen flag inside quotes RETURNS nothing', () => {
 		const { flags, options } = parse('commit "hello there -f"');
 		expect(flags.size).toBe(0);
 		expect(options.size).toBe(0);

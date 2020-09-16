@@ -1,49 +1,98 @@
 import type { UnorderedStrategy } from 'lexure';
 
-export class FlagStrategy implements UnorderedStrategy {
-	public readonly flags: ReadonlySet<string>;
-	public readonly flagPrefixes;
-	private readonly letterRegex = /[a-zA-Z0-9=]{1,}/g;
+/**
+ * The strategy options used in Sapphire.
+ */
+export interface FlagStrategyOptions {
+	/**
+	 * The accepted flags. Flags are key-value identifiers that can be placed anywhere in the command.
+	 * @default []
+	 */
+	flags?: readonly string[];
 
-	public constructor(flags: readonly string[], flagPrefixes = ['--', '-', '—']) {
-		this.flags = new Set(flags);
-		this.flagPrefixes = flagPrefixes;
+	/**
+	 * The accepted options. Options are key-only identifiers that can be placed anywhere in the command.
+	 * @default []
+	 */
+	options?: readonly string[];
+
+	/**
+	 * The prefixes for both flags and options.
+	 * @default ['--', '-', '—']
+	 */
+	prefixes?: string[];
+
+	/**
+	 * The flag separators.
+	 * @default ['=', ':']
+	 */
+	separators?: string[];
+}
+
+export class FlagUnorderedStrategy implements UnorderedStrategy {
+	public readonly flags: readonly string[];
+	public readonly options: readonly string[];
+	public readonly prefixes: readonly string[];
+	public readonly separators: readonly string[];
+
+	public constructor({ flags = [], options = [], prefixes = ['--', '-', '—'], separators = ['=', ':'] }: FlagStrategyOptions = {}) {
+		this.flags = flags;
+		this.options = options;
+		this.prefixes = prefixes;
+		this.separators = separators;
 	}
 
 	public matchFlag(s: string): string | null {
-		const flagName = this.getFlagName(s);
-		const result = this.startsWithArrayString(this.flagPrefixes, s);
-		return result && !s.includes('=') && flagName && this.flags.has(flagName) ? this.getFlagName(s) : null;
+		const prefix = this.prefixes.find((p) => s.startsWith(p));
+		if (!prefix) return null;
+
+		s = s.slice(prefix.length);
+
+		// Flags must not contain separators.
+		if (this.separators.some((p) => s.includes(p))) return null;
+
+		// The flag must be an allowed one.
+		if (this.flags.includes(s)) return s;
+
+		// If it did not match a flag, return null.
+		return null;
 	}
 
 	public matchOption(s: string): string | null {
-		const flagName = this.getFlagName(s);
-		return this.startsWithArrayString(this.flagPrefixes, s) && s.includes('=') && flagName && this.flags.has(flagName)
-			? this.getFlagName(s)
-			: null;
+		const prefix = this.prefixes.find((p) => s.startsWith(p));
+		if (!prefix) return null;
+
+		s = s.slice(prefix.length);
+		const separator = this.separators.find((p) => s.endsWith(p));
+		if (!separator) return null;
+
+		s = s.slice(0, -separator.length);
+		if (this.options.includes(s)) return s;
+
+		return null;
 	}
 
 	public matchCompactOption(s: string): [string, string] | null {
-		const index = s.indexOf('=');
-		if (!this.startsWithArrayString(this.flagPrefixes, s) || index < 0) return null;
-
-		const flagName = this.getFlagName(s.substr(0, index));
-		if (!flagName || !this.flags.has(flagName)) return null;
-
-		const value = s.substr(index + 1);
-		return [flagName, value];
-	}
-
-	private startsWithArrayString(arr: string[], s: string) {
-		for (const i of arr) {
-			if (s.startsWith(i)) return true;
+		const pre = this.prefixes.find((x) => s.startsWith(x));
+		if (pre == null) {
+			return null;
 		}
-		return false;
-	}
 
-	private getFlagName(s: string) {
-		const clone = s;
-		const res = this.letterRegex.exec(clone);
-		return res === null ? null : res[0].toLowerCase();
+		s = s.slice(pre.length);
+		const sep = this.separators.find((x) => s.includes(x));
+		if (sep == null) {
+			return null;
+		}
+
+		const i = s.indexOf(sep);
+		if (i + sep.length === s.length) {
+			return null;
+		}
+
+		const k = s.slice(0, i);
+		if (!this.options.includes(k)) return null;
+
+		const v = s.slice(i + sep.length);
+		return [k, v];
 	}
 }

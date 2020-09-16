@@ -6,5 +6,6 @@
 	"editor.detectIndentation": false,
 	"files.eol": "\n",
 	"deno.enable": false,
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"i18next.i18nPaths": "d:/r/sapphire/framework/src/lib/utils/i18n"
 }
