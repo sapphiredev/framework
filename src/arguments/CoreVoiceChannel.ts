@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<VoiceChannel> {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
 		}
 		if (channel.type !== 'voice') {
-			return this.error(argument, 'ArgumentChannelInvalidChannel', 'The argument did not resolve to a voice channel.');
+			return this.error(argument, 'ArgumentVoiceChannelInvalidChannel', 'The argument did not resolve to a voice channel.');
 		}
 
 		return this.ok(channel as VoiceChannel);

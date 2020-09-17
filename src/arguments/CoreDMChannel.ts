@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<DMChannel> {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
 		}
 		if (channel.type !== 'dm') {
-			return this.error(argument, 'ArgumentChannelInvalidChannel', 'The argument did not resolve to a DM channel.');
+			return this.error(argument, 'ArgumentDMChannelInvalidChannel', 'The argument did not resolve to a DM channel.');
 		}
 
 		return this.ok(channel as DMChannel);

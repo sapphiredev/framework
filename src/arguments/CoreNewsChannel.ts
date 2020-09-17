@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<NewsChannel> {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
 		}
 		if (channel.type !== 'news') {
-			return this.error(argument, 'ArgumentChannelInvalidChannel', 'The argument did not resolve to a news channel.');
+			return this.error(argument, 'ArgumentNewsChannelInvalidChannel', 'The argument did not resolve to a news channel.');
 		}
 
 		return this.ok(channel as NewsChannel);

@@ -11,13 +11,13 @@ export class CoreArgument extends Argument<Date> {
 		const time = parsed.getTime();
 
 		if (Number.isNaN(time)) {
-			return this.error(argument, 'ArgumentIntegerInvalidNumber', 'The argument did not resolve to a valid date.');
+			return this.error(argument, 'ArgumentDateInvalidNumber', 'The argument did not resolve to a valid date.');
 		}
 		if (typeof context.minimum === 'number' && time < context.minimum) {
-			return this.error(argument, 'ArgumentIntegerTooSmall', 'The argument is too small.');
+			return this.error(argument, 'ArgumentDateTooSmall', 'The argument is too small.');
 		}
 		if (typeof context.maximum === 'number' && time > context.maximum) {
-			return this.error(argument, 'ArgumentIntegerTooBig', 'The argument is too big.');
+			return this.error(argument, 'ArgumentDateTooBig', 'The argument is too big.');
 		}
 
 		return this.ok(parsed);

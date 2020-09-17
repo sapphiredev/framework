@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<TextChannel> {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
 		}
 		if (channel.type !== 'text') {
-			return this.error(argument, 'ArgumentChannelInvalidChannel', 'The argument did not resolve to a text channel.');
+			return this.error(argument, 'ArgumentTextChannelInvalidChannel', 'The argument did not resolve to a text channel.');
 		}
 
 		return this.ok(channel as TextChannel);
