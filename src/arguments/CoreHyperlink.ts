@@ -4,7 +4,7 @@ import { Argument, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<URL> {
 	public constructor(context: PieceContext) {
-		super(context, { name: 'hyperlink' });
+		super(context, { name: 'hyperlink', aliases: ['url'] });
 	}
 
 	public run(argument: string): ArgumentResult<URL> {

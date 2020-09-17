@@ -9,7 +9,7 @@ export class CoreArgument extends Argument<number> {
 	public run(argument: string, context: ArgumentContext): ArgumentResult<number> {
 		const parsed = Number(argument);
 
-		if (Number.isNaN(parsed) || Number.isInteger(parsed)) {
+		if (Number.isNaN(parsed)) {
 			return this.error(argument, 'ArgumentFloatInvalidFoat', 'The argument did not resolve to a valid floating point number.');
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
