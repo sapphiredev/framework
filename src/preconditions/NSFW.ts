@@ -1,15 +1,12 @@
 import type { Message } from 'discord.js';
-import { UserError } from '../lib/errors/UserError';
-import { Precondition } from '../lib/structures/Precondition';
-import { err, ok, Result } from '../lib/utils/Result';
-import type { Awaited } from '../lib/utils/Types';
+import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends Precondition {
-	public run(message: Message): Awaited<Result<unknown, UserError>> {
+	public run(message: Message): PreconditionResult {
 		// `nsfw` is undefined in DMChannel, doing `=== true`
 		// will result on it returning`false`.
 		return Reflect.get(message.channel, 'nsfw') === true
-			? ok()
-			: err(new UserError(this.name, 'You cannot run this command outside NSFW channels.'));
+			? this.ok()
+			: this.error(this.name, 'You cannot run this command outside NSFW channels.');
 	}
 }

@@ -25,6 +25,7 @@ export * from './lib/utils/i18n/IInternationalization';
 export * from './lib/utils/i18n/Internationalization';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
+export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerAny';
