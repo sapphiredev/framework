@@ -7,6 +7,7 @@ import { BasePiece } from './base/BasePiece';
 import type { Command } from './Command';
 
 export type ArgumentResult<T> = Awaited<Result<T, UserError>>;
+export type AsyncArgumentResult<T> = Promise<Result<T, UserError>>;
 
 export interface IArgument<T> {
 	readonly name: string;
