@@ -70,6 +70,7 @@ export enum Events {
 	CommandDenied = 'commandDenied',
 	CommandAccepted = 'commandAccepted',
 	CommandRun = 'commandRun',
+	CommandSuccess = 'commandSuccess',
 	CommandFinish = 'commandFinish',
 	CommandError = 'commandError',
 	PluginLoaded = 'pluginLoaded'
@@ -103,8 +104,9 @@ declare module 'discord.js' {
 		[Events.CommandDenied]: [Message, Command, string, string, string];
 		[Events.CommandAccepted]: [Message, Command, string, string, string];
 		[Events.CommandRun]: [Message, Command];
-		[Events.CommandFinish]: [Message, Command, unknown];
+		[Events.CommandSuccess]: [Message, Command, unknown];
 		[Events.CommandError]: [Error, CommandErrorPayload];
+		[Events.CommandFinish]: [Message, Command];
 		[Events.PluginLoaded]: [PluginHook, string | undefined];
 		// #endregion Sapphire load cycle events
 
