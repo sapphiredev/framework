@@ -4,7 +4,7 @@ import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
 export class CoreEvent extends Event<Events.Message> {
-	private requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']);
+	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.Message });
 	}

@@ -3,7 +3,11 @@ import type { Command } from '../../structures/Command';
 import type { Precondition, PreconditionContext } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
 
-export type PreconditionContainerSingleResolvable = string | { entry: string; context: PreconditionContext };
+export interface PreconditionContainerSingleEntry {
+	entry: string;
+	context: PreconditionContext;
+}
+export type PreconditionContainerSingleResolvable = string | PreconditionContainerSingleEntry;
 
 export class PreconditionContainerSingle implements IPreconditionContainer {
 	public readonly client: Client;
