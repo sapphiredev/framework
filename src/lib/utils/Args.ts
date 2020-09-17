@@ -1,5 +1,6 @@
-import type { Message } from 'discord.js';
+import type { Channel, DMChannel, GuildMember, Message, NewsChannel, Role, TextChannel, User, VoiceChannel } from 'discord.js';
 import type * as Lexure from 'lexure';
+import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, IArgument } from '../structures/Argument';
@@ -379,7 +380,7 @@ export class Args {
 	 * Resolves an argument.
 	 * @param arg The argument name or [[IArgument]] instance.
 	 */
-	private resolveArgument<T>(arg: ArgType[keyof ArgType] | IArgument<T>): IArgument<T> | undefined {
+	private resolveArgument<T>(arg: keyof ArgType | IArgument<T>): IArgument<T> | undefined {
 		if (typeof arg === 'object') return arg;
 		return this.message.client.arguments.get(arg as string) as IArgument<T> | undefined;
 	}
@@ -415,8 +416,20 @@ export class Args {
 }
 
 export interface ArgType {
-	string: string;
+	channel: Channel;
+	date: Date;
+	dmChannel: DMChannel;
+	float: number;
+	hyperlink: URL;
 	integer: number;
+	member: GuildMember;
+	newsChannel: NewsChannel;
+	number: number;
+	role: Role;
+	string: string;
+	textChannel: TextChannel;
+	user: User;
+	voiceChannel: VoiceChannel;
 }
 
 export interface ArgOptions extends Omit<ArgumentContext, 'message' | 'command'> {}

@@ -1,8 +1,8 @@
 import type { Client } from 'discord.js';
 import { Argument } from './Argument';
-import { BaseStore } from './base/BaseStore';
+import { BaseAliasStore } from './base/BaseAliasStore';
 
-export class ArgumentStore extends BaseStore<Argument> {
+export class ArgumentStore extends BaseAliasStore<Argument> {
 	public constructor(client: Client) {
 		super(client, Argument as any, { name: 'arguments' });
 	}
