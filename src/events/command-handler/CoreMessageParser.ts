@@ -1,16 +1,21 @@
 import type { PieceContext } from '@sapphire/pieces';
-import type { Message } from 'discord.js';
+import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
 export class CoreEvent extends Event<Events.Message> {
+	private requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']);
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.Message });
 	}
 
 	public async run(message: Message) {
-		// Stop bots from running commands.
-		if (message.author.bot) return;
+		// Stop bots and webhooks from running commands.
+		if (message.author.bot || message.webhookID) return;
+
+		// If the bot cannot run the command due to lack of permissions, return.
+		const canRun = await this.canRunInChannel(message);
+		if (!canRun) return;
 
 		let prefix = '';
 		const mentionPrefix = this.getMentionPrefix(message.content);
@@ -28,6 +33,16 @@ export class CoreEvent extends Event<Events.Message> {
 		}
 
 		if (prefix) this.client.emit(Events.PrefixedMessage, message, prefix);
+	}
+
+	private async canRunInChannel(message: Message): Promise<boolean> {
+		if (message.channel.type === 'dm') return true;
+
+		const me = message.guild!.me ?? (this.client.id ? await message.guild!.members.fetch(this.client.id) : null);
+		if (!me) return false;
+
+		const channel = message.channel as TextChannel | NewsChannel;
+		return channel.permissionsFor(me)!.has(this.requiredPermissions, false);
 	}
 
 	private getMentionPrefix(content: string): string | null {
