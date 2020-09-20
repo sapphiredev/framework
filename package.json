@@ -34,24 +34,29 @@
 	"devDependencies": {
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@sapphire/eslint-config": "^1.0.1",
-		"@sapphire/ts-config": "^1.0.0",
-		"@types/jest": "^26.0.13",
-		"@types/node": "^14.10.1",
+		"@sapphire/eslint-config": "^1.0.2",
+		"@sapphire/ts-config": "^1.0.1",
+		"@types/jest": "^26.0.14",
+		"@types/node": "^14.11.1",
 		"@types/ws": "^7.2.6",
+		"@typescript-eslint/eslint-plugin": "^4.1.1",
+		"@typescript-eslint/parser": "^4.1.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^12.3.1",
+		"eslint": "^7.9.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-prettier": "^3.1.4",
 		"husky": "^4.3.0",
 		"jest": "^26.4.2",
 		"jest-circus": "^26.4.2",
-		"lint-staged": "^10.3.0",
-		"prettier": "^2.1.1",
+		"lint-staged": "^10.4.0",
+		"prettier": "^2.1.2",
 		"pretty-quick": "^3.0.2",
 		"standard-version": "^9.0.0",
-		"ts-jest": "^26.3.0",
+		"ts-jest": "^26.4.0",
 		"typedoc": "^0.19.1",
 		"typedoc-plugin-nojekyll": "^1.0.1",
-		"typescript": "^4.0.2"
+		"typescript": "^4.0.3"
 	},
 	"repository": {
 		"type": "git",
@@ -101,11 +106,11 @@
 		"access": "public"
 	},
 	"resolutions": {
-		"acorn": "^7.3.1",
-		"minimist": "^1.2.2",
+		"acorn": "^7.4.0",
+		"minimist": "^1.2.5",
 		"kind-of": "^6.0.3",
 		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
 		"jest-jasmine2": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
-		"dot-prop": "^5.2.0"
+		"dot-prop": "^5.3.0"
 	}
 }
