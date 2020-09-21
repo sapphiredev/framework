@@ -10,7 +10,7 @@ export class CoreArgument extends Argument<number> {
 		const parsed = Number(argument);
 
 		if (Number.isNaN(parsed)) {
-			return this.error(argument, 'ArgumentFloatInvalidFoat', 'The argument did not resolve to a valid floating point number.');
+			return this.error(argument, 'ArgumentFloatInvalidFloat', 'The argument did not resolve to a valid floating point number.');
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
 			return this.error(argument, 'ArgumentFloatTooSmall', 'The argument is too small.');
