@@ -301,6 +301,108 @@ export class Args {
 	}
 
 	/**
+	 * Greedily matches arguments that can be transformed by the given argument until an
+	 * argument that cannot be transformed is encountered.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !sum 1 2 3 4 these aren't numbers
+	 * const resolver = Args.make<number>((arg) => {
+	 *   const parsed = Number(arg);
+	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must provide a number.'));
+	 *   return ok(parsed);
+	 * });
+	 * const result = await args.greedyResult(resolver);
+	 * if (isErr(result)) throw new UserError('MissingArguments', 'You must provide at least one number.');
+	 * 
+	 * const sum = result.value.reduce((x, y) => x + y, 0);
+	 * await message.channel.send(`The sum of your numbers is ${sum}!`);
+	 * // Sends "The sum of your numbers is 10!"
+	 * ```
+	 */
+	public async greedyResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T[], UserError>>;
+	/**
+	 * Greedily matches arguments that can be transformed by the given argument until an
+	 * argument that cannot be transformed is encountered.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !sum 1 2 3 4 these aren't numbers
+	 * const result = await args.greedyResult('integer');
+	 * if (isErr(result)) throw new UserError('MissingArguments', 'You must provide at least one number.');
+	 * 
+	 * const sum = result.value.reduce((x, y) => x + y, 0);
+	 * await message.channel.send(`The sum of your numbers is ${sum}!`);
+	 * // Sends "The sum of your numbers is 10!"
+	 * ```
+	 */
+	public async greedyResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K][], UserError>>;
+	public async greedyResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K][], UserError>> {
+		const argument = this.resolveArgument(type);
+		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type as string}" was not found.`));
+
+		if (this.parser.finished) return err(new UserError('MissingArguments', 'There are no more arguments.'));
+
+		const output: ArgType[K][] = [];
+		while (true) {
+			const state = this.parser.save();
+			const result = await this.parser.singleParseAsync(async (arg) =>
+				argument.run(arg, {
+					message: this.message,
+					command: this.command,
+					...options
+				})
+			);
+			if (result === null || isErr(result)) {
+				this.parser.restore(state);
+				break;
+			}
+			output.push(result.value as ArgType[K]);
+		}
+
+		return ok(output);
+	}
+
+	/**
+	 * Similar to [[Args.greedyResult]] but returns the value on success, throwing otherwise.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !squareandsum 1 2 3 4 5 bottom text
+	 * const resolver = Args.make<number>((arg) => {
+	 *   const parsed = Number(arg);
+	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must provide a number.'));
+	 *   return ok(parsed);
+	 * });
+	 * const numbers = await args.greedy(resolver);
+	 * 
+	 * const squaredAndSummed = numbers.reduce((x, y) => x + y**2, 0);
+	 * await message.channel.send(`The sum of the squares of your numbers is ${squaredAndSummed}!`);
+	 * // Sends "The sum of the squares of your numbers is 55!"
+	 * ```
+	 */
+	public async greedy<T>(type: IArgument<T>, options?: ArgOptions): Promise<T[]>;
+	/**
+	 * Similar to [[Args.greedyResult]] but returns the value on success, throwing otherwise.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !squareandsum 1 2 3 4 5 bottom text
+	 * const numbers = await args.greedy('integer');
+	 *
+	 * const squaredAndSummed = numbers.reduce((x, y) => x + y**2, 0);
+	 * await message.channel.send(`The sum of the squares of your numbers is ${squaredAndSummed}!`);
+	 * // Sends "The sum of the squares of your numbers is 55!"
+	 * ```
+	 */
+	public async greedy<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K][]>;
+	public async greedy<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K][]> {
+		const result = await this.greedyResult(type, options);
+		if (isOk(result)) return result.value;
+		throw result.error;
+	}
+
+	/**
 	 * Checks if one or more flag were given.
 	 * @param keys The name(s) of the flag.
 	 * @example
