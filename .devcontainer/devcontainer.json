@@ -1,9 +1,6 @@
 {
 	"name": "Node-TS PowerUser Image",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": { "VARIANT": "14" }
-	},
+	"image": "favware/codespaces-containers:base",
 
 	// VSCode settings
 	"settings": {
@@ -78,7 +75,7 @@
 		"window.zoomLevel": 0,
 		"workbench.colorTheme": "Atom One Dark",
 		"workbench.editor.scrollToSwitchTabs": true,
-		"workbench.iconTheme": "eq-material-theme-icons-darker",
+		"workbench.iconTheme": "pkief.material-icon-theme",
 		"terminal.integrated.shell.linux": "/usr/bin/zsh"
 	},
 
