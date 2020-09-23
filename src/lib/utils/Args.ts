@@ -314,7 +314,7 @@ export class Args {
 	 * });
 	 * const result = await args.greedyResult(resolver);
 	 * if (isErr(result)) throw new UserError('MissingArguments', 'You must provide at least one number.');
-	 * 
+	 *
 	 * const sum = result.value.reduce((x, y) => x + y, 0);
 	 * await message.channel.send(`The sum of your numbers is ${sum}!`);
 	 * // Sends "The sum of your numbers is 10!"
@@ -330,7 +330,7 @@ export class Args {
 	 * // !sum 1 2 3 4 these aren't numbers
 	 * const result = await args.greedyResult('integer');
 	 * if (isErr(result)) throw new UserError('MissingArguments', 'You must provide at least one number.');
-	 * 
+	 *
 	 * const sum = result.value.reduce((x, y) => x + y, 0);
 	 * await message.channel.send(`The sum of your numbers is ${sum}!`);
 	 * // Sends "The sum of your numbers is 10!"
@@ -375,7 +375,7 @@ export class Args {
 	 *   return ok(parsed);
 	 * });
 	 * const numbers = await args.greedy(resolver);
-	 * 
+	 *
 	 * const squaredAndSummed = numbers.reduce((x, y) => x + y**2, 0);
 	 * await message.channel.send(`The sum of the squares of your numbers is ${squaredAndSummed}!`);
 	 * // Sends "The sum of the squares of your numbers is 55!"
