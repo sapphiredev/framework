@@ -1,5 +1,6 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
+import type { UserError } from '../errors/UserError';
 import type { Command } from '../structures/Command';
 import type { Event } from '../structures/Event';
 import type { PluginHook } from './Enums';
@@ -101,7 +102,7 @@ declare module 'discord.js' {
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
 		[Events.PreCommandRun]: [Message, Command, string, string, string];
-		[Events.CommandDenied]: [Message, Command, string, string, string];
+		[Events.CommandDenied]: [Message, Command, UserError, string, string, string];
 		[Events.CommandAccepted]: [Message, Command, string, string, string];
 		[Events.CommandRun]: [Message, Command];
 		[Events.CommandSuccess]: [Message, Command, unknown];

@@ -13,7 +13,7 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 	public async run(message: Message, command: Command, parameters: string, commandName: string, prefix: string) {
 		const result = await command.preconditions.run(message, command);
 		if (isErr(result)) {
-			this.client.emit(Events.CommandDenied, message, command, parameters, commandName, prefix);
+			this.client.emit(Events.CommandDenied, message, command, result.error, parameters, commandName, prefix);
 		} else {
 			this.client.emit(Events.CommandAccepted, message, command, parameters, commandName, prefix);
 		}
