@@ -91,13 +91,27 @@ export interface CommandErrorPayload extends IPieceError {
 	message: Message;
 }
 
-export interface CommandDeniedPayload {
+export interface ICommandPayload {
 	message: Message;
 	command: Command;
+}
+
+export interface CommandDeniedPayload extends ICommandPayload {
 	parameters: string;
 	commandName: string;
 	prefix: string;
 }
+
+export interface CommandAcceptedPayload extends ICommandPayload {
+	parameters: string;
+}
+
+export interface CommandSuccessPayload extends ICommandPayload {
+	result: unknown;
+	parameters: string;
+}
+
+export interface PreCommandRunPayload extends CommandDeniedPayload {}
 
 declare module 'discord.js' {
 	interface ClientEvents {
@@ -109,11 +123,11 @@ declare module 'discord.js' {
 		[Events.PrefixedMessage]: [Message, string];
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
-		[Events.PreCommandRun]: [Message, Command, string, string, string];
+		[Events.PreCommandRun]: [PreCommandRunPayload];
 		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
-		[Events.CommandAccepted]: [Message, Command, string, string, string];
+		[Events.CommandAccepted]: [CommandAcceptedPayload];
 		[Events.CommandRun]: [Message, Command];
-		[Events.CommandSuccess]: [Message, Command, unknown];
+		[Events.CommandSuccess]: [CommandSuccessPayload];
 		[Events.CommandError]: [Error, CommandErrorPayload];
 		[Events.CommandFinish]: [Message, Command];
 		[Events.PluginLoaded]: [PluginHook, string | undefined];
