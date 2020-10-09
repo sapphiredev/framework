@@ -91,6 +91,14 @@ export interface CommandErrorPayload extends IPieceError {
 	message: Message;
 }
 
+export interface CommandDeniedPayload {
+	message: Message;
+	command: Command;
+	parameters: string;
+	commandName: string;
+	prefix: string;
+}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
@@ -102,7 +110,7 @@ declare module 'discord.js' {
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
 		[Events.PreCommandRun]: [Message, Command, string, string, string];
-		[Events.CommandDenied]: [Message, Command, UserError, string, string, string];
+		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
 		[Events.CommandAccepted]: [Message, Command, string, string, string];
 		[Events.CommandRun]: [Message, Command];
 		[Events.CommandSuccess]: [Message, Command, unknown];
