@@ -16,7 +16,7 @@ export class CorePrecondition extends Precondition {
 	public run(message: Message, command: Command, context: PreconditionContext) {
 		const cooldownOptions: CooldownOptions = {
 			delay: (context.delay as number) || 0,
-			limit: (context.limit as number) || 0,
+			limit: (context.limit as number) || 1,
 			bucketType: (context.bucketType as BucketType) || BucketType.User
 		};
 		if (cooldownOptions.delay === 0) return this.ok();
@@ -24,7 +24,13 @@ export class CorePrecondition extends Precondition {
 		const bucket = this.getBucket(command, cooldownOptions);
 		const remaining = bucket.take(this.getID(message, cooldownOptions));
 
-		return remaining === 0 ? this.ok() : this.error(this.name, 'Command ratelimited', { remaining });
+		return remaining === 0
+			? this.ok()
+			: this.error(
+					this.name,
+					`You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
+					{ remaining }
+			  );
 	}
 
 	private getID(message: Message, options: CooldownOptions) {
@@ -44,8 +50,9 @@ export class CorePrecondition extends Precondition {
 		let bucket = this.buckets.get(command);
 		if (!bucket) {
 			bucket = new Bucket();
-			bucket.setDelay(options.delay);
-			if (options.limit !== 0) bucket.setLimit({ timespan: 0, maximum: options.limit });
+			if (options.limit <= 1) bucket.setDelay(options.delay);
+			else bucket.setLimit({ timespan: options.delay, maximum: options.limit });
+			this.buckets.set(command, bucket);
 		}
 		return bucket;
 	}
