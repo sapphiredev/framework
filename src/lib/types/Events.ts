@@ -1,5 +1,6 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
+import type { UserError } from '../errors/UserError';
 import type { Command } from '../structures/Command';
 import type { Event } from '../structures/Event';
 import type { PluginHook } from './Enums';
@@ -90,6 +91,28 @@ export interface CommandErrorPayload extends IPieceError {
 	message: Message;
 }
 
+export interface ICommandPayload {
+	message: Message;
+	command: Command;
+}
+
+export interface CommandDeniedPayload extends ICommandPayload {
+	parameters: string;
+	commandName: string;
+	prefix: string;
+}
+
+export interface CommandAcceptedPayload extends ICommandPayload {
+	parameters: string;
+}
+
+export interface CommandSuccessPayload extends ICommandPayload {
+	result: unknown;
+	parameters: string;
+}
+
+export interface PreCommandRunPayload extends CommandDeniedPayload {}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
@@ -100,11 +123,11 @@ declare module 'discord.js' {
 		[Events.PrefixedMessage]: [Message, string];
 		[Events.UnknownCommandName]: [Message, string];
 		[Events.UnknownCommand]: [Message, string, string];
-		[Events.PreCommandRun]: [Message, Command, string, string, string];
-		[Events.CommandDenied]: [Message, Command, string, string, string];
-		[Events.CommandAccepted]: [Message, Command, string, string, string];
+		[Events.PreCommandRun]: [PreCommandRunPayload];
+		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
+		[Events.CommandAccepted]: [CommandAcceptedPayload];
 		[Events.CommandRun]: [Message, Command];
-		[Events.CommandSuccess]: [Message, Command, unknown];
+		[Events.CommandSuccess]: [CommandSuccessPayload];
 		[Events.CommandError]: [Error, CommandErrorPayload];
 		[Events.CommandFinish]: [Message, Command];
 		[Events.PluginLoaded]: [PluginHook, string | undefined];
