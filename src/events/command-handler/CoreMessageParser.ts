@@ -17,7 +17,7 @@ export class CoreEvent extends Event<Events.Message> {
 		const canRun = await this.canRunInChannel(message);
 		if (!canRun) return;
 
-		let prefix = '';
+		let prefix = null;
 		const mentionPrefix = this.getMentionPrefix(message.content);
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
@@ -32,7 +32,7 @@ export class CoreEvent extends Event<Events.Message> {
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix) this.client.emit(Events.PrefixedMessage, message, prefix);
+		if (prefix !== null) this.client.emit(Events.PrefixedMessage, message, prefix);
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
