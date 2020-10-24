@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Guild, Role } from 'discord.js';
+import type { Guild, Role } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Role> {
@@ -7,7 +7,7 @@ export class CoreArgument extends Argument<Role> {
 		super(context, { name: 'role' });
 	}
 
-	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<GuildMember> {
+	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<Role> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error(argument, 'ArgumentRoleMissingGuild', 'The argument must be run on a guild.');
@@ -18,24 +18,26 @@ export class CoreArgument extends Argument<Role> {
 		return role ? this.ok(role) : this.error(argument, 'ArgumentRoleUnknownRole', 'The argument did not resolve to a role.');
 	}
 
-	private async parseID(argument: string, guild: Guild): Promise<Role | undefined> {
+	private async parseID(argument: string, guild: Guild): Promise<Role | null> {
 		if (/^\d+$/.test(argument)) {
-			return await guild.roles.fetch(argument).catch({
+			try {
+				return await guild.roles.fetch(argument);
+			} catch {
 				// noop
-			});
+			}
 		}
-		return undefined;
+		return null;
 	}
 
-	private async parseMention(argument: string, guild: Guild): Promise<Role | undefined> {
+	private async parseMention(argument: string, guild: Guild): Promise<Role | null> {
 		if (/^<@&!*\d+>$/.test(argument)) {
 			return await this.parseID(argument.replace('<@&', '').replace('!', '').replace('>', ''), guild);
 		}
-		return undefined;
+		return null;
 	}
 
-	private async parseQuery(argument: string, guild: Guild): Promise<GuildMember | undefined> {
+	private async parseQuery(argument: string, guild: Guild): Promise<Role | null> {
 		const role = await guild.roles.cache.find((role) => role.name.toLowerCase() === argument.toLowerCase());
-		return role ? role : undefined;
+		return role ? role : null;
 	}
 }

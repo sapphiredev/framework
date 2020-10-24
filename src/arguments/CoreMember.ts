@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { GuildMember, Guild } from 'discord.js';
+import type { GuildMember, Guild } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildMember> {

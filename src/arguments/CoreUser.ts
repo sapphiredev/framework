@@ -1,13 +1,13 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { User } from 'discord.js';
-import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
+import type { User } from 'discord.js';
+import { Argument, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<User> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'user' });
 	}
 
-	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<User> {
+	public async run(argument: string): AsyncArgumentResult<User> {
 		const user = (await this.parseID(argument)) ?? (await this.parseMention(argument));
 
 		return user ? this.ok(user) : this.error(argument, 'ArgumentUserUnknownUser', 'The argument did not resolve to a user.');
