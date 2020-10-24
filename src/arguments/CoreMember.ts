@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Constants, DiscordAPIError, GuildMember } from 'discord.js';
+import type { GuildMember, Guild } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildMember> {
@@ -13,14 +13,33 @@ export class CoreArgument extends Argument<GuildMember> {
 			return this.error(argument, 'ArgumentMemberMissingGuild', 'The argument must be run on a guild.');
 		}
 
-		try {
-			return this.ok(await guild.members.fetch(argument));
-		} catch (error) {
-			if (error instanceof DiscordAPIError && error.code === Constants.APIErrors.UNKNOWN_MEMBER) {
-				return this.error(argument, 'ArgumentMemberUnknownMember', 'The argument did not resolve to a member.');
-			}
+		const member =
+			(await this.parseID(argument, guild)) ?? (await this.parseMention(argument, guild)) ?? (await this.parseQuery(argument, guild));
 
-			return this.error(argument, 'ArgumentMemberUnknownError', 'The argument found an unexpected error when retrieving a member.');
+		return member ? this.ok(member) : this.error(argument, 'ArgumentMemberUnknownMember', 'The argument did not resolve to a member.');
+	}
+
+	private async parseID(argument: string, guild: Guild): Promise<GuildMember | null> {
+		if (/^\d{17,19}$/.test(argument)) {
+			try {
+				return await guild.members.fetch(argument);
+			} catch {
+				// noop
+			}
 		}
+		return null;
+	}
+
+	private async parseMention(argument: string, guild: Guild): Promise<GuildMember | null> {
+		const mention = /^<@!?(\d{17,19})>$/.exec(argument);
+		return mention ? this.parseID(mention[1], guild) : null;
+	}
+
+	private async parseQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
+		const member = await guild.members.fetch({
+			query: argument,
+			limit: 1
+		});
+		return member.first() ?? null;
 	}
 }
