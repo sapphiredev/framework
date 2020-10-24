@@ -25,7 +25,7 @@ export class CoreArgument extends Argument<User> {
 	}
 
 	private async parseMention(argument: string): Promise<User | null> {
-		const mention = /^<@!?(\d+)>$/.exec(argument);
+		const mention = /^<@!?(\d{17,19})>$/.exec(argument);
 		return mention ? await this.parseID(mention[1]) : null;
 	}
 }

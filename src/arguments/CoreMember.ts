@@ -31,7 +31,7 @@ export class CoreArgument extends Argument<GuildMember> {
 	}
 
 	private async parseMention(argument: string, guild: Guild): Promise<GuildMember | null> {
-		const mention = /^<@!?(\d+)>$/.exec(argument);
+		const mention = /^<@!?(\d{17,19})>$/.exec(argument);
 		return mention ? await this.parseID(mention[1], guild) : null;
 	}
 
@@ -40,6 +40,6 @@ export class CoreArgument extends Argument<GuildMember> {
 			query: argument,
 			limit: 1
 		});
-		return member.values().next().value ?? null;
+		return member.first() ?? null;
 	}
 }
