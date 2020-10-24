@@ -37,6 +37,6 @@ export class CoreArgument extends Argument<Role> {
 	private async parseQuery(argument: string, guild: Guild): Promise<Role | null> {
 		const lowerCaseArgument = argument.toLowerCase();
 		const role = await guild.roles.cache.find((role) => role.name.toLowerCase() === lowerCaseArgument);
-		return role ? role : null;
+		return role ?? null;
 	}
 }
