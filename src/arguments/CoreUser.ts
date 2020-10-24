@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<User> {
 	}
 
 	private async parseID(argument: string): Promise<User | null> {
-		if (/^\d+$/.test(argument)) {
+		if (/^\d{17,19}$/.test(argument)) {
 			try {
 				return await this.client.users.fetch(argument);
 			} catch {
@@ -26,6 +26,6 @@ export class CoreArgument extends Argument<User> {
 
 	private async parseMention(argument: string): Promise<User | null> {
 		const mention = /^<@!?(\d{17,19})>$/.exec(argument);
-		return mention ? await this.parseID(mention[1]) : null;
+		return mention ? this.parseID(mention[1]) : null;
 	}
 }

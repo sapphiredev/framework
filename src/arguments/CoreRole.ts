@@ -19,7 +19,7 @@ export class CoreArgument extends Argument<Role> {
 	}
 
 	private async parseID(argument: string, guild: Guild): Promise<Role | null> {
-		if (/^\d+$/.test(argument)) {
+		if (/^\d{17,19}$/.test(argument)) {
 			try {
 				return await guild.roles.fetch(argument);
 			} catch {
@@ -31,7 +31,7 @@ export class CoreArgument extends Argument<Role> {
 
 	private async parseMention(argument: string, guild: Guild): Promise<Role | null> {
 		const mention = /^<@&!?(\d{17,19})>$/.exec(argument);
-		return mention ? await this.parseID(mention[1], guild) : null;
+		return mention ? this.parseID(mention[1], guild) : null;
 	}
 
 	private async parseQuery(argument: string, guild: Guild): Promise<Role | null> {
