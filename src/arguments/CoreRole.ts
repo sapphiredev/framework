@@ -30,12 +30,13 @@ export class CoreArgument extends Argument<Role> {
 	}
 
 	private async parseMention(argument: string, guild: Guild): Promise<Role | null> {
-		const mention = /^<@&!?(\d{17,19})>$/.exec(argument);
+		const mention = /^<@&(\d{17,19})>$/.exec(argument);
 		return mention ? this.parseID(mention[1], guild) : null;
 	}
 
 	private async parseQuery(argument: string, guild: Guild): Promise<Role | null> {
-		const role = await guild.roles.cache.find((role) => role.name.toLowerCase() === argument.toLowerCase());
+		const lowerCaseArgument = argument.toLowerCase();
+		const role = await guild.roles.cache.find((role) => role.name.toLowerCase() === lowerCaseArgument);
 		return role ? role : null;
 	}
 }
