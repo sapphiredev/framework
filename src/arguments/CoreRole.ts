@@ -30,10 +30,8 @@ export class CoreArgument extends Argument<Role> {
 	}
 
 	private async parseMention(argument: string, guild: Guild): Promise<Role | null> {
-		if (/^<@&!*\d+>$/.test(argument)) {
-			return await this.parseID(argument.replace('<@&', '').replace('!', '').replace('>', ''), guild);
-		}
-		return null;
+		const mention = /^<@&!?(\d{17,19})>$/.exec(argument);
+		return mention ? await this.parseID(mention[1], guild) : null;
 	}
 
 	private async parseQuery(argument: string, guild: Guild): Promise<Role | null> {

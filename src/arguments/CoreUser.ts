@@ -13,7 +13,7 @@ export class CoreArgument extends Argument<User> {
 		return user ? this.ok(user) : this.error(argument, 'ArgumentUserUnknownUser', 'The argument did not resolve to a user.');
 	}
 
-	private async parseID(argument: string): Promise<User | undefined> {
+	private async parseID(argument: string): Promise<User | null> {
 		if (/^\d+$/.test(argument)) {
 			try {
 				return await this.client.users.fetch(argument);
@@ -21,13 +21,11 @@ export class CoreArgument extends Argument<User> {
 				// noop
 			}
 		}
-		return undefined;
+		return null;
 	}
 
-	private async parseMention(argument: string): Promise<User | undefined> {
-		if (/^<@!*\d+>$/.test(argument)) {
-			return await this.parseID(argument.replace('<@', '').replace('!', '').replace('>', ''));
-		}
-		return undefined;
+	private async parseMention(argument: string): Promise<User | null> {
+		const mention = /^<@!?(\d+)>$/.exec(argument);
+		return mention ? await this.parseID(mention[1]) : null;
 	}
 }

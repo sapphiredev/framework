@@ -19,7 +19,7 @@ export class CoreArgument extends Argument<GuildMember> {
 		return member ? this.ok(member) : this.error(argument, 'ArgumentMemberUnknownMember', 'The argument did not resolve to a member.');
 	}
 
-	private async parseID(argument: string, guild: Guild): Promise<GuildMember | undefined> {
+	private async parseID(argument: string, guild: Guild): Promise<GuildMember | null> {
 		if (/^\d+$/.test(argument)) {
 			try {
 				return await guild.members.fetch(argument);
@@ -27,21 +27,19 @@ export class CoreArgument extends Argument<GuildMember> {
 				// noop
 			}
 		}
-		return undefined;
+		return null;
 	}
 
-	private async parseMention(argument: string, guild: Guild): Promise<GuildMember | undefined> {
-		if (/^<@!*\d+>$/.test(argument)) {
-			return await this.parseID(argument.replace('<@', '').replace('!', '').replace('>', ''), guild);
-		}
-		return undefined;
+	private async parseMention(argument: string, guild: Guild): Promise<GuildMember | null> {
+		const mention = /^<@!?(\d+)>$/.exec(argument);
+		return mention ? await this.parseID(mention[1], guild) : null;
 	}
 
-	private async parseQuery(argument: string, guild: Guild): Promise<GuildMember | undefined> {
+	private async parseQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
 		const member = await guild.members.fetch({
 			query: argument,
 			limit: 1
 		});
-		return member.values().next().value ?? undefined;
+		return member.values().next().value ?? null;
 	}
 }
