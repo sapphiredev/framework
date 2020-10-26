@@ -58,7 +58,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 			typeof options.emitter === 'undefined'
 				? this.client
 				: (typeof options.emitter === 'string' ? (Reflect.get(this.client, options.emitter) as EventEmitter) : options.emitter) ?? null;
-		this.event = options.event ?? '';
+		this.event = options.event ?? this.name;
 		this.once = options.once ?? false;
 
 		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
