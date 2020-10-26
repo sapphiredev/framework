@@ -5,7 +5,7 @@ import { Events } from '../types/Events';
 import { BasePiece } from './base/BasePiece';
 
 /**
- * The base event class. This class is abstract and is to be extended by subclasses implementing the methods. In
+ * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
  * Sapphire's workflow, events are called when the emitter they listen on emits a new message with the same event name.
  *
  * @example

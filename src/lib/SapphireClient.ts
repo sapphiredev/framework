@@ -42,7 +42,7 @@ export interface SapphireClientOptions {
 	baseUserDirectory?: string | null;
 
 	/**
-	 * The default prefix, if it returns `null`, only mention prefix will trigger the bot's commands.
+	 * The default prefix, in case of `null`, only mention prefix will trigger the bot's commands.
 	 * @since 1.0.0
 	 * @default null
 	 */
@@ -84,7 +84,7 @@ export interface SapphireClientOptions {
  *
  * Sapphire also automatically detects the folders to scan for pieces, please read
  * [[SapphireClient.registerUserDirectories]] for reference. This method is called at the start of the
- * [[SapphireClient.login]] method, however, you can change the root or opt-out.
+ * [[SapphireClient.login]] method.
  *
  * @since 1.0.0
  * @example
@@ -142,6 +142,7 @@ export class SapphireClient extends Client {
 	 * ```typescript
 	 * // Retrieving the prefix from a SQL database:
 	 * client.fetchPrefix = async (message) => {
+	 *   // note: driver is something generic and depends on how you connect to your database
 	 *   const guild = await driver.getOne('SELECT prefix FROM public.guild WHERE id = $1', [message.guild.id]);
 	 *   return guild?.prefix ?? '!';
 	 * };
@@ -150,6 +151,7 @@ export class SapphireClient extends Client {
 	 * ```typescript
 	 * // Retrieving the prefix from an ORM:
 	 * client.fetchPrefix = async (message) => {
+	 *   // note: driver is something generic and depends on how you connect to your database
 	 *   const guild = await driver.getRepository(GuildEntity).findOne({ id: message.guild.id });
 	 *   return guild?.prefix ?? '!';
 	 * };
