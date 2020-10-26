@@ -19,8 +19,16 @@ import type { Awaited } from './utils/Types';
 // Extensions
 import './extensions/SapphireMessage';
 
+/**
+ * A valid prefix in Sapphire.
+ * * `string`: a single prefix, e.g. `'!'`.
+ * * `string[]`: an array of prefixes, e.g. `['!', '.']`.
+ * * `null`: disabled prefix, locks the bot's command usage to mentions only.
+ */
+export type SapphirePrefix = string | readonly string[] | null;
+
 export interface SapphirePrefixHook {
-	(message: Message): Awaited<string | readonly string[] | null>;
+	(message: Message): Awaited<SapphirePrefix>;
 }
 
 export interface SapphireClientOptions {
@@ -38,7 +46,7 @@ export interface SapphireClientOptions {
 	 * @since 1.0.0
 	 * @default null
 	 */
-	defaultPrefix?: string | null;
+	defaultPrefix?: SapphirePrefix;
 
 	/**
 	 * The prefix hook, by default it is a callback function that returns [[SapphireClientOptions.defaultPrefix]].
@@ -51,7 +59,7 @@ export interface SapphireClientOptions {
 	 * The internationalization options, defaults to an instance of [[Internationalization]] when
 	 * [[ClientInternationalizationOptions.instance]] is not specified.
 	 * @since 1.0.0
-	 * @default new Internationalization('en-US')
+	 * @default { instance: new Internationalization('en-US') }
 	 */
 	i18n?: ClientInternationalizationOptions;
 
@@ -65,7 +73,7 @@ export interface SapphireClientOptions {
 	/**
 	 * The logger options, defaults to an instance of [[Logger]] when [[ClientLoggerOptions.instance]] is not specified.
 	 * @since 1.0.0
-	 * @default new Logger(LogLevel.Info)
+	 * @default { instance: new Logger(LogLevel.Info) }
 	 */
 	logger?: ClientLoggerOptions;
 }
