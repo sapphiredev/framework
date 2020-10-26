@@ -23,6 +23,97 @@ export interface SapphirePrefixHook {
 	(message: Message): Awaited<string | readonly string[] | null>;
 }
 
+export interface SapphireClientOptions {
+	/**
+	 * The base user directory, if set to `null`, Sapphire will not call [[SapphireClient.registerUserDirectories]],
+	 * meaning that you will need to manually set each folder for each store. Please read the aforementioned method's
+	 * documentation for more information.
+	 * @since 1.0.0
+	 * @default undefined
+	 */
+	baseUserDirectory?: string | null;
+
+	/**
+	 * The default prefix, if it returns `null`, only mention prefix will trigger the bot's commands.
+	 * @since 1.0.0
+	 * @default null
+	 */
+	defaultPrefix?: string | null;
+
+	/**
+	 * The prefix hook, by default it is a callback function that returns [[SapphireClientOptions.defaultPrefix]].
+	 * @since 1.0.0
+	 * @default () => client.options.defaultPrefix
+	 */
+	fetchPrefix?: SapphirePrefixHook;
+
+	/**
+	 * The internationalization options, defaults to an instance of [[Internationalization]] when
+	 * [[ClientInternationalizationOptions.instance]] is not specified.
+	 * @since 1.0.0
+	 * @default new Internationalization('en-US')
+	 */
+	i18n?: ClientInternationalizationOptions;
+
+	/**
+	 * The client's ID, this is automatically set by the CoreReady event.
+	 * @since 1.0.0
+	 * @default this.client.user?.id ?? null
+	 */
+	id?: string;
+
+	/**
+	 * The logger options, defaults to an instance of [[Logger]] when [[ClientLoggerOptions.instance]] is not specified.
+	 * @since 1.0.0
+	 * @default new Logger(LogLevel.Info)
+	 */
+	logger?: ClientLoggerOptions;
+}
+
+/**
+ * The base [[Client]] extension that makes Sapphire work. When building a Discord bot with the framework, the developer
+ * must either use this class, or extend it.
+ *
+ * Sapphire also automatically detects the folders to scan for pieces, please read
+ * [[SapphireClient.registerUserDirectories]] for reference. This method is called at the start of the
+ * [[SapphireClient.login]] method, however, you can change the root or opt-out.
+ *
+ * @since 1.0.0
+ * @example
+ * ```typescript
+ * const client = new SapphireClient({
+ *   presence: {
+ *     activity: {
+ *       name: 'for commands!',
+ *       type: 'LISTENING'
+ *     }
+ *   }
+ * });
+ *
+ * client.login(process.env.DISCORD_TOKEN)
+ *   .catch(console.error);
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Automatically scan from a specific directory, e.g. the main
+ * // file is at `/home/me/bot/index.js` and all your pieces are at
+ * // `/home/me/bot/pieces` (e.g. `/home/me/bot/pieces/commands/MyCommand.js`):
+ * const client = new SapphireClient({
+ *   baseUserDirectory: join(__dirname, 'pieces'),
+ *   // More options...
+ * });
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Opt-out automatic scanning:
+ * const client = new SapphireClient({
+ *   baseUserDirectory: null,
+ *   // More options...
+ * });
+ * ```
+ */
 export class SapphireClient extends Client {
 	/**
 	 * The client's ID, used for the user prefix.
@@ -31,7 +122,36 @@ export class SapphireClient extends Client {
 	public id: string | null = null;
 
 	/**
-	 * The logger to be used by the framework and plugins.
+	 * The method to be overriden by the developer.
+	 * @since 1.0.0
+	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
+	 * @example
+	 * ```typescript
+	 * // Return always the same prefix (unconfigurable):
+	 * client.fetchPrefix = () => '!';
+	 * ```
+	 * @example
+	 * ```typescript
+	 * // Retrieving the prefix from a SQL database:
+	 * client.fetchPrefix = async (message) => {
+	 *   const guild = await driver.getOne('SELECT prefix FROM public.guild WHERE id = $1', [message.guild.id]);
+	 *   return guild?.prefix ?? '!';
+	 * };
+	 * ```
+	 * @example
+	 * ```typescript
+	 * // Retrieving the prefix from an ORM:
+	 * client.fetchPrefix = async (message) => {
+	 *   const guild = await driver.getRepository(GuildEntity).findOne({ id: message.guild.id });
+	 *   return guild?.prefix ?? '!';
+	 * };
+	 * ```
+	 */
+	public fetchPrefix: SapphirePrefixHook;
+
+	/**
+	 * The logger to be used by the framework and plugins. By default, a [[Logger]] instance is used, which emits the
+	 * messages to the console.
 	 * @since 1.0.0
 	 */
 	public logger: ILogger;
@@ -79,8 +199,9 @@ export class SapphireClient extends Client {
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 
-		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Warn);
+		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
 		this.i18n = options.i18n?.instance ?? new Internationalization(options.i18n?.defaultName ?? 'en-US');
+		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
@@ -144,48 +265,28 @@ export class SapphireClient extends Client {
 	}
 
 	/**
-	 * The method to be overriden by the developer.
-	 * @since 1.0.0
-	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
-	 * @example
-	 * ```typescript
-	 * // Return always the same prefix (unconfigurable):
-	 * client.fetchPrefix = () => '!';
-	 * ```
-	 * @example
-	 * ```typescript
-	 * // Retrieving the prefix from a SQL database:
-	 * client.fetchPrefix = async (message) => {
-	 *   const guild = await driver.getOne('SELECT prefix FROM public.guild WHERE id = $1', [message.guild.id]);
-	 *   return guild?.prefix ?? '!';
-	 * };
-	 * ```
-	 * @example
-	 * ```typescript
-	 * // Retrieving the prefix from an ORM:
-	 * client.fetchPrefix = async (message) => {
-	 *   const guild = await driver.getRepository(GuildEntity).findOne({ id: message.guild.id });
-	 *   return guild?.prefix ?? '!';
-	 * };
-	 * ```
-	 */
-	public fetchPrefix: SapphirePrefixHook = () => null;
-
-	/**
 	 * Loads all pieces, then logs the client in, establishing a websocket connection to Discord.
 	 * @since 1.0.0
 	 * @param token Token of the account to log in with.
 	 * @retrun Token of the account used.
 	 */
 	public async login(token?: string) {
+		// Register the user directory if not null:
+		if (this.options.baseUserDirectory !== null) {
+			this.registerUserDirectories(this.options.baseUserDirectory);
+		}
+
+		// Call pre-login plugins:
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
 			await plugin.hook.call(this, this.options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 
+		// Loads all stores, then call login:
 		await Promise.all([...this.stores].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
+		// Call post-login plugins:
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
 			await plugin.hook.call(this, this.options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
@@ -224,11 +325,7 @@ declare module 'discord.js' {
 		fetchPrefix: SapphirePrefixHook;
 	}
 
-	interface ClientOptions {
-		id?: string;
-		logger?: ClientLoggerOptions;
-		i18n?: ClientInternationalizationOptions;
-	}
+	interface ClientOptions extends SapphireClientOptions {}
 
 	interface Message {
 		fetchLanguage(): Awaited<string>;
