@@ -39,8 +39,6 @@ export class CorePrecondition extends Precondition {
 				return this.client.user!.id;
 			case BucketType.Channel:
 				return message.channel.id;
-			case BucketType.User:
-				return message.author.id;
 			default:
 				return message.author.id;
 		}
