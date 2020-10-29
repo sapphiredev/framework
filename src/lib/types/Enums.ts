@@ -11,3 +11,9 @@ export const enum PluginHook {
 	PreLogin = 'preLogin',
 	PostLogin = 'postLogin'
 }
+
+export const enum BucketType {
+	Channel,
+	Global,
+	User
+}
