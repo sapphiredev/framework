@@ -4,25 +4,20 @@ import type { Message } from 'discord.js';
 import type { Command } from '../lib/structures/Command';
 import { Bucket } from '@sapphire/ratelimits';
 
-interface CooldownOptions {
-	delay: number;
-	limit: number;
-	bucketType: BucketType;
+export interface CooldownContext extends PreconditionContext {
+	bucketType?: BucketType;
+	delay?: number;
+	limit?: number;
 }
 
 export class CorePrecondition extends Precondition {
 	public buckets = new WeakMap<Command, Bucket<string>>();
 
-	public run(message: Message, command: Command, context: PreconditionContext) {
-		const cooldownOptions: CooldownOptions = {
-			delay: (context.delay as number) || 0,
-			limit: (context.limit as number) || 1,
-			bucketType: (context.bucketType as BucketType) || BucketType.User
-		};
-		if (cooldownOptions.delay === 0) return this.ok();
+	public run(message: Message, command: Command, context: CooldownContext) {
+		if (!context.delay || context.delay === 0) return this.ok();
 
-		const bucket = this.getBucket(command, cooldownOptions);
-		const remaining = bucket.take(this.getID(message, cooldownOptions));
+		const bucket = this.getBucket(command, context);
+		const remaining = bucket.take(this.getID(message, context));
 
 		return remaining === 0
 			? this.ok()
@@ -33,23 +28,25 @@ export class CorePrecondition extends Precondition {
 			  );
 	}
 
-	private getID(message: Message, options: CooldownOptions) {
-		switch (options.bucketType) {
+	private getID(message: Message, context: CooldownContext) {
+		switch (context.bucketType) {
 			case BucketType.Global:
 				return this.client.user!.id;
 			case BucketType.Channel:
 				return message.channel.id;
+			case BucketType.Guild:
+				return message.guild!.id;
 			default:
 				return message.author.id;
 		}
 	}
 
-	private getBucket(command: Command, options: CooldownOptions) {
+	private getBucket(command: Command, context: CooldownContext) {
 		let bucket = this.buckets.get(command);
 		if (!bucket) {
 			bucket = new Bucket();
-			if (options.limit <= 1) bucket.setDelay(options.delay);
-			else bucket.setLimit({ timespan: options.delay, maximum: options.limit });
+			if ((context.limit || 1) <= 1) bucket.setDelay(context.delay!);
+			else bucket.setLimit({ timespan: context.delay!, maximum: context.limit! });
 			this.buckets.set(command, bucket);
 		}
 		return bucket;

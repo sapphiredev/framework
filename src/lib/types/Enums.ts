@@ -15,5 +15,6 @@ export const enum PluginHook {
 export const enum BucketType {
 	Channel,
 	Global,
+	Guild,
 	User
 }
