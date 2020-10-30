@@ -12,9 +12,24 @@ export const enum PluginHook {
 	PostLogin = 'postLogin'
 }
 
+/**
+ * The level the cooldown applies to
+ */
 export const enum BucketType {
+	/**
+	 * Per channel cooldowns
+	 */
 	Channel,
+	/**
+	 * Global cooldowns
+	 */
 	Global,
+	/**
+	 * Per guild cooldowns
+	 */
 	Guild,
+	/**
+	 * Per user cooldowns
+	 */
 	User
 }

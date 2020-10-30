@@ -31,7 +31,7 @@ export class CorePrecondition extends Precondition {
 	private getID(message: Message, context: CooldownContext) {
 		switch (context.bucketType) {
 			case BucketType.Global:
-				return this.client.user!.id;
+				return 'global';
 			case BucketType.Channel:
 				return message.channel.id;
 			case BucketType.Guild:
@@ -45,7 +45,7 @@ export class CorePrecondition extends Precondition {
 		let bucket = this.buckets.get(command);
 		if (!bucket) {
 			bucket = new Bucket();
-			if ((context.limit || 1) <= 1) bucket.setDelay(context.delay!);
+			if ((context.limit ?? 1) <= 1) bucket.setDelay(context.delay!);
 			else bucket.setLimit({ timespan: context.delay!, maximum: context.limit! });
 			this.buckets.set(command, bucket);
 		}
