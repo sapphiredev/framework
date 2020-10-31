@@ -23,9 +23,9 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
-		"@klasa/ratelimits": "^0.1.0",
 		"@sapphire/pieces": "github:sapphire-project/pieces#build",
-		"@sapphire/utilities": "^1.0.2",
+		"@sapphire/ratelimits": "^1.0.0",
+		"@sapphire/utilities": "^1.0.1",
 		"lexure": "^0.17.0"
 	},
 	"peerDependencies": {
