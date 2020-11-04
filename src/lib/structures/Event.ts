@@ -4,6 +4,45 @@ import type { EventEmitter } from 'events';
 import { Events } from '../types/Events';
 import { BasePiece } from './base/BasePiece';
 
+/**
+ * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
+ * Sapphire's workflow, events are called when the emitter they listen on emits a new message with the same event name.
+ *
+ * @example
+ * ```typescript
+ * // TypeScript:
+ * import { Event, Events, PieceContext } from 'sapphire/framework';
+ *
+ * // Define a class extending `CoreEvent`, then export it.
+ * // NOTE: You can use `export default` or `export =` too.
+ * export class CoreEvent extends Event<Events.Ready> {
+ *   public constructor(context: PieceContext) {
+ *     super(context, { event: Events.Ready, once: true });
+ *   }
+ *
+ *   public run() {
+ *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *   }
+ * }
+ * ```
+ *
+ * @example
+ * ```javascript
+ * // JavaScript:
+ * const { Event, Events } = require('sapphire/framework');
+ *
+ * // Define a class extending `CoreEvent`, then export it.
+ * module.exports = class CoreEvent extends Event {
+ *   constructor(context) {
+ *     super(context, { event: Events.Ready, once: true });
+ *   }
+ *
+ *   run() {
+ *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *   }
+ * }
+ * ```
+ */
 export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends BasePiece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
@@ -19,7 +58,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 			typeof options.emitter === 'undefined'
 				? this.client
 				: (typeof options.emitter === 'string' ? (Reflect.get(this.client, options.emitter) as EventEmitter) : options.emitter) ?? null;
-		this.event = options.event ?? '';
+		this.event = options.event ?? this.name;
 		this.once = options.once ?? false;
 
 		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
