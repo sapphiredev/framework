@@ -72,6 +72,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://atm.moe/"><img src="https://avatars3.githubusercontent.com/u/31011461?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kovacs Alex</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=alexthemaster" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Alcremie"><img src="https://avatars0.githubusercontent.com/u/54785334?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sadie Lieder</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Alcremie" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Nytelife26"><img src="https://avatars1.githubusercontent.com/u/22531310?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tyler J Russell</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Nytelife26" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Soumil07"><img src="https://avatars0.githubusercontent.com/u/29275227?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Soumil07</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Soumil07" title="Code">💻</a></td>
   </tr>
 </table>
 
