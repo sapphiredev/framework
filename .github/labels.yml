@@ -178,3 +178,6 @@
 - name: 'Type: Typo'
   description: Issues and PRs related to typos in the documentation or code.
   color: c5def5
+- name: 'Type: Needs Rebase & Merge'
+  description: PRs that should be merged through the "Rebase and merge" strategy
+  color: 24853c
