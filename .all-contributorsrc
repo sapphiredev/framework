@@ -63,6 +63,70 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "QuantumlyTangled",
+      "name": "Nejc Drobnič",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7919610?v=4",
+      "profile": "https://quantumlytangled.com/",
+      "contributions": [
+        "code",
+        "plugin"
+      ]
+    },
+    {
+      "login": "Phamzito",
+      "name": "David Gustavo Herrera De La Cruz",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/31642521?v=4",
+      "profile": "https://github.com/Phamzito",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Rexogamer",
+      "name": "Ed L",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/42586271?v=4",
+      "profile": "https://github.com/Rexogamer",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "alexthemaster",
+      "name": "Kovacs Alex",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31011461?v=4",
+      "profile": "https://atm.moe/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Alcremie",
+      "name": "Sadie Lieder",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/54785334?v=4",
+      "profile": "https://github.com/Alcremie",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Nytelife26",
+      "name": "Tyler J Russell",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/22531310?v=4",
+      "profile": "https://github.com/Nytelife26",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Soumil07",
+      "name": "Soumil07",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/29275227?v=4",
+      "profile": "https://github.com/Soumil07",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

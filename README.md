@@ -14,6 +14,7 @@
 [![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-project/framework?project_id=14147)
 
 [![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://join.skyra.pw/sapphire)
+
 </div>
 
 ---
@@ -58,15 +59,24 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/kyranet"><img src="https://avatars0.githubusercontent.com/u/24852502?v=4" width="100px;" alt=""/><br /><sub><b>Antonio Román</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=kyranet" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=kyranet" title="Documentation">📖</a> <a href="#design-kyranet" title="Design">🎨</a> <a href="#ideas-kyranet" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kyranet" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-kyranet" title="Project Management">📆</a></td>
-    <td align="center"><a href="https://favware.tech/"><img src="https://avatars3.githubusercontent.com/u/4019718?v=4" width="100px;" alt=""/><br /><sub><b>Jeroen Claassens</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Favna" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=Favna" title="Documentation">📖</a> <a href="#infra-Favna" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-Favna" title="Project Management">📆</a></td>
-    <td align="center"><a href="https://github.com/cfanoulis"><img src="https://avatars3.githubusercontent.com/u/38255093?v=4" width="100px;" alt=""/><br /><sub><b>Charalampos Fanoulis</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=cfanoulis" title="Code">💻</a></td>
-    <td align="center"><a href="http://www.adityatd.me"><img src="https://avatars0.githubusercontent.com/u/9266227?v=4" width="100px;" alt=""/><br /><sub><b>Aditya N. Tripathi</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=AdityaTD" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=AdityaTD" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://leonard.pw"><img src="https://avatars1.githubusercontent.com/u/35312043?v=4" width="100px;" alt=""/><br /><sub><b>LeonardSSH</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=LeonardSSH" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/kyranet"><img src="https://avatars0.githubusercontent.com/u/24852502?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antonio Román</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=kyranet" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=kyranet" title="Documentation">📖</a> <a href="#design-kyranet" title="Design">🎨</a> <a href="#ideas-kyranet" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kyranet" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-kyranet" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://favware.tech/"><img src="https://avatars3.githubusercontent.com/u/4019718?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeroen Claassens</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Favna" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=Favna" title="Documentation">📖</a> <a href="#infra-Favna" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#projectManagement-Favna" title="Project Management">📆</a></td>
+    <td align="center"><a href="https://github.com/cfanoulis"><img src="https://avatars3.githubusercontent.com/u/38255093?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Charalampos Fanoulis</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=cfanoulis" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.adityatd.me"><img src="https://avatars0.githubusercontent.com/u/9266227?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aditya N. Tripathi</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=AdityaTD" title="Code">💻</a> <a href="https://github.com/sapphire-project/framework/commits?author=AdityaTD" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://leonard.pw"><img src="https://avatars1.githubusercontent.com/u/35312043?v=4?s=100" width="100px;" alt=""/><br /><sub><b>LeonardSSH</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=LeonardSSH" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://quantumlytangled.com/"><img src="https://avatars1.githubusercontent.com/u/7919610?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nejc Drobnič</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=QuantumlyTangled" title="Code">💻</a> <a href="#plugin-QuantumlyTangled" title="Plugin/utility libraries">🔌</a></td>
+    <td align="center"><a href="https://github.com/Phamzito"><img src="https://avatars2.githubusercontent.com/u/31642521?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Gustavo Herrera De La Cruz</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Phamzito" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/Rexogamer"><img src="https://avatars0.githubusercontent.com/u/42586271?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ed L</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Rexogamer" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://atm.moe/"><img src="https://avatars3.githubusercontent.com/u/31011461?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kovacs Alex</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=alexthemaster" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Alcremie"><img src="https://avatars0.githubusercontent.com/u/54785334?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sadie Lieder</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Alcremie" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Nytelife26"><img src="https://avatars1.githubusercontent.com/u/22531310?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tyler J Russell</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Nytelife26" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Soumil07"><img src="https://avatars0.githubusercontent.com/u/29275227?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Soumil07</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=Soumil07" title="Code">💻</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
