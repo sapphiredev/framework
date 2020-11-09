@@ -78,7 +78,7 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by [[Command.preParse]], by default an instance of [[Args]].
 	 */
-	public abstract run(message: Message, args: T): Awaited<unknown>;
+	public abstract run(message: Message, args: T, context: CommandContext): Awaited<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -137,4 +137,15 @@ export interface CommandOptions extends AliasPieceOptions {
 	 * ]
 	 */
 	quotes?: [string, string][];
+}
+
+export interface CommandContext extends Record<PropertyKey, unknown> {
+	/**
+	 * The prefix used to run this command
+	 */
+	prefix: string;
+	/**
+	 * The alias used to run this command
+	 */
+	commandName: string;
 }
