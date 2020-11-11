@@ -1,5 +1,6 @@
 /**
  * The UserError class to be emitted in the pieces.
+ * @property name This will be `'UserError'` and can be used to distinguish the type of error when any error gets thrown
  */
 export class UserError extends Error {
 	/**
@@ -14,6 +15,7 @@ export class UserError extends Error {
 	 */
 	public constructor(type: string, message: string) {
 		super(message);
+		this.name = 'UserError';
 		this.identifier = type;
 	}
 }
