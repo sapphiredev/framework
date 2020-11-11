@@ -10,6 +10,7 @@ export class PreconditionError extends UserError {
 
 	public constructor(argument: Precondition, type: string, message: string, extras: PreconditionErrorExtras = null) {
 		super(type, message);
+		this.name = 'PreconditionError';
 		this.precondition = argument;
 		this.extras = extras;
 	}

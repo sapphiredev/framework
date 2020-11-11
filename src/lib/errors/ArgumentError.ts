@@ -7,6 +7,7 @@ export class ArgumentError<T> extends UserError {
 
 	public constructor(argument: IArgument<T>, parameter: string, type: string, message: string) {
 		super(type, message);
+		this.name = 'ArgumentError';
 		this.argument = argument;
 		this.parameter = parameter;
 	}

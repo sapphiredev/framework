@@ -14,6 +14,7 @@ export class UserError extends Error {
 	 */
 	public constructor(type: string, message: string) {
 		super(message);
+		this.name = 'UserError';
 		this.identifier = type;
 	}
 }
