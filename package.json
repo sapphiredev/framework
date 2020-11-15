@@ -25,7 +25,7 @@
 	"dependencies": {
 		"@sapphire/pieces": "github:sapphire-project/pieces#build",
 		"@sapphire/ratelimits": "^1.0.1",
-		"@sapphire/utilities": "^1.0.1",
+		"@sapphire/utilities": "^1.1.0",
 		"lexure": "^0.17.0"
 	},
 	"peerDependencies": {
@@ -34,8 +34,8 @@
 	"devDependencies": {
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@sapphire/eslint-config": "^1.0.3",
-		"@sapphire/ts-config": "^1.0.2",
+		"@sapphire/eslint-config": "^1.0.4",
+		"@sapphire/ts-config": "^1.0.3",
 		"@types/jest": "^26.0.15",
 		"@types/node": "^14.14.2",
 		"@types/ws": "^7.2.7",
@@ -49,7 +49,7 @@
 		"husky": "^4.3.0",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
-		"lint-staged": "^10.4.2",
+		"lint-staged": "^10.5.1",
 		"prettier": "^2.1.2",
 		"pretty-quick": "^3.1.0",
 		"standard-version": "^9.0.0",
