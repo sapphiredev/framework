@@ -416,6 +416,7 @@ export class Args {
 }
 
 export interface ArgType {
+	boolean: boolean;
 	channel: Channel;
 	date: Date;
 	dmChannel: DMChannel;
