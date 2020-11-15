@@ -12,7 +12,7 @@ export class CoreArgument extends Argument<boolean> {
 	public run(argument: string): ArgumentResult<boolean> {
 		const boolean = argument.toLowerCase();
 		if (truths.includes(boolean)) return this.ok(true);
-		else if (falses.includes(boolean)) return this.ok(false);
+		if (falses.includes(boolean)) return this.ok(false);
 
 		return this.error('ArgumentBooleanInvalidBoolean', 'The argument did not resolve to a boolean.');
 	}
