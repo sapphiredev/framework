@@ -24,7 +24,7 @@ export class CoreArgument extends Argument<Role> {
 		return roleID ? guild.roles.fetch(roleID[1]).catch(() => null) : null;
 	}
 
-	private resolveByQuery(argument: string, guild: Guild): Promise<Role | null> {
+	private resolveByQuery(argument: string, guild: Guild): Role | null {
 		const lowerCaseArgument = argument.toLowerCase();
 		return guild.roles.cache.find((role) => role.name.toLowerCase() === lowerCaseArgument) ?? null;
 	}
