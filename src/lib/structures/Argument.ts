@@ -151,7 +151,7 @@ export abstract class Argument<T = unknown> extends BaseAliasPiece implements IA
  * const { ExtendedArgument } = require('@sapphire/framework');
  *
  * module.exports = class TextChannelArgument extends ExtendedArgument {
- *   super(context) {
+ *   constructor(context) {
  *     super(context, { name: 'textChannel', baseArgument: 'channel' });
  *   }
  *
