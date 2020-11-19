@@ -1,3 +1,4 @@
+import type { AliasPieceOptions } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../utils/Args';
@@ -115,6 +116,8 @@ export abstract class Argument<T = unknown> extends BaseAliasPiece implements IA
 		return err(Args.error<T>(this, parameter, typeOrMessage, rawMessage!));
 	}
 }
+
+export interface ArgumentOptions extends AliasPieceOptions {}
 
 export interface ArgumentContext extends Record<PropertyKey, unknown> {
 	message: Message;
