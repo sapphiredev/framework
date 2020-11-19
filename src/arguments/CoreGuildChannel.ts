@@ -3,7 +3,7 @@ import type { Guild, GuildChannel } from 'discord.js';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildChannel> {
-	private readonly channelRegex = /^(?:<@#)?(\d{17,19})>?$/;
+	private readonly channelRegex = /^(?:<#)?(\d{17,19})>?$/;
 
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildChannel' });
