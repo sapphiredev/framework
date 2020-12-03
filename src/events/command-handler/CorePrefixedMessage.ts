@@ -19,7 +19,7 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 		}
 
 		// Retrieve the command and validate:
-		const command = this.client.commands.get(name);
+		const command = this.client.commands.get(this.client.options.caseInsensitiveCommands ? name.toLowerCase() : name);
 		if (!command) {
 			this.client.emit(Events.UnknownCommand, message, name, prefix);
 			return;

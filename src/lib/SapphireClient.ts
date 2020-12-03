@@ -42,6 +42,13 @@ export interface SapphireClientOptions {
 	baseUserDirectory?: string | null;
 
 	/**
+	 * Whether commands can be case insensitive
+	 * @since 1.0.0
+	 * @default false
+	 */
+	caseInsensitiveCommands?: boolean | null;
+
+	/**
 	 * The default prefix, in case of `null`, only mention prefix will trigger the bot's commands.
 	 * @since 1.0.0
 	 * @default null
@@ -202,6 +209,13 @@ export class SapphireClient extends Client {
 	 */
 	public stores: Set<Store<Piece>>;
 
+	/**
+	 * Whether commands can be case insensitive
+	 * @since 1.0.0
+	 * @default false
+	 */
+	public caseInsensitiveCommands?: boolean | null;
+
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
@@ -219,6 +233,7 @@ export class SapphireClient extends Client {
 		}
 
 		this.id = options.id ?? null;
+		this.caseInsensitiveCommands = options.caseInsensitiveCommands ?? false;
 		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
 		this.commands = new CommandStore(this);
 		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
