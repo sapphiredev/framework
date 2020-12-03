@@ -42,6 +42,13 @@ export interface SapphireClientOptions {
 	baseUserDirectory?: string | null;
 
 	/**
+	 * Whether commands can be case insensitive
+	 * @since 1.0.0
+	 * @default false
+	 */
+	caseInsensitiveCommands?: boolean | null;
+
+	/**
 	 * The default prefix, in case of `null`, only mention prefix will trigger the bot's commands.
 	 * @since 1.0.0
 	 * @default null
