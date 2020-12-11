@@ -24,7 +24,7 @@ export class SapphireMessage extends Structures.get('Message') {
 		valuesOrOptions?: readonly unknown[] | MessageOptions | MessageAdditions,
 		rawOptions?: MessageOptions
 	): Promise<Message | Message[]> {
-		const [values, options]: [unknown[], MessageOptions] =
+		const [values, options]: [readonly unknown[], MessageOptions] =
 			typeof valuesOrOptions === 'undefined' || Array.isArray(valuesOrOptions)
 				? [valuesOrOptions ?? [], rawOptions ?? {}]
 				: [[], valuesOrOptions as MessageOptions];

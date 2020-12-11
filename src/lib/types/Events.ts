@@ -54,7 +54,7 @@ export enum Events {
 	WebhookUpdate = 'webhookUpdate',
 	ShardDisconnect = 'shardDisconnect',
 	ShardError = 'shardError',
-	SharedReady = 'shardReady',
+	ShardReady = 'shardReady',
 	ShardReconnecting = 'shardReconnecting',
 	ShardResume = 'shardResume',
 	// #endregion Discord.js base events
