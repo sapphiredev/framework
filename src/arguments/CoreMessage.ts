@@ -7,7 +7,7 @@ export interface MessageArgumentContext extends ArgumentContext {
 }
 
 export class CoreArgument extends Argument<Message> {
-	private readonly messageLinkRegex = /^(?:https:\/\/)?(?:ptb\.|canary\.)?discord(?:app)?.com\/channels\/(\d{17,19})\/(\d{17,19})\/(\d{17,19})$/;
+	private readonly messageLinkRegex = /^(?:https:\/\/)?(?:ptb\.|canary\.)?discord(?:app)?\.com\/channels\/(\d{17,19})\/(\d{17,19})\/(\d{17,19})$/;
 	private readonly snowflakeRegex = /^\d{17,19}$/;
 
 	public constructor(context: PieceContext) {
