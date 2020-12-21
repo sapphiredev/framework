@@ -24,8 +24,6 @@ export class CoreArgument extends Argument<Message> {
 		return this.snowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
 	}
 
-	// Placeholder, but credits go to kyranet and developers of skyra-project/skyra:
-	// https://github.com/skyra-project/skyra/blob/main/src/commands/Tools/quote.ts#L51
 	private async resolveByLink(argument: string, { message }: MessageArgumentContext): Promise<Message | null> {
 		if (!message.guild) return null;
 
