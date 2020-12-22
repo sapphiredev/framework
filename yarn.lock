@@ -670,6 +670,11 @@
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
+"@sapphire/prettier-config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@sapphire/prettier-config/-/prettier-config-1.0.1.tgz#e93774f98270b1632451ae8615b17f7eba9518d4"
+  integrity sha512-B19QyuBM2u16ochjIHtuai/hFCtjzX5RmiVG9UhYyvENXQ8M1Eel0UauopulQ8VqAu1fEP/P0N3EKfheVLgd6w==
+
 "@sapphire/ratelimits@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@sapphire/ratelimits/-/ratelimits-1.1.0.tgz#274236efe51a785b758a7233708198b0ded710f9"

@@ -38,6 +38,7 @@
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
 		"@sapphire/eslint-config": "^1.0.4",
+		"@sapphire/prettier-config": "^1.0.1",
 		"@sapphire/ts-config": "^1.0.3",
 		"@types/jest": "^26.0.19",
 		"@types/node": "^14.14.10",
@@ -118,5 +119,6 @@
 		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
 		"jest-jasmine2": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
 		"dot-prop": "^5.3.0"
-	}
+	},
+	"prettier": "@sapphire/prettier-config"
 }
