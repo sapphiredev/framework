@@ -60,39 +60,39 @@
   color: ffff00
 - name: 'Priority: Critical'
   description: Issues that must be fixed or PRs that must be finished and merged with
-      maximum priority.
+    maximum priority.
   color: b60205
 - name: 'Priority: High'
   description: Issues that must be fixed or PRs that must be finished and merged with
-      high priority.
+    high priority.
   color: d93f0b
 - name: 'Priority: Kirito Level'
   description: Issues/PR's that have a priority so low that even a quantum computer
-      couldn't calculate it.
+    couldn't calculate it.
   color: '818181'
 - name: 'Priority: Low'
   description: Issues that must be fixed or PRs that must be finished and merged with
-      low priority.
+    low priority.
   color: 0e8a16
 - name: 'Priority: Medium'
   description: Issues that must be fixed or PRs that must be finished and merged with
-      medium priority.
+    medium priority.
   color: fbca04
 - name: 'SEM: Major'
   description: PRs that contain breaking changes and should be released in the next
-      major version.
+    major version.
   color: 9a35be
 - name: 'SEM: Minor'
   description: PRs that contain new features and should be released in the next minor
-      version.
+    version.
   color: d38dfa
 - name: 'SEM: N/A'
   description: PRs that only contain documentation changes and do not change the api's
-      interface.
+    interface.
   color: a7f9f3
 - name: 'SEM: Patch'
   description: PRs that contain bugfixes and should be released in the next patch
-      version.
+    version.
   color: 66d8eb
 - name: 'Status: Blocked'
   description: PRs that are blocked by other issues/PRs.
@@ -108,11 +108,11 @@
   color: d93f0b
 - name: 'Status: Help Wanted'
   description: Issues that need assistance from volunteers or PRs that need help to
-      proceed.
+    proceed.
   color: 128A0C
 - name: 'Status: Invalid'
   description: Issues that will not be fixed or PRs that will not merge, e.g. due
-      to backwards compatibility.
+    to backwards compatibility.
   color: 671df0
 - name: 'Status: Needs Docs'
   description: PRs that need documentation
@@ -167,7 +167,7 @@
   color: ffffff
 - name: 'Type: Question'
   description: Issues that do not belong to the Issue Tracker and should be asked
-      in the official Discord Server.
+    in the official Discord Server.
   color: cc317c
 - name: 'Type: Security'
   description: Pull requests that address a security vulnerability
