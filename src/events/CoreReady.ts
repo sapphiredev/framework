@@ -8,6 +8,6 @@ export class CoreEvent extends Event<Events.Ready> {
 	}
 
 	public run() {
-		if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+		this.context.client.id ??= this.context.client.user?.id ?? null;
 	}
 }

@@ -1,9 +1,8 @@
-import type { Client } from 'discord.js';
-import { BaseStore } from './base/BaseStore';
+import { Store } from '@sapphire/pieces';
 import { Precondition } from './Precondition';
 
-export class PreconditionStore extends BaseStore<Precondition> {
-	public constructor(client: Client) {
-		super(client, Precondition as any, { name: 'preconditions' });
+export class PreconditionStore extends Store<Precondition> {
+	public constructor() {
+		super(Precondition as any, { name: 'preconditions' });
 	}
 }

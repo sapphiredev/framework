@@ -1,15 +1,14 @@
+import { Awaited, Piece } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import { PreconditionError, PreconditionErrorExtras } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../utils/Result';
-import type { Awaited } from '../utils/Types';
-import { BasePiece } from './base/BasePiece';
 import type { Command } from './Command';
 
 export type PreconditionResult = Awaited<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
-export abstract class Precondition extends BasePiece {
+export abstract class Precondition extends Piece {
 	public abstract run(message: Message, command: Command, context: PreconditionContext): PreconditionResult;
 
 	public ok(): PreconditionResult {

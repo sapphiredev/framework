@@ -1,7 +1,7 @@
+import type { Awaited } from '@sapphire/pieces';
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
-import type { Awaited } from '../utils/Types';
 import type { Plugin } from './Plugin';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 

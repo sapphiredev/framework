@@ -1,8 +1,7 @@
-import type { PieceContext, PieceOptions } from '@sapphire/pieces';
+import { Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { Events } from '../types/Events';
-import { BasePiece } from './base/BasePiece';
 
 /**
  * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
@@ -11,7 +10,7 @@ import { BasePiece } from './base/BasePiece';
  * @example
  * ```typescript
  * // TypeScript:
- * import { Event, Events, PieceContext } from 'sapphire/framework';
+ * import { Event, Events, PieceContext } from '(at)sapphire/framework';
  *
  * // Define a class extending `CoreEvent`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
@@ -29,7 +28,7 @@ import { BasePiece } from './base/BasePiece';
  * @example
  * ```javascript
  * // JavaScript:
- * const { Event, Events } = require('sapphire/framework');
+ * const { Event, Events } = require('(at)sapphire/framework');
  *
  * // Define a class extending `CoreEvent`, then export it.
  * module.exports = class CoreEvent extends Event {
@@ -43,7 +42,7 @@ import { BasePiece } from './base/BasePiece';
  * }
  * ```
  */
-export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends BasePiece {
+export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends Piece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
 	public readonly once: boolean;
@@ -56,8 +55,9 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 
 		this.emitter =
 			typeof options.emitter === 'undefined'
-				? this.client
-				: (typeof options.emitter === 'string' ? (Reflect.get(this.client, options.emitter) as EventEmitter) : options.emitter) ?? null;
+				? this.context.client
+				: (typeof options.emitter === 'string' ? (Reflect.get(this.context.client, options.emitter) as EventEmitter) : options.emitter) ??
+				  null;
 		this.event = options.event ?? this.name;
 		this.once = options.once ?? false;
 
@@ -86,7 +86,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 			// @ts-expect-error Argument of type 'unknown[]' is not assignable to parameter of type 'E extends string | number ? ClientEvents[E] : unknown[]'. (2345)
 			await this.run(...args);
 		} catch (error) {
-			this.client.emit(Events.EventError, error, { piece: this });
+			this.context.client.emit(Events.EventError, error, { piece: this });
 		}
 	}
 

@@ -14,7 +14,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * ```typescript
  * // TypeScript:
  * import { ApplyOptions } from '@sapphire/decorators';
- * import { ArgumentResult, ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '@sapphire/framework';
+ * import { ArgumentResult, ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '(at)sapphire/framework';
  * import type { Channel, TextChannel } from 'discord.js';
  *
  * // Just like with `Argument`, you can use `export default` or `export =` too.
@@ -34,7 +34,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * @example
  * ```javascript
  * // JavaScript:
- * const { ExtendedArgument } = require('@sapphire/framework');
+ * const { ExtendedArgument } = require('(at)sapphire/framework');
  *
  * module.exports = class TextChannelArgument extends ExtendedArgument {
  *   constructor(context) {
@@ -62,7 +62,7 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	 * into the value used to compute the extended argument's value.
 	 */
 	public get base(): IArgument<ArgType[K]> {
-		return this.client.arguments.get(this.baseArgument) as IArgument<ArgType[K]>;
+		return this.context.client.arguments.get(this.baseArgument) as IArgument<ArgType[K]>;
 	}
 
 	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<T> {

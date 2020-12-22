@@ -1,10 +1,8 @@
-import type { AliasPieceOptions } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceOptions, Awaited } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../utils/Args';
 import { err, ok, Result } from '../utils/Result';
-import type { Awaited } from '../utils/Types';
-import { BaseAliasPiece } from './base/BaseAliasPiece';
 import type { Command } from './Command';
 
 /**
@@ -38,7 +36,7 @@ export interface IArgument<T> {
  * @example
  * ```typescript
  * // TypeScript:
- * import { Argument, ArgumentResult, PieceContext } from 'sapphire/framework';
+ * import { Argument, ArgumentResult, PieceContext } from '(at)sapphire/framework';
  * import { URL } from 'url';
  *
  * // Define a class extending `Argument`, then export it.
@@ -69,7 +67,7 @@ export interface IArgument<T> {
  * @example
  * ```javascript
  * // JavaScript:
- * const { Argument } = require('sapphire/framework');
+ * const { Argument } = require('(at)sapphire/framework');
  *
  * // Define a class extending `Argument`, then export it.
  * module.exports = class CoreArgument extends Argument {
@@ -87,7 +85,7 @@ export interface IArgument<T> {
  * }
  * ```
  */
-export abstract class Argument<T = unknown> extends BaseAliasPiece implements IArgument<T> {
+export abstract class Argument<T = unknown> extends AliasPiece implements IArgument<T> {
 	public abstract run(argument: string, context: ArgumentContext): ArgumentResult<T>;
 
 	/**

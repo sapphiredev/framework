@@ -1,9 +1,8 @@
-import type { Client } from 'discord.js';
-import { BaseStore } from './base/BaseStore';
+import { Store } from '@sapphire/pieces';
 import { Event } from './Event';
 
-export class EventStore extends BaseStore<Event> {
-	public constructor(client: Client) {
-		super(client, Event as any, { name: 'events' });
+export class EventStore extends Store<Event> {
+	public constructor() {
+		super(Event as any, { name: 'events' });
 	}
 }
