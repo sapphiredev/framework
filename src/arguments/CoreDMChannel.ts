@@ -8,7 +8,7 @@ export class CoreArgument extends Argument<DMChannel> {
 	}
 
 	public run(argument: string): ArgumentResult<DMChannel> {
-		const channel = this.client.channels.cache.get(argument);
+		const channel = this.context.client.channels.cache.get(argument);
 
 		if (!channel) {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');

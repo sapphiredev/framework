@@ -1,3 +1,5 @@
+import type * as Lexure from 'lexure';
+
 /**
  * A type used to express computations that can fail.
  * @typeparam T The result's type.
@@ -9,33 +11,13 @@ export type Result<T, E> = Ok<T> | Err<E>;
  * The computation is successful.
  * @typeparam T Type of results.
  */
-export interface Ok<T> {
-	/**
-	 * Whether or not the result was successful, always true in Ok<T>.
-	 */
-	readonly success: true;
-
-	/**
-	 * The resulting value, defined only in Ok<T>.
-	 */
-	readonly value: T;
-}
+export type Ok<T> = Lexure.Ok<T>;
 
 /**
  * The computation failed.
  * @typeparam E Type of errors.
  */
-export interface Err<E> {
-	/**
-	 * Whether or not the result was successful, always false in Err<E>.
-	 */
-	readonly success: false;
-
-	/**
-	 * The resulting error, defined only in Err<E>.
-	 */
-	readonly error: E;
-}
+export type Err<E> = Lexure.Err<E>;
 
 /**
  * Creates an Ok with no value.
