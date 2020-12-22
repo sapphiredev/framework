@@ -8,7 +8,7 @@
 	"license": "MIT",
 	"private": false,
 	"scripts": {
-		"prepublishOnly": "node scripts/clean-dist.mjs && yarn build && rollup -c rollup.config.ts && node scripts/pre-publish.mjs",
+		"prepublishOnly": "yarn build:cleanup && yarn build && yarn build:rollup && yarn build:pre-publish",
 		"lint": "eslint src tests scripts --ext ts --fix",
 		"format": "prettier --write {src,tests,scripts}/**/*.ts",
 		"docs": "typedoc",
@@ -16,6 +16,9 @@
 		"test:watch": "jest --watch",
 		"update": "yarn upgrade-interactive --latest",
 		"build": "tsc -b src",
+		"build:cleanup": "node scripts/clean-dist.mjs",
+		"build:rollup": "rollup -c rollup.config.ts",
+		"build:pre-publish": "node scripts/pre-publish.mjs",
 		"clean": "tsc -b src --clean",
 		"watch": "tsc -b src -w",
 		"sversion": "standard-version",
