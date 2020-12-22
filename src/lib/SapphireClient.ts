@@ -1,4 +1,4 @@
-import { Awaited, Piece, Store } from '@sapphire/pieces';
+import { Awaited, getRootData, Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
@@ -11,7 +11,6 @@ import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
-import { getRootDirectory } from './utils/RootDir';
 
 /**
  * A valid prefix in Sapphire.
@@ -248,7 +247,7 @@ export class SapphireClient extends Client {
 	 * to create new pieces and hot-load them later anytime.
 	 * @param rootDirectory The root directory to register pieces at.
 	 */
-	public registerUserDirectories(rootDirectory = getRootDirectory()) {
+	public registerUserDirectories(rootDirectory = getRootData().root) {
 		for (const store of this.stores) {
 			store.registerPath(join(rootDirectory, store.name));
 		}
