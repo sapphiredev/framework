@@ -9,14 +9,9 @@ import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
-import type { IInternationalization } from './utils/i18n/IInternationalization';
-import { Internationalization } from './utils/i18n/Internationalization';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 import { getRootDirectory } from './utils/RootDir';
-
-// Extensions
-import './extensions/SapphireMessage';
 
 /**
  * A valid prefix in Sapphire.
@@ -60,14 +55,6 @@ export interface SapphireClientOptions {
 	 * @default () => client.options.defaultPrefix
 	 */
 	fetchPrefix?: SapphirePrefixHook;
-
-	/**
-	 * The internationalization options, defaults to an instance of [[Internationalization]] when
-	 * [[ClientInternationalizationOptions.instance]] is not specified.
-	 * @since 1.0.0
-	 * @default { instance: new Internationalization('en-US') }
-	 */
-	i18n?: ClientInternationalizationOptions;
 
 	/**
 	 * The client's ID, this is automatically set by the CoreReady event.
@@ -173,12 +160,6 @@ export class SapphireClient extends Client {
 	public logger: ILogger;
 
 	/**
-	 * The internationalization handler to be used by the framework and plugins.
-	 * @since 1.0.0
-	 */
-	public i18n: IInternationalization;
-
-	/**
 	 * The arguments the framework has registered.
 	 * @since 1.0.0
 	 */
@@ -219,7 +200,6 @@ export class SapphireClient extends Client {
 		}
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
-		this.i18n = options.i18n?.instance ?? new Internationalization(options.i18n?.defaultName ?? 'en-US');
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
@@ -327,16 +307,10 @@ export interface ClientLoggerOptions {
 	instance?: ILogger;
 }
 
-export interface ClientInternationalizationOptions {
-	defaultName?: string;
-	instance?: IInternationalization;
-}
-
 declare module 'discord.js' {
 	interface Client {
 		id: string | null;
 		logger: ILogger;
-		i18n: IInternationalization;
 		arguments: ArgumentStore;
 		commands: CommandStore;
 		events: EventStore;
@@ -345,20 +319,6 @@ declare module 'discord.js' {
 	}
 
 	interface ClientOptions extends SapphireClientOptions {}
-
-	interface Message {
-		fetchLanguage(): Awaited<string>;
-		fetchLanguageKey(key: string, ...values: readonly unknown[]): Promise<string>;
-
-		sendTranslated(
-			key: string,
-			values?: readonly unknown[],
-			options?: MessageOptions | (MessageOptions & { split?: false }) | MessageAdditions
-		): Promise<Message>;
-		sendTranslated(key: string, values?: readonly unknown[], options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
-		sendTranslated(key: string, options?: MessageOptions | (MessageOptions & { split?: false }) | MessageAdditions): Promise<Message>;
-		sendTranslated(key: string, options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
-	}
 }
 
 declare module '@sapphire/pieces' {
