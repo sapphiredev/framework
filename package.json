@@ -1,6 +1,6 @@
 {
 	"name": "@sapphire/framework",
-	"version": "0.0.1",
+	"version": "1.0.0-alpha.0",
 	"description": "Discord bot framework built on top of @sapphire/lib for advanced and amazing bots.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
-		"@sapphire/pieces": "github:sapphire-project/pieces#build",
+		"@sapphire/pieces": "^1.0.0",
 		"@sapphire/ratelimits": "^1.1.1",
 		"@sapphire/utilities": "^1.2.0",
 		"lexure": "^0.17.0"
