@@ -1,4 +1,16 @@
-export { LoaderError, MissingExportsError, PieceContext, Awaited } from '@sapphire/pieces';
+export {
+	AliasPiece,
+	AliasPieceOptions,
+	AliasStore,
+	Awaited,
+	LoaderError,
+	MissingExportsError,
+	Piece,
+	PieceContext,
+	PieceOptions,
+	Store,
+	StoreOptions
+} from '@sapphire/pieces';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/UserError';
 export * from './lib/extensions/SapphireMessage';
