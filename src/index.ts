@@ -1,4 +1,16 @@
-export { LoaderError, MissingExportsError, PieceContext } from '@sapphire/pieces';
+export {
+	AliasPiece,
+	AliasPieceOptions,
+	AliasStore,
+	Awaited,
+	LoaderError,
+	MissingExportsError,
+	Piece,
+	PieceContext,
+	PieceOptions,
+	Store,
+	StoreOptions
+} from '@sapphire/pieces';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/UserError';
 export * from './lib/extensions/SapphireMessage';
@@ -8,10 +20,6 @@ export * from './lib/plugins/symbols';
 export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
-export * from './lib/structures/base/BaseAliasPiece';
-export * from './lib/structures/base/BaseAliasStore';
-export * from './lib/structures/base/BasePiece';
-export * from './lib/structures/base/BaseStore';
 export * from './lib/structures/Command';
 export * from './lib/structures/CommandStore';
 export * from './lib/structures/Event';
@@ -32,4 +40,3 @@ export * from './lib/utils/preconditions/PreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerAny';
 export * from './lib/utils/preconditions/PreconditionContainerSimple';
 export * from './lib/utils/Result';
-export * from './lib/utils/Types';

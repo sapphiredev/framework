@@ -11,7 +11,7 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 
 	public async run({ message, command, parameters, context }: PreCommandRunPayload) {
 		if (!command.enabled) {
-			this.client.emit(Events.CommandDenied, new UserError('CommandDisabled', 'This command is disabled.'), {
+			message.client.emit(Events.CommandDenied, new UserError('CommandDisabled', 'This command is disabled.'), {
 				message,
 				command,
 				parameters,
@@ -21,9 +21,9 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 		}
 		const result = await command.preconditions.run(message, command);
 		if (isErr(result)) {
-			this.client.emit(Events.CommandDenied, result.error, { message, command, parameters, context });
+			message.client.emit(Events.CommandDenied, result.error, { message, command, parameters, context });
 		} else {
-			this.client.emit(Events.CommandAccepted, { message, command, parameters, context });
+			message.client.emit(Events.CommandAccepted, { message, command, parameters, context });
 		}
 	}
 }

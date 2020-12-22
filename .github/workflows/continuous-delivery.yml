@@ -13,21 +13,19 @@ jobs:
         steps:
             - name: Checkout Project
               uses: actions/checkout@v2
-            - name: Use Node.js 12
+            - name: Use Node.js 14
               uses: actions/setup-node@v1
               with:
-                  node-version: 12
+                  node-version: 14
             - name: Restore CI Cache
               uses: actions/cache@v1
               with:
                   path: node_modules
-                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+                  key: ${{ runner.os }}-14-${{ hashFiles('**/yarn.lock') }}
             - name: Install Dependencies
               run: yarn --ignore-scripts --frozen-lockfile
             - name: Build Code
-              uses: icrawl/action-tsc@v1
-              with:
-                  build: src
+              run: yarn prepublishOnly
             - name: Push new code
               if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               run: |
@@ -78,15 +76,15 @@ jobs:
         steps:
             - name: Checkout Project
               uses: actions/checkout@v2
-            - name: Use Node.js 12
+            - name: Use Node.js 14
               uses: actions/setup-node@v1
               with:
-                  node-version: 12
+                  node-version: 14
             - name: Restore CI Cache
               uses: actions/cache@v1
               with:
                   path: node_modules
-                  key: ${{ runner.os }}-12-${{ hashFiles('**/yarn.lock') }}
+                  key: ${{ runner.os }}-14-${{ hashFiles('**/yarn.lock') }}
             - name: Install Dependencies
               run: yarn --ignore-scripts --frozen-lockfile
             - name: Build documentation

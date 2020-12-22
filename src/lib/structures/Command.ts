@@ -1,15 +1,12 @@
-import type { AliasPieceOptions } from '@sapphire/pieces';
-import type { PieceContext } from '@sapphire/pieces/dist/lib/Piece';
+import { AliasPiece, AliasPieceOptions, Awaited, PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../utils/Args';
 import { PreconditionContainerAll } from '../utils/preconditions/PreconditionContainer';
 import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
-import type { Awaited } from '../utils/Types';
-import { BaseAliasPiece } from './base/BaseAliasPiece';
 
-export abstract class Command<T = Args> extends BaseAliasPiece {
+export abstract class Command<T = Args> extends AliasPiece {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -51,7 +48,7 @@ export abstract class Command<T = Args> extends BaseAliasPiece {
 		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.preconditions = new PreconditionContainerAll(this.client, options.preconditions ?? []);
+		this.preconditions = new PreconditionContainerAll(this.context.client, options.preconditions ?? []);
 		this.strategy = new FlagUnorderedStrategy(options.strategyOptions ?? {});
 		this.#lexer.setQuotes(
 			options.quotes ?? [

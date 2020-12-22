@@ -1,13 +1,12 @@
-import type { Client } from 'discord.js';
-import { BaseAliasStore } from './base/BaseAliasStore';
+import { AliasStore } from '@sapphire/pieces';
 import { Command } from './Command';
 
 /**
  * Stores all Command pieces
  * @since 1.0.0
  */
-export class CommandStore extends BaseAliasStore<Command> {
-	public constructor(client: Client) {
-		super(client, Command as any, { name: 'commands' });
+export class CommandStore extends AliasStore<Command> {
+	public constructor() {
+		super(Command as any, { name: 'commands' });
 	}
 }

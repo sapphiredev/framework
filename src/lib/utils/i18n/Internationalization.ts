@@ -1,5 +1,5 @@
+import type { Awaited } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
-import type { Awaited } from '../Types';
 import type { IInternationalization } from './IInternationalization';
 
 export class Internationalization implements IInternationalization {

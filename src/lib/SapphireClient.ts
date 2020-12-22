@@ -1,4 +1,4 @@
-import type { Piece, Store } from '@sapphire/pieces';
+import { Awaited, Piece, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
@@ -14,7 +14,6 @@ import { Internationalization } from './utils/i18n/Internationalization';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 import { getRootDirectory } from './utils/RootDir';
-import type { Awaited } from './utils/Types';
 
 // Extensions
 import './extensions/SapphireMessage';
@@ -211,6 +210,9 @@ export class SapphireClient extends Client {
 
 	public constructor(options: ClientOptions = {}) {
 		super(options);
+
+		Store.injectedContext.client = this;
+
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
@@ -226,10 +228,10 @@ export class SapphireClient extends Client {
 		}
 
 		this.id = options.id ?? null;
-		this.arguments = new ArgumentStore(this).registerPath(join(__dirname, '..', 'arguments'));
-		this.commands = new CommandStore(this);
-		this.events = new EventStore(this).registerPath(join(__dirname, '..', 'events'));
-		this.preconditions = new PreconditionStore(this).registerPath(join(__dirname, '..', 'preconditions'));
+		this.arguments = new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'));
+		this.commands = new CommandStore();
+		this.events = new EventStore().registerPath(join(__dirname, '..', 'events'));
+		this.preconditions = new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions'));
 
 		this.stores = new Set();
 		this.registerStore(this.arguments) //
@@ -356,5 +358,11 @@ declare module 'discord.js' {
 		sendTranslated(key: string, values?: readonly unknown[], options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
 		sendTranslated(key: string, options?: MessageOptions | (MessageOptions & { split?: false }) | MessageAdditions): Promise<Message>;
 		sendTranslated(key: string, options?: MessageOptions & { split: true | SplitOptions }): Promise<Message[]>;
+	}
+}
+
+declare module '@sapphire/pieces' {
+	interface PieceContextExtras {
+		client: SapphireClient;
 	}
 }

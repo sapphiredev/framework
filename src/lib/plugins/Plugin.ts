@@ -1,6 +1,6 @@
+import type { Awaited } from '@sapphire/pieces';
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
-import type { Awaited } from '../utils/Types';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class

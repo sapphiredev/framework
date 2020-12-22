@@ -1,9 +1,8 @@
-import type { Client } from 'discord.js';
+import { AliasStore } from '@sapphire/pieces';
 import { Argument } from './Argument';
-import { BaseAliasStore } from './base/BaseAliasStore';
 
-export class ArgumentStore extends BaseAliasStore<Argument> {
-	public constructor(client: Client) {
-		super(client, Argument as any, { name: 'arguments' });
+export class ArgumentStore extends AliasStore<Argument> {
+	public constructor() {
+		super(Argument as any, { name: 'arguments' });
 	}
 }
