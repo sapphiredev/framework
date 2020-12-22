@@ -13,7 +13,6 @@ export {
 } from '@sapphire/pieces';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/UserError';
-export * from './lib/extensions/SapphireMessage';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
@@ -30,8 +29,6 @@ export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
 export * from './lib/utils/Args';
-export * from './lib/utils/i18n/IInternationalization';
-export * from './lib/utils/i18n/Internationalization';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
