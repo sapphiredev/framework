@@ -1,4 +1,3 @@
-import { MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import { DMChannel, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
@@ -8,6 +7,9 @@ export interface MessageArgumentContext extends ArgumentContext {
 }
 
 export class CoreArgument extends Argument<Message> {
+	private readonly messageLinkRegex = /^(?:https:\/\/)?(?:ptb\.|canary\.)?discord(?:app)?\.com\/channels\/(\d{17,19})\/(\d{17,19})\/(\d{17,19})$/;
+	private readonly snowflakeRegex = /^\d{17,19}$/;
+
 	public constructor(context: PieceContext) {
 		super(context, { name: 'message' });
 	}
@@ -19,17 +21,17 @@ export class CoreArgument extends Argument<Message> {
 
 	private async resolveByID(argument: string, context: MessageArgumentContext): Promise<Message | null> {
 		const channel = context.channel ?? context.message.channel;
-		return SnowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
+		return this.snowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
 	}
 
 	private async resolveByLink(argument: string, { message }: MessageArgumentContext): Promise<Message | null> {
 		if (!message.guild) return null;
 
-		const matches = MessageLinkRegex.exec(argument);
+		const matches = this.messageLinkRegex.exec(argument);
 		if (!matches) return null;
 		const [, guildID, channelID, messageID] = matches;
 
-		const guild = this.context.client.guilds.cache.get(guildID);
+		const guild = this.client.guilds.cache.get(guildID);
 		if (guild !== message.guild) return null;
 
 		const channel = guild.channels.cache.get(channelID);
