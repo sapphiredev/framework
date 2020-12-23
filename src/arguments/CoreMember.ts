@@ -1,10 +1,9 @@
+import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildMember, Guild } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildMember> {
-	private readonly userOrMemberRegex = /^(?:<@!?)?(\d{17,19})>?$/;
-
 	public constructor(context: PieceContext) {
 		super(context, { name: 'member' });
 	}
@@ -20,7 +19,7 @@ export class CoreArgument extends Argument<GuildMember> {
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<GuildMember | null> {
-		const memberID = this.userOrMemberRegex.exec(argument);
+		const memberID = UserOrMemberMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
 		return memberID ? guild.members.fetch(memberID[1]).catch(() => null) : null;
 	}
 
