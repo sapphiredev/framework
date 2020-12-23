@@ -1,4 +1,4 @@
-import { MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
+import { isNewsChannel, isTextChannel, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import { DMChannel, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
@@ -34,7 +34,7 @@ export class CoreArgument extends Argument<Message> {
 
 		const channel = guild.channels.cache.get(channelID);
 		if (!channel) return null;
-		if (!(channel instanceof NewsChannel || channel instanceof TextChannel)) return null;
+		if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
 		if (!channel.viewable) return null;
 		if (!channel.permissionsFor(message.author)?.has(Permissions.FLAGS.VIEW_CHANNEL)) return null;
 
