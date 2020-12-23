@@ -48,8 +48,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.preconditions = new PreconditionContainerArray(options.preconditions ?? []);
-		this.strategy = new FlagUnorderedStrategy(options.strategyOptions ?? {});
+		this.preconditions = new PreconditionContainerArray(options.preconditions);
+		this.strategy = new FlagUnorderedStrategy(options.strategyOptions);
 		this.#lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -111,6 +111,7 @@ export interface CommandOptions extends AliasPieceOptions {
 
 	/**
 	 * The [[Precondition]]s to be run, accepts an array of their names.
+	 * @seealso [[PreconditionContainerArray]]
 	 * @since 1.0.0
 	 * @default []
 	 */

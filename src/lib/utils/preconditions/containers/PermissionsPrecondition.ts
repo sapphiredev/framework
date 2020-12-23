@@ -4,6 +4,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
 
 /**
  * Constructs a contextful permissions precondition requirement.
+ * @since 1.0.0
  * @example
  * ```typescript
  * export class CoreCommand extends Command {
@@ -23,7 +24,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  * ```
  */
 export class PermissionsPrecondition implements PreconditionSingleResolvableDetails {
-	public entry: string;
+	public name: string;
 	public context: PreconditionContext;
 
 	/**
@@ -31,7 +32,7 @@ export class PermissionsPrecondition implements PreconditionSingleResolvableDeta
 	 * @param permissions The permissions that will be required by this command.
 	 */
 	public constructor(permissions: PermissionResolvable) {
-		this.entry = 'Permissions';
+		this.name = 'Permissions';
 		this.context = {
 			permissions: new Permissions(permissions)
 		};
