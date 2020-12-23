@@ -659,10 +659,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@sapphire/discord-utilities@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@sapphire/discord-utilities/-/discord-utilities-1.0.1.tgz#90adea5aa543b2bd880f34c25cc68efa9498d95e"
-  integrity sha512-R1pLfiOX6iBJmOBoL3rpcmWs9HboomJYPNHSXlL52iwbU9baMjs0HL13tY+AolHAA426grhzW/wAkdR6fqbzzw==
+"@sapphire/discord-utilities@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord-utilities/-/discord-utilities-1.0.2.tgz#0230208b4d1f2f35cfbbd4cea6fde778633cec07"
+  integrity sha512-iEwwvefKC/+3P/slwYSLYYIyKT5ue5wQSnirDZr6uDNknxI+4WpWz9upEsveDEF9mcntu0IroEhtGWHmRYsgfg==
   dependencies:
     twemoji-parser "^13.0.0"
 
