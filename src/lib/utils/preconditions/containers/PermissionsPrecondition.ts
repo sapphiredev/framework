@@ -1,6 +1,6 @@
 import { PermissionResolvable, Permissions } from 'discord.js';
 import type { PreconditionContext } from '../../../structures/Precondition';
-import type { PreconditionContainerSingleEntry } from '../PreconditionContainerSimple';
+import type { PreconditionSingleResolvableDetails } from '../PreconditionContainerSingle';
 
 /**
  * Constructs a contextful permissions precondition requirement.
@@ -22,7 +22,7 @@ import type { PreconditionContainerSingleEntry } from '../PreconditionContainerS
  * }
  * ```
  */
-export class PermissionsPrecondition implements PreconditionContainerSingleEntry {
+export class PermissionsPrecondition implements PreconditionSingleResolvableDetails {
 	public entry: string;
 	public context: PreconditionContext;
 
