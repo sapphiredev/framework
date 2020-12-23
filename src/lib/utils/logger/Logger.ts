@@ -37,7 +37,7 @@ export class Logger implements ILogger {
 		if (typeof method === 'string') console[method](...values);
 	}
 
-	private static readonly levels = new Map<LogLevel, LogMethods>([
+	protected static readonly levels = new Map<LogLevel, LogMethods>([
 		[LogLevel.Trace, 'trace'],
 		[LogLevel.Debug, 'debug'],
 		[LogLevel.Info, 'info'],
