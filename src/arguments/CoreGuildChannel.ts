@@ -1,10 +1,9 @@
+import { ChannelMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { Guild, GuildChannel } from 'discord.js';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildChannel> {
-	private readonly channelRegex = /^(?:<#)?(\d{17,19})>?$/;
-
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildChannel' });
 	}
@@ -22,7 +21,7 @@ export class CoreArgument extends Argument<GuildChannel> {
 	}
 
 	private resolveByID(argument: string, guild: Guild): GuildChannel | null {
-		const channelID = this.channelRegex.exec(argument);
+		const channelID = ChannelMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
 		return channelID ? guild.channels.cache.get(channelID[1]) ?? null : null;
 	}
 

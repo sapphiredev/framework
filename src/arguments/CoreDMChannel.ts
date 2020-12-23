@@ -1,3 +1,4 @@
+import { isDMChannel } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { DMChannel } from 'discord.js';
 import { Argument, ArgumentResult } from '../lib/structures/Argument';
@@ -13,10 +14,9 @@ export class CoreArgument extends Argument<DMChannel> {
 		if (!channel) {
 			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
 		}
-		if (channel.type !== 'dm') {
-			return this.error(argument, 'ArgumentDMChannelInvalidChannel', 'The argument did not resolve to a DM channel.');
-		}
 
-		return this.ok(channel as DMChannel);
+		return isDMChannel(channel)
+			? this.ok(channel)
+			: this.error(argument, 'ArgumentDMChannelInvalidChannel', 'The argument did not resolve to a DM channel.');
 	}
 }

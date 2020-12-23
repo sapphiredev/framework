@@ -659,6 +659,13 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
+"@sapphire/discord-utilities@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord-utilities/-/discord-utilities-1.0.2.tgz#0230208b4d1f2f35cfbbd4cea6fde778633cec07"
+  integrity sha512-iEwwvefKC/+3P/slwYSLYYIyKT5ue5wQSnirDZr6uDNknxI+4WpWz9upEsveDEF9mcntu0IroEhtGWHmRYsgfg==
+  dependencies:
+    twemoji-parser "^13.0.0"
+
 "@sapphire/eslint-config@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@sapphire/eslint-config/-/eslint-config-1.1.0.tgz#9c5eb2d2161def04a3af299b09cad4566e01bcab"
@@ -5455,6 +5462,11 @@ tweetnacl@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
   integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
+
+twemoji-parser@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-13.0.0.tgz#bd9d1b98474f1651dc174696b45cabefdfa405af"
+  integrity sha512-zMaGdskpH8yKjT2RSE/HwE340R4Fm+fbie4AaqjDa4H/l07YUmAvxkSfNl6awVWNRRQ0zdzLQ8SAJZuY5MgstQ==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
