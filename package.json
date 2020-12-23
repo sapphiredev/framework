@@ -26,6 +26,7 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
+		"@sapphire/discord-utilities": "^1.0.2",
 		"@sapphire/pieces": "^1.0.0",
 		"@sapphire/ratelimits": "^1.1.1",
 		"@sapphire/utilities": "^1.2.0",

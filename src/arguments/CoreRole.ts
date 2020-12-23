@@ -1,10 +1,9 @@
+import { RoleMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { Guild, Role } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Role> {
-	private readonly roleRegex = /^(?:<@&)?(\d{17,19})>?$/;
-
 	public constructor(context: PieceContext) {
 		super(context, { name: 'role' });
 	}
@@ -20,7 +19,7 @@ export class CoreArgument extends Argument<Role> {
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<Role | null> {
-		const roleID = this.roleRegex.exec(argument);
+		const roleID = RoleMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
 		return roleID ? guild.roles.fetch(roleID[1]).catch(() => null) : null;
 	}
 

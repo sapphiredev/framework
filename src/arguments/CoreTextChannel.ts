@@ -1,3 +1,4 @@
+import { isTextChannel } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildChannel, TextChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
@@ -12,8 +13,8 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', TextChannel> 
 	}
 
 	public handle(channel: GuildChannel, { argument }: ExtendedArgumentContext): ArgumentResult<TextChannel> {
-		return channel.type === 'text'
-			? this.ok(channel as TextChannel)
+		return isTextChannel(channel)
+			? this.ok(channel)
 			: this.error(argument, 'ArgumentTextChannelInvalidChannel', 'The argument did not resolve to a text channel.');
 	}
 }
