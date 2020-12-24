@@ -1,9 +1,10 @@
 import { PermissionResolvable, Permissions } from 'discord.js';
 import type { PreconditionContext } from '../../../structures/Precondition';
-import type { PreconditionContainerSingleEntry } from '../PreconditionContainerSimple';
+import type { PreconditionSingleResolvableDetails } from '../PreconditionContainerSingle';
 
 /**
  * Constructs a contextful permissions precondition requirement.
+ * @since 1.0.0
  * @example
  * ```typescript
  * export class CoreCommand extends Command {
@@ -22,8 +23,8 @@ import type { PreconditionContainerSingleEntry } from '../PreconditionContainerS
  * }
  * ```
  */
-export class PermissionsPrecondition implements PreconditionContainerSingleEntry {
-	public entry: string;
+export class PermissionsPrecondition implements PreconditionSingleResolvableDetails {
+	public name: string;
 	public context: PreconditionContext;
 
 	/**
@@ -31,7 +32,7 @@ export class PermissionsPrecondition implements PreconditionContainerSingleEntry
 	 * @param permissions The permissions that will be required by this command.
 	 */
 	public constructor(permissions: PermissionResolvable) {
-		this.entry = 'Permissions';
+		this.name = 'Permissions';
 		this.context = {
 			permissions: new Permissions(permissions)
 		};
