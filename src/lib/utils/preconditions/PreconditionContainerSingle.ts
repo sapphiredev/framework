@@ -66,6 +66,6 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	public run(message: Message, command: Command) {
 		const precondition = message.client.preconditions.get(this.name);
 		if (precondition) return precondition.run(message, command, this.context);
-		throw new Error(`The precondition ${this.name} is not available.`);
+		throw new Error(`The precondition "${this.name}" is not available.`);
 	}
 }
