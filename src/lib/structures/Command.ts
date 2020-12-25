@@ -8,6 +8,12 @@ import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/
 
 export abstract class Command<T = Args> extends AliasPiece {
 	/**
+	 * An options given from constructor.
+	 * @since 1.0.0
+	 */
+	public readonly options: CommandOptions;
+
+	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
 	 */
@@ -46,6 +52,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 */
 	protected constructor(context: PieceContext, { name, ...options }: CommandOptions = {}) {
 		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
+		this.options = { ...options, name };
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.preconditions = new PreconditionContainerAll(this.context.client, options.preconditions ?? []);
