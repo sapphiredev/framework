@@ -343,7 +343,9 @@ export class Args {
 	 * @seealso [[Args.peekResult]]
 	 */
 	public async peekWithResult<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K], UserError>>): Promise<Result<ArgType[K], UserError>>;
-	public async peekWithResult<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K][], UserError>>): Promise<Result<ArgType[K][], UserError>>;
+	public async peekWithResult<K extends keyof ArgType>(
+		cb: () => Awaited<Result<ArgType[K][], UserError>>
+	): Promise<Result<ArgType[K][], UserError>>;
 	public async peekWithResult<K extends keyof ArgType>(
 		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
 	): Promise<Result<ArgType[K] | ArgType[K][], UserError>> {
@@ -437,9 +439,9 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !createdat 730159185517477900
-	 * const resolver = Args.make((arg) => 
-	 * 	 SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'))
-	 * );
+	 * const resolver = Args.make((arg) => {
+	 * 	 return SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'));
+	 * });
 	 *
 	 * const snowflake = await args.peek(resolver);
 	 * const timestamp = Number((snowflake >> 22n) + DiscordSnowflake.Epoch);
