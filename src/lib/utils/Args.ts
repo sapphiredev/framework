@@ -1,3 +1,4 @@
+import type { Awaited } from '@sapphire/pieces';
 import type { Channel, DMChannel, GuildChannel, GuildMember, Message, NewsChannel, Role, TextChannel, User, VoiceChannel } from 'discord.js';
 import type * as Lexure from 'lexure';
 import type { URL } from 'url';
@@ -276,7 +277,7 @@ export class Args {
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
 	 * const resolver = Args.make((arg) => ok(arg.split('').reverse()));
-	 * const result = await args.repeatResult(resolver, { times: 5 });
+	 * const result = await args.repeat(resolver, { times: 5 });
 	 * await message.channel.send(`You have written ${result.length} word(s): ${result.join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
@@ -296,6 +297,175 @@ export class Args {
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]>;
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]> {
 		const result = await this.repeatResult(type, options);
+		if (isOk(result)) return result.value;
+		throw result.error;
+	}
+
+	/**
+	 * Peeks the following parameter(s) without advancing the parser's state; the state is saved
+	 * before running the argument callback and restored after it is invoked.
+	 * @param cb The callback returning a result of the peeked argument(s).
+	 * @example
+	 * ```typescript
+	 * // !reversedandscreamfirst hello world
+	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
+	 *
+	 * const result = await args.peekWithResult(() => args.repeatResult(resolver));
+	 * if (isOk(result)) await message.channel.send(
+	 *   `Reversed ${result.value.length} word(s): ${result.value.join(' ')}`
+	 * ); // Reversed 2 word(s): olleh dlrow
+	 *
+	 * const firstWord = await args.pickResult('string');
+	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // HELLO
+	 * ```
+	 * @remarks [[Args.peekResult]] is a convenience method for peeking a single parameter.
+	 * @seealso [[Args.peekResult]]
+	 */
+	public async peekWithResult<T>(cb: () => Awaited<Result<T, UserError>>): Promise<Result<T, UserError>>;
+	public async peekWithResult<T>(cb: () => Awaited<Result<T[], UserError>>): Promise<Result<T[], UserError>>;
+	/**
+	 * Peeks the following parameter(s) without advancing the parser's state; the state is saved
+	 * before running the argument callback and restored after it is invoked.
+	 * @param cb The callback returning a result of the peeked argument(s).
+	 * @example
+	 * ```typescript
+	 * // !sortandsumtwo 7 3 8 4 22 19
+	 * const result = await args.peekWithResult(() => args.repeatResult('number'));
+	 * if (isOk(result)) await message.channel.send(`Sorted: ${result.value.sort((a, b) => a - b).join(', ')}`); // Sorted: 3, 4, 7, 8, 19, 22
+	 *
+	 * const firstTwo = await args.repeatResult('number', { times: 2 });
+	 * if (isOk(firstTwo)) {
+	 *   const [x, y] = firstTwo.value;
+	 *   await message.channel.send(`Sum of first two numbers: ${x + y}`); // Sum of first two numbers: 10
+	 * }
+	 * ```
+	 * @remarks [[Args.peekResult]] is a convenience method for peeking a single parameter.
+	 * @seealso [[Args.peekResult]]
+	 */
+	public async peekWithResult<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K], UserError>>): Promise<Result<ArgType[K], UserError>>;
+	public async peekWithResult<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K][], UserError>>): Promise<Result<ArgType[K][], UserError>>;
+	public async peekWithResult<K extends keyof ArgType>(
+		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
+	): Promise<Result<ArgType[K] | ArgType[K][], UserError>> {
+		this.save();
+		const result = await cb();
+		this.restore();
+		return result;
+	}
+
+	/**
+	 * Similar to [[Args.peekWithResult]] but returns the value on success, throwing otherwise.
+	 * @param cb The callback returning a result of the peeked argument(s).
+	 * @example
+	 * ```typescript
+	 * // !reversedandscreamfirst foo bar
+	 * const resolver = Args.make((arg) => ok(args.split('').reverse().join('')));
+	 *
+	 * const reversed = await args.peekWith(() => args.repeatResult(resolver));
+	 * await message.channel.send(`Reversed ${reversed.length} word(s): ${reversed.join(' ')}`); // Reversed 2 word(s): oof rab
+	 *
+	 * const firstWord = await args.pick('string');
+	 * await message.channe.send(firstWord.toUpperCase()); // FOO
+	 * ```
+	 */
+	public async peekWith<T>(cb: () => Awaited<Result<T, UserError>>): Promise<T>;
+	public async peekWith<T>(cb: () => Awaited<Result<T[], UserError>>): Promise<T[]>;
+	/**
+	 * Similar to [[Args.peekWithResult]] but returns the value on success, throwing otherwise.
+	 * @param cb The callback returning a result of the peeked argument(s).
+	 * @example
+	 * ```typescript
+	 * // !sortandsumtwo 2 9 33 27 16
+	 * const numbers = await args.peekWith(() => args.repeatResult('number'));
+	 * await message.channel.send(`Sorted: ${numbers.sort((a, b) => a - b).join(', ')}`); // Sorted: 2, 9, 16, 27, 33
+	 *
+	 * const [x, y] = await args.repeat('number', { times: 2 });
+	 * await message.channel.send(`Sum of first two numbers: ${x + y}`); // Sum of first two numbers: 11
+	 * ```
+	 */
+	public async peekWith<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K], UserError>>): Promise<ArgType[K]>;
+	public async peekWith<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K][], UserError>>): Promise<ArgType[K][]>;
+	public async peekWith<K extends keyof ArgType>(
+		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
+	): Promise<ArgType[K] | ArgType[K][]> {
+		const result = await this.peekWithResult(cb);
+		if (isOk(result)) return result.value;
+		throw result.error;
+	}
+
+	/**
+	 * Peeks the following parameter without advancing the parser's state.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !bigint 25
+	 * const resolver = Args.make((arg) => {
+	 *   try {
+	 *     return ok(BigInt(arg));
+	 *   } catch {
+	 *     return err(new UserError('InvalidBigInt', 'You must specify a valid number for a bigint.'));
+	 *   }
+	 * });
+	 *
+	 * const result = await args.peekResult(resolver);
+	 * if (isOk(result)) return message.channel.send(`Your bigint is ${result.value}.`); // Your bigint is 25.
+	 * throw result.error;
+	 * ```
+	 * @remarks This is a convenience method for using [[Args.pickResult]] with [[Args.peekWithResult]].
+	 */
+	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
+	/**
+	 * Peeks the following parameter without advancing the parser's state.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !dateutc 1608867472611
+	 * const result = await args.peekResult('date');
+	 * if (isOk(result)) return message.channel.send(`Your date (in UTC): ${date.toUTCString()}`); // Your date (in UTC): Fri, 25 Dec 2020 03:37:52 GMT
+	 * throw result.error;
+	 * ```
+	 * @remarks This is a convenience method for using [[Args.pickResult]] with [[Args.peekWithResult]].
+	 */
+	public async peekResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
+	public async peekResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
+		return this.peekWithResult(() => this.pickResult(type, options));
+	}
+
+	/**
+	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !createdat 730159185517477900
+	 * const resolver = Args.make((arg) => 
+	 * 	 SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'))
+	 * );
+	 *
+	 * const snowflake = await args.peek(resolver);
+	 * const timestamp = Number((snowflake >> 22n) + DiscordSnowflake.Epoch);
+	 * const createdAt = new Date(timestamp);
+	 *
+	 * await message.channel.send(
+	 *   `The snowflake ${snowflake} was registered on ${createdAt.toUTCString()}.`
+	 * ); // The snowflake 730159185517477900 was registered on Tue, 07 Jul 2020 20:31:55 GMT.
+	 * ```
+	 */
+	public async peek<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
+	/**
+	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * @param type The type of the argument.
+	 * @example
+	 * ```typescript
+	 * // !content https://discord.com/channels/737141877803057244/737142209639350343/791843123898089483
+	 * const remoteMessage = await args.peek('message');
+	 * await message.channel.send(
+	 *   `${remoteMessage.author.tag}: ${remoteMessage.content}`
+	 * ); // RealShadowNova#7462: Yeah, Sapphire has been a great experience so far, especially being able to help and contribute.
+	 * ```
+	 */
+	public async peek<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
+	public async peek<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
+		const result = await this.peekResult(type, options);
 		if (isOk(result)) return result.value;
 		throw result.error;
 	}
