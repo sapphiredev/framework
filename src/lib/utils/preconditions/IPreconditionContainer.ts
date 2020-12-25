@@ -4,6 +4,34 @@ import type { UserError } from '../../errors/UserError';
 import type { Command } from '../../structures/Command';
 import type { Result } from '../Result';
 
+/**
+ * Defines the result's value for a PreconditionContainer.
+ * @since 1.0.0
+ */
+export type PreconditionContainerResult = Result<unknown, UserError>;
+
+/**
+ * Defines the return type of the generic [[IPreconditionContainer.run]].
+ * @since 1.0.0
+ */
+export type PreconditionContainerReturn = Awaited<PreconditionContainerResult>;
+
+/**
+ * Async-only version of [[PreconditionContainerReturn]], to be used when the run method is async.
+ * @since 1.0.0
+ */
+export type AsyncPreconditionContainerReturn = Promise<PreconditionContainerResult>;
+
+/**
+ * An abstracted precondition container to be implemented by classes.
+ * @since 1.0.0
+ */
 export interface IPreconditionContainer {
-	run(message: Message, command: Command): Awaited<Result<unknown, UserError>>;
+	/**
+	 * Runs a precondition container.
+	 * @since 1.0.0
+	 * @param message The message that ran this precondition.
+	 * @param command The command the message invoked.
+	 */
+	run(message: Message, command: Command): PreconditionContainerReturn;
 }

@@ -2,8 +2,8 @@ import { AliasPiece, AliasPieceOptions, Awaited, PieceContext } from '@sapphire/
 import type { Message } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../utils/Args';
-import { PreconditionContainerAll } from '../utils/preconditions/PreconditionContainer';
-import type { PreconditionContainerResolvable } from '../utils/preconditions/PreconditionContainerAny';
+import type { IPreconditionContainer } from '../utils/preconditions/IPreconditionContainer';
+import { PreconditionArrayResolvable, PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
 export abstract class Command<T = Args> extends AliasPiece {
@@ -23,7 +23,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * The preconditions to be run.
 	 * @since 1.0.0
 	 */
-	public preconditions: PreconditionContainerAll;
+	public preconditions: IPreconditionContainer;
 
 	/**
 	 * Longer version of command's summary and how to use it
@@ -55,8 +55,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.options = { ...options, name };
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.preconditions = new PreconditionContainerAll(this.context.client, options.preconditions ?? []);
-		this.strategy = new FlagUnorderedStrategy(options.strategyOptions ?? {});
+		this.preconditions = new PreconditionContainerArray(options.preconditions);
+		this.strategy = new FlagUnorderedStrategy(options.strategyOptions);
 		this.#lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -118,10 +118,11 @@ export interface CommandOptions extends AliasPieceOptions {
 
 	/**
 	 * The [[Precondition]]s to be run, accepts an array of their names.
+	 * @seealso [[PreconditionContainerArray]]
 	 * @since 1.0.0
 	 * @default []
 	 */
-	preconditions?: PreconditionContainerResolvable;
+	preconditions?: PreconditionArrayResolvable;
 
 	/**
 	 * The options for the lexer strategy.
