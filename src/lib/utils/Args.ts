@@ -346,6 +346,7 @@ export class Args {
 	public async peekWithResult<K extends keyof ArgType>(
 		cb: () => Awaited<Result<ArgType[K][], UserError>>
 	): Promise<Result<ArgType[K][], UserError>>;
+
 	public async peekWithResult<K extends keyof ArgType>(
 		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
 	): Promise<Result<ArgType[K] | ArgType[K][], UserError>> {
