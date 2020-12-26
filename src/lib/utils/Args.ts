@@ -1,10 +1,9 @@
-import type { Awaited } from '@sapphire/pieces';
 import type { Channel, DMChannel, GuildChannel, GuildMember, Message, NewsChannel, Role, TextChannel, User, VoiceChannel } from 'discord.js';
 import type * as Lexure from 'lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
-import type { ArgumentContext, IArgument } from '../structures/Argument';
+import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
 import type { Command } from '../structures/Command';
 import { err, isErr, isOk, ok, Ok, Result } from './Result';
 
@@ -302,15 +301,17 @@ export class Args {
 	}
 
 	/**
-	 * Peeks the following parameter(s) without advancing the parser's state; the state is saved
-	 * before running the argument callback and restored after it is invoked.
-	 * @param cb The callback returning a result of the peeked argument(s).
+	 * Peeks the following parameter(s) without advancing the parser's state.
+	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
+	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
+	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
 	 * // !reversedandscreamfirst hello world
 	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
 	 *
-	 * const result = await args.peekWithResult(() => args.repeatResult(resolver));
+	 * const result = await args.peekResult(() => args.repeatResult(resolver));
 	 * if (isOk(result)) await message.channel.send(
 	 *   `Reversed ${result.value.length} word(s): ${result.value.join(' ')}`
 	 * ); // Reversed 2 word(s): olleh dlrow
@@ -318,90 +319,66 @@ export class Args {
 	 * const firstWord = await args.pickResult('string');
 	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // HELLO
 	 * ```
-	 * @remarks [[Args.peekResult]] is a convenience method for peeking a single parameter.
-	 * @seealso [[Args.peekResult]]
 	 */
-	public async peekWithResult<T>(cb: () => Awaited<Result<T, UserError>>): Promise<Result<T, UserError>>;
-	public async peekWithResult<T>(cb: () => Awaited<Result<T[], UserError>>): Promise<Result<T[], UserError>>;
+	public async peekResult<T>(type: () => ArgumentResult<T>): Promise<Result<T, UserError>>;
 	/**
-	 * Peeks the following parameter(s) without advancing the parser's state; the state is saved
-	 * before running the argument callback and restored after it is invoked.
-	 * @param cb The callback returning a result of the peeked argument(s).
+	 * Peeks the following parameter(s) without advancing the parser's state.
+	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
+	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
+	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * @param type The function, custom argument, or argument name.
+	 * @wxample
+	 * ```typescript
+	 * // !reverseandscreamfirst sapphire project
+	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
+	 *
+	 * const peekedWord = await args.peekResult(resolver);
+	 * if (isOk(peekedWord)) await message.channel.send(peekedWord.value); // erihppas
+	 *
+	 * const firstWord = await args.pickResult('string');
+	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // SAPPHIRE
+	 * ```
+	 */
+	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
+	/**
+	 * Peeks the following parameter(s) without advancing the parser's state.
+	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
+	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
+	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
-	 * // !sortandsumtwo 7 3 8 4 22 19
-	 * const result = await args.peekWithResult(() => args.repeatResult('number'));
-	 * if (isOk(result)) await message.channel.send(`Sorted: ${result.value.sort((a, b) => a - b).join(', ')}`); // Sorted: 3, 4, 7, 8, 19, 22
+	 * // !datethenaddtwo 1608867472611
+	 * const date = await args.peekResult('date');
+	 * if (isOk(date)) await message.channel.send(
+	 *   `Your date (in UTC): ${date.value.toUTCString()}`
+	 * ); // Your date (in UTC): Fri, 25 Dec 2020 03:37:52 GMT
 	 *
-	 * const firstTwo = await args.repeatResult('number', { times: 2 });
-	 * if (isOk(firstTwo)) {
-	 *   const [x, y] = firstTwo.value;
-	 *   await message.channel.send(`Sum of first two numbers: ${x + y}`); // Sum of first two numbers: 10
-	 * }
+	 * const result = await args.pickResult('number', { maximum: Number.MAX_SAFE_INTEGER - 2 });
+	 * if (isOk(result)) await message.channel.send(`Your number plus two: ${result.value + 2}`); // Your number plus two: 1608867472613
 	 * ```
-	 * @remarks [[Args.peekResult]] is a convenience method for peeking a single parameter.
-	 * @seealso [[Args.peekResult]]
 	 */
-	public async peekWithResult<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K], UserError>>): Promise<Result<ArgType[K], UserError>>;
-	public async peekWithResult<K extends keyof ArgType>(
-		cb: () => Awaited<Result<ArgType[K][], UserError>>
-	): Promise<Result<ArgType[K][], UserError>>;
+	public async peekResult<K extends keyof ArgType>(
+		type: (() => ArgumentResult<ArgType[K]>) | K,
+		options?: ArgOptions
+	): Promise<Result<ArgType[K], UserError>>;
 
-	public async peekWithResult<K extends keyof ArgType>(
-		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
-	): Promise<Result<ArgType[K] | ArgType[K][], UserError>> {
+	public async peekResult<K extends keyof ArgType>(
+		type: (() => ArgumentResult<ArgType[K]>) | K,
+		options: ArgOptions = {}
+	): Promise<Result<ArgType[K], UserError>> {
 		this.save();
-		const result = await cb();
+		const result = typeof type === 'function' ? await type() : await this.pickResult(type, options);
 		this.restore();
 		return result;
 	}
 
 	/**
-	 * Similar to [[Args.peekWithResult]] but returns the value on success, throwing otherwise.
-	 * @param cb The callback returning a result of the peeked argument(s).
+	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
-	 * // !reversedandscreamfirst foo bar
-	 * const resolver = Args.make((arg) => ok(args.split('').reverse().join('')));
-	 *
-	 * const reversed = await args.peekWith(() => args.repeatResult(resolver));
-	 * await message.channel.send(`Reversed ${reversed.length} word(s): ${reversed.join(' ')}`); // Reversed 2 word(s): oof rab
-	 *
-	 * const firstWord = await args.pick('string');
-	 * await message.channe.send(firstWord.toUpperCase()); // FOO
-	 * ```
-	 */
-	public async peekWith<T>(cb: () => Awaited<Result<T, UserError>>): Promise<T>;
-	public async peekWith<T>(cb: () => Awaited<Result<T[], UserError>>): Promise<T[]>;
-	/**
-	 * Similar to [[Args.peekWithResult]] but returns the value on success, throwing otherwise.
-	 * @param cb The callback returning a result of the peeked argument(s).
-	 * @example
-	 * ```typescript
-	 * // !sortandsumtwo 2 9 33 27 16
-	 * const numbers = await args.peekWith(() => args.repeatResult('number'));
-	 * await message.channel.send(`Sorted: ${numbers.sort((a, b) => a - b).join(', ')}`); // Sorted: 2, 9, 16, 27, 33
-	 *
-	 * const [x, y] = await args.repeat('number', { times: 2 });
-	 * await message.channel.send(`Sum of first two numbers: ${x + y}`); // Sum of first two numbers: 11
-	 * ```
-	 */
-	public async peekWith<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K], UserError>>): Promise<ArgType[K]>;
-	public async peekWith<K extends keyof ArgType>(cb: () => Awaited<Result<ArgType[K][], UserError>>): Promise<ArgType[K][]>;
-	public async peekWith<K extends keyof ArgType>(
-		cb: () => Awaited<Result<ArgType[K] | ArgType[K][], UserError>>
-	): Promise<ArgType[K] | ArgType[K][]> {
-		const result = await this.peekWithResult(cb);
-		if (isOk(result)) return result.value;
-		throw result.error;
-	}
-
-	/**
-	 * Peeks the following parameter without advancing the parser's state.
-	 * @param type The type of the argument.
-	 * @example
-	 * ```typescript
-	 * // !bigint 25
+	 * // !bigintsumthensquarefirst 25 50 75
 	 * const resolver = Args.make((arg) => {
 	 *   try {
 	 *     return ok(BigInt(arg));
@@ -410,64 +387,54 @@ export class Args {
 	 *   }
 	 * });
 	 *
-	 * const result = await args.peekResult(resolver);
-	 * if (isOk(result)) return message.channel.send(`Your bigint is ${result.value}.`); // Your bigint is 25.
-	 * throw result.error;
+	 * const peeked = await args.peek(() => args.repeatResult(resolver));
+	 * await message.channel.send(`Sum: **${peeked.reduce((x, y) => x + y, 0)}**`); // Sum: 150
+	 *
+	 * const first = await args.pick(resolver);
+	 * await message.channel.send(`First bigint squared: ${first**2n}`); // First bigint squared: 625
 	 * ```
-	 * @remarks This is a convenience method for using [[Args.pickResult]] with [[Args.peekWithResult]].
 	 */
-	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
-	/**
-	 * Peeks the following parameter without advancing the parser's state.
-	 * @param type The type of the argument.
-	 * @example
-	 * ```typescript
-	 * // !dateutc 1608867472611
-	 * const result = await args.peekResult('date');
-	 * if (isOk(result)) return message.channel.send(`Your date (in UTC): ${date.toUTCString()}`); // Your date (in UTC): Fri, 25 Dec 2020 03:37:52 GMT
-	 * throw result.error;
-	 * ```
-	 * @remarks This is a convenience method for using [[Args.pickResult]] with [[Args.peekWithResult]].
-	 */
-	public async peekResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
-	public async peekResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
-		return this.peekWithResult(() => this.pickResult(type, options));
-	}
-
+	public async peek<T>(type: () => ArgumentResult<T>): Promise<T>;
 	/**
 	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
-	 * @param type The type of the argument.
+	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
 	 * // !createdat 730159185517477900
-	 * const resolver = Args.make((arg) => {
-	 * 	 return SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'));
-	 * });
+	 * const snowflakeResolver = Args.make((arg) =>
+	 * 	 SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'));
+	 * );
 	 *
-	 * const snowflake = await args.peek(resolver);
+	 * const snowflake = await args.peek(snowflakeResolver);
 	 * const timestamp = Number((snowflake >> 22n) + DiscordSnowflake.Epoch);
 	 * const createdAt = new Date(timestamp);
 	 *
 	 * await message.channel.send(
 	 *   `The snowflake ${snowflake} was registered on ${createdAt.toUTCString()}.`
 	 * ); // The snowflake 730159185517477900 was registered on Tue, 07 Jul 2020 20:31:55 GMT.
+	 *
+	 * const id = await args.pick('string');
+	 * await message.channel.send(`Your ID, reversed: ${id.split('').reverse().join('')}`); // Your ID, reversed: 009774715581951037
 	 * ```
 	 */
 	public async peek<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
 	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
-	 * @param type The type of the argument.
+	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
-	 * // !content https://discord.com/channels/737141877803057244/737142209639350343/791843123898089483
+	 * // !messagelink https://discord.com/channels/737141877803057244/737142209639350343/791843123898089483
 	 * const remoteMessage = await args.peek('message');
 	 * await message.channel.send(
 	 *   `${remoteMessage.author.tag}: ${remoteMessage.content}`
 	 * ); // RealShadowNova#7462: Yeah, Sapphire has been a great experience so far, especially being able to help and contribute.
+	 *
+	 * const url = await args.pick('hyperlink');
+	 * await message.channel.send(`Hostname: ${url.hostname}`); // Hostname: discord.com
 	 * ```
 	 */
-	public async peek<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
-	public async peek<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
+	public async peek<K extends keyof ArgType>(type: (() => ArgumentResult<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]>;
+	public async peek<K extends keyof ArgType>(type: (() => ArgumentResult<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.peekResult(type, options);
 		if (isOk(result)) return result.value;
 		throw result.error;
