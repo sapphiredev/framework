@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@sapphire/discord-utilities": "^1.0.3",
-		"@sapphire/pieces": "^1.0.0",
+		"@sapphire/pieces": "^1.0.1",
 		"@sapphire/ratelimits": "^1.1.2",
 		"@sapphire/utilities": "^1.3.0",
 		"lexure": "^0.17.0"
