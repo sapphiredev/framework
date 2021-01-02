@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.1](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2020-12-28)
+
+### Features
+
+-   new preconditions ([#119](https://github.com/sapphire-project/framework/issues/119)) ([10c7a1b](https://github.com/sapphire-project/framework/commit/10c7a1b1a83838c89ac6d858cdc3a507ad1ab32a))
+-   **arguments:** Add Message argument, use discord-utilities ([#118](https://github.com/sapphire-project/framework/issues/118)) ([c70af0a](https://github.com/sapphire-project/framework/commit/c70af0ab0fc241691b88da9bc7b8bcc6c97efa28))
+-   **logger:** make Logger.levels protected ([5a4b8d6](https://github.com/sapphire-project/framework/commit/5a4b8d6e5c86f7f2c5153730d4565654c54a59c0))
+
 ### 1.0.0-alpha.0 (2020-12-22)
 
 ### Features

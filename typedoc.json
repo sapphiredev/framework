@@ -2,12 +2,8 @@
 	"out": "./docs/",
 	"readme": "./README.md",
 	"name": "@sapphire/framework",
-	"exclude": [
-		"**/node_modules/**",
-		"tests/**"
-	],
-	"mode": "file",
+	"entryPoints": ["src/index.ts"],
+	"exclude": ["**/node_modules/**", "tests/**", "**/dist/**"],
 	"excludeExternals": true,
-	"excludeNotExported": true,
 	"tsconfig": "./tsconfig.base.json"
 }
