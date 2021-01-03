@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.2](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2021-01-03)
+
+### Features
+
+-   **args:** allow peeking arguments ([#121](https://github.com/sapphire-project/framework/issues/121)) ([4786d48](https://github.com/sapphire-project/framework/commit/4786d48e5ddabf292fca3a09dfc55f685087368a))
+
+### Bug Fixes
+
+-   **index:** export PreconditionError ([#124](https://github.com/sapphire-project/framework/issues/124)) ([5daa3c9](https://github.com/sapphire-project/framework/commit/5daa3c965960710c7e088e8245e5e1d9875d34eb))
+
 ## [1.0.0-alpha.1](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2020-12-28)
 
 ### Features
