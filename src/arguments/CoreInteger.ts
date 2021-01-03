@@ -13,10 +13,10 @@ export class CoreArgument extends Argument<number> {
 			return this.error(argument, 'ArgumentIntegerInvalidNumber', 'The argument did not resolve to an integer.');
 		}
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return this.error(argument, 'ArgumentIntegerTooSmall', 'The argument is too small.');
+			return this.error(argument, 'ArgumentIntegerTooSmall', `The argument must be greater than ${context.minimum}.`);
 		}
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return this.error(argument, 'ArgumentIntegerTooBig', 'The argument is too big.');
+			return this.error(argument, 'ArgumentIntegerTooBig', `The argument must be less than ${context.maximum}.`);
 		}
 
 		return this.ok(parsed);
