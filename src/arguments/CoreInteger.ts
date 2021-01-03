@@ -16,7 +16,7 @@ export class CoreArgument extends Argument<number> {
 			return this.error(argument, 'ArgumentIntegerTooSmall', `The argument must be greater than ${context.minimum}.`);
 		}
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return this.error(argument, 'ArgumentIntegerTooBig', `The argument must be less than ${context.minimum}.`);
+			return this.error(argument, 'ArgumentIntegerTooBig', `The argument must be less than ${context.maximum}.`);
 		}
 
 		return this.ok(parsed);

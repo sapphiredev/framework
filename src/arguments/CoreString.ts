@@ -11,7 +11,7 @@ export class CoreArgument extends Argument<string> {
 			return this.error(argument, 'ArgumentStringTooShort', `The argument must be greater than ${context.minimum} characters.`);
 		}
 		if (typeof context.maximum === 'number' && argument.length > context.maximum) {
-			return this.error(argument, 'ArgumentStringTooLong', `The argument must be less than ${context.minimum} characters.`);
+			return this.error(argument, 'ArgumentStringTooLong', `The argument must be less than ${context.maximum} characters.`);
 		}
 
 		return this.ok(argument);
