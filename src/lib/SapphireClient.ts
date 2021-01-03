@@ -264,6 +264,7 @@ export class SapphireClient extends Client {
 
 	/**
 	 * Deregisters a store.
+	 * @since 1.0.0
 	 * @param store The store to deregister.
 	 */
 	public deregisterStore<T extends Piece>(store: Store<T>): this {
