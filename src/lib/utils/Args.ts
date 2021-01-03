@@ -517,6 +517,13 @@ export class Args {
 	}
 
 	/**
+	 * Whether all arguments have been consumed.
+	 */
+	public get finished() {
+		return this.parser.finished;
+	}
+
+	/**
 	 * Resolves an argument.
 	 * @param arg The argument name or [[IArgument]] instance.
 	 */
