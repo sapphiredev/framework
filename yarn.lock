@@ -678,20 +678,20 @@
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
-"@sapphire/prettier-config@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@sapphire/prettier-config/-/prettier-config-1.0.4.tgz#c95d8ef00c6a4441ca42f9a4b72abb1a33013580"
-  integrity sha512-KQz5jyRU7IH523UOcnQvScobY13wnPUlGYoGaccon4naaraXniGunVVgQFpY+Zyrqn3DjlQavsMUki0sYbEc6w==
+"@sapphire/prettier-config@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@sapphire/prettier-config/-/prettier-config-1.0.5.tgz#fd2a91c79dbc0327bd78655dc9ce1a5d65ac5490"
+  integrity sha512-I4ReoMcm/+ZZLFy5asbsXAFZyYdHNMinLTJ7wlBX6h2M0jcbWCY4/GtyFkIMengd3tkLrxD6YiMJOPFgV5nLvw==
 
 "@sapphire/ratelimits@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@sapphire/ratelimits/-/ratelimits-1.1.2.tgz#84c6ba386c99afa0bfe7ae7ce4403752463bac4f"
   integrity sha512-wmBfqUMIdeJGSkARZva86NFfBKWy4NyzRplIVITF/DbYKnMqfzD1yKOosxhUBlotuIbf4LnHH86N6UXVW6VaTQ==
 
-"@sapphire/ts-config@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/ts-config/-/ts-config-1.1.0.tgz#b4dc337d98f9cfc086a2e6e0ab545af0a5bfa90e"
-  integrity sha512-EQbQr461Ahn8tR/zWaOkciorFoq49dHpPpVY257EckUDGeRJ9Nwgpo9IfN2hnPjlnMqxbSV8awvLnwaLcEl4iQ==
+"@sapphire/ts-config@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@sapphire/ts-config/-/ts-config-1.1.1.tgz#f813e54ea5dbee7905cbfb65126760bd13f11ce9"
+  integrity sha512-NZj5ixLUSbWINpv7q4XzLY6I6EpKTVtkwX97qlflLcYEhbLIWfJQpjAtqTHR/W7wnQuGKqeDKMd5i8Ixk/s7/A==
 
 "@sapphire/utilities@^1.3.0":
   version "1.3.0"
@@ -794,15 +794,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@*":
-  version "14.14.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.14.tgz#f7fd5f3cc8521301119f63910f0fb965c7d761ae"
-  integrity sha512-UHnOPWVWV1z+VV8k6L1HhG7UbGBgIdghqF3l9Ny9ApPghbjICXkUJSd/b9gOgQfjM1r+37cipdw/HJ3F6ICEnQ==
-
-"@types/node@^14.14.16":
-  version "14.14.16"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.16.tgz#3cc351f8d48101deadfed4c9e4f116048d437b4b"
-  integrity sha512-naXYePhweTi+BMv11TgioE2/FXU4fSl29HAH1ffxVciNsH3rYXjNP2yM8wqmSm7jS20gM8TIklKiTen+1iVncw==
+"@types/node@*", "@types/node@^14.14.19":
+  version "14.14.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.19.tgz#5135176a8330b88ece4e9ab1fdcfc0a545b4bab4"
+  integrity sha512-4nhBPStMK04rruRVtVc6cDqhu7S9GZai0fpXgPXrFpcPX6Xul8xnrjSdGB4KPBVYG/R5+fXWdCM8qBoiULWGPQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -5573,10 +5568,10 @@ typedoc-plugin-nojekyll@^1.0.1:
   dependencies:
     fs-extra "^6.0.1"
 
-typedoc@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.0.tgz#4fd4ca59c69e6ba09667124ed012d78bc271d969"
-  integrity sha512-HIJ0MTyyKgTQ/MuCXBULxBNvoZV0nozG0I0/GOSEcdmSPTwnA1tP0yhHCFsuabYmf8Dvzx/vMxw0hbfTvZJj6Q==
+typedoc@^0.20.10:
+  version "0.20.10"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.10.tgz#013eac8ece7b7f6201a06a83d4ddf3d93e89d7f9"
+  integrity sha512-1Bqbmf/1pwRiUkd1j1tvL7GIlBOFANFcjC+W5cZ02R0CKgUN+fIIl2Z2OhuaM7MVytKq6snF1KYVIwBvplO37g==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"
