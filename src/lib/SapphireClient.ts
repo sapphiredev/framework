@@ -263,6 +263,16 @@ export class SapphireClient extends Client {
 	}
 
 	/**
+	 * Deregisters a store.
+	 * @since 1.0.0
+	 * @param store The store to deregister.
+	 */
+	public deregisterStore<T extends Piece>(store: Store<T>): this {
+		this.stores.delete((store as unknown) as Store<Piece>);
+		return this;
+	}
+
+	/**
 	 * Loads all pieces, then logs the client in, establishing a websocket connection to Discord.
 	 * @since 1.0.0
 	 * @param token Token of the account to log in with.
