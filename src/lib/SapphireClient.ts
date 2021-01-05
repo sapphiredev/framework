@@ -1,4 +1,4 @@
-import { Awaited, getRootData, Piece, Store } from '@sapphire/pieces';
+import { Awaited, Store } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
@@ -7,6 +7,7 @@ import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
+import { StoreRegistry } from './structures/StoreRegistry';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
@@ -184,34 +185,10 @@ export class SapphireClient extends Client {
 	public logger: ILogger;
 
 	/**
-	 * The arguments the framework has registered.
-	 * @since 1.0.0
-	 */
-	public arguments: ArgumentStore;
-
-	/**
-	 * The commands the framework has registered.
-	 * @since 1.0.0
-	 */
-	public commands: CommandStore;
-
-	/**
-	 * The events the framework has registered.
-	 * @since 1.0.0
-	 */
-	public events: EventStore;
-
-	/**
-	 * The precondition the framework has registered.
-	 * @since 1.0.0
-	 */
-	public preconditions: PreconditionStore;
-
-	/**
 	 * The registered stores.
 	 * @since 1.0.0
 	 */
-	public stores: Set<Store<Piece>>;
+	public stores: StoreRegistry;
 
 	public constructor(options: ClientOptions = {}) {
 		super(options);
@@ -224,8 +201,10 @@ export class SapphireClient extends Client {
 		}
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
-
 		Store.injectedContext.logger = this.logger;
+
+		this.stores = new StoreRegistry();
+		Store.injectedContext.stores = this.stores;
 
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
@@ -235,71 +214,17 @@ export class SapphireClient extends Client {
 		}
 
 		this.id = options.id ?? null;
-		this.arguments = new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'));
-		this.commands = new CommandStore();
-		this.events = new EventStore().registerPath(join(__dirname, '..', 'events'));
-		this.preconditions = new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions'));
-
-		if (options.loadDefaultErrorEvents !== false) this.events.registerPath(join(__dirname, '..', 'errorEvents'));
-
-		this.stores = new Set();
-		this.registerStore(this.arguments) //
-			.registerStore(this.commands)
-			.registerStore(this.events)
-			.registerStore(this.preconditions);
+		this.stores
+			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
+			.register(new CommandStore())
+			.register(new EventStore().registerPath(join(__dirname, '..', 'events')))
+			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
+		if (options.loadDefaultErrorEvents !== false) this.stores.get('events').registerPath(join(__dirname, '..', 'errorEvents'));
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
 			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
-	}
-
-	/**
-	 * Registers all user directories from the process working directory, the default value is obtained by assuming
-	 * CommonJS (high accuracy) but with fallback for ECMAScript Modules (reads package.json's `main` entry, fallbacks
-	 * to `process.cwd()`).
-	 *
-	 * By default, if you have this folder structure:
-	 * ```
-	 * /home/me/my-bot
-	 * ├─ src
-	 * │  ├─ commands
-	 * │  ├─ events
-	 * │  └─ main.js
-	 * └─ package.json
-	 * ```
-	 *
-	 * And you run `node src/main.js`, the directories `/home/me/my-bot/src/commands` and `/home/me/my-bot/src/events` will
-	 * be registered for the commands and events stores respectively, since both directories are located in the same
-	 * directory as your main file.
-	 *
-	 * **Note**: this also registers directories for all other stores, even if they don't have a folder, this allows you
-	 * to create new pieces and hot-load them later anytime.
-	 * @param rootDirectory The root directory to register pieces at.
-	 */
-	public registerUserDirectories(rootDirectory = getRootData().root) {
-		for (const store of this.stores) {
-			store.registerPath(join(rootDirectory, store.name));
-		}
-	}
-
-	/**
-	 * Registers a store.
-	 * @param store The store to register.
-	 */
-	public registerStore<T extends Piece>(store: Store<T>): this {
-		this.stores.add((store as unknown) as Store<Piece>);
-		return this;
-	}
-
-	/**
-	 * Deregisters a store.
-	 * @since 1.0.0
-	 * @param store The store to deregister.
-	 */
-	public deregisterStore<T extends Piece>(store: Store<T>): this {
-		this.stores.delete((store as unknown) as Store<Piece>);
-		return this;
 	}
 
 	/**
@@ -311,7 +236,7 @@ export class SapphireClient extends Client {
 	public async login(token?: string) {
 		// Register the user directory if not null:
 		if (this.options.baseUserDirectory !== null) {
-			this.registerUserDirectories(this.options.baseUserDirectory);
+			this.stores.registerUserDirectories(this.options.baseUserDirectory);
 		}
 
 		// Call pre-login plugins:
@@ -321,7 +246,7 @@ export class SapphireClient extends Client {
 		}
 
 		// Loads all stores, then call login:
-		await Promise.all([...this.stores].map((store) => store.loadAll()));
+		await Promise.all([...this.stores.values()].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
 		// Call post-login plugins:
@@ -350,10 +275,7 @@ declare module 'discord.js' {
 	interface Client {
 		id: string | null;
 		logger: ILogger;
-		arguments: ArgumentStore;
-		commands: CommandStore;
-		events: EventStore;
-		preconditions: PreconditionStore;
+		stores: StoreRegistry;
 		fetchPrefix: SapphirePrefixHook;
 	}
 
@@ -364,5 +286,6 @@ declare module '@sapphire/pieces' {
 	interface PieceContextExtras {
 		client: SapphireClient;
 		logger: ILogger;
+		stores: StoreRegistry;
 	}
 }
