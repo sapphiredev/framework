@@ -1,6 +1,6 @@
 import type { PieceContext } from '@sapphire/pieces';
-import type { ArgType } from '../utils/Args';
-import { isOk } from '../utils/Result';
+import type { ArgType } from '../parsers/Args';
+import { isOk } from '../parsers/Result';
 import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgumentResult, IArgument } from './Argument';
 
 /**

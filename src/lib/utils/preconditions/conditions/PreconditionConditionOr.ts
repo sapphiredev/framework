@@ -1,4 +1,4 @@
-import { isOk, ok } from '../../Result';
+import { isOk, ok } from '../../../parsers/Result';
 import type { PreconditionContainerResult } from '../IPreconditionContainer';
 import type { IPreconditionCondition } from './IPreconditionCondition';
 

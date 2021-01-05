@@ -2,7 +2,7 @@ import { Awaited, Piece } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import { PreconditionError, PreconditionErrorExtras } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
-import { err, ok, Result } from '../utils/Result';
+import { err, ok, Result } from '../parsers/Result';
 import type { Command } from './Command';
 
 export type PreconditionResult = Awaited<Result<unknown, UserError>>;

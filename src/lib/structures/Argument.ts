@@ -1,8 +1,8 @@
 import { AliasPiece, AliasPieceOptions, Awaited } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
-import { Args } from '../utils/Args';
-import { err, ok, Result } from '../utils/Result';
+import { Args } from '../parsers/Args';
+import { err, ok, Result } from '../parsers/Result';
 import type { Command } from './Command';
 
 /**

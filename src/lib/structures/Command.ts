@@ -1,7 +1,7 @@
 import { AliasPiece, AliasPieceOptions, Awaited, PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import * as Lexure from 'lexure';
-import { Args } from '../utils/Args';
+import { Args } from '../parsers/Args';
 import type { IPreconditionContainer } from '../utils/preconditions/IPreconditionContainer';
 import { PreconditionArrayResolvable, PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';

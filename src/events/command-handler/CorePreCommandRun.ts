@@ -2,7 +2,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import { UserError } from '../../lib/errors/UserError';
 import { Event } from '../../lib/structures/Event';
 import { Events, PreCommandRunPayload } from '../../lib/types/Events';
-import { isErr } from '../../lib/utils/Result';
+import { isErr } from '../../lib/parsers/Result';
 
 export class CoreEvent extends Event<Events.PreCommandRun> {
 	public constructor(context: PieceContext) {
