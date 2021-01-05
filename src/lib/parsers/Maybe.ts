@@ -17,10 +17,27 @@ export type Some<T> = option.Some<T>;
  */
 export type None = option.None;
 
+/**
+ * Returns the maybe itself.
+ * @param value The value to convert.
+ */
+export function maybe<T, V extends Maybe<T>>(value: V): V;
+/**
+ * Creates a [[None]] from an existing [[None]] or a `null`.
+ * @param value The value to convert.
+ */
 export function maybe(value: null | None): None;
-export function maybe<T>(value: T | null | Maybe<T>): Maybe<T>;
+/**
+ * Creates a [[Some]] from a non-null value or an existing [[Some]], or a [[None]] otherwise.
+ * @param value The value to convert.
+ */
+export function maybe<T>(value: T | Maybe<T> | null): Maybe<T>;
+/**
+ * Creates a [[Some]] from a non-null value or an existing [[Some]].
+ * @param value The value to convert.
+ */
 export function maybe<T>(value: T | Some<T>): Some<T>;
-export function maybe<T>(value: T | null | Maybe<T>): Maybe<T> {
+export function maybe<T>(value: T | Maybe<T> | null): Maybe<T> {
 	return isMaybe(value) ? value : value === null ? none() : some(value);
 }
 
@@ -64,6 +81,16 @@ export function isNone<T>(x: Maybe<T>): x is None {
 	return !x.exists;
 }
 
-export function isMaybe<T>(x: unknown): x is Maybe<T> {
+/**
+ * Type-safe helper to preserve the type parameter's type.
+ * @param x The value to check.
+ */
+export function isMaybe<T>(x: Maybe<T>): true;
+/**
+ * Determines whether or not an arbitrary value is a Maybe.
+ * @param x The value to check.
+ */
+export function isMaybe<T>(x: unknown): x is Maybe<T>;
+export function isMaybe<T>(x: Maybe<T> | unknown): x is Maybe<T> {
 	return typeof x === 'object' && x !== null && typeof Reflect.get(x, 'exists') === 'boolean';
 }

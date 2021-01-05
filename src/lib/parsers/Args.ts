@@ -659,6 +659,12 @@ export interface RepeatArgOptions extends ArgOptions {
 	times?: number;
 }
 
+/**
+ * The callback used for [[Args.nextMaybe]] and [[Args.next]].
+ */
 export interface ArgsNextCallback<T> {
+	/**
+	 * The value to be mapped.
+	 */
 	(value: string): Maybe<T>;
 }
