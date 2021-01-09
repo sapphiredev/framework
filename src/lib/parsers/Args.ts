@@ -5,6 +5,7 @@ import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
 import type { Command } from '../structures/Command';
+import { isSome, maybe, Maybe } from './Maybe';
 import { err, isErr, isOk, ok, Ok, Result } from './Result';
 
 /**
@@ -21,7 +22,7 @@ export class Args {
 	 */
 	public readonly command: Command;
 	private readonly parser: Lexure.Args;
-	private states: Lexure.ArgsState[] = [];
+	private readonly states: Lexure.ArgsState[] = [];
 
 	public constructor(message: Message, command: Command, parser: Lexure.Args) {
 		this.message = message;
@@ -441,10 +442,76 @@ export class Args {
 	}
 
 	/**
+	 * Retrieves the next raw argument from the parser.
+	 * @example
+	 * ```typescript
+	 * // !numbers 1 2 3
+	 *
+	 * console.log(args.nextMaybe());
+	 * // -> { exists: true, value: '1' }
+	 * ```
+	 */
+	public nextMaybe(): Maybe<string>;
+	/**
+	 * Retrieves the value of the next unused ordered token, but only if it could be transformed.
+	 * That token will now be consider used if the transformation succeeds.
+	 * @typeparam T Output type of the [[ArgsNextCallback callback]].
+	 * @param cb Gives an option of either the resulting value, or nothing if failed.
+	 * @example
+	 * ```typescript
+	 * // !numbers 1 2 3
+	 * const parse = (x: string) => {
+	 *   const n = Number(x);
+	 *   return Number.isNaN(n) ? none() : some(n);
+	 * };
+	 *
+	 * console.log(args.nextMaybe(parse));
+	 * // -> { exists: true, value: 1 }
+	 * ```
+	 */
+	public nextMaybe<T>(cb: ArgsNextCallback<T>): Maybe<T>;
+	public nextMaybe<T>(cb?: ArgsNextCallback<T>): Maybe<T | string> {
+		return maybe<T | string>(typeof cb === 'function' ? this.parser.singleMap(cb) : this.parser.single());
+	}
+
+	/**
+	 * Similar to [[Args.nextMaybe]] but returns the value on success, null otherwise.
+	 * @example
+	 * ```typescript
+	 * // !numbers 1 2 3
+	 *
+	 * console.log(args.next());
+	 * // -> '1'
+	 * ```
+	 */
+	public next(): string;
+	/**
+	 * Similar to [[Args.nextMaybe]] but returns the value on success, null otherwise.
+	 * @typeparam T Output type of the [[ArgsNextCallback callback]].
+	 * @param cb Gives an option of either the resulting value, or nothing if failed.
+	 * @example
+	 * ```typescript
+	 * // !numbers 1 2 3
+	 * const parse = (x: string) => {
+	 *   const n = Number(x);
+	 *   return Number.isNaN(n) ? none() : some(n);
+	 * };
+	 *
+	 * console.log(args.nextMaybe(parse));
+	 * // -> 1
+	 * ```
+	 */
+	public next<T>(cb: ArgsNextCallback<T>): T;
+	public next<T>(cb?: ArgsNextCallback<T>): T | string | null {
+		const value = cb ? this.nextMaybe(cb) : this.nextMaybe();
+		return isSome<T | string>(value) ? value.value : null;
+	}
+
+	/**
 	 * Checks if one or more flag were given.
 	 * @param keys The name(s) of the flag.
 	 * @example
-	 * ```ts
+	 * ```typescript
 	 * // Suppose args are from '--f --g'.
 	 * console.log(args.getFlags('f'));
 	 * >>> true
@@ -464,7 +531,7 @@ export class Args {
 	 * Gets the last value of one or more options.
 	 * @param keys The name(s) of the option.
 	 * @example
-	 * ```ts
+	 * ```typescript
 	 * // Suppose args are from '--a=1 --b=2 --c=3'.
 	 * console.log(args.getOption('a'));
 	 * >>> '1'
@@ -484,7 +551,7 @@ export class Args {
 	 * Gets all the values of one or more option.
 	 * @param keys The name(s) of the option.
 	 * @example
-	 * ```ts
+	 * ```typescript
 	 * // Suppose args are from '--a=1 --a=1 --b=2 --c=3'.
 	 * console.log(args.getOptions('a'));
 	 * >>> ['1', '1']
@@ -590,4 +657,14 @@ export interface RepeatArgOptions extends ArgOptions {
 	 * @default Infinity
 	 */
 	times?: number;
+}
+
+/**
+ * The callback used for [[Args.nextMaybe]] and [[Args.next]].
+ */
+export interface ArgsNextCallback<T> {
+	/**
+	 * The value to be mapped.
+	 */
+	(value: string): Maybe<T>;
 }
