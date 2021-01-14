@@ -9,7 +9,7 @@
 	"private": false,
 	"scripts": {
 		"prepublishOnly": "yarn build:cleanup && yarn build && yarn build:rollup && yarn build:pre-publish",
-		"lint": "eslint src tests scripts --ext ts --fix",
+		"lint": "eslint src tests scripts --ext mjs,ts --fix",
 		"format": "prettier --write {src,tests,scripts}/**/*.ts",
 		"docs": "typedoc",
 		"test": "jest",
