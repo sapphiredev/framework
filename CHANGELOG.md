@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.3](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2021-01-14)
+
+### Features
+
+-   **args:** add Args#nextMaybe and Args#next ([#130](https://github.com/sapphire-project/framework/issues/130)) ([10a6e0b](https://github.com/sapphire-project/framework/commit/10a6e0b36f72353ea3b25a89fa16fb001711e225))
+-   add client#deregisterStore ([#128](https://github.com/sapphire-project/framework/issues/128)) ([dedd6d1](https://github.com/sapphire-project/framework/commit/dedd6d1149ab58f35e1dede88c67eefacfd070c7))
+-   **args:** add Args#finished ([#125](https://github.com/sapphire-project/framework/issues/125)) ([36e0a1f](https://github.com/sapphire-project/framework/commit/36e0a1f11ae75bb4709f469ac12d18b74d853aac))
+-   **arguments:** more descriptive error messages ([#127](https://github.com/sapphire-project/framework/issues/127)) ([04931bc](https://github.com/sapphire-project/framework/commit/04931bcc3216d68242338c026cd54b10fd53878d))
+
+### Bug Fixes
+
+-   change CoreBoolean error signature ([#126](https://github.com/sapphire-project/framework/issues/126)) ([9ca7456](https://github.com/sapphire-project/framework/commit/9ca74564fe4fa3ecf9bcac72b30398b11bb6d029))
+
 ## [1.0.0-alpha.2](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2021-01-03)
 
 ### Features
