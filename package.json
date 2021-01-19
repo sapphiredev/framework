@@ -26,10 +26,10 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
-		"@sapphire/discord-utilities": "^1.0.3",
-		"@sapphire/pieces": "^1.0.1",
-		"@sapphire/ratelimits": "^1.1.2",
-		"@sapphire/utilities": "^1.3.0",
+		"@sapphire/discord-utilities": "^2.0.1",
+		"@sapphire/pieces": "^1.1.0",
+		"@sapphire/ratelimits": "^1.1.4",
+		"@sapphire/utilities": "^1.4.3",
 		"lexure": "^0.17.0"
 	},
 	"peerDependencies": {
@@ -38,31 +38,31 @@
 	"devDependencies": {
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@sapphire/eslint-config": "^1.1.1",
-		"@sapphire/prettier-config": "^1.0.5",
-		"@sapphire/ts-config": "^1.1.1",
+		"@sapphire/eslint-config": "^2.1.0",
+		"@sapphire/prettier-config": "^1.0.6",
+		"@sapphire/ts-config": "^2.0.0",
 		"@types/jest": "^26.0.20",
-		"@types/node": "^14.14.20",
+		"@types/node": "^14.14.21",
 		"@types/ws": "^7.4.0",
-		"@typescript-eslint/eslint-plugin": "^4.12.0",
-		"@typescript-eslint/parser": "^4.12.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.0",
+		"@typescript-eslint/parser": "^4.14.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^12.5.1",
-		"eslint": "^7.16.0",
-		"eslint-config-prettier": "^7.1.0",
+		"eslint": "^7.18.0",
+		"eslint-config-prettier": "^7.2.0",
 		"eslint-plugin-prettier": "^3.3.1",
-		"husky": "^4.3.7",
+		"husky": "^4.3.8",
 		"jest": "^26.6.3",
 		"jest-circus": "^26.6.3",
 		"lint-staged": "^10.5.3",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
-		"rollup": "^2.36.1",
+		"rollup": "^2.37.0",
 		"rollup-plugin-dts": "^2.0.1",
-		"standard-version": "^9.0.0",
+		"standard-version": "^9.1.0",
 		"ts-jest": "^26.4.4",
 		"ts-node": "^9.1.1",
-		"typedoc": "^0.20.14",
+		"typedoc": "^0.20.16",
 		"typedoc-plugin-nojekyll": "^1.0.1",
 		"typescript": "^4.1.3"
 	},
@@ -114,12 +114,12 @@
 		"access": "public"
 	},
 	"resolutions": {
-		"acorn": "^7.4.0",
+		"acorn": "^8.0.4",
 		"minimist": "^1.2.5",
 		"kind-of": "^6.0.3",
-		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
-		"jest-jasmine2": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.0.2.tgz",
-		"dot-prop": "^5.3.0"
+		"jest-environment-jsdom": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz",
+		"jest-jasmine2": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz",
+		"dot-prop": "^6.0.1"
 	},
 	"prettier": "@sapphire/prettier-config"
 }

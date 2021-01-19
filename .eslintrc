@@ -1,6 +1,3 @@
 {
-	"extends": "@sapphire",
-	"rules": {
-		"@typescript-eslint/naming-convention": 0
-	}
+	"extends": "@sapphire"
 }
