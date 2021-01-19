@@ -1,4 +1,4 @@
-import { isDMChannel } from '@sapphire/discord-utilities';
+import { isDMChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { DMChannel } from 'discord.js';
 import { Argument, ArgumentResult } from '../lib/structures/Argument';

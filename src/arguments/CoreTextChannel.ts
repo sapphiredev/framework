@@ -1,4 +1,4 @@
-import { isTextChannel } from '@sapphire/discord-utilities';
+import { isTextChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildChannel, TextChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';

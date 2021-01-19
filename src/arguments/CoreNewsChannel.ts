@@ -1,4 +1,4 @@
-import { isNewsChannel } from '@sapphire/discord-utilities';
+import { isNewsChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildChannel, NewsChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';

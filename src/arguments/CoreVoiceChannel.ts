@@ -1,4 +1,4 @@
-import { isVoiceChannel } from '@sapphire/discord-utilities';
+import { isVoiceChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildChannel, VoiceChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
