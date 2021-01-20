@@ -1,4 +1,16 @@
-import type { Channel, DMChannel, GuildChannel, GuildMember, Message, NewsChannel, Role, TextChannel, User, VoiceChannel } from 'discord.js';
+import type {
+	Channel,
+	CategoryChannel,
+	DMChannel,
+	GuildChannel,
+	GuildMember,
+	Message,
+	NewsChannel,
+	Role,
+	TextChannel,
+	User,
+	VoiceChannel
+} from 'discord.js';
 import type * as Lexure from 'lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
@@ -631,6 +643,7 @@ export class Args {
 
 export interface ArgType {
 	boolean: boolean;
+	categoryChannel: CategoryChannel;
 	channel: Channel;
 	date: Date;
 	dmChannel: DMChannel;
