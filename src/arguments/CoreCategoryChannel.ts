@@ -1,6 +1,6 @@
 import { isCategoryChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, CategoryChannel } from 'discord.js';
+import type { CategoryChannel, GuildChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 

@@ -1,6 +1,6 @@
 import type {
-	Channel,
 	CategoryChannel,
+	Channel,
 	DMChannel,
 	GuildChannel,
 	GuildMember,
