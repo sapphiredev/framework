@@ -2,10 +2,8 @@
 	"recommendations": [
 		"xyc.vscode-mdx-preview",
 		"silvenon.mdx",
-		"eamodio.gitlens",
 		"bierner.github-markdown-preview",
 		"dbaeumer.vscode-eslint",
-		"christian-kohler.path-intellisense",
 		"esbenp.prettier-vscode"
 	]
 }
