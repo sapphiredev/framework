@@ -1,0 +1,25 @@
+import { saphFrameworkUrl, djsUrl, createDjsTypedefUrl } from '../constants.mdx';
+
+export const djsClientOptions = createDjsTypedefUrl('ClientOptions');
+
+# Welcome to the @sapphire/framework#{@branch} documentation
+
+## Installing <a href={saphFrameworkUrl}>@sapphire/framework</a>
+
+You can install this version of @sapphire/framework with one of the following commands:
+
+```sh
+npm install --save @sapphire/framework
+yarn add @sapphire/framework
+pnpm add @sapphire/framework
+```
+
+### Using @sapphire/framework
+
+### Client Options: {@link SapphireClientOptions}
+
+{@typedef SapphireClientOptions}
+
+> SapphireClientOptions are merged with <a href={djsUrl}>discord.js's</a> <a href={djsClientOptions}>ClientOptions</a>
+
+> **Requirements**: Requires Node 14.0.0 or higher. Depends on Discord.js v12.x or higher (this is peer dependency).
