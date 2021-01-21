@@ -1,6 +1,7 @@
 import { saphFrameworkUrl, djsUrl, createDjsTypedefUrl } from '../constants.mdx';
 
 export const djsClientOptions = createDjsTypedefUrl('ClientOptions');
+export const name = '@sapphire/framework';
 
 # Welcome to the @sapphire/framework#{@branch} documentation
 
@@ -16,10 +17,28 @@ pnpm add @sapphire/framework
 
 ### Using @sapphire/framework
 
+Create a file called `app.js` (or whatever you prefer) which will initiate and configure @sapphire/framework.
+
+```javascript
+const { SapphireClient } = require('@sapphire/framework');
+
+const client = new SapphireClient();
+
+client.login('your-bot-token');
+```
+
 ### Client Options: {@link SapphireClientOptions}
 
 {@typedef SapphireClientOptions}
 
 > SapphireClientOptions are merged with <a href={djsUrl}>discord.js's</a> <a href={djsClientOptions}>ClientOptions</a>
+
+## Running your bot
+
+Once you have the basics set up run the following in your folder to start your bot:
+
+```sh
+node app.js
+```
 
 > **Requirements**: Requires Node 14.0.0 or higher. Depends on Discord.js v12.x or higher (this is peer dependency).
