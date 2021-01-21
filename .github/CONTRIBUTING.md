@@ -23,7 +23,7 @@ When writing guides there are some rules to follow:
     - The single exception to this goes to files in the "Advanced" folder, which can cover any type of advanced topics.
 7. There are several variables that will be replaced when parsing the `.mdx` file for the documentation website. Variables are denoted by the pattern `{@variableName (parameter)}`. The supported variables are:
     - `{@branch}` - for the current branch name.
-    - `{@link <TSDoc symbol name>}` - wherein `TSDoc symbol name` is a reference to some TypeScript interface / class / function etc parsed from TSDoc. This will link the API page of that symbol.
+    - `{@link <TSDoc symbol name>}` - wherein `<TSDoc symbol name>` is a reference to some TypeScript interface / class / function etc parsed from TSDoc. This will link the API page of that symbol.
     - `{@typedoc <TSDoc interface/type/class name>}` - wherein `<TSDoc interface/type/class name>` is the name of a TypeScript interface, class or type. This will inline all the properties of that interface/type/class as a table, with links back to their API documentation page.
     - `{@guide <Guide file name>}` - wherein `<Guide file name>` is the name of another guide file in this same project _without file extension_. For example linking to `CreatingArguments.mdx` would be `{@guide CreatingArguments}`.
 8. For variables that are often reused between pages, please add them to `constants.mdx` in the `guides` folder. You can reference these variables just like how you would import code with ES Modules: `import { something } from '../constants.mdx`. **Be sure to include the `.mdx` file extension!**
@@ -31,11 +31,19 @@ When writing guides there are some rules to follow:
     - The `constants.mdx` file can also have functions to manipulate some parameters prior to being injected into the `.mdx` file. It should be noted however that in order to use the data returned by a function in a property of a JSX tag (i.e. in the `href` property of an `<a>` tag) that it should be called at the top of the `.mdx` file and stored to its own, local variable. For example:
 
     ```md
+    <!-- !!!DO THIS!!! -->
+
     import { doSomethingCool } from '../constants.mdx';
 
     export const parsedCool = doSomethingCool('veryCool');
 
     <a href={parsedCool}>cool</a>
+
+    <!-- !!!DO NOT DO THIS!!! -->
+
+    import { doSomethingCool } from '../constants.mdx';
+
+    <a href={doSomethingCool('veryCool')}>cool</a>
     ```
 
 Lastly when writing guides we highly recommend that you use the [VSCode] editor and install the following extensions. This will allow you to get both syntax highlighting as well as live preview.
