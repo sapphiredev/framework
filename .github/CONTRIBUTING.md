@@ -10,7 +10,7 @@
 
 ## Contributing to the guides
 
-All guides for the Sapphire Project use [MDX] formatting. At its core, this is the same as regular markdown, and it fully supports GitHub flavoured markdown syntax; however, where it differs, is it _also_ supports inline JSX tags. We use these for advanced and optimal layout on [our documentation site]. You may consult the [MDX documentation][mdx documentation]] if you want to learn what features of JSX you can embed into your guides and how to do so.
+All guides for the Sapphire Project use [MDX] formatting. At its core, this is the same as regular markdown, and it fully supports GitHub flavoured markdown syntax; however, where it differs, is it _also_ supports inline JSX tags. We use these for advanced and optimal layout on [our documentation site]. You may consult the [MDX documentation][mdx documentation] if you want to learn what features of JSX you can embed into your guides and how to do so.
 
 When writing guides there are some rules to follow:
 
