@@ -2,8 +2,8 @@
 
 ## Workflow
 
-1. Fork, clone, and select the **main** branch.
-2. Create a new branch in your fork.
+1. Fork and clone this repository.
+2. Create a new branch in your fork based off the **main** branch.
 3. Make your changes.
 4. Commit your changes, and push them.
 5. Submit a Pull Request [here]!
@@ -48,7 +48,7 @@ When writing guides there are some rules to follow:
 
 Lastly when writing guides we highly recommend that you use the [VSCode] editor and install the following extensions. This will allow you to get both syntax highlighting as well as live preview.
 
-1. [MDX]
+1. [MDX][mdx-vscode]
 2. [MDX Preview][]
 
 ## Contributing to the code
@@ -75,7 +75,7 @@ There are a number of guidelines considered when reviewing Pull Requests to be m
 
 <!-- Guides -->
 
-[mdx]: https://marketplace.visualstudio.com/items?itemName=silvenon.mdx
+[mdx-vscode]: https://marketplace.visualstudio.com/items?itemName=silvenon.mdx
 [mdx preview]: https://marketplace.visualstudio.com/items?itemName=xyc.vscode-mdx-preview
 [mdx]: https://mdxjs.com
 [mdx documentation]: https://mdxjs.com/getting-started
