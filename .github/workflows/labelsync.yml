@@ -1,10 +1,8 @@
 name: Automatic Label Sync
 
 on:
-  issues:
-  label:
   schedule:
-    - cron: '00 00 * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
