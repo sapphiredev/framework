@@ -10,7 +10,7 @@
 
 ## Contributing to the guides
 
-All guides for the Sapphire Project use [MDX] formatting. At its core, this is the same as regular markdown, and it fully supports GitHub flavoured markdown syntax; however, where it differs, is it _also_ supports inline JSX tags. We use these for advanced and optimal layout on [our documentation site]. You may consult the [MDX documentation] if you want to learn what features of JSX you can embed into your guides and how to do so.
+All guides for the Sapphire Project use [MDX] formatting. At its core, this is the same as regular markdown, and it fully supports GitHub flavoured markdown syntax; however, where it differs, is it _also_ supports inline JSX tags. We use these for advanced and optimal layout on [our documentation site]. You may consult the [MDX documentation][mdx documentation]] if you want to learn what features of JSX you can embed into your guides and how to do so.
 
 When writing guides there are some rules to follow:
 
@@ -27,6 +27,7 @@ When writing guides there are some rules to follow:
     - `{@typedef <TSDoc interface/type/class name>}` - wherein `<TSDoc interface/type/class name>` is the name of a TypeScript interface, class or type. This will inline all the properties of that interface/type/class as a table, with links back to their API documentation page.
     - `{@guide <Guide file name>}` - wherein `<Guide file name>` is the name of another guide file in this same project _without file extension_. For example linking to `CreatingArguments.mdx` would be `{@guide CreatingArguments}`.
 8. For variables that are often reused between pages, please add them to `constants.mdx` in the `guides` folder. You can reference these variables just like how you would import an ECMAScript Module: `import { something } from '../constants.mdx`. **Be sure to include the `.mdx` file extension!**
+
     - The constants file can also store functions that manipulate parameters before being injected into a guide file. However, to use a function's return values in a JSX tag's properties (exempli gratia, in the reference/`href` property of an anchor/`<a>` tag), you should call it at the top of the guide file and store the result in a local variable. For example:
 
     ```md
@@ -48,11 +49,11 @@ When writing guides there are some rules to follow:
 Lastly, when writing guides we highly recommend that you use [Visual Studio Code][vscode] and install the following extensions. These will give you both syntax highlighting and live previews for your MDX. However, your editor of choice likely has similar extensions.
 
 1. [MDX][mdx-vscode]
-2. [MDX Preview][]
+2. [MDX Preview][mdx preview]
 
 ## Contributing to the code
 
-**The issue tracker is only for issue reporting or proposals/suggestions. If you have a question, you can find us in our [Discord Server]**.
+**The issue tracker is only for issue reporting or proposals/suggestions. If you have a question, you can find us in our [Discord Server][discord server]**.
 
 To contribute to this repository, feel free to create a new fork of the repository and
 submit a pull request. We highly suggest [ESLint] to be installed
@@ -66,7 +67,7 @@ There are a number of guidelines considered when reviewing Pull Requests to be m
 
 -   Everything in @sapphire/framework should be generally useful for the majority of users. Don't let that stop you if you've got a good concept though, as your idea still might be a great addition.
 -   Everything should be shard compliant. If code you put in a pull request would break when sharding, break other things from supporting sharding, or is incompatible with sharding; then you will need to think of a way to make it work with sharding in mind before the pull request will be accepted and merged.
--   Everything should follow [OOP paradigms] and generally rely on behaviour over state where possible. This generally helps methods be predictable, keeps the codebase simple and understandable, reduces code duplication through abstraction, and leads to efficiency and therefore scalability.
+-   Everything should follow [OOP paradigms][oop paradigms] and generally rely on behaviour over state where possible. This generally helps methods be predictable, keeps the codebase simple and understandable, reduces code duplication through abstraction, and leads to efficiency and therefore scalability.
 -   Everything should follow our ESLint rules as closely as possible, and should pass lint tests even if you must disable a rule for a single line.
 -   Scripts that are to be ran outside of the scope of the bot should be added to [scripts] directory and should be in the `.mjs` file format.
 
