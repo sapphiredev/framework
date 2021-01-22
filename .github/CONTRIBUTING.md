@@ -24,7 +24,7 @@ When writing guides there are some rules to follow:
 7. There are several variables that will be replaced when parsing the `.mdx` file for the documentation website. Variables are denoted by the pattern `{@variableName (parameter)}`. The supported variables are:
     - `{@branch}` - for the current branch name.
     - `{@link <TSDoc symbol name>}` - wherein `<TSDoc symbol name>` is a reference to some TypeScript interface / class / function etc parsed from TSDoc. This will link the API page of that symbol.
-    - `{@typedoc <TSDoc interface/type/class name>}` - wherein `<TSDoc interface/type/class name>` is the name of a TypeScript interface, class or type. This will inline all the properties of that interface/type/class as a table, with links back to their API documentation page.
+    - `{@typedef <TSDoc interface/type/class name>}` - wherein `<TSDoc interface/type/class name>` is the name of a TypeScript interface, class or type. This will inline all the properties of that interface/type/class as a table, with links back to their API documentation page.
     - `{@guide <Guide file name>}` - wherein `<Guide file name>` is the name of another guide file in this same project _without file extension_. For example linking to `CreatingArguments.mdx` would be `{@guide CreatingArguments}`.
 8. For variables that are often reused between pages, please add them to `constants.mdx` in the `guides` folder. You can reference these variables just like how you would import code with ES Modules: `import { something } from '../constants.mdx`. **Be sure to include the `.mdx` file extension!**
 
