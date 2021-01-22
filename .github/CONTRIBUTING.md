@@ -16,7 +16,7 @@ When writing guides there are some rules to follow:
 
 1. All files should have the `.mdx` file extension.
 2. Folder names are allowed to have spaces.
-3. Each word in a folder name should started with a Capital letter.
+3. All folder names should be in strict title case (exempli gratia, Hello World).
 4. File names should _never_ have spaces.
 5. File names that consist of multiple words should be PascalCased.
 6. Information in a guide page should be generally useful to the majority of people.
