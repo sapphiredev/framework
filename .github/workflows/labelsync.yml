@@ -6,8 +6,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/labels.yml'
+  schedule:
+    - cron: '00 00 * * *'
+  workflow_dispatch:
 
 jobs:
   label_sync:
@@ -16,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
+        with:
+          repository: 'sapphire-project/readme'
       - name: Run Label Sync
         uses: crazy-max/ghaction-github-labeler@v2
         env:
