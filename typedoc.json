@@ -3,7 +3,6 @@
 	"readme": "./README.md",
 	"name": "@sapphire/framework",
 	"entryPoints": ["src/index.ts"],
-	"exclude": ["**/node_modules/**", "tests/**", "**/dist/**"],
 	"excludeExternals": true,
-	"tsconfig": "./tsconfig.base.json"
+	"tsconfig": "./src/tsconfig.base.json"
 }
