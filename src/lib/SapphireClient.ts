@@ -68,6 +68,13 @@ export interface SapphireClientOptions {
 	 * @default { instance: new Logger(LogLevel.Info) }
 	 */
 	logger?: ClientLoggerOptions;
+
+	/**
+	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the [[SapphireClient.logger]] instance
+	 * @since 1.0.0
+	 * @default true
+	 */
+	loadDefaultErrorEvents?: boolean;
 }
 
 /**
@@ -199,6 +206,9 @@ export class SapphireClient extends Client {
 		}
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
+
+		Store.injectedContext.logger = this.logger;
+
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
@@ -211,6 +221,8 @@ export class SapphireClient extends Client {
 		this.commands = new CommandStore();
 		this.events = new EventStore().registerPath(join(__dirname, '..', 'events'));
 		this.preconditions = new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions'));
+
+		if (options.loadDefaultErrorEvents !== false) this.events.registerPath(join(__dirname, '..', 'errorEvents'));
 
 		this.stores = new Set();
 		this.registerStore(this.arguments) //
@@ -333,5 +345,6 @@ declare module 'discord.js' {
 declare module '@sapphire/pieces' {
 	interface PieceContextExtras {
 		client: SapphireClient;
+		logger: ILogger;
 	}
 }

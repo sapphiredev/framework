@@ -96,6 +96,7 @@ export class Args {
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
 			argument.run(arg, {
+				args: this,
 				message: this.message,
 				command: this.command,
 				...options
@@ -184,6 +185,7 @@ export class Args {
 		const state = this.parser.save();
 		const data = this.parser.many().reduce((acc, token) => `${acc}${token.value}${token.trailing}`, '');
 		const result = await argument.run(data, {
+			args: this,
 			message: this.message,
 			command: this.command,
 			...options
@@ -265,6 +267,7 @@ export class Args {
 		for (let i = 0, times = options.times ?? Infinity; i < times; i++) {
 			const result = await this.parser.singleParseAsync(async (arg) =>
 				argument.run(arg, {
+					args: this,
 					message: this.message,
 					command: this.command,
 					...options

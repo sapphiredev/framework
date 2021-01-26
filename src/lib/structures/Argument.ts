@@ -118,6 +118,7 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 export interface ArgumentOptions extends AliasPieceOptions {}
 
 export interface ArgumentContext extends Record<PropertyKey, unknown> {
+	args: Args;
 	message: Message;
 	command: Command;
 	minimum?: number;

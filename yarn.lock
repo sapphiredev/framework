@@ -741,10 +741,10 @@
   dependencies:
     twemoji-parser "^13.0.0"
 
-"@sapphire/discord.js-utilities@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-1.2.0.tgz#0ec4c162d371de022e6ebeca86ba86e2d5fb4ed1"
-  integrity sha512-0EXzqrzVS9iTdcood1BkXG7X5jkgkZj2UigGw2Y8SvaqSVJm5l+gY8QPDTkr9S90ULPep/+w3ce9Ox/ovMiaCQ==
+"@sapphire/discord.js-utilities@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-1.3.1.tgz#ea8018b72fc1f6e670be75a4d69f4886d8c1e695"
+  integrity sha512-FDDYkQD/11xWTPmsgB8LzQnKjLsaRRawr+h+ITSWaX9MBWIW5qsI3Q3VXyjhb32cBWa3iOpAqtJzH3gMny/XUA==
   dependencies:
     "@sapphire/discord-utilities" "^2.0.1"
 
@@ -753,10 +753,10 @@
   resolved "https://registry.yarnpkg.com/@sapphire/eslint-config/-/eslint-config-2.1.0.tgz#bce6ad2779783d16e12b0f7f2150342ae41f291d"
   integrity sha512-oTo7URwshIF3rvm17GTvnDw9cM6Ux26kYQNMMv3Q8GRMHiK33eod199vxacaKlrf8wgboszDcttYd5hctk/KNA==
 
-"@sapphire/pieces@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.1.0.tgz#ec82ea79fc3c87bd4c712cb4c8021b5663eb49b8"
-  integrity sha512-/XmIkHGHi4ycit/+dvY5ZwWLY/z10k5aXxRT8WbHtqDpc5yyhG7zR1U6fqKD9VNU8Ii1hqB2eEzWNeAvlTnwyw==
+"@sapphire/pieces@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.2.0.tgz#a77f0ece618b6693ac90a4254b4e8b18ee79afbe"
+  integrity sha512-cwlk+iLkRLdrpXHvT3Jdn0wVHY4fQzYdomkjgUvIbIvJ8yKVWQldbWnucjzQ0q9r7KvUnjOKM/3Rp3joy1P3RQ==
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
@@ -890,15 +890,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@*":
-  version "14.14.20"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.20.tgz#f7974863edd21d1f8a494a73e8e2b3658615c340"
-  integrity sha512-Y93R97Ouif9JEOWPIUyU+eyIdyRqQR0I8Ez1dzku4hDx34NWh4HbtIc3WNzwB1Y9ULvNGeu5B8h8bVL5cAk4/A==
-
-"@types/node@^14.14.21":
-  version "14.14.21"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.21.tgz#d934aacc22424fe9622ebf6857370c052eae464e"
-  integrity sha512-cHYfKsnwllYhjOzuC5q1VpguABBeecUp24yFluHpn/BQaVxB1CuQ1FSRZCzrPxrkIfWISXV2LbeoBthLWg0+0A==
+"@types/node@*", "@types/node@^14.14.22":
+  version "14.14.22"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.22.tgz#0d29f382472c4ccf3bd96ff0ce47daf5b7b84b18"
+  integrity sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -5340,10 +5335,10 @@ rollup-plugin-dts@^2.0.1:
   optionalDependencies:
     "@babel/code-frame" "^7.10.4"
 
-rollup@^2.37.0:
-  version "2.37.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.37.0.tgz#5baf631dc224a56d7eb88dd11b20aa28c1e8dc6f"
-  integrity sha512-cbxuxkMGCQV+TnVh+yZSUerbVb5i8soRydbzHYoMNojgt7MMi+jDLLs24U9HHCssKkwkXmsj+LXcOZMldTbz2w==
+rollup@^2.38.0:
+  version "2.38.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.0.tgz#57942d5a10826cb12ed1f19c261f774efa502d2d"
+  integrity sha512-ay9zDiNitZK/LNE/EM2+v5CZ7drkB2xyDljvb1fQJCGnq43ZWRkhxN145oV8GmoW1YNi4sA/1Jdkr2LfawJoXw==
   optionalDependencies:
     fsevents "~2.1.2"
 
@@ -6168,10 +6163,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc-default-themes@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.4.tgz#5cbb79c1d6421f1274e86b1b542934eb557abd4f"
-  integrity sha512-EZiXBUpogsYWe0dLgy47J8yRZCd+HAn9woGzO28XJxxSCSwZRYGKeQiw1KjyIcm3cBtLWUXiPD5+Bgx24GgZjg==
+typedoc-default-themes@^0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.5.tgz#063725a3eb407593ab07e4f110e5cf33b3892616"
+  integrity sha512-JQ2O9laZ/EhfWUWYp/8EyuShYhtXLhIa6DU8eZNUfaurMhEgKdffbadKNv6HMmTfOxAcgiePg06OCxNX8EyP3g==
 
 typedoc-plugin-nojekyll@^1.0.1:
   version "1.0.1"
@@ -6180,10 +6175,10 @@ typedoc-plugin-nojekyll@^1.0.1:
   dependencies:
     fs-extra "^6.0.1"
 
-typedoc@^0.20.16:
-  version "0.20.16"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.16.tgz#c845d32883af905439607ba03c9667b81cdbeb22"
-  integrity sha512-xqIL8lT6ZE3QpP0GN30ckeTR05NSEkrP2pXQlNhC0OFkbvnjqJtDUcWSmCO15BuYyu4qsEbZT+tKYFEAt9Jxew==
+typedoc@^0.20.17:
+  version "0.20.17"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.17.tgz#6404e7a14ae269198e02d8ab02d5a43ccf563363"
+  integrity sha512-FLEAanvCDGIFzfgXppN7GdYzsdDJ8+5wD4QfmCti8LAjRnn6qJIdQOmI5kqrpdiTzNCK7Wvs1vpT0vqMgO+uGQ==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"
@@ -6195,7 +6190,7 @@ typedoc@^0.20.16:
     progress "^2.0.3"
     shelljs "^0.8.4"
     shiki "^0.2.7"
-    typedoc-default-themes "^0.12.4"
+    typedoc-default-themes "^0.12.5"
 
 typescript@^4.1.3:
   version "4.1.3"
