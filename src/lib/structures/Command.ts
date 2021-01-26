@@ -36,8 +36,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @since 1.0.0
 	 * @private
 	 */
-	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
-	#lexer = new Lexure.Lexer();
+	protected lexer = new Lexure.Lexer();
 
 	/**
 	 * @since 1.0.0
@@ -50,7 +49,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.strategy = new FlagUnorderedStrategy(options.strategyOptions);
-		this.#lexer.setQuotes(
+		this.lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
 				['“', '”'], // Fancy quotes (on iOS)
@@ -65,7 +64,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param parameters The raw parameters as a single string.
 	 */
 	public preParse(message: Message, parameters: string): Awaited<T> {
-		const parser = new Lexure.Parser(this.#lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
+		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args) as any;
 	}
