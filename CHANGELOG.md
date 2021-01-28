@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.4](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2021-01-28)
+
+### Features
+
+-   **argument:** pass args through context ([#142](https://github.com/sapphire-project/framework/issues/142)) ([cfeef64](https://github.com/sapphire-project/framework/commit/cfeef6479427353d9e681fb92dc578ed4412aa2a))
+-   **arguments:** add CoreCategoryChannel ([#136](https://github.com/sapphire-project/framework/issues/136)) ([4c281a3](https://github.com/sapphire-project/framework/commit/4c281a33c2852bee3daac160ed76f0cc2ab9b0ad))
+-   **command:** expose Command#lexer ([#143](https://github.com/sapphire-project/framework/issues/143)) ([4ec1b4d](https://github.com/sapphire-project/framework/commit/4ec1b4da6c2524b2e4c8b8b2ebb298707a7633c4))
+-   add optional default error events ([#141](https://github.com/sapphire-project/framework/issues/141)) ([27fd086](https://github.com/sapphire-project/framework/commit/27fd086b2900be658a458e93e3ea29b60450fba3))
+
+### Bug Fixes
+
+-   add discord.js utilities for type guards ([cf74431](https://github.com/sapphire-project/framework/commit/cf7443176a7080a8826ad9a15711863bc8d021a1))
+
 ## [1.0.0-alpha.3](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2021-01-14)
 
 ### Features
