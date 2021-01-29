@@ -13,7 +13,7 @@
 [![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
 [![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-project/framework?project_id=14147)
 
-[![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://join.skyra.pw/sapphire)
+[![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://website.sapphire-project.vercel.app/discord)
 
 </div>
 
