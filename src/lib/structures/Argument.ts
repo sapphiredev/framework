@@ -1,5 +1,6 @@
 import { AliasPiece, AliasPieceOptions, Awaited } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
+import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
 import { err, ok, Result } from '../parsers/Result';
@@ -26,7 +27,7 @@ export interface IArgument<T> {
 	 * @param argument The argument to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(argument: string, context: ArgumentContext): ArgumentResult<T>;
+	run(argument: string, context: ArgumentContext<T>): ArgumentResult<T>;
 }
 
 /**
@@ -86,7 +87,7 @@ export interface IArgument<T> {
  * ```
  */
 export abstract class Argument<T = unknown> extends AliasPiece implements IArgument<T> {
-	public abstract run(argument: string, context: ArgumentContext): ArgumentResult<T>;
+	public abstract run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
 
 	/**
 	 * Wraps a value into a successful value.
@@ -97,27 +98,20 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 	}
 
 	/**
-	 * Constructs an [[ArgumentError]] with [[ArgumentError#type]] set to the [[IArgument<T>#name]].
-	 * @param parameter The parameter that triggered the argument.
-	 * @param message The description message for the rejection.
-	 */
-	public error(parameter: string, message: string): ArgumentResult<T>;
-	/**
 	 * Constructs an [[ArgumentError]] with a custom type.
 	 * @param parameter The parameter that triggered the argument.
 	 * @param type The identifier for the error.
 	 * @param message The description message for the rejection.
 	 */
-	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	public error(parameter: string, type: string, message: string): ArgumentResult<T>;
-	public error(parameter: string, typeOrMessage: string, rawMessage?: string): ArgumentResult<T> {
-		return err(Args.error<T>(this, parameter, typeOrMessage, rawMessage!));
+	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): ArgumentResult<T> {
+		return err(Args.error({ argument: this, ...options }));
 	}
 }
 
 export interface ArgumentOptions extends AliasPieceOptions {}
 
-export interface ArgumentContext extends Record<PropertyKey, unknown> {
+export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
+	argument: IArgument<T>;
 	args: Args;
 	message: Message;
 	command: Command;

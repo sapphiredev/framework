@@ -21,6 +21,6 @@ export class CorePrecondition extends Precondition {
 			? (message.channel as TextChannel | NewsChannel).permissionsFor(message.client.id!)!
 			: this.dmChannelPermissions;
 		const missing = permissions.missing(required);
-		return missing.length === 0 ? this.ok() : this.error(this.name, 'I am missing permissions to run this command.', missing);
+		return missing.length === 0 ? this.ok() : this.error({ message: 'I am missing permissions to run this command.', context: { missing } });
 	}
 }

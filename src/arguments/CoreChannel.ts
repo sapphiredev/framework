@@ -7,11 +7,16 @@ export class CoreArgument extends Argument<Channel> {
 		super(context, { name: 'channel' });
 	}
 
-	public run(argument: string, context: ArgumentContext): ArgumentResult<Channel> {
-		const channel = (context.message.guild ? context.message.guild.channels : this.context.client.channels).cache.get(argument);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<Channel> {
+		const channel = (context.message.guild ? context.message.guild.channels : this.context.client.channels).cache.get(parameter);
 
 		if (!channel) {
-			return this.error(argument, 'ArgumentChannelMissingChannel', 'The argument did not resolve to a channel.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentChannelMissingChannel',
+				message: 'The argument did not resolve to a channel.',
+				context
+			});
 		}
 
 		return this.ok(channel);

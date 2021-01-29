@@ -1,6 +1,6 @@
 import { Awaited, Piece } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
-import { PreconditionError, PreconditionErrorExtras } from '../errors/PreconditionError';
+import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
 import type { Command } from './Command';
@@ -16,21 +16,11 @@ export abstract class Precondition extends Piece {
 	}
 
 	/**
-	 * Constructs an [[ArgumentError]] with [[ArgumentError#type]] set to the [[IArgument<T>#name]].
-	 * @param message The description message for the rejection.
+	 * Constructs a [[PreconditionError]] with the precondition parameter set to `this`.
+	 * @param options The information.
 	 */
-	public error(message: string, extras?: PreconditionErrorExtras): PreconditionResult;
-	/**
-	 * Constructs an [[ArgumentError]] with a custom type.
-	 * @param type The identifier for the error.
-	 * @param message The description message for the rejection.
-	 */
-	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	public error(type: string, message: string, extras?: PreconditionErrorExtras): PreconditionResult;
-	public error(typeOrMessage: string, rawMessage?: string | PreconditionErrorExtras, rawExtras?: PreconditionErrorExtras): PreconditionResult {
-		const [type, message, extras] =
-			typeof rawMessage === 'string' ? [typeOrMessage, rawMessage, rawExtras] : [this.name, typeOrMessage, rawMessage];
-		return err(new PreconditionError(this, type, message, extras));
+	public error(options: Omit<PreconditionError.Options, 'precondition'>): PreconditionResult {
+		return err(new PreconditionError({ precondition: this, ...options }));
 	}
 }
 

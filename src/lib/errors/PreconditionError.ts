@@ -1,21 +1,42 @@
 import type { Precondition } from '../structures/Precondition';
 import { UserError } from './UserError';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type PreconditionErrorExtras = object | null;
-
 /**
  * Errors thrown by preconditions
  * @property name This will be `'PreconditionError'` and can be used to distinguish the type of error when any error gets thrown
  */
 export class PreconditionError extends UserError {
 	public readonly precondition: Precondition;
-	public readonly extras: PreconditionErrorExtras;
 
-	public constructor(argument: Precondition, type: string, message: string, extras: PreconditionErrorExtras = null) {
-		super(type, message);
-		this.name = 'PreconditionError';
-		this.precondition = argument;
-		this.extras = extras;
+	public constructor(options: PreconditionError.Options) {
+		super({ ...options, identifier: options.identifier ?? options.precondition.name });
+		this.precondition = options.precondition;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
+	public get name(): string {
+		return 'PreconditionError';
+	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace PreconditionError {
+	/**
+	 * The options for [[PreconditionError]].
+	 * @since 1.0.0
+	 */
+	export interface Options extends Omit<UserError.Options, 'identifier'> {
+		/**
+		 * The precondition that caused the error.
+		 * @since 1.0.0
+		 */
+		precondition: Precondition;
+
+		/**
+		 * The identifier.
+		 * @since 1.0.0
+		 * @default precondition.name
+		 */
+		identifier?: string;
 	}
 }

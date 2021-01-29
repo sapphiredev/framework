@@ -8,16 +8,26 @@ export class CoreArgument extends Argument<GuildChannel> {
 		super(context, { name: 'guildChannel' });
 	}
 
-	public run(argument: string, context: ArgumentContext): ArgumentResult<GuildChannel> {
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<GuildChannel> {
 		const { guild } = context.message;
 		if (!guild) {
-			return this.error(argument, 'ArgumentGuildChannelMissingGuild', 'The argument must be run in a guild.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentGuildChannelMissingGuild',
+				message: 'The argument must be run in a guild.',
+				context
+			});
 		}
 
-		const channel = this.resolveByID(argument, guild) ?? this.resolveByQuery(argument, guild);
+		const channel = this.resolveByID(parameter, guild) ?? this.resolveByQuery(parameter, guild);
 		return channel
 			? this.ok(channel)
-			: this.error(argument, 'ArgumentGuildChannelUnknownChannel', 'The argument did not resolve to a guild channel.');
+			: this.error({
+					parameter,
+					identifier: 'ArgumentGuildChannelUnknownChannel',
+					message: 'The argument did not resolve to a guild channel.',
+					context
+			  });
 	}
 
 	private resolveByID(argument: string, guild: Guild): GuildChannel | null {

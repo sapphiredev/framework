@@ -6,14 +6,25 @@ export class CoreArgument extends Argument<string> {
 		super(context, { name: 'string' });
 	}
 
-	public run(argument: string, context: ArgumentContext): ArgumentResult<string> {
-		if (typeof context.minimum === 'number' && argument.length < context.minimum) {
-			return this.error(argument, 'ArgumentStringTooShort', `The argument must be greater than ${context.minimum} characters.`);
-		}
-		if (typeof context.maximum === 'number' && argument.length > context.maximum) {
-			return this.error(argument, 'ArgumentStringTooLong', `The argument must be less than ${context.maximum} characters.`);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<string> {
+		if (typeof context.minimum === 'number' && parameter.length < context.minimum) {
+			return this.error({
+				parameter,
+				identifier: 'ArgumentStringTooShort',
+				message: `The argument must be greater than ${context.minimum} characters.`,
+				context
+			});
 		}
 
-		return this.ok(argument);
+		if (typeof context.maximum === 'number' && parameter.length > context.maximum) {
+			return this.error({
+				parameter,
+				identifier: 'ArgumentStringTooLong',
+				message: `The argument must be less than ${context.maximum} characters.`,
+				context
+			});
+		}
+
+		return this.ok(parameter);
 	}
 }

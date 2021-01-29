@@ -8,14 +8,16 @@ export class CoreArgument extends Argument<Role> {
 		super(context, { name: 'role' });
 	}
 
-	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<Role> {
+	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<Role> {
 		const { guild } = context.message;
 		if (!guild) {
-			return this.error(argument, 'ArgumentRoleMissingGuild', 'The argument must be run on a guild.');
+			return this.error({ parameter, identifier: 'ArgumentRoleMissingGuild', message: 'The argument must be run on a guild.', context });
 		}
 
-		const role = (await this.resolveByID(argument, guild)) ?? this.resolveByQuery(argument, guild);
-		return role ? this.ok(role) : this.error(argument, 'ArgumentRoleUnknownRole', 'The argument did not resolve to a role.');
+		const role = (await this.resolveByID(parameter, guild)) ?? this.resolveByQuery(parameter, guild);
+		return role
+			? this.ok(role)
+			: this.error({ parameter, identifier: 'ArgumentRoleUnknownRole', message: 'The argument did not resolve to a role.', context });
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<Role | null> {
