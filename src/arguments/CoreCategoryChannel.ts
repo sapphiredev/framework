@@ -12,9 +12,14 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', CategoryChann
 		});
 	}
 
-	public handle(channel: GuildChannel, { argument }: ExtendedArgumentContext): ArgumentResult<CategoryChannel> {
+	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<CategoryChannel> {
 		return isCategoryChannel(channel)
 			? this.ok(channel)
-			: this.error(argument, 'ArgumentCategoryChannelInvalidChannel', 'The argument did not resolve to a category channel.');
+			: this.error({
+					parameter: context.parameter,
+					identifier: 'ArgumentCategoryChannelInvalidChannel',
+					message: 'The argument did not resolve to a category channel.',
+					context
+			  });
 	}
 }

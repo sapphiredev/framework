@@ -92,17 +92,18 @@ export class Args {
 	public async pickResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
 	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
 		const argument = this.resolveArgument(type);
-		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type as string}" was not found.`));
+		if (!argument) return this.unavailableArgument(type);
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
 			argument.run(arg, {
 				args: this,
+				argument,
 				message: this.message,
 				command: this.command,
 				...options
 			})
 		);
-		if (result === null) return err(new UserError('MissingArguments', 'There are no more arguments.'));
+		if (result === null) return this.missingArguments();
 		if (isOk(result)) return result as Ok<ArgType[K]>;
 		return result;
 	}
@@ -178,14 +179,14 @@ export class Args {
 	public async restResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
 	public async restResult<T>(type: keyof ArgType | IArgument<T>, options: ArgOptions = {}): Promise<Result<unknown, UserError>> {
 		const argument = this.resolveArgument(type);
-		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type as string}" was not found.`));
-
-		if (this.parser.finished) return err(new UserError('MissingArguments', 'There are no more arguments.'));
+		if (!argument) return this.unavailableArgument(type);
+		if (this.parser.finished) return this.missingArguments();
 
 		const state = this.parser.save();
 		const data = this.parser.many().reduce((acc, token) => `${acc}${token.value}${token.trailing}`, '');
 		const result = await argument.run(data, {
 			args: this,
+			argument,
 			message: this.message,
 			command: this.command,
 			...options
@@ -259,15 +260,15 @@ export class Args {
 	public async repeatResult<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<Result<ArgType[K][], UserError>>;
 	public async repeatResult<K extends keyof ArgType>(type: K, options: RepeatArgOptions = {}): Promise<Result<ArgType[K][], UserError>> {
 		const argument = this.resolveArgument(type);
-		if (!argument) return err(new UserError('UnavailableArgument', `The argument "${type as string}" was not found.`));
-
-		if (this.parser.finished) return err(new UserError('MissingArguments', 'There are no more arguments.'));
+		if (!argument) return this.unavailableArgument(type);
+		if (this.parser.finished) return this.missingArguments();
 
 		const output: ArgType[K][] = [];
 		for (let i = 0, times = options.times ?? Infinity; i < times; i++) {
 			const result = await this.parser.singleParseAsync(async (arg) =>
 				argument.run(arg, {
 					args: this,
+					argument,
 					message: this.message,
 					command: this.command,
 					...options
@@ -605,6 +606,19 @@ export class Args {
 		return this.parser.finished;
 	}
 
+	protected unavailableArgument<T>(type: string | IArgument<T>) {
+		return err(
+			new UserError({
+				identifier: 'UnavailableArgument',
+				message: `The argument "${typeof type === 'string' ? type : type.name}" was not found.`
+			})
+		);
+	}
+
+	protected missingArguments() {
+		return err(new UserError({ identifier: 'MissingArguments', message: 'There are no more arguments.' }));
+	}
+
 	/**
 	 * Resolves an argument.
 	 * @param arg The argument name or [[IArgument]] instance.
@@ -623,24 +637,14 @@ export class Args {
 	}
 
 	/**
-	 * Constructs an [[ArgumentError]] with [[ArgumentError#type]] set to the [[IArgument<T>#name]].
-	 * @param argument The argument that caused the rejection.
-	 * @param parameter The parameter that triggered the argument.
-	 * @param message The description message for the rejection.
-	 */
-	public static error<T>(argument: IArgument<T>, parameter: string, message: string): ArgumentError<T>;
-	/**
 	 * Constructs an [[ArgumentError]] with a custom type.
 	 * @param argument The argument that caused the rejection.
 	 * @param parameter The parameter that triggered the argument.
 	 * @param type The identifier for the error.
 	 * @param message The description message for the rejection.
 	 */
-	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	public static error<T>(argument: IArgument<T>, parameter: string, type: string, message: string): ArgumentError<T>;
-	public static error<T>(argument: IArgument<T>, parameter: string, typeOrMessage: string, rawMessage?: string): ArgumentError<T> {
-		const [type, message] = typeof rawMessage === 'undefined' ? [argument.name, typeOrMessage] : [typeOrMessage, rawMessage];
-		return new ArgumentError<T>(argument, parameter, type, message);
+	public static error<T>(options: ArgumentError.Options<T>): ArgumentError<T> {
+		return new ArgumentError<T>(options);
 	}
 }
 

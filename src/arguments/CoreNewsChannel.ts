@@ -12,9 +12,14 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', NewsChannel> 
 		});
 	}
 
-	public handle(channel: GuildChannel, { argument }: ExtendedArgumentContext): ArgumentResult<NewsChannel> {
+	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<NewsChannel> {
 		return isNewsChannel(channel)
 			? this.ok(channel)
-			: this.error(argument, 'ArgumentNewsChannelInvalidChannel', 'The argument did not resolve to a news channel.');
+			: this.error({
+					parameter: context.parameter,
+					identifier: 'ArgumentNewsChannelInvalidChannel',
+					message: 'The argument did not resolve to a news channel.',
+					context
+			  });
 	}
 }

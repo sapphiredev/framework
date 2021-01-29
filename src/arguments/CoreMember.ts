@@ -1,6 +1,6 @@
 import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildMember, Guild } from 'discord.js';
+import type { Guild, GuildMember } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildMember> {
@@ -8,14 +8,16 @@ export class CoreArgument extends Argument<GuildMember> {
 		super(context, { name: 'member' });
 	}
 
-	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<GuildMember> {
+	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<GuildMember> {
 		const { guild } = context.message;
 		if (!guild) {
-			return this.error(argument, 'ArgumentMemberMissingGuild', 'The argument must be run on a guild.');
+			return this.error({ parameter, identifier: 'ArgumentMemberMissingGuild', message: 'The argument must be run on a guild.', context });
 		}
 
-		const member = (await this.resolveByID(argument, guild)) ?? (await this.resolveByQuery(argument, guild));
-		return member ? this.ok(member) : this.error(argument, 'ArgumentMemberUnknownMember', 'The argument did not resolve to a member.');
+		const member = (await this.resolveByID(parameter, guild)) ?? (await this.resolveByQuery(parameter, guild));
+		return member
+			? this.ok(member)
+			: this.error({ parameter, identifier: 'ArgumentMemberUnknownMember', message: 'The argument did not resolve to a member.', context });
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<GuildMember | null> {

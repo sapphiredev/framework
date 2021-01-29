@@ -65,12 +65,12 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 		return this.context.client.arguments.get(this.baseArgument) as IArgument<ArgType[K]>;
 	}
 
-	public async run(argument: string, context: ArgumentContext): AsyncArgumentResult<T> {
-		const result = await this.base.run(argument, context);
+	public async run(parameter: string, context: ArgumentContext<T>): AsyncArgumentResult<T> {
+		const result = await this.base.run(parameter, (context as unknown) as ArgumentContext<ArgType[K]>);
 		// If the result was successful (i.e. is of type `Ok<ArgType[K]>`), pass its
 		// value to [[ExtendedArgument#handle]] for further parsing. Otherwise, return
 		// the error as is; it'll provide contextual information from the base argument.
-		return isOk(result) ? this.handle(result.value, { ...context, argument }) : result;
+		return isOk(result) ? this.handle(result.value, { ...context, parameter }) : result;
 	}
 
 	public abstract handle(parsed: ArgType[K], context: ExtendedArgumentContext): ArgumentResult<T>;
@@ -86,12 +86,12 @@ export interface ExtendedArgumentOptions<K extends keyof ArgType> extends Argume
 
 export interface ExtendedArgumentContext extends ArgumentContext {
 	/**
-	 * The canonical argument specified by the user in the command, as
+	 * The canonical parameter specified by the user in the command, as
 	 * a string, equivalent to the first parameter of [[Argument#run]].
 	 * This allows [[ExtendedArgument#handle]] to access the original
 	 * argument, which is useful for returning [[Argument#error]] so
 	 * that you don't have to convert the parsed argument back into a
 	 * string.
 	 */
-	argument: string;
+	parameter: string;
 }

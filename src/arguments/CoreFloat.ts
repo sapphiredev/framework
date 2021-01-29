@@ -6,17 +6,34 @@ export class CoreArgument extends Argument<number> {
 		super(context, { name: 'float' });
 	}
 
-	public run(argument: string, context: ArgumentContext): ArgumentResult<number> {
-		const parsed = Number(argument);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
+		const parsed = Number(parameter);
 
 		if (Number.isNaN(parsed)) {
-			return this.error(argument, 'ArgumentFloatInvalidFloat', 'The argument did not resolve to a valid floating point number.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentFloatInvalidFloat',
+				message: 'The argument did not resolve to a valid floating point number.',
+				context
+			});
 		}
+
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return this.error(argument, 'ArgumentFloatTooSmall', `The argument must be greater than ${context.minimum}.`);
+			return this.error({
+				parameter,
+				identifier: 'ArgumentFloatTooSmall',
+				message: `The argument must be greater than ${context.minimum}.`,
+				context
+			});
 		}
+
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return this.error(argument, 'ArgumentFloatTooBig', `The argument must be less than ${context.maximum}.`);
+			return this.error({
+				parameter,
+				identifier: 'ArgumentFloatTooBig',
+				message: `The argument must be less than ${context.maximum}.`,
+				context
+			});
 		}
 
 		return this.ok(parsed);
