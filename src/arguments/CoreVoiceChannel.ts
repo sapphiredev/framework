@@ -12,9 +12,14 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', VoiceChannel>
 		});
 	}
 
-	public handle(channel: GuildChannel, { argument }: ExtendedArgumentContext): ArgumentResult<VoiceChannel> {
+	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<VoiceChannel> {
 		return isVoiceChannel(channel)
 			? this.ok(channel)
-			: this.error(argument, 'ArgumentVoiceChannelInvalidChannel', 'The argument did not resolve to a voice channel.');
+			: this.error({
+					parameter: context.parameter,
+					identifier: 'ArgumentVoiceChannelInvalidChannel',
+					message: 'The argument did not resolve to a voice channel.',
+					context
+			  });
 	}
 }

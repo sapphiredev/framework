@@ -6,17 +6,34 @@ export class CoreArgument extends Argument<number> {
 		super(context, { name: 'number' });
 	}
 
-	public run(argument: string, context: ArgumentContext): ArgumentResult<number> {
-		const parsed = Number(argument);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
+		const parsed = Number(parameter);
 
 		if (Number.isNaN(parsed)) {
-			return this.error(argument, 'ArgumentNumberInvalidNumber', 'The argument did not resolve to a valid number.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentNumberInvalidNumber',
+				message: 'The argument did not resolve to a valid number.',
+				context
+			});
 		}
+
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return this.error(argument, 'ArgumentNumberTooSmall', 'The argument is too small.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentNumberTooSmall',
+				message: `The argument must be greater than ${context.minimum}.`,
+				context
+			});
 		}
+
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return this.error(argument, 'ArgumentNumberTooBig', 'The argument is too big.');
+			return this.error({
+				parameter,
+				identifier: 'ArgumentNumberTooBig',
+				message: `The argument must be smaller than ${context.maximum}.`,
+				context
+			});
 		}
 
 		return this.ok(parsed);

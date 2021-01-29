@@ -7,6 +7,6 @@ export class CorePrecondition extends Precondition {
 		// will result on it returning`false`.
 		return Reflect.get(message.channel, 'nsfw') === true
 			? this.ok()
-			: this.error(this.name, 'You cannot run this command outside NSFW channels.');
+			: this.error({ message: 'You cannot run this command outside NSFW channels.' });
 	}
 }

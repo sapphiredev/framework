@@ -1,8 +1,8 @@
-import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
-import { BucketType } from '../lib/types/Enums';
+import { Bucket } from '@sapphire/ratelimits';
 import type { Message } from 'discord.js';
 import type { Command } from '../lib/structures/Command';
-import { Bucket } from '@sapphire/ratelimits';
+import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
+import { BucketType } from '../lib/types/Enums';
 
 export interface CooldownContext extends PreconditionContext {
 	bucketType?: BucketType;
@@ -21,11 +21,10 @@ export class CorePrecondition extends Precondition {
 
 		return remaining === 0
 			? this.ok()
-			: this.error(
-					this.name,
-					`You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
-					{ remaining }
-			  );
+			: this.error({
+					message: `You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
+					context: { remaining }
+			  });
 	}
 
 	private getID(message: Message, context: CooldownContext) {
