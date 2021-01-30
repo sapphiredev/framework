@@ -127,6 +127,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "lavgup",
+      "name": "lavgup",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65386243?v=4",
+      "profile": "https://lavya.tech/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
