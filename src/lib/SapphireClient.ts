@@ -53,7 +53,7 @@ export interface SapphireClientOptions {
 	 * @since 1.0.0
 	 * @example
 	 * ```ts
-	 * /^(hey +)?(?:bot)[,! ]/i
+	 * /^(hey +)?bot[,! ]/i
 	 * /**
 	 * Matches:
 	 * - hey bot,
