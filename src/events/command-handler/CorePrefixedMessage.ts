@@ -10,7 +10,7 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 
 	public run(message: Message, prefix: string | RegExp) {
 		// Retrieve the command name and validate:
-		const trimLength = prefix instanceof RegExp ? prefix.exec(message.content)?.[0].length ?? 0 : prefix.length;
+		const trimLength = typeof prefix === 'string' ? prefix.length : prefix.exec(message.content)?.[0].length ?? 0;
 		const prefixLess = message.content.slice(trimLength).trim();
 		const spaceIndex = prefixLess.indexOf(' ');
 		const name = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
