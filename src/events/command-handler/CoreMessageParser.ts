@@ -28,7 +28,7 @@ export class CoreEvent extends Event<Events.Message> {
 			}
 
 			prefix = mentionPrefix;
-		} else if (regexPrefix && regexPrefix.test(message.content)) {
+		} else if (regexPrefix?.test(message.content)) {
 			prefix = regexPrefix;
 		} else {
 			const prefixes = await client.fetchPrefix(message);
