@@ -54,7 +54,7 @@ export interface SapphireClientOptions {
 	 * @example
 	 * ```ts
 	 * /^(hey +)?bot[,! ]/i
-	 * /**
+	 *
 	 * Matches:
 	 * - hey bot,
 	 * - hey bot!
