@@ -8,9 +8,10 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 		super(context, { event: Events.PrefixedMessage });
 	}
 
-	public run(message: Message, prefix: string) {
+	public run(message: Message, prefix: string | RegExp) {
 		// Retrieve the command name and validate:
-		const prefixLess = message.content.slice(prefix.length).trim();
+		const trimLength = typeof prefix === 'string' ? prefix.length : prefix.exec(message.content)?.[0].length ?? 0;
+		const prefixLess = message.content.slice(trimLength).trim();
 		const spaceIndex = prefixLess.indexOf(' ');
 		const name = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
 		if (!name) {

@@ -153,9 +153,11 @@ export interface CommandOptions extends AliasPieceOptions {
 
 export interface CommandContext extends Record<PropertyKey, unknown> {
 	/**
-	 * The prefix used to run this command
+	 * The prefix used to run this command.
+	 *
+	 * This is a string for the mention and default prefix, and a RegExp for the `regexPrefix`.
 	 */
-	prefix: string;
+	prefix: string | RegExp;
 	/**
 	 * The alias used to run this command
 	 */
