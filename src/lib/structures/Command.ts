@@ -57,12 +57,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 			]
 		);
 
-		if (options.autoAliases) {
-			const autoAliases = [];
-			if (this.name.includes('-')) autoAliases.push(this.name.replace(/-/g, ''));
-			for (const alias of this.aliases) if (alias.includes('-')) autoAliases.push(alias.replace(/-/g, ''));
+		if (options.generateDashLessAliases) {
+			const dashLessAliases = [];
+			if (this.name.includes('-')) dashLessAliases.push(this.name.replace(/-/g, ''));
+			for (const alias of this.aliases) if (alias.includes('-')) dashLessAliases.push(alias.replace(/-/g, ''));
 
-			this.aliases = [...this.aliases, ...autoAliases];
+			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
 	}
 
@@ -107,7 +107,7 @@ export interface CommandOptions extends AliasPieceOptions {
 	 * @since 1.0.0
 	 * @default false
 	 */
-	autoAliases?: boolean;
+	generateDashLessAliases?: boolean;
 
 	/**
 	 * The description for the command.
