@@ -19,23 +19,24 @@ export class CoreEvent extends Event<Events.Message> {
 
 		let prefix = null;
 		const mentionPrefix = this.getMentionPrefix(message.content);
-		const { regexPrefix } = this.context.client.options;
+		const { client } = this.context;
+		const { regexPrefix } = client.options;
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
-				message.client.emit(Events.MentionPrefixOnly, message);
+				client.emit(Events.MentionPrefixOnly, message);
 				return;
 			}
 
 			prefix = mentionPrefix;
-		} else if (regexPrefix) {
+		} else if (regexPrefix && regexPrefix.test(message.content)) {
 			prefix = regexPrefix;
 		} else {
-			const prefixes = await message.client.fetchPrefix(message);
+			const prefixes = await client.fetchPrefix(message);
 			const parsed = this.getPrefix(message.content, prefixes);
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix !== null) message.client.emit(Events.PrefixedMessage, message, prefix);
+		if (prefix !== null) client.emit(Events.PrefixedMessage, message, prefix);
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
