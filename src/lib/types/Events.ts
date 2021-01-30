@@ -120,9 +120,9 @@ declare module 'discord.js' {
 		[Events.PiecePostLoad]: [Store<Piece>, Piece];
 		[Events.MentionPrefixOnly]: [Message];
 		[Events.EventError]: [Error, EventErrorPayload];
-		[Events.PrefixedMessage]: [Message, string];
-		[Events.UnknownCommandName]: [Message, string];
-		[Events.UnknownCommand]: [Message, string, string];
+		[Events.PrefixedMessage]: [Message, string | RegExp];
+		[Events.UnknownCommandName]: [Message, string | RegExp];
+		[Events.UnknownCommand]: [Message, string, string | RegExp];
 		[Events.PreCommandRun]: [PreCommandRunPayload];
 		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
 		[Events.CommandAccepted]: [CommandAcceptedPayload];

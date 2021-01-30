@@ -49,6 +49,25 @@ export interface SapphireClientOptions {
 	defaultPrefix?: SapphirePrefix;
 
 	/**
+	 * The regex prefix, an alternative to a mention or regular prefix to allow creating natural language command messages
+	 * @since 1.0.0
+	 * @default undefined
+	 * @example
+	 * ```ts
+	 * /^(hey +)?(?:bot)[,! ]/i
+	 * /**
+	 * Matches:
+	 * - hey bot,
+	 * - hey bot!
+	 * - hey bot
+	 * - bot,
+	 * - bot!
+	 * - bot
+	 * ```
+	 */
+	regexPrefix?: RegExp;
+
+	/**
 	 * The prefix hook, by default it is a callback function that returns [[SapphireClientOptions.defaultPrefix]].
 	 * @since 1.0.0
 	 * @default () => client.options.defaultPrefix

@@ -19,6 +19,7 @@ export class CoreEvent extends Event<Events.Message> {
 
 		let prefix = null;
 		const mentionPrefix = this.getMentionPrefix(message.content);
+		const { regexPrefix } = this.context.client.options;
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
 				message.client.emit(Events.MentionPrefixOnly, message);
@@ -26,6 +27,8 @@ export class CoreEvent extends Event<Events.Message> {
 			}
 
 			prefix = mentionPrefix;
+		} else if (regexPrefix) {
+			prefix = regexPrefix;
 		} else {
 			const prefixes = await message.client.fetchPrefix(message);
 			const parsed = this.getPrefix(message.content, prefixes);
