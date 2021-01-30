@@ -753,7 +753,7 @@
   resolved "https://registry.yarnpkg.com/@sapphire/eslint-config/-/eslint-config-2.1.0.tgz#bce6ad2779783d16e12b0f7f2150342ae41f291d"
   integrity sha512-oTo7URwshIF3rvm17GTvnDw9cM6Ux26kYQNMMv3Q8GRMHiK33eod199vxacaKlrf8wgboszDcttYd5hctk/KNA==
 
-"@sapphire/pieces@1.2.1":
+"@sapphire/pieces@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.2.1.tgz#ea43fae1e9377a9edca828411c3556d469f8e995"
   integrity sha512-oObMXb8qHGDI8o+Ab1WbA1oN+ejbj9dHXGAZZ6HQ1QXU6XVyA2qRDDjz+F4YAZZuDNtb679FVuLL49bIz0YGiw==
