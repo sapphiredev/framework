@@ -127,6 +127,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "vladfrangu",
+      "name": "Vlad Frangu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
+      "profile": "https://github.com/vladfrangu",
+      "contributions": [
+        "code",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
