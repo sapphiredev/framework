@@ -55,13 +55,13 @@ export interface SapphireClientOptions {
 	 * ```ts
 	 * /^(hey +)?bot[,! ]/i
 	 *
-	 * Matches:
-	 * - hey bot,
-	 * - hey bot!
-	 * - hey bot
-	 * - bot,
-	 * - bot!
-	 * - bot
+	 * // Matches:
+	 * // - hey bot,
+	 * // - hey bot!
+	 * // - hey bot
+	 * // - bot,
+	 * // - bot!
+	 * // - bot
 	 * ```
 	 */
 	regexPrefix?: RegExp;
