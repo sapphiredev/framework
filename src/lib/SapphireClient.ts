@@ -51,7 +51,6 @@ export interface SapphireClientOptions {
 	/**
 	 * The regex prefix, an alternative to a mention or regular prefix to allow creating natural language command messages
 	 * @since 1.0.0
-	 * @default undefined
 	 * @example
 	 * ```ts
 	 * /^(hey +)?(?:bot)[,! ]/i
