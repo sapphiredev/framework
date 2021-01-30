@@ -760,6 +760,12 @@
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
+"@sapphire/pieces@sapphire-project/pieces#build":
+  version "1.2.0"
+  resolved "https://codeload.github.com/sapphire-project/pieces/tar.gz/379c9ad76118af76bdd77db211cf31d8a8b30de4"
+  dependencies:
+    "@discordjs/collection" "^0.1.6"
+
 "@sapphire/prettier-config@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@sapphire/prettier-config/-/prettier-config-1.0.6.tgz#b561377518f4781626605197bb5651034596d4e4"

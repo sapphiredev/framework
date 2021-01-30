@@ -56,6 +56,14 @@ export abstract class Command<T = Args> extends AliasPiece {
 				['「', '」'] // Corner brackets (CJK)
 			]
 		);
+
+		if (options.autoAliases) {
+			const autoAliases = [];
+			if (this.name.includes('-')) autoAliases.push(this.name.replace(/-/g, ''));
+			for (const alias of this.aliases) if (alias.includes('-')) autoAliases.push(alias.replace(/-/g, ''));
+
+			this.aliases = [...this.aliases, ...autoAliases];
+		}
 	}
 
 	/**
@@ -94,6 +102,13 @@ export abstract class Command<T = Args> extends AliasPiece {
  * @since 1.0.0
  */
 export interface CommandOptions extends AliasPieceOptions {
+	/**
+	 * Whether to add aliases for commands with dashes in them
+	 * @since 1.0.0
+	 * @default false
+	 */
+	autoAliases?: boolean;
+
 	/**
 	 * The description for the command.
 	 * @since 1.0.0
