@@ -20,10 +20,15 @@ export class CorePrecondition extends Precondition {
 		const permissions = message.guild
 			? (message.channel as TextChannel | NewsChannel).permissionsFor(message.client.id!)!
 			: this.dmChannelPermissions;
-		const missing = permissions.missing(required).map((permission) => readablePermissions[permission]!);
+		const missing = permissions.missing(required);
 		return missing.length === 0
 			? this.ok()
-			: this.error({ message: `I am missing the following permissions to run this command: ${missing.join(', ')}`, context: { missing } });
+			: this.error({
+					message: `I am missing the following permissions to run this command: ${missing
+						.map((perm) => readablePermissions[perm])
+						.join(', ')}`,
+					context: { missing }
+			  });
 	}
 }
 
