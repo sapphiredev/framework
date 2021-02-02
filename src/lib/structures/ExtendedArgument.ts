@@ -62,7 +62,7 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	 * into the value used to compute the extended argument's value.
 	 */
 	public get base(): IArgument<ArgType[K]> {
-		return this.context.client.arguments.get(this.baseArgument) as IArgument<ArgType[K]>;
+		return this.context.stores.get('arguments').get(this.baseArgument) as IArgument<ArgType[K]>;
 	}
 
 	public async run(parameter: string, context: ArgumentContext<T>): AsyncArgumentResult<T> {
