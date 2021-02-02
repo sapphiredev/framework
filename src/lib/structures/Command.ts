@@ -70,11 +70,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * The pre-parse method. This method can be overriden by plugins to define their own argument parser.
 	 * @param message The message that triggered the command.
 	 * @param parameters The raw parameters as a single string.
+	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string): Awaited<T> {
+	public preParse(message: Message, parameters: string, context: CommandContext): Awaited<T> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
-		return new Args(message, this as any, args) as any;
+		return new Args(message, this as any, args, context) as any;
 	}
 
 	/**
