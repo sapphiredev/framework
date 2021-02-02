@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.5](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2021-02-02)
+
+### ⚠ BREAKING CHANGES
+
+-   **client:** `client.arguments` is now `client.stores.get('arguments')`
+-   **client:** `client.commands` is now `client.stores.get('commands')`
+-   **client:** `client.events` is now `client.stores.get('events')`
+-   **client:** `client.preconditions` is now `client.stores.get('preconditions')`
+-   **client:** `client.registerUserDirectories` is now `client.stores.registerUserDirectories`
+-   **client:** `client.deregisterStore` is now `client.stores.deregister`
+-   **client:** `client.registerStore` is now `client.stores.register`
+-   **command parser:** The events `prefixedMessage`, `unknownCommandName`, and `unknownCommand` 3rd
+    parameter now have the type `string | RegExp`
+-   **command parser:** `CommandContext.prefix` now has the type `string | RegExp`
+-   The `UserError`, `PreconditionError`, `ArgumentError` classes,
+    and the `ok`, `err` functions now take a single parameter which is an object
+    of properties, rather than multiple parameters.
+
+### Features
+
+-   **args:** add Args#commandContext ([#154](https://github.com/sapphire-project/framework/issues/154)) ([63c195b](https://github.com/sapphire-project/framework/commit/63c195bde51cb069ef141f4da5990717e2c092da))
+-   **client:** change stores from a Set to a Map ([#129](https://github.com/sapphire-project/framework/issues/129)) ([01f7161](https://github.com/sapphire-project/framework/commit/01f716153e8d2e1865cc2402736c6aadb1247c60))
+-   **command:** add generateDashLessAliases ([#146](https://github.com/sapphire-project/framework/issues/146)) ([e94649c](https://github.com/sapphire-project/framework/commit/e94649c2c7ae2840a7a08be59fa1daf9227bbfc0))
+-   **command parser:** add regexPrefix client option ([#145](https://github.com/sapphire-project/framework/issues/145)) ([86e6b79](https://github.com/sapphire-project/framework/commit/86e6b7960956674c5f0140e6c78bd75e899d559c))
+-   **preconditions:** make Permission errors less vague ([#151](https://github.com/sapphire-project/framework/issues/151)) ([c6b04e1](https://github.com/sapphire-project/framework/commit/c6b04e16163b580021e1986b541cb9d4247865ab))
+-   make errors take objects instead of many params ([#144](https://github.com/sapphire-project/framework/issues/144)) ([f638410](https://github.com/sapphire-project/framework/commit/f6384101a1a07620df2ad293d138a793a3a724fb))
+
+### Bug Fixes
+
+-   update discord redirect URL ([61edce2](https://github.com/sapphire-project/framework/commit/61edce2040f6d88e9da3bb8a9f5eb10cd0cb60a5))
+
 ## [1.0.0-alpha.4](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2021-01-28)
 
 ### Features
