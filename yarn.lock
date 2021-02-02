@@ -741,10 +741,10 @@
   dependencies:
     twemoji-parser "^13.0.0"
 
-"@sapphire/discord.js-utilities@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-1.3.1.tgz#ea8018b72fc1f6e670be75a4d69f4886d8c1e695"
-  integrity sha512-FDDYkQD/11xWTPmsgB8LzQnKjLsaRRawr+h+ITSWaX9MBWIW5qsI3Q3VXyjhb32cBWa3iOpAqtJzH3gMny/XUA==
+"@sapphire/discord.js-utilities@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-1.4.0.tgz#9a0980d1a41cad908203904a6ca8fde2a6da6fd0"
+  integrity sha512-uzu5awK8qtGf/Oyyzg0ATBdiI80wUw+GdzqIKZ5p1CKQGydJ74LVFdmm6g9d3+g1vCMfCcON46LcnzfWtHhDZA==
   dependencies:
     "@sapphire/discord-utilities" "^2.0.1"
 
@@ -5340,10 +5340,10 @@ rollup-plugin-dts@^2.0.1:
   optionalDependencies:
     "@babel/code-frame" "^7.10.4"
 
-rollup@^2.38.3:
-  version "2.38.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.3.tgz#2a0b6cc6eab1da4431aab875a31a401fa2988c10"
-  integrity sha512-FVx/XzR2DtCozKNDBjHJCHIgkC12rNg/ruAeoYWjLeeKfSKgwhh+lDLDhuCkuRG/fsup8py8dKBTlHdvUFX32A==
+rollup@^2.38.4:
+  version "2.38.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.4.tgz#1b84ea8728c73b1a00a6a6e9c630ec8c3fe48cea"
+  integrity sha512-B0LcJhjiwKkTl79aGVF/u5KdzsH8IylVfV56Ut6c9ouWLJcUK17T83aZBetNYSnZtXf2OHD4+2PbmRW+Fp5ulg==
   optionalDependencies:
     fsevents "~2.3.1"
 
