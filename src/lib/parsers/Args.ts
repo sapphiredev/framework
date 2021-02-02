@@ -1,3 +1,4 @@
+import { Store } from '@sapphire/pieces';
 import type {
 	CategoryChannel,
 	Channel,
@@ -625,7 +626,7 @@ export class Args {
 	 */
 	private resolveArgument<T>(arg: keyof ArgType | IArgument<T>): IArgument<T> | undefined {
 		if (typeof arg === 'object') return arg;
-		return this.message.client.arguments.get(arg as string) as IArgument<T> | undefined;
+		return Store.injectedContext.stores.get('arguments').get(arg as string) as IArgument<T> | undefined;
 	}
 
 	/**
