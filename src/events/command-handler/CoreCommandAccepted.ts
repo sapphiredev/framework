@@ -8,7 +8,7 @@ export class CoreEvent extends Event<Events.CommandAccepted> {
 	}
 
 	public async run({ message, command, parameters, context }: CommandAcceptedPayload) {
-		const args = await command.preParse(message, parameters);
+		const args = await command.preParse(message, parameters, context);
 		try {
 			message.client.emit(Events.CommandRun, message, command);
 			const result = await command.run(message, args, context);
