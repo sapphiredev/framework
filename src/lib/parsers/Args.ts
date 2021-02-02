@@ -17,7 +17,7 @@ import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
-import type { Command } from '../structures/Command';
+import type { Command, CommandContext } from '../structures/Command';
 import { isSome, maybe, Maybe } from './Maybe';
 import { err, isErr, isOk, ok, Ok, Result } from './Result';
 
@@ -34,13 +34,19 @@ export class Args {
 	 * The command that is being run.
 	 */
 	public readonly command: Command;
+
+	/**
+	 * The context of the command being run.
+	 */
+	public readonly commandContext: CommandContext;
 	private readonly parser: Lexure.Args;
 	private readonly states: Lexure.ArgsState[] = [];
 
-	public constructor(message: Message, command: Command, parser: Lexure.Args) {
+	public constructor(message: Message, command: Command, parser: Lexure.Args, context: CommandContext) {
 		this.message = message;
 		this.command = command;
 		this.parser = parser;
+		this.commandContext = context;
 	}
 
 	/**
@@ -101,6 +107,7 @@ export class Args {
 				argument,
 				message: this.message,
 				command: this.command,
+				commandContext: this.commandContext,
 				...options
 			})
 		);
@@ -190,6 +197,7 @@ export class Args {
 			argument,
 			message: this.message,
 			command: this.command,
+			commandContext: this.commandContext,
 			...options
 		});
 		if (isOk(result)) return result;
@@ -272,6 +280,7 @@ export class Args {
 					argument,
 					message: this.message,
 					command: this.command,
+					commandContext: this.commandContext,
 					...options
 				})
 			);
