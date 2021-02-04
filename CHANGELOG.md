@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.6](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2021-02-04)
+
+### Bug Fixes
+
+-   **preconditions:** make options optional ([#155](https://github.com/sapphire-project/framework/issues/155)) ([ecc5323](https://github.com/sapphire-project/framework/commit/ecc5323dc0213524c0bf21a47b52aac3357528ac))
+
 ## [1.0.0-alpha.5](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2021-02-02)
 
 ### ⚠ BREAKING CHANGES
