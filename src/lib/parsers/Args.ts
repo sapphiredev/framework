@@ -19,7 +19,7 @@ import { UserError } from '../errors/UserError';
 import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
 import type { Command, CommandContext } from '../structures/Command';
 import { isSome, maybe, Maybe } from './Maybe';
-import { err, isErr, isOk, ok, Ok, Result } from './Result';
+import { Err, err, isErr, isOk, ok, Ok, Result } from './Result';
 
 /**
  * The argument parser to be used in [[Command]].
@@ -647,14 +647,19 @@ export class Args {
 	}
 
 	/**
-	 * Constructs an [[ArgumentError]] with a custom type.
-	 * @param argument The argument that caused the rejection.
-	 * @param parameter The parameter that triggered the argument.
-	 * @param type The identifier for the error.
-	 * @param message The description message for the rejection.
+	 * Constructs an [[Ok]] result.
+	 * @param value The value to pass.
 	 */
-	public static error<T>(options: ArgumentError.Options<T>): ArgumentError<T> {
-		return new ArgumentError<T>(options);
+	public static ok<T>(value: T): Ok<T> {
+		return ok(value);
+	}
+
+	/**
+	 * Constructs an [[Err]] result containing an [[ArgumentError]].
+	 * @param options The options for the argument error.
+	 */
+	public static error<T>(options: ArgumentError.Options<T>): Err<ArgumentError<T>> {
+		return err(new ArgumentError<T>(options));
 	}
 }
 
