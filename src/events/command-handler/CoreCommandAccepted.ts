@@ -7,16 +7,17 @@ export class CoreEvent extends Event<Events.CommandAccepted> {
 		super(context, { event: Events.CommandAccepted });
 	}
 
-	public async run({ message, command, parameters, context }: CommandAcceptedPayload) {
+	public async run(payload: CommandAcceptedPayload) {
+		const { message, command, parameters, context } = payload;
 		const args = await command.preParse(message, parameters, context);
 		try {
-			message.client.emit(Events.CommandRun, message, command);
+			message.client.emit(Events.CommandRun, message, command, payload);
 			const result = await command.run(message, args, context);
-			message.client.emit(Events.CommandSuccess, { message, command, result, parameters });
+			message.client.emit(Events.CommandSuccess, { ...payload, result });
 		} catch (error) {
-			message.client.emit(Events.CommandError, error, { piece: command, message });
+			message.client.emit(Events.CommandError, error, { ...payload, piece: command });
 		} finally {
-			message.client.emit(Events.CommandFinish, message, command);
+			message.client.emit(Events.CommandFinish, message, command, payload);
 		}
 	}
 }
