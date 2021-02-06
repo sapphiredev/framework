@@ -20,7 +20,7 @@ export interface PreconditionSingleResolvableDetails {
 	 * The context to be set at [[PreconditionContainerSingle.context]].
 	 * @since 1.0.0
 	 */
-	context: PreconditionContext;
+	context: Record<PropertyKey, unknown>;
 }
 
 /**
@@ -40,7 +40,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * [[PreconditionSingleResolvableDetails.context]].
 	 * @since 1.0.0
 	 */
-	public readonly context: PreconditionContext;
+	public readonly context: Record<PropertyKey, unknown>;
 
 	/**
 	 * The name of the precondition to run.
@@ -64,9 +64,9 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public run(message: Message, command: Command) {
+	public run(message: Message, command: Command, context: PreconditionContext) {
 		const precondition = Store.injectedContext.stores.get('preconditions').get(this.name);
-		if (precondition) return precondition.run(message, command, this.context);
+		if (precondition) return precondition.run(message, command, { ...context, ...this.context });
 		throw new Error(`The precondition "${this.name}" is not available.`);
 	}
 }

@@ -1,4 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentResult } from '../lib/structures/Argument';
 import type { BoundedArgumentContext } from '../lib/types/Arguments';
 
@@ -13,8 +14,8 @@ export class CoreArgument extends Argument<string> {
 		if (minimum && parameter.length < minimum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentStringTooShort',
-				message: `The argument must be greater than ${minimum} characters.`,
+				identifier: Identifiers.ArgumentStringTooShort,
+				message: `The argument must be longer than ${context.minimum} characters.`,
 				context
 			});
 		}
@@ -22,8 +23,8 @@ export class CoreArgument extends Argument<string> {
 		if (maximum && parameter.length > maximum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentStringTooLong',
-				message: `The argument must be less than ${maximum} characters.`,
+				identifier: Identifiers.ArgumentStringTooLong,
+				message: `The argument must be shorter than ${context.maximum} characters.`,
 				context
 			});
 		}

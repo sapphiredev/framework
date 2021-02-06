@@ -24,4 +24,6 @@ export abstract class Precondition extends Piece {
 	}
 }
 
-export interface PreconditionContext extends Record<PropertyKey, unknown> {}
+export interface PreconditionContext extends Record<PropertyKey, unknown> {
+	command: Command;
+}

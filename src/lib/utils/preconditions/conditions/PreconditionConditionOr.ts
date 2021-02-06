@@ -7,18 +7,18 @@ import type { IPreconditionCondition } from './IPreconditionCondition';
  * @since 1.0.0
  */
 export const PreconditionConditionOr: IPreconditionCondition = {
-	async sequential(message, command, entries) {
+	async sequential(message, command, entries, context) {
 		let error: PreconditionContainerResult | null = null;
 		for (const child of entries) {
-			const result = await child.run(message, command);
+			const result = await child.run(message, command, context);
 			if (isOk(result)) return result;
 			error = result;
 		}
 
 		return error ?? ok();
 	},
-	async parallel(message, command, entries) {
-		const results = await Promise.all(entries.map((entry) => entry.run(message, command)));
+	async parallel(message, command, entries, context) {
+		const results = await Promise.all(entries.map((entry) => entry.run(message, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {

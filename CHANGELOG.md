@@ -2,6 +2,64 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.7](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2021-02-06)
+
+### ⚠ BREAKING CHANGES
+
+-   **errors:** Changed UserError identifier from `'ArgumentBooleanInvalidBoolean'` to `Identifiers.ArgumentBoolean`.
+-   **errors:** Changed UserError identifier from `'ArgumentCategoryChannelInvalidChannel'` to `Identifiers.ArgumentCategoryChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentChannelMissingChannel'` to `Identifiers.ArgumentChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentDateInvalidNumber'` to `Identifiers.ArgumentDate`.
+-   **errors:** Changed UserError identifier from `'ArgumentDateTooSmall'` to `Identifiers.ArgumentDateTooSmall`.
+-   **errors:** Changed UserError identifier from `'ArgumentDateTooBig'` to `Identifiers.ArgumentDateTooBig`.
+-   **errors:** Changed UserError identifier from `'ArgumentDMChannelInvalidChannel'` to `Identifiers.ArgumentDMChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentFloatInvalidFloat'` to `Identifiers.ArgumentFloat`.
+-   **errors:** Changed UserError identifier from `'ArgumentFloatTooSmall'` to `Identifiers.ArgumentFloatTooSmall`.
+-   **errors:** Changed UserError identifier from `'ArgumentFloatTooBig'` to `Identifiers.ArgumentFloatTooBig`.
+-   **errors:** Changed UserError identifier from `'ArgumentGuildChannelMissingGuild'` to `Identifiers.ArgumentGuildChannelMissingGuild`.
+-   **errors:** Changed UserError identifier from `'ArgumentGuildChannelUnknownChannel'` to `Identifiers.ArgumentGuildChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentHyperlinkInvalidURL'` to `Identifiers.ArgumentHyperlink`.
+-   **errors:** Changed UserError identifier from `'ArgumentIntegerInvalidNumber'` to `Identifiers.ArgumentInteger`.
+-   **errors:** Changed UserError identifier from `'ArgumentIntegerTooSmall'` to `Identifiers.ArgumentIntegerTooSmall`.
+-   **errors:** Changed UserError identifier from `'ArgumentIntegerTooBig'` to `Identifiers.ArgumentIntegerTooBig`.
+-   **errors:** Changed UserError identifier from `'ArgumentMemberMissingGuild'` to `Identifiers.ArgumentMemberMissingGuild`.
+-   **errors:** Changed UserError identifier from `'ArgumentMemberUnknownMember'` to `Identifiers.ArgumentMember`.
+-   **errors:** Changed UserError identifier from `'ArgumentMessageUnknownMessage'` to `Identifiers.Message`.
+-   **errors:** Changed UserError identifier from `'ArgumentNewsChannelInvalidChannel'` to `Identifiers.NewsChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentNumberInvalidNumber'` to `Identifiers.Number`.
+-   **errors:** Changed UserError identifier from `'ArgumentNumberTooSmall'` to `Identifiers.ArgumentNumberTooSmall`.
+-   **errors:** Changed UserError identifier from `'ArgumentNumberTooBig'` to `Identifiers.ArgumentNumberTooBig`.
+-   **errors:** Changed UserError identifier from `'ArgumentRoleMissingGuild'` to `Identifiers.ArgumentRoleMissingGuild`.
+-   **errors:** Changed UserError identifier from `'ArgumentRoleUnknownRole'` to `Identifiers.Role`.
+-   **errors:** Changed UserError identifier from `'ArgumentStringTooShort'` to `Identifiers.ArgumentStringTooShort`.
+-   **errors:** Changed UserError identifier from `'ArgumentStringTooLong'` to `Identifiers.ArgumentStringTooLong`.
+-   **errors:** Changed UserError identifier from `'ArgumentTextChannelInvalidChannel'` to `Identifiers.TextChannel`.
+-   **errors:** Changed UserError identifier from `'ArgumentUserUnknownUser'` to `Identifiers.User`.
+-   **errors:** Changed UserError identifier from `'ArgumentVoiceChannelInvalidChannel'` to `Identifiers.VoiceChannel`.
+-   **errors:** Changed UserError identifier from `'CommandDisabled'` to `Identifiers.CommandDisabled`.
+-   **errors:** Changed UserError identifier from `'UnavailableArgument'` to `Identifiers.ArgsUnavailable`.
+-   **errors:** Changed UserError identifier from `'MissingArguments'` to `Identifiers.ArgsMissing`.
+-   **errors:** Changed UserError identifier from `'Cooldown'` to `Identifiers.PreconditionCooldown`.
+-   **errors:** Changed UserError identifier from `'DMOnly'` to `Identifiers.PreconditionDMOnly`.
+-   **errors:** Changed UserError identifier from `'GuildOnly'` to `Identifiers.PreconditionGuildOnly`.
+-   **errors:** Changed UserError identifier from `'NSFW'` to `Identifiers.PreconditionNSFW`.
+-   **errors:** Changed UserError identifier from `'Permissions'` to `Identifiers.PreconditionPermissions`.
+-   **preconditions:** Added `PreconditionContext` as third parameter to `IPreconditionContainer#run`.
+-   **preconditions:** Changed `PermissionsPrecondition#context` from `PreconditionContext` to `Record<PropertyKey, unknown>`.
+-   **preconditions:** Changed `PreconditionContainerSingle#context` from `PreconditionContext` to `Record<PropertyKey, unknown>`.
+-   **preconditions:** Changed `PreconditionSingleResolvableDetails#context` from `PreconditionContext` to `Record<PropertyKey, unknown>`.
+-   **preconditions:** Added `PreconditionContext` as third parameter to `IPreconditionCondition#run`.
+-   **args:** changed `Args.err` to return `Err<ArgumentError<T>>` instead of `ArgumentError<T>`
+
+### Features
+
+-   **args:** add Args#ok, refactored Args#error to return Err<ArgumentError<T>> ([#159](https://github.com/sapphire-project/framework/issues/159)) ([65316a6](https://github.com/sapphire-project/framework/commit/65316a6f13533b90b0ba84ff214ebf8bb54cc5ee))
+-   **args:** change visibility of parser from private to protected ([#160](https://github.com/sapphire-project/framework/issues/160)) ([3ad6f85](https://github.com/sapphire-project/framework/commit/3ad6f85db92287c0c073dcbc21df13d52c629abb))
+-   **command:** add CommandContext#commandPrefix ([#157](https://github.com/sapphire-project/framework/issues/157)) ([c8c7417](https://github.com/sapphire-project/framework/commit/c8c741768e78a5f3c75282cc8461368bd9609016))
+-   **command-events:** pass more context ([#162](https://github.com/sapphire-project/framework/issues/162)) ([11a6274](https://github.com/sapphire-project/framework/commit/11a6274613536fcc7fa2bcbb936b6332740978a4))
+-   **errors:** expose all identifiers in an enum ([#161](https://github.com/sapphire-project/framework/issues/161)) ([3371f35](https://github.com/sapphire-project/framework/commit/3371f35c2ad9fabdacca5b1ae614e5a5c9530dbc))
+-   **preconditions:** add context to Container and Condition ([#158](https://github.com/sapphire-project/framework/issues/158)) ([de6bc03](https://github.com/sapphire-project/framework/commit/de6bc035f737ddc269a1b7e44ad34c175cfa35dd))
+
 ## [1.0.0-alpha.6](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2021-02-04)
 
 ### Bug Fixes

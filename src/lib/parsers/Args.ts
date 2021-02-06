@@ -15,6 +15,7 @@ import type {
 import type * as Lexure from 'lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
+import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
 import type { Command, CommandContext } from '../structures/Command';
@@ -39,7 +40,17 @@ export class Args {
 	 * The context of the command being run.
 	 */
 	public readonly commandContext: CommandContext;
-	private readonly parser: Lexure.Args;
+
+	/**
+	 * The internal Lexure parser.
+	 */
+	protected readonly parser: Lexure.Args;
+
+	/**
+	 * The states stored in the args.
+	 * @see Args#save
+	 * @see Args#restore
+	 */
 	private readonly states: Lexure.ArgsState[] = [];
 
 	public constructor(message: Message, command: Command, parser: Lexure.Args, context: CommandContext) {
@@ -595,7 +606,7 @@ export class Args {
 
 	/**
 	 * Saves the current state into the stack following a FILO strategy (first-in, last-out).
-	 * @seealso [[Args.restore]]
+	 * @see Args#restore
 	 */
 	public save() {
 		this.states.push(this.parser.save());
@@ -603,7 +614,7 @@ export class Args {
 
 	/**
 	 * Restores the previously saved state from the stack.
-	 * @seealso [[Args.save]]
+	 * @see Args#save
 	 */
 	public restore() {
 		if (this.states.length !== 0) this.parser.restore(this.states.pop()!);
@@ -619,14 +630,14 @@ export class Args {
 	protected unavailableArgument<T>(type: string | IArgument<T>) {
 		return err(
 			new UserError({
-				identifier: 'UnavailableArgument',
+				identifier: Identifiers.ArgsUnavailable,
 				message: `The argument "${typeof type === 'string' ? type : type.name}" was not found.`
 			})
 		);
 	}
 
 	protected missingArguments() {
-		return err(new UserError({ identifier: 'MissingArguments', message: 'There are no more arguments.' }));
+		return err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.' }));
 	}
 
 	/**
@@ -680,6 +691,7 @@ export interface ArgType {
 	role: Role;
 	string: string;
 	textChannel: TextChannel;
+	url: URL;
 	user: User;
 	voiceChannel: VoiceChannel;
 }

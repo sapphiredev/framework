@@ -1,4 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentResult } from '../lib/structures/Argument';
 import type { BoundedArgumentContext } from '../lib/types/Arguments';
 
@@ -11,12 +12,7 @@ export class CoreArgument extends Argument<number> {
 		const parsed = Number(parameter);
 
 		if (Number.isNaN(parsed)) {
-			return this.error({
-				parameter,
-				identifier: 'ArgumentFloatInvalidFloat',
-				message: 'The argument did not resolve to a valid floating point number.',
-				context
-			});
+			return this.error({ parameter, message: 'The argument did not resolve to a valid floating point number.', context });
 		}
 
 		const { minimum, maximum } = context;
@@ -24,7 +20,7 @@ export class CoreArgument extends Argument<number> {
 		if (minimum && parsed < minimum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentFloatTooSmall',
+				identifier: Identifiers.ArgumentFloatTooSmall,
 				message: `The argument must be greater than ${minimum}.`,
 				context
 			});
@@ -33,8 +29,8 @@ export class CoreArgument extends Argument<number> {
 		if (maximum && parsed > maximum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentFloatTooBig',
-				message: `The argument must be less than ${maximum}.`,
+				identifier: Identifiers.ArgumentFloatTooBig,
+				message: `The argument must be less than ${context.maximum}.`,
 				context
 			});
 		}

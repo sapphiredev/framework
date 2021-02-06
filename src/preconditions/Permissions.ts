@@ -1,4 +1,5 @@
 import { GuildMember, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
 import { PermissionScope, PermissionTarget } from '../lib/types/Enums';
@@ -27,6 +28,7 @@ export class CorePrecondition extends Precondition {
 		return missing.length === 0
 			? this.ok()
 			: this.error({
+					identifier: Identifiers.PreconditionPermissions,
 					message: `${
 						target === PermissionTarget.Client ? 'I am' : 'You are'
 					} missing the following permissions to run this command: ${missing

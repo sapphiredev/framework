@@ -1,5 +1,6 @@
 import type { Message } from 'discord.js';
 import type { Command } from '../../../structures/Command';
+import type { PreconditionContext } from '../../../structures/Precondition';
 import type { IPreconditionContainer, PreconditionContainerReturn } from '../IPreconditionContainer';
 
 /**
@@ -15,7 +16,12 @@ export interface IPreconditionCondition {
 	 * @param command The command the message invoked.
 	 * @param entries The containers to run.
 	 */
-	sequential(message: Message, command: Command, entries: readonly IPreconditionContainer[]): PreconditionContainerReturn;
+	sequential(
+		message: Message,
+		command: Command,
+		entries: readonly IPreconditionContainer[],
+		context: PreconditionContext
+	): PreconditionContainerReturn;
 
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
@@ -25,5 +31,10 @@ export interface IPreconditionCondition {
 	 * @param command The command the message invoked.
 	 * @param entries The containers to run.
 	 */
-	parallel(message: Message, command: Command, entries: readonly IPreconditionContainer[]): PreconditionContainerReturn;
+	parallel(
+		message: Message,
+		command: Command,
+		entries: readonly IPreconditionContainer[],
+		context: PreconditionContext
+	): PreconditionContainerReturn;
 }

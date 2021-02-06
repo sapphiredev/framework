@@ -86,9 +86,8 @@ export interface EventErrorPayload extends IPieceError {
 	piece: Event;
 }
 
-export interface CommandErrorPayload extends IPieceError {
+export interface CommandErrorPayload extends CommandAcceptedPayload {
 	piece: Command;
-	message: Message;
 }
 
 export interface ICommandPayload {
@@ -106,9 +105,8 @@ export interface CommandAcceptedPayload extends ICommandPayload {
 	context: CommandContext;
 }
 
-export interface CommandSuccessPayload extends ICommandPayload {
+export interface CommandSuccessPayload extends CommandAcceptedPayload {
 	result: unknown;
-	parameters: string;
 }
 
 export interface PreCommandRunPayload extends CommandDeniedPayload {}
@@ -126,10 +124,10 @@ declare module 'discord.js' {
 		[Events.PreCommandRun]: [PreCommandRunPayload];
 		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
 		[Events.CommandAccepted]: [CommandAcceptedPayload];
-		[Events.CommandRun]: [Message, Command];
+		[Events.CommandRun]: [Message, Command, CommandAcceptedPayload];
 		[Events.CommandSuccess]: [CommandSuccessPayload];
 		[Events.CommandError]: [Error, CommandErrorPayload];
-		[Events.CommandFinish]: [Message, Command];
+		[Events.CommandFinish]: [Message, Command, CommandAcceptedPayload];
 		[Events.PluginLoaded]: [PluginHook, string | undefined];
 		// #endregion Sapphire load cycle events
 

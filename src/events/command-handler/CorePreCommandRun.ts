@@ -1,4 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { Identifiers } from '../../lib/errors/Identifiers';
 import { UserError } from '../../lib/errors/UserError';
 import { isErr } from '../../lib/parsers/Result';
 import { Event } from '../../lib/structures/Event';
@@ -10,22 +11,17 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 	}
 
 	public async run(payload: PreCommandRunPayload) {
-		const { message, command, parameters, context } = payload;
+		const { message, command } = payload;
 		if (!command.enabled) {
 			message.client.emit(
 				Events.CommandDenied,
-				new UserError({ identifier: 'CommandDisabled', message: 'This command is disabled.', context: payload }),
-				{
-					message,
-					command,
-					parameters,
-					context
-				}
+				new UserError({ identifier: Identifiers.CommandDisabled, message: 'This command is disabled.', context: payload }),
+				payload
 			);
 			return;
 		}
 
-		const result = await command.preconditions.run(message, command);
+		const result = await command.preconditions.run(message, command, { command });
 		if (isErr(result)) {
 			message.client.emit(Events.CommandDenied, result.error, payload);
 		} else {

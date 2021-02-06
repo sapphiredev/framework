@@ -160,7 +160,12 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	prefix: string | RegExp;
 	/**
-	 * The alias used to run this command
+	 * The alias used to run this command.
 	 */
 	commandName: string;
+	/**
+	 * The matched prefix, this will always be the same as [[CommandContext.prefix]] if it was a string, otherwise it is
+	 * the result of doing `prefix.exec(content)[0]`.
+	 */
+	commandPrefix: string;
 }

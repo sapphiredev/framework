@@ -13,14 +13,14 @@
 			"name": "Antonio Román",
 			"avatar_url": "https://avatars0.githubusercontent.com/u/24852502?v=4",
 			"profile": "https://github.com/kyranet",
-			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement"]
+			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement", "plugin"]
 		},
 		{
 			"login": "Favna",
 			"name": "Jeroen Claassens",
 			"avatar_url": "https://avatars3.githubusercontent.com/u/4019718?v=4",
 			"profile": "https://favware.tech/",
-			"contributions": ["code", "doc", "infra", "projectManagement"]
+			"contributions": ["code", "doc", "infra", "projectManagement", "plugin"]
 		},
 		{
 			"login": "cfanoulis",
@@ -76,14 +76,14 @@
 			"name": "Ivan Lieder",
 			"avatar_url": "https://avatars0.githubusercontent.com/u/54785334?v=4",
 			"profile": "https://github.com/Alcremie",
-			"contributions": ["code"]
+			"contributions": ["code", "review"]
 		},
 		{
 			"login": "Nytelife26",
 			"name": "Tyler J Russell",
 			"avatar_url": "https://avatars1.githubusercontent.com/u/22531310?v=4",
 			"profile": "https://github.com/Nytelife26",
-			"contributions": ["code"]
+			"contributions": ["code", "infra", "plugin"]
 		},
 		{
 			"login": "Soumil07",
@@ -104,7 +104,7 @@
 			"name": "Vlad Frangu",
 			"avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
 			"profile": "https://github.com/vladfrangu",
-			"contributions": ["code", "infra"]
+			"contributions": ["code", "infra", "review"]
 		}
 	],
 	"contributorsPerLine": 7,

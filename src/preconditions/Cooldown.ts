@@ -1,5 +1,6 @@
 import { Bucket } from '@sapphire/ratelimits';
 import type { Message } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition } from '../lib/structures/Precondition';
 import { BucketType } from '../lib/types/Enums';
@@ -9,7 +10,11 @@ export class CorePrecondition extends Precondition {
 	public buckets = new WeakMap<Command, Bucket<string>>();
 
 	public run(message: Message, command: Command, context: CooldownPreconditionContext) {
-		if (!context.delay || context.delay === 0) return this.ok();
+		// If the command it is testing for is not this one, return ok:
+		if (context.command !== command) return this.ok();
+
+		// If there is no delay (undefined, null, 0), return ok:
+		if (!context.delay) return this.ok();
 
 		const bucket = this.getBucket(command, context);
 		const remaining = bucket.take(this.getID(message, context));
@@ -17,6 +22,7 @@ export class CorePrecondition extends Precondition {
 		return remaining === 0
 			? this.ok()
 			: this.error({
+					identifier: Identifiers.PreconditionCooldown,
 					message: `You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
 					context: { remaining }
 			  });
