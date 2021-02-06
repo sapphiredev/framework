@@ -1,4 +1,5 @@
 import type { Message } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends Precondition {
@@ -7,6 +8,6 @@ export class CorePrecondition extends Precondition {
 		// will result on it returning`false`.
 		return Reflect.get(message.channel, 'nsfw') === true
 			? this.ok()
-			: this.error({ message: 'You cannot run this command outside NSFW channels.' });
+			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this command outside NSFW channels.' });
 	}
 }

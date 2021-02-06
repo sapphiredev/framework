@@ -1,5 +1,6 @@
 import { Bucket } from '@sapphire/ratelimits';
 import type { Message } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
 import { BucketType } from '../lib/types/Enums';
@@ -26,6 +27,7 @@ export class CorePrecondition extends Precondition {
 		return remaining === 0
 			? this.ok()
 			: this.error({
+					identifier: Identifiers.PreconditionCooldown,
 					message: `You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
 					context: { remaining }
 			  });

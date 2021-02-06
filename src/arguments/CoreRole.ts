@@ -1,6 +1,7 @@
 import { RoleMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { Guild, Role } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Role> {
@@ -11,13 +12,16 @@ export class CoreArgument extends Argument<Role> {
 	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<Role> {
 		const { guild } = context.message;
 		if (!guild) {
-			return this.error({ parameter, identifier: 'ArgumentRoleMissingGuild', message: 'The argument must be run on a guild.', context });
+			return this.error({
+				parameter,
+				identifier: Identifiers.ArgumentRoleMissingGuild,
+				message: 'The argument must be run on a guild.',
+				context
+			});
 		}
 
 		const role = (await this.resolveByID(parameter, guild)) ?? this.resolveByQuery(parameter, guild);
-		return role
-			? this.ok(role)
-			: this.error({ parameter, identifier: 'ArgumentRoleUnknownRole', message: 'The argument did not resolve to a role.', context });
+		return role ? this.ok(role) : this.error({ parameter, message: 'The argument did not resolve to a role.', context });
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<Role | null> {

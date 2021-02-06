@@ -1,4 +1,5 @@
 import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
 
@@ -24,6 +25,7 @@ export class CorePrecondition extends Precondition {
 		return missing.length === 0
 			? this.ok()
 			: this.error({
+					identifier: Identifiers.PreconditionPermissions,
 					message: `I am missing the following permissions to run this command: ${missing
 						.map((perm) => CorePrecondition.readablePermissions[perm])
 						.join(', ')}`,

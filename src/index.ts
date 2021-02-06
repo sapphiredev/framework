@@ -12,6 +12,7 @@ export {
 	StoreOptions
 } from '@sapphire/pieces';
 export * from './lib/errors/ArgumentError';
+export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
 export * from './lib/errors/UserError';
 export * from './lib/parsers/Args';

@@ -1,6 +1,7 @@
 import { ChannelMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { Guild, GuildChannel } from 'discord.js';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildChannel> {
@@ -13,21 +14,14 @@ export class CoreArgument extends Argument<GuildChannel> {
 		if (!guild) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentGuildChannelMissingGuild',
+				identifier: Identifiers.ArgumentGuildChannelMissingGuild,
 				message: 'The argument must be run in a guild.',
 				context
 			});
 		}
 
 		const channel = this.resolveByID(parameter, guild) ?? this.resolveByQuery(parameter, guild);
-		return channel
-			? this.ok(channel)
-			: this.error({
-					parameter,
-					identifier: 'ArgumentGuildChannelUnknownChannel',
-					message: 'The argument did not resolve to a guild channel.',
-					context
-			  });
+		return channel ? this.ok(channel) : this.error({ parameter, message: 'The argument did not resolve to a guild channel.', context });
 	}
 
 	private resolveByID(argument: string, guild: Guild): GuildChannel | null {
