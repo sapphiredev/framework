@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
-import { err, ok, Result } from '../parsers/Result';
+import type { Result } from '../parsers/Result';
 import type { Command, CommandContext } from './Command';
 
 /**
@@ -94,7 +94,7 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 	 * @param value The value to wrap.
 	 */
 	public ok(value: T): ArgumentResult<T> {
-		return ok(value);
+		return Args.ok(value);
 	}
 
 	/**
@@ -104,7 +104,7 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 	 * @param message The description message for the rejection.
 	 */
 	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): ArgumentResult<T> {
-		return err(Args.error({ argument: this, ...options }));
+		return Args.error({ argument: this, ...options });
 	}
 }
 
