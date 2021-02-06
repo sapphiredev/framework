@@ -104,7 +104,7 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 	 * @param message The description message for the rejection.
 	 */
 	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): ArgumentResult<T> {
-		return Args.error({ argument: this, ...options });
+		return Args.error({ argument: this, identifier: this.name, ...options });
 	}
 }
 

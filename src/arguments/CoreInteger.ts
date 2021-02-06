@@ -1,4 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<number> {
@@ -12,7 +13,6 @@ export class CoreArgument extends Argument<number> {
 		if (!Number.isInteger(parsed)) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentIntegerInvalidNumber',
 				message: 'The argument did not resolve to an integer.',
 				context
 			});
@@ -21,7 +21,7 @@ export class CoreArgument extends Argument<number> {
 		if (typeof context.minimum === 'number' && parsed < context.minimum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentIntegerTooSmall',
+				identifier: Identifiers.ArgumentIntegerTooSmall,
 				message: `The argument must be greater than ${context.minimum}.`,
 				context
 			});
@@ -30,7 +30,7 @@ export class CoreArgument extends Argument<number> {
 		if (typeof context.maximum === 'number' && parsed > context.maximum) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentIntegerTooBig',
+				identifier: Identifiers.ArgumentIntegerTooBig,
 				message: `The argument must be less than ${context.maximum}.`,
 				context
 			});

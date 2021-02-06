@@ -14,9 +14,7 @@ export class CoreArgument extends Argument<Message> {
 
 	public async run(parameter: string, context: MessageArgumentContext): AsyncArgumentResult<Message> {
 		const message = (await this.resolveByID(parameter, context)) ?? (await this.resolveByLink(parameter, context));
-		return message
-			? this.ok(message)
-			: this.error({ parameter, identifier: 'ArgumentMessageUnknownMessage', message: 'The argument did not resolve to a message.', context });
+		return message ? this.ok(message) : this.error({ parameter, message: 'The argument did not resolve to a message.', context });
 	}
 
 	private async resolveByID(argument: string, context: MessageArgumentContext): Promise<Message | null> {

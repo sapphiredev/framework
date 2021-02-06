@@ -15,6 +15,7 @@ import type {
 import type * as Lexure from 'lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
+import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
 import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
 import type { Command, CommandContext } from '../structures/Command';
@@ -629,14 +630,14 @@ export class Args {
 	protected unavailableArgument<T>(type: string | IArgument<T>) {
 		return err(
 			new UserError({
-				identifier: 'UnavailableArgument',
+				identifier: Identifiers.ArgsUnavailable,
 				message: `The argument "${typeof type === 'string' ? type : type.name}" was not found.`
 			})
 		);
 	}
 
 	protected missingArguments() {
-		return err(new UserError({ identifier: 'MissingArguments', message: 'There are no more arguments.' }));
+		return err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.' }));
 	}
 
 	/**
@@ -690,6 +691,7 @@ export interface ArgType {
 	role: Role;
 	string: string;
 	textChannel: TextChannel;
+	url: URL;
 	user: User;
 	voiceChannel: VoiceChannel;
 }

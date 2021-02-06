@@ -11,8 +11,6 @@ export class CoreArgument extends Argument<User> {
 	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<User> {
 		const userID = UserOrMemberMentionRegex.exec(parameter) ?? SnowflakeRegex.exec(parameter);
 		const user = userID ? await this.context.client.users.fetch(userID[1]).catch(() => null) : null;
-		return user
-			? this.ok(user)
-			: this.error({ parameter, identifier: 'ArgumentUserUnknownUser', message: 'The argument did not resolve to a user.', context });
+		return user ? this.ok(user) : this.error({ parameter, message: 'The argument did not resolve to a user.', context });
 	}
 }

@@ -1,4 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Date> {
@@ -13,18 +14,17 @@ export class CoreArgument extends Argument<Date> {
 		if (Number.isNaN(time)) {
 			return this.error({
 				parameter,
-				identifier: 'ArgumentDateInvalidNumber',
 				message: 'The argument did not resolve to a valid date.',
 				context
 			});
 		}
 
 		if (typeof context.minimum === 'number' && time < context.minimum) {
-			return this.error({ parameter, identifier: 'ArgumentDateTooSmall', message: 'The argument is too small.', context });
+			return this.error({ parameter, identifier: Identifiers.ArgumentDateTooSmall, message: 'The argument is too small.', context });
 		}
 
 		if (typeof context.maximum === 'number' && time > context.maximum) {
-			return this.error({ parameter, identifier: 'ArgumentDateTooBig', message: 'The argument is too big.', context });
+			return this.error({ parameter, identifier: Identifiers.ArgumentDateTooBig, message: 'The argument is too big.', context });
 		}
 
 		return this.ok(parsed);

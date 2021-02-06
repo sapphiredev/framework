@@ -11,12 +11,7 @@ export class CoreArgument extends Argument<URL> {
 		try {
 			return this.ok(new URL(parameter));
 		} catch {
-			return this.error({
-				parameter,
-				identifier: 'ArgumentHyperlinkInvalidURL',
-				message: 'The argument did not resolve to a valid URL.',
-				context
-			});
+			return this.error({ parameter, message: 'The argument did not resolve to a valid URL.', context });
 		}
 	}
 }
