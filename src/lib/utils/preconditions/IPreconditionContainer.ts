@@ -1,8 +1,9 @@
 import type { Awaited } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
-import type { Command } from '../../structures/Command';
 import type { Result } from '../../parsers/Result';
+import type { Command } from '../../structures/Command';
+import type { PreconditionContext } from '../../structures/Precondition';
 
 /**
  * Defines the result's value for a PreconditionContainer.
@@ -33,5 +34,5 @@ export interface IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	run(message: Message, command: Command): PreconditionContainerReturn;
+	run(message: Message, command: Command, context: PreconditionContext): PreconditionContainerReturn;
 }

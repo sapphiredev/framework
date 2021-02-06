@@ -6,16 +6,16 @@ import type { IPreconditionCondition } from './IPreconditionCondition';
  * @since 1.0.0
  */
 export const PreconditionConditionAnd: IPreconditionCondition = {
-	async sequential(message, command, entries) {
+	async sequential(message, command, entries, context) {
 		for (const child of entries) {
-			const result = await child.run(message, command);
+			const result = await child.run(message, command, context);
 			if (isErr(result)) return result;
 		}
 
 		return ok();
 	},
-	async parallel(message, command, entries) {
-		const results = await Promise.all(entries.map((entry) => entry.run(message, command)));
+	async parallel(message, command, entries, context) {
+		const results = await Promise.all(entries.map((entry) => entry.run(message, command, context)));
 		// This is simplified compared to PreconditionContainerAny because we're looking for the first error.
 		// However, the base implementation short-circuits with the first Ok.
 		return results.find(isErr) ?? ok();
