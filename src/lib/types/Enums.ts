@@ -33,3 +33,28 @@ export const enum BucketType {
 	 */
 	User
 }
+
+/**
+ * The scope at which permissions should be calculated
+ */
+export const enum PermissionScope {
+	/**
+	 * Per-channel permissions, factoring in overwrites
+	 */
+	Channel = 'channel',
+	/**
+	 * Guild-wide permissions, based on role permissions
+	 */
+	Guild = 'guild'
+}
+
+export const enum PermissionTarget {
+	/**
+	 * Check the permissions of the message author
+	 */
+	Author = 'author',
+	/**
+	 * Check the permissions of the client user
+	 */
+	Client = 'client'
+}

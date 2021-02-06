@@ -1,12 +1,13 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { Argument, ArgumentResult } from '../lib/structures/Argument';
+import type { BoundedArgumentContext } from '../lib/types/Arguments';
 
 export class CoreArgument extends Argument<number> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'float' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
+	public run(parameter: string, context: BoundedArgumentContext): ArgumentResult<number> {
 		const parsed = Number(parameter);
 
 		if (Number.isNaN(parsed)) {
@@ -18,20 +19,22 @@ export class CoreArgument extends Argument<number> {
 			});
 		}
 
-		if (typeof context.minimum === 'number' && parsed < context.minimum) {
+		const { minimum, maximum } = context;
+
+		if (minimum && parsed < minimum) {
 			return this.error({
 				parameter,
 				identifier: 'ArgumentFloatTooSmall',
-				message: `The argument must be greater than ${context.minimum}.`,
+				message: `The argument must be greater than ${minimum}.`,
 				context
 			});
 		}
 
-		if (typeof context.maximum === 'number' && parsed > context.maximum) {
+		if (maximum && parsed > maximum) {
 			return this.error({
 				parameter,
 				identifier: 'ArgumentFloatTooBig',
-				message: `The argument must be less than ${context.maximum}.`,
+				message: `The argument must be less than ${maximum}.`,
 				context
 			});
 		}

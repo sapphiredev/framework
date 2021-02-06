@@ -1,11 +1,8 @@
 import { isNewsChannel, isTextChannel, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import { DMChannel, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
-import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
-
-export interface MessageArgumentContext extends ArgumentContext {
-	channel?: DMChannel | NewsChannel | TextChannel;
-}
+import { Message, Permissions } from 'discord.js';
+import { Argument, AsyncArgumentResult } from '../lib/structures/Argument';
+import type { MessageArgumentContext } from '../lib/types/Arguments';
 
 export class CoreArgument extends Argument<Message> {
 	public constructor(context: PieceContext) {

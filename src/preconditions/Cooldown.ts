@@ -1,19 +1,14 @@
 import { Bucket } from '@sapphire/ratelimits';
 import type { Message } from 'discord.js';
 import type { Command } from '../lib/structures/Command';
-import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
+import { Precondition } from '../lib/structures/Precondition';
 import { BucketType } from '../lib/types/Enums';
-
-export interface CooldownContext extends PreconditionContext {
-	bucketType?: BucketType;
-	delay?: number;
-	limit?: number;
-}
+import type { CooldownPreconditionContext } from '../lib/types/Preconditions';
 
 export class CorePrecondition extends Precondition {
 	public buckets = new WeakMap<Command, Bucket<string>>();
 
-	public run(message: Message, command: Command, context: CooldownContext) {
+	public run(message: Message, command: Command, context: CooldownPreconditionContext) {
 		if (!context.delay || context.delay === 0) return this.ok();
 
 		const bucket = this.getBucket(command, context);
@@ -27,7 +22,7 @@ export class CorePrecondition extends Precondition {
 			  });
 	}
 
-	private getID(message: Message, context: CooldownContext) {
+	private getID(message: Message, context: CooldownPreconditionContext) {
 		switch (context.bucketType) {
 			case BucketType.Global:
 				return 'global';
@@ -40,7 +35,7 @@ export class CorePrecondition extends Precondition {
 		}
 	}
 
-	private getBucket(command: Command, context: CooldownContext) {
+	private getBucket(command: Command, context: CooldownPreconditionContext) {
 		let bucket = this.buckets.get(command);
 		if (!bucket) {
 			bucket = new Bucket();
