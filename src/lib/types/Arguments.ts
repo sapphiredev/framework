@@ -8,7 +8,7 @@ export interface BoundedArgumentContext extends ArgumentContext {
 
 export interface MessageArgumentContext extends ArgumentContext {
 	/**
-	 * The channel from which the message ID should be fetched from. If a direct
+	 * The channel from which the message ID should be fetched. If a direct
 	 * message link is provided, this option will be ignored, as direct message
 	 * links to messages sent in guilds already specify a channel ID.
 	 */

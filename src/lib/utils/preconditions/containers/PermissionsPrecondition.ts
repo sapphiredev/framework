@@ -32,6 +32,8 @@ export class PermissionsPrecondition implements PreconditionSingleResolvableDeta
 	/**
 	 * Constructs a precondition container entry.
 	 * @param permissions The permissions that will be required by this command.
+	 * @param options The options for calculating the permissions; see [[PermissionsPreconditionContext]]
+	 *   for more information.
 	 */
 	public constructor(permissions: PermissionResolvable, options: Omit<PermissionsPreconditionContext, 'permissions'> = {}) {
 		this.name = 'Permissions';

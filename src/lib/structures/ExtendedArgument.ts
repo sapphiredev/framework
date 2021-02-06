@@ -18,7 +18,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * import type { Channel, TextChannel } from 'discord.js';
  *
  * // Just like with `Argument`, you can use `export default` or `export =` too.
- * @ApplyOptions<ExtendedArgumentOptions>({
+ * @ApplyOptions<ExtendedArgumentOptions<'channel'>>({
  *   name: 'textChannel',
  *   baseArgument: 'channel'
  * })
