@@ -16,12 +16,18 @@ export class CoreArgument extends Argument<GuildChannel> {
 				parameter,
 				identifier: Identifiers.ArgumentGuildChannelMissingGuild,
 				message: 'The argument must be run in a guild.',
-				context
+				context: { ...context, guild }
 			});
 		}
 
 		const channel = this.resolveByID(parameter, guild) ?? this.resolveByQuery(parameter, guild);
-		return channel ? this.ok(channel) : this.error({ parameter, message: 'The argument did not resolve to a guild channel.', context });
+		return channel
+			? this.ok(channel)
+			: this.error({
+					parameter,
+					message: 'The argument did not resolve to a guild channel.',
+					context: { ...context, guild }
+			  });
 	}
 
 	private resolveByID(argument: string, guild: Guild): GuildChannel | null {

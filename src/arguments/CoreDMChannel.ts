@@ -12,6 +12,10 @@ export class CoreArgument extends ExtendedArgument<'channel', DMChannel> {
 	public handle(channel: Channel, context: ExtendedArgumentContext): ArgumentResult<DMChannel> {
 		return isDMChannel(channel)
 			? this.ok(channel)
-			: this.error({ parameter: context.parameter, message: 'The argument did not resolve to a DM channel.', context });
+			: this.error({
+					parameter: context.parameter,
+					message: 'The argument did not resolve to a DM channel.',
+					context: { ...context, channel }
+			  });
 	}
 }

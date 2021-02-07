@@ -9,6 +9,12 @@ export class CoreArgument extends Argument<Channel> {
 
 	public run(parameter: string, context: ArgumentContext): ArgumentResult<Channel> {
 		const channel = (context.message.guild ? context.message.guild.channels : this.context.client.channels).cache.get(parameter);
-		return channel ? this.ok(channel) : this.error({ parameter, message: 'The argument did not resolve to a channel.', context });
+		return channel
+			? this.ok(channel)
+			: this.error({
+					parameter,
+					message: 'The argument did not resolve to a channel.',
+					context: { ...context, channel }
+			  });
 	}
 }
