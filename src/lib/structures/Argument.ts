@@ -24,10 +24,10 @@ export interface IArgument<T> {
 
 	/**
 	 * The method which is called when invoking the argument.
-	 * @param argument The argument to parse.
+	 * @param parameter The string parameter to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(argument: string, context: ArgumentContext<T>): ArgumentResult<T>;
+	run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
 }
 
 /**
