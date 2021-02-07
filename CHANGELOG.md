@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.8](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2021-02-07)
+
+### ⚠ BREAKING CHANGES
+
+-   **events:** Changed `Events.UnknownCommandName` event arguments to `UnknownCommandNamePayload`.
+-   **events:** Changed `Events.UnknownCommand` event arguments to `UnknownCommandPayload`.
+
+Co-authored-by: Jeroen Claassens <support@favware.tech>
+
+-   **events:** CoreMessageParser is not longer a message event listener
+
+### Features
+
+-   **events:** create Events.PreMessageParsed ([#164](https://github.com/sapphire-project/framework/issues/164)) ([0311838](https://github.com/sapphire-project/framework/commit/0311838d59d7071a37ea932a094dbab0c26e84c1))
+
+-   **events:** remove UnknownCommandName, changed UnknownCommand ([#165](https://github.com/sapphire-project/framework/issues/165)) ([c3273d1](https://github.com/sapphire-project/framework/commit/c3273d100259c3905c5d3955be4a3b1d5aec24ef))
+
 ## [1.0.0-alpha.7](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2021-02-06)
 
 ### ⚠ BREAKING CHANGES
