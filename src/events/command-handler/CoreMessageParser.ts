@@ -3,16 +3,13 @@ import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Event } from '../../lib/structures/Event';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event<Events.Message> {
+export class CoreEvent extends Event<Events.PreMessageParsed> {
 	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.Message });
+		super(context, { event: Events.PreMessageParsed });
 	}
 
 	public async run(message: Message) {
-		// Stop bots and webhooks from running commands.
-		if (message.author.bot || message.webhookID) return;
-
 		// If the bot cannot run the command due to lack of permissions, return.
 		const canRun = await this.canRunInChannel(message);
 		if (!canRun) return;

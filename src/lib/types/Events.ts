@@ -64,6 +64,7 @@ export enum Events {
 	PiecePostLoad = 'piecePostLoad',
 	MentionPrefixOnly = 'mentionPrefixOnly',
 	EventError = 'eventError',
+	PreMessageParsed = 'preMessageParsed',
 	PrefixedMessage = 'prefixedMessage',
 	UnknownCommandName = 'unknownCommandName',
 	UnknownCommand = 'unknownCommand',
@@ -118,6 +119,7 @@ declare module 'discord.js' {
 		[Events.PiecePostLoad]: [Store<Piece>, Piece];
 		[Events.MentionPrefixOnly]: [Message];
 		[Events.EventError]: [Error, EventErrorPayload];
+		[Events.PreMessageParsed]: [Message];
 		[Events.PrefixedMessage]: [Message, string | RegExp];
 		[Events.UnknownCommandName]: [Message, string | RegExp];
 		[Events.UnknownCommand]: [Message, string, string | RegExp];
