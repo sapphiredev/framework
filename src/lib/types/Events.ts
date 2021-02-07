@@ -97,7 +97,9 @@ export interface UnknownCommandNamePayload {
 	commandPrefix: string;
 }
 
-export interface UnknownCommandPayload extends UnknownCommandNamePayload {}
+export interface UnknownCommandPayload extends UnknownCommandNamePayload {
+	commandName: string;
+}
 
 export interface ICommandPayload {
 	message: Message;
