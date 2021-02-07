@@ -26,7 +26,7 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 		// Retrieve the command and validate:
 		const command = stores.get('commands').get(client.options.caseInsensitiveCommands ? commandName.toLowerCase() : commandName);
 		if (!command) {
-			client.emit(Events.UnknownCommand, { message, prefix, commandPrefix });
+			client.emit(Events.UnknownCommand, { message, prefix, commandName, commandPrefix });
 			return;
 		}
 
