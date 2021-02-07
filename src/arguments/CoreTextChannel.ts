@@ -15,6 +15,10 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', TextChannel> 
 	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<TextChannel> {
 		return isTextChannel(channel)
 			? this.ok(channel)
-			: this.error({ parameter: context.parameter, message: 'The argument did not resolve to a text channel.', context });
+			: this.error({
+					parameter: context.parameter,
+					message: 'The argument did not resolve to a text channel.',
+					context: { ...context, channel }
+			  });
 	}
 }

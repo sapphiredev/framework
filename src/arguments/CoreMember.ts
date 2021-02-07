@@ -16,12 +16,18 @@ export class CoreArgument extends Argument<GuildMember> {
 				parameter,
 				identifier: Identifiers.ArgumentMemberMissingGuild,
 				message: 'The argument must be run on a guild.',
-				context
+				context: { ...context, guild }
 			});
 		}
 
 		const member = (await this.resolveByID(parameter, guild)) ?? (await this.resolveByQuery(parameter, guild));
-		return member ? this.ok(member) : this.error({ parameter, message: 'The argument did not resolve to a member.', context });
+		return member
+			? this.ok(member)
+			: this.error({
+					parameter,
+					message: 'The argument did not resolve to a member.',
+					context: { ...context, guild }
+			  });
 	}
 
 	private async resolveByID(argument: string, guild: Guild): Promise<GuildMember | null> {

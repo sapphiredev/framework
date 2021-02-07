@@ -13,12 +13,18 @@ export class CoreArgument extends Argument<Message> {
 	}
 
 	public async run(parameter: string, context: MessageArgumentContext): AsyncArgumentResult<Message> {
-		const message = (await this.resolveByID(parameter, context)) ?? (await this.resolveByLink(parameter, context));
-		return message ? this.ok(message) : this.error({ parameter, message: 'The argument did not resolve to a message.', context });
+		const channel = context.channel ?? context.message.channel;
+		const message = (await this.resolveByID(parameter, channel)) ?? (await this.resolveByLink(parameter, context));
+		return message
+			? this.ok(message)
+			: this.error({
+					parameter,
+					message: 'The argument did not resolve to a message.',
+					context: { ...context, channel }
+			  });
 	}
 
-	private async resolveByID(argument: string, context: MessageArgumentContext): Promise<Message | null> {
-		const channel = context.channel ?? context.message.channel;
+	private async resolveByID(argument: string, channel: DMChannel | NewsChannel | TextChannel): Promise<Message | null> {
 		return SnowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
 	}
 
