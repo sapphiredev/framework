@@ -90,6 +90,14 @@ export interface CommandErrorPayload extends CommandAcceptedPayload {
 	piece: Command;
 }
 
+export interface UnknownCommandNamePayload {
+	message: Message;
+	prefix: string | RegExp;
+	commandPrefix: string;
+}
+
+export interface UnknownCommandPayload extends UnknownCommandNamePayload {}
+
 export interface ICommandPayload {
 	message: Message;
 	command: Command;
@@ -119,8 +127,8 @@ declare module 'discord.js' {
 		[Events.MentionPrefixOnly]: [Message];
 		[Events.EventError]: [Error, EventErrorPayload];
 		[Events.PrefixedMessage]: [Message, string | RegExp];
-		[Events.UnknownCommandName]: [Message, string | RegExp];
-		[Events.UnknownCommand]: [Message, string, string | RegExp];
+		[Events.UnknownCommandName]: [UnknownCommandNamePayload];
+		[Events.UnknownCommand]: [UnknownCommandPayload];
 		[Events.PreCommandRun]: [PreCommandRunPayload];
 		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
 		[Events.CommandAccepted]: [CommandAcceptedPayload];
