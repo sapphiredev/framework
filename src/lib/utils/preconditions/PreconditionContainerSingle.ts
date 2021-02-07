@@ -64,7 +64,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public run(message: Message, command: Command, context: PreconditionContext) {
+	public run(message: Message, command: Command, context: PreconditionContext = {}) {
 		const precondition = Store.injectedContext.stores.get('preconditions').get(this.name);
 		if (precondition) return precondition.run(message, command, { ...context, ...this.context });
 		throw new Error(`The precondition "${this.name}" is not available.`);

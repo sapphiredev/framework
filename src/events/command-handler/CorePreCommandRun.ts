@@ -21,7 +21,7 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 			return;
 		}
 
-		const result = await command.preconditions.run(message, command, { command });
+		const result = await command.preconditions.run(message, command);
 		if (isErr(result)) {
 			message.client.emit(Events.CommandDenied, result.error, payload);
 		} else {

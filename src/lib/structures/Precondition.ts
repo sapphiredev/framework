@@ -25,5 +25,5 @@ export abstract class Precondition extends Piece {
 }
 
 export interface PreconditionContext extends Record<PropertyKey, unknown> {
-	command: Command;
+	external?: boolean;
 }
