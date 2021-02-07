@@ -628,10 +628,12 @@ export class Args {
 	}
 
 	protected unavailableArgument<T>(type: string | IArgument<T>) {
+		const name = typeof type === 'string' ? type : type.name;
 		return err(
 			new UserError({
 				identifier: Identifiers.ArgsUnavailable,
-				message: `The argument "${typeof type === 'string' ? type : type.name}" was not found.`
+				message: `The argument "${name}" was not found.`,
+				context: { name }
 			})
 		);
 	}
