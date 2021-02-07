@@ -6,7 +6,7 @@ import { UserError } from './UserError';
  * @since 1.0.0
  * @property name This will be `'ArgumentError'` and can be used to distinguish the type of error when any error gets thrown
  */
-export class ArgumentError<T> extends UserError {
+export class ArgumentError<T = unknown> extends UserError {
 	public readonly argument: IArgument<T>;
 	public readonly parameter: string;
 
