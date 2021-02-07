@@ -1,6 +1,7 @@
 import type { Piece, Store } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
+import type { Args } from '../parsers/Args';
 import type { Command, CommandContext } from '../structures/Command';
 import type { Event } from '../structures/Event';
 import type { PluginHook } from './Enums';
@@ -87,10 +88,6 @@ export interface EventErrorPayload extends IPieceError {
 	piece: Event;
 }
 
-export interface CommandErrorPayload extends CommandAcceptedPayload {
-	piece: Command;
-}
-
 export interface UnknownCommandNamePayload {
 	message: Message;
 	prefix: string | RegExp;
@@ -106,6 +103,8 @@ export interface ICommandPayload {
 	command: Command;
 }
 
+export interface PreCommandRunPayload extends CommandDeniedPayload {}
+
 export interface CommandDeniedPayload extends ICommandPayload {
 	parameters: string;
 	context: CommandContext;
@@ -116,11 +115,19 @@ export interface CommandAcceptedPayload extends ICommandPayload {
 	context: CommandContext;
 }
 
-export interface CommandSuccessPayload extends CommandAcceptedPayload {
-	result: unknown;
+export interface CommandRunPayload<T extends Args = Args> extends CommandAcceptedPayload {
+	args: T;
 }
 
-export interface PreCommandRunPayload extends CommandDeniedPayload {}
+export interface CommandFinishPayload<T extends Args = Args> extends CommandRunPayload<T> {}
+
+export interface CommandErrorPayload<T extends Args = Args> extends CommandRunPayload<T> {
+	piece: Command;
+}
+
+export interface CommandSuccessPayload<T extends Args = Args> extends CommandRunPayload<T> {
+	result: unknown;
+}
 
 declare module 'discord.js' {
 	interface ClientEvents {
@@ -136,10 +143,10 @@ declare module 'discord.js' {
 		[Events.PreCommandRun]: [payload: PreCommandRunPayload];
 		[Events.CommandDenied]: [error: UserError, payload: CommandDeniedPayload];
 		[Events.CommandAccepted]: [payload: CommandAcceptedPayload];
-		[Events.CommandRun]: [message: Message, command: Command, payload: CommandAcceptedPayload];
+		[Events.CommandRun]: [message: Message, command: Command, payload: CommandRunPayload];
 		[Events.CommandSuccess]: [payload: CommandSuccessPayload];
 		[Events.CommandError]: [error: Error, payload: CommandErrorPayload];
-		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandAcceptedPayload];
+		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandFinishPayload];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		// #endregion Sapphire load cycle events
 

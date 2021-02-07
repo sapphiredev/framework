@@ -11,13 +11,13 @@ export class CoreEvent extends Event<Events.CommandAccepted> {
 		const { message, command, parameters, context } = payload;
 		const args = await command.preParse(message, parameters, context);
 		try {
-			message.client.emit(Events.CommandRun, message, command, payload);
+			message.client.emit(Events.CommandRun, message, command, { ...payload, args });
 			const result = await command.run(message, args, context);
-			message.client.emit(Events.CommandSuccess, { ...payload, result });
+			message.client.emit(Events.CommandSuccess, { ...payload, args, result });
 		} catch (error) {
-			message.client.emit(Events.CommandError, error, { ...payload, piece: command });
+			message.client.emit(Events.CommandError, error, { ...payload, args, piece: command });
 		} finally {
-			message.client.emit(Events.CommandFinish, message, command, payload);
+			message.client.emit(Events.CommandFinish, message, command, { ...payload, args });
 		}
 	}
 }
