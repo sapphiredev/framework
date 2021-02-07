@@ -18,15 +18,15 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 		// passed, and a non -1 value when '[p]command arg' is passed instead.
 		const spaceIndex = prefixLess.indexOf(' ');
 		const commandName = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
-		if (!commandName) {
-			client.emit(Events.UnknownCommandName, message, prefix);
+		if (commandName.length === 0) {
+			client.emit(Events.UnknownCommandName, { message, prefix, commandPrefix });
 			return;
 		}
 
 		// Retrieve the command and validate:
 		const command = stores.get('commands').get(client.options.caseInsensitiveCommands ? commandName.toLowerCase() : commandName);
 		if (!command) {
-			client.emit(Events.UnknownCommand, message, commandName, prefix);
+			client.emit(Events.UnknownCommand, { message, prefix, commandPrefix });
 			return;
 		}
 
