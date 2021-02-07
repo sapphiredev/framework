@@ -72,7 +72,14 @@ export class CoreEvent extends Event<Events.PreMessageParsed> {
 
 	private getPrefix(content: string, prefixes: readonly string[] | string | null): string | null {
 		if (prefixes === null) return null;
-		if (typeof prefixes === 'string') return content.startsWith(prefixes) ? prefixes : null;
-		return prefixes.find((prefix) => content.startsWith(prefix)) ?? null;
+		const { caseInsensitivePrefixes } = this.context.client.options;
+
+		if (caseInsensitivePrefixes) content = content.toLowerCase();
+
+		if (typeof prefixes === 'string') {
+			return content.startsWith(caseInsensitivePrefixes ? prefixes.toLowerCase() : prefixes) ? prefixes : null;
+		}
+
+		return prefixes.find((prefix) => content.startsWith(caseInsensitivePrefixes ? prefix.toLowerCase() : prefix)) ?? null;
 	}
 }
