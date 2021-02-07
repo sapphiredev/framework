@@ -152,7 +152,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public run(message: Message, command: Command, context: PreconditionContext): PreconditionContainerReturn {
+	public run(message: Message, command: Command, context: PreconditionContext = {}): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
 			? this.condition.sequential(message, command, this.entries, context)
 			: this.condition.parallel(message, command, this.entries, context);

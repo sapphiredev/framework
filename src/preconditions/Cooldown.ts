@@ -16,7 +16,7 @@ export class CorePrecondition extends Precondition {
 
 	public run(message: Message, command: Command, context: CooldownContext) {
 		// If the command it is testing for is not this one, return ok:
-		if (context.command !== command) return this.ok();
+		if (context.external) return this.ok();
 
 		// If there is no delay (undefined, null, 0), return ok:
 		if (!context.delay) return this.ok();

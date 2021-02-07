@@ -34,5 +34,5 @@ export interface IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	run(message: Message, command: Command, context: PreconditionContext): PreconditionContainerReturn;
+	run(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 }
