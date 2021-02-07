@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.9](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2021-02-07)
+
+### ⚠ BREAKING CHANGES
+
+-   **preconditions:** Changed PreconditionContext.command to external
+
+### Features
+
+-   **events:** added UnknownCommandPayload.commandName ([#166](https://github.com/sapphire-project/framework/issues/166)) ([3dbcffd](https://github.com/sapphire-project/framework/commit/3dbcffd86b7ab6d4718b6ea040efa094686f9cdd))
+
+-   **preconditions:** make IPreconditionContainer#run's context optional ([#167](https://github.com/sapphire-project/framework/issues/167)) ([57ad8d2](https://github.com/sapphire-project/framework/commit/57ad8d2f6f080ad0a9f9336548522ee539aec84e))
+
 ## [1.0.0-alpha.8](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2021-02-07)
 
 ### ⚠ BREAKING CHANGES
