@@ -125,22 +125,22 @@ export interface PreCommandRunPayload extends CommandDeniedPayload {}
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
-		[Events.PieceUnload]: [Store<Piece>, Piece];
-		[Events.PiecePostLoad]: [Store<Piece>, Piece];
-		[Events.MentionPrefixOnly]: [Message];
-		[Events.EventError]: [Error, EventErrorPayload];
-		[Events.PreMessageParsed]: [Message];
-		[Events.PrefixedMessage]: [Message, string | RegExp];
-		[Events.UnknownCommandName]: [UnknownCommandNamePayload];
-		[Events.UnknownCommand]: [UnknownCommandPayload];
-		[Events.PreCommandRun]: [PreCommandRunPayload];
-		[Events.CommandDenied]: [UserError, CommandDeniedPayload];
-		[Events.CommandAccepted]: [CommandAcceptedPayload];
-		[Events.CommandRun]: [Message, Command, CommandAcceptedPayload];
-		[Events.CommandSuccess]: [CommandSuccessPayload];
-		[Events.CommandError]: [Error, CommandErrorPayload];
-		[Events.CommandFinish]: [Message, Command, CommandAcceptedPayload];
-		[Events.PluginLoaded]: [PluginHook, string | undefined];
+		[Events.PieceUnload]: [store: Store<Piece>, piece: Piece];
+		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
+		[Events.MentionPrefixOnly]: [message: Message];
+		[Events.EventError]: [error: Error, payload: EventErrorPayload];
+		[Events.PreMessageParsed]: [message: Message];
+		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
+		[Events.UnknownCommandName]: [payload: UnknownCommandNamePayload];
+		[Events.UnknownCommand]: [payload: UnknownCommandPayload];
+		[Events.PreCommandRun]: [payload: PreCommandRunPayload];
+		[Events.CommandDenied]: [error: UserError, payload: CommandDeniedPayload];
+		[Events.CommandAccepted]: [payload: CommandAcceptedPayload];
+		[Events.CommandRun]: [message: Message, command: Command, payload: CommandAcceptedPayload];
+		[Events.CommandSuccess]: [payload: CommandSuccessPayload];
+		[Events.CommandError]: [error: Error, payload: CommandErrorPayload];
+		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandAcceptedPayload];
+		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination
