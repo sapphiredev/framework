@@ -627,19 +627,26 @@ export class Args {
 		return this.parser.finished;
 	}
 
+	/**
+	 * Defines the `JSON.stringify` override.
+	 */
+	public toJSON() {
+		return { message: this.message, command: this.command, commandContext: this.commandContext };
+	}
+
 	protected unavailableArgument<T>(type: string | IArgument<T>) {
 		const name = typeof type === 'string' ? type : type.name;
 		return err(
 			new UserError({
 				identifier: Identifiers.ArgsUnavailable,
 				message: `The argument "${name}" was not found.`,
-				context: { name }
+				context: { name, ...this.toJSON() }
 			})
 		);
 	}
 
 	protected missingArguments() {
-		return err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.' }));
+		return err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.', context: this.toJSON() }));
 	}
 
 	/**
