@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.10](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2021-02-12)
+
+### ⚠ BREAKING CHANGES
+
+-   **command-accepted:** `Events.CommandRun` third argument changed type to `CommandRunPayload`,
+    this is mostly identical to `CommandAcceptedPayload` (and exactly identical to `CommandFinishPayload`)
+    and likely won't be a breaking change for your code, however you may need to adjust
+    your import when using TypeScript.
+-   **command-accepted:** `Events.CommandFinish` third argument changed type to `CommandFinishPayload`,
+    this is mostly identical to `CommandAcceptedPayload` (and exactly identical to `CommandRunPayload`)
+    and likely won't be a breaking change for your code, however you may need to adjust
+    your import when using TypeScript.
+
+### Features
+
+-   **args:** add `name` to context of `Args.unavailableArgument` ([#171](https://github.com/sapphire-project/framework/issues/171)) ([a5bda61](https://github.com/sapphire-project/framework/commit/a5bda611108fc7e382a62f292a667f0228bf2dfa))
+-   **args:** add more data to error context for core arguments ([0cfff79](https://github.com/sapphire-project/framework/commit/0cfff793c8f9c8ede6d954a0dbeaad2e7647cb15))
+-   **args:** pass more context to args errors ([#174](https://github.com/sapphire-project/framework/issues/174)) ([007eaed](https://github.com/sapphire-project/framework/commit/007eaed76e827bde8d75c9db368620e55b4b017e))
+-   **argumenterror:** add type default of `unknown` ([55be30a](https://github.com/sapphire-project/framework/commit/55be30ae4d279067f8dbedab12ba9c034d197cbc))
+-   **command-accepted:** add received args to event payloads ([#173](https://github.com/sapphire-project/framework/issues/173)) ([fa60b13](https://github.com/sapphire-project/framework/commit/fa60b13247b71927a26e4738596155b6c041afcb))
+-   **message-parser:** add `caseInsensitivePrefixes` client option ([#170](https://github.com/sapphire-project/framework/issues/170)) ([61f9c41](https://github.com/sapphire-project/framework/commit/61f9c41d53f641a92a1f344cba96a2d5ae589d43))
+
 ## [1.0.0-alpha.9](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2021-02-07)
 
 ### ⚠ BREAKING CHANGES
