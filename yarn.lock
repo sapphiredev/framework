@@ -758,10 +758,10 @@
   resolved "https://registry.yarnpkg.com/@sapphire/eslint-config/-/eslint-config-2.1.1.tgz#c18217d00b4a0a8b62da24ebb9875d856d474510"
   integrity sha512-OoM2KYco1+HF+z/WjaAPhPhvEPGA8ddrn8ATLWvOvs4JiACRYbUGIMQrxRgb5afvEKIacLlGUKi/emZa8G9s+Q==
 
-"@sapphire/pieces@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.2.1.tgz#ea43fae1e9377a9edca828411c3556d469f8e995"
-  integrity sha512-oObMXb8qHGDI8o+Ab1WbA1oN+ejbj9dHXGAZZ6HQ1QXU6XVyA2qRDDjz+F4YAZZuDNtb679FVuLL49bIz0YGiw==
+"@sapphire/pieces@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.2.2.tgz#d84c11348db21e717b3a5878f48258bb6a284ea9"
+  integrity sha512-DoY+kzTJiaeQDk5qmxaY2uOl6lLYHIFn6JUmHdTnsdhpkiDmE83AXB/ZEY/KRHpLq6kIw28TPnvtDIrW1U1Kzg==
   dependencies:
     "@discordjs/collection" "^0.1.6"
 
