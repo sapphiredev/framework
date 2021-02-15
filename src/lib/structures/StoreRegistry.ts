@@ -3,9 +3,9 @@ import { getRootData, Piece, Store } from '@sapphire/pieces';
 import { join } from 'path';
 import type { ArgumentStore } from './ArgumentStore';
 import type { CommandStore } from './CommandStore';
+import type { EssentialStore } from './EssentialStore';
 import type { EventStore } from './EventStore';
 import type { PreconditionStore } from './PreconditionStore';
-import type { PrerequisiteStore } from './PrerequisiteStore';
 
 type Key = keyof StoreRegistryEntries;
 type Value = StoreRegistryEntries[Key];
@@ -98,5 +98,5 @@ export interface StoreRegistryEntries {
 	commands: CommandStore;
 	events: EventStore;
 	preconditions: PreconditionStore;
-	prerequisites: PrerequisiteStore;
+	essentials: EssentialStore;
 }

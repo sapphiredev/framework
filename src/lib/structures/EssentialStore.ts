@@ -1,16 +1,15 @@
 import type { Message } from 'discord.js';
 import { ok } from '../parsers/Result';
-import type { PreCommandRunPayload } from '../types/Events';
 import { PriorityPieceStore } from './base/PriorityPieceStore';
 import type { Command } from './Command';
-import { AsyncPrerequisiteResult, Prerequisite } from './Prerequisite';
+import { Essential } from './Essential';
 
-export class PrerequisiteStore extends PriorityPieceStore<Prerequisite> {
+export class EssentialStore extends PriorityPieceStore<Essential> {
 	public constructor() {
-		super(Prerequisite as any, { name: 'prerequisites' });
+		super(Essential as any, { name: 'essentials' });
 	}
 
-	public async run(message: Message, command: Command, context: PreCommandRunPayload): AsyncPrerequisiteResult {
+	public async run(message: Message, command: Command, context: Essential.Context): Essential.AsyncResult {
 		for (const precondition of this.sortedPieces) {
 			const result = await precondition.run(message, command, context);
 			if (!result.success) return result;
