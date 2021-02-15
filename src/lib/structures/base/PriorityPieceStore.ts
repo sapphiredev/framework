@@ -6,14 +6,15 @@ import type { PriorityPiece } from './PriorityPiece';
  */
 export abstract class PriorityPieceStore<T extends PriorityPiece> extends Store<T> {
 	/**
-	 * The sorted middlewares, in ascending order of {@see T#position}.
+	 * The sorted pieces, in ascending order of {@see T#position}.
+	 * @since 1.0.0
 	 */
 	public readonly sortedPieces: T[] = [];
 
 	public set(key: string, value: T): this {
-		const index = this.sortedPieces.findIndex((middleware) => middleware.position >= value.position);
+		const index = this.sortedPieces.findIndex((piece) => piece.position >= value.position);
 
-		// If a middleware with lower priority wasn't found, push to the end of the array
+		// If a piece with lower priority wasn't found, push to the end of the array
 		if (index === -1) this.sortedPieces.push(value);
 		else this.sortedPieces.splice(index, 0, value);
 
@@ -21,9 +22,9 @@ export abstract class PriorityPieceStore<T extends PriorityPiece> extends Store<
 	}
 
 	public delete(key: string): boolean {
-		const index = this.sortedPieces.findIndex((middleware) => middleware.name === key);
+		const index = this.sortedPieces.findIndex((piece) => piece.name === key);
 
-		// If the middleware was found, remove it
+		// If the piece was found, remove it
 		if (index !== -1) this.sortedPieces.splice(index, 1);
 
 		return super.delete(key);
