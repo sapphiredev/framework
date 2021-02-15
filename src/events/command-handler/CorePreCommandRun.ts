@@ -17,7 +17,7 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 			return;
 		}
 
-		// Run command-specific preconditions:
+		// Run preconditions:
 		const preconditionsResult = await command.preconditions.run(message, command, payload as any);
 		if (!preconditionsResult.success) {
 			message.client.emit(Events.CommandDenied, preconditionsResult.error, payload);
