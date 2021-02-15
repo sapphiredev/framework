@@ -7,7 +7,6 @@ import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { EventStore } from './structures/EventStore';
 import { PreconditionStore } from './structures/PreconditionStore';
-import { EssentialStore } from './structures/EssentialStore';
 import { StoreRegistry } from './structures/StoreRegistry';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
@@ -226,8 +225,7 @@ export class SapphireClient extends Client {
 			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
 			.register(new CommandStore())
 			.register(new EventStore().registerPath(join(__dirname, '..', 'events')))
-			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')))
-			.register(new EssentialStore().registerPath(join(__dirname, '..', 'essentials')));
+			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
 		if (options.loadDefaultErrorEvents !== false) this.stores.get('events').registerPath(join(__dirname, '..', 'errorEvents'));
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {

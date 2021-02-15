@@ -10,17 +10,17 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 	public async run(payload: PreCommandRunPayload) {
 		const { message, command } = payload;
 
-		// Run essentials:
-		const essentialsResult = await this.context.stores.get('essentials').run(message, command, payload);
-		if (!essentialsResult.success) {
-			message.client.emit(Events.CommandDenied, essentialsResult.error, payload);
+		// Run global preconditions:
+		const globalResult = await this.context.stores.get('preconditions').run(message, command, payload as any);
+		if (!globalResult.success) {
+			message.client.emit(Events.CommandDenied, globalResult.error, payload);
 			return;
 		}
 
-		// Run preconditions:
-		const preconditionsResult = await command.preconditions.run(message, command, payload as any);
-		if (!preconditionsResult.success) {
-			message.client.emit(Events.CommandDenied, preconditionsResult.error, payload);
+		// Run command-specific preconditions:
+		const localResult = await command.preconditions.run(message, command, payload as any);
+		if (!localResult.success) {
+			message.client.emit(Events.CommandDenied, localResult.error, payload);
 			return;
 		}
 
