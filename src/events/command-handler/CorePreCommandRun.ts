@@ -1,7 +1,4 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Identifiers } from '../../lib/errors/Identifiers';
-import { UserError } from '../../lib/errors/UserError';
-import { isErr } from '../../lib/parsers/Result';
 import { Event } from '../../lib/structures/Event';
 import { Events, PreCommandRunPayload } from '../../lib/types/Events';
 
@@ -12,20 +9,21 @@ export class CoreEvent extends Event<Events.PreCommandRun> {
 
 	public async run(payload: PreCommandRunPayload) {
 		const { message, command } = payload;
-		if (!command.enabled) {
-			message.client.emit(
-				Events.CommandDenied,
-				new UserError({ identifier: Identifiers.CommandDisabled, message: 'This command is disabled.', context: payload }),
-				payload
-			);
+
+		// Run global preconditions:
+		const globalResult = await this.context.stores.get('preconditions').run(message, command, payload as any);
+		if (!globalResult.success) {
+			message.client.emit(Events.CommandDenied, globalResult.error, payload);
 			return;
 		}
 
-		const result = await command.preconditions.run(message, command);
-		if (isErr(result)) {
-			message.client.emit(Events.CommandDenied, result.error, payload);
-		} else {
-			message.client.emit(Events.CommandAccepted, payload);
+		// Run command-specific preconditions:
+		const localResult = await command.preconditions.run(message, command, payload as any);
+		if (!localResult.success) {
+			message.client.emit(Events.CommandDenied, localResult.error, payload);
+			return;
 		}
+
+		message.client.emit(Events.CommandAccepted, payload);
 	}
 }
