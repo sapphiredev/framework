@@ -21,7 +21,7 @@ export interface EssentialContext extends PreCommandRunPayload {}
  * import { Essential, PieceContext } from '(at)sapphire/framework';
  *
  * // Define a class extending `Essential`, then export it.
- * // NOTE: You can use `export default` or `export =` too.
+ * // NOTE: You can use `export default` or `export =` as well.
  * export class CoreEssential extends Essential {
  *   public constructor(context: PieceContext) {
  *     super(context, { position: 10 });
