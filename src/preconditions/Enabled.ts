@@ -4,7 +4,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition } from '../lib/structures/Precondition';
 
-export class CoreEssential extends Precondition {
+export class CorePrecondition extends Precondition {
 	public constructor(context: PieceContext) {
 		super(context, { position: 10 });
 	}
