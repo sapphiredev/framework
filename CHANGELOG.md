@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.11](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2021-02-16)
+
+### Features
+
+-   **structures:** add global preconditions ([#176](https://github.com/sapphire-project/framework/issues/176)) ([e8ef41f](https://github.com/sapphire-project/framework/commit/e8ef41fbbc420ee8cc2283d99554fc16d241fec8))
+
+### Bug Fixes
+
+-   **enabled:** remove last remnant of essentials ([4928823](https://github.com/sapphire-project/framework/commit/4928823751baa8f9e6a6f4e3c4237055f56e1384))
+
 ## [1.0.0-alpha.10](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2021-02-12)
 
 ### ⚠ BREAKING CHANGES
