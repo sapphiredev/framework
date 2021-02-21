@@ -29,8 +29,8 @@
 		"postpublish": "pinst --enable"
 	},
 	"dependencies": {
-		"@sapphire/discord-utilities": "^2.0.4",
-		"@sapphire/discord.js-utilities": "^1.4.3",
+		"@sapphire/discord-utilities": "^2.0.5",
+		"@sapphire/discord.js-utilities": "^1.4.4",
 		"@sapphire/pieces": "^1.2.2",
 		"@sapphire/ratelimits": "^1.1.5",
 		"@sapphire/utilities": "^1.4.5",
@@ -47,7 +47,7 @@
 		"@sapphire/prettier-config": "^1.0.7",
 		"@sapphire/ts-config": "^2.0.1",
 		"@types/jest": "^26.0.20",
-		"@types/node": "^14.14.28",
+		"@types/node": "^14.14.31",
 		"@types/ws": "^7.4.0",
 		"@typescript-eslint/eslint-plugin": "^4.15.1",
 		"@typescript-eslint/parser": "^4.15.1",
@@ -69,7 +69,7 @@
 		"standard-version": "^9.1.0",
 		"ts-jest": "^26.5.1",
 		"ts-node": "^9.1.1",
-		"typedoc": "^0.20.25",
+		"typedoc": "^0.20.27",
 		"typedoc-plugin-nojekyll": "^1.0.1",
 		"typescript": "^4.1.5"
 	},
