@@ -204,7 +204,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * }
 	 * ```
 	 */
-	protected static readonly conditions = new Collection<PreconditionRunCondition, IPreconditionCondition>([
+	public static readonly conditions = new Collection<PreconditionRunCondition, IPreconditionCondition>([
 		[PreconditionRunCondition.And, PreconditionConditionAnd],
 		[PreconditionRunCondition.Or, PreconditionConditionOr]
 	]);
