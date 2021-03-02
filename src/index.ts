@@ -43,3 +43,5 @@ export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
+
+export const version = '[VI]{version}[/VI]';
