@@ -25,7 +25,7 @@
 		"sversion": "standard-version",
 		"commit": "git-cz",
 		"cz": "git-cz",
-		"prepublishOnly": "yarn build",
+		"prepublishOnly": "run-s build:**",
 		"prepare": "husky install .github/husky"
 	},
 	"dependencies": {
