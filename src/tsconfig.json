@@ -1,11 +1,11 @@
 {
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": "../",
+		"rootDir": "./",
 		"outDir": "../dist",
 		"composite": true,
 		"preserveConstEnums": true,
 		"useDefineForClassFields": false
 	},
-	"include": [".", "../package.json"]
+	"include": ["."]
 }

@@ -44,4 +44,4 @@ export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
 
-export { version } from '../package.json';
+export const version = '[VI]{version}[/VI]';
