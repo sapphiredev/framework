@@ -20,7 +20,7 @@
 		"build:rollup-bundle": "rollup -c scripts/rollup.bundle.ts",
 		"build:rollup-types": "rollup -c scripts/rollup.types.ts",
 		"build:clean-extraneous-types": "node scripts/clean-extraneous-types.mjs",
-		"clean": "tsc -b src --clean",
+		"clean": "yarn build:cleanup",
 		"watch": "tsc -b src -w",
 		"sversion": "standard-version",
 		"commit": "git-cz",
