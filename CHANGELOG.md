@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.11...v1.0.0) (2021-03-16)
+
+### Features
+
+-   export sapphire package version ([#181](https://github.com/sapphire-project/framework/issues/181)) ([6df4be0](https://github.com/sapphire-project/framework/commit/6df4be0b58e66cb7f268d10dbe64287e9ec783b2))
+
+### Bug Fixes
+
+-   make `conditions` public ([#178](https://github.com/sapphire-project/framework/issues/178)) ([d1d4027](https://github.com/sapphire-project/framework/commit/d1d40271040759aa63f112eaa4a02b791514be83))
+-   update dependencies ([59ddbd6](https://github.com/sapphire-project/framework/commit/59ddbd663745cd49da0e0db3e7bab45190c7cd5a))
+
 ## [1.0.0-alpha.11](https://github.com/sapphire-project/framework/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2021-02-16)
 
 ### Features
