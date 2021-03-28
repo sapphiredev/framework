@@ -1,0 +1,45 @@
+export const eventOptionsUrl = 'https://sapphire-project.github.io/framework/interfaces/eventoptions.html';
+
+# Creating events
+
+## Setting up the file structure
+
+Sapphire loads events the same way as it loads command, by automatically reading files in the `events` folder. You
+should now create such a folder, and add your first event in it.
+
+### Ready event
+
+To create an event you simply need to create a file with the name of the event, in our case `ready.js`.
+
+Each event is a class that extends from the base `Event` class from Sapphire. You need to extend it, and add a `run`
+method which works the same way as for commands.
+
+```javascript
+const { Event } = require('@sapphire/framework');
+
+module.exports = class extends Event {
+    constructor(context) {
+      super(context, {
+        once: true,
+      });
+    }
+
+    async run() {
+        this.context.logger.log('The bot is up and running!');
+    }
+};
+```
+
+The first parameter of `super` is the context, that is given in the constructor. You can then specify an
+<a href={eventOptionsUrl}>EventOptions</a> object, containing properties such as the emitter's, the event's name, and
+whether it should only be run once (`once`). The emitter defaults to the the client, and the event name default to the
+file name.
+
+The `run` method is the method that gets called when the event occures. It takes whatever the events gives as argument.
+In our case, the ready events gives no information so we don't need any parameter.
+
+Every piece (events, commands etc) in sapphire has a <a href={pieceContextUrl}>context</a> which can be accessed via
+`this.context`. It is this context that contains the logger, the client and other properties. Here we access the
+logger via `this.context.logger` and call its `log` method to print a nicely formatted message in the console.
+
+If everything was done correctly, now, whenever you launch your bot, you will see a message in the console.
