@@ -76,6 +76,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://lavya.tech/"><img src="https://avatars.githubusercontent.com/u/65386243?v=4?s=100" width="100px;" alt=""/><br /><sub><b>lavgup</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=lavgup" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/vladfrangu"><img src="https://avatars.githubusercontent.com/u/17960496?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vlad Frangu</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=vladfrangu" title="Code">💻</a> <a href="#infra-vladfrangu" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/sapphire-project/framework/pulls?q=is%3Apr+reviewed-by%3Avladfrangu" title="Reviewed Pull Requests">👀</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/noftaly"><img src="https://avatars.githubusercontent.com/u/34779161?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elliot</b></sub></a><br /><a href="https://github.com/sapphire-project/framework/commits?author=noftaly" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
