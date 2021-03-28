@@ -1,112 +1,168 @@
 {
-	"projectName": "framework",
-	"projectOwner": "sapphire-project",
-	"repoType": "github",
-	"repoHost": "https://github.com",
-	"files": ["README.md"],
-	"imageSize": 100,
-	"commit": true,
-	"commitConvention": "angular",
-	"contributors": [
-		{
-			"login": "kyranet",
-			"name": "Antonio Román",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/24852502?v=4",
-			"profile": "https://github.com/kyranet",
-			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement", "plugin"]
-		},
-		{
-			"login": "Favna",
-			"name": "Jeroen Claassens",
-			"avatar_url": "https://avatars3.githubusercontent.com/u/4019718?v=4",
-			"profile": "https://favware.tech/",
-			"contributions": ["code", "doc", "infra", "projectManagement", "plugin"]
-		},
-		{
-			"login": "cfanoulis",
-			"name": "Charalampos Fanoulis",
-			"avatar_url": "https://avatars3.githubusercontent.com/u/38255093?v=4",
-			"profile": "https://github.com/cfanoulis",
-			"contributions": ["code"]
-		},
-		{
-			"login": "AdityaTD",
-			"name": "Aditya N. Tripathi",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/9266227?v=4",
-			"profile": "http://www.adityatd.me",
-			"contributions": ["code", "doc"]
-		},
-		{
-			"login": "LeonardSSH",
-			"name": "LeonardSSH",
-			"avatar_url": "https://avatars1.githubusercontent.com/u/35312043?v=4",
-			"profile": "http://leonard.pw",
-			"contributions": ["doc"]
-		},
-		{
-			"login": "QuantumlyTangled",
-			"name": "Nejc Drobnič",
-			"avatar_url": "https://avatars1.githubusercontent.com/u/7919610?v=4",
-			"profile": "https://quantumlytangled.com/",
-			"contributions": ["code", "plugin"]
-		},
-		{
-			"login": "Phamzito",
-			"name": "David Gustavo Herrera De La Cruz",
-			"avatar_url": "https://avatars2.githubusercontent.com/u/31642521?v=4",
-			"profile": "https://github.com/Phamzito",
-			"contributions": ["code"]
-		},
-		{
-			"login": "Rexogamer",
-			"name": "Ed L",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/42586271?v=4",
-			"profile": "https://github.com/Rexogamer",
-			"contributions": ["doc"]
-		},
-		{
-			"login": "alexthemaster",
-			"name": "Kovacs Alex",
-			"avatar_url": "https://avatars3.githubusercontent.com/u/31011461?v=4",
-			"profile": "https://atm.moe/",
-			"contributions": ["code"]
-		},
-		{
-			"login": "Alcremie",
-			"name": "Ivan Lieder",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/54785334?v=4",
-			"profile": "https://github.com/Alcremie",
-			"contributions": ["code", "review"]
-		},
-		{
-			"login": "Nytelife26",
-			"name": "Tyler J Russell",
-			"avatar_url": "https://avatars1.githubusercontent.com/u/22531310?v=4",
-			"profile": "https://github.com/Nytelife26",
-			"contributions": ["code", "infra", "plugin"]
-		},
-		{
-			"login": "Soumil07",
-			"name": "Soumil07",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/29275227?v=4",
-			"profile": "https://github.com/Soumil07",
-			"contributions": ["code"]
-		},
-		{
-			"login": "lavgup",
-			"name": "lavgup",
-			"avatar_url": "https://avatars.githubusercontent.com/u/65386243?v=4",
-			"profile": "https://lavya.tech/",
-			"contributions": ["doc"]
-		},
-		{
-			"login": "vladfrangu",
-			"name": "Vlad Frangu",
-			"avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
-			"profile": "https://github.com/vladfrangu",
-			"contributions": ["code", "infra", "review"]
-		}
-	],
-	"contributorsPerLine": 7,
-	"skipCi": true
+  "projectName": "framework",
+  "projectOwner": "sapphire-project",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "kyranet",
+      "name": "Antonio Román",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24852502?v=4",
+      "profile": "https://github.com/kyranet",
+      "contributions": [
+        "code",
+        "doc",
+        "design",
+        "ideas",
+        "infra",
+        "projectManagement",
+        "plugin"
+      ]
+    },
+    {
+      "login": "Favna",
+      "name": "Jeroen Claassens",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4019718?v=4",
+      "profile": "https://favware.tech/",
+      "contributions": [
+        "code",
+        "doc",
+        "infra",
+        "projectManagement",
+        "plugin"
+      ]
+    },
+    {
+      "login": "cfanoulis",
+      "name": "Charalampos Fanoulis",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/38255093?v=4",
+      "profile": "https://github.com/cfanoulis",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "AdityaTD",
+      "name": "Aditya N. Tripathi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/9266227?v=4",
+      "profile": "http://www.adityatd.me",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "LeonardSSH",
+      "name": "LeonardSSH",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/35312043?v=4",
+      "profile": "http://leonard.pw",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "QuantumlyTangled",
+      "name": "Nejc Drobnič",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7919610?v=4",
+      "profile": "https://quantumlytangled.com/",
+      "contributions": [
+        "code",
+        "plugin"
+      ]
+    },
+    {
+      "login": "Phamzito",
+      "name": "David Gustavo Herrera De La Cruz",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/31642521?v=4",
+      "profile": "https://github.com/Phamzito",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Rexogamer",
+      "name": "Ed L",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/42586271?v=4",
+      "profile": "https://github.com/Rexogamer",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "alexthemaster",
+      "name": "Kovacs Alex",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31011461?v=4",
+      "profile": "https://atm.moe/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Alcremie",
+      "name": "Ivan Lieder",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/54785334?v=4",
+      "profile": "https://github.com/Alcremie",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "Nytelife26",
+      "name": "Tyler J Russell",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/22531310?v=4",
+      "profile": "https://github.com/Nytelife26",
+      "contributions": [
+        "code",
+        "infra",
+        "plugin"
+      ]
+    },
+    {
+      "login": "Soumil07",
+      "name": "Soumil07",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/29275227?v=4",
+      "profile": "https://github.com/Soumil07",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lavgup",
+      "name": "lavgup",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65386243?v=4",
+      "profile": "https://lavya.tech/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "vladfrangu",
+      "name": "Vlad Frangu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
+      "profile": "https://github.com/vladfrangu",
+      "contributions": [
+        "code",
+        "infra",
+        "review"
+      ]
+    },
+    {
+      "login": "noftaly",
+      "name": "Elliot",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34779161?v=4",
+      "profile": "https://github.com/noftaly",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
