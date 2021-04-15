@@ -1,6 +1,6 @@
 <div align="center">
 
-![Sapphire Logo](https://cdn.skyra.pw/gh-assets/sapphire.png)
+![Sapphire Logo](https://cdn.skyra.pw/gh-assets/sapphire-banner.png)
 
 # Sapphire
 
