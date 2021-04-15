@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright © `2018-2020` `The Sapphire Project and its contributors`
+Copyright © `2020` `The Sapphire Community and its contributors`
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

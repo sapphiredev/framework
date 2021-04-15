@@ -76,7 +76,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/sapphire-project/framework.git"
+		"url": "git+https://github.com/sapphire-community/framework.git"
 	},
 	"files": [
 		"dist",
@@ -96,9 +96,9 @@
 		"standalone"
 	],
 	"bugs": {
-		"url": "https://github.com/sapphire-project/framework/issues"
+		"url": "https://github.com/sapphire-community/framework/issues"
 	},
-	"homepage": "https://sapphire-project.github.io/framework",
+	"homepage": "https://sapphire-community.github.io/framework",
 	"commitlint": {
 		"extends": [
 			"@commitlint/config-conventional"

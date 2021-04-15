@@ -1,12 +1,12 @@
 # These are supported funding model platforms
 
 github: [kyranet, favna, vladfrangu]
-patreon: sapphire_project
-open_collective: sapphire-project
-ko_fi: sapphireproject
+patreon: sapphire_community
+open_collective: sapphire_community
+ko_fi: sapphirecommunity
 tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
 community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
 liberapay: # Replace with a single Liberapay username
 issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
-custom: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SP738BQTQQYZY
+custom: https://sapphirejs.com/paypal
