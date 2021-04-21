@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/sapphire-community/framework/compare/v1.0.0...v1.0.1) (2021-04-21)
+
+### Bug Fixes
+
+-   **dependencies:** update in semver scope dependencies ([ca9a2c1](https://github.com/sapphire-community/framework/commit/ca9a2c1af7b699be9cfe7e1276d874846b6150d7))
+-   change all Sapphire URLs from "project"->"community" & use our domain where applicable 👨‍🌾🚜 ([#192](https://github.com/sapphire-community/framework/issues/192)) ([650260e](https://github.com/sapphire-community/framework/commit/650260e778181d3dbb2c4a880db7535eb4d92650))
+
 ## [1.0.0](https://github.com/sapphire-community/framework/compare/v1.0.0-alpha.11...v1.0.0) (2021-03-16)
 
 ### Features
