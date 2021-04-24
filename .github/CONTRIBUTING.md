@@ -83,7 +83,7 @@ There are a number of guidelines considered when reviewing Pull Requests to be m
 
 <!-- Code -->
 
-[discord server]: https://www.sapphirejs.dev/discord
+[discord server]: https://sapphirejs.dev/discord
 [here]: https://github.com/sapphire-community/framework/pulls
 [eslint]: https://eslint.org/
 [node.js]: https://nodejs.org/en/download/

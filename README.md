@@ -13,7 +13,7 @@
 [![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&label=TypeScript%20version&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
 [![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphire-community/framework?project_id=14147)
 
-[![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://www.sapphirejs.dev/discord)
+[![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://sapphirejs.dev/discord)
 
 </div>
 
@@ -43,12 +43,12 @@ Sapphire Community is and always will be open source, even if we don't get donat
 
 We accept donations through Open Collective, Ko-fi, Paypal, Patreon and GitHub Sponsorships. You can use the buttons below to donate through your method of choice.
 
-|   Donate With   |                         Address                         |
-| :-------------: | :-----------------------------------------------------: |
-| Open Collective | [Click Here](https://www.sapphirejs.dev/opencollective) |
-|      Ko-fi      |      [Click Here](https://www.sapphirejs.dev/kofi)      |
-|     Patreon     |    [Click Here](https://www.sapphirejs.dev/patreon)     |
-|     PayPal      |     [Click Here](https://www.sapphirejs.dev/paypal)     |
+|   Donate With   |                       Address                       |
+| :-------------: | :-------------------------------------------------: |
+| Open Collective | [Click Here](https://sapphirejs.dev/opencollective) |
+|      Ko-fi      |      [Click Here](https://sapphirejs.dev/kofi)      |
+|     Patreon     |    [Click Here](https://sapphirejs.dev/patreon)     |
+|     PayPal      |     [Click Here](https://sapphirejs.dev/paypal)     |
 
 ## Contributors ✨
 
