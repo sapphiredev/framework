@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/sapphiredev/framework/compare/v1.0.1...v1.0.2) (2021-05-02)
+
+### Bug Fixes
+
+-   drop the `www.` from the SapphireJS URL ([e9ed4e8](https://github.com/sapphiredev/framework/commit/e9ed4e830195645e42bc57b0c02e139a82ac415f))
+-   update all the SapphireJS URLs from `.com` to `.dev` ([4d0c8ea](https://github.com/sapphiredev/framework/commit/4d0c8ea364015970e13b93a9aa3a4142ed911635))
+
 ### [1.0.1](https://github.com/sapphiredev/framework/compare/v1.0.0...v1.0.1) (2021-04-21)
 
 ### Bug Fixes
