@@ -102,18 +102,22 @@ jobs:
         run: yarn build
 
   Upload_Coverage_Report:
-    name: Upload coverage report to coveralls
+    name: Upload coverage report to codecov
     needs: [Testing]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
       - name: Download Coverage report
         uses: actions/download-artifact@v2
         with:
           name: coverage
           path: coverage/
-      - name: Coveralls Upload
-        uses: coverallsapp/github-action@master
+      - name: Codecov Upload
+        uses: codecov/codecov-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: coverage/
+          fail_ci_if_error: true
