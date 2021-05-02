@@ -70,7 +70,7 @@
 		"standard-version": "^9.2.0",
 		"ts-jest": "^26.5.5",
 		"ts-node": "^9.1.1",
-		"typedoc": "^0.20.35",
+		"typedoc": "^0.20.36",
 		"typedoc-plugin-nojekyll": "^1.0.1",
 		"typescript": "^4.2.4"
 	},
