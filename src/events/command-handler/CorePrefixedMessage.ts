@@ -9,7 +9,7 @@ export class CoreEvent extends Event<Events.PrefixedMessage> {
 	}
 
 	public run(message: Message, prefix: string | RegExp) {
-		const { client, stores } = this.context;
+		const { client, stores } = this.container;
 		// Retrieve the command name and validate:
 		const commandPrefix = this.getCommandPrefix(message.content, prefix);
 		const prefixLess = message.content.slice(commandPrefix.length).trim();

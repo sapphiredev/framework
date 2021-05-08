@@ -9,6 +9,6 @@ export class CoreEvent extends Event<Events.CommandError> {
 
 	public run(error: Error, context: CommandErrorPayload) {
 		const { name, path } = context.piece;
-		this.context.logger.error(`Encountered error on command "${name}" at path "${path}"`, error);
+		this.container.logger.error(`Encountered error on command "${name}" at path "${path}"`, error);
 	}
 }
