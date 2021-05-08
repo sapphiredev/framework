@@ -784,10 +784,10 @@
     prettier "^2.2.1"
     typescript "^4.2.4"
 
-"@sapphire/pieces@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-1.2.5.tgz#fcde0e596d480077c90aa07e754e0b9d20f72155"
-  integrity sha512-2/kr7fiRgqL5CBcyBxBgM5p0L2SlUtkX/V6KRe20uwdQH1ZUf//GwjYj/KGLb/ymzkTXyhFrSrLmqomSQ+G/1g==
+"@sapphire/pieces@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-2.0.0.tgz#cab97f89dd1f60b5a10f5849a098c4911e2b9023"
+  integrity sha512-UjVwkCIOMRLwVzLNudrSSCsj1OeRX7cVR2XK/HE6NhsjSIP7ppATZaJ77fSUwqwZ4IgLCEXh96jNIhUyDX/COg==
   dependencies:
     "@discordjs/collection" "^0.1.6"
     tslib "^2.2.0"

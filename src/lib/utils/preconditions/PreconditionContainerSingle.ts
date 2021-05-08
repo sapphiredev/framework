@@ -1,4 +1,4 @@
-import { Store } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { Command } from '../../structures/Command';
 import type { PreconditionContext } from '../../structures/Precondition';
@@ -65,7 +65,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param command The command the message invoked.
 	 */
 	public run(message: Message, command: Command, context: PreconditionContext = {}) {
-		const precondition = Store.injectedContext.stores.get('preconditions').get(this.name);
+		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) return precondition.run(message, command, { ...context, ...this.context });
 		throw new Error(`The precondition "${this.name}" is not available.`);
 	}

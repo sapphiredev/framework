@@ -3,6 +3,7 @@ export {
 	AliasPieceOptions,
 	AliasStore,
 	Awaited,
+	container,
 	LoaderError,
 	MissingExportsError,
 	Piece,

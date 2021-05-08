@@ -1,4 +1,4 @@
-import { Awaited, Store } from '@sapphire/pieces';
+import { Awaited, container } from '@sapphire/pieces';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
@@ -200,7 +200,7 @@ export class SapphireClient extends Client {
 	public constructor(options: ClientOptions = {}) {
 		super(options);
 
-		Store.injectedContext.client = this;
+		container.client = this;
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
 			plugin.hook.call(this, options);
@@ -208,10 +208,10 @@ export class SapphireClient extends Client {
 		}
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
-		Store.injectedContext.logger = this.logger;
+		container.logger = this.logger;
 
 		this.stores = new StoreRegistry();
-		Store.injectedContext.stores = this.stores;
+		container.stores = this.stores;
 
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
@@ -290,7 +290,7 @@ declare module 'discord.js' {
 }
 
 declare module '@sapphire/pieces' {
-	interface PieceContextExtras {
+	interface Container {
 		client: SapphireClient;
 		logger: ILogger;
 		stores: StoreRegistry;

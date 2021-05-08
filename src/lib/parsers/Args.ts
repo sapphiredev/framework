@@ -1,4 +1,4 @@
-import { Store } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type {
 	CategoryChannel,
 	Channel,
@@ -655,7 +655,7 @@ export class Args {
 	 */
 	private resolveArgument<T>(arg: keyof ArgType | IArgument<T>): IArgument<T> | undefined {
 		if (typeof arg === 'object') return arg;
-		return Store.injectedContext.stores.get('arguments').get(arg as string) as IArgument<T> | undefined;
+		return container.stores.get('arguments').get(arg as string) as IArgument<T> | undefined;
 	}
 
 	/**
