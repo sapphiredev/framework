@@ -69,7 +69,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
-	 * The pre-parse method. This method can be overriden by plugins to define their own argument parser.
+	 * The pre-parse method. This method can be overridden by plugins to define their own argument parser.
 	 * @param message The message that triggered the command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
@@ -100,32 +100,32 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	protected resolveConstructorPreConditions(options: CommandOptions): readonly PreconditionEntryResolvable[] {
-		const preconditions = (options.preconditions ??= []) as PreconditionEntryResolvable[];
-		if (options.nsfw) preconditions.push('NSFW');
+		const preconditions = options.preconditions?.slice() ?? [];
+		if (options.nsfw) preconditions.push(CommandPreConditions.NotSafeForWork);
 
 		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
 		if (runIn !== null) preconditions.push(runIn);
 
-		const coolDownBucket = options.cooldownBucket ?? 1;
-		if (coolDownBucket && options.cooldownDuration) {
-			preconditions.push({ name: 'Cooldown', context: { bucket: coolDownBucket, cooldown: options.cooldownDuration } });
+		const cooldownBucket = options.cooldownBucket ?? 1;
+		if (cooldownBucket && options.cooldownDuration) {
+			preconditions.push({ name: CommandPreConditions.Cooldown, context: { bucket: cooldownBucket, cooldown: options.cooldownDuration } });
 		}
 
 		return preconditions;
 	}
 
-	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): CommandOptionsRunPreConditions[] | null {
+	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): CommandPreConditions[] | null {
 		if (isNullish(runIn)) return null;
 		if (typeof runIn === 'string') {
 			switch (runIn) {
 				case 'dm':
-					return ['DMOnly'];
+					return [CommandPreConditions.DirectMessageOnly];
 				case 'text':
-					return ['TextOnly'];
+					return [CommandPreConditions.TextOnly];
 				case 'news':
-					return ['NewsOnly'];
+					return [CommandPreConditions.NewsOnly];
 				case 'guild':
-					return ['GuildOnly'];
+					return [CommandPreConditions.GuildOnly];
 				default:
 					return null;
 			}
@@ -144,18 +144,34 @@ export abstract class Command<T = Args> extends AliasPiece {
 		// If runs everywhere, optimise to null:
 		if (dm && guild) return null;
 
-		const array: CommandOptionsRunPreConditions[] = [];
-		if (dm) array.push('DMOnly');
-		if (guild) array.push('GuildOnly');
-		else if (text) array.push('TextOnly');
-		else if (news) array.push('NewsOnly');
+		const array: CommandPreConditions[] = [];
+		if (dm) array.push(CommandPreConditions.DirectMessageOnly);
+		if (guild) array.push(CommandPreConditions.GuildOnly);
+		else if (text) array.push(CommandPreConditions.TextOnly);
+		else if (news) array.push(CommandPreConditions.NewsOnly);
 
 		return array;
 	}
 }
 
-type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
-type CommandOptionsRunPreConditions = 'DMOnly' | 'TextOnly' | 'NewsOnly' | 'GuildOnly';
+/**
+ * The allowed values for [[CommandOptions.runIn]].
+ * @since 2.0.0
+ */
+export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
+
+/**
+ * The available command pre-conditions.
+ * @since 2.0.0
+ */
+export const enum CommandPreConditions {
+	Cooldown = 'Cooldown',
+	NotSafeForWork = 'NSFW',
+	DirectMessageOnly = 'DMOnly',
+	TextOnly = 'TextOnly',
+	NewsOnly = 'NewsOnly',
+	GuildOnly = 'GuildOnly'
+}
 
 /**
  * The [[Command]] options.
@@ -234,6 +250,7 @@ export interface CommandOptions extends AliasPieceOptions {
 	/**
 	 * The channels the command should run in. If set to `null`, no precondition entry will be added. Some optimizations are applied when given an array to reduce the amount of preconditions run (e.g. `'text'` and `'news'` becomes `'guild'`, and if both `'dm'` and `'guild'` are defined, then no precondition entry is added as it runs in all channels).
 	 * @since 2.0.0
+	 * @default null
 	 */
 	runIn?: CommandOptionsRunType | readonly CommandOptionsRunType[] | null;
 }
