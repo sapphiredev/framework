@@ -66,7 +66,7 @@ export class StoreRegistry extends Collection<Key, Value> {
 	 * @param store The store to register.
 	 */
 	public register<T extends Piece>(store: Store<T>): this {
-		this.set(store.name as Key, (store as unknown) as Value);
+		this.set(store.name as Key, store as unknown as Value);
 		return this;
 	}
 

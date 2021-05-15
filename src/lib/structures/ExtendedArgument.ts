@@ -66,7 +66,7 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	}
 
 	public async run(parameter: string, context: ArgumentContext<T>): AsyncArgumentResult<T> {
-		const result = await this.base.run(parameter, (context as unknown) as ArgumentContext<ArgType[K]>);
+		const result = await this.base.run(parameter, context as unknown as ArgumentContext<ArgType[K]>);
 		// If the result was successful (i.e. is of type `Ok<ArgType[K]>`), pass its
 		// value to [[ExtendedArgument#handle]] for further parsing. Otherwise, return
 		// the error as is; it'll provide contextual information from the base argument.
