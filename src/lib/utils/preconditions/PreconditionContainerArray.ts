@@ -13,7 +13,7 @@ import { PreconditionContainerSingle, PreconditionSingleResolvable } from './Pre
  */
 export const enum PreconditionRunMode {
 	/**
-	 * The entries are run sequentially, this is the default behavior and can be slow when doing long asynchronous
+	 * The entries are run sequentially, this is the default behaviour and can be slow when doing long asynchronous
 	 * tasks, but is performance savvy.
 	 * @since 1.0.0
 	 */
