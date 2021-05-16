@@ -35,6 +35,8 @@ export const enum Identifiers {
 	PreconditionCooldown = 'preconditionCooldown',
 	PreconditionDMOnly = 'preconditionDmOnly',
 	PreconditionGuildOnly = 'preconditionGuildOnly',
+	PreconditionNewsOnly = 'preconditionNewsOnly',
 	PreconditionNSFW = 'preconditionNsfw',
-	PreconditionPermissions = 'preconditionPermissions'
+	PreconditionPermissions = 'preconditionPermissions',
+	PreconditionTextOnly = 'preconditionTextOnly'
 }

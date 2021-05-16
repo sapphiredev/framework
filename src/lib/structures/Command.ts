@@ -1,9 +1,10 @@
 import { AliasPiece, AliasPieceOptions, Awaited, PieceContext } from '@sapphire/pieces';
+import { isNullish } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import type { IPreconditionContainer } from '../utils/preconditions/IPreconditionContainer';
-import { PreconditionArrayResolvable, PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
+import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
 export abstract class Command<T = Args> extends AliasPiece {
@@ -47,7 +48,6 @@ export abstract class Command<T = Args> extends AliasPiece {
 		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.strategy = new FlagUnorderedStrategy(options.strategyOptions);
 		this.lexer.setQuotes(
 			options.quotes ?? [
@@ -64,10 +64,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 
 			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
+
+		this.preconditions = new PreconditionContainerArray(this.resolveConstructorPreConditions(options));
 	}
 
 	/**
-	 * The pre-parse method. This method can be overriden by plugins to define their own argument parser.
+	 * The pre-parse method. This method can be overridden by plugins to define their own argument parser.
 	 * @param message The message that triggered the command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
@@ -96,6 +98,79 @@ export abstract class Command<T = Args> extends AliasPiece {
 			strategy: this.strategy
 		};
 	}
+
+	protected resolveConstructorPreConditions(options: CommandOptions): readonly PreconditionEntryResolvable[] {
+		const preconditions = options.preconditions?.slice() ?? [];
+		if (options.nsfw) preconditions.push(CommandPreConditions.NotSafeForWork);
+
+		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
+		if (runIn !== null) preconditions.push(runIn);
+
+		const cooldownBucket = options.cooldownBucket ?? 1;
+		if (cooldownBucket && options.cooldownDuration) {
+			preconditions.push({ name: CommandPreConditions.Cooldown, context: { bucket: cooldownBucket, cooldown: options.cooldownDuration } });
+		}
+
+		return preconditions;
+	}
+
+	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): CommandPreConditions[] | null {
+		if (isNullish(runIn)) return null;
+		if (typeof runIn === 'string') {
+			switch (runIn) {
+				case 'dm':
+					return [CommandPreConditions.DirectMessageOnly];
+				case 'text':
+					return [CommandPreConditions.TextOnly];
+				case 'news':
+					return [CommandPreConditions.NewsOnly];
+				case 'guild':
+					return [CommandPreConditions.GuildOnly];
+				default:
+					return null;
+			}
+		}
+
+		// If there's no channel it can run on, throw an error:
+		if (runIn.length === 0) {
+			throw new Error(`${this.constructor.name}[${this.name}]: "runIn" was specified as an empty array.`);
+		}
+
+		const dm = runIn.includes('dm');
+		const text = runIn.includes('text');
+		const news = runIn.includes('news');
+		const guild = text && news;
+
+		// If runs everywhere, optimise to null:
+		if (dm && guild) return null;
+
+		const array: CommandPreConditions[] = [];
+		if (dm) array.push(CommandPreConditions.DirectMessageOnly);
+		if (guild) array.push(CommandPreConditions.GuildOnly);
+		else if (text) array.push(CommandPreConditions.TextOnly);
+		else if (news) array.push(CommandPreConditions.NewsOnly);
+
+		return array;
+	}
+}
+
+/**
+ * The allowed values for [[CommandOptions.runIn]].
+ * @since 2.0.0
+ */
+export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
+
+/**
+ * The available command pre-conditions.
+ * @since 2.0.0
+ */
+export const enum CommandPreConditions {
+	Cooldown = 'Cooldown',
+	NotSafeForWork = 'NSFW',
+	DirectMessageOnly = 'DMOnly',
+	TextOnly = 'TextOnly',
+	NewsOnly = 'NewsOnly',
+	GuildOnly = 'GuildOnly'
 }
 
 /**
@@ -130,7 +205,7 @@ export interface CommandOptions extends AliasPieceOptions {
 	 * @since 1.0.0
 	 * @default []
 	 */
-	preconditions?: PreconditionArrayResolvable;
+	preconditions?: readonly PreconditionEntryResolvable[];
 
 	/**
 	 * The options for the lexer strategy.
@@ -150,6 +225,34 @@ export interface CommandOptions extends AliasPieceOptions {
 	 * ]
 	 */
 	quotes?: [string, string][];
+
+	/**
+	 * Sets whether or not the command should be treated as NSFW. If set to true, the `NSFW` precondition will be added to the list.
+	 * @since 2.0.0
+	 * @default false
+	 */
+	nsfw?: boolean;
+
+	/**
+	 * Sets the bucket of the cool-down, if set to a non-zero value alongside {@link CommandOptions.cooldownDuration}, the `Cooldown` precondition will be added to the list.
+	 * @since 2.0.0
+	 * @default 1
+	 */
+	cooldownBucket?: number;
+
+	/**
+	 * Sets the duration of the tickets in the cool-down, if set to a non-zero value alongside {@link CommandOptions.cooldownBucket}, the `Cooldown` precondition will be added to the list.
+	 * @since 2.0.0
+	 * @default 0
+	 */
+	cooldownDuration?: number;
+
+	/**
+	 * The channels the command should run in. If set to `null`, no precondition entry will be added. Some optimizations are applied when given an array to reduce the amount of preconditions run (e.g. `'text'` and `'news'` becomes `'guild'`, and if both `'dm'` and `'guild'` are defined, then no precondition entry is added as it runs in all channels).
+	 * @since 2.0.0
+	 * @default null
+	 */
+	runIn?: CommandOptionsRunType | readonly CommandOptionsRunType[] | null;
 }
 
 export interface CommandContext extends Record<PropertyKey, unknown> {
