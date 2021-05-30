@@ -33,7 +33,8 @@ export class CoreEvent extends Event<Events.PreMessageParsed> {
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix !== null) client.emit(Events.PrefixedMessage, message, prefix);
+		if (prefix === null) client.emit(Events.NonePrefixedMessage, message);
+		else client.emit(Events.PrefixedMessage, message, prefix);
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
