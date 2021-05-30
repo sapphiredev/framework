@@ -33,7 +33,7 @@ export class CoreEvent extends Event<Events.PreMessageParsed> {
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix === null) client.emit(Events.NonePrefixedMessage, message);
+		if (prefix === null) client.emit(Events.NonPrefixedMessage, message);
 		else client.emit(Events.PrefixedMessage, message, prefix);
 	}
 
