@@ -37,7 +37,7 @@ export interface IArgument<T> {
  * @example
  * ```typescript
  * // TypeScript:
- * import { Argument, ArgumentResult, PieceContext } from '(at)sapphire/framework';
+ * import { Argument, ArgumentResult, err, ok, PieceContext, Result } from '(at)sapphire/framework';
  * import { URL } from 'url';
  *
  * // Define a class extending `Argument`, then export it.
@@ -48,10 +48,16 @@ export interface IArgument<T> {
  *   }
  *
  *   public run(argument: string): ArgumentResult<URL> {
+ *     const resolved = CoreArgument.resolve(argument);
+ *     if (resolved.success) return this.ok(resolved.value);
+ *     return this.error({ argument, message: resolved.error, context });
+ *   }
+ *
+ *   public static resolve(argument: string): Result<URL, string> {
  *     try {
- *       return this.ok(new URL(argument));
+ *       return ok(new URL(argument));
  *     } catch {
- *       return this.error(argument, 'ArgumentHyperlinkInvalidURL', 'The argument did not resolve to a valid URL.');
+ *       return err('The argument did not resolve to a valid URL.');
  *     }
  *   }
  * }
@@ -68,7 +74,7 @@ export interface IArgument<T> {
  * @example
  * ```javascript
  * // JavaScript:
- * const { Argument } = require('(at)sapphire/framework');
+ * const { Argument, err, ok } = require('(at)sapphire/framework');
  *
  * // Define a class extending `Argument`, then export it.
  * module.exports = class CoreArgument extends Argument {
@@ -77,10 +83,16 @@ export interface IArgument<T> {
  *   }
  *
  *   run(argument) {
+ *     const resolved = CoreArgument.resolve(argument);
+ *     if (resolved.success) return this.ok(resolved.value);
+ *     return this.error(argument, 'ArgumentHyperlinkInvalidURL', resolved.error);
+ *   }
+ *
+ *   static resolve(argument) {
  *     try {
- *       return this.ok(new URL(argument));
+ *       return new URL(ok(argument));
  *     } catch {
- *       return this.error(argument, 'ArgumentHyperlinkInvalidURL', 'The argument did not resolve to a valid URL.');
+ *       err('The argument did not resolve to a valid URL.');
  *     }
  *   }
  * }
@@ -88,6 +100,8 @@ export interface IArgument<T> {
  */
 export abstract class Argument<T = unknown> extends AliasPiece implements IArgument<T> {
 	public abstract run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
+	// TODO: Add definition of 'public static abstract resolve' here whenever typescript supports it.
+	// https://github.com/microsoft/TypeScript/issues/34516
 
 	/**
 	 * Wraps a value into a successful value.

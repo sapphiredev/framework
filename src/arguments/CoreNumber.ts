@@ -1,6 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { err, ok, Result } from '../lib/parsers/Result';
 
 export class CoreArgument extends Argument<number> {
 	public constructor(context: PieceContext) {
@@ -8,17 +9,10 @@ export class CoreArgument extends Argument<number> {
 	}
 
 	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
-		const parsed = Number(parameter);
+		const resolved = CoreArgument.resolve(parameter, { minimum: context?.minimum, maximum: context?.maximum });
+		if (resolved.success) return this.ok(resolved.value);
 
-		if (Number.isNaN(parsed)) {
-			return this.error({
-				parameter,
-				message: 'The argument did not resolve to a valid number.',
-				context
-			});
-		}
-
-		if (typeof context.minimum === 'number' && parsed < context.minimum) {
+		if (resolved.error === Identifiers.ArgumentNumberTooSmall) {
 			return this.error({
 				parameter,
 				identifier: Identifiers.ArgumentNumberTooSmall,
@@ -27,15 +21,29 @@ export class CoreArgument extends Argument<number> {
 			});
 		}
 
-		if (typeof context.maximum === 'number' && parsed > context.maximum) {
+		if (resolved.error === Identifiers.ArgumentNumberTooBig) {
 			return this.error({
 				parameter,
 				identifier: Identifiers.ArgumentNumberTooBig,
-				message: `The argument must be smaller than ${context.maximum}.`,
+				message: `The argument must be less than ${context.maximum}.`,
 				context
 			});
 		}
 
-		return this.ok(parsed);
+		return this.error({
+			parameter,
+			message: resolved.error,
+			context
+		});
+	}
+
+	public static resolve(parameter: string, options?: { minimum?: number; maximum?: number }): Result<number, string> {
+		const parsed = Number(parameter);
+		if (Number.isNaN(parsed)) return err('The argument did not resolve to a valid number.');
+
+		if (typeof options?.minimum === 'number' && parsed < options.minimum) return err(Identifiers.ArgumentNumberTooSmall);
+		if (typeof options?.maximum === 'number' && parsed > options.maximum) return err(Identifiers.ArgumentNumberTooBig);
+
+		return ok(parsed);
 	}
 }

@@ -3,6 +3,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { Guild, Role } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
+import { err, ok, Result } from '../lib/parsers/Result';
 
 export class CoreArgument extends Argument<Role> {
 	public constructor(context: PieceContext) {
@@ -20,16 +21,23 @@ export class CoreArgument extends Argument<Role> {
 			});
 		}
 
-		const role = (await this.resolveByID(parameter, guild)) ?? this.resolveByQuery(parameter, guild);
-		return role ? this.ok(role) : this.error({ parameter, message: 'The argument did not resolve to a role.', context });
+		const resolved = await CoreArgument.resolve(parameter, guild);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({ parameter, message: resolved.error, context });
 	}
 
-	private async resolveByID(argument: string, guild: Guild): Promise<Role | null> {
+	public static async resolve(parameter: string, guild: Guild): Promise<Result<Role, string>> {
+		const role = (await CoreArgument.resolveByID(parameter, guild)) ?? CoreArgument.resolveByQuery(parameter, guild);
+		if (role) return ok(role);
+		return err('The argument did not resolve to a role.');
+	}
+
+	private static async resolveByID(argument: string, guild: Guild): Promise<Role | null> {
 		const roleID = RoleMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
 		return roleID ? guild.roles.fetch(roleID[1]).catch(() => null) : null;
 	}
 
-	private resolveByQuery(argument: string, guild: Guild): Role | null {
+	private static resolveByQuery(argument: string, guild: Guild): Role | null {
 		const lowerCaseArgument = argument.toLowerCase();
 		return guild.roles.cache.find((role) => role.name.toLowerCase() === lowerCaseArgument) ?? null;
 	}

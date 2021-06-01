@@ -3,6 +3,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { Channel, DMChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
+import { err, ok, Result } from '../lib/parsers/Result';
 
 export class CoreArgument extends ExtendedArgument<'channel', DMChannel> {
 	public constructor(context: PieceContext) {
@@ -10,12 +11,17 @@ export class CoreArgument extends ExtendedArgument<'channel', DMChannel> {
 	}
 
 	public handle(channel: Channel, context: ExtendedArgumentContext): ArgumentResult<DMChannel> {
-		return isDMChannel(channel)
-			? this.ok(channel)
-			: this.error({
-					parameter: context.parameter,
-					message: 'The argument did not resolve to a DM channel.',
-					context: { ...context, channel }
-			  });
+		const resolved = CoreArgument.resolve(channel);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter: context.parameter,
+			message: resolved.error,
+			context: { ...context, channel }
+		});
+	}
+
+	public static resolve(channel: Channel): Result<DMChannel, string> {
+		if (isDMChannel(channel)) return ok(channel);
+		return err('The argument did not resolve to a DM channel.');
 	}
 }
