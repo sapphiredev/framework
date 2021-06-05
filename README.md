@@ -21,15 +21,27 @@
 
 Sapphire is a Discord bot framework built on top of [discord.js] for advanced and amazing bots.
 
-**Much of the code in this repository is inspired and based on the ideas from [klasa].**
-
 ## Features
 
 -   Written in TypeScript
 -   Command Handler, Arguments, Pre-conditions and Events Store
 -   Completely Modular and Extendable
 -   Advanced Plugins Support
--   Complete i18n Integration
+-   Supports many [plugins](https://github.com/sapphiredev/plugins)
+
+## Installation
+
+`@sapphire/framework` depends on the following packages. Be sure to install these along with this package!
+
+-   [`discord.js`](https://www.npmjs.com/package/discord.js)
+
+You can use the following command to install this package, or replace `npm install` with your package manager of choice.
+
+```sh
+npm install @sapphire/framework discord.js
+```
+
+---
 
 ## API Documentation
 

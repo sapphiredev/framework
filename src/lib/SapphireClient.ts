@@ -111,6 +111,8 @@ export interface SapphireClientOptions {
  * [[SapphireClient.registerUserDirectories]] for reference. This method is called at the start of the
  * [[SapphireClient.login]] method.
  *
+ * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions)
+ *
  * @since 1.0.0
  * @example
  * ```typescript
