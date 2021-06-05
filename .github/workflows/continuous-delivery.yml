@@ -29,14 +29,16 @@ jobs:
     outputs:
       commit_message: $( [ -z "${{ steps.pr_get_commit_message.outputs.pr_commit_message }}" ] && echo "${{ steps.push_get_commit_message.outputs.push_commit_message }}" || echo "${{ steps.pr_get_commit_message.outputs.pr_commit_message }}" )
 
-  Build:
-    name: Publish Build
+  Publish:
+    name: Publish Next to npm
     runs-on: ubuntu-latest
     if: "!contains(needs.pre_ci.outputs.commit_message, '[skip ci]')"
     needs: pre_ci
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
+        with:
+          feth-depth: 0
       - name: Use Node.js v16
         uses: actions/setup-node@v2
         with:
@@ -50,41 +52,12 @@ jobs:
       - name: Install Dependencies if Cache Miss
         if: ${{ !steps.cache-restore.outputs.cache-hit }}
         run: yarn --frozen-lockfile
-      - name: Build Code
-        run: yarn prepublishOnly
-      - name: Push new code
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
-          echo -e "\n# Checkout the repo in the target branch"
-          TARGET_BRANCH="build"
-          git clone $REPO out -b $TARGET_BRANCH
-
-          echo -e "\n# Remove any old files in the dist folder"
-          rm -rfv out/dist/*
-
-          echo -e "\n# Move the generated docs to the newly-checked-out repo, to be committed and pushed"
-          rsync -vaI package.json out/
-          rsync -vaI .all-contributorsrc out/
-          rsync -vaI LICENSE.md out/
-          rsync -vaI README.md out/
-          rsync -vaI dist/ out/dist
-
-          echo -e "\n# Removing TSC incremental file"
-          rm -rfv out/dist/**/*.tsbuildinfo
-
-          echo -e "\n# Commit and push"
-          cd out
-          git add --all .
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_EMAIL}"
-          git commit -m "build: tsc build for ${GITHUB_SHA}" || true
-          git push origin $TARGET_BRANCH
+      - name: Bump Version
+        run: yarn standard-version --skip.commit --skip.tag --prerelease "next.$(git rev-parse --verify HEAD)"
+      - name: Publish to NPM
+        run: npm publish --tag next || true
         env:
-          GITHUB_TOKEN: ${{ secrets.SKYRA_TOKEN }}
-          GITHUB_ACTOR: NM-EEA-Y
-          GITHUB_EMAIL: contact@skyra.pw
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   Docgen:
     name: Docgen
