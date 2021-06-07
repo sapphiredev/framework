@@ -83,7 +83,6 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 
 	private async _run(...args: unknown[]) {
 		try {
-			// @ts-expect-error Argument of type 'unknown[]' is not assignable to parameter of type 'E extends string | number ? ClientEvents[E] : unknown[]'. (2345)
 			await this.run(...args);
 		} catch (error) {
 			this.container.client.emit(Events.EventError, error, { piece: this });
