@@ -26,7 +26,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  *   public handle(parsed: Channel, { argument }: ExtendedArgumentContext): ArgumentResult<TextChannel> {
  *     return parsed.type === 'text'
  *       ? this.ok(parsed as TextChannel)
- *       : this.error(argument, 'ArgumentTextChannelInvalidTextChannel', 'The argument did not resolve to a text channel.');
+ *       : this.error({ identifier: 'ArgumentTextChannelInvalidTextChannel', message: 'The argument did not resolve to a text channel.' });
  *   }
  * }
  * ```
@@ -44,7 +44,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  *   handle(parsed, { argument }) {
  *     return parsed.type === 'text'
  *       ? this.ok(parsed)
- *       : this.error(argument, 'ArgumentTextChannelInvalidTextChannel', 'The argument did not resolve to a text channel/');
+ *       : this.error({ identifier: 'ArgumentTextChannelInvalidTextChannel', message: 'The argument did not resolve to a text channel' });
  *   }
  * }
  * ```
