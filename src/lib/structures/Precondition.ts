@@ -23,7 +23,7 @@ export abstract class Precondition extends Piece {
 	}
 
 	/**
-	 * Constructs a [[PreconditionError]] with the precondition parameter set to `this`.
+	 * Constructs a {@link PreconditionError} with the precondition parameter set to `this`.
 	 * @param options The information.
 	 */
 	public error(options: Omit<PreconditionError.Options, 'precondition'> = {}): Precondition.Result {

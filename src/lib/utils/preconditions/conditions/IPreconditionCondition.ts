@@ -4,13 +4,13 @@ import type { PreconditionContext } from '../../../structures/Precondition';
 import type { IPreconditionContainer, PreconditionContainerReturn } from '../IPreconditionContainer';
 
 /**
- * Defines the condition for [[PreconditionContainerArray]]s to run.
+ * Defines the condition for {@link PreconditionContainerArray}s to run.
  * @since 1.0.0
  */
 export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
-	 * @seealso [[PreconditionRunMode.sequential]]
+	 * @seealso {@link PreconditionRunMode.sequential}
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
@@ -25,7 +25,7 @@ export interface IPreconditionCondition {
 
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
-	 * @seealso [[PreconditionRunMode.parallel]]
+	 * @seealso {@link PreconditionRunMode.parallel}
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.

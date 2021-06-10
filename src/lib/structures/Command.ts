@@ -83,7 +83,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	/**
 	 * Executes the command's logic.
 	 * @param message The message that triggered the command.
-	 * @param args The value returned by [[Command.preParse]], by default an instance of [[Args]].
+	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 */
 	public abstract run(message: Message, args: T, context: CommandContext): Awaited<unknown>;
 
@@ -155,7 +155,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 }
 
 /**
- * The allowed values for [[CommandOptions.runIn]].
+ * The allowed values for {@link CommandOptions.runIn}.
  * @since 2.0.0
  */
 export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
@@ -174,7 +174,7 @@ export const enum CommandPreConditions {
 }
 
 /**
- * The [[Command]] options.
+ * The {@link Command} options.
  * @since 1.0.0
  */
 export interface CommandOptions extends AliasPieceOptions {
@@ -200,8 +200,8 @@ export interface CommandOptions extends AliasPieceOptions {
 	detailedDescription?: string;
 
 	/**
-	 * The [[Precondition]]s to be run, accepts an array of their names.
-	 * @seealso [[PreconditionContainerArray]]
+	 * The {@link Precondition}s to be run, accepts an array of their names.
+	 * @seealso {@link PreconditionContainerArray}
 	 * @since 1.0.0
 	 * @default []
 	 */
@@ -267,7 +267,7 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as [[CommandContext.prefix]] if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link CommandContext.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;

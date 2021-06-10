@@ -2,7 +2,7 @@ import { isErr, ok } from '../../../parsers/Result';
 import type { IPreconditionCondition } from './IPreconditionCondition';
 
 /**
- * An [[IPreconditionCondition]] which runs all containers similarly to doing (V0 && V1 [&& V2 [&& V3 ...]]).
+ * An {@link IPreconditionCondition]] which runs all containers similarly to doing (V0 && V1 [&& V2 [&& V3 ...}).
  * @since 1.0.0
  */
 export const PreconditionConditionAnd: IPreconditionCondition = {

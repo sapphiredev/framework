@@ -5,39 +5,39 @@ import type { PreconditionContext } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
 
 /**
- * Defines the detailed options for the [[PreconditionContainerSingle]], where both the [[PreconditionContext]] and the
+ * Defines the detailed options for the {@link PreconditionContainerSingle}, where both the {@link PreconditionContext} and the
  * name of the precondition can be defined.
  * @since 1.0.0
  */
 export interface PreconditionSingleResolvableDetails {
 	/**
-	 * The name of the precondition to retrieve from [[SapphireClient.preconditions]].
+	 * The name of the precondition to retrieve from {@link SapphireClient.preconditions}.
 	 * @since 1.0.0
 	 */
 	name: string;
 
 	/**
-	 * The context to be set at [[PreconditionContainerSingle.context]].
+	 * The context to be set at {@link PreconditionContainerSingle.context}.
 	 * @since 1.0.0
 	 */
 	context: Record<PropertyKey, unknown>;
 }
 
 /**
- * Defines the data accepted by [[PreconditionContainerSingle]]'s constructor.
+ * Defines the data accepted by {@link PreconditionContainerSingle}'s constructor.
  * @since 1.0.0
  */
 export type PreconditionSingleResolvable = string | PreconditionSingleResolvableDetails;
 
 /**
- * An [[IPreconditionContainer]] which runs a single precondition from [[SapphireClient.preconditions]].
+ * An {@link IPreconditionContainer} which runs a single precondition from {@link SapphireClient.preconditions}.
  * @since 1.0.0
  */
 export class PreconditionContainerSingle implements IPreconditionContainer {
 	/**
-	 * The context to be used when calling [[Precondition.run]]. This will always be an empty object (`{}`) when the
+	 * The context to be used when calling {@link Precondition.run}. This will always be an empty object (`{}`) when the
 	 * container was constructed with a string, otherwise it is a direct reference to the value from
-	 * [[PreconditionSingleResolvableDetails.context]].
+	 * {@link PreconditionSingleResolvableDetails.context}.
 	 * @since 1.0.0
 	 */
 	public readonly context: Record<PropertyKey, unknown>;

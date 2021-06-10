@@ -8,7 +8,7 @@ import type { IPreconditionContainer, PreconditionContainerReturn } from './IPre
 import { PreconditionContainerSingle, PreconditionSingleResolvable } from './PreconditionContainerSingle';
 
 /**
- * The run mode for a [[PreconditionContainerArray]].
+ * The run mode for a {@link PreconditionContainerArray}.
  * @since 1.0.0
  */
 export const enum PreconditionRunMode {
@@ -28,43 +28,43 @@ export const enum PreconditionRunMode {
 }
 
 /**
- * The condition for a [[PreconditionContainerArray]].
+ * The condition for a {@link PreconditionContainerArray}.
  */
 export enum PreconditionRunCondition {
 	/**
-	 * Defines a condition where all the entries must pass. This uses [[PreconditionConditionAnd]].
+	 * Defines a condition where all the entries must pass. This uses {@link PreconditionConditionAnd}.
 	 * @since 1.0.0
 	 */
 	And,
 
 	/**
-	 * Defines a condition where at least one entry must pass. This uses [[PreconditionConditionOr]].
+	 * Defines a condition where at least one entry must pass. This uses {@link PreconditionConditionOr}.
 	 * @since 1.0.0
 	 */
 	Or
 }
 
 /**
- * Defines the detailed options for the [[PreconditionContainerArray]], where both the [[PreconditionRunMode]] and the
+ * Defines the detailed options for the {@link PreconditionContainerArray}, where both the {@link PreconditionRunMode} and the
  * entries can be defined.
  * @since 1.0.0
  */
 export interface PreconditionArrayResolvableDetails {
 	/**
-	 * The data that will be used to resolve [[IPreconditionContainer]] dependent of this one.
+	 * The data that will be used to resolve {@link IPreconditionContainer} dependent of this one.
 	 * @since 1.0.0
 	 */
 	entries: readonly PreconditionEntryResolvable[];
 
 	/**
-	 * The mode the [[PreconditionContainerArray]] will run.
+	 * The mode the {@link PreconditionContainerArray} will run.
 	 * @since 1.0.0
 	 */
 	mode: PreconditionRunMode;
 }
 
 /**
- * Defines the data accepted by [[PreconditionContainerArray]]'s constructor.
+ * Defines the data accepted by {@link PreconditionContainerArray}'s constructor.
  * @since 1.0.0
  */
 export type PreconditionArrayResolvable = readonly PreconditionEntryResolvable[] | PreconditionArrayResolvableDetails;
@@ -72,8 +72,8 @@ export type PreconditionArrayResolvable = readonly PreconditionEntryResolvable[]
 /**
  * Defines the data accepted for each entry of the array.
  * @since 1.0.0
- * @seealso [[PreconditionArrayResolvable]]
- * @seealso [[PreconditionArrayResolvableDetails.entries]]
+ * @seealso {@link PreconditionArrayResolvable}
+ * @seealso {@link PreconditionArrayResolvableDetails.entries}
  */
 export type PreconditionEntryResolvable = PreconditionSingleResolvable | PreconditionArrayResolvable;
 
@@ -82,9 +82,9 @@ function isSingle(entry: PreconditionEntryResolvable): entry is PreconditionSing
 }
 
 /**
- * An [[IPreconditionContainer]] that defines an array of multiple [[IPreconditionContainer]]s.
+ * An {@link IPreconditionContainer} that defines an array of multiple {@link IPreconditionContainer}s.
  *
- * By default, array containers run either of two conditions: AND and OR ([[PreconditionRunCondition]]), the top level
+ * By default, array containers run either of two conditions: AND and OR ({@link PreconditionRunCondition}), the top level
  * will always default to AND, where the nested one flips the logic (OR, then children arrays are AND, then OR...).
  *
  * This allows `['Connect', ['Moderator', ['DJ', 'SongAuthor']]]` to become a thrice-nested precondition container, where:
@@ -96,8 +96,8 @@ function isSingle(entry: PreconditionEntryResolvable): entry is PreconditionSing
  * ```typescript
  * Connect && (Moderator || (DJ && SongAuthor));
  * ```
- * @remark More advanced logic can be accomplished by adding more [[IPreconditionCondition]]s (e.g. other operators),
- * see [[PreconditionContainerArray.conditions]] for more information.
+ * @remark More advanced logic can be accomplished by adding more {@link IPreconditionCondition}s (e.g. other operators),
+ * see {@link PreconditionContainerArray.conditions} for more information.
  * @since 1.0.0
  */
 export class PreconditionContainerArray implements IPreconditionContainer {
@@ -108,13 +108,13 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	public readonly mode: PreconditionRunMode;
 
 	/**
-	 * The [[IPreconditionContainer]]s the array holds.
+	 * The {@link IPreconditionContainer}s the array holds.
 	 * @since 1.0.0
 	 */
 	public readonly entries: IPreconditionContainer[];
 
 	/**
-	 * The [[PreconditionRunCondition]] that defines how entries must be handled.
+	 * The {@link PreconditionRunCondition} that defines how entries must be handled.
 	 * @since 1.0.0
 	 */
 	public readonly runCondition: PreconditionRunCondition;
@@ -176,7 +176,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	}
 
 	/**
-	 * Retrieves a condition from [[PreconditionContainerArray.conditions]], assuming existence.
+	 * Retrieves a condition from {@link PreconditionContainerArray.conditions}, assuming existence.
 	 * @since 1.0.0
 	 */
 	protected get condition(): IPreconditionCondition {
@@ -184,8 +184,8 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	}
 
 	/**
-	 * The preconditions to be run. Extra ones can be added by augmenting [[PreconditionRunCondition]] and then
-	 * inserting [[IPreconditionCondition]]s.
+	 * The preconditions to be run. Extra ones can be added by augmenting {@link PreconditionRunCondition} and then
+	 * inserting {@link IPreconditionCondition}s.
 	 * @since 1.0.0
 	 * @example
 	 * ```typescript
@@ -197,7 +197,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * // Augment Sapphire to add the new condition, in case of a JavaScript
 	 * // project, this can be moved to an `Augments.d.ts` (or any other name)
 	 * // file somewhere:
-	 * declare module '(at)sapphire/framework' {
+	 * declare module '@sapphire/framework' {
 	 *   export enum PreconditionRunCondition {
 	 *     Random = 2
 	 *   }
