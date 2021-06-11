@@ -116,7 +116,8 @@
 		"lodash": "^4.17.21",
 		"marked": "^2.0.3",
 		"merge": "^2.1.1",
-		"trim": "^1.0.1"
+		"trim": "^1.0.1",
+		"trim-newlines": "^3.0.1"
 	},
 	"prettier": "@sapphire/prettier-config"
 }
