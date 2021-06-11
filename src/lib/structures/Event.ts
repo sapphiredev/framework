@@ -20,7 +20,7 @@ import { Events } from '../types/Events';
  *   }
  *
  *   public run() {
- *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
  *   }
  * }
  * ```
@@ -37,7 +37,7 @@ import { Events } from '../types/Events';
  *   }
  *
  *   run() {
- *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
  *   }
  * }
  * ```

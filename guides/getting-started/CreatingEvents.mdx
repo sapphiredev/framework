@@ -23,7 +23,7 @@ module.exports = class extends Event {
     }
 
     async run() {
-        this.context.logger.log('The bot is up and running!');
+        this.container.logger.log('The bot is up and running!');
     }
 };
 ```
@@ -33,11 +33,11 @@ The first parameter of `super` is the context, that is given in the constructor.
 whether it should only be run once (`once`). The emitter defaults to the the client, and the event name default to the
 file name.
 
-The `run` method is the method that gets called when the event occures. It takes whatever the events gives as argument.
+The `run` method is the method that gets called when the event occurs. It takes whatever the events gives as argument.
 In our case, the ready events gives no information so we don't need any parameter.
 
 Every piece (events, commands etc) in sapphire has a <a href={pieceContextUrl}>context</a> which can be accessed via
-`this.context`. It is this context that contains the logger, the client and other properties. Here we access the
-logger via `this.context.logger` and call its `log` method to print a nicely formatted message in the console.
+`this.container`. It is this container that contains the logger, the client and other properties. Here we access the
+logger via `this.container.logger` and call its `log` method to print a nicely formatted message in the console.
 
 If everything was done correctly, now, whenever you launch your bot, you will see a message in the console.
