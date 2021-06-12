@@ -1,4 +1,4 @@
-import type { Awaited } from '@sapphire/pieces';
+import type { Awaited } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
 import type { Result } from '../../parsers/Result';

@@ -1,5 +1,5 @@
-import { AliasPiece, AliasPieceOptions, Awaited, PieceContext } from '@sapphire/pieces';
-import { isNullish } from '@sapphire/utilities';
+import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
+import { Awaited, isNullish } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';

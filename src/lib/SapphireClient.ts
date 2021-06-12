@@ -1,4 +1,5 @@
-import { Awaited, container } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
+import type { Awaited } from '@sapphire/utilities';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
