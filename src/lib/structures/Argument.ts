@@ -7,12 +7,12 @@ import type { Result } from '../parsers/Result';
 import type { Command, CommandContext } from './Command';
 
 /**
- * Defines a synchronous result of an [[Argument]], check [[AsyncArgumentResult]] for the asynchronous version.
+ * Defines a synchronous result of an {@link Argument}, check {@link AsyncArgumentResult} for the asynchronous version.
  */
 export type ArgumentResult<T> = Awaited<Result<T, UserError>>;
 
 /**
- * Defines an asynchronous result of an [[Argument]], check [[ArgumentResult]] for the synchronous version.
+ * Defines an asynchronous result of an {@link Argument}, check {@link ArgumentResult} for the synchronous version.
  */
 export type AsyncArgumentResult<T> = Promise<Result<T, UserError>>;
 
@@ -32,12 +32,12 @@ export interface IArgument<T> {
 
 /**
  * The base argument class. This class is abstract and is to be extended by subclasses implementing the methods. In
- * Sapphire's workflow, arguments are called when using [[Args]]'s methods (usually used inside [[Command]]s by default).
+ * Sapphire's workflow, arguments are called when using {@link Args}'s methods (usually used inside {@link Command}s by default).
  *
  * @example
  * ```typescript
  * // TypeScript:
- * import { Argument, ArgumentResult, PieceContext } from '(at)sapphire/framework';
+ * import { Argument, ArgumentResult, PieceContext } from '@sapphire/framework';
  * import { URL } from 'url';
  *
  * // Define a class extending `Argument`, then export it.
@@ -58,7 +58,7 @@ export interface IArgument<T> {
  *
  * // Augment the ArgType structure so `args.pick('url')`, `args.repeat('url')`
  * // and others have a return type of `URL`.
- * declare module 'sapphire/framework/dist/lib/utils/Args' {
+ * declare module '@sapphire/framework/dist/lib/utils/Args' {
  *   export interface ArgType {
  *     url: URL;
  *   }
@@ -68,7 +68,7 @@ export interface IArgument<T> {
  * @example
  * ```javascript
  * // JavaScript:
- * const { Argument } = require('(at)sapphire/framework');
+ * const { Argument } = require('@sapphire/framework');
  *
  * // Define a class extending `Argument`, then export it.
  * module.exports = class CoreArgument extends Argument {
@@ -98,7 +98,7 @@ export abstract class Argument<T = unknown> extends AliasPiece implements IArgum
 	}
 
 	/**
-	 * Constructs an [[ArgumentError]] with a custom type.
+	 * Constructs an {@link ArgumentError} with a custom type.
 	 * @param parameter The parameter that triggered the argument.
 	 * @param type The identifier for the error.
 	 * @param message The description message for the rejection.

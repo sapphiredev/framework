@@ -10,7 +10,7 @@ import { Events } from '../types/Events';
  * @example
  * ```typescript
  * // TypeScript:
- * import { Event, Events, PieceContext } from '(at)sapphire/framework';
+ * import { Event, Events, PieceContext } from '@sapphire/framework';
  *
  * // Define a class extending `CoreEvent`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
@@ -20,7 +20,7 @@ import { Events } from '../types/Events';
  *   }
  *
  *   public run() {
- *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
  *   }
  * }
  * ```
@@ -28,7 +28,7 @@ import { Events } from '../types/Events';
  * @example
  * ```javascript
  * // JavaScript:
- * const { Event, Events } = require('(at)sapphire/framework');
+ * const { Event, Events } = require('@sapphire/framework');
  *
  * // Define a class extending `CoreEvent`, then export it.
  * module.exports = class CoreEvent extends Event {
@@ -37,7 +37,7 @@ import { Events } from '../types/Events';
  *   }
  *
  *   run() {
- *     if (!this.client.id) this.client.id = this.client.user?.id ?? null;
+ *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
  *   }
  * }
  * ```

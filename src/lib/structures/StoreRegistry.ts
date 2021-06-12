@@ -10,7 +10,7 @@ type Key = keyof StoreRegistryEntries;
 type Value = StoreRegistryEntries[Key];
 
 /**
- * A strict-typed store registry. This is available in both [[Client.stores]] and [[Store.injectedContext]].
+ * A strict-typed store registry. This is available in both {@link Client.stores} and {@link Store.injectedContext}.
  * @since 1.0.0
  * @example
  * ```typescript
@@ -22,7 +22,7 @@ type Value = StoreRegistryEntries[Key];
  * // Augment Sapphire to add the new store, in case of a JavaScript
  * // project, this can be moved to an `Augments.d.ts` (or any other name)
  * // file somewhere:
- * declare module '(at)sapphire/framework' {
+ * declare module '@sapphire/framework' {
  *   export interface StoreRegistryEntries {
  *     routes: RouteStore;
  *   }
@@ -89,7 +89,7 @@ export interface StoreRegistry {
 }
 
 /**
- * The [[StoreRegistry]]'s registry, use module augmentation against this interface when adding new stores.
+ * The {@link StoreRegistry}'s registry, use module augmentation against this interface when adding new stores.
  * @since 1.0.0
  */
 export interface StoreRegistryEntries {

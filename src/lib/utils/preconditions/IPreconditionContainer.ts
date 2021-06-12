@@ -12,13 +12,13 @@ import type { PreconditionContext } from '../../structures/Precondition';
 export type PreconditionContainerResult = Result<unknown, UserError>;
 
 /**
- * Defines the return type of the generic [[IPreconditionContainer.run]].
+ * Defines the return type of the generic {@link IPreconditionContainer.run}.
  * @since 1.0.0
  */
 export type PreconditionContainerReturn = Awaited<PreconditionContainerResult>;
 
 /**
- * Async-only version of [[PreconditionContainerReturn]], to be used when the run method is async.
+ * Async-only version of {@link PreconditionContainerReturn}, to be used when the run method is async.
  * @since 1.0.0
  */
 export type AsyncPreconditionContainerReturn = Promise<PreconditionContainerResult>;

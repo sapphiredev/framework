@@ -33,7 +33,7 @@ export class UserError extends Error {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserError {
 	/**
-	 * The options for [[UserError]].
+	 * The options for {@link UserError}.
 	 * @since 1.0.0
 	 */
 	export interface Options {
