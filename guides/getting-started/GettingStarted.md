@@ -1,11 +1,6 @@
-import { saphFrameworkUrl, djsUrl, createDjsTypedefUrl } from '../constants.mdx';
-
-export const djsClientOptions = createDjsTypedefUrl('ClientOptions');
-export const name = '@sapphire/framework';
-
 # Welcome to the @sapphire/framework#{@branch} documentation
 
-## Installing <a href={saphFrameworkUrl}>@sapphire/framework</a>
+## Installing [@sapphire/framework](https://www.npmjs.com/package/@sapphire/framework)
 
 You can install this version of @sapphire/framework with one of the following commands:
 
@@ -44,9 +39,9 @@ client.login('your-bot-token');
 ```
 
 You can pass arguments to the {@link SapphireClient} constructor as an object. It can contain property from Discord.js'
-<a href={djsClientOptions}>ClientOptions</a> as well as property from Sapphire.
+[ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions) as well as property from Sapphire.
 
-> SapphireClientOptions are merged with <a href={djsUrl}>discord.js'</a> <a href={djsClientOptions}>ClientOptions</a>
+> SapphireClientOptions are merged with [discord.js ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions)
 
 ## Running your bot
 

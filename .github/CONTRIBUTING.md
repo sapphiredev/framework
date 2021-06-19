@@ -10,46 +10,22 @@
 
 ## Contributing to the guides
 
-All guides for the Sapphire Community use [MDX] formatting. At its core, this is the same as regular markdown, and it fully supports GitHub flavoured markdown syntax; however, where it differs, is it _also_ supports inline JSX tags. We use these for advanced and optimal layout on [our documentation site]. You may consult the [MDX documentation][mdx documentation] if you want to learn what features of JSX you can embed into your guides and how to do so.
+All guides for the Sapphire Community use Markdown formatting.
 
 When writing guides there are some rules to follow:
 
-1. All files should have the `.mdx` file extension.
+1. All files should have the `.md` file extension.
 2. Folder names are allowed to have spaces.
 3. All folder names should be in lower case and different words should be split by hyphens (e.g., `hello-world` or `getting-started`).
 4. File names should _never_ have spaces.
 5. File names that consist of multiple words should be PascalCased.
 6. Information in a guide page should be generally useful to the majority of people.
     - The single exception to this goes to guides in the "Advanced" folder, which can cover any kind of advanced or complex usage topic.
-7. There are several variables that will be replaced when parsing the `.mdx` file for the documentation website. Variables are denoted by the pattern `{@variableName (parameter)}`. The supported variables are:
+7. There are several variables that will be replaced when parsing the `.md` file for the documentation website. Variables are denoted by the pattern `{@variableName (parameter)}`. The supported variables are:
     - `{@branch}` - for the current branch name.
     - `{@link <TSDoc symbol name>}` - wherein `<TSDoc symbol name>` is a reference to some TypeScript interface / class / function etc parsed from TSDoc. This will link the API page of that symbol.
     - `{@typedef <TSDoc interface/type/class name>}` - wherein `<TSDoc interface/type/class name>` is the name of a TypeScript interface, class or type. This will inline all the properties of that interface/type/class as a table, with links back to their API documentation page.
-    - `{@guide <Guide file name>}` - wherein `<Guide file name>` is the name of another guide file in this same project _without file extension_. For example linking to `CreatingArguments.mdx` would be `{@guide CreatingArguments}`.
-8. For variables that are often reused between pages, please add them to `constants.mdx` in the `guides` folder. You can reference these variables just like how you would import an ECMAScript Module: `import { something } from '../constants.mdx`. **Be sure to include the `.mdx` file extension!**
-
-    - The constants file can also store functions that manipulate parameters before being injected into a guide file. However, to use a function's return values in a JSX tag's properties (exempli gratia, in the reference/`href` property of an anchor/`<a>` tag), you should call it at the top of the guide file and store the result in a local variable. For example:
-
-    ```md
-    <!-- !!!DO THIS!!! -->
-
-    import { doSomethingCool } from '../constants.mdx';
-
-    export const parsedCool = doSomethingCool('veryCool');
-
-    <a href={parsedCool}>cool</a>
-
-    <!-- !!!DO NOT DO THIS!!! -->
-
-    import { doSomethingCool } from '../constants.mdx';
-
-    <a href={doSomethingCool('veryCool')}>cool</a>
-    ```
-
-Lastly, when writing guides we highly recommend that you use [Visual Studio Code][vscode] and install the following extensions. These will give you both syntax highlighting and live previews for your MDX. However, your editor of choice likely has similar extensions.
-
-1. [MDX][mdx-vscode]
-2. [MDX Preview][mdx preview]
+    - `{@guide <Guide file name>}` - wherein `<Guide file name>` is the name of another guide file in this same project _without file extension_. For example linking to `CreatingArguments.md` would be `{@guide CreatingArguments}`.
 
 ## Contributing to the code
 
@@ -74,12 +50,6 @@ There are a number of guidelines considered when reviewing Pull Requests to be m
 <!-- Link Dump -->
 
 <!-- Guides -->
-
-[mdx-vscode]: https://marketplace.visualstudio.com/items?itemName=silvenon.mdx
-[mdx preview]: https://marketplace.visualstudio.com/items?itemName=xyc.vscode-mdx-preview
-[mdx]: https://mdxjs.com
-[mdx documentation]: https://mdxjs.com/getting-started
-[vscode]: https://code.visualstudio.com
 
 <!-- Code -->
 

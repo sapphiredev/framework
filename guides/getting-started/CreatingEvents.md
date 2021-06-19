@@ -16,15 +16,15 @@ method which works the same way as for commands.
 const { Event } = require('@sapphire/framework');
 
 module.exports = class extends Event {
-    constructor(context) {
-      super(context, {
-        once: true,
-      });
-    }
+	constructor(context) {
+		super(context, {
+			once: true
+		});
+	}
 
-    async run() {
-        this.container.logger.log('The bot is up and running!');
-    }
+	async run() {
+		this.container.logger.log('The bot is up and running!');
+	}
 };
 ```
 
@@ -36,7 +36,7 @@ file name.
 The `run` method is the method that gets called when the event occurs. It takes whatever the events gives as argument.
 In our case, the ready events gives no information so we don't need any parameter.
 
-Every piece (events, commands etc) in sapphire has a <a href={pieceContextUrl}>context</a> which can be accessed via
+Every piece (events, commands etc) in sapphire has a `context` which can be accessed via
 `this.container`. It is this container that contains the logger, the client and other properties. Here we access the
 logger via `this.container.logger` and call its `log` method to print a nicely formatted message in the console.
 
