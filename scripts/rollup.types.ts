@@ -8,5 +8,6 @@ export default {
 			format: 'es'
 		}
 	],
+	external: ['url', 'events'],
 	plugins: [dts()]
 };

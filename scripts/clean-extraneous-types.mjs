@@ -1,5 +1,5 @@
 import { opendir, rm } from 'fs/promises';
-import { join } from 'path';
+import { join, sep } from 'path';
 import { URL } from 'url';
 
 async function* scan(path, cb) {
@@ -15,16 +15,16 @@ async function* scan(path, cb) {
 	}
 }
 
-const main = async () => {
+try {
 	const folder = new URL('../dist', import.meta.url);
 	const regexp = /(?:\.d\.ts(?:\.map)?|\.tsbuildinfo)$/;
 	const cb = (path) => regexp.test(path);
 
 	for await (const path of scan(folder, cb)) {
-		if (!path.endsWith('index.d.ts')) {
+		if (!path.endsWith(`dist${sep}index.d.ts`)) {
 			await rm(path);
 		}
 	}
-};
-
-main().catch(console.error);
+} catch (err) {
+	console.error(err);
+}
