@@ -56,7 +56,7 @@ You won't have any feedback on your console, and the bot won't respond to any ev
 ## Preparing your file structure
 
 You can now organize your project correctly by grouping files together in folders. This will allow it to scale more
-easily as you add commands, events and other features.
+easily as you add commands, listeners, and other features.
 The main folder, at the root of your project and containing all your code can be named `src` (for "source"). You can put
 your `main.js` file inside this `src` directory and check that your bot still boots when you run
 

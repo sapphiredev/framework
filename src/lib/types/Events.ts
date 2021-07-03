@@ -1,92 +1,94 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import type { Message } from 'discord.js';
+import { Constants, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type { Args } from '../parsers/Args';
 import type { Command, CommandContext } from '../structures/Command';
-import type { Event } from '../structures/Event';
+import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
 
-export enum Events {
+export const Events = {
 	// #region Discord.js base events
-	ChannelCreate = 'channelCreate',
-	ChannelDelete = 'channelDelete',
-	ChannelPinsUpdate = 'channelPinsUpdate',
-	ChannelUpdate = 'channelUpdate',
-	Debug = 'debug',
-	Warn = 'warn',
-	Disconnect = 'disconnect',
-	EmojiCreate = 'emojiCreate',
-	EmojiDelete = 'emojiDelete',
-	EmojiUpdate = 'emojiUpdate',
-	Error = 'error',
-	GuildBanAdd = 'guildBanAdd',
-	GuildBanRemove = 'guildBanRemove',
-	GuildCreate = 'guildCreate',
-	GuildDelete = 'guildDelete',
-	GuildUnavailable = 'guildUnavailable',
-	GuildIntegrationsUpdate = 'guildIntegrationsUpdate',
-	GuildMemberAdd = 'guildMemberAdd',
-	GuildMemberAvailable = 'guildMemberAvailable',
-	GuildMemberRemove = 'guildMemberRemove',
-	GuildMembersChunk = 'guildMembersChunk',
-	GuildMemberSpeaking = 'guildMemberSpeaking',
-	GuildMemberUpdate = 'guildMemberUpdate',
-	GuildUpdate = 'guildUpdate',
-	InviteCreate = 'inviteCreate',
-	InviteDelete = 'inviteDelete',
-	Message = 'message',
-	MessageDelete = 'messageDelete',
-	MessageReactionRemoveAll = 'messageReactionRemoveAll',
-	MessageReactionRemoveEmoji = 'messageReactionRemoveEmoji',
-	MessageDeleteBulk = 'messageDeleteBulk',
-	MessageReactionAdd = 'messageReactionAdd',
-	MessageReactionRemove = 'messageReactionRemove',
-	MessageUpdate = 'messageUpdate',
-	PresenceUpdate = 'presenceUpdate',
-	RateLimit = 'rateLimit',
-	Ready = 'ready',
-	Invalidated = 'invalidated',
-	RoleCreate = 'roleCreate',
-	RoleDelete = 'roleDelete',
-	RoleUpdate = 'roleUpdate',
-	TypingsStart = 'typingStart',
-	UserUpdate = 'userUpdate',
-	VoiceStateUpdate = 'voiceStateUpdate',
-	WebhookUpdate = 'webhookUpdate',
-	ShardDisconnect = 'shardDisconnect',
-	ShardError = 'shardError',
-	ShardReady = 'shardReady',
-	ShardReconnecting = 'shardReconnecting',
-	ShardResume = 'shardResume',
+	ChannelCreate: Constants.Events.CHANNEL_CREATE,
+	ChannelDelete: Constants.Events.CHANNEL_DELETE,
+	ChannelPinsUpdate: Constants.Events.CHANNEL_PINS_UPDATE,
+	ChannelUpdate: Constants.Events.CHANNEL_UPDATE,
+	ClientReady: Constants.Events.CLIENT_READY,
+	Debug: Constants.Events.DEBUG,
+	Disconnect: Constants.Events.DISCONNECT,
+	Error: Constants.Events.ERROR,
+	GuildBanAdd: Constants.Events.GUILD_BAN_ADD,
+	GuildBanRemove: Constants.Events.GUILD_BAN_REMOVE,
+	GuildCreate: Constants.Events.GUILD_CREATE,
+	GuildDelete: Constants.Events.GUILD_DELETE,
+	GuildEmojiCreate: Constants.Events.GUILD_EMOJI_CREATE,
+	GuildEmojiDelete: Constants.Events.GUILD_EMOJI_DELETE,
+	GuildEmojiUpdate: Constants.Events.GUILD_EMOJI_UPDATE,
+	GuildIntegrationsUpdate: Constants.Events.GUILD_INTEGRATIONS_UPDATE,
+	GuildMemberAdd: Constants.Events.GUILD_MEMBER_ADD,
+	GuildMemberAvailable: Constants.Events.GUILD_MEMBER_AVAILABLE,
+	GuildMemberRemove: Constants.Events.GUILD_MEMBER_REMOVE,
+	GuildMemberSpeaking: Constants.Events.GUILD_MEMBER_SPEAKING,
+	GuildMemberUpdate: Constants.Events.GUILD_MEMBER_UPDATE,
+	GuildMembersChunk: Constants.Events.GUILD_MEMBERS_CHUNK,
+	GuildRoleCreate: Constants.Events.GUILD_ROLE_CREATE,
+	GuildRoleDelete: Constants.Events.GUILD_ROLE_DELETE,
+	GuildRoleUpdate: Constants.Events.GUILD_ROLE_UPDATE,
+	GuildUnavailable: Constants.Events.GUILD_UNAVAILABLE,
+	GuildUpdate: Constants.Events.GUILD_UPDATE,
+	Invalidated: Constants.Events.INVALIDATED,
+	InviteCreate: Constants.Events.INVITE_CREATE,
+	InviteDelete: Constants.Events.INVITE_DELETE,
+	MessageBulkDelete: Constants.Events.MESSAGE_BULK_DELETE,
+	MessageCreate: Constants.Events.MESSAGE_CREATE,
+	MessageDelete: Constants.Events.MESSAGE_DELETE,
+	MessageReactionAdd: Constants.Events.MESSAGE_REACTION_ADD,
+	MessageReactionRemoveAll: Constants.Events.MESSAGE_REACTION_REMOVE_ALL,
+	MessageReactionRemove: Constants.Events.MESSAGE_REACTION_REMOVE,
+	MessageUpdate: Constants.Events.MESSAGE_UPDATE,
+	PresenceUpdate: Constants.Events.PRESENCE_UPDATE,
+	RateLimit: Constants.Events.RATE_LIMIT,
+	Raw: Constants.Events.RAW,
+	Reconnecting: Constants.Events.RECONNECTING,
+	Resumed: Constants.Events.RESUMED,
+	ShardDisconnect: Constants.Events.SHARD_DISCONNECT,
+	ShardError: Constants.Events.SHARD_ERROR,
+	ShardReady: Constants.Events.SHARD_READY,
+	ShardReconnecting: Constants.Events.SHARD_RECONNECTING,
+	ShardResume: Constants.Events.SHARD_RESUME,
+	TypingStart: Constants.Events.TYPING_START,
+	UserUpdate: Constants.Events.USER_UPDATE,
+	VoiceStateUpdate: Constants.Events.VOICE_STATE_UPDATE,
+	Warn: Constants.Events.WARN,
+	WebhooksUpdate: Constants.Events.WEBHOOKS_UPDATE,
 	// #endregion Discord.js base events
 
 	// #region Sapphire load cycle events
-	PieceUnload = 'pieceUnload',
-	PiecePostLoad = 'piecePostLoad',
-	MentionPrefixOnly = 'mentionPrefixOnly',
-	EventError = 'eventError',
-	PreMessageParsed = 'preMessageParsed',
-	PrefixedMessage = 'prefixedMessage',
-	UnknownCommandName = 'unknownCommandName',
-	UnknownCommand = 'unknownCommand',
-	PreCommandRun = 'preCommandRun',
-	CommandDenied = 'commandDenied',
-	CommandAccepted = 'commandAccepted',
-	CommandRun = 'commandRun',
-	CommandSuccess = 'commandSuccess',
-	CommandFinish = 'commandFinish',
-	CommandError = 'commandError',
-	PluginLoaded = 'pluginLoaded',
-	NonPrefixedMessage = 'nonPrefixedMessage'
+	CommandAccepted: 'commandAccepted' as const,
+	CommandDenied: 'commandDenied' as const,
+	CommandError: 'commandError' as const,
+	CommandFinish: 'commandFinish' as const,
+	CommandRun: 'commandRun' as const,
+	CommandSuccess: 'commandSuccess' as const,
+	ListenerError: 'listenerError' as const,
+	MentionPrefixOnly: 'mentionPrefixOnly' as const,
+	NonPrefixedMessage: 'nonPrefixedMessage' as const,
+	PiecePostLoad: 'piecePostLoad' as const,
+	PieceUnload: 'pieceUnload' as const,
+	PluginLoaded: 'pluginLoaded' as const,
+	PreCommandRun: 'preCommandRun' as const,
+	PrefixedMessage: 'prefixedMessage' as const,
+	PreMessageParsed: 'preMessageParsed' as const,
+	UnknownCommand: 'unknownCommand' as const,
+	UnknownCommandName: 'unknownCommandName' as const
 	// #endregion Sapphire load cycle events
-}
+};
 
 export interface IPieceError {
 	piece: Piece;
 }
 
-export interface EventErrorPayload extends IPieceError {
-	piece: Event;
+export interface ListenerErrorPayload extends IPieceError {
+	piece: Listener;
 }
 
 export interface UnknownCommandNamePayload {
@@ -136,7 +138,7 @@ declare module 'discord.js' {
 		[Events.PieceUnload]: [store: Store<Piece>, piece: Piece];
 		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
 		[Events.MentionPrefixOnly]: [message: Message];
-		[Events.EventError]: [error: Error, payload: EventErrorPayload];
+		[Events.ListenerError]: [error: Error, payload: ListenerErrorPayload];
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 		[Events.UnknownCommandName]: [payload: UnknownCommandNamePayload];

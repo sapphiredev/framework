@@ -6,7 +6,7 @@ import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
-import { EventStore } from './structures/EventStore';
+import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { StoreRegistry } from './structures/StoreRegistry';
 import { PluginHook } from './types/Enums';
@@ -108,7 +108,7 @@ export interface SapphireClientOptions {
 	 * @since 1.0.0
 	 * @default true
 	 */
-	loadDefaultErrorEvents?: boolean;
+	loadDefaultErrorListeners?: boolean;
 }
 
 /**
@@ -237,9 +237,9 @@ export class SapphireClient extends Client {
 		this.stores
 			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
 			.register(new CommandStore())
-			.register(new EventStore().registerPath(join(__dirname, '..', 'events')))
+			.register(new ListenerStore().registerPath(join(__dirname, '..', 'listeners')))
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
-		if (options.loadDefaultErrorEvents !== false) this.stores.get('events').registerPath(join(__dirname, '..', 'errorEvents'));
+		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);

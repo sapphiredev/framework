@@ -1,10 +1,10 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Event } from '../lib/structures/Event';
+import { Listener } from '../lib/structures/Listener';
 import { Events } from '../lib/types/Events';
 
-export class CoreEvent extends Event<Events.Ready> {
+export class CoreEvent extends Listener<typeof Events.ClientReady> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.Ready, once: true });
+		super(context, { event: Events.ClientReady, once: true });
 	}
 
 	public run() {

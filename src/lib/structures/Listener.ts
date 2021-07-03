@@ -5,22 +5,22 @@ import { Events } from '../types/Events';
 
 /**
  * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
- * Sapphire's workflow, events are called when the emitter they listen on emits a new message with the same event name.
+ * Sapphire's workflow, listeners are called when the emitter they listen on emits a new message with the same event name.
  *
  * @example
  * ```typescript
  * // TypeScript:
- * import { Event, Events, PieceContext } from '@sapphire/framework';
+ * import { Events, Listener, PieceContext } from '@sapphire/framework';
  *
- * // Define a class extending `CoreEvent`, then export it.
+ * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
- * export class CoreEvent extends Event<Events.Ready> {
+ * export class CoreListener extends Listener<typeof Events.Ready> {
  *   public constructor(context: PieceContext) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
  *
  *   public run() {
- *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
+ *     this.container.client.id ??= this.container.client.user?.id ?? null;
  *   }
  * }
  * ```
@@ -28,21 +28,21 @@ import { Events } from '../types/Events';
  * @example
  * ```javascript
  * // JavaScript:
- * const { Event, Events } = require('@sapphire/framework');
+ * const { Events, Listener } = require('@sapphire/framework');
  *
- * // Define a class extending `CoreEvent`, then export it.
- * module.exports = class CoreEvent extends Event {
+ * // Define a class extending `Listener`, then export it.
+ * module.exports = class CoreListener extends Listener {
  *   constructor(context) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
  *
  *   run() {
- *     if (!this.container.client.id) this.container.client.id = this.container.client.user?.id ?? null;
+ *     this.container.client.id ??= this.container.client.user?.id ?? null;
  *   }
  * }
  * ```
  */
-export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends Piece {
+export abstract class Listener<E extends keyof ClientEvents | symbol = ''> extends Piece {
 	public readonly emitter: EventEmitter | null;
 	public readonly event: string;
 	public readonly once: boolean;
@@ -85,7 +85,7 @@ export abstract class Event<E extends keyof ClientEvents | symbol = ''> extends 
 		try {
 			await this.run(...args);
 		} catch (error) {
-			this.container.client.emit(Events.EventError, error, { piece: this });
+			this.container.client.emit(Events.ListenerError, error, { piece: this });
 		}
 	}
 

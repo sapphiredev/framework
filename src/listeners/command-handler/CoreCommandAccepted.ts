@@ -1,8 +1,8 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Event } from '../../lib/structures/Event';
+import { Listener } from '../../lib/structures/Listener';
 import { CommandAcceptedPayload, Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event<Events.CommandAccepted> {
+export class CoreListener extends Listener<typeof Events.CommandAccepted> {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.CommandAccepted });
 	}
