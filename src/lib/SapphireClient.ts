@@ -1,4 +1,4 @@
-import { container } from '@sapphire/pieces';
+import { container, Store } from '@sapphire/pieces';
 import type { Awaited } from '@sapphire/utilities';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
@@ -95,6 +95,13 @@ export interface SapphireClientOptions {
 	 * @default { instance: new Logger(LogLevel.Info) }
 	 */
 	logger?: ClientLoggerOptions;
+
+	/**
+	 * Whether or not trace logging should be enabled.
+	 * @since 2.0.0
+	 * @default container.logger.has(LogLevel.Trace)
+	 */
+	enableLoaderTraceLoggings?: boolean;
 
 	/**
 	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
@@ -212,6 +219,9 @@ export class SapphireClient extends Client {
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
 		container.logger = this.logger;
+		if (options.enableLoaderTraceLoggings ?? container.logger.has(LogLevel.Trace)) {
+			Store.logger = container.logger.trace.bind(container.logger);
+		}
 
 		this.stores = new StoreRegistry();
 		container.stores = this.stores;

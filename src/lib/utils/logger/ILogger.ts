@@ -40,6 +40,12 @@ export const enum LogLevel {
 
 export interface ILogger {
 	/**
+	 * Checks whether a level is supported.
+	 * @param level The level to check.
+	 */
+	has(level: LogLevel): boolean;
+
+	/**
 	 * Alias of {@link ILogger.write} with {@link LogLevel.Trace} as level.
 	 * @param values The values to log.
 	 */
