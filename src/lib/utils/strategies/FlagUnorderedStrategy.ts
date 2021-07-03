@@ -8,13 +8,13 @@ export interface FlagStrategyOptions {
 	 * The accepted flags. Flags are key-only identifiers that can be placed anywhere in the command.
 	 * @default []
 	 */
-	flags?: readonly string[];
+	flags?: readonly string[] | boolean;
 
 	/**
 	 * The accepted options. Options are key-value identifiers that can be placed anywhere in the command.
 	 * @default []
 	 */
-	options?: readonly string[];
+	options?: readonly string[] | boolean;
 
 	/**
 	 * The prefixes for both flags and options.
@@ -29,17 +29,30 @@ export interface FlagStrategyOptions {
 	separators?: string[];
 }
 
+const never = () => null;
+const always = () => true;
+
 export class FlagUnorderedStrategy implements UnorderedStrategy {
-	public readonly flags: readonly string[];
-	public readonly options: readonly string[];
+	public readonly flags: readonly string[] | true;
+	public readonly options: readonly string[] | true;
 	public readonly prefixes: readonly string[];
 	public readonly separators: readonly string[];
 
-	public constructor({ flags = [], options = [], prefixes = ['--', '-', '—'], separators = ['=', ':'] }: FlagStrategyOptions = {}) {
-		this.flags = flags;
-		this.options = options;
+	public constructor({ flags, options, prefixes = ['--', '-', '—'], separators = ['=', ':'] }: FlagStrategyOptions = {}) {
+		this.flags = flags || [];
+		this.options = options || [];
 		this.prefixes = prefixes;
 		this.separators = separators;
+
+		if (this.flags === true) this.allowedFlag = always;
+		else if (this.flags.length === 0) this.matchFlag = never;
+
+		if (this.options === true) {
+			this.allowedOption = always;
+		} else if (this.options.length === 0) {
+			this.matchOption = never;
+			this.matchCompactOption = never;
+		}
 	}
 
 	public matchFlag(s: string): string | null {
@@ -52,7 +65,7 @@ export class FlagUnorderedStrategy implements UnorderedStrategy {
 		if (this.separators.some((p) => s.includes(p))) return null;
 
 		// The flag must be an allowed one.
-		if (this.flags.includes(s)) return s;
+		if (this.allowedFlag(s)) return s;
 
 		// If it did not match a flag, return null.
 		return null;
@@ -67,7 +80,7 @@ export class FlagUnorderedStrategy implements UnorderedStrategy {
 		if (!separator) return null;
 
 		s = s.slice(0, -separator.length);
-		if (this.options.includes(s)) return s;
+		if (this.allowedOption(s)) return s;
 
 		return null;
 	}
@@ -84,9 +97,17 @@ export class FlagUnorderedStrategy implements UnorderedStrategy {
 		if (i + sep.length === s.length) return null;
 
 		const k = s.slice(0, i);
-		if (!this.options.includes(k)) return null;
+		if (!this.allowedOption(k)) return null;
 
 		const v = s.slice(i + sep.length);
 		return [k, v];
+	}
+
+	private allowedFlag(s: string) {
+		return (this.flags as readonly string[]).includes(s);
+	}
+
+	private allowedOption(s: string) {
+		return (this.options as readonly string[]).includes(s);
 	}
 }
