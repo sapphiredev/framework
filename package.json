@@ -20,7 +20,7 @@
 		"sversion": "standard-version",
 		"commit": "git-cz",
 		"cz": "git-cz",
-		"prepublishOnly": "rtb -e url events",
+		"prepublishOnly": "rollup-type-bundler -e url events",
 		"prepare": "husky install .github/husky"
 	},
 	"dependencies": {
@@ -35,7 +35,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^12.1.4",
 		"@commitlint/config-conventional": "^12.1.4",
-		"@favware/rollup-type-bundler": "^1.0.1",
+		"@favware/rollup-type-bundler": "^1.0.2",
 		"@sapphire/eslint-config": "^3.2.1",
 		"@sapphire/prettier-config": "^1.1.6",
 		"@sapphire/ts-config": "^2.3.1",

@@ -475,10 +475,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@favware/rollup-type-bundler@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.1.tgz#98b070c73e8f08968ede2e851199359e002e3c00"
-  integrity sha512-iYH02JaPkD19zU6g3a2jTMdtD34nqmF6tD4RLaZ3eb1XP5tkRV5t7N0t5rNYZeNZcfsPSPTc0zqfYrdkWGzN2A==
+"@favware/rollup-type-bundler@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.2.tgz#950c2f7857610aea0845f63c6bf4c488cdf10e63"
+  integrity sha512-55RGSz5bxoVKiSXPiZOSi+cwYN2UsHCpj8FQcvl6OVQhTbVx8pW9mEXUTi++V2g0XwqK1eVBLIEd8kBsm2TuTw==
   dependencies:
     colorette "^1.2.2"
     commander "^8.0.0"
