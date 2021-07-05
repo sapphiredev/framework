@@ -3,7 +3,7 @@ import { getRootData, Piece, Store } from '@sapphire/pieces';
 import { join } from 'path';
 import type { ArgumentStore } from './ArgumentStore';
 import type { CommandStore } from './CommandStore';
-import type { EventStore } from './EventStore';
+import type { ListenerStore } from './ListenerStore';
 import type { PreconditionStore } from './PreconditionStore';
 
 type Key = keyof StoreRegistryEntries;
@@ -40,14 +40,14 @@ export class StoreRegistry extends Collection<Key, Value> {
 	 * /home/me/my-bot
 	 * ├─ src
 	 * │  ├─ commands
-	 * │  ├─ events
+	 * │  ├─ listeners
 	 * │  └─ main.js
 	 * └─ package.json
 	 * ```
 	 *
-	 * And you run `node src/main.js`, the directories `/home/me/my-bot/src/commands` and `/home/me/my-bot/src/events` will
-	 * be registered for the commands and events stores respectively, since both directories are located in the same
-	 * directory as your main file.
+	 * And you run `node src/main.js`, the directories `/home/me/my-bot/src/commands` and `/home/me/my-bot/src/listeners`
+	 * will be registered for the commands and listeners stores respectively, since both directories are located in the
+	 * same directory as your main file.
 	 *
 	 * **Note**: this also registers directories for all other stores, even if they don't have a folder, this allows you
 	 * to create new pieces and hot-load them later anytime.
@@ -95,6 +95,6 @@ export interface StoreRegistry {
 export interface StoreRegistryEntries {
 	arguments: ArgumentStore;
 	commands: CommandStore;
-	events: EventStore;
+	listeners: ListenerStore;
 	preconditions: PreconditionStore;
 }

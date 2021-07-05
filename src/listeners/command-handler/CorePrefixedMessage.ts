@@ -1,9 +1,9 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
-import { Event } from '../../lib/structures/Event';
+import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event<Events.PrefixedMessage> {
+export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PrefixedMessage });
 	}
