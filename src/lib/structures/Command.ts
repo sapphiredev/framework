@@ -48,7 +48,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.strategy = new FlagUnorderedStrategy(options.strategyOptions);
+		this.strategy = new FlagUnorderedStrategy(options);
 		this.lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -177,7 +177,7 @@ export const enum CommandPreConditions {
  * The {@link Command} options.
  * @since 1.0.0
  */
-export interface CommandOptions extends AliasPieceOptions {
+export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	/**
 	 * Whether to add aliases for commands with dashes in them
 	 * @since 1.0.0
@@ -206,13 +206,6 @@ export interface CommandOptions extends AliasPieceOptions {
 	 * @default []
 	 */
 	preconditions?: readonly PreconditionEntryResolvable[];
-
-	/**
-	 * The options for the lexer strategy.
-	 * @since 1.0.0
-	 * @default {}
-	 */
-	strategyOptions?: FlagStrategyOptions;
 
 	/**
 	 * The quotes accepted by this command, pass `[]` to disable them.
