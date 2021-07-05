@@ -5,13 +5,17 @@ import type { UnorderedStrategy } from 'lexure';
  */
 export interface FlagStrategyOptions {
 	/**
-	 * The accepted flags. Flags are key-only identifiers that can be placed anywhere in the command.
+	 * The accepted flags. Flags are key-only identifiers that can be placed anywhere in the command. Two different types are accepted:
+	 * * An array of strings, e.g. [`silent`].
+	 * * A boolean defining whether the strategy should accept all keys (`true`) or none at all (`false`).
 	 * @default []
 	 */
 	flags?: readonly string[] | boolean;
 
 	/**
-	 * The accepted options. Options are key-value identifiers that can be placed anywhere in the command.
+	 * The accepted options. Options are key-value identifiers that can be placed anywhere in the command. Two different types are accepted:
+	 * * An array of strings, e.g. [`silent`].
+	 * * A boolean defining whether the strategy should accept all keys (`true`) or none at all (`false`).
 	 * @default []
 	 */
 	options?: readonly string[] | boolean;
