@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveInteger } from '../lib/resolvers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
-import { err, ok, Result } from '../lib/parsers/Result';
 
 export class CoreArgument extends Argument<number> {
 	public constructor(context: PieceContext) {
@@ -9,7 +9,7 @@ export class CoreArgument extends Argument<number> {
 	}
 
 	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
-		const resolved = CoreArgument.resolve(parameter, { minimum: context?.minimum, maximum: context?.maximum });
+		const resolved = resolveInteger(parameter, { minimum: context?.minimum, maximum: context?.maximum });
 		if (resolved.success) return this.ok(resolved.value);
 
 		if (resolved.error === Identifiers.ArgumentIntegerTooSmall) {
@@ -35,15 +35,5 @@ export class CoreArgument extends Argument<number> {
 			message: resolved.error,
 			context
 		});
-	}
-
-	public static resolve(parameter: string, options?: { minimum?: number; maximum?: number }): Result<number, string> {
-		const parsed = Number(parameter);
-		if (Number.isInteger(parsed)) return err('The argument did not resolve to an integer.');
-
-		if (typeof options?.minimum === 'number' && parsed < options.minimum) return err(Identifiers.ArgumentIntegerTooSmall);
-		if (typeof options?.maximum === 'number' && parsed > options.maximum) return err(Identifiers.ArgumentIntegerTooBig);
-
-		return ok(parsed);
 	}
 }

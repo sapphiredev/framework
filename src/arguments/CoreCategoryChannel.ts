@@ -1,30 +1,20 @@
-import { isCategoryChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { CategoryChannel, GuildChannel } from 'discord.js';
-import { err, ok, Result } from '../lib/parsers/Result';
-import type { ArgumentResult } from '../lib/structures/Argument';
-import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
+import type { CategoryChannel } from 'discord.js';
+import { resolveCategoryChannel } from '../lib/resolvers';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', CategoryChannel> {
+export class CoreArgument extends Argument<CategoryChannel> {
 	public constructor(context: PieceContext) {
-		super(context, {
-			name: 'categoryChannel',
-			baseArgument: 'guildChannel'
-		});
+		super(context, { name: 'categoryChannel' });
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<CategoryChannel> {
-		const resolved = CoreArgument.resolve(channel);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<CategoryChannel> {
+		const resolved = resolveCategoryChannel(parameter);
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
-			parameter: context.parameter,
+			parameter,
 			message: resolved.error,
-			context: { ...context, channel }
+			context: { ...context, channel: resolved.value }
 		});
-	}
-
-	public static resolve(channel: GuildChannel): Result<CategoryChannel, string> {
-		if (isCategoryChannel(channel)) return ok(channel);
-		return err('The argument did not resolve to a category channel.');
 	}
 }

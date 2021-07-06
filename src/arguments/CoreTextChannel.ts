@@ -1,30 +1,20 @@
-import { isTextChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, TextChannel } from 'discord.js';
-import type { ArgumentResult } from '../lib/structures/Argument';
-import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
-import { err, ok, Result } from '../lib/parsers/Result';
+import type { TextChannel } from 'discord.js';
+import { resolveTextChannel } from '../lib/resolvers';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', TextChannel> {
+export class CoreArgument extends Argument<TextChannel> {
 	public constructor(context: PieceContext) {
-		super(context, {
-			name: 'textChannel',
-			baseArgument: 'guildChannel'
-		});
+		super(context, { name: 'textChannel' });
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<TextChannel> {
-		const resolved = CoreArgument.resolve(channel);
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<TextChannel> {
+		const resolved = resolveTextChannel(parameter);
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
-			parameter: context.parameter,
+			parameter,
 			message: resolved.error,
-			context: { ...context, channel }
+			context: { ...context, channel: resolved.value }
 		});
-	}
-
-	public static resolve(channel: GuildChannel): Result<TextChannel, string> {
-		if (isTextChannel(channel)) return ok(channel);
-		return err('The argument did not resolve to a text channel.');
 	}
 }

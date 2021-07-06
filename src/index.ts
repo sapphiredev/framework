@@ -23,6 +23,7 @@ export * from './lib/parsers/Result';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
+export * from './lib/resolvers';
 export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
