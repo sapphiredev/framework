@@ -1,11 +1,6 @@
-import { saphFrameworkUrl, djsUrl, createDjsTypedefUrl } from '../constants.mdx';
-
-export const djsClientOptions = createDjsTypedefUrl('ClientOptions');
-export const name = '@sapphire/framework';
-
 # Welcome to the @sapphire/framework#{@branch} documentation
 
-## Installing <a href={saphFrameworkUrl}>@sapphire/framework</a>
+## Installing [@sapphire/framework](https://www.npmjs.com/package/@sapphire/framework)
 
 You can install this version of @sapphire/framework with one of the following commands:
 
@@ -44,9 +39,9 @@ client.login('your-bot-token');
 ```
 
 You can pass arguments to the {@link SapphireClient} constructor as an object. It can contain property from Discord.js'
-<a href={djsClientOptions}>ClientOptions</a> as well as property from Sapphire.
+[ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions) as well as property from Sapphire.
 
-> SapphireClientOptions are merged with <a href={djsUrl}>discord.js'</a> <a href={djsClientOptions}>ClientOptions</a>
+> SapphireClientOptions are merged with [discord.js ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions)
 
 ## Running your bot
 
@@ -61,7 +56,7 @@ You won't have any feedback on your console, and the bot won't respond to any ev
 ## Preparing your file structure
 
 You can now organize your project correctly by grouping files together in folders. This will allow it to scale more
-easily as you add commands, events and other features.
+easily as you add commands, listeners, and other features.
 The main folder, at the root of your project and containing all your code can be named `src` (for "source"). You can put
 your `main.js` file inside this `src` directory and check that your bot still boots when you run
 

@@ -5,8 +5,8 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
 
 /**
  * The extended argument class. This class is abstract and is to be extended by subclasses which
- * will implement the [[ExtendedArgument#handle]] method.
- * Much like the [[Argument]] class, this class handles parsing user-specified command arguments
+ * will implement the {@link ExtendedArgument#handle} method.
+ * Much like the {@link Argument} class, this class handles parsing user-specified command arguments
  * into typed command parameters. However, this class can be used to expand upon an existing
  * argument in order to process its transformed value rather than just the argument string.
  *
@@ -14,11 +14,11 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * ```typescript
  * // TypeScript:
  * import { ApplyOptions } from '@sapphire/decorators';
- * import { ArgumentResult, ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '(at)sapphire/framework';
+ * import { ArgumentResult, ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '@sapphire/framework';
  * import type { Channel, TextChannel } from 'discord.js';
  *
  * // Just like with `Argument`, you can use `export default` or `export =` too.
- * @ApplyOptions<ExtendedArgumentOptions>({
+ * (at)ApplyOptions<ExtendedArgumentOptions>({
  *   name: 'textChannel',
  *   baseArgument: 'channel'
  * })
@@ -26,7 +26,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  *   public handle(parsed: Channel, { argument }: ExtendedArgumentContext): ArgumentResult<TextChannel> {
  *     return parsed.type === 'text'
  *       ? this.ok(parsed as TextChannel)
- *       : this.error(argument, 'ArgumentTextChannelInvalidTextChannel', 'The argument did not resolve to a text channel.');
+ *       : this.error({ identifier: 'ArgumentTextChannelInvalidTextChannel', message: 'The argument did not resolve to a text channel.' });
  *   }
  * }
  * ```
@@ -34,7 +34,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * @example
  * ```javascript
  * // JavaScript:
- * const { ExtendedArgument } = require('(at)sapphire/framework');
+ * const { ExtendedArgument } = require('@sapphire/framework');
  *
  * module.exports = class TextChannelArgument extends ExtendedArgument {
  *   constructor(context) {
@@ -44,7 +44,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  *   handle(parsed, { argument }) {
  *     return parsed.type === 'text'
  *       ? this.ok(parsed)
- *       : this.error(argument, 'ArgumentTextChannelInvalidTextChannel', 'The argument did not resolve to a text channel/');
+ *       : this.error({ identifier: 'ArgumentTextChannelInvalidTextChannel', message: 'The argument did not resolve to a text channel' });
  *   }
  * }
  * ```
@@ -79,7 +79,7 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 export interface ExtendedArgumentOptions<K extends keyof ArgType> extends ArgumentOptions {
 	/**
 	 * The name of the underlying argument whose value is used to compute
-	 * the extended argument value; see [[ArgType]] for valid keys.
+	 * the extended argument value; see {@link ArgType} for valid keys.
 	 */
 	baseArgument: K;
 }
@@ -87,9 +87,9 @@ export interface ExtendedArgumentOptions<K extends keyof ArgType> extends Argume
 export interface ExtendedArgumentContext extends ArgumentContext {
 	/**
 	 * The canonical parameter specified by the user in the command, as
-	 * a string, equivalent to the first parameter of [[Argument#run]].
-	 * This allows [[ExtendedArgument#handle]] to access the original
-	 * argument, which is useful for returning [[Argument#error]] so
+	 * a string, equivalent to the first parameter of {@link Argument#run}.
+	 * This allows {@link ExtendedArgument#handle} to access the original
+	 * argument, which is useful for returning {@link Argument#error} so
 	 * that you don't have to convert the parsed argument back into a
 	 * string.
 	 */

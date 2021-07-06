@@ -7,6 +7,10 @@ export class Logger implements ILogger {
 		this.level = level;
 	}
 
+	public has(level: LogLevel): boolean {
+		return level >= this.level;
+	}
+
 	public trace(...values: readonly unknown[]): void {
 		this.write(LogLevel.Trace, ...values);
 	}
@@ -32,7 +36,7 @@ export class Logger implements ILogger {
 	}
 
 	public write(level: LogLevel, ...values: readonly unknown[]): void {
-		if (level < this.level) return;
+		if (!this.has(level)) return;
 		const method = Logger.levels.get(level);
 		if (typeof method === 'string') console[method](...values);
 	}

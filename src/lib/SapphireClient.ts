@@ -1,11 +1,12 @@
-import { Awaited, container } from '@sapphire/pieces';
+import { container, Store } from '@sapphire/pieces';
+import type { Awaited } from '@sapphire/utilities';
 import { Client, ClientOptions, Message } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
-import { EventStore } from './structures/EventStore';
+import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { StoreRegistry } from './structures/StoreRegistry';
 import { PluginHook } from './types/Enums';
@@ -27,7 +28,7 @@ export interface SapphirePrefixHook {
 
 export interface SapphireClientOptions {
 	/**
-	 * The base user directory, if set to `null`, Sapphire will not call [[SapphireClient.registerUserDirectories]],
+	 * The base user directory, if set to `null`, Sapphire will not call {@link SapphireClient.registerUserDirectories},
 	 * meaning that you will need to manually set each folder for each store. Please read the aforementioned method's
 	 * documentation for more information.
 	 * @since 1.0.0
@@ -75,7 +76,7 @@ export interface SapphireClientOptions {
 	regexPrefix?: RegExp;
 
 	/**
-	 * The prefix hook, by default it is a callback function that returns [[SapphireClientOptions.defaultPrefix]].
+	 * The prefix hook, by default it is a callback function that returns {@link SapphireClientOptions.defaultPrefix}.
 	 * @since 1.0.0
 	 * @default () => client.options.defaultPrefix
 	 */
@@ -89,27 +90,36 @@ export interface SapphireClientOptions {
 	id?: string;
 
 	/**
-	 * The logger options, defaults to an instance of [[Logger]] when [[ClientLoggerOptions.instance]] is not specified.
+	 * The logger options, defaults to an instance of {@link Logger} when {@link ClientLoggerOptions.instance} is not specified.
 	 * @since 1.0.0
 	 * @default { instance: new Logger(LogLevel.Info) }
 	 */
 	logger?: ClientLoggerOptions;
 
 	/**
-	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the [[SapphireClient.logger]] instance
+	 * Whether or not trace logging should be enabled.
+	 * @since 2.0.0
+	 * @default container.logger.has(LogLevel.Trace)
+	 */
+	enableLoaderTraceLoggings?: boolean;
+
+	/**
+	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
 	 * @since 1.0.0
 	 * @default true
 	 */
-	loadDefaultErrorEvents?: boolean;
+	loadDefaultErrorListeners?: boolean;
 }
 
 /**
- * The base [[Client]] extension that makes Sapphire work. When building a Discord bot with the framework, the developer
+ * The base {@link Client} extension that makes Sapphire work. When building a Discord bot with the framework, the developer
  * must either use this class, or extend it.
  *
  * Sapphire also automatically detects the folders to scan for pieces, please read
- * [[SapphireClient.registerUserDirectories]] for reference. This method is called at the start of the
- * [[SapphireClient.login]] method.
+ * {@link SapphireClient.registerUserDirectories} for reference. This method is called at the start of the
+ * {@link SapphireClient.login} method.
+ *
+ * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions)
  *
  * @since 1.0.0
  * @example
@@ -185,7 +195,7 @@ export class SapphireClient extends Client {
 	public fetchPrefix: SapphirePrefixHook;
 
 	/**
-	 * The logger to be used by the framework and plugins. By default, a [[Logger]] instance is used, which emits the
+	 * The logger to be used by the framework and plugins. By default, a {@link Logger} instance is used, which emits the
 	 * messages to the console.
 	 * @since 1.0.0
 	 */
@@ -209,6 +219,9 @@ export class SapphireClient extends Client {
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
 		container.logger = this.logger;
+		if (options.enableLoaderTraceLoggings ?? container.logger.has(LogLevel.Trace)) {
+			Store.logger = container.logger.trace.bind(container.logger);
+		}
 
 		this.stores = new StoreRegistry();
 		container.stores = this.stores;
@@ -224,9 +237,9 @@ export class SapphireClient extends Client {
 		this.stores
 			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
 			.register(new CommandStore())
-			.register(new EventStore().registerPath(join(__dirname, '..', 'events')))
+			.register(new ListenerStore().registerPath(join(__dirname, '..', 'listeners')))
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
-		if (options.loadDefaultErrorEvents !== false) this.stores.get('events').registerPath(join(__dirname, '..', 'errorEvents'));
+		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);

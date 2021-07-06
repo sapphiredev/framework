@@ -3,14 +3,14 @@ import { getRootData, Piece, Store } from '@sapphire/pieces';
 import { join } from 'path';
 import type { ArgumentStore } from './ArgumentStore';
 import type { CommandStore } from './CommandStore';
-import type { EventStore } from './EventStore';
+import type { ListenerStore } from './ListenerStore';
 import type { PreconditionStore } from './PreconditionStore';
 
 type Key = keyof StoreRegistryEntries;
 type Value = StoreRegistryEntries[Key];
 
 /**
- * A strict-typed store registry. This is available in both [[Client.stores]] and [[Store.injectedContext]].
+ * A strict-typed store registry. This is available in both {@link Client.stores} and {@link Store.injectedContext}.
  * @since 1.0.0
  * @example
  * ```typescript
@@ -22,7 +22,7 @@ type Value = StoreRegistryEntries[Key];
  * // Augment Sapphire to add the new store, in case of a JavaScript
  * // project, this can be moved to an `Augments.d.ts` (or any other name)
  * // file somewhere:
- * declare module '(at)sapphire/framework' {
+ * declare module '@sapphire/framework' {
  *   export interface StoreRegistryEntries {
  *     routes: RouteStore;
  *   }
@@ -40,14 +40,14 @@ export class StoreRegistry extends Collection<Key, Value> {
 	 * /home/me/my-bot
 	 * ├─ src
 	 * │  ├─ commands
-	 * │  ├─ events
+	 * │  ├─ listeners
 	 * │  └─ main.js
 	 * └─ package.json
 	 * ```
 	 *
-	 * And you run `node src/main.js`, the directories `/home/me/my-bot/src/commands` and `/home/me/my-bot/src/events` will
-	 * be registered for the commands and events stores respectively, since both directories are located in the same
-	 * directory as your main file.
+	 * And you run `node src/main.js`, the directories `/home/me/my-bot/src/commands` and `/home/me/my-bot/src/listeners`
+	 * will be registered for the commands and listeners stores respectively, since both directories are located in the
+	 * same directory as your main file.
 	 *
 	 * **Note**: this also registers directories for all other stores, even if they don't have a folder, this allows you
 	 * to create new pieces and hot-load them later anytime.
@@ -89,12 +89,12 @@ export interface StoreRegistry {
 }
 
 /**
- * The [[StoreRegistry]]'s registry, use module augmentation against this interface when adding new stores.
+ * The {@link StoreRegistry}'s registry, use module augmentation against this interface when adding new stores.
  * @since 1.0.0
  */
 export interface StoreRegistryEntries {
 	arguments: ArgumentStore;
 	commands: CommandStore;
-	events: EventStore;
+	listeners: ListenerStore;
 	preconditions: PreconditionStore;
 }

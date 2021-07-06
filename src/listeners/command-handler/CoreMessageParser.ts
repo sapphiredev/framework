@@ -1,9 +1,9 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
-import { Event } from '../../lib/structures/Event';
+import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
-export class CoreEvent extends Event<Events.PreMessageParsed> {
+export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PreMessageParsed });

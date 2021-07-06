@@ -23,7 +23,7 @@ import { isSome, maybe, Maybe } from './Maybe';
 import { Err, err, isErr, isOk, ok, Ok, Result } from './Result';
 
 /**
- * The argument parser to be used in [[Command]].
+ * The argument parser to be used in {@link Command}.
  */
 export class Args {
 	/**
@@ -128,7 +128,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to [[Args.pickResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -146,7 +146,7 @@ export class Args {
 	 */
 	public async pick<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to [[Args.pickResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -218,7 +218,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to [[Args.restResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -231,7 +231,7 @@ export class Args {
 	 */
 	public async rest<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to [[Args.restResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -308,7 +308,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to [[Args.repeatResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -321,7 +321,7 @@ export class Args {
 	 */
 	public async repeat<T>(type: IArgument<T>, options?: RepeatArgOptions): Promise<T[]>;
 	/**
-	 * Similar to [[Args.repeatResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -340,9 +340,9 @@ export class Args {
 
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
-	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
-	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
+	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link Args.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -361,11 +361,11 @@ export class Args {
 	public async peekResult<T>(type: () => ArgumentResult<T>): Promise<Result<T, UserError>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
-	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
-	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
+	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link Args.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
-	 * @wxample
+	 * @example
 	 * ```typescript
 	 * // !reverseandscreamfirst sapphire community
 	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
@@ -380,9 +380,9 @@ export class Args {
 	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning [[Args.pickResult]], [[Args.repeatResult]],
-	 * or [[Args.restResult]]; otherwise, passing the custom argument or the argument type with options
-	 * will use [[Args.pickResult]] and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
+	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link Args.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -412,7 +412,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -434,7 +434,7 @@ export class Args {
 	 */
 	public async peek<T>(type: () => ArgumentResult<T>): Promise<T>;
 	/**
-	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -457,7 +457,7 @@ export class Args {
 	 */
 	public async peek<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to [[Args.peekResult]] but returns the value on success, throwing otherwise.
+	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -492,7 +492,7 @@ export class Args {
 	/**
 	 * Retrieves the value of the next unused ordered token, but only if it could be transformed.
 	 * That token will now be consider used if the transformation succeeds.
-	 * @typeparam T Output type of the [[ArgsNextCallback callback]].
+	 * @typeparam T Output type of the {@link ArgsNextCallback callback}.
 	 * @param cb Gives an option of either the resulting value, or nothing if failed.
 	 * @example
 	 * ```typescript
@@ -512,7 +512,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to [[Args.nextMaybe]] but returns the value on success, null otherwise.
+	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
 	 * @example
 	 * ```typescript
 	 * // !numbers 1 2 3
@@ -523,8 +523,8 @@ export class Args {
 	 */
 	public next(): string;
 	/**
-	 * Similar to [[Args.nextMaybe]] but returns the value on success, null otherwise.
-	 * @typeparam T Output type of the [[ArgsNextCallback callback]].
+	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
+	 * @typeparam T Output type of the {@link ArgsNextCallback callback}.
 	 * @param cb Gives an option of either the resulting value, or nothing if failed.
 	 * @example
 	 * ```typescript
@@ -551,13 +551,13 @@ export class Args {
 	 * ```typescript
 	 * // Suppose args are from '--f --g'.
 	 * console.log(args.getFlags('f'));
-	 * >>> true
+	 * // >>> true
 	 *
 	 * console.log(args.getFlags('g', 'h'));
-	 * >>> true
+	 * // >>> true
 	 *
 	 * console.log(args.getFlags('h'));
-	 * >>> false
+	 * // >>> false
 	 * ```
 	 */
 	public getFlags(...keys: readonly string[]) {
@@ -571,13 +571,13 @@ export class Args {
 	 * ```typescript
 	 * // Suppose args are from '--a=1 --b=2 --c=3'.
 	 * console.log(args.getOption('a'));
-	 * >>> '1'
+	 * // >>> '1'
 	 *
 	 * console.log(args.getOption('b', 'c'));
-	 * >>> '2'
+	 * // >>> '2'
 	 *
 	 * console.log(args.getOption('d'));
-	 * >>> null
+	 * // >>> null
 	 * ```
 	 */
 	public getOption(...keys: readonly string[]) {
@@ -591,13 +591,13 @@ export class Args {
 	 * ```typescript
 	 * // Suppose args are from '--a=1 --a=1 --b=2 --c=3'.
 	 * console.log(args.getOptions('a'));
-	 * >>> ['1', '1']
+	 * // >>> ['1', '1']
 	 *
 	 * console.log(args.getOptions('b', 'c'));
-	 * >>> ['2', '3']
+	 * // >>> ['2', '3']
 	 *
 	 * console.log(args.getOptions('d'));
-	 * >>> null
+	 * // >>> null
 	 * ```
 	 */
 	public getOptions(...keys: readonly string[]) {
@@ -651,7 +651,7 @@ export class Args {
 
 	/**
 	 * Resolves an argument.
-	 * @param arg The argument name or [[IArgument]] instance.
+	 * @param arg The argument name or {@link IArgument} instance.
 	 */
 	private resolveArgument<T>(arg: keyof ArgType | IArgument<T>): IArgument<T> | undefined {
 		if (typeof arg === 'object') return arg;
@@ -660,14 +660,14 @@ export class Args {
 
 	/**
 	 * Converts a callback into an usable argument.
-	 * @param cb The callback to convert into an [[IArgument]].
+	 * @param cb The callback to convert into an {@link IArgument}.
 	 */
 	public static make<T>(cb: IArgument<T>['run'], name = ''): IArgument<T> {
 		return { run: cb, name };
 	}
 
 	/**
-	 * Constructs an [[Ok]] result.
+	 * Constructs an {@link Ok} result.
 	 * @param value The value to pass.
 	 */
 	public static ok<T>(value: T): Ok<T> {
@@ -675,7 +675,7 @@ export class Args {
 	}
 
 	/**
-	 * Constructs an [[Err]] result containing an [[ArgumentError]].
+	 * Constructs an {@link Err} result containing an {@link ArgumentError}.
 	 * @param options The options for the argument error.
 	 */
 	public static error<T>(options: ArgumentError.Options<T>): Err<ArgumentError<T>> {
@@ -716,7 +716,7 @@ export interface RepeatArgOptions extends ArgOptions {
 }
 
 /**
- * The callback used for [[Args.nextMaybe]] and [[Args.next]].
+ * The callback used for {@link Args.nextMaybe} and {@link Args.next}.
  */
 export interface ArgsNextCallback<T> {
 	/**

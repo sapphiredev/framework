@@ -23,17 +23,17 @@ export type None = option.None;
  */
 export function maybe<T, V extends Maybe<T>>(value: V): V;
 /**
- * Creates a [[None]] from an existing [[None]] or a `null`.
+ * Creates a {@link None} from an existing {@link None} or a `null`.
  * @param value The value to convert.
  */
 export function maybe(value: null | None): None;
 /**
- * Creates a [[Some]] from a non-null value or an existing [[Some]], or a [[None]] otherwise.
+ * Creates a {@link Some} from a non-null value or an existing {@link Some}, or a {@link None} otherwise.
  * @param value The value to convert.
  */
 export function maybe<T>(value: T | Maybe<T> | null): Maybe<T>;
 /**
- * Creates a [[Some]] from a non-null value or an existing [[Some]].
+ * Creates a {@link Some} from a non-null value or an existing {@link Some}.
  * @param value The value to convert.
  */
 export function maybe<T>(value: T | Some<T>): Some<T>;

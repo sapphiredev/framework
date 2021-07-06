@@ -4,5 +4,5 @@
 	"name": "@sapphire/framework",
 	"entryPoints": ["src/index.ts"],
 	"excludeExternals": true,
-	"tsconfig": "./src/tsconfig.base.json"
+	"tsconfig": "./src/tsconfig.json"
 }

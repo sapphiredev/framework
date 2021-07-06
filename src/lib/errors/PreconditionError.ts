@@ -22,7 +22,7 @@ export class PreconditionError extends UserError {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace PreconditionError {
 	/**
-	 * The options for [[PreconditionError]].
+	 * The options for {@link PreconditionError}.
 	 * @since 1.0.0
 	 */
 	export interface Options extends Omit<UserError.Options, 'identifier'> {

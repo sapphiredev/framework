@@ -1,4 +1,5 @@
-import { Awaited, Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
+import { Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
+import type { Awaited } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -23,7 +24,7 @@ export abstract class Precondition extends Piece {
 	}
 
 	/**
-	 * Constructs a [[PreconditionError]] with the precondition parameter set to `this`.
+	 * Constructs a {@link PreconditionError} with the precondition parameter set to `this`.
 	 * @param options The information.
 	 */
 	public error(options: Omit<PreconditionError.Options, 'precondition'> = {}): Precondition.Result {
