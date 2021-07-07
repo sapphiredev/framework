@@ -5,7 +5,7 @@ import { Precondition, PreconditionResult } from '../lib/structures/Precondition
 export class CorePrecondition extends Precondition {
 	public run(message: Message): PreconditionResult {
 		return message.channel.type === 'text'
-			? this.ok();
+			? this.ok()
 			: this.error({ identifier: Identifiers.PreconditionTextOnly, message: 'You can only run this command in text channels.' });
 	}
 }
