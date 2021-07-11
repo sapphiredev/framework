@@ -898,10 +898,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@*", "@types/node@^16.0.0":
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.0.0.tgz#067a6c49dc7a5c2412a505628e26902ae967bf6f"
-  integrity sha512-TmCW5HoZ2o2/z2EYi109jLqIaPIi9y/lc2LmDCWzuCi35bcaQ+OtUh6nwBiFK7SOu25FAU5+YKdqFZUwtqGSdg==
+"@types/node@*", "@types/node@^16.3.1":
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.1.tgz#24691fa2b0c3ec8c0d34bfcfd495edac5593ebb4"
+  integrity sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2580,10 +2580,10 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-husky@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.0.tgz#3dbd5d28e76234689ee29bb41e048f28e3e46616"
-  integrity sha512-xK7lO0EtSzfFPiw+oQncQVy/XqV7UVVjxBByc+Iv5iK3yhW9boDoWgvZy3OGo48QKg/hUtZkzz0hi2HXa0kn7w==
+husky@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.1.tgz#579f4180b5da4520263e8713cc832942b48e1f1c"
+  integrity sha512-gceRaITVZ+cJH9sNHqx5tFwbzlLCVxtVZcusME8JYQ8Edy5mpGDOqD8QBCdMhpyo9a+JXddnujQ4rpY2Ff9SJA==
 
 iconv-lite@^0.4.24:
   version "0.4.24"
@@ -4212,10 +4212,10 @@ rollup-plugin-version-injector@^1.3.3:
     dateformat "^4.2.1"
     lodash "^4.17.20"
 
-rollup@^2.52.6, rollup@^2.52.7:
-  version "2.52.7"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.52.7.tgz#e15a8bf734f6e4c204b7cdf33521151310250cb2"
-  integrity sha512-55cSH4CCU6MaPr9TAOyrIC+7qFCHscL7tkNsm1MBfIJRRqRbCEY0mmeFn4Wg8FKsHtEH8r389Fz38r/o+kgXLg==
+rollup@^2.52.6, rollup@^2.53.1:
+  version "2.53.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.53.1.tgz#b60439efd1eb41bdb56630509bd99aae78b575d3"
+  integrity sha512-yiTCvcYXZEulNWNlEONOQVlhXA/hgxjelFSjNcrwAAIfYx/xqjSHwqg/cCaWOyFRKr+IQBaXwt723m8tCaIUiw==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -4803,14 +4803,13 @@ typedoc-plugin-nojekyll@^1.0.1:
   dependencies:
     fs-extra "^6.0.1"
 
-typedoc@^0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.2.tgz#cf5094314d3d63e95a8ef052ceff06a6cafd509d"
-  integrity sha512-SR1ByJB3USg+jxoxwzMRP07g/0f/cQUE5t7gOh1iTUyjTPyJohu9YSKRlK+MSXXqlhIq+m0jkEHEG5HoY7/Adg==
+typedoc@^0.21.3:
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.3.tgz#9d35e6789c70d3b5b908f69a830294652ef7128e"
+  integrity sha512-SE0MytBcr3LpZmo22KxOI5vOvy+4cHl7U3TwYfc7OpUWaZLsDgP1yVqswoIdAUl6qwqskZie6Lyw/nzW5y840w==
   dependencies:
     glob "^7.1.7"
     handlebars "^4.7.7"
-    lodash "^4.17.21"
     lunr "^2.3.9"
     marked "^2.1.1"
     minimatch "^3.0.0"
