@@ -1,9 +1,9 @@
 import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
 import { Awaited, isNullish } from '@sapphire/utilities';
-import type { Message } from 'discord.js';
+import { Message, PermissionResolvable, Permissions } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
-import type { IPreconditionContainer } from '../utils/preconditions/IPreconditionContainer';
+import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
@@ -18,7 +18,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * The preconditions to be run.
 	 * @since 1.0.0
 	 */
-	public preconditions: IPreconditionContainer;
+	public preconditions: PreconditionContainerArray;
 
 	/**
 	 * Longer version of command's summary and how to use it
@@ -44,8 +44,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	protected constructor(context: PieceContext, { name, ...options }: CommandOptions = {}) {
-		super(context, { ...options, name: (name ?? context.name).toLowerCase() });
+	protected constructor(context: PieceContext, options: CommandOptions = {}) {
+		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
@@ -65,7 +65,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
 
-		this.preconditions = new PreconditionContainerArray(this.resolveConstructorPreConditions(options));
+		this.preconditions = new PreconditionContainerArray();
+		this.parseConstructorPreConditions(options);
 	}
 
 	/**
@@ -99,33 +100,80 @@ export abstract class Command<T = Args> extends AliasPiece {
 		};
 	}
 
-	protected resolveConstructorPreConditions(options: CommandOptions): readonly PreconditionEntryResolvable[] {
-		const preconditions = options.preconditions?.slice() ?? [];
-		if (options.nsfw) preconditions.push(CommandPreConditions.NotSafeForWork);
-
-		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
-		if (runIn !== null) preconditions.push(runIn);
-
-		const cooldownBucket = options.cooldownBucket ?? 1;
-		if (cooldownBucket && options.cooldownDuration) {
-			preconditions.push({ name: CommandPreConditions.Cooldown, context: { bucket: cooldownBucket, cooldown: options.cooldownDuration } });
-		}
-
-		return preconditions;
+	/**
+	 * Parses the command's options and processes them, calling {@link Command#parseConstructorPreConditionsRunIn},
+	 * {@link Command#parseConstructorPreConditionsNsfw},
+	 * {@link Command#parseConstructorPreConditionsRequiredClientPermissions}, and
+	 * {@link Command#parseConstructorPreConditionsCooldown}.
+	 * @since 2.0.0
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditions(options: CommandOptions): void {
+		this.parseConstructorPreConditionsRunIn(options);
+		this.parseConstructorPreConditionsNsfw(options);
+		this.parseConstructorPreConditionsRequiredClientPermissions(options);
+		this.parseConstructorPreConditionsCooldown(options);
 	}
 
-	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): CommandPreConditions[] | null {
+	/**
+	 * Appends the `NSFW` precondition if {@link CommandOptions.nsfw} is set to true.
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditionsNsfw(options: CommandOptions) {
+		if (options.nsfw) this.preconditions.append(CommandPreConditions.NotSafeForWork);
+	}
+
+	/**
+	 * Appends the `DMOnly`, `GuildOnly`, `NewsOnly`, and `TextOnly` preconditions based on the values passed in
+	 * {@link CommandOptions.runIn}, optimizing in specific cases (`NewsOnly` + `TextOnly` = `GuildOnly`; `DMOnly` +
+	 * `GuildOnly` = `null`), defaulting to `null`, which doesn't add a precondition.
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditionsRunIn(options: CommandOptions) {
+		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
+		if (runIn !== null) this.preconditions.append(runIn);
+	}
+
+	/**
+	 * Appends the `Permissions` precondition when {@link CommandOptions.requiredClientPermissions} resolves to a
+	 * non-zero bitfield.
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditionsRequiredClientPermissions(options: CommandOptions) {
+		const permissions = new Permissions(options.requiredClientPermissions);
+		if (permissions.bitfield !== 0) {
+			this.preconditions.append({ name: CommandPreConditions.Permissions, context: { permissions } });
+		}
+	}
+
+	/**
+	 * Appends the `Cooldown` precondition when {@link CommandOptions.cooldownLimit} and
+	 * {@link CommandOptions.cooldownDelay} are both non-zero.
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditionsCooldown(options: CommandOptions) {
+		const limit = options.cooldownLimit ?? 1;
+		const delay = options.cooldownDelay ?? 0;
+		if (limit && delay) {
+			this.preconditions.append({
+				name: CommandPreConditions.Cooldown,
+				context: { scope: options.cooldownScope ?? BucketScope.User, limit, delay }
+			});
+		}
+	}
+
+	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']) {
 		if (isNullish(runIn)) return null;
 		if (typeof runIn === 'string') {
 			switch (runIn) {
 				case 'dm':
-					return [CommandPreConditions.DirectMessageOnly];
+					return CommandPreConditions.DirectMessageOnly;
 				case 'text':
-					return [CommandPreConditions.TextOnly];
+					return CommandPreConditions.TextOnly;
 				case 'news':
-					return [CommandPreConditions.NewsOnly];
+					return CommandPreConditions.NewsOnly;
 				case 'guild':
-					return [CommandPreConditions.GuildOnly];
+					return CommandPreConditions.GuildOnly;
 				default:
 					return null;
 			}
@@ -144,13 +192,13 @@ export abstract class Command<T = Args> extends AliasPiece {
 		// If runs everywhere, optimise to null:
 		if (dm && guild) return null;
 
-		const array: CommandPreConditions[] = [];
-		if (dm) array.push(CommandPreConditions.DirectMessageOnly);
-		if (guild) array.push(CommandPreConditions.GuildOnly);
-		else if (text) array.push(CommandPreConditions.TextOnly);
-		else if (news) array.push(CommandPreConditions.NewsOnly);
+		const preconditions = new PreconditionContainerArray();
+		if (dm) preconditions.append(CommandPreConditions.DirectMessageOnly);
+		if (guild) preconditions.append(CommandPreConditions.GuildOnly);
+		else if (text) preconditions.append(CommandPreConditions.TextOnly);
+		else if (news) preconditions.append(CommandPreConditions.NewsOnly);
 
-		return array;
+		return preconditions;
 	}
 }
 
@@ -166,11 +214,12 @@ export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
  */
 export const enum CommandPreConditions {
 	Cooldown = 'Cooldown',
-	NotSafeForWork = 'NSFW',
 	DirectMessageOnly = 'DMOnly',
-	TextOnly = 'TextOnly',
+	GuildOnly = 'GuildOnly',
 	NewsOnly = 'NewsOnly',
-	GuildOnly = 'GuildOnly'
+	NotSafeForWork = 'NSFW',
+	Permissions = 'Permissions',
+	TextOnly = 'TextOnly'
 }
 
 /**
@@ -227,18 +276,32 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	nsfw?: boolean;
 
 	/**
-	 * Sets the bucket of the cool-down, if set to a non-zero value alongside {@link CommandOptions.cooldownDuration}, the `Cooldown` precondition will be added to the list.
+	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link CommandOptions.cooldownDelay}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 1
 	 */
-	cooldownBucket?: number;
+	cooldownLimit?: number;
 
 	/**
-	 * Sets the duration of the tickets in the cool-down, if set to a non-zero value alongside {@link CommandOptions.cooldownBucket}, the `Cooldown` precondition will be added to the list.
+	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link CommandOptions.cooldownLimit}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 0
 	 */
-	cooldownDuration?: number;
+	cooldownDelay?: number;
+
+	/**
+	 * The scope of the cooldown entries.
+	 * @since 2.0.0
+	 * @default BucketScope.User
+	 */
+	cooldownScope?: BucketScope;
+
+	/**
+	 * The required permissions for the client.
+	 * @since 2.0.0
+	 * @default 0
+	 */
+	requiredClientPermissions?: PermissionResolvable;
 
 	/**
 	 * The channels the command should run in. If set to `null`, no precondition entry will be added. Some optimizations are applied when given an array to reduce the amount of preconditions run (e.g. `'text'` and `'news'` becomes `'guild'`, and if both `'dm'` and `'guild'` are defined, then no precondition entry is added as it runs in all channels).

@@ -3,10 +3,10 @@ import type { Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
-import { BucketType } from '../lib/types/Enums';
+import { BucketScope } from '../lib/types/Enums';
 
 export interface CooldownContext extends PreconditionContext {
-	bucketType?: BucketType;
+	scope?: BucketScope;
 	delay?: number;
 	limit?: number;
 }
@@ -34,12 +34,12 @@ export class CorePrecondition extends Precondition {
 	}
 
 	private getID(message: Message, context: CooldownContext) {
-		switch (context.bucketType) {
-			case BucketType.Global:
+		switch (context.scope) {
+			case BucketScope.Global:
 				return 'global';
-			case BucketType.Channel:
+			case BucketScope.Channel:
 				return message.channel.id;
-			case BucketType.Guild:
+			case BucketScope.Guild:
 				return message.guild!.id;
 			default:
 				return message.author.id;

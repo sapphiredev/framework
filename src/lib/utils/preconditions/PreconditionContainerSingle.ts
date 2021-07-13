@@ -1,33 +1,46 @@
 import { container } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { Command } from '../../structures/Command';
-import type { PreconditionContext } from '../../structures/Precondition';
+import type { PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
+
+/**
+ * Defines the simple options for the {@link PreconditionContainerSingle}, where only the name of the precondition can
+ * be defined.
+ * @since 2.0.0
+ */
+export interface SimplePreconditionSingleResolvableDetails {
+	/**
+	 * The name of the precondition to retrieve from {@link SapphireClient.preconditions}.
+	 * @since 2.0.0
+	 */
+	name: SimplePreconditionKeys;
+}
 
 /**
  * Defines the detailed options for the {@link PreconditionContainerSingle}, where both the {@link PreconditionContext} and the
  * name of the precondition can be defined.
  * @since 1.0.0
  */
-export interface PreconditionSingleResolvableDetails {
+export interface PreconditionSingleResolvableDetails<K extends PreconditionKeys = PreconditionKeys> {
 	/**
 	 * The name of the precondition to retrieve from {@link SapphireClient.preconditions}.
 	 * @since 1.0.0
 	 */
-	name: string;
+	name: K;
 
 	/**
 	 * The context to be set at {@link PreconditionContainerSingle.context}.
 	 * @since 1.0.0
 	 */
-	context: Record<PropertyKey, unknown>;
+	context: Preconditions[K];
 }
 
 /**
  * Defines the data accepted by {@link PreconditionContainerSingle}'s constructor.
  * @since 1.0.0
  */
-export type PreconditionSingleResolvable = string | PreconditionSingleResolvableDetails;
+export type PreconditionSingleResolvable = SimplePreconditionKeys | SimplePreconditionSingleResolvableDetails | PreconditionSingleResolvableDetails;
 
 /**
  * An {@link IPreconditionContainer} which runs a single precondition from {@link SapphireClient.preconditions}.
@@ -53,7 +66,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 			this.context = {};
 			this.name = data;
 		} else {
-			this.context = data.context;
+			this.context = Reflect.get(data, 'context') ?? {};
 			this.name = data.name;
 		}
 	}

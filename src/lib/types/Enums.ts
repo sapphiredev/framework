@@ -13,23 +13,23 @@ export const enum PluginHook {
 }
 
 /**
- * The level the cooldown applies to
+ * The scope the cooldown applies to.
  */
-export const enum BucketType {
+export const enum BucketScope {
 	/**
-	 * Per channel cooldowns
+	 * Per channel cooldowns.
 	 */
 	Channel,
 	/**
-	 * Global cooldowns
+	 * Global cooldowns.
 	 */
 	Global,
 	/**
-	 * Per guild cooldowns
+	 * Per guild cooldowns.
 	 */
 	Guild,
 	/**
-	 * Per user cooldowns
+	 * Per user cooldowns.
 	 */
 	User
 }
