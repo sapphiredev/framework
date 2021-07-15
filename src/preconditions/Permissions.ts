@@ -18,9 +18,9 @@ export class CorePrecondition extends Precondition {
 
 	public run(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
 		const required = (context.permissions as Permissions) ?? new Permissions(0);
-		const permissions = message.guild
-			? (message.channel as TextChannel | NewsChannel).permissionsFor(message.client.id!)!
-			: this.dmChannelPermissions;
+		const channel = message.channel as TextChannel | NewsChannel;
+
+		const permissions = message.guild ? channel.permissionsFor(message.client.id!)! : this.dmChannelPermissions;
 		const missing = permissions.missing(required);
 		return missing.length === 0
 			? this.ok()

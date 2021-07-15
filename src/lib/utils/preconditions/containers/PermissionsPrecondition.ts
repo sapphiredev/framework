@@ -22,9 +22,9 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  * }
  * ```
  */
-export class PermissionsPrecondition implements PreconditionSingleResolvableDetails {
-	public name: string;
-	public context: Record<PropertyKey, unknown>;
+export class PermissionsPrecondition implements PreconditionSingleResolvableDetails<'Permissions'> {
+	public name: 'Permissions';
+	public context: { permissions: Permissions };
 
 	/**
 	 * Constructs a precondition container entry.

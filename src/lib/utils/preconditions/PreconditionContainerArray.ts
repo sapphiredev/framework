@@ -1,11 +1,16 @@
 import { Collection, Message } from 'discord.js';
 import type { Command } from '../../structures/Command';
-import type { PreconditionContext } from '../../structures/Precondition';
+import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
 import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
 import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
 import type { IPreconditionContainer, PreconditionContainerReturn } from './IPreconditionContainer';
-import { PreconditionContainerSingle, PreconditionSingleResolvable } from './PreconditionContainerSingle';
+import {
+	PreconditionContainerSingle,
+	PreconditionSingleResolvable,
+	PreconditionSingleResolvableDetails,
+	SimplePreconditionSingleResolvableDetails
+} from './PreconditionContainerSingle';
 
 /**
  * The run mode for a {@link PreconditionContainerArray}.
@@ -143,6 +148,13 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 */
 	public add(entry: IPreconditionContainer): this {
 		this.entries.push(entry);
+		return this;
+	}
+
+	public append(keyOrEntries: SimplePreconditionSingleResolvableDetails | SimplePreconditionKeys | PreconditionContainerArray): this;
+	public append<K extends PreconditionKeys>(entry: PreconditionSingleResolvableDetails<K>): this;
+	public append(entry: PreconditionContainerArray | PreconditionSingleResolvable): this {
+		this.entries.push(entry instanceof PreconditionContainerArray ? entry : new PreconditionContainerSingle(entry));
 		return this;
 	}
 
