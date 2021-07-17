@@ -7,7 +7,7 @@ import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/Ext
 export class CoreArgument extends ExtendedArgument<'guildChannel', CategoryChannel> {
 	public constructor(context: PieceContext) {
 		super(context, {
-			name: 'categoryChannel',
+			name: 'guildCategoryChannel',
 			baseArgument: 'guildChannel'
 		});
 	}
@@ -17,7 +17,7 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', CategoryChann
 			? this.ok(channel)
 			: this.error({
 					parameter: context.parameter,
-					message: 'The argument did not resolve to a category channel.',
+					message: 'The argument did not resolve to a server category channel.',
 					context: { ...context, channel }
 			  });
 	}

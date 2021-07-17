@@ -82,19 +82,23 @@ export abstract class Precondition extends Piece {
  */
 export interface Preconditions {
 	Cooldown: {
-		scope: BucketScope;
+		scope?: BucketScope;
 		delay: number;
-		limit: number;
+		limit?: number;
 	};
 	DMOnly: never;
 	Enabled: never;
+	GuildNewsOnly: never;
+	GuildNewsThreadOnly: never;
 	GuildOnly: never;
-	NewsOnly: never;
+	GuildPrivateThreadOnly: never;
+	GuildPublicThreadOnly: never;
+	GuildTextOnly: never;
+	GuildThreadOnly: never;
 	NSFW: never;
 	Permissions: {
 		permissions: Permissions;
 	};
-	TextOnly: never;
 }
 
 export type PreconditionKeys = keyof Preconditions;
