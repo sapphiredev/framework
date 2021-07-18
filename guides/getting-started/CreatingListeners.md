@@ -23,7 +23,7 @@ module.exports = class extends Listener {
 	}
 
 	async run() {
-		this.container.logger.log('The bot is up and running!');
+		this.container.logger.info('The bot is up and running!');
 	}
 };
 ```
@@ -38,6 +38,6 @@ In our case, the ready events gives no information so we don't need any paramete
 
 Every piece (listeners, commands etc) in sapphire has a `container` which can be accessed via
 `this.container`. It is this container that contains the logger, the client and other properties. Here we access the
-logger via `this.container.logger` and call its `log` method to print a nicely formatted message in the console.
+logger via `this.container.logger` and call its `info` method to print a nicely formatted message in the console.
 
 If everything was done correctly, now, whenever you launch your bot, you will see a message in the console.
