@@ -131,7 +131,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 */
 	protected parseConstructorPreConditionsRunIn(options: CommandOptions) {
 		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
-		if (runIn !== null) this.preconditions.append(runIn);
+		if (runIn !== null) this.preconditions.append(runIn as any);
 	}
 
 	/**
@@ -141,7 +141,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: CommandOptions) {
 		const permissions = new Permissions(options.requiredClientPermissions);
-		if (permissions.bitfield !== 0) {
+		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.Permissions, context: { permissions } });
 		}
 	}
@@ -162,17 +162,23 @@ export abstract class Command<T = Args> extends AliasPiece {
 		}
 	}
 
-	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']) {
+	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): PreconditionContainerArray | CommandPreConditions | null {
 		if (isNullish(runIn)) return null;
 		if (typeof runIn === 'string') {
 			switch (runIn) {
-				case 'dm':
+				case 'DM':
 					return CommandPreConditions.DirectMessageOnly;
-				case 'text':
-					return CommandPreConditions.TextOnly;
-				case 'news':
-					return CommandPreConditions.NewsOnly;
-				case 'guild':
+				case 'GUILD_TEXT':
+					return CommandPreConditions.GuildTextOnly;
+				case 'GUILD_NEWS':
+					return CommandPreConditions.GuildNewsOnly;
+				case 'GUILD_NEWS_THREAD':
+					return CommandPreConditions.GuildNewsThreadOnly;
+				case 'GUILD_PUBLIC_THREAD':
+					return CommandPreConditions.GuildPublicThreadOnly;
+				case 'GUILD_PRIVATE_THREAD':
+					return CommandPreConditions.GuildPrivateThreadOnly;
+				case 'GUILD_ANY':
 					return CommandPreConditions.GuildOnly;
 				default:
 					return null;
@@ -184,19 +190,50 @@ export abstract class Command<T = Args> extends AliasPiece {
 			throw new Error(`${this.constructor.name}[${this.name}]: "runIn" was specified as an empty array.`);
 		}
 
-		const dm = runIn.includes('dm');
-		const text = runIn.includes('text');
-		const news = runIn.includes('news');
-		const guild = text && news;
+		if (runIn.length === 1) {
+			return this.resolveConstructorPreConditionsRunType(runIn[0]);
+		}
+
+		const keys = new Set(runIn);
+
+		const dm = keys.has('DM');
+		const guildText = keys.has('GUILD_TEXT');
+		const guildNews = keys.has('GUILD_NEWS');
+		const guild = guildText && guildNews;
 
 		// If runs everywhere, optimise to null:
 		if (dm && guild) return null;
 
+		const guildPublicThread = keys.has('GUILD_PUBLIC_THREAD');
+		const guildPrivateThread = keys.has('GUILD_PRIVATE_THREAD');
+		const guildNewsThread = keys.has('GUILD_NEWS_THREAD');
+		const guildThreads = guildPublicThread && guildPrivateThread && guildNewsThread;
+
+		// If runs in any thread, optimise to thread-only:
+		if (guildThreads && keys.size === 3) {
+			return CommandPreConditions.GuildThreadOnly;
+		}
+
 		const preconditions = new PreconditionContainerArray();
 		if (dm) preconditions.append(CommandPreConditions.DirectMessageOnly);
-		if (guild) preconditions.append(CommandPreConditions.GuildOnly);
-		else if (text) preconditions.append(CommandPreConditions.TextOnly);
-		else if (news) preconditions.append(CommandPreConditions.NewsOnly);
+		if (guild) {
+			preconditions.append(CommandPreConditions.GuildOnly);
+		} else {
+			// GuildText includes PublicThread and PrivateThread
+			if (guildText) {
+				preconditions.append(CommandPreConditions.GuildTextOnly);
+			} else {
+				if (guildPublicThread) preconditions.append(CommandPreConditions.GuildPublicThreadOnly);
+				if (guildPrivateThread) preconditions.append(CommandPreConditions.GuildPrivateThreadOnly);
+			}
+
+			// GuildNews includes NewsThread
+			if (guildNews) {
+				preconditions.append(CommandPreConditions.GuildNewsOnly);
+			} else if (guildNewsThread) {
+				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
+			}
+		}
 
 		return preconditions;
 	}
@@ -206,7 +243,14 @@ export abstract class Command<T = Args> extends AliasPiece {
  * The allowed values for {@link CommandOptions.runIn}.
  * @since 2.0.0
  */
-export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
+export type CommandOptionsRunType =
+	| 'DM'
+	| 'GUILD_TEXT'
+	| 'GUILD_NEWS'
+	| 'GUILD_NEWS_THREAD'
+	| 'GUILD_PUBLIC_THREAD'
+	| 'GUILD_PRIVATE_THREAD'
+	| 'GUILD_ANY';
 
 /**
  * The available command pre-conditions.
@@ -215,11 +259,15 @@ export type CommandOptionsRunType = 'dm' | 'text' | 'news' | 'guild';
 export const enum CommandPreConditions {
 	Cooldown = 'Cooldown',
 	DirectMessageOnly = 'DMOnly',
+	GuildNewsOnly = 'GuildNewsOnly',
+	GuildNewsThreadOnly = 'GuildNewsThreadOnly',
 	GuildOnly = 'GuildOnly',
-	NewsOnly = 'NewsOnly',
+	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
+	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
+	GuildTextOnly = 'GuildTextOnly',
+	GuildThreadOnly = 'GuildThreadOnly',
 	NotSafeForWork = 'NSFW',
-	Permissions = 'Permissions',
-	TextOnly = 'TextOnly'
+	Permissions = 'Permissions'
 }
 
 /**

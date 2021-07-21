@@ -38,7 +38,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
-		if (message.channel.type === 'dm') return true;
+		if (message.channel.type === 'DM') return true;
 
 		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
@@ -65,8 +65,8 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (content[idOffset + idLength] !== '>') return null;
 
 		// Check whether or not the ID is the same as the client ID:
-		const mentionID = content.substr(idOffset, idLength);
-		if (mentionID === id) return content.substr(0, idOffset + idLength + 1);
+		const mentionId = content.substr(idOffset, idLength);
+		if (mentionId === id) return content.substr(0, idOffset + idLength + 1);
 
 		return null;
 	}

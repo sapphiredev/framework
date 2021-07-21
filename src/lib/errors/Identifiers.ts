@@ -34,9 +34,13 @@ export const enum Identifiers {
 	CommandDisabled = 'commandDisabled',
 	PreconditionCooldown = 'preconditionCooldown',
 	PreconditionDMOnly = 'preconditionDmOnly',
+	PreconditionGuildNewsOnly = 'preconditionGuildNewsOnly',
+	PreconditionGuildNewsThreadOnly = 'preconditionGuildNewsThreadOnly',
 	PreconditionGuildOnly = 'preconditionGuildOnly',
-	PreconditionNewsOnly = 'preconditionNewsOnly',
+	PreconditionGuildPrivateThreadOnly = 'preconditionGuildPrivateThreadOnly',
+	PreconditionGuildPublicThreadOnly = 'preconditionGuildPublicThreadOnly',
+	PreconditionGuildTextOnly = 'preconditionGuildTextOnly',
 	PreconditionNSFW = 'preconditionNsfw',
 	PreconditionPermissions = 'preconditionPermissions',
-	PreconditionTextOnly = 'preconditionTextOnly'
+	PreconditionThreadOnly = 'preconditionThreadOnly'
 }

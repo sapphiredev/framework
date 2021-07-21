@@ -9,7 +9,8 @@ export {
 	PieceContext,
 	PieceOptions,
 	Store,
-	StoreOptions
+	StoreOptions,
+	StoreRegistry
 } from '@sapphire/pieces';
 export type { Awaited } from '@sapphire/utilities';
 export * from './lib/errors/ArgumentError';
@@ -27,12 +28,11 @@ export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
 export * from './lib/structures/Command';
 export * from './lib/structures/CommandStore';
+export * from './lib/structures/ExtendedArgument';
 export * from './lib/structures/Listener';
 export * from './lib/structures/ListenerStore';
-export * from './lib/structures/ExtendedArgument';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
-export * from './lib/structures/StoreRegistry';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
 export * from './lib/utils/logger/ILogger';

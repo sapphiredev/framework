@@ -1,6 +1,6 @@
 import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { Guild, GuildMember } from 'discord.js';
+import type { Guild, GuildMember, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
@@ -20,7 +20,7 @@ export class CoreArgument extends Argument<GuildMember> {
 			});
 		}
 
-		const member = (await this.resolveByID(parameter, guild)) ?? (await this.resolveByQuery(parameter, guild));
+		const member = (await this.resolveById(parameter, guild)) ?? (await this.resolveByQuery(parameter, guild));
 		return member
 			? this.ok(member)
 			: this.error({
@@ -30,9 +30,9 @@ export class CoreArgument extends Argument<GuildMember> {
 			  });
 	}
 
-	private async resolveByID(argument: string, guild: Guild): Promise<GuildMember | null> {
-		const memberID = UserOrMemberMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
-		return memberID ? guild.members.fetch(memberID[1]).catch(() => null) : null;
+	private async resolveById(argument: string, guild: Guild): Promise<GuildMember | null> {
+		const memberId = UserOrMemberMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
+		return memberId ? guild.members.fetch(memberId[1] as Snowflake).catch(() => null) : null;
 	}
 
 	private async resolveByQuery(argument: string, guild: Guild): Promise<GuildMember | null> {

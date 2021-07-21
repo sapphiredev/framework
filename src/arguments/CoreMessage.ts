@@ -1,6 +1,6 @@
 import { isNewsChannel, isTextChannel, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import { DMChannel, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { DMChannel, Message, NewsChannel, Permissions, Snowflake, TextChannel, ThreadChannel } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export interface MessageArgumentContext extends ArgumentContext {
@@ -14,7 +14,7 @@ export class CoreArgument extends Argument<Message> {
 
 	public async run(parameter: string, context: MessageArgumentContext): AsyncArgumentResult<Message> {
 		const channel = context.channel ?? context.message.channel;
-		const message = (await this.resolveByID(parameter, channel)) ?? (await this.resolveByLink(parameter, context));
+		const message = (await this.resolveById(parameter as Snowflake, channel)) ?? (await this.resolveByLink(parameter, context));
 		return message
 			? this.ok(message)
 			: this.error({
@@ -24,7 +24,7 @@ export class CoreArgument extends Argument<Message> {
 			  });
 	}
 
-	private async resolveByID(argument: string, channel: DMChannel | NewsChannel | TextChannel): Promise<Message | null> {
+	private resolveById(argument: Snowflake, channel: DMChannel | NewsChannel | TextChannel | ThreadChannel): Promise<Message | null> | null {
 		return SnowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
 	}
 
@@ -33,17 +33,17 @@ export class CoreArgument extends Argument<Message> {
 
 		const matches = MessageLinkRegex.exec(argument);
 		if (!matches) return null;
-		const [, guildID, channelID, messageID] = matches;
+		const [, guildId, channelId, messageId] = matches;
 
-		const guild = this.container.client.guilds.cache.get(guildID);
+		const guild = this.container.client.guilds.cache.get(guildId as Snowflake);
 		if (guild !== message.guild) return null;
 
-		const channel = guild.channels.cache.get(channelID);
+		const channel = guild.channels.cache.get(channelId as Snowflake);
 		if (!channel) return null;
 		if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
 		if (!channel.viewable) return null;
 		if (!channel.permissionsFor(message.author)?.has(Permissions.FLAGS.VIEW_CHANNEL)) return null;
 
-		return channel.messages.fetch(messageID).catch(() => null);
+		return channel.messages.fetch(messageId as Snowflake).catch(() => null);
 	}
 }

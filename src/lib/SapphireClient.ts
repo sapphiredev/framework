@@ -1,6 +1,6 @@
-import { container, Store } from '@sapphire/pieces';
+import { container, Store, StoreRegistry } from '@sapphire/pieces';
 import type { Awaited } from '@sapphire/utilities';
-import { Client, ClientOptions, Message } from 'discord.js';
+import { Client, ClientOptions, Message, Snowflake } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
@@ -8,7 +8,6 @@ import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
-import { StoreRegistry } from './structures/StoreRegistry';
 import { PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
@@ -87,7 +86,7 @@ export interface SapphireClientOptions {
 	 * @since 1.0.0
 	 * @default this.client.user?.id ?? null
 	 */
-	id?: string;
+	id?: Snowflake;
 
 	/**
 	 * The logger options, defaults to an instance of {@link Logger} when {@link ClientLoggerOptions.instance} is not specified.
@@ -162,7 +161,7 @@ export class SapphireClient extends Client {
 	 * The client's ID, used for the user prefix.
 	 * @since 1.0.0
 	 */
-	public id: string | null = null;
+	public id: Snowflake | null = null;
 
 	/**
 	 * The method to be overriden by the developer.
@@ -207,7 +206,7 @@ export class SapphireClient extends Client {
 	 */
 	public stores: StoreRegistry;
 
-	public constructor(options: ClientOptions = {}) {
+	public constructor(options: ClientOptions) {
 		super(options);
 
 		container.client = this;
@@ -256,7 +255,7 @@ export class SapphireClient extends Client {
 	public async login(token?: string) {
 		// Register the user directory if not null:
 		if (this.options.baseUserDirectory !== null) {
-			this.stores.registerUserDirectories(this.options.baseUserDirectory);
+			this.stores.registerPath(this.options.baseUserDirectory);
 		}
 
 		// Call pre-login plugins:
@@ -293,7 +292,7 @@ export interface ClientLoggerOptions {
 
 declare module 'discord.js' {
 	interface Client {
-		id: string | null;
+		id: Snowflake | null;
 		logger: ILogger;
 		stores: StoreRegistry;
 		fetchPrefix: SapphirePrefixHook;
@@ -307,5 +306,12 @@ declare module '@sapphire/pieces' {
 		client: SapphireClient;
 		logger: ILogger;
 		stores: StoreRegistry;
+	}
+
+	interface StoreRegistryEntries {
+		arguments: ArgumentStore;
+		commands: CommandStore;
+		listeners: ListenerStore;
+		preconditions: PreconditionStore;
 	}
 }

@@ -1,23 +1,22 @@
-import { isVoiceChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, VoiceChannel } from 'discord.js';
+import type { GuildChannel, ThreadChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', VoiceChannel> {
+export class CoreArgument extends ExtendedArgument<'guildChannel', ThreadChannel> {
 	public constructor(context: PieceContext) {
 		super(context, {
-			name: 'voiceChannel',
+			name: 'guildThreadChannel',
 			baseArgument: 'guildChannel'
 		});
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<VoiceChannel> {
-		return isVoiceChannel(channel)
+	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<ThreadChannel> {
+		return channel.isThread()
 			? this.ok(channel)
 			: this.error({
 					parameter: context.parameter,
-					message: 'The argument did not resolve to a voice channel.',
+					message: 'The argument did not resolve to a server thread channel.',
 					context: { ...context, channel }
 			  });
 	}

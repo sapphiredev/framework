@@ -10,7 +10,7 @@ export class CoreListener extends Listener<typeof Events.MessageCreate> {
 
 	public run(message: Message) {
 		// Stop bots and webhooks from running commands.
-		if (message.author.bot || message.webhookID) return;
+		if (message.author.bot || message.webhookId) return;
 
 		// Run the message parser.
 		this.container.client.emit(Events.PreMessageParsed, message);

@@ -4,8 +4,11 @@ import { Precondition, PreconditionResult } from '../lib/structures/Precondition
 
 export class CorePrecondition extends Precondition {
 	public run(message: Message): PreconditionResult {
-		return message.channel.type === 'news'
+		return message.thread?.type === 'GUILD_PRIVATE_THREAD'
 			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionNewsOnly, message: 'You can only run this command in news channels.' });
+			: this.error({
+					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
+					message: 'You can only run this command in private server thread channels.'
+			  });
 	}
 }

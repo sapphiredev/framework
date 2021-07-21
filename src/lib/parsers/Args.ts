@@ -8,7 +8,9 @@ import type {
 	Message,
 	NewsChannel,
 	Role,
+	StageChannel,
 	TextChannel,
+	ThreadChannel,
 	User,
 	VoiceChannel
 } from 'discord.js';
@@ -685,24 +687,29 @@ export class Args {
 
 export interface ArgType {
 	boolean: boolean;
-	categoryChannel: CategoryChannel;
 	channel: Channel;
 	date: Date;
 	dmChannel: DMChannel;
 	float: number;
-	guildChannel: GuildChannel;
+	guildCategoryChannel: CategoryChannel;
+	guildChannel: GuildChannel | ThreadChannel;
+	guildNewsChannel: NewsChannel;
+	guildNewsThreadChannel: ThreadChannel & { type: 'GUILD_NEWS_THREAD'; parent: TextChannel | null };
+	guildPrivateThreadChannel: ThreadChannel & { type: 'GUILD_PRIVATE_THREAD'; parent: TextChannel | null };
+	guildPublicThreadChannel: ThreadChannel & { type: 'GUILD_PUBLIC_THREAD'; parent: TextChannel | null };
+	guildStageVoiceChannel: StageChannel;
+	guildTextChannel: TextChannel;
+	guildThreadChannel: ThreadChannel;
+	guildVoiceChannel: VoiceChannel;
 	hyperlink: URL;
 	integer: number;
 	member: GuildMember;
 	message: Message;
-	newsChannel: NewsChannel;
 	number: number;
 	role: Role;
 	string: string;
-	textChannel: TextChannel;
 	url: URL;
 	user: User;
-	voiceChannel: VoiceChannel;
 }
 
 export interface ArgOptions extends Omit<ArgumentContext, 'message' | 'command'> {}
