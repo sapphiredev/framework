@@ -43,12 +43,24 @@ import { Events } from '../types/Events';
  * ```
  */
 export abstract class Listener<E extends keyof ClientEvents | symbol = ''> extends Piece {
+	/**
+	 * The emitter, if any.
+	 * @since 2.0.0
+	 */
 	public readonly emitter: EventEmitter | null;
-	public readonly event: string;
-	public readonly once: boolean;
 
-	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
-	#listener: ((...args: any[]) => void) | null;
+	/**
+	 * The name of the event the listener listens to.
+	 * @since 2.0.0
+	 */
+	public readonly event: string;
+
+	/**
+	 * Whether or not the listener will be unloaded after the first run.
+	 * @since 2.0.0
+	 */
+	public readonly once: boolean;
+	private _listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: PieceContext, options: EventOptions = {}) {
 		super(context, options);
@@ -61,22 +73,46 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 		this.event = options.event ?? this.name;
 		this.once = options.once ?? false;
 
-		this.#listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
+		this._listener = this.emitter && this.event ? (this.once ? this._runOnce.bind(this) : this._run.bind(this)) : null;
+
+		// If there's no emitter or no listener, disable:
+		if (this.emitter === null || this._listener === null) this.enabled = false;
 	}
 
 	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
 	public onLoad() {
-		if (this.#listener) this.emitter![this.once ? 'once' : 'on'](this.event, this.#listener);
+		if (this._listener) {
+			const emitter = this.emitter!;
+
+			// Increment the maximum amount of listeners by one:
+			const maxListeners = emitter.getMaxListeners();
+			if (maxListeners !== 0) emitter.setMaxListeners(maxListeners + 1);
+
+			emitter[this.once ? 'once' : 'on'](this.event, this._listener);
+		}
+		return super.onLoad();
 	}
 
 	public onUnload() {
-		if (!this.once && this.#listener) this.emitter!.off(this.event, this.#listener);
+		if (!this.once && this._listener) {
+			const emitter = this.emitter!;
+
+			// Increment the maximum amount of listeners by one:
+			const maxListeners = emitter.getMaxListeners();
+			if (maxListeners !== 0) emitter.setMaxListeners(maxListeners - 1);
+
+			emitter.off(this.event, this._listener);
+			this._listener = null;
+		}
+
+		return super.onUnload();
 	}
 
 	public toJSON(): Record<PropertyKey, unknown> {
 		return {
 			...super.toJSON(),
+			once: this.once,
 			event: this.event
 		};
 	}
@@ -91,7 +127,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 
 	private async _runOnce(...args: unknown[]) {
 		await this._run(...args);
-		await this.store.unload(this);
+		await this.unload();
 	}
 }
 
