@@ -694,7 +694,7 @@ export interface ArgType {
 	guildCategoryChannel: CategoryChannel;
 	guildChannel: GuildChannel | ThreadChannel;
 	guildNewsChannel: NewsChannel;
-	guildNewsThreadChannel: ThreadChannel & { type: 'GUILD_NEWS_THREAD'; parent: TextChannel | null };
+	guildNewsThreadChannel: ThreadChannel & { type: 'GUILD_NEWS_THREAD'; parent: NewsChannel | null };
 	guildPrivateThreadChannel: ThreadChannel & { type: 'GUILD_PRIVATE_THREAD'; parent: TextChannel | null };
 	guildPublicThreadChannel: ThreadChannel & { type: 'GUILD_PUBLIC_THREAD'; parent: TextChannel | null };
 	guildStageVoiceChannel: StageChannel;
