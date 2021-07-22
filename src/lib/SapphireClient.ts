@@ -27,7 +27,7 @@ export interface SapphirePrefixHook {
 
 export interface SapphireClientOptions {
 	/**
-	 * The base user directory, if set to `null`, Sapphire will not call {@link SapphireClient.registerUserDirectories},
+	 * The base user directory, if set to `null`, Sapphire will not call {@link StoreRegistry.registerPath},
 	 * meaning that you will need to manually set each folder for each store. Please read the aforementioned method's
 	 * documentation for more information.
 	 * @since 1.0.0
@@ -114,9 +114,8 @@ export interface SapphireClientOptions {
  * The base {@link Client} extension that makes Sapphire work. When building a Discord bot with the framework, the developer
  * must either use this class, or extend it.
  *
- * Sapphire also automatically detects the folders to scan for pieces, please read
- * {@link SapphireClient.registerUserDirectories} for reference. This method is called at the start of the
- * {@link SapphireClient.login} method.
+ * Sapphire also automatically detects the folders to scan for pieces, please read {@link StoreRegistry.registerPath}
+ * for reference. This method is called at the start of the {@link SapphireClient.login} method.
  *
  * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/#/docs/main/stable/typedef/ClientOptions)
  *
