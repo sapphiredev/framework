@@ -62,7 +62,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	public readonly once: boolean;
 	private _listener: ((...args: any[]) => void) | null;
 
-	public constructor(context: PieceContext, options: EventOptions = {}) {
+	public constructor(context: PieceContext, options: ListenerOptions = {}) {
 		super(context, options);
 
 		this.emitter =
@@ -131,7 +131,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	}
 }
 
-export interface EventOptions extends PieceOptions {
+export interface ListenerOptions extends PieceOptions {
 	readonly emitter?: keyof Client | EventEmitter;
 	readonly event?: string;
 	readonly once?: boolean;
