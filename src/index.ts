@@ -13,6 +13,7 @@ export {
 	StoreRegistry
 } from '@sapphire/pieces';
 export type { Awaited } from '@sapphire/utilities';
+export type { MessageArgumentContext } from './arguments/CoreMessage';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
@@ -44,5 +45,6 @@ export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
+export type { CooldownContext } from './preconditions/Cooldown';
 
 export const version = '[VI]{version}[/VI]';
