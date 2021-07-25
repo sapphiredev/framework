@@ -1,8 +1,17 @@
 {
-	"out": "./docs/",
-	"readme": "./README.md",
-	"name": "@sapphire/framework",
+	"disableOutputCheck": true,
+	"emit": true,
 	"entryPoints": ["src/index.ts"],
 	"excludeExternals": true,
+	"hideGenerator": true,
+	"highlightTheme": "github-light",
+	"markedOptions": {
+		"gfm": true,
+		"mangle": false,
+		"smartypants": true
+	},
+	"name": "@sapphire/framework",
+	"out": "./docs/",
+	"readme": "./README.md",
 	"tsconfig": "./src/tsconfig.json"
 }
