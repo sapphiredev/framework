@@ -1,41 +1,27 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveNumber } from '../lib/resolvers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<number> {
+	private readonly messages = {
+		[Identifiers.ArgumentNumberTooSmall]: ({ minimum }: ArgumentContext) => `The given number must be greater than ${minimum}.`,
+		[Identifiers.ArgumentNumberTooLarge]: ({ maximum }: ArgumentContext) => `The given number must be less than ${maximum}.`,
+		[Identifiers.ArgumentNumberError]: () => 'The argument did not resolve to a valid number.'
+	} as const;
+
 	public constructor(context: PieceContext) {
 		super(context, { name: 'number' });
 	}
 
 	public run(parameter: string, context: ArgumentContext): ArgumentResult<number> {
-		const parsed = Number(parameter);
-
-		if (Number.isNaN(parsed)) {
-			return this.error({
-				parameter,
-				message: 'The argument did not resolve to a valid number.',
-				context
-			});
-		}
-
-		if (typeof context.minimum === 'number' && parsed < context.minimum) {
-			return this.error({
-				parameter,
-				identifier: Identifiers.ArgumentNumberTooSmall,
-				message: `The argument must be greater than ${context.minimum}.`,
-				context
-			});
-		}
-
-		if (typeof context.maximum === 'number' && parsed > context.maximum) {
-			return this.error({
-				parameter,
-				identifier: Identifiers.ArgumentNumberTooBig,
-				message: `The argument must be smaller than ${context.maximum}.`,
-				context
-			});
-		}
-
-		return this.ok(parsed);
+		const resolved = resolveNumber(parameter, { minimum: context.minimum, maximum: context.maximum });
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter,
+			identifier: resolved.error,
+			message: this.messages[resolved.error](context),
+			context
+		});
 	}
 }

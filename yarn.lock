@@ -763,21 +763,21 @@
   dependencies:
     twemoji-parser "^13.1.0"
 
-"@sapphire/discord-utilities@^2.2.0-next.a8baab97.0":
-  version "2.2.0-next.a8baab97.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/discord-utilities/-/discord-utilities-2.2.0-next.a8baab97.0.tgz#09e40cb29b9d3e8a01d4b01c1ca8bee8f8f98f09"
-  integrity sha512-20BpbLgtK1jlal3hZVbZp7iG9E2LAQs9ROUyW4CI85XmjmYuQXvddLatNjD5nxVFYGZRsWxLK4Tu5p1O4+KjDw==
+"@sapphire/discord-utilities@^2.2.0-next.e5418d0d.0":
+  version "2.2.0-pr-144.6f602eee.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord-utilities/-/discord-utilities-2.2.0-pr-144.6f602eee.0.tgz#c9d16985b83856e04007f85adc395cb9367fef62"
+  integrity sha512-+b3HRgeURI3BqVEBrTfOAPMpfpnON6jkAPTVQCdF/r4eVW7mGDtmCCFQLmvyy/kAeI7CjBnzt04HUS0XWWo78A==
   dependencies:
     twemoji-parser "^13.1.0"
 
-"@sapphire/discord.js-utilities@^3.0.0-next.a8baab97.0":
-  version "3.0.0-next.a8baab97.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-3.0.0-next.a8baab97.0.tgz#ffd9d2afeb301590ac9d49091136ce151beafa2d"
-  integrity sha512-54FVNSs2pF2aHDhZB5OSJHt1Kik0Vuavj8af4xlNJn+9CMZF11shT7uboQogBoDAU+pnUbmqqgQEsrdeCxaQ/g==
+"@sapphire/discord.js-utilities@next":
+  version "3.0.0-next.e5418d0d.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/discord.js-utilities/-/discord.js-utilities-3.0.0-next.e5418d0d.0.tgz#f14d2736da7956635c2484a9acf57c1acb86970b"
+  integrity sha512-zVD9yIAwcFz4v8eJ9UnkyOBDOIpfP8G5Ap6vhsBvxzdk1fjaC7moh3PeXeoohfkGH0KzA+zl/pYMLVYtCfYNLg==
   dependencies:
-    "@sapphire/discord-utilities" "^2.2.0-next.a8baab97.0"
-    "@sapphire/time-utilities" "^1.4.0-next.a8baab97.0"
-    "@sapphire/utilities" "^2.1.0-next.a8baab97.0"
+    "@sapphire/discord-utilities" "^2.2.0-next.e5418d0d.0"
+    "@sapphire/time-utilities" "^1.4.0-next.e5418d0d.0"
+    "@sapphire/utilities" "^2.1.0-next.e5418d0d.0"
 
 "@sapphire/eslint-config@^3.2.3":
   version "3.2.3"
@@ -822,12 +822,12 @@
   dependencies:
     "@sapphire/utilities" "^2.0.1"
 
-"@sapphire/time-utilities@^1.4.0-next.a8baab97.0":
-  version "1.4.0-next.a8baab97.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/time-utilities/-/time-utilities-1.4.0-next.a8baab97.0.tgz#30fd7b441d61589188d13cca5f6ea3472f443847"
-  integrity sha512-Q9KHwg/LCsGhpEMYCX7+4orCNx+ecKI1B1fW1sZjvWNGPGq7xmX57T4Uzi4137AI3xCoqg80paen3GpUNG44iA==
+"@sapphire/time-utilities@^1.4.0-next.e5418d0d.0":
+  version "1.4.0-pr-144.6f602eee.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/time-utilities/-/time-utilities-1.4.0-pr-144.6f602eee.0.tgz#1129fb1b0ad6130159678bbe53adeaef2806a238"
+  integrity sha512-Ig9sxvjoLPqN+D6EWuMp95rkYT0zSerkp+k4wiy0EUhIiXVgnWzvO7wtGwdD9fXtV3lnMxXSj3SSaN/ONdhqAw==
   dependencies:
-    "@sapphire/utilities" "^2.1.0-next.a8baab97.0"
+    "@sapphire/utilities" "^3.0.0-pr-144.6f602eee.0"
 
 "@sapphire/ts-config@^3.0.0":
   version "3.0.0"
@@ -847,10 +847,15 @@
   resolved "https://registry.yarnpkg.com/@sapphire/utilities/-/utilities-2.0.1.tgz#c436c5b2b72679c89a40abe46d2f9301d03e63e2"
   integrity sha512-KgJsgQ1cnfVKqscrMX4GH29mIVhVQkF8kSTIRCB+hgCCRfIvUU5peE4g/cegnesPS5eMiQqV+NWk7cNwhjextQ==
 
-"@sapphire/utilities@^2.1.0-next.a8baab97.0":
-  version "2.1.0-next.a8baab97.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/utilities/-/utilities-2.1.0-next.a8baab97.0.tgz#50d11d8ab8c8128954df0120098d6b8da0b24014"
-  integrity sha512-9YDA7V/ARA5E94IsUC9RQRxosgIO0k3TGpXMahCifQJnNYskmZZeDXkUQxOXxRQjJr0HK+ReX89tt2wmMnKAdw==
+"@sapphire/utilities@^2.1.0-next.e5418d0d.0":
+  version "2.1.0-next.e5418d0d.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/utilities/-/utilities-2.1.0-next.e5418d0d.0.tgz#53c05637d4386cac70619e3f3064939f7bdb003b"
+  integrity sha512-MG8Mr5P6sIlI58hYZDD+i8Oklr6gLYP28YCkeSKSe5YstftEHVIkvejOT5IjW0YDglCEBoUGWOmIwT6dNlb7FA==
+
+"@sapphire/utilities@^3.0.0-pr-144.6f602eee.0":
+  version "3.0.0-pr-144.6f602eee.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/utilities/-/utilities-3.0.0-pr-144.6f602eee.0.tgz#2fe1d1bc91980ef6e7753a4a2d054cb17a5a9891"
+  integrity sha512-3wUw5sGm2Sy9OAFp4og0ipYTV3d+TZ8ML83MYYaozG89j3zKyaC+wcre1wZ1DOJRNZsbKTZ7NSsTOUO/fsrRzw==
 
 "@sindresorhus/is@^4.0.1":
   version "4.0.1"

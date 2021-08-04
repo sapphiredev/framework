@@ -1,24 +1,32 @@
-import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { ThreadChannel } from 'discord.js';
-import type { ArgumentResult } from '../lib/structures/Argument';
-import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
+import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveGuildThreadChannel } from '../lib/resolvers';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', ThreadChannel> {
+export class CoreArgument extends Argument<ThreadChannel> {
 	public constructor(context: PieceContext) {
-		super(context, {
-			name: 'guildThreadChannel',
-			baseArgument: 'guildChannel'
-		});
+		super(context, { name: 'guildThreadChannel' });
 	}
 
-	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<ThreadChannel> {
-		return channel.isThread()
-			? this.ok(channel)
-			: this.error({
-					parameter: context.parameter,
-					message: 'The argument did not resolve to a server thread channel.',
-					context: { ...context, channel }
-			  });
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<ThreadChannel> {
+		const { guild } = context.message;
+		if (!guild) {
+			return this.error({
+				parameter,
+				identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
+				message: 'This command can only be used in a server.',
+				context
+			});
+		}
+
+		const resolved = resolveGuildThreadChannel(parameter, guild);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter,
+			identifier: resolved.error,
+			message: 'The given argument did not resolve to a valid thread.',
+			context: { ...context, guild }
+		});
 	}
 }

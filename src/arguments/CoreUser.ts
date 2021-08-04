@@ -1,6 +1,6 @@
-import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { Snowflake, User } from 'discord.js';
+import type { User } from 'discord.js';
+import { resolveUser } from '../lib/resolvers';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<User> {
@@ -9,8 +9,13 @@ export class CoreArgument extends Argument<User> {
 	}
 
 	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<User> {
-		const userId = UserOrMemberMentionRegex.exec(parameter) ?? SnowflakeRegex.exec(parameter);
-		const user = userId ? await this.container.client.users.fetch(userId[1] as Snowflake).catch(() => null) : null;
-		return user ? this.ok(user) : this.error({ parameter, message: 'The argument did not resolve to a user.', context });
+		const resolved = await resolveUser(parameter);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter,
+			identifier: resolved.error,
+			message: 'The given argument did not resolve to a Discord user.',
+			context
+		});
 	}
 }
