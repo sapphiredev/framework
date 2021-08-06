@@ -1,9 +1,8 @@
+import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import type {
 	CategoryChannel,
-	Channel,
 	DMChannel,
-	GuildChannel,
 	GuildMember,
 	Message,
 	NewsChannel,
@@ -687,12 +686,12 @@ export class Args {
 
 export interface ArgType {
 	boolean: boolean;
-	channel: Channel;
+	channel: ChannelTypes;
 	date: Date;
 	dmChannel: DMChannel;
 	float: number;
 	guildCategoryChannel: CategoryChannel;
-	guildChannel: GuildChannel | ThreadChannel;
+	guildChannel: GuildBasedChannelTypes;
 	guildNewsChannel: NewsChannel;
 	guildNewsThreadChannel: ThreadChannel & { type: 'GUILD_NEWS_THREAD'; parent: NewsChannel | null };
 	guildPrivateThreadChannel: ThreadChannel & { type: 'GUILD_PRIVATE_THREAD'; parent: TextChannel | null };

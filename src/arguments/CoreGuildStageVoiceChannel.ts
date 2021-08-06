@@ -1,5 +1,6 @@
+import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, StageChannel } from 'discord.js';
+import type { StageChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
@@ -11,7 +12,7 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', StageChannel>
 		});
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<StageChannel> {
+	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<StageChannel> {
 		return channel.type === 'GUILD_STAGE_VOICE'
 			? this.ok(channel as StageChannel)
 			: this.error({

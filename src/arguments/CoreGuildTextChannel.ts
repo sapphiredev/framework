@@ -1,6 +1,6 @@
-import { isTextChannel } from '@sapphire/discord.js-utilities';
+import { GuildBasedChannelTypes, isTextChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, TextChannel } from 'discord.js';
+import type { TextChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
@@ -12,7 +12,7 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', TextChannel> 
 		});
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<TextChannel> {
+	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<TextChannel> {
 		return isTextChannel(channel)
 			? this.ok(channel)
 			: this.error({

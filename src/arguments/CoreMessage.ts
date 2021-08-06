@@ -1,6 +1,13 @@
-import { isNewsChannel, isTextChannel, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord.js-utilities';
+import {
+	GuildBasedChannelTypes,
+	isNewsChannel,
+	isTextChannel,
+	MessageLinkRegex,
+	SnowflakeRegex,
+	TextBasedChannelTypes
+} from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import { DMChannel, Message, NewsChannel, Permissions, Snowflake, TextChannel, ThreadChannel } from 'discord.js';
+import { DMChannel, Message, NewsChannel, Permissions, Snowflake, TextChannel } from 'discord.js';
 import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
 
 export interface MessageArgumentContext extends ArgumentContext {
@@ -24,7 +31,7 @@ export class CoreArgument extends Argument<Message> {
 			  });
 	}
 
-	private resolveById(argument: Snowflake, channel: DMChannel | NewsChannel | TextChannel | ThreadChannel): Promise<Message | null> | null {
+	private resolveById(argument: Snowflake, channel: TextBasedChannelTypes): Promise<Message | null> | null {
 		return SnowflakeRegex.test(argument) ? channel.messages.fetch(argument).catch(() => null) : null;
 	}
 
@@ -38,7 +45,7 @@ export class CoreArgument extends Argument<Message> {
 		const guild = this.container.client.guilds.cache.get(guildId as Snowflake);
 		if (guild !== message.guild) return null;
 
-		const channel = guild.channels.cache.get(channelId as Snowflake);
+		const channel = guild.channels.cache.get(channelId as Snowflake) as GuildBasedChannelTypes | undefined;
 		if (!channel) return null;
 		if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
 		if (!channel.viewable) return null;

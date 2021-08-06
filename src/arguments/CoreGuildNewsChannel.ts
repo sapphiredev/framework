@@ -1,6 +1,6 @@
-import { isNewsChannel } from '@sapphire/discord.js-utilities';
+import { GuildBasedChannelTypes, isNewsChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, NewsChannel } from 'discord.js';
+import type { NewsChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
@@ -12,7 +12,7 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', NewsChannel> 
 		});
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<NewsChannel> {
+	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<NewsChannel> {
 		return isNewsChannel(channel)
 			? this.ok(channel)
 			: this.error({
