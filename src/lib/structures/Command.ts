@@ -65,7 +65,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
 
-		this.preconditions = new PreconditionContainerArray();
+		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.parseConstructorPreConditions(options);
 	}
 
