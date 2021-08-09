@@ -1,15 +1,16 @@
 import { ChannelMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
+import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { Guild, GuildChannel, Snowflake, ThreadChannel } from 'discord.js';
+import type { Guild, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends Argument<GuildChannel | ThreadChannel> {
+export class CoreArgument extends Argument<GuildBasedChannelTypes> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<GuildChannel | ThreadChannel> {
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<GuildBasedChannelTypes> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({
@@ -30,13 +31,13 @@ export class CoreArgument extends Argument<GuildChannel | ThreadChannel> {
 			  });
 	}
 
-	private resolveById(argument: string, guild: Guild): GuildChannel | ThreadChannel | null {
+	private resolveById(argument: string, guild: Guild): GuildBasedChannelTypes | null {
 		const channelId = ChannelMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
-		return channelId ? guild.channels.cache.get(channelId[1] as Snowflake) ?? null : null;
+		return channelId ? (guild.channels.cache.get(channelId[1] as Snowflake) as GuildBasedChannelTypes) ?? null : null;
 	}
 
-	private resolveByQuery(argument: string, guild: Guild): GuildChannel | ThreadChannel | null {
+	private resolveByQuery(argument: string, guild: Guild): GuildBasedChannelTypes | null {
 		const lowerCaseArgument = argument.toLowerCase();
-		return guild.channels.cache.find((channel) => channel.name.toLowerCase() === lowerCaseArgument) ?? null;
+		return (guild.channels.cache.find((channel) => channel.name.toLowerCase() === lowerCaseArgument) as GuildBasedChannelTypes) ?? null;
 	}
 }
