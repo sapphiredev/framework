@@ -10,7 +10,8 @@ export {
 	PieceOptions,
 	Store,
 	StoreOptions,
-	StoreRegistry
+	StoreRegistry,
+	StoreRegistryEntries
 } from '@sapphire/pieces';
 export type { Awaited } from '@sapphire/utilities';
 export type { MessageArgumentContext } from './arguments/CoreMessage';
