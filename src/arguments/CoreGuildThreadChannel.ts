@@ -1,5 +1,6 @@
+import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { GuildChannel, ThreadChannel } from 'discord.js';
+import type { ThreadChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
@@ -11,7 +12,7 @@ export class CoreArgument extends ExtendedArgument<'guildChannel', ThreadChannel
 		});
 	}
 
-	public handle(channel: GuildChannel, context: ExtendedArgumentContext): ArgumentResult<ThreadChannel> {
+	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<ThreadChannel> {
 		return channel.isThread()
 			? this.ok(channel)
 			: this.error({

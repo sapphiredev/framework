@@ -1,6 +1,6 @@
-import { isDMChannel } from '@sapphire/discord.js-utilities';
+import { ChannelTypes, isDMChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import type { Channel, DMChannel } from 'discord.js';
+import type { DMChannel } from 'discord.js';
 import type { ArgumentResult } from '../lib/structures/Argument';
 import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
 
@@ -9,7 +9,7 @@ export class CoreArgument extends ExtendedArgument<'channel', DMChannel> {
 		super(context, { baseArgument: 'channel', name: 'dmChannel' });
 	}
 
-	public handle(channel: Channel, context: ExtendedArgumentContext): ArgumentResult<DMChannel> {
+	public handle(channel: ChannelTypes, context: ExtendedArgumentContext): ArgumentResult<DMChannel> {
 		return isDMChannel(channel)
 			? this.ok(channel)
 			: this.error({
