@@ -2,6 +2,7 @@ import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
 import { Awaited, isNullish } from '@sapphire/utilities';
 import { Message, PermissionResolvable, Permissions } from 'discord.js';
 import * as Lexure from 'lexure';
+import { sep } from 'path';
 import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
@@ -27,6 +28,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 	public detailedDescription: string;
 
 	/**
+	 * Command category
+	 * @since 2.0.0
+	 */
+	public category: string;
+
+	/**
 	 * The strategy to use for the lexer.
 	 * @since 1.0.0
 	 */
@@ -48,6 +55,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
+		this.category = options.category ?? this.path.split(sep).reverse()[1] ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
 		this.lexer.setQuotes(
 			options.quotes ?? [
@@ -295,6 +303,13 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @default ''
 	 */
 	detailedDescription?: string;
+
+	/**
+	 * Command category
+	 * @since 2.0.0
+	 * @default 'parent folder of the command'
+	 */
+	category?: string;
 
 	/**
 	 * The {@link Precondition}s to be run, accepts an array of their names.
