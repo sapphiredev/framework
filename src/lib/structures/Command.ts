@@ -307,7 +307,7 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	/**
 	 * Command category
 	 * @since 2.0.0
-	 * @default 'parent folder of the command'
+	 * @default 'parent folder name of the command'
 	 */
 	category?: string;
 
