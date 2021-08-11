@@ -55,8 +55,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
-		this.category = options.category ?? this.path.split(sep).reverse()[1] ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
+
 		this.lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -64,6 +64,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 				['「', '」'] // Corner brackets (CJK)
 			]
 		);
+
+		this.category =
+			options.category ??
+			[...this.container.stores.get('commands').paths.values()].includes(this.path.split(sep).reverse().slice(1).reverse().join(sep))
+				? ''
+				: this.path.split(sep).reverse()[1] ?? '';
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases = [];
