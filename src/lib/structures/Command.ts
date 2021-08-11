@@ -107,6 +107,13 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
+	 * Get all the main categories of commands.
+	 */
+	public get categories(): (string | null)[] {
+		return Array.from(new Set([...this.container.stores.get('commands').values()].map(({ category }) => category)));
+	}
+
+	/**
 	 * The main category for the command, if any.
 	 * This is resolved from {@link Command.fullCategory}, which is automatically
 	 * resolved in the constructor. If you need different logic for category
