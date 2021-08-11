@@ -43,7 +43,7 @@
 		"@types/node": "^16.4.13",
 		"@types/ws": "^7.4.7",
 		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^13.0.0",
+		"discord.js": "^13.0.1",
 		"husky": "^7.0.1",
 		"jest": "^27.0.6",
 		"jest-circus": "^27.0.6",
