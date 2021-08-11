@@ -7,9 +7,13 @@ on:
         description: The number of the PR that is being deployed
         required: true
       ref:
-        description: The branch that is being deployed. Should be a proper ref string
+        description: The branch that is being deployed. Should be a branch on the given repository
         required: false
         default: main
+      repository:
+        description: The repository that is being deployed. Should be either "sapphiredev" or a fork of the current repository
+        required: false
+        default: sapphiredev
   push:
     branches:
       - main
@@ -23,6 +27,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          repository: ${{ github.event.inputs.repository || 'sapphiredev' }}
           ref: ${{ github.event.inputs.ref || 'main' }}
       - name: Add TypeScript problem matcher
         run: echo "::add-matcher::.github/problemMatchers/tsc.json"
