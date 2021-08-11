@@ -28,10 +28,14 @@ export abstract class Command<T = Args> extends AliasPiece {
 	public detailedDescription: string;
 
 	/**
-	 * Command category
+	 * The full category for the command. Either an array of strings that denote every (sub)folder the command is in,
+	 * or `null` if it could not be resolved automatically.
+	 *
+	 * If this is `null` for how you setup your code then you can overwrite how the `fullCategory` is resolved by
+	 * extending this class and overwriting the assignment in the constructor.
 	 * @since 2.0.0
 	 */
-	public category: string;
+	public readonly fullCategory: readonly string[] | null = null;
 
 	/**
 	 * The strategy to use for the lexer.
@@ -65,11 +69,18 @@ export abstract class Command<T = Args> extends AliasPiece {
 			]
 		);
 
-		this.category =
-			options.category ??
-			[...this.container.stores.get('commands').paths.values()].includes(this.path.split(sep).reverse().slice(1).reverse().join(sep))
-				? ''
-				: this.path.split(sep).reverse()[1] ?? '';
+		if (options.fullCategory) {
+			this.fullCategory = options.fullCategory;
+		} else {
+			const commandsFolders = [...this.container.stores.get('commands').paths.values()].map((p) => p.split(sep).pop() ?? '');
+			const commandPath = context.path.split(sep);
+			for (const commandFolder of commandsFolders) {
+				if (commandPath.includes(commandFolder)) {
+					this.fullCategory = commandPath.slice(commandPath.indexOf(commandFolder) + 1, -1);
+					break;
+				}
+			}
+		}
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases = [];
@@ -93,6 +104,39 @@ export abstract class Command<T = Args> extends AliasPiece {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
+	}
+
+	/**
+	 * The main category for the command, if any.
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get category(): string | null {
+		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[0] ?? null : null;
+	}
+
+	/**
+	 * The sub category for the command
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get subCategory(): string | null {
+		return (this.fullCategory?.length ?? 0) > 1 ? this.fullCategory?.[1] ?? null : null;
+	}
+
+	/**
+	 * The parent category for the command
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get parentCategory(): string | null {
+		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[(this.fullCategory?.length ?? 1) - 1] ?? null : null;
 	}
 
 	/**
@@ -311,11 +355,19 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	detailedDescription?: string;
 
 	/**
-	 * Command category
+	 * The full category path for the command
 	 * @since 2.0.0
-	 * @default 'parent folder name of the command'
+	 * @default 'An array of folder names that lead back to the folder that is registered for in the commands store'
+	 * @example
+	 * ```typescript
+	 * // Given a file named `ping.js` at the path of `commands/General/ping.js`
+	 * ['General']
+	 *
+	 * // Given a file named `info.js` at the path of `commands/General/About/ping.js`
+	 * ['General', 'About']
+	 * ```
 	 */
-	category?: string;
+	fullCategory?: string[];
 
 	/**
 	 * The {@link Precondition}s to be run, accepts an array of their names.
