@@ -82,6 +82,13 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
+	 * Get the required permissions from the client to execute the command.
+	 */
+	public get requiredClientPermissions(): string[] {
+		return this.requiredClientPermissions;
+	}
+
+	/**
 	 * Executes the command's logic.
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
@@ -96,6 +103,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 			...super.toJSON(),
 			description: this.description,
 			detailedDescription: this.detailedDescription,
+			requiredClientPermissions: this.requiredClientPermissions,
 			strategy: this.strategy
 		};
 	}
