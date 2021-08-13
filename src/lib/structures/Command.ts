@@ -161,6 +161,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 			...super.toJSON(),
 			description: this.description,
 			detailedDescription: this.detailedDescription,
+			category: this.category,
 			strategy: this.strategy
 		};
 	}
