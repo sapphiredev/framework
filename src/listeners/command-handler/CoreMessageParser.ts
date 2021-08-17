@@ -38,7 +38,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
-		if (message.channel.type === 'DM') return true;
+		if (message.channel.type === 'dm') return true;
 
 		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
