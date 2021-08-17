@@ -1,5 +1,5 @@
 import { RateLimitManager } from '@sapphire/ratelimits';
-import type { Message } from 'discord.js';
+import type { Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
@@ -9,6 +9,7 @@ export interface CooldownContext extends PreconditionContext {
 	scope?: BucketScope;
 	delay: number;
 	limit?: number;
+	filteredUsers?: Snowflake[];
 }
 
 export class CorePrecondition extends Precondition {
@@ -20,6 +21,9 @@ export class CorePrecondition extends Precondition {
 
 		// If there is no delay (undefined, null, 0), return ok:
 		if (!context.delay) return this.ok();
+
+		// If the user has provided any filtered users and the message author is in that array, return ok:
+		if (context.filteredUsers?.includes(message.author.id)) return this.ok();
 
 		const ratelimit = this.getManager(command, context).acquire(this.getId(message, context));
 		if (ratelimit.limited) {
