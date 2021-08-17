@@ -1,5 +1,6 @@
+import { GuildBasedChannelTypes, isDMChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { Message, Permissions } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
@@ -38,13 +39,13 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
-		if (message.channel.type === 'DM') return true;
+		if (isDMChannel(message.channel)) return true;
 
 		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
 
-		const channel = message.channel as TextChannel | NewsChannel;
-		return channel.permissionsFor(me)!.has(this.requiredPermissions, false);
+		const channel = message.channel as GuildBasedChannelTypes;
+		return channel.permissionsFor(me).has(this.requiredPermissions, false);
 	}
 
 	private getMentionPrefix(content: string): string | null {
