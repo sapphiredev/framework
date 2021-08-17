@@ -2,6 +2,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
+import { isDMChannel } from '@sapphire/discord.js-utilities';
 
 export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
@@ -38,7 +39,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
-		if (message.channel.type === 'DM') return true;
+		if (isDMChannel(message.channel)) return true;
 
 		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
