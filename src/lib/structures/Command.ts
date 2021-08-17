@@ -1,6 +1,6 @@
 import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
 import { Awaited, isNullish } from '@sapphire/utilities';
-import { Message, PermissionResolvable, Permissions } from 'discord.js';
+import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
 import { sep } from 'path';
 import { Args } from '../parsers/Args';
@@ -220,10 +220,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 	protected parseConstructorPreConditionsCooldown(options: CommandOptions) {
 		const limit = options.cooldownLimit ?? 1;
 		const delay = options.cooldownDelay ?? 0;
+		const filteredUsers = options.cooldownFilteredUsers;
+
 		if (limit && delay) {
 			this.preconditions.append({
 				name: CommandPreConditions.Cooldown,
-				context: { scope: options.cooldownScope ?? BucketScope.User, limit, delay }
+				context: { scope: options.cooldownScope ?? BucketScope.User, limit, delay, filteredUsers }
 			});
 		}
 	}
@@ -424,6 +426,14 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @default BucketScope.User
 	 */
 	cooldownScope?: BucketScope;
+
+	/**
+	 * The users that are exempt from the Cooldown precondition.
+	 * Use this to filter out someone like a bot owner
+	 * @since 2.0.0
+	 * @default undefined
+	 */
+	cooldownFilteredUsers?: Snowflake[];
 
 	/**
 	 * The required permissions for the client.
