@@ -1,24 +1,32 @@
-import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { StageChannel } from 'discord.js';
-import type { ArgumentResult } from '../lib/structures/Argument';
-import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
+import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveGuildStageVoiceChannel } from '../lib/resolvers';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', StageChannel> {
+export class CoreArgument extends Argument<StageChannel> {
 	public constructor(context: PieceContext) {
-		super(context, {
-			name: 'guildStageVoiceChannel',
-			baseArgument: 'guildChannel'
-		});
+		super(context, { name: 'guildStageVoiceChannel' });
 	}
 
-	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<StageChannel> {
-		return channel.type === 'GUILD_STAGE_VOICE'
-			? this.ok(channel as StageChannel)
-			: this.error({
-					parameter: context.parameter,
-					message: 'The argument did not resolve to a server stage voice channel.',
-					context: { ...context, channel }
-			  });
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<StageChannel> {
+		const { guild } = context.message;
+		if (!guild) {
+			return this.error({
+				parameter,
+				identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
+				message: 'This command can only be used in a server.',
+				context
+			});
+		}
+
+		const resolved = resolveGuildStageVoiceChannel(parameter, guild);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter,
+			identifier: resolved.error,
+			message: 'The given argument did not resolve to a valid stage voice channel.',
+			context: { ...context, guild }
+		});
 	}
 }

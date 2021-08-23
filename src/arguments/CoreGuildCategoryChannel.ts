@@ -1,24 +1,32 @@
-import { GuildBasedChannelTypes, isCategoryChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { CategoryChannel } from 'discord.js';
-import type { ArgumentResult } from '../lib/structures/Argument';
-import { ExtendedArgument, ExtendedArgumentContext } from '../lib/structures/ExtendedArgument';
+import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveGuildCategoryChannel } from '../lib/resolvers';
+import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends ExtendedArgument<'guildChannel', CategoryChannel> {
+export class CoreArgument extends Argument<CategoryChannel> {
 	public constructor(context: PieceContext) {
-		super(context, {
-			name: 'guildCategoryChannel',
-			baseArgument: 'guildChannel'
-		});
+		super(context, { name: 'guildCategoryChannel' });
 	}
 
-	public handle(channel: GuildBasedChannelTypes, context: ExtendedArgumentContext): ArgumentResult<CategoryChannel> {
-		return isCategoryChannel(channel)
-			? this.ok(channel)
-			: this.error({
-					parameter: context.parameter,
-					message: 'The argument did not resolve to a server category channel.',
-					context: { ...context, channel }
-			  });
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<CategoryChannel> {
+		const { guild } = context.message;
+		if (!guild) {
+			return this.error({
+				parameter,
+				identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
+				message: 'This command can only be used in a server.',
+				context
+			});
+		}
+
+		const resolved = resolveGuildCategoryChannel(parameter, guild);
+		if (resolved.success) return this.ok(resolved.value);
+		return this.error({
+			parameter,
+			identifier: resolved.error,
+			message: 'The argument did not resolve to a valid server category channel.',
+			context: { ...context, guild }
+		});
 	}
 }

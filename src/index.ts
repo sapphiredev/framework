@@ -14,7 +14,6 @@ export {
 	StoreRegistryEntries
 } from '@sapphire/pieces';
 export type { Awaited } from '@sapphire/utilities';
-export type { MessageArgumentContext } from './arguments/CoreMessage';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
@@ -25,6 +24,7 @@ export * from './lib/parsers/Result';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
+export * as Resolvers from './lib/resolvers';
 export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
@@ -42,10 +42,12 @@ export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionAnd';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionOr';
-export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
+export * from './lib/utils/preconditions/containers/ClientPermissionsPrecondition';
+export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export type { CooldownContext } from './preconditions/Cooldown';
+export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
 
 export const version = '[VI]{version}[/VI]';
