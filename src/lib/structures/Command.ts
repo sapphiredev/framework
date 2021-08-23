@@ -153,7 +153,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredUserPermissions(options: CommandOptions) {
-		const permissions = new Permissions(options.requiredClientPermissions);
+		const permissions = new Permissions(options.requiredUserPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
 		}
