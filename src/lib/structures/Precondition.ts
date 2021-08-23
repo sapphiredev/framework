@@ -92,7 +92,10 @@ export interface Preconditions {
 	GuildTextOnly: never;
 	GuildThreadOnly: never;
 	NSFW: never;
-	Permissions: {
+	ClientPermissions: {
+		permissions: Permissions;
+	};
+	UserPermissions: {
 		permissions: Permissions;
 	};
 }

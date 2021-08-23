@@ -112,6 +112,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.parseConstructorPreConditionsRunIn(options);
 		this.parseConstructorPreConditionsNsfw(options);
 		this.parseConstructorPreConditionsRequiredClientPermissions(options);
+		this.parseConstructorPreConditionsRequiredUserPermissions(options);
 		this.parseConstructorPreConditionsCooldown(options);
 	}
 
@@ -135,14 +136,26 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
-	 * Appends the `Permissions` precondition when {@link CommandOptions.requiredClientPermissions} resolves to a
+	 * Appends the `ClientPermissions` precondition when {@link CommandOptions.requiredClientPermissions} resolves to a
 	 * non-zero bitfield.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: CommandOptions) {
 		const permissions = new Permissions(options.requiredClientPermissions);
 		if (permissions.bitfield !== 0n) {
-			this.preconditions.append({ name: CommandPreConditions.Permissions, context: { permissions } });
+			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
+		}
+	}
+
+	/**
+	 * Appends the `UserPermissions` precondition when {@link CommandOptions.requiredUserPermissions} resolves to a
+	 * non-zero bitfield.
+	 * @param options The command options given from the constructor.
+	 */
+	protected parseConstructorPreConditionsRequiredUserPermissions(options: CommandOptions) {
+		const permissions = new Permissions(options.requiredClientPermissions);
+		if (permissions.bitfield !== 0n) {
+			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
 		}
 	}
 
@@ -269,7 +282,8 @@ export const enum CommandPreConditions {
 	GuildTextOnly = 'GuildTextOnly',
 	GuildThreadOnly = 'GuildThreadOnly',
 	NotSafeForWork = 'NSFW',
-	Permissions = 'Permissions'
+	ClientPermissions = 'ClientPermissions',
+	UserPermissions = 'UserPermissions'
 }
 
 /**
@@ -360,6 +374,13 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @default 0
 	 */
 	requiredClientPermissions?: PermissionResolvable;
+
+	/**
+	 * The required permissions for the user.
+	 * @since 2.0.0
+	 * @default 0
+	 */
+	requiredUserPermissions?: PermissionResolvable;
 
 	/**
 	 * The channels the command should run in. If set to `null`, no precondition entry will be added. Some optimizations are applied when given an array to reduce the amount of preconditions run (e.g. `'text'` and `'news'` becomes `'guild'`, and if both `'dm'` and `'guild'` are defined, then no precondition entry is added as it runs in all channels).

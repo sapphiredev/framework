@@ -4,17 +4,18 @@ import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends Precondition {
-	private readonly dmChannelPermissions = new Permissions([
-		Permissions.FLAGS.VIEW_CHANNEL,
-		Permissions.FLAGS.SEND_MESSAGES,
-		Permissions.FLAGS.SEND_TTS_MESSAGES,
-		Permissions.FLAGS.EMBED_LINKS,
-		Permissions.FLAGS.ATTACH_FILES,
-		Permissions.FLAGS.READ_MESSAGE_HISTORY,
-		Permissions.FLAGS.MENTION_EVERYONE,
-		Permissions.FLAGS.USE_EXTERNAL_EMOJIS,
-		Permissions.FLAGS.ADD_REACTIONS
-	]).freeze();
+	private readonly dmChannelPermissions = new Permissions(
+		~new Permissions([
+			//
+			'ADD_REACTIONS',
+			'ATTACH_FILES',
+			'EMBED_LINKS',
+			'READ_MESSAGE_HISTORY',
+			'SEND_MESSAGES',
+			'USE_EXTERNAL_EMOJIS',
+			'VIEW_CHANNEL'
+		]).bitfield & Permissions.ALL
+	).freeze();
 
 	public run(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
 		const required = (context.permissions as Permissions) ?? new Permissions();
@@ -25,7 +26,7 @@ export class CorePrecondition extends Precondition {
 		return missing.length === 0
 			? this.ok()
 			: this.error({
-					identifier: Identifiers.PreconditionPermissions,
+					identifier: Identifiers.PreconditionClientPermissions,
 					message: `I am missing the following permissions to run this command: ${missing
 						.map((perm) => CorePrecondition.readablePermissions[perm])
 						.join(', ')}`,
@@ -33,7 +34,7 @@ export class CorePrecondition extends Precondition {
 			  });
 	}
 
-	protected static readonly readablePermissions = {
+	public static readonly readablePermissions = {
 		ADD_REACTIONS: 'Add Reactions',
 		ADMINISTRATOR: 'Administrator',
 		ATTACH_FILES: 'Attach Files',
