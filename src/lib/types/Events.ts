@@ -65,6 +65,7 @@ export const Events = {
 	CommandFinish: 'commandFinish' as const,
 	CommandRun: 'commandRun' as const,
 	CommandSuccess: 'commandSuccess' as const,
+	CommandTypingError: 'commandTypingError' as const,
 	ListenerError: 'listenerError' as const,
 	MentionPrefixOnly: 'mentionPrefixOnly' as const,
 	NonPrefixedMessage: 'nonPrefixedMessage' as const,
@@ -128,6 +129,8 @@ export interface CommandSuccessPayload<T extends Args = Args> extends CommandRun
 	result: unknown;
 }
 
+export interface CommandTypingErrorPayload<T extends Args = Args> extends CommandRunPayload<T> {}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
@@ -146,6 +149,7 @@ declare module 'discord.js' {
 		[Events.CommandSuccess]: [payload: CommandSuccessPayload];
 		[Events.CommandError]: [error: Error, payload: CommandErrorPayload];
 		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandFinishPayload];
+		[Events.CommandTypingError]: [error: Error, payload: CommandTypingErrorPayload];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		[Events.NonPrefixedMessage]: [message: Message];
 		// #endregion Sapphire load cycle events

@@ -43,6 +43,13 @@ export abstract class Command<T = Args> extends AliasPiece {
 	public strategy: Lexure.UnorderedStrategy;
 
 	/**
+	 * If {@link SapphireClient.typing} is true, it can be overridden for a specific command using this property, set via its options.
+	 * Otherwise, this property will be ignored.
+	 * @default true
+	 */
+	public typing: boolean;
+
+	/**
 	 * The lexer to be used for command parsing
 	 * @since 1.0.0
 	 * @private
@@ -60,6 +67,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
 		this.fullCategory = options.fullCategory ?? this.location.directories;
+		this.typing = options.typing ?? true;
 
 		this.lexer.setQuotes(
 			options.quotes ?? [
@@ -466,6 +474,13 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @default null
 	 */
 	runIn?: CommandOptionsRunType | CommandOptionsRunTypeEnum | readonly (CommandOptionsRunType | CommandOptionsRunTypeEnum)[] | null;
+
+	/**
+	 * If {@link SapphireClient.typing} is true, this option will override it.
+	 * Otherwise, this option has no effect - you may call {@link Channel#sendTyping}` in the run method if you want specific commands to display the typing status.
+	 * @default true
+	 */
+	typing?: boolean;
 }
 
 export interface CommandContext extends Record<PropertyKey, unknown> {
