@@ -11,7 +11,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  *     super(context, {
  *       preconditions: [
  *         'GuildOnly',
- *         new PermissionsPrecondition('ADD_REACTIONS')
+ *         new ClientPermissionsPrecondition('ADD_REACTIONS')
  *       ]
  *     });
  *   }
@@ -22,8 +22,8 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  * }
  * ```
  */
-export class PermissionsPrecondition implements PreconditionSingleResolvableDetails<'Permissions'> {
-	public name: 'Permissions';
+export class ClientPermissionsPrecondition implements PreconditionSingleResolvableDetails<'ClientPermissions'> {
+	public name: 'ClientPermissions';
 	public context: { permissions: Permissions };
 
 	/**
@@ -31,7 +31,7 @@ export class PermissionsPrecondition implements PreconditionSingleResolvableDeta
 	 * @param permissions The permissions that will be required by this command.
 	 */
 	public constructor(permissions: PermissionResolvable) {
-		this.name = 'Permissions';
+		this.name = 'ClientPermissions';
 		this.context = {
 			permissions: new Permissions(permissions)
 		};
