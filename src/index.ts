@@ -42,10 +42,12 @@ export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionAnd';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionOr';
-export * from './lib/utils/preconditions/containers/PermissionsPrecondition';
+export * from './lib/utils/preconditions/containers/ClientPermissionsPrecondition';
+export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition';
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export type { CooldownContext } from './preconditions/Cooldown';
+export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
 
 export const version = '[VI]{version}[/VI]';
