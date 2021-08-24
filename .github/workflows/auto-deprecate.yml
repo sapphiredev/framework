@@ -1,0 +1,28 @@
+name: NPM Auto Deprecate
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  auto-deprecate:
+    name: NPM Auto Deprecate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Node.js v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Restore CI Cache
+        uses: actions/cache@v2.1.6
+        id: cache-restore
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-16-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Dependencies if Cache Miss
+        if: ${{ !steps.cache-restore.outputs.cache-hit }}
+        run: yarn --frozen-lockfile
+      - name: Deprecate versions
+        run: yarn npm-deprecate
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

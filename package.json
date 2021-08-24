@@ -35,6 +35,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^13.1.0",
 		"@commitlint/config-conventional": "^13.1.0",
+		"@favware/npm-deprecate": "^1.0.2",
 		"@favware/rollup-type-bundler": "^1.0.3",
 		"@sapphire/eslint-config": "^3.2.3",
 		"@sapphire/prettier-config": "^1.1.6",
