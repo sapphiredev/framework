@@ -1,6 +1,6 @@
 import { ChannelMentionRegex, ChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
-import type { Message } from 'discord.js';
+import type { Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import { err, ok, Result } from '../parsers/Result';
 
