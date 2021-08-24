@@ -9,6 +9,8 @@ jobs:
     name: NPM Auto Deprecate
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
       - name: Use Node.js v16
         uses: actions/setup-node@v2
         with:
