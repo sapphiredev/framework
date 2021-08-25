@@ -2,6 +2,7 @@ import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
 import { Awaited, isNullish } from '@sapphire/utilities';
 import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
+import { sep } from 'path';
 import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
@@ -27,6 +28,16 @@ export abstract class Command<T = Args> extends AliasPiece {
 	public detailedDescription: string;
 
 	/**
+	 * The full category for the command. Either an array of strings that denote every (sub)folder the command is in,
+	 * or `null` if it could not be resolved automatically.
+	 *
+	 * If this is `null` for how you setup your code then you can overwrite how the `fullCategory` is resolved by
+	 * extending this class and overwriting the assignment in the constructor.
+	 * @since 2.0.0
+	 */
+	public readonly fullCategory: readonly string[] | null = null;
+
+	/**
 	 * The strategy to use for the lexer.
 	 * @since 1.0.0
 	 */
@@ -49,6 +60,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
+
 		this.lexer.setQuotes(
 			options.quotes ?? [
 				['"', '"'], // Double quotes
@@ -56,6 +68,19 @@ export abstract class Command<T = Args> extends AliasPiece {
 				['「', '」'] // Corner brackets (CJK)
 			]
 		);
+
+		if (options.fullCategory) {
+			this.fullCategory = options.fullCategory;
+		} else {
+			const commandsFolders = [...this.container.stores.get('commands').paths.values()].map((p) => p.split(sep).pop() ?? '');
+			const commandPath = context.path.split(sep);
+			for (const commandFolder of commandsFolders) {
+				if (commandPath.includes(commandFolder)) {
+					this.fullCategory = commandPath.slice(commandPath.indexOf(commandFolder) + 1, -1);
+					break;
+				}
+			}
+		}
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases = [];
@@ -82,6 +107,46 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
+	 * Get all the main categories of commands.
+	 */
+	public get categories(): (string | null)[] {
+		return Array.from(new Set([...this.container.stores.get('commands').values()].map(({ category }) => category)));
+	}
+
+	/**
+	 * The main category for the command, if any.
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get category(): string | null {
+		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[0] ?? null : null;
+	}
+
+	/**
+	 * The sub category for the command
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get subCategory(): string | null {
+		return (this.fullCategory?.length ?? 0) > 1 ? this.fullCategory?.[1] ?? null : null;
+	}
+
+	/**
+	 * The parent category for the command
+	 * This is resolved from {@link Command.fullCategory}, which is automatically
+	 * resolved in the constructor. If you need different logic for category
+	 * then please first look into overwriting {@link Command.fullCategory} before
+	 * looking to overwrite this getter.
+	 */
+	public get parentCategory(): string | null {
+		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[(this.fullCategory?.length ?? 1) - 1] ?? null : null;
+	}
+
+	/**
 	 * Executes the command's logic.
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
@@ -96,6 +161,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 			...super.toJSON(),
 			description: this.description,
 			detailedDescription: this.detailedDescription,
+			category: this.category,
 			strategy: this.strategy
 		};
 	}
@@ -311,6 +377,21 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @default ''
 	 */
 	detailedDescription?: string;
+
+	/**
+	 * The full category path for the command
+	 * @since 2.0.0
+	 * @default 'An array of folder names that lead back to the folder that is registered for in the commands store'
+	 * @example
+	 * ```typescript
+	 * // Given a file named `ping.js` at the path of `commands/General/ping.js`
+	 * ['General']
+	 *
+	 * // Given a file named `info.js` at the path of `commands/General/About/ping.js`
+	 * ['General', 'About']
+	 * ```
+	 */
+	fullCategory?: string[];
 
 	/**
 	 * The {@link Precondition}s to be run, accepts an array of their names.
