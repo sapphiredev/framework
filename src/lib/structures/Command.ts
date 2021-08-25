@@ -322,6 +322,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 
 /**
  * The allowed values for {@link CommandOptions.runIn}.
+ * @remark It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
  * @since 2.0.0
  */
 export type CommandOptionsRunType =
@@ -332,6 +333,20 @@ export type CommandOptionsRunType =
 	| 'GUILD_PUBLIC_THREAD'
 	| 'GUILD_PRIVATE_THREAD'
 	| 'GUILD_ANY';
+
+/**
+ * The allowed values for {@link CommandOptions.runIn} as an enum.
+ * @since 2.0.0
+ */
+export const enum CommandOptionsRunTypeEnum {
+	Dm = 'DM',
+	GuildText = 'GUILD_TEXT',
+	GuildNews = 'GUILD_NEWS',
+	GuildNewsThread = 'GUILD_NEWS_THREAD',
+	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
+	GuildPrivateThread = 'GUILD_PRIVATE_THREAD',
+	GuildAny = 'GUILD_ANY'
+}
 
 /**
  * The available command pre-conditions.
@@ -468,7 +483,7 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @since 2.0.0
 	 * @default null
 	 */
-	runIn?: CommandOptionsRunType | readonly CommandOptionsRunType[] | null;
+	runIn?: CommandOptionsRunType | CommandOptionsRunTypeEnum | readonly (CommandOptionsRunType | CommandOptionsRunTypeEnum)[] | null;
 }
 
 export interface CommandContext extends Record<PropertyKey, unknown> {
