@@ -339,13 +339,13 @@ export type CommandOptionsRunType =
  * @since 2.0.0
  */
 export const enum CommandOptionsRunTypeEnum {
-	DM = 'DM',
-	GUILD_TEXT = 'GUILD_TEXT',
-	GUILD_NEWS = 'GUILD_NEWS',
-	GUILD_NEWS_THREAD = 'GUILD_NEWS_THREAD',
-	GUILD_PUBLIC_THREAD = 'GUILD_PUBLIC_THREAD',
-	GUILD_PRIVATE_THREAD = 'GUILD_PRIVATE_THREAD',
-	GUILD_ANY = 'GUILD_ANY'
+	Dm = 'DM',
+	GuildText = 'GUILD_TEXT',
+	GuildNews = 'GUILD_NEWS',
+	GuildNewsThread = 'GUILD_NEWS_THREAD',
+	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
+	GuildPrivateThread = 'GUILD_PRIVATE_THREAD',
+	GuildAny = 'GUILD_ANY'
 }
 
 /**
