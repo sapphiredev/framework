@@ -68,10 +68,10 @@ export class PluginManager {
 		return this;
 	}
 
-	public values(): Generator<SapphirePluginHookEntry, void, unknown>;
-	public values(hook: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
-	public values(hook: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
-	public *values(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
+	public hooks(): Generator<SapphirePluginHookEntry, void, unknown>;
+	public hooks(hook: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
+	public hooks(hook: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
+	public *hooks(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
 		for (const plugin of this.registry) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
