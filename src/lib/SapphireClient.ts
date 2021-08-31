@@ -210,10 +210,7 @@ export class SapphireClient extends Client {
 
 		container.client = this;
 
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
-			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
-		}
+		SapphireClient.plugins.initHook(PluginHook.PreGenericsInitialization, this);
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
 		container.logger = this.logger;
@@ -226,10 +223,7 @@ export class SapphireClient extends Client {
 
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
 
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
-			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
-		}
+		SapphireClient.plugins.initHook(PluginHook.PreInitialization, this);
 
 		this.id = options.id ?? null;
 		this.stores
@@ -239,10 +233,7 @@ export class SapphireClient extends Client {
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
 		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
 
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
-			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
-		}
+		SapphireClient.plugins.initHook(PluginHook.PostInitialization, this);
 	}
 
 	/**
@@ -258,25 +249,19 @@ export class SapphireClient extends Client {
 		}
 
 		// Call pre-login plugins:
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
-			await plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
-		}
+		await SapphireClient.plugins.initAsyncHook(PluginHook.PreLogin, this);
 
 		// Loads all stores, then call login:
 		await Promise.all([...this.stores.values()].map((store) => store.loadAll()));
 		const login = await super.login(token);
 
 		// Call post-login plugins:
-		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
-			await plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
-		}
+		await SapphireClient.plugins.initAsyncHook(PluginHook.PostLogin, this);
 
 		return login;
 	}
 
-	public static plugins = new PluginManager();
+	public static readonly plugins = new PluginManager();
 
 	public static use(plugin: typeof Plugin) {
 		this.plugins.use(plugin);

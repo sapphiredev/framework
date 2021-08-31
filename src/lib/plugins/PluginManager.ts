@@ -1,5 +1,6 @@
 import type { Awaited } from '@sapphire/utilities';
 import type { ClientOptions } from 'discord.js';
+import { Events } from '../..';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
 import type { Plugin } from './Plugin';
@@ -68,13 +69,27 @@ export class PluginManager {
 		return this;
 	}
 
-	public hooks(): Generator<SapphirePluginHookEntry, void, unknown>;
-	public hooks(hook: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
-	public hooks(hook: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
-	public *hooks(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
+	public plugins(): Generator<SapphirePluginHookEntry, void, unknown>;
+	public plugins(hook: SyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginHook>, void, unknown>;
+	public plugins(hook: AsyncPluginHooks): Generator<SapphirePluginHookEntry<SapphirePluginAsyncHook>, void, unknown>;
+	public *plugins(hook?: PluginHook): Generator<SapphirePluginHookEntry, void, unknown> {
 		for (const plugin of this.registry) {
 			if (hook && plugin.type !== hook) continue;
 			yield plugin;
+		}
+	}
+
+	public initHook(targetHook: SyncPluginHooks, client: SapphireClient) {
+		for (const plugin of this.plugins(targetHook)) {
+			plugin.hook.call(client, client.options);
+			client.emit(Events.PluginLoaded, plugin.type, plugin.name);
+		}
+	}
+
+	public async initAsyncHook(targetHook: AsyncPluginHooks, client: SapphireClient) {
+		for (const plugin of this.plugins(targetHook)) {
+			await plugin.hook.call(client, client.options);
+			client.emit(Events.PluginLoaded, plugin.type, plugin.name);
 		}
 	}
 }
