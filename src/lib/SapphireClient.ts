@@ -9,7 +9,6 @@ import { CommandStore } from './structures/CommandStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { PluginHook } from './types/Enums';
-import { Events } from './types/Events';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 
