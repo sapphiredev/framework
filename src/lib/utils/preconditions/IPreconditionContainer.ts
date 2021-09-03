@@ -44,11 +44,11 @@ export interface IPreconditionContainerDetails {
 	 * {@link PreconditionSingleResolvableDetails.context}.
 	 * @since 1.0.0
 	 */
-	readonly context?: Record<PropertyKey, unknown>;
+	readonly context: Record<PropertyKey, unknown>;
 
 	/**
 	 * The name of the precondition to run.
 	 * @since 1.0.0
 	 */
-	readonly name?: string;
+	readonly name: string;
 }
