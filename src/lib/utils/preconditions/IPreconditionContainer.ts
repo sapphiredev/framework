@@ -29,6 +29,20 @@ export type AsyncPreconditionContainerReturn = Promise<PreconditionContainerResu
  */
 export interface IPreconditionContainer {
 	/**
+	 * The context to be used when calling {@link Precondition.run}. This will always be an empty object (`{}`) when the
+	 * container was constructed with a string, otherwise it is a direct reference to the value from
+	 * {@link PreconditionSingleResolvableDetails.context}.
+	 * @since 1.0.0
+	 */
+	readonly context: Record<PropertyKey, unknown>;
+
+	 /**
+	  * The name of the precondition to run.
+	  * @since 1.0.0
+	  */
+	readonly name: string;
+
+	/**
 	 * Runs a precondition container.
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
