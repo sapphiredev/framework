@@ -4,7 +4,7 @@ import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } fr
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
 import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
 import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
-import type { IPreconditionContainer, PreconditionContainerReturn } from './IPreconditionContainer';
+import type { IPreconditionContainer, IPreconditionContainerDetails, PreconditionContainerReturn } from './IPreconditionContainer';
 import {
 	PreconditionContainerSingle,
 	PreconditionSingleResolvable,
@@ -116,7 +116,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * The {@link IPreconditionContainer}s the array holds.
 	 * @since 1.0.0
 	 */
-	public readonly entries: IPreconditionContainer[];
+	public readonly entries: IPreconditionContainer[] & IPreconditionContainerDetails[];
 
 	/**
 	 * The {@link PreconditionRunCondition} that defines how entries must be handled.
