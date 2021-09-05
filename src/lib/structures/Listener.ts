@@ -121,7 +121,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 		try {
 			await this.run(...args);
 		} catch (error) {
-			this.container.client.emit(Events.ListenerError, error, { piece: this });
+			this.container.client.emit(Events.ListenerError, error as Error, { piece: this });
 		}
 	}
 

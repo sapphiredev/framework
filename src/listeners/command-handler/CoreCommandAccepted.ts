@@ -15,7 +15,7 @@ export class CoreListener extends Listener<typeof Events.CommandAccepted> {
 			const result = await command.run(message, args, context);
 			message.client.emit(Events.CommandSuccess, { ...payload, args, result });
 		} catch (error) {
-			message.client.emit(Events.CommandError, error, { ...payload, args, piece: command });
+			message.client.emit(Events.CommandError, error as Error, { ...payload, args, piece: command });
 		} finally {
 			message.client.emit(Events.CommandFinish, message, command, { ...payload, args });
 		}
