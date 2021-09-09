@@ -1,4 +1,4 @@
-import { Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
+import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { Events } from '../types/Events';
@@ -109,7 +109,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 		return super.onUnload();
 	}
 
-	public toJSON(): Record<PropertyKey, unknown> {
+	public toJSON(): ListenerJSON {
 		return {
 			...super.toJSON(),
 			once: this.once,
@@ -135,4 +135,9 @@ export interface ListenerOptions extends PieceOptions {
 	readonly emitter?: keyof Client | EventEmitter;
 	readonly event?: string;
 	readonly once?: boolean;
+}
+
+export interface ListenerJSON extends PieceJSON {
+	event: string;
+	once: boolean;
 }
