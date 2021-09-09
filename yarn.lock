@@ -805,10 +805,10 @@
   dependencies:
     cross-fetch "^3.1.4"
 
-"@sapphire/pieces@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-2.2.0.tgz#9e45fe1462996d35d513dbafeab713aa5eb4adae"
-  integrity sha512-VhUMUshM7IvKQ/JXJBUUZYO28fHQQ4+2mxHf2q+Rrm6ZOJAOXrYuplc/JBJ7sHb+Icr8WFhUazlarjKbEjErZw==
+"@sapphire/pieces@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-3.0.0.tgz#968878dee0c680d00dc29202a4fc15f1daea2b5d"
+  integrity sha512-Up/ajwm88jLHmG/AKmiEAyBcXlBEV2p96KXYIjoJVX2/bCr+zK+lDWDPE2cg5dJPfU6CABEdMqV5h/wdQxgf9A==
   dependencies:
     "@discordjs/collection" "^0.2.1"
     "@sapphire/utilities" "^2.0.1"

@@ -1,8 +1,7 @@
-import { AliasPiece, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
 import { Awaited, isNullish } from '@sapphire/utilities';
 import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
-import { sep } from 'path';
 import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
@@ -35,7 +34,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * extending this class and overwriting the assignment in the constructor.
 	 * @since 2.0.0
 	 */
-	public readonly fullCategory: readonly string[] | null = null;
+	public readonly fullCategory: readonly string[];
 
 	/**
 	 * The strategy to use for the lexer.
@@ -60,6 +59,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
+		this.fullCategory = options.fullCategory ?? this.location.directories;
 
 		this.lexer.setQuotes(
 			options.quotes ?? [
@@ -68,19 +68,6 @@ export abstract class Command<T = Args> extends AliasPiece {
 				['「', '」'] // Corner brackets (CJK)
 			]
 		);
-
-		if (options.fullCategory) {
-			this.fullCategory = options.fullCategory;
-		} else {
-			const commandsFolders = [...this.container.stores.get('commands').paths.values()].map((p) => p.split(sep).pop() ?? '');
-			const commandPath = context.path.split(sep);
-			for (const commandFolder of commandsFolders) {
-				if (commandPath.includes(commandFolder)) {
-					this.fullCategory = commandPath.slice(commandPath.indexOf(commandFolder) + 1, -1);
-					break;
-				}
-			}
-		}
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases = [];
@@ -107,43 +94,39 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
-	 * Get all the main categories of commands.
-	 */
-	public get categories(): (string | null)[] {
-		return Array.from(new Set([...this.container.stores.get('commands').values()].map(({ category }) => category)));
-	}
-
-	/**
 	 * The main category for the command, if any.
-	 * This is resolved from {@link Command.fullCategory}, which is automatically
-	 * resolved in the constructor. If you need different logic for category
-	 * then please first look into overwriting {@link Command.fullCategory} before
-	 * looking to overwrite this getter.
+	 *
+	 * This getter retrieves the first value of {@link Command.fullCategory}, if it has at least one item, otherwise it
+	 * returns `null`.
+	 *
+	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
 	 */
 	public get category(): string | null {
-		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[0] ?? null : null;
+		return this.fullCategory.length > 0 ? this.fullCategory[0] : null;
 	}
 
 	/**
-	 * The sub category for the command
-	 * This is resolved from {@link Command.fullCategory}, which is automatically
-	 * resolved in the constructor. If you need different logic for category
-	 * then please first look into overwriting {@link Command.fullCategory} before
-	 * looking to overwrite this getter.
+	 * The sub-category for the command, if any.
+	 *
+	 * This getter retrieves the second value of {@link Command.fullCategory}, if it has at least two items, otherwise
+	 * it returns `null`.
+	 *
+	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
 	 */
 	public get subCategory(): string | null {
-		return (this.fullCategory?.length ?? 0) > 1 ? this.fullCategory?.[1] ?? null : null;
+		return this.fullCategory.length > 1 ? this.fullCategory[1] : null;
 	}
 
 	/**
-	 * The parent category for the command
-	 * This is resolved from {@link Command.fullCategory}, which is automatically
-	 * resolved in the constructor. If you need different logic for category
-	 * then please first look into overwriting {@link Command.fullCategory} before
-	 * looking to overwrite this getter.
+	 * The parent category for the command.
+	 *
+	 * This getter retrieves the last value of {@link Command.fullCategory}, if it has at least one item, otherwise it
+	 * returns `null`.
+	 *
+	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
 	 */
 	public get parentCategory(): string | null {
-		return (this.fullCategory?.length ?? 0) > 0 ? this.fullCategory?.[(this.fullCategory?.length ?? 1) - 1] ?? null : null;
+		return this.fullCategory.length > 1 ? this.fullCategory[this.fullCategory.length - 1] : null;
 	}
 
 	/**
@@ -156,13 +139,12 @@ export abstract class Command<T = Args> extends AliasPiece {
 	/**
 	 * Defines the JSON.stringify behavior of the command.
 	 */
-	public toJSON(): Record<string, any> {
+	public toJSON(): CommandJSON {
 		return {
 			...super.toJSON(),
 			description: this.description,
 			detailedDescription: this.detailedDescription,
-			category: this.category,
-			strategy: this.strategy
+			category: this.category
 		};
 	}
 
@@ -502,4 +484,10 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;
+}
+
+export interface CommandJSON extends AliasPieceJSON {
+	description: string;
+	detailedDescription: string;
+	category: string | null;
 }

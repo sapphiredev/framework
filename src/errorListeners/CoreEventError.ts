@@ -8,7 +8,7 @@ export class CoreEvent extends Listener<typeof Events.ListenerError> {
 	}
 
 	public run(error: Error, context: ListenerErrorPayload) {
-		const { name, event, path } = context.piece;
-		this.container.logger.error(`Encountered error on event listener "${name}" for event "${event}" at path "${path}"`, error);
+		const { name, event, location } = context.piece;
+		this.container.logger.error(`Encountered error on event listener "${name}" for event "${event}" at path "${location.full}"`, error);
 	}
 }
