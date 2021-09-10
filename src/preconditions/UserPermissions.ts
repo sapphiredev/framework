@@ -28,7 +28,7 @@ export class CorePrecondition extends Precondition {
 		if (!permissions) {
 			return this.error({
 				identifier: Identifiers.PreconditionClientPermissionsNoPermissions,
-				message: 'I was unable to resolve the permissions for the command user in the channel the command was used in.'
+				message: "I was unable to resolve the end-user's permissions in the command invocation channel."
 			});
 		}
 
