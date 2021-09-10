@@ -50,4 +50,11 @@ export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export type { CooldownContext } from './preconditions/Cooldown';
 export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
 
-export const version = '[VI]{version}[/VI]';
+/**
+ * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.
+ * An example use of this is showing it of in a bot information command.
+ *
+ * Note to Sapphire developers: This needs to explicitly be `string` so it is not typed as the string that gets replaced by Rollup
+ */
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+export const version: string = '[VI]{version}[/VI]';
