@@ -21,7 +21,22 @@ export class CorePrecondition extends Precondition {
 		const required = (context.permissions as Permissions) ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
 
-		const permissions = message.guild ? channel.permissionsFor(message.client.id!)! : this.dmChannelPermissions;
+		if (!message.client.id) {
+			return this.error({
+				identifier: Identifiers.PreconditionClientPermissionsNoClient,
+				message: 'There was no client to validate the permissions for.'
+			});
+		}
+
+		const permissions = message.guild ? channel.permissionsFor(message.client.id) : this.dmChannelPermissions;
+
+		if (!permissions) {
+			return this.error({
+				identifier: Identifiers.PreconditionClientPermissionsNoPermissions,
+				message: 'I was unable to resolve the permissions for the client in the channel the command was used in.'
+			});
+		}
+
 		const missing = permissions.missing(required);
 		return missing.length === 0
 			? this.ok()
