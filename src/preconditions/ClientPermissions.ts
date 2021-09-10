@@ -1,4 +1,4 @@
-import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { BitField, Message, NewsChannel, Permissions, PermissionString, TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
@@ -20,15 +20,19 @@ export class CorePrecondition extends Precondition {
 	public run(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
 		const required = (context.permissions as Permissions) ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
+		const { guild } = message;
+		let permissions: Readonly<BitField<PermissionString, bigint>> | undefined;
 
-		if (!message.client.id) {
+		if (guild && guild.me) {
+			permissions = channel.permissionsFor(guild.me);
+		} else if (guild) {
 			return this.error({
 				identifier: Identifiers.PreconditionClientPermissionsNoClient,
 				message: 'There was no client to validate the permissions for.'
 			});
+		} else {
+			permissions = this.dmChannelPermissions;
 		}
-
-		const permissions = message.guild ? channel.permissionsFor(message.client.id) : this.dmChannelPermissions;
 
 		if (!permissions) {
 			return this.error({
