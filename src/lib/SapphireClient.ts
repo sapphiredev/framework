@@ -108,6 +108,12 @@ export interface SapphireClientOptions {
 	 * @default true
 	 */
 	loadDefaultErrorListeners?: boolean;
+
+	/**
+	 * Controls whether the bot will automatically appear to be typing when a command is accepted.
+	 * @default false
+	 */
+	typing?: boolean;
 }
 
 /**
