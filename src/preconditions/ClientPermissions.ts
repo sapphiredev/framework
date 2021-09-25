@@ -1,9 +1,21 @@
-import { Message, NewsChannel, Permissions, PermissionString, TextChannel } from 'discord.js';
+import {
+	BaseGuildTextChannel,
+	CommandInteraction,
+	ContextMenuInteraction,
+	GuildTextBasedChannel,
+	Message,
+	Permissions,
+	PermissionString
+} from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
-import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 
-export class CorePrecondition extends Precondition {
+export interface UserPermissionsPreconditionContext extends PreconditionContext {
+	permissions?: Permissions;
+}
+
+export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
 		~new Permissions([
 			//
@@ -17,9 +29,9 @@ export class CorePrecondition extends Precondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public run(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
-		const required = (context.permissions as Permissions) ?? new Permissions();
-		const channel = message.channel as TextChannel | NewsChannel;
+	public messageRun(message: Message, _: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
+		const channel = message.channel as BaseGuildTextChannel;
 
 		if (!message.client.id) {
 			return this.error({
@@ -30,14 +42,37 @@ export class CorePrecondition extends Precondition {
 
 		const permissions = message.guild ? channel.permissionsFor(message.client.id) : this.dmChannelPermissions;
 
-		if (!permissions) {
+		return this.sharedRun(required, permissions, 'message');
+	}
+
+	public async chatInputRun(interaction: CommandInteraction, _: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
+
+		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
+
+		const permissions = interaction.inGuild() ? channel.permissionsFor(interaction.applicationId) : this.dmChannelPermissions;
+
+		return this.sharedRun(required, permissions, 'chat input');
+	}
+
+	public async contextMenuRun(interaction: ContextMenuInteraction, _: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
+		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
+
+		const permissions = interaction.inGuild() ? channel.permissionsFor(interaction.applicationId) : this.dmChannelPermissions;
+
+		return this.sharedRun(required, permissions, 'context menu');
+	}
+
+	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string) {
+		if (!availablePermissions) {
 			return this.error({
 				identifier: Identifiers.PreconditionClientPermissionsNoPermissions,
-				message: 'I was unable to resolve my permissions in the command invocation channel.'
+				message: `I was unable to resolve my permissions in the ${commandType} command invocation channel.`
 			});
 		}
 
-		const missing = permissions.missing(required);
+		const missing = availablePermissions.missing(requiredPermissions);
 		return missing.length === 0
 			? this.ok()
 			: this.error({

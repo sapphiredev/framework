@@ -54,7 +54,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 	 * The name of the event the listener listens to.
 	 * @since 2.0.0
 	 */
-	public readonly event: string;
+	public readonly event: string | symbol;
 
 	/**
 	 * Whether or not the listener will be unloaded after the first run.
@@ -64,7 +64,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	private _listener: ((...args: any[]) => void) | null;
 
-	public constructor(context: Listener.Context, options: Listener.Options = {}) {
+	public constructor(context: Listener.Context, options: O = {} as O) {
 		super(context, options);
 
 		this.emitter =
@@ -135,12 +135,12 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 export interface ListenerOptions extends Piece.Options {
 	readonly emitter?: keyof Client | EventEmitter;
-	readonly event?: string;
+	readonly event?: string | symbol;
 	readonly once?: boolean;
 }
 
 export interface ListenerJSON extends Piece.JSON {
-	event: string;
+	event: string | symbol;
 	once: boolean;
 }
 

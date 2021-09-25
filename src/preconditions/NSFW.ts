@@ -1,13 +1,33 @@
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class CorePrecondition extends Precondition {
-	public run(message: Message): PreconditionResult {
+export class CorePrecondition extends AllFlowsPrecondition {
+	public messageRun(message: Message) {
 		// `nsfw` is undefined in DMChannel, doing `=== true`
-		// will result on it returning`false`.
+		// will result on it returning `false`.
 		return Reflect.get(message.channel, 'nsfw') === true
 			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this command outside NSFW channels.' });
+			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this message command outside NSFW channels.' });
+	}
+
+	public async chatInputRun(interaction: CommandInteraction) {
+		const channel = await this.fetchChannelFromInteraction(interaction);
+
+		// `nsfw` is undefined in DMChannel, doing `=== true`
+		// will result on it returning `false`.
+		return Reflect.get(channel, 'nsfw') === true
+			? this.ok()
+			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this chat input command outside NSFW channels.' });
+	}
+
+	public async contextMenuRun(interaction: ContextMenuInteraction) {
+		const channel = await this.fetchChannelFromInteraction(interaction);
+
+		// `nsfw` is undefined in DMChannel, doing `=== true`
+		// will result on it returning `false`.
+		return Reflect.get(channel, 'nsfw') === true
+			? this.ok()
+			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this context menu command outside NSFW channels.' });
 	}
 }

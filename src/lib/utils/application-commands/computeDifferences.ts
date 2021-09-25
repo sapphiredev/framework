@@ -1,0 +1,434 @@
+import {
+	APIApplicationCommandIntegerOption,
+	APIApplicationCommandNumberOption,
+	APIApplicationCommandOption,
+	APIApplicationCommandOptionChoice,
+	APIApplicationCommandStringOption,
+	APIApplicationCommandSubcommandGroupOption,
+	APIApplicationCommandSubcommandOption,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	RESTPostAPIApplicationCommandsJSONBody,
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
+	RESTPostAPIContextMenuApplicationCommandsJSONBody
+} from 'discord-api-types/v9';
+import type { InternalAPICall } from './ApplicationCommandRegistry';
+
+const optionTypeToPrettyName = new Map([
+	[ApplicationCommandOptionType.Subcommand, 'subcommand'],
+	[ApplicationCommandOptionType.SubcommandGroup, 'subcommand group'],
+	[ApplicationCommandOptionType.String, 'string option'],
+	[ApplicationCommandOptionType.Integer, 'integer option'],
+	[ApplicationCommandOptionType.Boolean, 'boolean option'],
+	[ApplicationCommandOptionType.User, 'user option'],
+	[ApplicationCommandOptionType.Channel, 'channel option'],
+	[ApplicationCommandOptionType.Role, 'role option'],
+	[ApplicationCommandOptionType.Mentionable, 'mentionable option'],
+	[ApplicationCommandOptionType.Number, 'number option']
+]);
+
+const contextMenuTypes = [ApplicationCommandType.Message, ApplicationCommandType.User];
+const subcommandTypes = [ApplicationCommandOptionType.SubcommandGroup, ApplicationCommandOptionType.Subcommand];
+
+type APIApplicationCommandSubcommandTypes = APIApplicationCommandSubcommandOption | APIApplicationCommandSubcommandGroupOption;
+type APIApplicationCommandNumericTypes = APIApplicationCommandIntegerOption | APIApplicationCommandNumberOption;
+type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationCommandNumericTypes | APIApplicationCommandStringOption;
+
+export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
+	const differences: CommandDifference[] = [];
+
+	if (existingCommand.type !== ApplicationCommandType.ChatInput && existingCommand.type) {
+		// Check context menus
+		if (contextMenuTypes.includes(existingCommand.type ?? ApplicationCommandType.ChatInput)) {
+			const casted = apiData as RESTPostAPIContextMenuApplicationCommandsJSONBody;
+
+			// Check name
+			if (existingCommand.name !== casted.name) {
+				differences.push({
+					key: 'name',
+					original: existingCommand.name,
+					expected: casted.name
+				});
+			}
+
+			// Check defaultPermissions
+			// TODO(vladfrangu): This will be deprecated
+			if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
+				differences.push({
+					key: 'defaultPermission',
+					original: String(existingCommand.default_permission ?? true),
+					expected: String(casted.default_permission ?? true)
+				});
+			}
+		}
+
+		return differences;
+	}
+
+	const casted = apiData as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+	// Check name
+	if (existingCommand.name.toLowerCase() !== casted.name.toLowerCase()) {
+		differences.push({
+			key: 'name',
+			original: existingCommand.name,
+			expected: casted.name
+		});
+	}
+
+	// Check defaultPermissions
+	// TODO(vladfrangu): This will be deprecated
+	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
+		differences.push({
+			key: 'defaultPermission',
+			original: String(existingCommand.default_permission ?? true),
+			expected: String(casted.default_permission ?? true)
+		});
+	}
+
+	// Check description
+	if (existingCommand.description !== casted.description) {
+		differences.push({
+			key: 'description',
+			original: existingCommand.description,
+			expected: casted.description
+		});
+	}
+
+	// 0. No existing options and now we have options
+	if (!existingCommand.options?.length && casted.options?.length) {
+		differences.push({
+			key: 'options',
+			original: 'no options present',
+			expected: 'options present'
+		});
+	}
+	// 1. Existing options and now we have no options
+	else if (existingCommand.options?.length && !casted.options?.length) {
+		differences.push({
+			key: 'options',
+			original: 'options present',
+			expected: 'no options present'
+		});
+	}
+	// 2. Iterate over each option if we have any and see what's different
+	else if (casted.options?.length) {
+		let index = 0;
+		for (const option of casted.options) {
+			const currentIndex = index++;
+			const existingOption = existingCommand.options![currentIndex];
+			differences.push(...reportOptionDifferences({ currentIndex, option, existingOption }));
+		}
+
+		// If we went through less options than we previously had, report that
+		if (index < existingCommand.options!.length) {
+			let option: APIApplicationCommandOption;
+			while ((option = existingCommand.options![index]) !== undefined) {
+				const expectedType =
+					optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
+
+				differences.push({
+					key: `existing command option at index ${index}`,
+					expected: 'no option present',
+					original: `${expectedType} with name ${option.name}`
+				});
+
+				index++;
+			}
+		}
+	}
+
+	return differences;
+}
+
+export interface CommandDifference {
+	key: string;
+	expected: string;
+	original: string;
+}
+
+function* reportOptionDifferences({
+	option,
+	existingOption,
+	currentIndex,
+	keyPath = (index: number) => `options[${index}]`
+}: {
+	option: APIApplicationCommandOption;
+	currentIndex: number;
+	existingOption?: APIApplicationCommandOption;
+	keyPath?: (index: number) => string;
+}): Generator<CommandDifference> {
+	const expectedType = optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
+
+	// If current option doesn't exist, report and return
+	if (!existingOption) {
+		yield {
+			key: keyPath(currentIndex),
+			expected: `${expectedType} with name ${option.name}`,
+			original: 'no option present'
+		};
+		return;
+	}
+
+	// Check type
+	if (existingOption.type !== option.type) {
+		yield {
+			key: `${keyPath(currentIndex)}.type`,
+			original:
+				optionTypeToPrettyName.get(existingOption.type) ?? `unknown (${existingOption.type}); please contact Sapphire developers about this!`,
+			expected: expectedType
+		};
+	}
+
+	// Check name
+	if (existingOption.name !== option.name) {
+		yield {
+			key: `${keyPath(currentIndex)}.name`,
+			original: existingOption.name,
+			expected: option.name
+		};
+	}
+
+	// Check description
+	if (existingOption.description !== option.description) {
+		yield {
+			key: `${keyPath(currentIndex)}.description`,
+			original: existingOption.description,
+			expected: option.description
+		};
+	}
+
+	// Check required
+	if ((existingOption.required ?? false) !== (option.required ?? false)) {
+		yield {
+			key: `${keyPath(currentIndex)}.required`,
+			original: String(existingOption.required ?? false),
+			expected: String(option.required ?? false)
+		};
+	}
+
+	// Check for subcommands
+	if (subcommandTypes.includes(existingOption.type) && subcommandTypes.includes(option.type)) {
+		const castedExisting = existingOption as APIApplicationCommandSubcommandTypes;
+		const castedExpected = option as APIApplicationCommandSubcommandTypes;
+
+		if (
+			castedExisting.type === ApplicationCommandOptionType.SubcommandGroup &&
+			castedExpected.type === ApplicationCommandOptionType.SubcommandGroup
+		) {
+			// We know we have options in this case, because they are both groups
+			for (const [subcommandIndex, subcommandOption] of castedExpected.options!.entries()) {
+				yield* reportOptionDifferences({
+					currentIndex: subcommandIndex,
+					option: subcommandOption,
+					existingOption: castedExisting.options?.[subcommandIndex],
+					keyPath: (index) => `${keyPath(currentIndex)}.options[${index}]`
+				});
+			}
+		} else if (
+			castedExisting.type === ApplicationCommandOptionType.Subcommand &&
+			castedExpected.type === ApplicationCommandOptionType.Subcommand
+		) {
+			// 0. No existing options and now we have options
+			if (!castedExisting.options?.length && castedExpected.options?.length) {
+				yield {
+					key: `${keyPath(currentIndex)}.options`,
+					expected: 'options present',
+					original: 'no options present'
+				};
+			}
+			// 1. Existing options and now we have no options
+			else if (castedExisting.options?.length && !castedExpected.options?.length) {
+				yield {
+					key: `${keyPath(currentIndex)}.options`,
+					expected: 'no options present',
+					original: 'options present'
+				};
+			}
+			// 2. Iterate over each option if we have any and see what's different
+			else if (castedExpected.options?.length) {
+				let processedIndex = 0;
+				for (const subcommandOption of castedExpected.options) {
+					const currentSubCommandOptionIndex = processedIndex++;
+					const existingSubcommandOption = castedExisting.options![currentSubCommandOptionIndex];
+
+					yield* reportOptionDifferences({
+						currentIndex: currentSubCommandOptionIndex,
+						option: subcommandOption,
+						existingOption: existingSubcommandOption,
+						keyPath: (index) => `${keyPath(currentIndex)}.options[${index}]`
+					});
+				}
+
+				// If we went through less options than we previously had, report that
+				if (processedIndex < castedExisting.options!.length) {
+					let option: APIApplicationCommandOption;
+					while ((option = castedExisting.options![processedIndex]) !== undefined) {
+						const expectedType =
+							optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
+
+						yield {
+							key: `existing command option at path ${keyPath(currentIndex)}.options[${processedIndex}]`,
+							expected: 'no option present',
+							original: `${expectedType} with name ${option.name}`
+						};
+
+						processedIndex++;
+					}
+				}
+			}
+		}
+	}
+
+	if (hasMinMaxValueSupport(option)) {
+		// Check min and max_value
+		const existingCasted = existingOption as APIApplicationCommandNumericTypes;
+
+		// 0. No min_value and now we have min_value
+		if (existingCasted.min_value === undefined && option.min_value !== undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_value`,
+				expected: 'min_value present',
+				original: 'no min_value present'
+			};
+		}
+		// 1. Have min_value and now we don't
+		else if (existingCasted.min_value !== undefined && option.min_value === undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_value`,
+				expected: 'no min_value present',
+				original: 'min_value present'
+			};
+		}
+		// 2. Equality check
+		else if (existingCasted.min_value !== option.min_value) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_value`,
+				original: String(existingCasted.min_value),
+				expected: String(option.min_value)
+			};
+		}
+
+		// 0. No max_value and now we have max_value
+		if (existingCasted.max_value === undefined && option.max_value !== undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_value`,
+				expected: 'max_value present',
+				original: 'no max_value present'
+			};
+		}
+		// 1. Have max_value and now we don't
+		else if (existingCasted.max_value !== undefined && option.max_value === undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_value`,
+				expected: 'no max_value present',
+				original: 'max_value present'
+			};
+		}
+		// 2. Equality check
+		else if (existingCasted.max_value !== option.max_value) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_value`,
+				original: String(existingCasted.max_value),
+				expected: String(option.max_value)
+			};
+		}
+	}
+
+	if (hasChoicesAndAutocompleteSupport(option)) {
+		const existingCasted = existingOption as APIApplicationCommandChoosableAndAutocompletableTypes;
+
+		// 0. No autocomplete and now it should autocomplete
+		if (!existingCasted.autocomplete && option.autocomplete) {
+			yield {
+				key: `${keyPath(currentIndex)}.autocomplete`,
+				expected: 'autocomplete enabled',
+				original: 'autocomplete disabled'
+			};
+		}
+		// 1. Have autocomplete and now it shouldn't
+		else if (existingCasted.autocomplete && !option.autocomplete) {
+			yield {
+				key: `${keyPath(currentIndex)}.autocomplete`,
+				expected: 'autocomplete disabled',
+				original: 'autocomplete enabled'
+			};
+		}
+
+		if (!option.autocomplete && !existingCasted.autocomplete) {
+			// 0. No choices and now we have choices
+			if (!existingCasted.choices?.length && option.choices?.length) {
+				yield {
+					key: `${keyPath(currentIndex)}.choices`,
+					expected: 'choices present',
+					original: 'no choices present'
+				};
+			}
+			// 1. Have choices and now we don't
+			else if (existingCasted.choices?.length && !option.choices?.length) {
+				yield {
+					key: `${keyPath(currentIndex)}.choices`,
+					expected: 'no choices present',
+					original: 'choices present'
+				};
+			}
+			// 2. Check every choice to see differences
+			else if (option.choices?.length && existingCasted.choices?.length) {
+				let index = 0;
+				for (const choice of option.choices) {
+					const currentChoiceIndex = index++;
+					const existingChoice = existingCasted.choices[currentChoiceIndex];
+
+					// If this choice never existed, return the difference
+					if (existingChoice === undefined) {
+						yield {
+							key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}]`,
+							expected: 'no choice present',
+							original: 'choice present'
+						};
+					} else {
+						if (choice.name !== existingChoice.name) {
+							yield {
+								key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}].name`,
+								original: existingChoice.name,
+								expected: choice.name
+							};
+						}
+
+						if (choice.value !== existingChoice.value) {
+							yield {
+								key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}].value`,
+								original: String(existingChoice.value),
+								expected: choice.value
+							};
+						}
+					}
+				}
+
+				// If there are more choices than the expected ones, return the difference
+				if (index < existingCasted.choices.length) {
+					let choice: APIApplicationCommandOptionChoice;
+					while ((choice = existingCasted.choices[index]) !== undefined) {
+						yield {
+							key: `existing choice at path ${keyPath(currentIndex)}.choices[${index}]`,
+							expected: 'no choice present',
+							original: `choice with name "${choice.name}" and value ${
+								typeof choice.value === 'number' ? choice.value : `"${choice.value}"`
+							} present`
+						};
+
+						index++;
+					}
+				}
+			}
+		}
+	}
+}
+
+function hasMinMaxValueSupport(option: APIApplicationCommandOption): option is APIApplicationCommandNumericTypes {
+	return [ApplicationCommandOptionType.Integer, ApplicationCommandOptionType.Number].includes(option.type);
+}
+
+function hasChoicesAndAutocompleteSupport(option: APIApplicationCommandOption): option is APIApplicationCommandChoosableAndAutocompletableTypes {
+	return [ApplicationCommandOptionType.Integer, ApplicationCommandOptionType.Number, ApplicationCommandOptionType.String].includes(option.type);
+}

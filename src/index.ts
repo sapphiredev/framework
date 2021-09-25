@@ -1,3 +1,20 @@
+import {
+	acquire,
+	getDefaultBehaviorWhenNotIdentical,
+	registries,
+	setDefaultBehaviorWhenNotIdentical
+} from './lib/utils/application-commands/ApplicationCommandRegistries';
+import type { ApplicationCommandRegistry } from './lib/utils/application-commands/ApplicationCommandRegistry';
+
+const ApplicationCommandRegistries = {
+	acquire,
+	setDefaultBehaviorWhenNotIdentical,
+	getDefaultBehaviorWhenNotIdentical,
+	get registries(): ReadonlyMap<string, ApplicationCommandRegistry> {
+		return registries;
+	}
+};
+
 export {
 	AliasPiece,
 	AliasPieceOptions,
@@ -31,12 +48,16 @@ export * from './lib/structures/ArgumentStore';
 export * from './lib/structures/Command';
 export * from './lib/structures/CommandStore';
 export * from './lib/structures/ExtendedArgument';
+export * from './lib/structures/InteractionHandler';
+export * from './lib/structures/InteractionHandlerStore';
 export * from './lib/structures/Listener';
 export * from './lib/structures/ListenerStore';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
+export { ApplicationCommandRegistries };
+export { ApplicationCommandRegistry, ApplicationCommandRegistryRegisterOptions } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
@@ -47,12 +68,7 @@ export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition'
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
-export * as CorePreconditions from './preconditions';
-/**
- * @deprecated. Please use `CorePreconditions.ClientPermissions`. `ClientPermissionsCorePrecondition` will be removed in v3.0.0
- */
-export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
-export type { CooldownContext } from './preconditions/Cooldown';
+export * as CorePreconditions from './preconditions/index';
 
 /**
  * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.

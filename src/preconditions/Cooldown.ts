@@ -1,8 +1,8 @@
 import { RateLimitManager } from '@sapphire/ratelimits';
-import type { Message, Snowflake } from 'discord.js';
+import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
-import { Precondition, PreconditionContext } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 import { BucketScope } from '../lib/types/Enums';
 
 export interface CooldownContext extends PreconditionContext {
@@ -12,27 +12,46 @@ export interface CooldownContext extends PreconditionContext {
 	filteredUsers?: Snowflake[];
 }
 
-export class CorePrecondition extends Precondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
-	public run(message: Message, command: Command, context: CooldownContext) {
+	public messageRun(message: Message, command: Command, context: CooldownContext) {
+		const cooldownId = this.getIdFromMessage(message, context);
+
+		return this.sharedRun(message.author.id, command, context, cooldownId, 'message');
+	}
+
+	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownContext) {
+		const cooldownId = this.getIdFromInteraction(interaction, context);
+
+		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'chat input');
+	}
+
+	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownContext) {
+		const cooldownId = this.getIdFromInteraction(interaction, context);
+
+		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'context menu');
+	}
+
+	private sharedRun(authorId: string, command: Command, context: CooldownContext, cooldownId: string, commandType: string) {
 		// If the command it is testing for is not this one, return ok:
 		if (context.external) return this.ok();
 
 		// If there is no delay (undefined, null, 0), return ok:
 		if (!context.delay) return this.ok();
 
-		// If the user has provided any filtered users and the message author is in that array, return ok:
-		if (context.filteredUsers?.includes(message.author.id)) return this.ok();
+		// If the user has provided any filtered users and the authorId is in that array, return ok:
+		if (context.filteredUsers?.includes(authorId)) return this.ok();
 
-		const ratelimit = this.getManager(command, context).acquire(this.getId(message, context));
+		const ratelimit = this.getManager(command, context).acquire(cooldownId);
 		if (ratelimit.limited) {
 			const remaining = ratelimit.remainingTime;
 			return this.error({
 				identifier: Identifiers.PreconditionCooldown,
-				message: `There is a cooldown in effect for this command. It can be used again in ${Math.ceil(remaining / 1000)} second${
-					remaining > 1000 ? 's' : ''
-				}.`,
+				// TODO(vladfrangu): maybe use the `ms` package instead
+				message: `There is a cooldown in effect for this ${commandType} command. It can be used again in ${Math.ceil(
+					remaining / 1000
+				)} second${remaining > 1000 ? 's' : ''}.`,
 				context: { remaining }
 			});
 		}
@@ -41,7 +60,7 @@ export class CorePrecondition extends Precondition {
 		return this.ok();
 	}
 
-	private getId(message: Message, context: CooldownContext) {
+	private getIdFromMessage(message: Message, context: CooldownContext) {
 		switch (context.scope) {
 			case BucketScope.Global:
 				return 'global';
@@ -51,6 +70,19 @@ export class CorePrecondition extends Precondition {
 				return message.guild?.id ?? message.channel.id;
 			default:
 				return message.author.id;
+		}
+	}
+
+	private getIdFromInteraction(interaction: BaseCommandInteraction, context: CooldownContext) {
+		switch (context.scope) {
+			case BucketScope.Global:
+				return 'global';
+			case BucketScope.Channel:
+				return interaction.channelId;
+			case BucketScope.Guild:
+				return interaction.guildId ?? interaction.channelId;
+			default:
+				return interaction.user.id;
 		}
 	}
 
