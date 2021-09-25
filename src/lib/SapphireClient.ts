@@ -6,6 +6,7 @@ import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
+import { InteractionHandlerStore } from './structures/InteractionHandlerStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { BucketScope, PluginHook } from './types/Enums';
@@ -244,11 +245,14 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		}
 
 		this.id = options.id ?? null;
+
 		this.stores
 			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
 			.register(new CommandStore())
+			.register(new InteractionHandlerStore())
 			.register(new ListenerStore().registerPath(join(__dirname, '..', 'listeners')))
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
+
 		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
@@ -330,6 +334,7 @@ declare module '@sapphire/pieces' {
 	interface StoreRegistryEntries {
 		arguments: ArgumentStore;
 		commands: CommandStore;
+		interactionHandlers: InteractionHandlerStore;
 		listeners: ListenerStore;
 		preconditions: PreconditionStore;
 	}
