@@ -68,3 +68,29 @@ export function isOk<T, E>(x: Result<T, E>): x is Ok<T> {
 export function isErr<T, E>(x: Result<T, E>): x is Err<E> {
 	return !x.success;
 }
+
+/**
+ * Creates a {@link Result} out of a callback.
+ * @typeparam T The result's type.
+ * @typeparam E The error's type.
+ */
+export function from<T, E = Error>(cb: (...args: unknown[]) => T): Result<T, E> {
+	try {
+		return ok(cb());
+	} catch (error) {
+		return err(error as E);
+	}
+}
+
+/**
+ * Creates a {@link Result} out of a {@link Promise}.
+ * @typeparam T The result's type.
+ * @typeparam E The error's type.
+ */
+export async function fromAsync<T, E = Error>(promise: Promise<T>): Promise<Result<T, E>> {
+	try {
+		return ok(await promise);
+	} catch (error) {
+		return err(error as E);
+	}
+}
