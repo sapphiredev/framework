@@ -72,7 +72,7 @@
 		"!dist/*.tsbuildinfo"
 	],
 	"engines": {
-		"node": ">=12",
+		"node": ">=v12.22.6",
 		"npm": ">=6"
 	},
 	"keywords": [
