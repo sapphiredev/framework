@@ -18,6 +18,7 @@ export * from './integer';
 export * from './member';
 export * from './message';
 export * from './number';
+export * from './partialDMChannel';
 export * from './role';
 export * from './string';
 export * from './user';

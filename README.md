@@ -9,7 +9,6 @@
 [![GitHub](https://img.shields.io/github/license/sapphiredev/framework)](https://github.com/sapphiredev/framework/blob/main/LICENSE.md)
 [![codecov](https://codecov.io/gh/sapphiredev/framework/branch/main/graph/badge.svg?token=AHPITY8WY9)](https://codecov.io/gh/sapphiredev/framework)
 [![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
-[![Depfu](https://badges.depfu.com/badges/e367f2c68b857253ca23e1e8d73d1e14/count.svg)](https://depfu.com/github/sapphiredev/rk?project_id=14147)
 
 [![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://sapphirejs.dev/discord)
 
@@ -89,6 +88,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/noftaly"><img src="https://avatars.githubusercontent.com/u/34779161?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elliot</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=noftaly" title="Documentation">📖</a></td>
     <td align="center"><a href="https://kaname.netlify.app"><img src="https://avatars.githubusercontent.com/u/56084970?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kaname</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=kaname-png" title="Code">💻</a> <a href="https://github.com/sapphiredev/framework/issues?q=author%3Akaname-png" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Lioness100"><img src="https://avatars.githubusercontent.com/u/65814829?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lioness100</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=Lioness100" title="Code">💻</a></td>
   </tr>
 </table>
 
