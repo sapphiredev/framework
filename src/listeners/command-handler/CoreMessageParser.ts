@@ -16,24 +16,16 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (!canRun) return;
 
 		let prefix = null;
-		const userMentionPrefix = this.getUserMentionPrefix(message.content);
-		const managedRoleMentionPrefix = this.getManagedRoleMentionPrefix(message);
+		const mentionPrefix = this.getUserMentionPrefix(message.content) ?? this.getManagedRoleMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
-		if (userMentionPrefix) {
-			if (message.content.length === userMentionPrefix.length) {
+		if (mentionPrefix) {
+			if (message.content.length === mentionPrefix.length) {
 				client.emit(Events.MentionPrefixOnly, message);
 				return;
 			}
 
-			prefix = userMentionPrefix;
-		} else if (managedRoleMentionPrefix) {
-			if (message.content.length === managedRoleMentionPrefix.length) {
-				client.emit(Events.MentionPrefixOnly, message);
-				return;
-			}
-
-			prefix = managedRoleMentionPrefix;
+			prefix = mentionPrefix;
 		} else if (regexPrefix?.test(message.content)) {
 			prefix = regexPrefix;
 		} else {
