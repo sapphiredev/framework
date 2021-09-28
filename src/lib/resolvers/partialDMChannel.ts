@@ -1,5 +1,5 @@
 import { isDMChannel } from '@sapphire/discord.js-utilities';
-import type { DMChannel, Message, PartialDMChannel } from 'discord.js';
+import type { Message, PartialDMChannel } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import { err, ok, Result } from '../parsers/Result';
 import { resolveChannel } from './channel';
