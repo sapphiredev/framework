@@ -1,14 +1,14 @@
 import type { PieceContext } from '@sapphire/pieces';
-import type { PartialDMChannel } from 'discord.js';
+import type { DMChannel, PartialDMChannel } from 'discord.js';
 import { resolvePartialDMChannel } from '../lib/resolvers';
 import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
 
-export class CoreArgument extends Argument<PartialDMChannel> {
+export class CoreArgument extends Argument<DMChannel | PartialDMChannel> {
 	public constructor(context: PieceContext) {
-		super(context, { name: 'partialDmChannel' });
+		super(context, { name: 'partialDMChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<PartialDMChannel> {
+	public run(parameter: string, context: ArgumentContext): ArgumentResult<DMChannel | PartialDMChannel> {
 		const resolved = resolvePartialDMChannel(parameter, context.message);
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
