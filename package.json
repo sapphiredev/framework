@@ -73,7 +73,7 @@
 	],
 	"engines": {
 		"node": ">=12",
-		"npm": ">=6"
+		"npm": ">=7.24.1"
 	},
 	"keywords": [
 		"bot",
