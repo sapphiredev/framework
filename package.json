@@ -105,7 +105,7 @@
 		"access": "public"
 	},
 	"resolutions": {
-		"acorn": "^8.4.1",
+		"acorn": "^8.5.0",
 		"ansi-regex": "^5.0.1",
 		"minimist": "^1.2.5",
 		"kind-of": "^6.0.3",
