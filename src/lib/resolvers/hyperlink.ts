@@ -1,11 +1,8 @@
 import { URL } from 'url';
 import { Identifiers } from '../errors/Identifiers';
-import { err, ok, Result } from '../parsers/Result';
+import { isOk, err, from, Result } from '../parsers/Result';
 
 export function resolveHyperlink(parameter: string): Result<URL, Identifiers.ArgumentHyperlinkError> {
-	try {
-		return ok(new URL(parameter));
-	} catch {
-		return err(Identifiers.ArgumentHyperlinkError);
-	}
+	const result = from(() => new URL(parameter));
+	return isOk(result) ? result : err(Identifiers.ArgumentHyperlinkError);
 }
