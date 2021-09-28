@@ -1,6 +1,7 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
+import { isErr, fromAsync } from '../parsers/Result';
 import { Events } from '../types/Events';
 
 /**
@@ -118,10 +119,9 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	}
 
 	private async _run(...args: unknown[]) {
-		try {
-			await this.run(...args);
-		} catch (error) {
-			this.container.client.emit(Events.ListenerError, error as Error, { piece: this });
+		const result = await fromAsync(() => this.run(...args));
+		if (isErr(result)) {
+			this.container.client.emit(Events.ListenerError, result.error, { piece: this });
 		}
 	}
 
