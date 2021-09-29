@@ -16,7 +16,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (!canRun) return;
 
 		let prefix = null;
-		const mentionPrefix = this.getMentionPrefix(message.content);
+		const mentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
 		if (mentionPrefix) {
@@ -48,26 +48,24 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		return channel.permissionsFor(me).has(this.requiredPermissions, false);
 	}
 
-	private getMentionPrefix(content: string): string | null {
-		const { id } = this.container.client;
+	private getMentionPrefix(message: Message): string | null {
+		// If the content is shorter than 20 characters, or does not start with `<@` then skip early:
+		if (message.content.length < 20 || !message.content.startsWith('<@')) return null;
 
-		// If no client ID was specified, return null:
+		// Calculate the offset and the ID that is being provided
+		const [offset, id] =
+			message.content[2] === '&'
+				? [3, message.guild?.roles.botRoleFor(message.guild.me!)?.id]
+				: [message.content[2] === '!' ? 3 : 2, this.container.client.id];
+
 		if (!id) return null;
 
-		// If the content is shorter than `<@{n}>` or doesn't start with `<@`, skip early:
-		if (content.length < 20 || !content.startsWith('<@')) return null;
-
-		// Retrieve whether the mention is a nickname mention (`<@!{n}>`) or not (`<@{n}>`).
-		const nickname = content[2] === '!';
-		const idOffset = (nickname ? 3 : 2) as number;
-		const idLength = id.length;
-
 		// If the mention doesn't end with `>`, skip early:
-		if (content[idOffset + idLength] !== '>') return null;
+		if (message.content[offset + id.length] !== '>') return null;
 
-		// Check whether or not the ID is the same as the client ID:
-		const mentionId = content.substr(idOffset, idLength);
-		if (mentionId === id) return content.substr(0, idOffset + idLength + 1);
+		// Check whether or not the ID is the same as the managed role ID:
+		const mentionId = message.content.substr(offset, id.length);
+		if (mentionId === id) return message.content.substr(0, offset + id.length + 1);
 
 		return null;
 	}
