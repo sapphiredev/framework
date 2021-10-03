@@ -1,5 +1,7 @@
-/src/ @kyranet @favna
-/tests/ @kyranet @favna
+/src/ @kyranet @favna @vladfrangu
+/tests/ @kyranet @favna @vladfrangu
 
-/src/lib/plugins/ @quantumlytangled
-/src/lib/types/Events.ts @quantumlytangled
+/scripts/ @favna
+
+/src/lib/plugins/ @quantumlyy
+/src/lib/types/Events.ts @quantumlyy
