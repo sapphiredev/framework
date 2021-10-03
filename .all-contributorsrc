@@ -133,6 +133,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/30398469?v=4",
 			"profile": "https://github.com/gc",
 			"contributions": ["code"]
+		},
+		{
+			"login": "PoroUsedSnax",
+			"name": "Mark Fisher",
+			"avatar_url": "https://avatars.githubusercontent.com/u/19329455?v=4",
+			"profile": "https://minecolonies.com/",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
