@@ -545,30 +545,31 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@favware/npm-deprecate@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@favware/npm-deprecate/-/npm-deprecate-1.0.2.tgz#555064bf33ba17a28a9efbc857a2c07eae33c392"
-  integrity sha512-931Z7GDKCD7PYEQ2CYwyJWALiwj91THMdR7Vn6Tad6iAwxgoGtXBRzUv1SA7a0n/h+4QQZZ7+L1fziDMacW/iw==
+"@favware/npm-deprecate@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@favware/npm-deprecate/-/npm-deprecate-1.0.3.tgz#a3bda3e62e0f637605639ec5eed4ef60f41b91fd"
+  integrity sha512-4WmO+wXilPm6/QWPLdtLZMU2oQzO07rGHxz+TBAWuyEnR6RhGxmVpgaKJZI1ntRW6VP9X7o/Hmgp6/Lf0L9xnw==
   dependencies:
     "@sapphire/fetch" next
     "@sapphire/utilities" "^2.0.1"
-    colorette "^1.2.2"
-    commander "^8.1.0"
+    colorette "^2.0.12"
+    commander "^8.2.0"
     js-yaml "^4.1.0"
     micromatch "^4.0.4"
     npm-package-arg "^8.1.5"
     npm-registry-fetch "^11.0.0"
 
-"@favware/rollup-type-bundler@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.3.tgz#cf42805ed3d1a37d3eeaf79efff9ef2b1d36c142"
-  integrity sha512-fbwfdBx7xm3b6dsnuJ2MvB/S4y0SrknPnuQLPvnzmrZpf8pEi/gkUifn8P2WmCPLclN71IMhP8YKL1ZmPifGbw==
+"@favware/rollup-type-bundler@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.4.tgz#bfbc535f508d73a1faf63f5a8fb62a71053b6707"
+  integrity sha512-Zy8qlL7hIUF7FucEyLixSBaMC37gGmXHifV975dipTtitpsMuc2WmRq0IMskaBQOhOs0+aASysP79oXDcZxFHA==
   dependencies:
-    colorette "^1.2.2"
-    commander "^8.0.0"
+    "@sapphire/utilities" "^2.0.1"
+    colorette "^2.0.12"
+    commander "^8.2.0"
     js-yaml "^4.1.0"
-    rollup "^2.52.6"
-    rollup-plugin-dts "^3.0.2"
+    rollup "^2.57.0"
+    rollup-plugin-dts "^4.0.0"
 
 "@gar/promisify@^1.0.1":
   version "1.1.2"
@@ -1663,10 +1664,15 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
-colorette@^1.2.2, colorette@^1.4.0:
+colorette@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
+
+colorette@^2.0.12:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.13.tgz#c8d3c7a1b57fbddb0b6b681ee51f8105c4e86eaf"
+  integrity sha512-lvA4NbohpqUypdfTtJpb5BwhdUrwi1ACLM6uW3lEj0CWKOXrCSJlexv9IgUUN6obat0YGTSy7wfLDLEfOvzFLA==
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -1680,7 +1686,7 @@ commander@^7.2.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
-commander@^8.0.0, commander@^8.1.0:
+commander@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.2.0.tgz#37fe2bde301d87d47a53adeff8b5915db1381ca8"
   integrity sha512-LLKxDvHeL91/8MIyTAD5BFMNtoIwztGPMiM/7Bl8rIPmHCZXRxmSWr91h57dpOpnQ6jIUqEWdXE/uBYMfiVZDA==
@@ -2672,7 +2678,7 @@ glob@7.1.4:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.7:
+glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -4643,14 +4649,14 @@ rimraf@^3.0.0, rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rollup-plugin-dts@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-3.0.2.tgz#2b628d88f864d271d6eaec2e4c2a60ae4e944c5c"
-  integrity sha512-hswlsdWu/x7k5pXzaLP6OvKRKcx8Bzprksz9i9mUe72zvt8LvqAb/AZpzs6FkLgmyRaN8B6rUQOVtzA3yEt9Yw==
+rollup-plugin-dts@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-4.0.0.tgz#7645280183b7624e77375a548a11297f9916f6d8"
+  integrity sha512-tgUC8CxVgtlLDVloUEA9uACVaxjJHuYxlDSTp1LdCexA0bJx+RuMi45RjdLG9RTCgZlV5YBh3O7P2u6dS1KlnA==
   dependencies:
     magic-string "^0.25.7"
   optionalDependencies:
-    "@babel/code-frame" "^7.12.13"
+    "@babel/code-frame" "^7.14.5"
 
 rollup-plugin-version-injector@^1.3.3:
   version "1.3.3"
@@ -4661,10 +4667,17 @@ rollup-plugin-version-injector@^1.3.3:
     dateformat "^4.2.1"
     lodash "^4.17.20"
 
-rollup@^2.52.6, rollup@^2.57.0:
+rollup@^2.57.0:
   version "2.57.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.57.0.tgz#c1694475eb22e1022477c0f4635fd0ac80713173"
   integrity sha512-bKQIh1rWKofRee6mv8SrF2HdP6pea5QkwBZSMImJysFj39gQuiV8MEPBjXOCpzk3wSYp63M2v2wkWBmFC8O/rg==
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+rollup@^2.58.0:
+  version "2.58.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.58.0.tgz#a643983365e7bf7f5b7c62a8331b983b7c4c67fb"
+  integrity sha512-NOXpusKnaRpbS7ZVSzcEXqxcLDOagN6iFS8p45RkoiMqPHDLwJm758UF05KlMoCRbLBTZsPOIa887gZJ1AiXvw==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -5288,12 +5301,12 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc@^0.22.4:
-  version "0.22.4"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.4.tgz#039ac59fcdb9a8674471dc20e1623efb12be4114"
-  integrity sha512-M/a8NnPxq3/iZNNVjzFCK5gu4m//HTJIPbSS0JQVbkHJPP9wyepR12agylWTSqeVZe0xsbidVtO26+PP7iD/jw==
+typedoc@^0.22.5:
+  version "0.22.5"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.5.tgz#c1a7c33fcdc808f57c766584a6afb47762944229"
+  integrity sha512-KFrWGU1iKiTGw0RcyjLNYDmhd7uICU14HgBNPmFKY/sT4Pm/fraaLyWyisst9vGTUAKxqibqoDITR7+ZcAkhHg==
   dependencies:
-    glob "^7.1.7"
+    glob "^7.2.0"
     lunr "^2.3.9"
     marked "^3.0.4"
     minimatch "^3.0.4"
