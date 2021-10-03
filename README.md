@@ -92,6 +92,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/gc"><img src="https://avatars.githubusercontent.com/u/30398469?v=4?s=100" width="100px;" alt=""/><br /><sub><b>GC</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=gc" title="Code">💻</a></td>
     <td align="center"><a href="https://minecolonies.com/"><img src="https://avatars.githubusercontent.com/u/19329455?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mark Fisher</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=PoroUsedSnax" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/bitomic"><img src="https://avatars.githubusercontent.com/u/35199700?v=4?s=100" width="100px;" alt=""/><br /><sub><b>bitomic</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=bitomic" title="Code">💻</a></td>
+    <td align="center"><a href="https://c43721.github.io/"><img src="https://avatars.githubusercontent.com/u/55610086?v=4?s=100" width="100px;" alt=""/><br /><sub><b>c43721</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=c43721" title="Code">💻</a></td>
   </tr>
 </table>
 

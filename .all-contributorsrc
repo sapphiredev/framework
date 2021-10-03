@@ -147,6 +147,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/35199700?v=4",
 			"profile": "https://github.com/bitomic",
 			"contributions": ["code"]
+		},
+		{
+			"login": "c43721",
+			"name": "c43721",
+			"avatar_url": "https://avatars.githubusercontent.com/u/55610086?v=4",
+			"profile": "https://c43721.github.io/",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
