@@ -44,10 +44,10 @@
 			"contributions": ["doc"]
 		},
 		{
-			"login": "QuantumlyTangled",
+			"login": "Quantumlyy",
 			"name": "Nejc Drobnič",
 			"avatar_url": "https://avatars1.githubusercontent.com/u/7919610?v=4",
-			"profile": "https://quantumlytangled.com/",
+			"profile": "https://Quantumlyy.com/",
 			"contributions": ["code", "plugin"]
 		},
 		{
@@ -125,6 +125,13 @@
 			"name": "Lioness100",
 			"avatar_url": "https://avatars.githubusercontent.com/u/65814829?v=4",
 			"profile": "https://github.com/Lioness100",
+			"contributions": ["code"]
+		},
+		{
+			"login": "gc",
+			"name": "GC",
+			"avatar_url": "https://avatars.githubusercontent.com/u/30398469?v=4",
+			"profile": "https://github.com/gc",
 			"contributions": ["code"]
 		}
 	],
