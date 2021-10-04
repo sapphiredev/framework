@@ -1,4 +1,4 @@
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import type { ClientOptions } from 'discord.js';
 import type { SapphireClient } from '../SapphireClient';
 import { PluginHook } from '../types/Enums';
@@ -7,7 +7,7 @@ import { postInitialization, postLogin, preGenericsInitialization, preInitializa
 
 export type AsyncPluginHooks = PluginHook.PreLogin | PluginHook.PostLogin;
 export interface SapphirePluginAsyncHook {
-	(this: SapphireClient, options: ClientOptions): Awaited<unknown>;
+	(this: SapphireClient, options: ClientOptions): Awaitable<unknown>;
 }
 
 export type SyncPluginHooks = Exclude<PluginHook, AsyncPluginHooks>;

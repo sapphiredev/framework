@@ -13,7 +13,7 @@ export {
 	StoreRegistry,
 	StoreRegistryEntries
 } from '@sapphire/pieces';
-export type { Awaited } from '@sapphire/utilities';
+export type { Awaitable } from '@sapphire/utilities';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';

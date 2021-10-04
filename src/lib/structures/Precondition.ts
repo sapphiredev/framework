@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import type { Message, Permissions } from 'discord.js';
 import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
@@ -7,7 +7,7 @@ import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
 import type { Command } from './Command';
 
-export type PreconditionResult = Awaited<Result<unknown, UserError>>;
+export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
 export abstract class Precondition extends Piece {

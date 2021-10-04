@@ -1,4 +1,4 @@
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
 import type { Result } from '../../parsers/Result';
@@ -15,7 +15,7 @@ export type PreconditionContainerResult = Result<unknown, UserError>;
  * Defines the return type of the generic {@link IPreconditionContainer.run}.
  * @since 1.0.0
  */
-export type PreconditionContainerReturn = Awaited<PreconditionContainerResult>;
+export type PreconditionContainerReturn = Awaitable<PreconditionContainerResult>;
 
 /**
  * Async-only version of {@link PreconditionContainerReturn}, to be used when the run method is async.

@@ -1,5 +1,5 @@
 import { AliasPiece, AliasPieceOptions } from '@sapphire/pieces';
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
@@ -10,7 +10,7 @@ import type { Command, CommandContext } from './Command';
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link AsyncArgumentResult} for the asynchronous version.
  */
-export type ArgumentResult<T> = Awaited<Result<T, UserError>>;
+export type ArgumentResult<T> = Awaitable<Result<T, UserError>>;
 
 /**
  * Defines an asynchronous result of an {@link Argument}, check {@link ArgumentResult} for the synchronous version.

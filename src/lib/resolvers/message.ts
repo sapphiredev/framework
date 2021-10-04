@@ -1,7 +1,7 @@
 import { MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import { GuildBasedChannelTypes, isNewsChannel, isTextChannel, TextBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import { Message, Permissions, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import { err, ok, Result } from '../parsers/Result';
@@ -18,7 +18,7 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 	return err(Identifiers.ArgumentMessageError);
 }
 
-function resolveById(parameter: string, channel: TextBasedChannelTypes): Awaited<Message | null> {
+function resolveById(parameter: string, channel: TextBasedChannelTypes): Awaitable<Message | null> {
 	return SnowflakeRegex.test(parameter) ? channel.messages.fetch(parameter as Snowflake) : null;
 }
 

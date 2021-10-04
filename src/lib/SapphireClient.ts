@@ -1,5 +1,5 @@
 import { container, Store, StoreRegistry } from '@sapphire/pieces';
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import { Client, ClientOptions, Message, Snowflake } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
@@ -22,7 +22,7 @@ import { Logger } from './utils/logger/Logger';
 export type SapphirePrefix = string | readonly string[] | null;
 
 export interface SapphirePrefixHook {
-	(message: Message): Awaited<SapphirePrefix>;
+	(message: Message): Awaitable<SapphirePrefix>;
 }
 
 export interface SapphireClientOptions {

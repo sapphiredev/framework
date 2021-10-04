@@ -1,5 +1,5 @@
 import { AliasPiece, AliasPieceJSON, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
-import { Awaited, isNullish } from '@sapphire/utilities';
+import { Awaitable, isNullish } from '@sapphire/utilities';
 import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
@@ -95,7 +95,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: CommandContext): Awaited<T> {
+	public preParse(message: Message, parameters: string, context: CommandContext): Awaitable<T> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -142,7 +142,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 */
-	public abstract run(message: Message, args: T, context: CommandContext): Awaited<unknown>;
+	public abstract run(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
