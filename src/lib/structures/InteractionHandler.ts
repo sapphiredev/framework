@@ -1,7 +1,7 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Awaited } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
-import { some, Maybe, none } from '../parsers/Maybe';
+import { some, Maybe, none, None } from '../parsers/Maybe';
 
 export abstract class InteractionHandler extends Piece {
 	/**
@@ -61,11 +61,13 @@ export abstract class InteractionHandler extends Piece {
 		return this.some();
 	}
 
+	public some(): Maybe<undefined>;
+	public some<T>(data: T): Maybe<T>;
 	public some<T>(data?: T): Maybe<T | undefined> {
 		return some(data);
 	}
 
-	public none() {
+	public none(): None {
 		return none();
 	}
 

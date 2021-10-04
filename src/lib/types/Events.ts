@@ -8,9 +8,6 @@ import type { PluginHook } from './Enums';
 
 export const Events = {
 	// #region Discord.js base events
-	ApplicationCommandCreate: Constants.Events.APPLICATION_COMMAND_CREATE,
-	ApplicationCommandDelete: Constants.Events.APPLICATION_COMMAND_DELETE,
-	ApplicationCommandUpdate: Constants.Events.APPLICATION_COMMAND_UPDATE,
 	ChannelCreate: Constants.Events.CHANNEL_CREATE,
 	ChannelDelete: Constants.Events.CHANNEL_DELETE,
 	ChannelPinsUpdate: Constants.Events.CHANNEL_PINS_UPDATE,
