@@ -1,11 +1,12 @@
 import { Store } from '@sapphire/pieces';
 import type { Interaction } from 'discord.js';
-import { isSome, Maybe } from '../parsers/Maybe';
+import { isSome } from '../parsers/Maybe';
+import { fromAsync, isErr } from '../parsers/Result';
 import { InteractionHandler, InteractionHandlerTypes } from './InteractionHandler';
 
 export class InteractionHandlerStore extends Store<InteractionHandler> {
 	public constructor() {
-		super(InteractionHandler as any, { name: 'interactionHandlers' });
+		super(InteractionHandler as any, { name: 'interaction-handlers' });
 	}
 
 	public async run(interaction: Interaction) {
@@ -22,21 +23,21 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 			// or it doesn't match the expected handler type, skip the handler
 			if (!filter?.(interaction)) continue;
 
-			let result: Maybe<unknown>;
+			// Get the result of the `parse` method in the handler
+			const result = await fromAsync(handler.parse(interaction));
 
-			try {
-				// Get the result of the `parse` method in the handler
-				result = await handler.parse(interaction);
-			} catch (err) {
+			if (isErr(result)) {
 				// If the `parse` method threw an error (spoiler: please don't), skip the handler
 				// TODO: Emit an event (interactionHandlerParseError) that the parse method errored out
 				continue;
 			}
 
+			const finalValue = result.value;
+
 			// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
-			if (isSome(result)) {
+			if (isSome(finalValue)) {
 				// Schedule the run of the handler method
-				promises.push(handler.run(interaction, result.value));
+				promises.push(handler.run(interaction, finalValue.value));
 			}
 		}
 

@@ -29,9 +29,9 @@ export abstract class InteractionHandler extends Piece {
 	 * ```typescript
 	 * // Parsing a button handler
 	 * public override parse(interaction: ButtonInteraction) {
-	 *   if (interaction.customId.startsWith('vlad')) {
+	 *   if (interaction.customId.startsWith('my-awesome-clicky-button')) {
 	 * 	   // Returning a `some` here means that the run method should be called next!
-	 *     return this.some({ isVladAwesome: true, awesomenessLevel: 9001 });
+	 *     return this.some({ isMyBotAwesome: true, awesomenessLevel: 9001 });
 	 *   }
 	 *
 	 *   // Returning a `none` means this interaction shouldn't run in this handler
@@ -46,7 +46,11 @@ export abstract class InteractionHandler extends Piece {
 	 *   // This code is purely for demonstration purposes only!
 	 *   if (interaction.customId.startsWith('example-data')) {
 	 *     const [, userId, channelId] = interaction.customId.split('.');
-	 *     return this.some(await container.prisma.exampleData.findFirst({ where: { userId, channelId } }));
+	 *
+	 * 	   const dataFromDatabase = await container.prisma.exampleData.findFirst({ where: { userId, channelId } });
+	 *
+	 *     // Returning a `some` here means that the run method should be called next!
+	 *     return this.some(dataFromDatabase);
 	 *   }
 	 *
 	 *   // Returning a `none` means this interaction shouldn't run in this handler
@@ -54,8 +58,8 @@ export abstract class InteractionHandler extends Piece {
 	 * }
 	 * ```
 	 *
-	 * @returns A maybe or a promise returning a maybe that indicates if this interaction should be handled by this handler,
-	 * and what extra data should be passed to the {@link InteractionHandler#run run method}
+	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
+	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler#run run method}
 	 */
 	public parse<T>(_interaction: Interaction): Awaited<Maybe<T | undefined>> {
 		return this.some();
@@ -97,8 +101,6 @@ export const enum InteractionHandlerTypes {
 	// Specifically focused types
 	Button = 'BUTTON',
 	SelectMenu = 'SELECT_MENU',
-	// TODO: Whenever autocompletes release, decide if they'll be handled via this or as a method in the command class
-	// as I don't want to make that class be a mess :pepeHands:
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
 	MessageComponent = 'MESSAGE_COMPONENT'
