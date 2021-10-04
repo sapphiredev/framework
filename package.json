@@ -30,7 +30,7 @@
 	"dependencies": {
 		"@sapphire/discord-utilities": "next",
 		"@sapphire/discord.js-utilities": "next",
-		"@sapphire/pieces": "^3.0.0",
+		"@sapphire/pieces": "next",
 		"@sapphire/ratelimits": "next",
 		"@sapphire/utilities": "next",
 		"lexure": "^0.17.0",

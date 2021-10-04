@@ -829,13 +829,13 @@
   dependencies:
     cross-fetch "^3.1.4"
 
-"@sapphire/pieces@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-3.0.0.tgz#968878dee0c680d00dc29202a4fc15f1daea2b5d"
-  integrity sha512-Up/ajwm88jLHmG/AKmiEAyBcXlBEV2p96KXYIjoJVX2/bCr+zK+lDWDPE2cg5dJPfU6CABEdMqV5h/wdQxgf9A==
+"@sapphire/pieces@next":
+  version "3.0.1-next.f1f9c1b.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/pieces/-/pieces-3.0.1-next.f1f9c1b.0.tgz#78233025a298e10a298d5c763683a57ae5d0fea9"
+  integrity sha512-TpoOMbXzpgr9qeR+iPabePgM0WWItHZas65TvwhBWb2fGIPrEShtnMpt/E4B3iROX665EqdBJ36tKDWfGpfgxQ==
   dependencies:
     "@discordjs/collection" "^0.2.1"
-    "@sapphire/utilities" "^2.0.1"
+    "@sapphire/utilities" next
     tslib "^2.3.1"
 
 "@sapphire/prettier-config@^1.1.6":
