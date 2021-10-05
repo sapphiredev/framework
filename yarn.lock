@@ -511,13 +511,13 @@
     strip-json-comments "^3.1.1"
 
 "@favware/npm-deprecate@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@favware/npm-deprecate/-/npm-deprecate-1.0.3.tgz#a3bda3e62e0f637605639ec5eed4ef60f41b91fd"
-  integrity sha512-4WmO+wXilPm6/QWPLdtLZMU2oQzO07rGHxz+TBAWuyEnR6RhGxmVpgaKJZI1ntRW6VP9X7o/Hmgp6/Lf0L9xnw==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@favware/npm-deprecate/-/npm-deprecate-1.0.4.tgz#fe73ed7ddb8f8b96ba1436b9cb047eeda2d2497c"
+  integrity sha512-eAU1Wq7jybH735/S5EWiNfRhBuaXFF9aAr6BQ27yV2oF5AAXUAIk88fnCUpLYJFE/053Ky6C+Do7aW8zuDrnfg==
   dependencies:
-    "@sapphire/fetch" next
-    "@sapphire/utilities" "^2.0.1"
-    colorette "^2.0.12"
+    "@sapphire/fetch" "^2.0.0"
+    "@sapphire/utilities" "^3.0.1"
+    colorette "^2.0.14"
     commander "^8.2.0"
     js-yaml "^4.1.0"
     micromatch "^4.0.4"
@@ -525,15 +525,15 @@
     npm-registry-fetch "^11.0.0"
 
 "@favware/rollup-type-bundler@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.4.tgz#bfbc535f508d73a1faf63f5a8fb62a71053b6707"
-  integrity sha512-Zy8qlL7hIUF7FucEyLixSBaMC37gGmXHifV975dipTtitpsMuc2WmRq0IMskaBQOhOs0+aASysP79oXDcZxFHA==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@favware/rollup-type-bundler/-/rollup-type-bundler-1.0.5.tgz#40b95838673eb748bd288b1a684aa6458585e3ac"
+  integrity sha512-XghOOsel/pDUp+hFWSjDHyFGF6xSe7WcMJwE82yANr8MwxNS5/l/N0LsiAD3CzbRpttLsVbPuBH+6/P2LEhPxQ==
   dependencies:
-    "@sapphire/utilities" "^2.0.1"
-    colorette "^2.0.12"
+    "@sapphire/utilities" "^3.0.1"
+    colorette "^2.0.14"
     commander "^8.2.0"
     js-yaml "^4.1.0"
-    rollup "^2.57.0"
+    rollup "^2.58.0"
     rollup-plugin-dts "^4.0.0"
 
 "@gar/promisify@^1.0.1":
@@ -815,10 +815,10 @@
     prettier "^2.4.1"
     typescript "^4.4.3"
 
-"@sapphire/fetch@next":
-  version "2.0.0-next.ae4f5935.0"
-  resolved "https://registry.yarnpkg.com/@sapphire/fetch/-/fetch-2.0.0-next.ae4f5935.0.tgz#82bc1e6cde443fad26bd13b5e265dd4e74402edf"
-  integrity sha512-u2t0xB0K8FSrQsbEZ084+iww/uWfqC8Gs3Y1rLqGCtP5Xsxfa+4lrKe2dNLhm7Zc2CqLHi6v2UFo0oK1OdtvIQ==
+"@sapphire/fetch@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sapphire/fetch/-/fetch-2.0.0.tgz#24b18328cb767d3fa8ed5bac4909f8a1494324ab"
+  integrity sha512-SPuvU3OTcJMMTmongQQWfeg9QnHpOEAYQ1NGuRI760r68BjnGCU5rw7xR4U4i6izYIir732aMwY8Q9kQp1a2dw==
   dependencies:
     cross-fetch "^3.1.4"
 
@@ -859,11 +859,6 @@
   dependencies:
     tslib "^2.3.1"
     typescript "^4.4.3"
-
-"@sapphire/utilities@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@sapphire/utilities/-/utilities-2.0.1.tgz#c436c5b2b72679c89a40abe46d2f9301d03e63e2"
-  integrity sha512-KgJsgQ1cnfVKqscrMX4GH29mIVhVQkF8kSTIRCB+hgCCRfIvUU5peE4g/cegnesPS5eMiQqV+NWk7cNwhjextQ==
 
 "@sapphire/utilities@^3.0.1":
   version "3.0.1"
@@ -1602,7 +1597,7 @@ colorette@^1.4.0:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
 
-colorette@^2.0.12:
+colorette@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.14.tgz#1629bb27a13cd719ff37d66bc341234af564122e"
   integrity sha512-TLcu0rCLNjDIdKGLGqMtPEAOAZmavC1QCX4mEs3P0mrA/DDoU/tA+Y4UQK/862FkX2TTlbyVIkREZNbf7Y9YwA==
@@ -2050,9 +2045,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.3.857:
-  version "1.3.857"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.857.tgz#dcc239ff8a12b6e4b501e6a5ad20fd0d5a3210f9"
-  integrity sha512-a5kIr2lajm4bJ5E4D3fp8Y/BRB0Dx2VOcCRE5Gtb679mXIME/OFhWler8Gy2ksrf8gFX+EFCSIGA33FB3gqYpg==
+  version "1.3.858"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.858.tgz#49eb5be51faa85fc85d153e8be527eef7ff99121"
+  integrity sha512-EZ0dTXxTX+rgZC8YDVqKNMyp1Ty3hi1LyQwVBBioV7iiYYjFakokumRsIUhNz5ho+QlNKf7iNY5KLdpdH3yqBw==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -4550,7 +4545,7 @@ rollup-plugin-version-injector@^1.3.3:
     dateformat "^4.2.1"
     lodash "^4.17.20"
 
-rollup@^2.57.0, rollup@^2.58.0:
+rollup@^2.58.0:
   version "2.58.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.58.0.tgz#a643983365e7bf7f5b7c62a8331b983b7c4c67fb"
   integrity sha512-NOXpusKnaRpbS7ZVSzcEXqxcLDOagN6iFS8p45RkoiMqPHDLwJm758UF05KlMoCRbLBTZsPOIa887gZJ1AiXvw==
