@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
-import type { Awaited } from '@sapphire/utilities';
+import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
 import { some, Maybe, none, None } from '../parsers/Maybe';
 
@@ -61,7 +61,7 @@ export abstract class InteractionHandler extends Piece {
 	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler#run run method}
 	 */
-	public parse<T>(_interaction: Interaction): Awaited<Maybe<T | undefined>> {
+	public parse<T>(_interaction: Interaction): Awaitable<Maybe<T | undefined>> {
 		return this.some();
 	}
 
