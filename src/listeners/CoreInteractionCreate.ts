@@ -9,6 +9,10 @@ export class CoreEvent extends Listener<typeof Events.InteractionCreate> {
 	}
 
 	public async run(interaction: Interaction) {
-		await this.container.stores.get('interactionHandlers').run(interaction);
+		if (interaction.isCommand() || interaction.isContextMenu()) {
+			// TODO(vladfrangu): Slashies baby
+		} else {
+			await this.container.stores.get('interaction-handlers').run(interaction);
+		}
 	}
 }

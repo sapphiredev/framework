@@ -1,8 +1,9 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import { Constants, Message } from 'discord.js';
+import { Constants, Interaction, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type { Args } from '../parsers/Args';
-import type { Command } from '../structures/Command';
+import type { Command, CommandContext } from '../structures/Command';
+import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
 
@@ -92,7 +93,9 @@ export const Events = {
 	PrefixedMessage: 'prefixedMessage' as const,
 	PreMessageParsed: 'preMessageParsed' as const,
 	UnknownCommand: 'unknownCommand' as const,
-	UnknownCommandName: 'unknownCommandName' as const
+	UnknownCommandName: 'unknownCommandName' as const,
+	InteractionHandlerParseError: 'interactionHandlerParseError' as const,
+	InteractionHandlerError: 'interactionHandlerError' as const
 	// #endregion Sapphire load cycle events
 };
 
@@ -147,6 +150,15 @@ export interface CommandSuccessPayload<T extends Args = Args> extends CommandRun
 
 export interface CommandTypingErrorPayload<T extends Args = Args> extends CommandRunPayload<T> {}
 
+export interface IInteractionHandlerPayload {
+	interaction: Interaction;
+	handler: InteractionHandler;
+}
+
+export interface InteractionHandlerParseError extends IInteractionHandlerPayload {}
+
+export interface InteractionHandlerError extends IInteractionHandlerPayload {}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
@@ -168,6 +180,8 @@ declare module 'discord.js' {
 		[Events.CommandTypingError]: [error: unknown, payload: CommandTypingErrorPayload];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		[Events.NonPrefixedMessage]: [message: Message];
+		[Events.InteractionHandlerParseError]: [error: Error, payload: InteractionHandlerParseError];
+		[Events.InteractionHandlerError]: [error: Error, payload: InteractionHandlerError];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination

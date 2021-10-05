@@ -334,7 +334,7 @@ declare module '@sapphire/pieces' {
 	interface StoreRegistryEntries {
 		arguments: ArgumentStore;
 		commands: CommandStore;
-		interactionHandlers: InteractionHandlerStore;
+		'interaction-handlers': InteractionHandlerStore;
 		listeners: ListenerStore;
 		preconditions: PreconditionStore;
 	}
