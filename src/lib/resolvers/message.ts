@@ -46,7 +46,7 @@ async function resolveByChannelAndMessage(parameter: string, message: Message): 
 }
 
 async function getMessageFromChannel(channelId: Snowflake, messageId: Snowflake, originalAuthor: User): Promise<Message | null> {
-	const channel = container.client.channels.cache.get(channelId as Snowflake) as GuildBasedChannelTypes;
+	const channel = container.client.channels.cache.get(channelId) as GuildBasedChannelTypes;
 	if (!channel) return null;
 	if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
 	if (!channel.viewable) return null;
