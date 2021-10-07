@@ -94,3 +94,5 @@ export function isMaybe<T>(x: unknown): x is Maybe<T>;
 export function isMaybe<T>(x: Maybe<T> | unknown): x is Maybe<T> {
 	return typeof x === 'object' && x !== null && typeof Reflect.get(x, 'exists') === 'boolean';
 }
+
+export type UnwrapMaybeValue<T extends Maybe<unknown>> = T extends Some<infer V> ? V : never;

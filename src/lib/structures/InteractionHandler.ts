@@ -1,7 +1,7 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
-import { some, Maybe, none, None } from '../parsers/Maybe';
+import { some, Maybe, none, None, UnwrapMaybeValue } from '../parsers/Maybe';
 
 export abstract class InteractionHandler extends Piece {
 	/**
@@ -61,11 +61,12 @@ export abstract class InteractionHandler extends Piece {
 	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler#run run method}
 	 */
-	public parse<T>(_interaction: Interaction): Awaitable<Maybe<T | undefined>> {
+	public parse<T>(interaction: Interaction): Awaitable<Maybe<T>>;
+	public parse() {
 		return this.some();
 	}
 
-	public some(): Maybe<undefined>;
+	public some(): Maybe<never>;
 	public some<T>(data: T): Maybe<T>;
 	public some<T>(data?: T): Maybe<T | undefined> {
 		return some(data);
@@ -94,7 +95,7 @@ export interface InteractionHandlerJSON extends PieceJSON {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace InteractionHandler {
 	export type Options = InteractionHandlerOptions;
-	export type ParseResult = ReturnType<InteractionHandler['parse']>;
+	export type ParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
 }
 
 export const enum InteractionHandlerTypes {
@@ -104,4 +105,18 @@ export const enum InteractionHandlerTypes {
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
 	MessageComponent = 'MESSAGE_COMPONENT'
+}
+
+class A extends InteractionHandler {
+	public constructor(ctx: PieceContext) {
+		super(ctx, { interactionHandlerType: InteractionHandlerTypes.Button });
+	}
+
+	public run(interaction: Interaction, parsedData: InteractionHandler.ParseResult<this>): unknown {
+		throw new Error('Method not implemented.');
+	}
+
+	public parse() {
+		return this.some({ owo: true });
+	}
 }
