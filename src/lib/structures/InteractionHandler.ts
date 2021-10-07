@@ -61,8 +61,7 @@ export abstract class InteractionHandler extends Piece {
 	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler#run run method}
 	 */
-	public parse<T>(interaction: Interaction): Awaitable<Maybe<T>>;
-	public parse() {
+	public parse(_interaction: Interaction): Awaitable<Maybe<unknown>> {
 		return this.some();
 	}
 
@@ -105,18 +104,4 @@ export const enum InteractionHandlerTypes {
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
 	MessageComponent = 'MESSAGE_COMPONENT'
-}
-
-class A extends InteractionHandler {
-	public constructor(ctx: PieceContext) {
-		super(ctx, { interactionHandlerType: InteractionHandlerTypes.Button });
-	}
-
-	public run(interaction: Interaction, parsedData: InteractionHandler.ParseResult<this>): unknown {
-		throw new Error('Method not implemented.');
-	}
-
-	public parse() {
-		return this.some({ owo: true });
-	}
 }
