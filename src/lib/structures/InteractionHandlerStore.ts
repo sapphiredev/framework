@@ -52,19 +52,23 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 		const results = await Promise.allSettled(promises);
 
 		for (const result of results) {
-			if (result.status === 'rejected') {
-				const res = result.reason as Result<
-					unknown,
-					{
-						error: Error;
-						handler: InteractionHandler;
-					}
-				>;
+			const res = (
+				result as PromiseFulfilledResult<
+					Result<
+						unknown,
+						{
+							error: Error;
+							handler: InteractionHandler;
+						}
+					>
+				>
+			).value;
 
-				const value = res.error!;
+			if (!isErr(res)) continue;
 
-				this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
-			}
+			const value = res.error;
+
+			this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
 		}
 	}
 }
