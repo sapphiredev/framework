@@ -8,7 +8,7 @@ import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
-import { PluginHook } from './types/Enums';
+import { BucketScope, PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
@@ -114,6 +114,12 @@ export interface SapphireClientOptions {
 	 * @default false
 	 */
 	typing?: boolean;
+
+	/**
+	 * Sets the default cooldown time for all commands.
+	 * @default "No cooldown options"
+	 */
+	defaultCooldown?: CooldownOptions;
 }
 
 /**
@@ -293,6 +299,14 @@ export class SapphireClient extends Client {
 export interface ClientLoggerOptions {
 	level?: LogLevel;
 	instance?: ILogger;
+}
+
+export interface CooldownOptions {
+	scope?: BucketScope;
+	delay: number;
+	limit?: number;
+	filteredUsers?: Snowflake[];
+	filteredCommands?: string[];
 }
 
 declare module 'discord.js' {
