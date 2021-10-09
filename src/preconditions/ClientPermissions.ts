@@ -77,7 +77,7 @@ export class CorePrecondition extends Precondition {
 		READ_MESSAGE_HISTORY: 'Read Message History',
 		REQUEST_TO_SPEAK: 'Request to Speak',
 		SEND_MESSAGES: 'Send Messages',
-		SEND_MESSAGES_IN_THREADS: '',
+		SEND_MESSAGES_IN_THREADS: 'Send Messages in Threads',
 		SEND_TTS_MESSAGES: 'Send TTS Messages',
 		SPEAK: 'Speak',
 		START_EMBEDDED_ACTIVITIES: 'Start Activities',
