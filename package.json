@@ -16,7 +16,7 @@
 		"docs": "typedoc",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"update": "yarn upgrade-interactive --latest",
+		"update": "yarn up \"*\" -i",
 		"clean": "node scripts/clean-dist.mjs",
 		"build": "tsc -b src && rollup -c scripts/rollup.bundle.ts && gen-esm-wrapper dist/index.js dist/index.mjs",
 		"watch": "tsc -b src -w",
