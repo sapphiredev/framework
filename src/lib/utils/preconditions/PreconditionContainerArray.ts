@@ -1,5 +1,5 @@
 import { Collection, Message } from 'discord.js';
-import type { Command } from '../../structures/Command';
+import type { MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
 import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
@@ -164,10 +164,10 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public run(message: Message, command: Command, context: PreconditionContext = {}): PreconditionContainerReturn {
+	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
-			? this.condition.sequential(message, command, this.entries, context)
-			: this.condition.parallel(message, command, this.entries, context);
+			? this.condition.messageSequential(message, command, this.entries, context)
+			: this.condition.messageParallel(message, command, this.entries, context);
 	}
 
 	/**

@@ -12,7 +12,7 @@ import type { PreconditionContext } from '../../structures/Precondition';
 export type PreconditionContainerResult = Result<unknown, UserError>;
 
 /**
- * Defines the return type of the generic {@link IPreconditionContainer.run}.
+ * Defines the return type of the generic {@link IPreconditionContainer.messageRun}.
  * @since 1.0.0
  */
 export type PreconditionContainerReturn = Awaitable<PreconditionContainerResult>;
@@ -34,5 +34,5 @@ export interface IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	run(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	messageRun(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 }

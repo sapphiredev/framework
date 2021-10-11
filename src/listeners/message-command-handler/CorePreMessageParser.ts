@@ -6,6 +6,7 @@ import { Events } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
+
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PreMessageParsed });
 	}
@@ -19,6 +20,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const mentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
+
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
 				client.emit(Events.MentionPrefixOnly, message);
@@ -45,6 +47,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (!me) return false;
 
 		const channel = message.channel as GuildBasedChannelTypes;
+		// TODO(vladfrangu): We should check admin!
 		return channel.permissionsFor(me).has(this.requiredPermissions, false);
 	}
 
@@ -64,6 +67,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (message.content[offset + id.length] !== '>') return null;
 
 		// Check whether or not the ID is the same as the managed role ID:
+		// TODO(vladfrangu): substr is marked as deprecated!!
 		const mentionId = message.content.substr(offset, id.length);
 		if (mentionId === id) return message.content.substr(0, offset + id.length + 1);
 

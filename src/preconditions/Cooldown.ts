@@ -15,7 +15,7 @@ export interface CooldownContext extends PreconditionContext {
 export class CorePrecondition extends Precondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
-	public run(message: Message, command: Command, context: CooldownContext) {
+	public messageRun(message: Message, command: Command, context: CooldownContext) {
 		// If the command it is testing for is not this one, return ok:
 		if (context.external) return this.ok();
 

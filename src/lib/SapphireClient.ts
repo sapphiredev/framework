@@ -176,7 +176,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	public id: Snowflake | null = null;
 
 	/**
-	 * The method to be overriden by the developer.
+	 * The method to be overridden by the developer.
 	 * @since 1.0.0
 	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
 	 * @example

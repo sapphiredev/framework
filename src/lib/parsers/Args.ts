@@ -18,8 +18,8 @@ import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
-import type { Argument, IArgument } from '../structures/Argument';
-import type { Command } from '../structures/Command';
+import type { ArgumentContext, ArgumentResult, IArgument } from '../structures/Argument';
+import type { Command, MessageCommandContext } from '../structures/Command';
 import { isSome, maybe, Maybe } from './Maybe';
 import { Err, err, isErr, isOk, ok, Ok, Result } from './Result';
 
@@ -40,7 +40,7 @@ export class Args {
 	/**
 	 * The context of the command being run.
 	 */
-	public readonly commandContext: Command.Context;
+	public readonly commandContext: MessageCommand.Context;
 
 	/**
 	 * The internal Lexure parser.
@@ -54,7 +54,7 @@ export class Args {
 	 */
 	private readonly states: Lexure.ArgsState[] = [];
 
-	public constructor(message: Message, command: Command, parser: Lexure.Args, context: Command.Context) {
+	public constructor(message: Message, command: Command, parser: Lexure.Args, context: MessageCommand.Context) {
 		this.message = message;
 		this.command = command;
 		this.parser = parser;

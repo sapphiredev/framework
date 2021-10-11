@@ -18,4 +18,10 @@ export class CommandStore extends AliasStore<Command> {
 		categories.delete(null);
 		return [...categories] as string[];
 	}
+
+	public override insert(piece: Command) {
+		// TODO(vladfrangu): handle the contextMenuName/chatInputName based on how we decide to do the structures
+
+		return super.insert(piece);
+	}
 }

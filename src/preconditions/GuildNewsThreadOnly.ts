@@ -3,7 +3,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends Precondition {
-	public run(message: Message): PreconditionResult {
+	public messageRun(message: Message): PreconditionResult {
 		return message.thread?.type === 'GUILD_NEWS_THREAD'
 			? this.ok()
 			: this.error({

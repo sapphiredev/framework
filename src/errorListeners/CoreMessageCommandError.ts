@@ -1,13 +1,13 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../lib/structures/Listener';
-import { CommandErrorPayload, Events } from '../lib/types/Events';
+import { MessageCommandErrorPayload, Events } from '../lib/types/Events';
 
-export class CoreEvent extends Listener<typeof Events.CommandError> {
+export class CoreEvent extends Listener<typeof Events.MessageCommandError> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.CommandError });
+		super(context, { event: Events.MessageCommandError });
 	}
 
-	public run(error: unknown, context: CommandErrorPayload) {
+	public run(error: unknown, context: MessageCommandErrorPayload) {
 		const { name, location } = context.piece;
 		this.container.logger.error(`Encountered error on command "${name}" at path "${location.full}"`, error);
 	}

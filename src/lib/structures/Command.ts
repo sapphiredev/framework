@@ -1,6 +1,6 @@
 import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
-import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
+import { CommandInteraction, ContextMenuInteraction, Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
@@ -105,7 +105,7 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: Command.Context): Awaitable<T> {
+	public preParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<T> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -148,11 +148,24 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	}
 
 	/**
-	 * Executes the command's logic for a message.
+	 * Executes the message command's logic.
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
+	 * @param context The context in which the command was executed.
 	 */
-	public abstract messageRun(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
+	public messageRun?(message: Message, args: T, context: MessageCommandContext): Awaitable<unknown>;
+
+	/**
+	 * Executes the application command's logic.
+	 * @param interaction The interaction that triggered the command.
+	 */
+	public chatInputRun?(interaction: CommandInteraction): Awaitable<unknown>;
+
+	/**
+	 * Executes the context menu's logic.
+	 * @param interaction The interaction that triggered the command.
+	 */
+	public contextMenuRun?(interaction: ContextMenuInteraction): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -327,15 +340,9 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	}
 }
 
-export interface Command<T = Args> {
-	/**
-	 * Executes the command's logic.
-	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
-	 * @deprecated Use `messageRun` instead.
-	 */
-	run?(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
-}
+export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
+export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
+export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
 
 /**
  * The allowed values for {@link Command.Options.runIn}.
@@ -510,7 +517,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	typing?: boolean;
 }
 
-export interface CommandContext extends Record<PropertyKey, unknown> {
+export interface MessageCommandContext extends Record<PropertyKey, unknown> {
 	/**
 	 * The prefix used to run this command.
 	 *
@@ -522,7 +529,7 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as {@link Command.Context.prefix} if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link MessageCommand.Context.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;

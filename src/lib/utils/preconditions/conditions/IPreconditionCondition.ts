@@ -1,5 +1,5 @@
 import type { Message } from 'discord.js';
-import type { Command } from '../../../structures/Command';
+import type { MessageCommand } from '../../../structures/Command';
 import type { PreconditionContext } from '../../../structures/Precondition';
 import type { IPreconditionContainer, PreconditionContainerReturn } from '../IPreconditionContainer';
 
@@ -16,9 +16,9 @@ export interface IPreconditionCondition {
 	 * @param command The command the message invoked.
 	 * @param entries The containers to run.
 	 */
-	sequential(
+	messageSequential(
 		message: Message,
-		command: Command,
+		command: MessageCommand,
 		entries: readonly IPreconditionContainer[],
 		context: PreconditionContext
 	): PreconditionContainerReturn;
@@ -31,9 +31,9 @@ export interface IPreconditionCondition {
 	 * @param command The command the message invoked.
 	 * @param entries The containers to run.
 	 */
-	parallel(
+	messageParallel(
 		message: Message,
-		command: Command,
+		command: MessageCommand,
 		entries: readonly IPreconditionContainer[],
 		context: PreconditionContext
 	): PreconditionContainerReturn;

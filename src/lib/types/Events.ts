@@ -2,7 +2,7 @@ import type { Piece, Store } from '@sapphire/pieces';
 import { Constants, Interaction, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type { Args } from '../parsers/Args';
-import type { Command, CommandContext } from '../structures/Command';
+import type { Command, MessageCommand, MessageCommandContext } from '../structures/Command';
 import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
@@ -76,24 +76,25 @@ export const Events = {
 	// #endregion Discord.js base events
 
 	// #region Sapphire load cycle events
-	CommandAccepted: 'commandAccepted' as const,
-	CommandDenied: 'commandDenied' as const,
-	CommandError: 'commandError' as const,
-	CommandFinish: 'commandFinish' as const,
-	CommandRun: 'commandRun' as const,
-	CommandSuccess: 'commandSuccess' as const,
-	CommandTypingError: 'commandTypingError' as const,
+	MessageCommandAccepted: 'messageCommandAccepted' as const,
+	MessageCommandDenied: 'messageCommandDenied' as const,
+	MessageCommandError: 'messageCommandError' as const,
+	MessageCommandFinish: 'messageCommandFinish' as const,
+	MessageCommandRun: 'messageCommandRun' as const,
+	MessageCommandSuccess: 'messageCommandSuccess' as const,
+	MessageCommandTypingError: 'messageCommandTypingError' as const,
 	ListenerError: 'listenerError' as const,
 	MentionPrefixOnly: 'mentionPrefixOnly' as const,
 	NonPrefixedMessage: 'nonPrefixedMessage' as const,
 	PiecePostLoad: 'piecePostLoad' as const,
 	PieceUnload: 'pieceUnload' as const,
 	PluginLoaded: 'pluginLoaded' as const,
-	PreCommandRun: 'preCommandRun' as const,
+	PreMessageCommandRun: 'preMessageCommandRun' as const,
 	PrefixedMessage: 'prefixedMessage' as const,
 	PreMessageParsed: 'preMessageParsed' as const,
-	UnknownCommand: 'unknownCommand' as const,
-	UnknownCommandName: 'unknownCommandName' as const,
+	UnknownMessageCommand: 'unknownMessageCommand' as const,
+	CommandDoesNotHaveMessageCommandHandler: 'commandDoesNotHaveMessageCommandHandler' as const,
+	UnknownMessageCommandName: 'unknownMessageCommandName' as const,
 	InteractionHandlerParseError: 'interactionHandlerParseError' as const,
 	InteractionHandlerError: 'interactionHandlerError' as const
 	// #endregion Sapphire load cycle events
@@ -107,48 +108,55 @@ export interface ListenerErrorPayload extends IPieceError {
 	piece: Listener;
 }
 
-export interface UnknownCommandNamePayload {
+export interface UnknownMessageCommandNamePayload {
 	message: Message;
 	prefix: string | RegExp;
 	commandPrefix: string;
 }
 
-export interface UnknownCommandPayload extends UnknownCommandNamePayload {
-	commandName: string;
-}
-
-export interface ICommandPayload {
+export interface CommandDoesNotHaveMessageCommandHandler {
 	message: Message;
+	prefix: string | RegExp;
+	commandPrefix: string;
 	command: Command;
 }
 
-export interface PreCommandRunPayload extends CommandDeniedPayload {}
-
-export interface CommandDeniedPayload extends ICommandPayload {
-	parameters: string;
-	context: Command.Context;
+export interface UnknownMessageCommandPayload extends UnknownMessageCommandNamePayload {
+	commandName: string;
 }
 
-export interface CommandAcceptedPayload extends ICommandPayload {
-	parameters: string;
-	context: Command.Context;
+export interface IMessageCommandPayload {
+	message: Message;
+	command: MessageCommand;
 }
 
-export interface CommandRunPayload<T extends Args = Args> extends CommandAcceptedPayload {
+export interface PreMessageCommandRunPayload extends MessageCommandDeniedPayload {}
+
+export interface MessageCommandDeniedPayload extends IMessageCommandPayload {
+	parameters: string;
+	context: MessageCommand.Context;
+}
+
+export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
+	parameters: string;
+	context: MessageCommand.Context;
+}
+
+export interface MessageCommandRunPayload<T extends Args = Args> extends MessageCommandAcceptedPayload {
 	args: T;
 }
 
-export interface CommandFinishPayload<T extends Args = Args> extends CommandRunPayload<T> {}
+export interface MessageCommandFinishPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {}
 
-export interface CommandErrorPayload<T extends Args = Args> extends CommandRunPayload<T> {
+export interface MessageCommandErrorPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {
 	piece: Command;
 }
 
-export interface CommandSuccessPayload<T extends Args = Args> extends CommandRunPayload<T> {
+export interface MessageCommandSuccessPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {
 	result: unknown;
 }
 
-export interface CommandTypingErrorPayload<T extends Args = Args> extends CommandRunPayload<T> {}
+export interface MessageCommandTypingErrorPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {}
 
 export interface IInteractionHandlerPayload {
 	interaction: Interaction;
@@ -168,16 +176,17 @@ declare module 'discord.js' {
 		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
-		[Events.UnknownCommandName]: [payload: UnknownCommandNamePayload];
-		[Events.UnknownCommand]: [payload: UnknownCommandPayload];
-		[Events.PreCommandRun]: [payload: PreCommandRunPayload];
-		[Events.CommandDenied]: [error: UserError, payload: CommandDeniedPayload];
-		[Events.CommandAccepted]: [payload: CommandAcceptedPayload];
-		[Events.CommandRun]: [message: Message, command: Command, payload: CommandRunPayload];
-		[Events.CommandSuccess]: [payload: CommandSuccessPayload];
-		[Events.CommandError]: [error: unknown, payload: CommandErrorPayload];
-		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandFinishPayload];
-		[Events.CommandTypingError]: [error: unknown, payload: CommandTypingErrorPayload];
+		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
+		[Events.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
+		[Events.MessageCommandError]: [error: Error, payload: MessageCommandErrorPayload];
+		[Events.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
+		[Events.MessageCommandRun]: [message: Message, command: Command, payload: MessageCommandRunPayload];
+		[Events.MessageCommandSuccess]: [payload: MessageCommandSuccessPayload];
+		[Events.MessageCommandTypingError]: [error: Error, payload: MessageCommandTypingErrorPayload];
+		[Events.PreMessageCommandRun]: [payload: PreMessageCommandRunPayload];
+		[Events.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
+		[Events.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
+		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		[Events.NonPrefixedMessage]: [message: Message];
 		[Events.InteractionHandlerParseError]: [error: Error, payload: InteractionHandlerParseError];

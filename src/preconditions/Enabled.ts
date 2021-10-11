@@ -9,7 +9,7 @@ export class CorePrecondition extends Precondition {
 		super(context, { position: 10 });
 	}
 
-	public run(_: Message, command: Command, context: Precondition.Context): Precondition.Result {
+	public messageRun(_: Message, command: Command, context: Precondition.Context): Precondition.Result {
 		return command.enabled ? this.ok() : this.error({ identifier: Identifiers.CommandDisabled, message: 'This command is disabled.', context });
 	}
 }

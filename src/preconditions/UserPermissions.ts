@@ -19,7 +19,7 @@ export class CorePrecondition extends Precondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public run(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
+	public messageRun(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
 		const required = (context.permissions as Permissions) ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
 

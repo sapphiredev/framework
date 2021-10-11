@@ -1,11 +1,11 @@
 import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
-import type { Message, Permissions } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message, Permissions } from 'discord.js';
 import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
-import type { Command } from './Command';
+import type { Command, MessageCommand } from './Command';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
@@ -18,7 +18,11 @@ export abstract class Precondition<O extends PreconditionOptions = PreconditionO
 		this.position = options.position ?? null;
 	}
 
-	public abstract run(message: Message, command: Command, context: Precondition.Context): Precondition.Result;
+	public abstract messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
+
+	public abstract chatInputRun?(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+
+	public abstract contextMenuRun?(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
 
 	public ok(): Precondition.Result {
 		return ok();
