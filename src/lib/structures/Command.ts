@@ -233,7 +233,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 			});
 		}
 
-		if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name)) {
+		if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name) && !limit && !delay) {
 			this.preconditions.append({
 				name: CommandPreConditions.Cooldown,
 				context: {
