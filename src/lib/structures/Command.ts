@@ -226,24 +226,17 @@ export abstract class Command<T = Args> extends AliasPiece {
 		const filteredUsers = options.cooldownFilteredUsers;
 		const { defaultCooldown } = this.container.client.options;
 
-		if (limit && delay) {
-			this.preconditions.append({
-				name: CommandPreConditions.Cooldown,
-				context: { scope: options.cooldownScope ?? BucketScope.User, limit, delay, filteredUsers }
-			});
-		}
-
-		if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name) && !limit && !delay) {
-			this.preconditions.append({
-				name: CommandPreConditions.Cooldown,
-				context: {
-					scope: defaultCooldown.scope ?? BucketScope.User,
-					limit: defaultCooldown.limit ?? 1,
-					delay: defaultCooldown.delay,
-					filteredUsers: defaultCooldown.filteredUsers
-				}
-			});
-		}
+if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name) || (limit && delay)) {
+    this.preconditions.append({
+        name: CommandPreConditions.Cooldown,
+        context: {
+            scope: options.cooldownScope ?? defaultCooldown.scope ?? BucketScope.User,
+            limit: limit ?? defaultCooldown.limit ?? 1,
+            delay: delay ?? defaultCooldown.delay,
+            filteredUsers: filteredUsers ?? defaultCooldown.filteredUsers
+        }
+    });
+}
 	}
 
 	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): PreconditionContainerArray | CommandPreConditions | null {
