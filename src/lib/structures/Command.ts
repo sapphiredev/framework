@@ -90,7 +90,10 @@ export abstract class Command<T = Args> extends AliasPiece {
 
 		const run = Reflect.get(this, 'run');
 		if (typeof run === 'function' && !Reflect.has(this, 'messageRun')) {
-			process.emitWarning(`The "run" method in commands is deprecated. Use "messageRun" instead (seen in "${this.name}", at "${this.path}")`, 'DeprecationWarning');
+			process.emitWarning(
+				`The "run" method in commands is deprecated. Use "messageRun" instead (seen in "${this.name}", at "${this.location.full}")`,
+				'DeprecationWarning'
+			);
 			Reflect.set(this, 'messageRun', run);
 		}
 	}
