@@ -92,7 +92,7 @@ export abstract class Command<T = Args> extends AliasPiece {
 		if (typeof run === 'function' && !Reflect.has(this, 'messageRun')) {
 			process.emitWarning('The "run" method in commands is deprecated.', {
 				type: 'DeprecationWarning',
-				code: 'SLASH_COMMAND_MIGRATION',
+				code: 'CHAT_INPUT_COMMAND_MIGRATION_PREPARATION',
 				detail: `Use "messageRun" instead (seen in "${this.name}", at "${this.location.full}")`
 			});
 			Reflect.set(this, 'messageRun', run);
