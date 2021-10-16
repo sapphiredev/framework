@@ -137,7 +137,7 @@ declare module 'discord.js' {
 		[Events.PieceUnload]: [store: Store<Piece>, piece: Piece];
 		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
 		[Events.MentionPrefixOnly]: [message: Message];
-		[Events.ListenerError]: [error: Error, payload: ListenerErrorPayload];
+		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 		[Events.UnknownCommandName]: [payload: UnknownCommandNamePayload];
@@ -147,9 +147,9 @@ declare module 'discord.js' {
 		[Events.CommandAccepted]: [payload: CommandAcceptedPayload];
 		[Events.CommandRun]: [message: Message, command: Command, payload: CommandRunPayload];
 		[Events.CommandSuccess]: [payload: CommandSuccessPayload];
-		[Events.CommandError]: [error: Error, payload: CommandErrorPayload];
+		[Events.CommandError]: [error: unknown, payload: CommandErrorPayload];
 		[Events.CommandFinish]: [message: Message, command: Command, payload: CommandFinishPayload];
-		[Events.CommandTypingError]: [error: Error, payload: CommandTypingErrorPayload];
+		[Events.CommandTypingError]: [error: unknown, payload: CommandTypingErrorPayload];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		[Events.NonPrefixedMessage]: [message: Message];
 		// #endregion Sapphire load cycle events
