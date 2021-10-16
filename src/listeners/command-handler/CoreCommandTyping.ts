@@ -16,7 +16,7 @@ export class CoreListener extends Listener<typeof Events.CommandRun> {
 		try {
 			await message.channel.sendTyping();
 		} catch (error) {
-			message.client.emit(Events.CommandTypingError, error as Error, { ...payload, command, message });
+			message.client.emit(Events.CommandTypingError, error, { ...payload, command, message });
 		}
 	}
 }
