@@ -17,9 +17,9 @@ async function resolveById(argument: string, guild: Guild): Promise<GuildMember 
 }
 
 async function resolveByQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
-	const queryDiscriminator = memberWithDiscriminatorRegex.exec(argument);
+	const queryDiscriminator = memberWithDiscriminatorRegex.test(argument);
 	if (queryDiscriminator) {
-		argument = argument.substring(0, queryDiscriminator.index);
+		argument = argument.substring(0, -4);
 	}
 
 	const members = await guild.members.fetch({ query: argument, limit: 1 }).catch(() => null);
