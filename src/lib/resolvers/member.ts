@@ -3,6 +3,8 @@ import type { Guild, GuildMember, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import { err, ok, Result } from '../parsers/Result';
 
+const memberWithDiscriminatorRegex = /#\d{4}$/;
+
 export async function resolveMember(parameter: string, guild: Guild): Promise<Result<GuildMember, Identifiers.ArgumentMemberError>> {
 	const member = (await resolveById(parameter, guild)) ?? (await resolveByQuery(parameter, guild));
 	if (member) return ok(member);
@@ -15,6 +17,11 @@ async function resolveById(argument: string, guild: Guild): Promise<GuildMember 
 }
 
 async function resolveByQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
+	const queryDiscriminator = memberWithDiscriminatorRegex.exec(argument);
+	if (queryDiscriminator) {
+		argument = argument.substring(0, queryDiscriminator.index);
+	}
+
 	const members = await guild.members.fetch({ query: argument, limit: 1 }).catch(() => null);
 	return members?.first() ?? null;
 }
