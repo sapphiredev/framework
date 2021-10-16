@@ -15,6 +15,8 @@ async function resolveById(argument: string, guild: Guild): Promise<GuildMember 
 }
 
 async function resolveByQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
+	argument = argument.length > 5 && argument.at(-5) === '#' ? argument.slice(0, -5) : argument;
+
 	const members = await guild.members.fetch({ query: argument, limit: 1 }).catch(() => null);
 	return members?.first() ?? null;
 }
