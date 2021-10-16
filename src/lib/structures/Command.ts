@@ -221,22 +221,20 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsCooldown(options: CommandOptions) {
-		const limit = options.cooldownLimit ?? 1;
-		const delay = options.cooldownDelay ?? 0;
-		const filteredUsers = options.cooldownFilteredUsers;
+		const { cooldownLimit, cooldownDelay, cooldownScope, cooldownFilteredUsers } = options;
 		const { defaultCooldown } = this.container.client.options;
 
-if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name) || (limit && delay)) {
-    this.preconditions.append({
-        name: CommandPreConditions.Cooldown,
-        context: {
-            scope: options.cooldownScope ?? defaultCooldown.scope ?? BucketScope.User,
-            limit: limit ?? defaultCooldown.limit ?? 1,
-            delay: delay ?? defaultCooldown.delay,
-            filteredUsers: filteredUsers ?? defaultCooldown.filteredUsers
-        }
-    });
-}
+		if ((defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name)) || (cooldownLimit && cooldownDelay)) {
+			this.preconditions.append({
+				name: CommandPreConditions.Cooldown,
+				context: {
+					scope: cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User,
+					limit: cooldownLimit ?? defaultCooldown?.limit ?? 1,
+					delay: cooldownDelay ?? defaultCooldown?.delay ?? 0,
+					filteredUsers: cooldownFilteredUsers ?? defaultCooldown?.filteredUsers
+				}
+			});
+		}
 	}
 
 	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): PreconditionContainerArray | CommandPreConditions | null {
