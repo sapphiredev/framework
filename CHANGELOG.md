@@ -2,6 +2,161 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/sapphiredev/framework/compare/v1.0.2...v2.0.0) (2021-10-16)
+
+### ⚠ BREAKING CHANGES
+
+-   For TypeScript users only, if you were previously using `from` or `fromAsync` and you expected the error result to be of type `Error`, it will now be `unknown`. You can reset this back to `Error` by providing it as the second generic type argument.
+-   **command:** For TypeScript users please rename your `Command#run` methods to `Command#messageRun`
+-   `Awaited` type has been renamed to `Awaitable`
+-   Updated `@sapphire/pieces` to `3.0.0`
+-   Removed `Command#categories`, use `CommandStore#categories` instead
+-   **arguments:** Changed the error message of DateArgument
+-   **arguments:** Changed the error message of FloatArgument
+-   **arguments:** Changed the error message of NumberArgument
+-   **arguments:** Changed the error message of IntegerArgument
+-   **arguments:** Changed the error message of all arguments that must be run in a guild
+-   **arguments:** Changed the error message of GuildNewsThreadChannelArgument
+-   **arguments:** Changed the error message of GuildPrivateThreadChannelArgument
+-   **arguments:** Changed the error message of GuildPublicThreadChannelArgument
+-   **arguments:** Changed the error message of GuildStageVoiceChannelArgument
+-   **arguments:** Changed the error message of GuildTextChannelArgument
+-   **arguments:** Changed the error message of GuildThreadChannelArgument
+-   **arguments:** Changed the error message of GuildVoiceChannelArgument
+-   **arguments:** Changed the error message of GuildMemberArgument
+-   **arguments:** Changed the error message of UserArgument
+-   **arguments:** Made MessageArgumentContext private
+-   **arguments:** Stop exposing the channel property in context of the ChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildCategoryChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildNewsChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildPrivateThreadArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildStageVoiceChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildTextChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildThreadChannelArgument error
+-   **arguments:** Stop exposing the channel property in context of the GuildVoiceChannelArgument error
+-   **arguments:** Rename Identifiers.ArgumentBoolean to Identifiers.ArgumentBooleanError
+-   **arguments:** Rename Identifiers.ArgumentCategoryChannel to Identifiers.ArgumentGuildCategoryChannelError
+-   **arguments:** Rename Identifiers.ArgumentChannel to Identifiers.ArgumentChannelError
+-   **arguments:** Rename Identifiers.ArgumentDate to Identifiers.ArgumentDateError
+-   **arguments:** Rename Identifiers.ArgumentDateTooSmall to Identifiers.ArgumentDateTooEarly
+-   **arguments:** Rename Identifiers.ArgumentDateTooBig to Identifiers.ArgumentDateTooFar
+-   **arguments:** Rename Identifiers.ArgumentDMChannel to Identifiers.ArgumentDMChannelError
+-   **arguments:** Rename Identifiers.ArgumentFloat to Identifiers.ArgumentFloatError
+-   **arguments:** Rename Identifiers.ArgumentFloatTooBig to Identifiers.ArgumentFloatTooLarge
+-   **arguments:** Rename Identifiers.ArgumentGuildChannel to Identifiers.ArgumentGuildChannelError
+-   **arguments:** Rename Identifiers.ArgumentGuildChannelMissingGuild to Identifiers.ArgumentGuildChannelMissingGuildError
+-   **arguments:** Rename Identifiers.ArgumentHyperlink to Identifiers.ArgumentHyperlinkError
+-   **arguments:** Rename Identifiers.ArgumentInteger to Identifiers.ArgumentIntegerError
+-   **arguments:** Rename Identifiers.ArgumentIntegerTooBig to Identifiers.ArgumentIntegerTooLarge
+-   **arguments:** Rename Identifiers.ArgumentMember to Identifiers.ArgumentMemberError
+-   **arguments:** Rename Identifiers.ArgumentMessage to Identifiers.ArgumentMessageError
+-   **arguments:** Rename Identifiers.ArgumentNewsChannel to Identifiers.ArgumentGuildNewsChannelError
+-   **arguments:** Rename Identifiers.ArgumentNumber to Identifiers.ArgumentNumberError
+-   **arguments:** Rename Identifiers.ArgumentNumberTooBig to Identifiers.ArgumentNumberTooLarge
+-   **arguments:** Rename Identifiers.ArgumentRole to Identifiers.ArgumentRoleError
+-   **arguments:** Rename Identifiers.ArgumentTextChannel to Identifiers.ArgumentGuildTextChannel
+-   **arguments:** Rename Identifiers.ArgumentUser to Identifiers.ArgumentUserError
+-   **arguments:** Rename Identifiers.ArgumentVoiceChannel to Identifiers.ArgumentGuildVoiceChannel
+-   `Identifiers.PreconditionPermissions` has been renamed to `Identifiers.PreconditionClientPermissions`
+-   UserError identifier `preconditionPermissions` has been renamed to `preconditionClientPermissions`
+-   `Permissions` precondition has been renamed to `ClientPermissions`
+-   `PermissionsPrecondition` class has been renamed to `ClientPermissionsPrecondition`
+-   **listener:** Listeners will now be automatically unloaded if no emitter is found
+-   Changed `guildChannel` argument to return `GuildChannel | ThreadChannel`.
+-   Changed `SapphireClient.id`'s type to `Snowflake | null`.
+-   Changed `SapphireClientOptions.id`'s type to `Snowflake | null`.
+-   Removed `Events.GuildMemberSpeaking`.
+-   Removed `StoreRegistry`, it is now re-exported from `@sapphire/pieces`.
+-   Renamed `ArgType.categoryChannel` to `guildCategoryChannel`.
+-   Renamed `ArgType.newsChannel` to `guildNewsChannel`.
+-   Renamed `ArgType.textChannel` to `guildTextChannel`.
+-   Renamed `ArgType.voiceChannel` to `guildVoiceChannel`.
+-   Renamed `CommandPreConditions.NewsOnly` to `GuildNewsOnly`.
+-   Renamed `CommandPreConditions.TextOnly` to `GuildTextOnly`.
+-   Renamed `Identifiers.PreconditionNewsOnly` to `PreconditionGuildNewsOnly`.
+-   Renamed `Identifiers.PreconditionTextOnly` to `PreconditionGuildTextOnly`.
+-   Renamed `Preconditions.NewsOnly` to `GuildNewsOnly`.
+-   Renamed `Preconditions.TextOnly` to `GuildTextOnly`.
+-   Renamed the possible values for `CommandOptionsRunType`.
+-   Updated `CooldownContext.delay` to not be optional.
+-   Updated `discord.js` requirement to v13.
+-   Changed `Command#preconditions` to `PreconditionContainerArray`.
+-   Removed `Command#resolveConstructorPreConditions`.
+-   Renamed `CommandOptions.cooldownBucket` to `cooldownLimit`.
+-   Renamed `CommandOptions.cooldownDuration` to `cooldownDelay`.
+-   Renamed `BucketType` to `BucketScope`.
+-   Changed `PreconditionSingleResolvableDetails` to take a type parameter.
+-   Changed `PreconditionSingleResolvable` to use `Preconditions`'s type.
+-   Renamed `CooldownContext.bucketType` to `scope`.
+-   Renamed `Event` to `Listener`
+-   Renamed `EventStore` to `ListenerStore`
+-   Changed events directory from `events` to `listeners`
+-   Renamed `SapphireClientOptions.loadDefaultErrorEvents` to `loadDefaultErrorListeners`
+-   Renamed `StoreRegistryEntries.events` to `StoreRegistryEntries.listeners`
+-   Refactored `Events` enum to be an object, so we can use discord.js's constants
+-   Renamed `Events.EventError` to `Events.ListenerError`
+-   Renamed `EventErrorPayload` to `ListenerErrorPayload`
+-   Renamed `Events.Ready` to `Events.ClientReady`
+-   Renamed `Events.Message` to `Events.MessageCreate`
+-   Flattened `CommandOptions.strategyOptions` into `CommandOptions`
+-   Changed `CommandOptions.preconditions` to always require an array
+-   Updated `@sapphire/pieces` to 2.0.0
+-   Renamed `PieceContextExtras` to `Container`, usage and augmentation is the same.
+-   Removed `Store.injectedContext`, use globally exported `container`
+    variable instead.
+-   Renamed `Store#context` to `Store#container`.
+-   Renamed `Piece#context` to `Piece#container`.
+
+### Features
+
+-   add `Result#from` and `Result#fromAsync` ([#267](https://github.com/sapphiredev/framework/issues/267)) ([300f2ed](https://github.com/sapphiredev/framework/commit/300f2ed7a279b39584af4b38062a9096b31f32bb))
+-   Add `typing` property to fire `TextChannel.sendTyping()` when a command is accepted ([#258](https://github.com/sapphiredev/framework/issues/258)) ([71c1883](https://github.com/sapphiredev/framework/commit/71c1883060a03595e9ae5afa44038f84e404c40f))
+-   add managed role mention prefix support ([#289](https://github.com/sapphiredev/framework/issues/289)) ([7846d6c](https://github.com/sapphiredev/framework/commit/7846d6c19bff904fd4b915ccebf5392b31cffbad))
+-   add partial dm channel argument ([#288](https://github.com/sapphiredev/framework/issues/288)) ([c8c74de](https://github.com/sapphiredev/framework/commit/c8c74de3d6484be4354f6ec77477c29617fdd7ab))
+-   add UserPermissions precondition ([#252](https://github.com/sapphiredev/framework/issues/252)) ([2bb2e12](https://github.com/sapphiredev/framework/commit/2bb2e1228c299f8c085b276b3fbd2790c6c7bae5))
+-   added auto-preconditions ([#199](https://github.com/sapphiredev/framework/issues/199)) ([7e79e15](https://github.com/sapphiredev/framework/commit/7e79e156a312fead281db4756f1e838a8fab41c9))
+-   **arguments:** extract logic to resolvers ([#237](https://github.com/sapphiredev/framework/issues/237)) ([32d591b](https://github.com/sapphiredev/framework/commit/32d591b6da02215303305ff8d58a7e6ef67333d1))
+-   **client:** added option to set a default cooldown for all commands ([#294](https://github.com/sapphiredev/framework/issues/294)) ([7734d59](https://github.com/sapphiredev/framework/commit/7734d591374be3256556bd53e5240d1ad4250e7f))
+-   **command:** add `command#messageRun` method and deprecation warning for `command#run` ([#299](https://github.com/sapphiredev/framework/issues/299)) ([750c25c](https://github.com/sapphiredev/framework/commit/750c25c9526cc9999d1fadaa10719470d36d0e1a))
+-   **command:** add CommandOptionsRunTypeEnum ([#254](https://github.com/sapphiredev/framework/issues/254)) ([2d21b03](https://github.com/sapphiredev/framework/commit/2d21b0389ef833c90285119552f71e8c64582fc6))
+-   **commands:** add category getters ([#244](https://github.com/sapphiredev/framework/issues/244)) ([d438ac0](https://github.com/sapphiredev/framework/commit/d438ac007032ed369a090ec50097fe86a437cd14))
+-   **cooldown:** add `cooldownFilteredUsers` to exempt users from the cooldown precondition ([#249](https://github.com/sapphiredev/framework/issues/249)) ([8261770](https://github.com/sapphiredev/framework/commit/82617709e81141283798a70d02bedcdfeed4dbf0))
+-   **ILogger:** add #has method, auto-register Store#logger ([#221](https://github.com/sapphiredev/framework/issues/221)) ([85bfacb](https://github.com/sapphiredev/framework/commit/85bfacb83aca0b27c9bb60272ae4db5c58ed06a9))
+-   **member argument:** slice off Discord discriminators before performing a query search ([#301](https://github.com/sapphiredev/framework/issues/301)) ([f6261ae](https://github.com/sapphiredev/framework/commit/f6261aeaf4c3f000a02e91d35e6f44a1248fb10c))
+-   NonePrefixedMessage event ([#202](https://github.com/sapphiredev/framework/issues/202)) ([a410bbf](https://github.com/sapphiredev/framework/commit/a410bbf7ea964758990ef5d28613ae438f2de2f4))
+-   **resolver:** make resolveChannel parse mentions ([#253](https://github.com/sapphiredev/framework/issues/253)) ([506576e](https://github.com/sapphiredev/framework/commit/506576ebda7c9dd4ace42bc140e2b08754d57826))
+-   **resolver:** make resolveMessage parse channelId-messageId ([#292](https://github.com/sapphiredev/framework/issues/292)) ([5e915d0](https://github.com/sapphiredev/framework/commit/5e915d082deb52b1805c80a0aedf346fe3a92c42))
+-   specify missing breaking changes ([9097cf5](https://github.com/sapphiredev/framework/commit/9097cf57421863733969345b4fb13e0c491340d1))
+-   stricter types for preconditions ([#226](https://github.com/sapphiredev/framework/issues/226)) ([4a3c76a](https://github.com/sapphiredev/framework/commit/4a3c76a60128e8568150c4fb8b2f1c4e5efd5d5e))
+-   update @sapphire/pieces to add `ts-node` support ([7a1c5c6](https://github.com/sapphiredev/framework/commit/7a1c5c693004f7eed53aa6e0d8abd104dcf09263))
+-   update to DiscordJS v13.2.0 ([#295](https://github.com/sapphiredev/framework/issues/295)) ([51808a5](https://github.com/sapphiredev/framework/commit/51808a5bde087a45daa3caa084c118e7e7f02ef4))
+-   updated for `pieces` v3 ([#260](https://github.com/sapphiredev/framework/issues/260)) ([db6febd](https://github.com/sapphiredev/framework/commit/db6febd56afeaeff1f23afce2a269beecb316804))
+
+### Bug Fixes
+
+-   change `Awaited` to `Awaitable` ([189c01f](https://github.com/sapphiredev/framework/commit/189c01fc5bafbc0dcf6d5bed6be29bf02b408fac))
+-   **docs:** it was always `info` ([3ce4d71](https://github.com/sapphiredev/framework/commit/3ce4d7165163fcf8efd3d6f01ab49e857b453e14))
+-   **docs:** update-tsdoc-for-vscode-may-2021 ([#213](https://github.com/sapphiredev/framework/issues/213)) ([857eaba](https://github.com/sapphiredev/framework/commit/857eaba385d371edffe157613a32c4ead2a4724c))
+-   explicitly type `version` as `string` ([a8c9b39](https://github.com/sapphiredev/framework/commit/a8c9b3921a6404fc0f1483d444930a212578aea3))
+-   export `CooldownContext` and `MessageArgumentContext` ([54ba95a](https://github.com/sapphiredev/framework/commit/54ba95abdb72cb44d45353512a0f942d54dc1c42))
+-   fixed ESM bundle ([7ca08b2](https://github.com/sapphiredev/framework/commit/7ca08b23426e120a845499d1c04d956ba0d460c5))
+-   fixed oversight in passing preconditions ([#239](https://github.com/sapphiredev/framework/issues/239)) ([380a4ef](https://github.com/sapphiredev/framework/commit/380a4ef3b350e25d68138dbb89a7f7dfb6b8495e))
+-   **index:** re-export `StoreRegistryEntries` from `@sapphire/pieces` ([#243](https://github.com/sapphiredev/framework/issues/243)) ([aa78ba9](https://github.com/sapphiredev/framework/commit/aa78ba9ec72a92d3362d7c22929790e0209e9270))
+-   **listener:** add and remove maximum listeners ([#230](https://github.com/sapphiredev/framework/issues/230)) ([53681ad](https://github.com/sapphiredev/framework/commit/53681ad9e5ffb7059072bfb754ccd241ca8d6611))
+-   make from/fromAsync return `unknown` to match TypeScript ([#300](https://github.com/sapphiredev/framework/issues/300)) ([a83f0c9](https://github.com/sapphiredev/framework/commit/a83f0c93da5e0bfeb7cb1ee682427891924bc44a))
+-   **NonePrefixedMessage:** rename to NonPrefixedMessage ([#205](https://github.com/sapphiredev/framework/issues/205)) ([ad8adbc](https://github.com/sapphiredev/framework/commit/ad8adbced272cf8fd1db043a1ea60f7e19067551))
+-   **preconditions:** fixed TextOnly and NewsOnly ([#222](https://github.com/sapphiredev/framework/issues/222)) ([8cf1c2b](https://github.com/sapphiredev/framework/commit/8cf1c2b60da7f9f421500d0ef9f035be08284f90))
+-   **preconditions:** fixed UserPermissions precondition ([1848f53](https://github.com/sapphiredev/framework/commit/1848f53004d6fedda6b1b559385f77e35f616d9d))
+-   **preconditions:** properly check for `null` in ClientPermissions and UserPermissions ([#262](https://github.com/sapphiredev/framework/issues/262)) ([852ee87](https://github.com/sapphiredev/framework/commit/852ee878d04debb08e8f8b5985434d479167a31a))
+-   remove peer deps, update dev deps, update READMEs ([#210](https://github.com/sapphiredev/framework/issues/210)) ([7cb9e3d](https://github.com/sapphiredev/framework/commit/7cb9e3da7f70d013fc0b97c911576e4df90b321e))
+-   **types:** use the correct channel parent type ([#232](https://github.com/sapphiredev/framework/issues/232)) ([8307313](https://github.com/sapphiredev/framework/commit/8307313835a038e8e6c4a7e7a673ca12ceaf70d1))
+-   update `@sapphire/pieces` to v2.0.0 ([#198](https://github.com/sapphiredev/framework/issues/198)) ([5c95c32](https://github.com/sapphiredev/framework/commit/5c95c32ff52ef18d2544de03484fbfd00f0d5016))
+
+-   flatten command strategy options ([#220](https://github.com/sapphiredev/framework/issues/220)) ([fdc4aa4](https://github.com/sapphiredev/framework/commit/fdc4aa40b873e60ea9bc14a6cafd6a8513ae1ac8))
+-   rename `Event` to `Listener` ([#218](https://github.com/sapphiredev/framework/issues/218)) ([e7ce612](https://github.com/sapphiredev/framework/commit/e7ce612b62bb825dd471acebb6e56cd4bbc866fc))
+-   specify missing breaking changes ([b9c36de](https://github.com/sapphiredev/framework/commit/b9c36de77fc8dcf3148ad44ce917368874335e9e))
+-   switch to `sapphire/*[@v2](https://github.com/v2)` and `discord.js@dev` ([#227](https://github.com/sapphiredev/framework/issues/227)) ([cbf5d4e](https://github.com/sapphiredev/framework/commit/cbf5d4e3e917c08413e300d82df3e28168d7c18d))
+
 ### [1.0.2](https://github.com/sapphiredev/framework/compare/v1.0.1...v1.0.2) (2021-05-02)
 
 ### Bug Fixes
