@@ -121,7 +121,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	private async _run(...args: unknown[]) {
 		const result = await fromAsync(() => this.run(...args));
 		if (isErr(result)) {
-			this.container.client.emit(Events.ListenerError, result.error, { piece: this });
+			this.container.client.emit(Events.ListenerError, result.error as Error, { piece: this });
 		}
 	}
 

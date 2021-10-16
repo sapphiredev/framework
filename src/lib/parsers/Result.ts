@@ -75,7 +75,7 @@ export function isErr<T, E>(x: Result<T, E>): x is Err<E> {
  * @typeparam T The result's type.
  * @typeparam E The error's type.
  */
-export function from<T, E = Error>(cb: (...args: unknown[]) => T): Result<T, E> {
+export function from<T, E = unknown>(cb: (...args: unknown[]) => T): Result<T, E> {
 	try {
 		return ok(cb());
 	} catch (error) {
@@ -88,7 +88,7 @@ export function from<T, E = Error>(cb: (...args: unknown[]) => T): Result<T, E> 
  * @typeparam T The result's type.
  * @typeparam E The error's type.
  */
-export async function fromAsync<T, E = Error>(promiseOrCb: Awaitable<T> | ((...args: unknown[]) => Awaitable<T>)): Promise<Result<T, E>> {
+export async function fromAsync<T, E = unknown>(promiseOrCb: Awaitable<T> | ((...args: unknown[]) => Awaitable<T>)): Promise<Result<T, E>> {
 	try {
 		return ok(await (isFunction(promiseOrCb) ? promiseOrCb() : promiseOrCb));
 	} catch (error) {
