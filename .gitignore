@@ -6,6 +6,10 @@ node_modules/
 coverage/
 docs/
 
+# Yarn files
+.yarn/install-state.gz
+.yarn/build-state.yml
+
 # Ignore tsc dist folder
 dist/
 

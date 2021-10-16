@@ -87,6 +87,16 @@ export abstract class Command<T = Args> extends AliasPiece {
 
 		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.parseConstructorPreConditions(options);
+
+		const run = Reflect.get(this, 'run');
+		if (typeof run === 'function' && !Reflect.has(this, 'messageRun')) {
+			process.emitWarning('The "run" method in commands is deprecated.', {
+				type: 'DeprecationWarning',
+				code: 'CHAT_INPUT_COMMAND_MIGRATION_PREPARATION',
+				detail: `Use "messageRun" instead (seen in "${this.name}", at "${this.location.full}")`
+			});
+			Reflect.set(this, 'messageRun', run);
+		}
 	}
 
 	/**
@@ -138,11 +148,11 @@ export abstract class Command<T = Args> extends AliasPiece {
 	}
 
 	/**
-	 * Executes the command's logic.
+	 * Executes the command's logic for a message.
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 */
-	public abstract run(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
+	public abstract messageRun(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -314,6 +324,16 @@ if (defaultCooldown && !defaultCooldown.filteredCommands?.includes(this.name) ||
 
 		return preconditions;
 	}
+}
+
+export interface Command<T = Args> {
+	/**
+	 * Executes the command's logic.
+	 * @param message The message that triggered the command.
+	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
+	 * @deprecated Use `messageRun` instead.
+	 */
+	run?(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
 }
 
 /**
