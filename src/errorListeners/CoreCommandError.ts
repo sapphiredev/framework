@@ -7,7 +7,7 @@ export class CoreEvent extends Listener<typeof Events.CommandError> {
 		super(context, { event: Events.CommandError });
 	}
 
-	public run(error: Error, context: CommandErrorPayload) {
+	public run(error: unknown, context: CommandErrorPayload) {
 		const { name, location } = context.piece;
 		this.container.logger.error(`Encountered error on command "${name}" at path "${location.full}"`, error);
 	}
