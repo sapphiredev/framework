@@ -8,7 +8,7 @@ import { PreconditionContainerArray, PreconditionEntryResolvable } from '../util
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 import type { Awaited } from '../utils/temporary/Types';
 
-export class Command extends AliasPiece {
+export class Command<PreParseReturn = Args> extends AliasPiece {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -91,15 +91,15 @@ export class Command extends AliasPiece {
 	}
 
 	/**
-	 * The pre-parse method. This method can be overridden by plugins to define their own argument parser.
+	 * The message pre-parse method. This method can be overridden by plugins to define their own argument parser.
 	 * @param message The message that triggered the command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<unknown> {
+	public messagePreParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<PreParseReturn> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
-		return new Args(message, this, args, context);
+		return new Args(message, this as any, args, context) as any;
 	}
 
 	/**
@@ -141,10 +141,10 @@ export class Command extends AliasPiece {
 	/**
 	 * Executes the message command's logic.
 	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
+	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
 	 * @param context The context in which the command was executed.
 	 */
-	public messageRun?(message: Message, args: Command.ParsePreProcessResult<this>, context: MessageCommandContext): Awaitable<unknown>;
+	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommandContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the application command's logic.
@@ -334,7 +334,6 @@ export class Command extends AliasPiece {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Command {
 	export type Options = CommandOptions;
-	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['preParse']>>;
 }
 
 export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
@@ -342,7 +341,7 @@ export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MessageCommand {
 	export type Options = CommandOptions;
-	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['preParse']>>;
+	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['messagePreParse']>>;
 }
 
 export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
