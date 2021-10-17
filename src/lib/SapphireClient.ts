@@ -303,7 +303,7 @@ export interface ClientLoggerOptions {
 
 export interface CooldownOptions {
 	scope?: BucketScope;
-	delay: number;
+	delay?: number;
 	limit?: number;
 	filteredUsers?: Snowflake[];
 	filteredCommands?: string[];
