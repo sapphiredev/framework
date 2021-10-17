@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/sapphiredev/framework/compare/v2.0.0...v2.1.0) (2021-10-17)
+
+### Features
+
+-   **pieces:** add options field to read raw options ([#303](https://github.com/sapphiredev/framework/issues/303)) ([9f45bc9](https://github.com/sapphiredev/framework/commit/9f45bc9e7a2518fc8370d0fd227ac0cb1721f51d))
+
+### Bug Fixes
+
+-   allow more npm versions in engines field ([ccecf4e](https://github.com/sapphiredev/framework/commit/ccecf4e9fdb927b4f6ec23b8e4d790fcf719835a))
+
 ## [2.0.0](https://github.com/sapphiredev/framework/compare/v1.0.2...v2.0.0) (2021-10-16)
 
 ### ⚠ BREAKING CHANGES
