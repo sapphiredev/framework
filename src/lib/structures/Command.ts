@@ -341,7 +341,6 @@ export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MessageCommand {
 	export type Options = CommandOptions;
-	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['messagePreParse']>>;
 }
 
 export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
