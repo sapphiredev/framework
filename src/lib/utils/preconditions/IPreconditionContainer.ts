@@ -1,5 +1,5 @@
 import type { Awaitable } from '@sapphire/utilities';
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
 import type { Result } from '../../parsers/Result';
 import type { Command } from '../../structures/Command';
@@ -35,4 +35,18 @@ export interface IPreconditionContainer {
 	 * @param command The command the message invoked.
 	 */
 	messageRun(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	/**
+	 * Runs a precondition container.
+	 * @since 1.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	chatInputRun(interaction: CommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	/**
+	 * Runs a precondition container.
+	 * @since 1.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	contextMenuRun(interaction: ContextMenuInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 }

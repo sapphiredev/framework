@@ -27,5 +27,47 @@ export const PreconditionConditionOr: IPreconditionCondition = {
 		}
 
 		return error ?? ok();
+	},
+	async chatInputSequential(interaction, command, entries, context) {
+		let error: PreconditionContainerResult | null = null;
+		for (const child of entries) {
+			const result = await child.chatInputRun(interaction, command, context);
+			if (isOk(result)) return result;
+			error = result;
+		}
+
+		return error ?? ok();
+	},
+	async chatInputParallel(interaction, command, entries, context) {
+		const results = await Promise.all(entries.map((entry) => entry.chatInputRun(interaction, command, context)));
+
+		let error: PreconditionContainerResult | null = null;
+		for (const result of results) {
+			if (isOk(result)) return result;
+			error = result;
+		}
+
+		return error ?? ok();
+	},
+	async contextMenuSequential(interaction, command, entries, context) {
+		let error: PreconditionContainerResult | null = null;
+		for (const child of entries) {
+			const result = await child.contextMenuRun(interaction, command, context);
+			if (isOk(result)) return result;
+			error = result;
+		}
+
+		return error ?? ok();
+	},
+	async contextMenuParallel(interaction, command, entries, context) {
+		const results = await Promise.all(entries.map((entry) => entry.contextMenuRun(interaction, command, context)));
+
+		let error: PreconditionContainerResult | null = null;
+		for (const result of results) {
+			if (isOk(result)) return result;
+			error = result;
+		}
+
+		return error ?? ok();
 	}
 };

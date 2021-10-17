@@ -1,5 +1,5 @@
-import { Collection, Message } from 'discord.js';
-import type { MessageCommand } from '../../structures/Command';
+import { Collection, CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
 import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
@@ -168,6 +168,34 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 		return this.mode === PreconditionRunMode.Sequential
 			? this.condition.messageSequential(message, command, this.entries, context)
 			: this.condition.messageParallel(message, command, this.entries, context);
+	}
+
+	/**
+	 * Runs the container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
+		return this.mode === PreconditionRunMode.Sequential
+			? this.condition.chatInputSequential(interaction, command, this.entries, context)
+			: this.condition.chatInputParallel(interaction, command, this.entries, context);
+	}
+
+	/**
+	 * Runs the container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	public contextMenuRun(
+		interaction: ContextMenuInteraction,
+		command: ContextMenuCommand,
+		context: PreconditionContext = {}
+	): PreconditionContainerReturn {
+		return this.mode === PreconditionRunMode.Sequential
+			? this.condition.contextMenuSequential(interaction, command, this.entries, context)
+			: this.condition.contextMenuParallel(interaction, command, this.entries, context);
 	}
 
 	/**

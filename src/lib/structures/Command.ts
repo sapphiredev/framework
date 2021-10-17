@@ -6,7 +6,6 @@ import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
-import type { Awaited } from '../utils/temporary/Types';
 
 export class Command<PreParseReturn = Args> extends AliasPiece {
 	/**
