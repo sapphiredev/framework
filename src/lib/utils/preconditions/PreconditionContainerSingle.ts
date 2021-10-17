@@ -90,7 +90,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 
 	/**
 	 * Runs the container.
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
@@ -107,7 +107,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 
 	/**
 	 * Runs the container.
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */

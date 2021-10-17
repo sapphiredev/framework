@@ -37,14 +37,14 @@ export interface IPreconditionContainer {
 	messageRun(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 	/**
 	 * Runs a precondition container.
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
 	chatInputRun(interaction: CommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 	/**
 	 * Runs a precondition container.
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */

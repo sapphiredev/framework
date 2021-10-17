@@ -41,7 +41,7 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
 	 * @seealso {@link PreconditionRunMode.sequential}
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 * @param entries The containers to run.
@@ -56,7 +56,7 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
 	 * @seealso {@link PreconditionRunMode.parallel}
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 * @param entries The containers to run.
@@ -71,7 +71,7 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
 	 * @seealso {@link PreconditionRunMode.sequential}
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 * @param entries The containers to run.
@@ -86,7 +86,7 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
 	 * @seealso {@link PreconditionRunMode.parallel}
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 * @param entries The containers to run.
