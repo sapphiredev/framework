@@ -9,5 +9,6 @@ export class CoreEvent extends Listener<typeof Events.ClientReady> {
 
 	public run() {
 		this.container.client.id ??= this.container.client.user?.id ?? null;
+		// TODO: Commands.forEach(it.commandRegistry.run())
 	}
 }

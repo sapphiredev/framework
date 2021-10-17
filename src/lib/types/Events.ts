@@ -1,8 +1,7 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import { Constants, Interaction, Message } from 'discord.js';
+import { CommandInteraction, Constants, Interaction, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
-import type { Args } from '../parsers/Args';
-import type { Command, MessageCommand, MessageCommandContext } from '../structures/Command';
+import type { ChatInputCommand, Command, MessageCommand, MessageCommandContext } from '../structures/Command';
 import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
@@ -75,7 +74,7 @@ export const Events = {
 	WebhooksUpdate: Constants.Events.WEBHOOKS_UPDATE,
 	// #endregion Discord.js base events
 
-	// #region Sapphire load cycle events
+	// #region Sapphire events
 	MessageCommandAccepted: 'messageCommandAccepted' as const,
 	MessageCommandDenied: 'messageCommandDenied' as const,
 	MessageCommandError: 'messageCommandError' as const,
@@ -96,8 +95,10 @@ export const Events = {
 	CommandDoesNotHaveMessageCommandHandler: 'commandDoesNotHaveMessageCommandHandler' as const,
 	UnknownMessageCommandName: 'unknownMessageCommandName' as const,
 	InteractionHandlerParseError: 'interactionHandlerParseError' as const,
-	InteractionHandlerError: 'interactionHandlerError' as const
-	// #endregion Sapphire load cycle events
+	InteractionHandlerError: 'interactionHandlerError' as const,
+
+	ChatInputCommandError: 'chatInputCommandError' as const
+	// #endregion Sapphire events
 };
 
 export interface IPieceError {
@@ -142,21 +143,27 @@ export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
 	context: MessageCommand.Context;
 }
 
-export interface MessageCommandRunPayload<T extends Args = Args> extends MessageCommandAcceptedPayload {
-	args: T;
+export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload {
+	args: unknown;
 }
 
-export interface MessageCommandFinishPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {}
+export interface MessageCommandFinishPayload extends MessageCommandRunPayload {}
 
-export interface MessageCommandErrorPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {
-	piece: Command;
-}
+export interface MessageCommandErrorPayload extends MessageCommandRunPayload {}
 
-export interface MessageCommandSuccessPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {
+export interface MessageCommandSuccessPayload extends MessageCommandRunPayload {
 	result: unknown;
 }
 
-export interface MessageCommandTypingErrorPayload<T extends Args = Args> extends MessageCommandRunPayload<T> {}
+export interface MessageCommandTypingErrorPayload extends MessageCommandRunPayload {}
+
+export interface IChatInputCommandPayload {
+	interaction: CommandInteraction;
+	command: ChatInputCommand;
+}
+
+// TODO: ChatInputCommandErrorPayload, ContextMenuSameStuff
+export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {}
 
 export interface IInteractionHandlerPayload {
 	interaction: Interaction;

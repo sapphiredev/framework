@@ -18,7 +18,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 		});
 
 		if (isErr(result)) {
-			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args, piece: command });
+			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args });
 		}
 
 		message.client.emit(Events.MessageCommandFinish, message, command, { ...payload, args });

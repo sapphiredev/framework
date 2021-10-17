@@ -6,8 +6,9 @@ import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
+import type { Awaited } from '../utils/temporary/Types';
 
-export abstract class Command<T = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
+export class Command extends AliasPiece {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -105,10 +106,10 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<T> {
+	public preParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<unknown> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
-		return new Args(message, this as any, args, context) as any;
+		return new Args(message, this, args, context);
 	}
 
 	/**
@@ -153,7 +154,7 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 * @param context The context in which the command was executed.
 	 */
-	public messageRun?(message: Message, args: T, context: MessageCommandContext): Awaitable<unknown>;
+	public messageRun?(message: Message, args: Command.ParsePreProcessResult<this>, context: MessageCommandContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the application command's logic.
@@ -340,9 +341,33 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace Command {
+	export type Options = CommandOptions;
+	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['preParse']>>;
+}
+
 export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace MessageCommand {
+	export type Options = CommandOptions;
+	export type ParsePreProcessResult<Instance extends Command> = Awaited<ReturnType<Instance['preParse']>>;
+}
+
 export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace ChatInputCommand {
+	export type Options = CommandOptions;
+}
+
 export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace ContextMenuCommand {
+	export type Options = CommandOptions;
+}
 
 /**
  * The allowed values for {@link Command.Options.runIn}.

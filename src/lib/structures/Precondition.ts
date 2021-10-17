@@ -1,6 +1,6 @@
 import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
-import type { CommandInteraction, ContextMenuInteraction, Message, Permissions } from 'discord.js';
+import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannels } from 'discord.js';
 import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -10,7 +10,7 @@ import type { Command, MessageCommand } from './Command';
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
-export abstract class Precondition<O extends PreconditionOptions = PreconditionOptions> extends Piece<O> {
+export class Precondition<O extends PreconditionOptions = PreconditionOptions> extends Piece<O> {
 	public readonly position: number | null;
 
 	public constructor(context: Piece.Context, options: Precondition.Options = {}) {
@@ -18,11 +18,11 @@ export abstract class Precondition<O extends PreconditionOptions = PreconditionO
 		this.position = options.position ?? null;
 	}
 
-	public abstract messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
+	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public abstract chatInputRun?(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public chatInputRun?(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
 
-	public abstract contextMenuRun?(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public contextMenuRun?(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
 
 	public ok(): Precondition.Result {
 		return ok();
@@ -35,6 +35,23 @@ export abstract class Precondition<O extends PreconditionOptions = PreconditionO
 	public error(options: Omit<PreconditionError.Options, 'precondition'> = {}): Precondition.Result {
 		return err(new PreconditionError({ precondition: this, ...options }));
 	}
+
+	protected async fetchChannelFromInteraction(interaction: BaseCommandInteraction) {
+		const channel = (await interaction.client.channels.fetch(interaction.channelId, {
+			cache: false,
+			allowUnknownGuild: true
+		})) as TextBasedChannels;
+
+		return channel;
+	}
+}
+
+export abstract class AllFlowsPrecondition extends Precondition {
+	public abstract messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
+
+	public abstract chatInputRun(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+
+	public abstract contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
 }
 
 /**
@@ -123,6 +140,14 @@ export interface PreconditionContext extends Record<PropertyKey, unknown> {
 }
 
 export namespace Precondition {
+	export type Options = PreconditionOptions;
+	export type Context = PreconditionContext;
+	export type Result = PreconditionResult;
+	export type AsyncResult = AsyncPreconditionResult;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace AllFlowsPrecondition {
 	export type Options = PreconditionOptions;
 	export type Context = PreconditionContext;
 	export type Result = PreconditionResult;

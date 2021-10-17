@@ -1,11 +1,36 @@
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class CorePrecondition extends Precondition {
-	public messageRun(message: Message): PreconditionResult {
+export class GuildThreadOnlyPrecondition extends AllFlowsPrecondition {
+	public messageRun(message: Message) {
 		return message.thread
 			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionThreadOnly, message: 'You can only run this command in server thread channels.' });
+			: this.error({
+					identifier: Identifiers.PreconditionThreadOnly,
+					message: 'You can only run this message command in server thread channels.'
+			  });
+	}
+
+	public async chatInputRun(interaction: CommandInteraction) {
+		const channel = await this.fetchChannelFromInteraction(interaction);
+
+		return channel.isThread()
+			? this.ok()
+			: this.error({
+					identifier: Identifiers.PreconditionThreadOnly,
+					message: 'You can only run this chat input command in server thread channels.'
+			  });
+	}
+
+	public async contextMenuRun(interaction: ContextMenuInteraction) {
+		const channel = await this.fetchChannelFromInteraction(interaction);
+
+		return channel.isThread()
+			? this.ok()
+			: this.error({
+					identifier: Identifiers.PreconditionThreadOnly,
+					message: 'You can only run this chat input command in server thread channels.'
+			  });
 	}
 }

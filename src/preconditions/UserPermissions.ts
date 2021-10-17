@@ -1,10 +1,10 @@
-import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
-import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
-import { CorePrecondition as ClientPermissionsPrecondition } from './ClientPermissions';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
+import { ClientPermissionsPrecondition, UserPermissionsPreconditionContext } from './ClientPermissions';
 
-export class CorePrecondition extends Precondition {
+export class UserPermissionsPrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
 		~new Permissions([
 			'ADD_REACTIONS',
@@ -19,20 +19,37 @@ export class CorePrecondition extends Precondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public messageRun(message: Message, _command: Command, context: PreconditionContext): PreconditionResult {
-		const required = (context.permissions as Permissions) ?? new Permissions();
+	public messageRun(message: Message, _command: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
-
 		const permissions = message.guild ? channel.permissionsFor(message.author) : this.dmChannelPermissions;
 
-		if (!permissions) {
+		return this.sharedRun(required, permissions, 'message');
+	}
+
+	public chatInputRun(interaction: CommandInteraction, _command: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
+		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
+
+		return this.sharedRun(required, permissions, 'chat input');
+	}
+
+	public contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: UserPermissionsPreconditionContext) {
+		const required = context.permissions ?? new Permissions();
+		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
+
+		return this.sharedRun(required, permissions, 'context menu');
+	}
+
+	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string) {
+		if (!availablePermissions) {
 			return this.error({
-				identifier: Identifiers.PreconditionClientPermissionsNoPermissions,
-				message: "I was unable to resolve the end-user's permissions in the command invocation channel."
+				identifier: Identifiers.PreconditionUserPermissionsNoPermissions,
+				message: `I was unable to resolve the end-user's permissions in the ${commandType} command invocation channel.`
 			});
 		}
 
-		const missing = permissions.missing(required);
+		const missing = availablePermissions.missing(requiredPermissions);
 		return missing.length === 0
 			? this.ok()
 			: this.error({

@@ -2,6 +2,7 @@ import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
 import { some, Maybe, none, None, UnwrapMaybeValue } from '../parsers/Maybe';
+import type { Awaited } from '../utils/temporary/Types';
 
 export abstract class InteractionHandler extends Piece {
 	/**
@@ -105,16 +106,3 @@ export const enum InteractionHandlerTypes {
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
 	MessageComponent = 'MESSAGE_COMPONENT'
 }
-
-// TODO(vladfrangu): remove this once we upgrade to TS 4.5.0
-/**
- * Recursively unwraps the "awaited type" of a type. Non-promise "thenables" should resolve to `never`. This emulates the behavior of `await`.
- */
-type Awaited<T> = T extends null | undefined
-	? T // special case for `null | undefined` when not in `--strictNullChecks` mode
-	: // eslint-disable-next-line @typescript-eslint/ban-types
-	T extends object & { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
-	? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the argument
-		? Awaited<V> // recursively unwrap the value
-		: never // the argument to `then` was not callable
-	: T; // non-object or non-thenable

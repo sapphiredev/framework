@@ -1,11 +1,23 @@
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { Precondition, PreconditionResult } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class CorePrecondition extends Precondition {
-	public messageRun(message: Message): PreconditionResult {
+export class DMOnlyPrecondition extends AllFlowsPrecondition {
+	public messageRun(message: Message) {
 		return message.guild === null
 			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this command outside DMs.' });
+			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this message command outside DMs.' });
+	}
+
+	public chatInputRun(interaction: CommandInteraction) {
+		return interaction.guildId === null
+			? this.ok()
+			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this chat input command outside DMs.' });
+	}
+
+	public contextMenuRun(interaction: ContextMenuInteraction) {
+		return interaction.guildId === null
+			? this.ok()
+			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this context menu command outside DMs.' });
 	}
 }
