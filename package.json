@@ -29,7 +29,7 @@
 	"dependencies": {
 		"@sapphire/discord-utilities": "^2.2.1",
 		"@sapphire/discord.js-utilities": "^3.2.1",
-		"@sapphire/pieces": "^3.0.1",
+		"@sapphire/pieces": "^3.1.0",
 		"@sapphire/ratelimits": "^2.1.3",
 		"@sapphire/utilities": "^3.0.3",
 		"lexure": "^0.17.0",
