@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/sapphiredev/framework/compare/v2.1.2...v2.1.3) (2021-10-17)
+
+### Bug Fixes
+
+-   make `CooldownOptions.delay` optional ([#308](https://github.com/sapphiredev/framework/issues/308)) ([ead3f41](https://github.com/sapphiredev/framework/commit/ead3f41a2f6a7d8f1193694fd39003bcb204e114))
+
 ### [2.1.2](https://github.com/sapphiredev/framework/compare/v2.1.1...v2.1.2) (2021-10-17)
 
 ### Bug Fixes
