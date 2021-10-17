@@ -237,8 +237,8 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 		// be set. If an overridden value is passed, it will have priority. Otherwise it will default to 0 if filtered
 		// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
 		const filtered = defaultCooldown?.filteredCommands?.includes(this.name) ?? false;
-		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown!.limit ?? 1);
-		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown!.delay ?? 0);
+		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
+		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
 
 		if (limit && delay) {
 			const scope = options.cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;
