@@ -185,7 +185,7 @@ declare module 'discord.js' {
 		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
 		[Events.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
-		[Events.MessageCommandError]: [error: Error, payload: MessageCommandErrorPayload];
+		[Events.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
 		[Events.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
 		[Events.MessageCommandRun]: [message: Message, command: Command, payload: MessageCommandRunPayload];
 		[Events.MessageCommandSuccess]: [payload: MessageCommandSuccessPayload];
@@ -196,8 +196,8 @@ declare module 'discord.js' {
 		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 		[Events.NonPrefixedMessage]: [message: Message];
-		[Events.InteractionHandlerParseError]: [error: Error, payload: InteractionHandlerParseError];
-		[Events.InteractionHandlerError]: [error: Error, payload: InteractionHandlerError];
+		[Events.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
+		[Events.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
 		// #endregion Sapphire load cycle events
 
 		// #region Termination
