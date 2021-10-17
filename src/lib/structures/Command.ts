@@ -7,7 +7,7 @@ import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export abstract class Command<T = Args> extends AliasPiece {
+export abstract class Command<T = Args, O extends CommandOptions = CommandOptions> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0

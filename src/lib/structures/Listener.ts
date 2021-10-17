@@ -1,7 +1,7 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
-import { isErr, fromAsync } from '../parsers/Result';
+import { fromAsync, isErr } from '../parsers/Result';
 import { Events } from '../types/Events';
 
 /**
@@ -43,7 +43,7 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = ''> extends Piece {
+export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends ListenerOptions = ListenerOptions> extends Piece<O> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -61,6 +61,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	 * @since 2.0.0
 	 */
 	public readonly once: boolean;
+
 	private _listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: PieceContext, options: ListenerOptions = {}) {

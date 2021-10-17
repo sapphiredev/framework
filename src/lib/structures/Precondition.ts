@@ -10,7 +10,7 @@ import type { Command } from './Command';
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
-export abstract class Precondition extends Piece {
+export abstract class Precondition<O extends PreconditionOptions = PreconditionOptions> extends Piece<O> {
 	public readonly position: number | null;
 
 	public constructor(context: PieceContext, options: Precondition.Options = {}) {
