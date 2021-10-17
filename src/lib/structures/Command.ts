@@ -7,7 +7,7 @@ import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export abstract class Command<T = Args> extends AliasPiece {
+export abstract class Command<T = Args, O extends CommandOptions = CommandOptions> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -35,11 +35,6 @@ export abstract class Command<T = Args> extends AliasPiece {
 	 * @since 2.0.0
 	 */
 	public readonly fullCategory: readonly string[];
-
-	/**
-	 * The raw options passed to this {@link Command}
-	 */
-	public readonly options: CommandOptions;
 
 	/**
 	 * The strategy to use for the lexer.
@@ -102,8 +97,6 @@ export abstract class Command<T = Args> extends AliasPiece {
 			});
 			Reflect.set(this, 'messageRun', run);
 		}
-
-		this.options = options;
 	}
 
 	/**

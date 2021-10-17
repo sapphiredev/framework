@@ -87,7 +87,7 @@ export interface IArgument<T> {
  * }
  * ```
  */
-export abstract class Argument<T = unknown> extends AliasPiece implements IArgument<T> {
+export abstract class Argument<T = unknown, O extends ArgumentOptions = ArgumentOptions> extends AliasPiece<O> implements IArgument<T> {
 	public abstract run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
 
 	/**
