@@ -13,9 +13,15 @@ export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 export abstract class Precondition extends Piece {
 	public readonly position: number | null;
 
+	/**
+	 * The raw options passed to this {@link Precondition}
+	 */
+	public readonly options: PreconditionOptions;
+
 	public constructor(context: PieceContext, options: Precondition.Options = {}) {
 		super(context, options);
 		this.position = options.position ?? null;
+		this.options = options;
 	}
 
 	public abstract run(message: Message, command: Command, context: Precondition.Context): Precondition.Result;

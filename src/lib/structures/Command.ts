@@ -37,6 +37,11 @@ export abstract class Command<T = Args> extends AliasPiece {
 	public readonly fullCategory: readonly string[];
 
 	/**
+	 * The raw options passed to this {@link Command}
+	 */
+	public readonly options: CommandOptions;
+
+	/**
 	 * The strategy to use for the lexer.
 	 * @since 1.0.0
 	 */
@@ -97,6 +102,8 @@ export abstract class Command<T = Args> extends AliasPiece {
 			});
 			Reflect.set(this, 'messageRun', run);
 		}
+
+		this.options = options;
 	}
 
 	/**

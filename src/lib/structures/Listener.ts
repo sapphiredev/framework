@@ -61,6 +61,12 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 	 * @since 2.0.0
 	 */
 	public readonly once: boolean;
+
+	/**
+	 * The raw options passed to this {@link Listener}
+	 */
+	public readonly options: ListenerOptions;
+
 	private _listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: PieceContext, options: ListenerOptions = {}) {
@@ -78,6 +84,8 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = ''> exten
 
 		// If there's no emitter or no listener, disable:
 		if (this.emitter === null || this._listener === null) this.enabled = false;
+
+		this.options = options;
 	}
 
 	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
