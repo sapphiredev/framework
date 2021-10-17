@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/sapphiredev/framework/compare/v2.1.1...v2.1.2) (2021-10-17)
+
+### Bug Fixes
+
+-   **Command:** use optional access operator ([#307](https://github.com/sapphiredev/framework/issues/307)) ([b1b7822](https://github.com/sapphiredev/framework/commit/b1b7822505f0dbb83d067ec86919ed3d23931d4d))
+
 ### [2.1.1](https://github.com/sapphiredev/framework/compare/v2.1.0...v2.1.1) (2021-10-17)
 
 ### Bug Fixes
