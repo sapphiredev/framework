@@ -59,7 +59,7 @@ export interface IArgument<T> {
  *
  * // Augment the ArgType structure so `args.pick('url')`, `args.repeat('url')`
  * // and others have a return type of `URL`.
- * declare module '@sapphire/framework/dist/lib/utils/Args' {
+ * declare module '@sapphire/framework' {
  *   export interface ArgType {
  *     url: URL;
  *   }
