@@ -38,7 +38,7 @@ To create a command you simply need to create a file with the name of the comman
 category you like, such as `./src/commands/General/`.
 
 Each command is a class that extends from the base `Command` class from Sapphire. You need to extend it, and add a
-`run` method that will get called when your command is triggered.
+`messageRun` method that will get called when your command is triggered.
 Don't forget to export the class!
 
 ```javascript
@@ -52,7 +52,7 @@ module.exports = class extends Command {
 		});
 	}
 
-	async run(message) {
+	async messageRun(message) {
 		const msg = await message.channel.send('Ping?');
 		return msg.edit(
 			`Pong! Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${msg.createdTimestamp - message.createdTimestamp}ms.`
@@ -65,6 +65,6 @@ The first parameter of `super` is the context, that is given in the constructor.
 {@link CommandOptions} object, containing properties such as the command's name or the
 command's description.
 
-The `run` method is the method that gets called when the command is ran. It takes the message as the first argument.
+The `messageRun` method is the method that gets called when the command is ran. It takes the message as the first argument.
 
 If everything was done correctly, you should now be able to launch your bot without errors and execute the `!ping` command.
