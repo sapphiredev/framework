@@ -16,7 +16,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  *     });
  *   }
  *
- *   public run(message: Message, args: Args) {
+ *   public messageRun(message: Message, args: Args) {
  *     // ...
  *   }
  * }
