@@ -60,7 +60,7 @@ export interface SapphireClientOptions {
 	 * The regex prefix, an alternative to a mention or regular prefix to allow creating natural language command messages
 	 * @since 1.0.0
 	 * @example
-	 * ```ts
+	 * ```typescript
 	 * /^(hey +)?bot[,! ]/i
 	 *
 	 * // Matches:
