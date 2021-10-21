@@ -39,7 +39,7 @@
 		"@commitlint/cli": "^13.2.1",
 		"@commitlint/config-conventional": "^13.2.0",
 		"@favware/npm-deprecate": "^1.0.4",
-		"@favware/rollup-type-bundler": "^1.0.5",
+		"@favware/rollup-type-bundler": "^1.0.6",
 		"@sapphire/eslint-config": "^4.0.1",
 		"@sapphire/prettier-config": "^1.2.3",
 		"@sapphire/ts-config": "^3.1.2",

@@ -682,12 +682,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@favware/rollup-type-bundler@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@favware/rollup-type-bundler@npm:1.0.5"
+"@favware/rollup-type-bundler@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@favware/rollup-type-bundler@npm:1.0.6"
   dependencies:
-    "@sapphire/utilities": ^3.0.1
-    colorette: ^2.0.14
+    "@sapphire/utilities": ^3.0.3
+    colorette: ^2.0.16
     commander: ^8.2.0
     js-yaml: ^4.1.0
     rollup: ^2.58.0
@@ -695,7 +695,7 @@ __metadata:
   bin:
     rollup-type-bundler: dist/cli.js
     rtb: dist/cli.js
-  checksum: c409aa0942cfd68b4e9dd650b59b6ebbf69f1db9aefe55f2c90ea6f42b7f566e804ff5466826f73b30ed2a15db8a8bae239e1fc415a894c3ca759e99a3818268
+  checksum: dd25718735ecbcb86fc8e194ca94cad92deca4032a8b7aa90a068825f675d31cd667fc73805422c9d20070af917ab7d14b1fee93adff1e4e17ba06543608801c
   languageName: node
   linkType: hard
 
@@ -1057,7 +1057,7 @@ __metadata:
     "@commitlint/cli": ^13.2.1
     "@commitlint/config-conventional": ^13.2.0
     "@favware/npm-deprecate": ^1.0.4
-    "@favware/rollup-type-bundler": ^1.0.5
+    "@favware/rollup-type-bundler": ^1.0.6
     "@sapphire/discord-utilities": ^2.2.2
     "@sapphire/discord.js-utilities": ^3.2.2
     "@sapphire/eslint-config": ^4.0.1
@@ -2144,7 +2144,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.14":
+"colorette@npm:^2.0.14, colorette@npm:^2.0.16":
   version: 2.0.16
   resolution: "colorette@npm:2.0.16"
   checksum: cd55596a3a2d1071c1a28eee7fd8a5387593ff1bd10a3e8d0a6221499311fe34a9f2b9272d77c391e0e003dcdc8934fb2f8d106e7ef1f7516f8060c901d41a27
