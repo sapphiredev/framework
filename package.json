@@ -23,7 +23,7 @@
 		"sversion": "standard-version",
 		"commit": "git-cz",
 		"cz": "git-cz",
-		"prepublishOnly": "rollup-type-bundler -e url events",
+		"prepublishOnly": "rollup-type-bundler -v -e url events",
 		"prepare": "husky install .github/husky"
 	},
 	"dependencies": {
