@@ -167,7 +167,7 @@ export interface SapphireClientOptions {
  * });
  * ```
  */
-export class SapphireClient extends Client {
+export class SapphireClient<Ready extends boolean = boolean> extends Client<Ready> {
 	/**
 	 * The client's ID, used for the user prefix.
 	 * @since 1.0.0
