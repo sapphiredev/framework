@@ -1015,14 +1015,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "@sapphire/discord.js-utilities@npm:3.2.2"
+"@sapphire/discord.js-utilities@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@sapphire/discord.js-utilities@npm:4.0.2"
   dependencies:
     "@sapphire/discord-utilities": ^2.2.2
-    "@sapphire/time-utilities": ^1.4.4
-    "@sapphire/utilities": ^3.0.4
-  checksum: 34338727587a306fe476493d86f39aa56552d97f156ea0fee10c8ca756061b91a2bb6888a1154c8ce3b0e476ef52560f6fa078ba61e91df36577346bd6dce53b
+    "@sapphire/time-utilities": ^1.4.6
+    "@sapphire/utilities": ^3.0.6
+    tslib: ^2.3.1
+  checksum: 6d0bd945076a91c88ee2665c2878dec7213cb11ede5632462fc0862159aa52443936c85332e3afb038adbc33c06f3218607ed54cd4491d4d3067782d7bfecd6e
   languageName: node
   linkType: hard
 
@@ -1059,7 +1060,7 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.6
     "@sapphire/discord-utilities": ^2.2.2
-    "@sapphire/discord.js-utilities": ^3.2.2
+    "@sapphire/discord.js-utilities": ^4.0.2
     "@sapphire/eslint-config": ^4.0.1
     "@sapphire/pieces": ^3.1.0
     "@sapphire/prettier-config": ^1.2.3
@@ -1129,6 +1130,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/time-utilities@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "@sapphire/time-utilities@npm:1.4.6"
+  dependencies:
+    "@sapphire/utilities": ^3.0.6
+  checksum: f1415ed1ea0dff26fcd98414c93daf57df11d983e241b578f208801080364e9235928a51ad340f13974535943daa0310c7be7df079a420b4ac966f158556d737
+  languageName: node
+  linkType: hard
+
 "@sapphire/ts-config@npm:^3.1.2":
   version: 3.1.2
   resolution: "@sapphire/ts-config@npm:3.1.2"
@@ -1143,6 +1153,13 @@ __metadata:
   version: 3.0.4
   resolution: "@sapphire/utilities@npm:3.0.4"
   checksum: 3a0026b3888c655f26f0616fe899573d3864b49fa032e019f15c79e837c639779b547e25386cbd5244008b910009e84a202dd97b64877c72382cb39563c75dba
+  languageName: node
+  linkType: hard
+
+"@sapphire/utilities@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@sapphire/utilities@npm:3.0.6"
+  checksum: cfe4dd76ec27521cf85931a2a2fd4f8d82387667090ba61bbe985dd9a4ed55b0abd5767bf2538479d31a135ed2051b96f941732d7ef39ce23815e4f147c37037
   languageName: node
   linkType: hard
 
