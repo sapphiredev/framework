@@ -601,16 +601,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/builders@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@discordjs/builders@npm:0.6.0"
+"@discordjs/builders@npm:^0.8.1":
+  version: 0.8.2
+  resolution: "@discordjs/builders@npm:0.8.2"
   dependencies:
-    "@sindresorhus/is": ^4.0.1
-    discord-api-types: ^0.22.0
+    "@sindresorhus/is": ^4.2.0
+    discord-api-types: ^0.24.0
     ow: ^0.27.0
     ts-mixer: ^6.0.0
     tslib: ^2.3.1
-  checksum: a6f1517bc9c55a4156eaea8de25b0f8a064923ba93a366c6ba4ae8724a16b35918121759cb4d9097c76457f2d9f2cc583c39809f5ef5d69e11d607bb0fd1bb39
+  checksum: 6c2f6ee427b0f577ad8b7dd4e4bbaf15c4083385bef983243b9223f68dd7c02715a8fc40aac1b943e667bbba4e262f0c776ae5bc3b0c24bd2faf3eac9c89a58c
   languageName: node
   linkType: hard
 
@@ -618,6 +618,13 @@ __metadata:
   version: 0.2.1
   resolution: "@discordjs/collection@npm:0.2.1"
   checksum: e68d4bbf83b03bc18c7648d0f5c5669d1f1a394596bc2fcbb907284cff65657b28dbf165a1b8ccae20b6bc0726bc8a0a276d8adba8f9413502bb19d61b98598f
+  languageName: node
+  linkType: hard
+
+"@discordjs/collection@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@discordjs/collection@npm:0.3.2"
+  checksum: 77def13598fce0f33cdd1e45e0e57b4452a1fa348e30d7d3a3b5a56409def4c4785462828b163aea83d659b93412d5dc18c22c85eff499dfc11c24011e8b18e6
   languageName: node
   linkType: hard
 
@@ -999,10 +1006,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/async-queue@npm:^1.1.5":
-  version: 1.1.7
-  resolution: "@sapphire/async-queue@npm:1.1.7"
-  checksum: cdfd7819bc0847be3d11e663712d42a3a3b574897fb253274acdbff5433bf4ddba37cf0541233d070cdd6757ce5f565829f36abdd98257507b5a00b727b8abcf
+"@sapphire/async-queue@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "@sapphire/async-queue@npm:1.1.8"
+  checksum: 6a033c41dd672af51f33c262d7b901dd636b7f9c625022a5efb4da94298b5cea31e1dca8b9ab82d7f9aa124ccd7bca19aef2dde7e09a1dd0f7b179cc3cbbcef4
   languageName: node
   linkType: hard
 
@@ -1068,17 +1075,17 @@ __metadata:
     "@sapphire/ts-config": ^3.1.3
     "@sapphire/utilities": ^3.0.6
     "@types/jest": ^27.0.2
-    "@types/node": ^16.11.5
+    "@types/node": ^16.11.6
     "@types/ws": ^8.2.0
     cz-conventional-changelog: ^3.3.0
-    discord.js: ^13.2.0
+    discord.js: ^13.3.0
     eslint: ^8.1.0
     gen-esm-wrapper: ^1.1.3
     husky: ^7.0.4
     jest: ^27.3.1
     jest-circus: ^27.3.1
     lexure: ^0.17.0
-    lint-staged: ^11.2.4
+    lint-staged: ^11.2.6
     prettier: ^2.4.1
     pretty-quick: ^3.1.1
     rollup: ^2.58.3
@@ -1154,7 +1161,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/is@npm:^4.0.1":
+"@sindresorhus/is@npm:^4.0.1, @sindresorhus/is@npm:^4.2.0":
   version: 4.2.0
   resolution: "@sindresorhus/is@npm:4.2.0"
   checksum: 59040dfb75c2eb6ab76e8c7ac10b7f7f6ba740f0b5ac618a89a8bcdbaf923836a8e998078d59d81f6f13f4b6bbe15bfe1bca962c877edcbe9160d1c100c56fd7
@@ -1320,10 +1327,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^16.11.5":
+"@types/node-fetch@npm:^2.5.12":
+  version: 2.5.12
+  resolution: "@types/node-fetch@npm:2.5.12"
+  dependencies:
+    "@types/node": "*"
+    form-data: ^3.0.0
+  checksum: ad63c85ba6a9477b8e057ec8682257738130d98e8ece4e31141789bd99df9d9147985cc8bc0cb5c8983ed5aa6bb95d46df23d1e055f4ad5cf8b82fc69cf626c7
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:*":
   version: 16.11.5
   resolution: "@types/node@npm:16.11.5"
   checksum: 290382b32606f0edf4b0b4d3e50283fdf18591c48f0088c22f114196d7f032973720afaba9c11a5acf8411a97c40c94cb89efb5a49691b77ec47917d501916be
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.11.6":
+  version: 16.11.6
+  resolution: "@types/node@npm:16.11.6"
+  checksum: 6e19634766ff589d3d2f361c2196b671f8f133cdadc5ad347a621c360d8994b6c4fbccfb2ad9c60c588c593831a96497c9c6b77d2b7e91be723384b94f6368e7
   languageName: node
   linkType: hard
 
@@ -2449,7 +2473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^7.0.0":
+"cosmiconfig@npm:^7.0.0, cosmiconfig@npm:^7.0.1":
   version: 7.0.1
   resolution: "cosmiconfig@npm:7.0.1"
   dependencies:
@@ -2668,33 +2692,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.22.0":
-  version: 0.22.0
-  resolution: "discord-api-types@npm:0.22.0"
-  checksum: 673bcd960e394d8a3752bb03d50de44e74d508450e3d2cce947a69e0a6dc43c00196e18245c88dd26f3a8b0a56b40e0dbf52e058b7aabc7ed77f0f018003cb04
+"discord-api-types@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "discord-api-types@npm:0.24.0"
+  checksum: b1a17cb3be4ade974193cedb92fb37e51ba8f1832dfe3ec0d188ba41f255f3dab8359c9d618d32469f1e648126258f9d6ed8828dc1cb50b74d9fd9d875f3390a
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.23.1":
-  version: 0.23.1
-  resolution: "discord-api-types@npm:0.23.1"
-  checksum: e2ea574d51bff9f74770194338ba2b981072c6814a4da4c1e9a6b09b5b6bcf4ecf9044397fd4d2d3bf245f7573f22f1c25ff3f57cfc23ed87dfee4629091c29d
-  languageName: node
-  linkType: hard
-
-"discord.js@npm:^13.2.0":
-  version: 13.2.0
-  resolution: "discord.js@npm:13.2.0"
+"discord.js@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "discord.js@npm:13.3.0"
   dependencies:
-    "@discordjs/builders": ^0.6.0
-    "@discordjs/collection": ^0.2.1
+    "@discordjs/builders": ^0.8.1
+    "@discordjs/collection": ^0.3.2
     "@discordjs/form-data": ^3.0.1
-    "@sapphire/async-queue": ^1.1.5
+    "@sapphire/async-queue": ^1.1.8
+    "@types/node-fetch": ^2.5.12
     "@types/ws": ^8.2.0
-    discord-api-types: ^0.23.1
+    discord-api-types: ^0.24.0
     node-fetch: ^2.6.1
     ws: ^8.2.3
-  checksum: 6134817e33e25b30b7ff76a940938450bed6061b55d0fa377469e2f867cacfcb857c631ebd9bc7b3c425e91747eb976c7408a275d35d202479b0704beaf15140
+  checksum: 67aaa3b60e59a1400d514e694ed7a930b4d7abee7f06fc8e79a3a195ca0b5e67ba6086f96e0e9fcff7d9686081b79db2165f254609bd966790e9e266e43f472a
   languageName: node
   linkType: hard
 
@@ -3264,6 +3282,17 @@ __metadata:
   version: 3.2.2
   resolution: "flatted@npm:3.2.2"
   checksum: 9d5e03fd9309b9103f345cf6d0cef4fa46201baa053b0ca3d57fa489449b0bee687b7355407898f630afbb1a1286d2a6658e7e77dea3b85c3cd6c6ce2894a5c3
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "form-data@npm:3.0.1"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    mime-types: ^2.1.12
+  checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
   languageName: node
   linkType: hard
 
@@ -4731,13 +4760,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lilconfig@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "lilconfig@npm:2.0.3"
-  checksum: 39fcd06c9f94bec0f7be969f89abcead96cf9334682007df63e6fbe9bdb0566cf8e1ca53a8f56d2acca802f28e8acbabe8ed4e6265ed5e419b6a1397db003741
-  languageName: node
-  linkType: hard
-
 "lines-and-columns@npm:^1.1.6":
   version: 1.1.6
   resolution: "lines-and-columns@npm:1.1.6"
@@ -4745,18 +4767,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^11.2.4":
-  version: 11.2.4
-  resolution: "lint-staged@npm:11.2.4"
+"lint-staged@npm:^11.2.6":
+  version: 11.2.6
+  resolution: "lint-staged@npm:11.2.6"
   dependencies:
     cli-truncate: 2.1.0
     colorette: ^1.4.0
     commander: ^8.2.0
+    cosmiconfig: ^7.0.1
     debug: ^4.3.2
     enquirer: ^2.3.6
     execa: ^5.1.1
-    js-yaml: ^4.1.0
-    lilconfig: ^2.0.3
     listr2: ^3.12.2
     micromatch: ^4.0.4
     normalize-path: ^3.0.0
@@ -4766,7 +4787,7 @@ __metadata:
     supports-color: 8.1.1
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 9c1478d1903029a1db15b81c3f4d56a99b28774871961d18ea38dff1d7648bbca2eaa55c53c5c71732add89994bb07d3b91ce127495a7e586f519dfdb8a45938
+  checksum: b9071621db351c553579bd18df3d80fb753f851c4f1f72db0aaf12e713eab25b6d8a044dab2957817de7da02054a63f7725a49c763aee09295133f0d554f4d3f
   languageName: node
   linkType: hard
 
