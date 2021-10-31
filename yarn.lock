@@ -1027,18 +1027,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/eslint-config@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@sapphire/eslint-config@npm:4.0.1"
+"@sapphire/eslint-config@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@sapphire/eslint-config@npm:4.0.2"
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^5.0.0
-    "@typescript-eslint/parser": ^5.0.0
-    eslint: ^8.0.1
+    "@typescript-eslint/eslint-plugin": ^5.2.0
+    "@typescript-eslint/parser": ^5.2.0
+    eslint: ^8.1.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^4.0.0
     prettier: ^2.4.1
     typescript: ^4.4.4
-  checksum: baee715bcdc841aed7d5f3e0ebc2e8aa5960848970cca9670f5606b7191a9dd74eff4371487f60eca5b8b098e37968192f3d93654b36d27068e125c29387ae8f
+  checksum: 809745db85788f0354396d56586f35cc1ffee18419f26862285b7c418217041bd874055f4fb1c56c9c82f6adedf2951620f357d5ad495f9ed30661c4b9f458da
   languageName: node
   linkType: hard
 
@@ -1061,12 +1061,12 @@ __metadata:
     "@favware/rollup-type-bundler": ^1.0.6
     "@sapphire/discord-utilities": ^2.2.2
     "@sapphire/discord.js-utilities": ^4.0.2
-    "@sapphire/eslint-config": ^4.0.1
+    "@sapphire/eslint-config": ^4.0.2
     "@sapphire/pieces": ^3.1.0
     "@sapphire/prettier-config": ^1.2.3
-    "@sapphire/ratelimits": ^2.1.4
-    "@sapphire/ts-config": ^3.1.2
-    "@sapphire/utilities": ^3.0.4
+    "@sapphire/ratelimits": ^2.1.6
+    "@sapphire/ts-config": ^3.1.3
+    "@sapphire/utilities": ^3.0.6
     "@types/jest": ^27.0.2
     "@types/node": ^16.11.5
     "@types/ws": ^8.2.0
@@ -1112,21 +1112,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "@sapphire/ratelimits@npm:2.1.4"
+"@sapphire/ratelimits@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@sapphire/ratelimits@npm:2.1.6"
   dependencies:
-    "@sapphire/time-utilities": ^1.4.4
-  checksum: 9bae33d0fea72c6bae748ea439e11bb84cf6e188889f50429e8353a9590a00afbc27d933abdd8288dd1e71987689050d41af726a6ca395e6b19a8834cc6a1e29
-  languageName: node
-  linkType: hard
-
-"@sapphire/time-utilities@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "@sapphire/time-utilities@npm:1.4.4"
-  dependencies:
-    "@sapphire/utilities": ^3.0.4
-  checksum: 0c3e72f2fb084d7a7fece0ce6aa3fba553e0de1c84bb7985dcf666488582ae1e65910fa260ff0df68f15c27276551feb1b7857f5ca8fa336755ef432904118f0
+    "@sapphire/time-utilities": ^1.4.6
+  checksum: a627d66ae1361d978afa1c3b1d255eaabb711cf940c5d687987ae93393f5f9c1fb695c6ebaf81f5bb1dc249611dc815b42b6dbc9d1cf14497cebfe14ca24a0d1
   languageName: node
   linkType: hard
 
@@ -1139,17 +1130,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ts-config@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "@sapphire/ts-config@npm:3.1.2"
+"@sapphire/ts-config@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "@sapphire/ts-config@npm:3.1.3"
   dependencies:
     tslib: ^2.3.1
     typescript: ^4.4.4
-  checksum: 18f3437a41a5b43f4f481bcb6e7663c0bea7b1229f53d662ff39342740cc3045c404b92e1c4a6cf15f975bf3fd00e06af9a456bf146f1f27150d734a0f7fa2b4
+  checksum: e808e4857754f5a5303b2f2de48597bc5553473a0687b29d8921ac2a46b62b6ef8f405ada87dc8b7008a102c3d0cb15b1495631bb54fa6220dfbd8ca1c085717
   languageName: node
   linkType: hard
 
-"@sapphire/utilities@npm:^3.0.1, @sapphire/utilities@npm:^3.0.3, @sapphire/utilities@npm:^3.0.4":
+"@sapphire/utilities@npm:^3.0.1, @sapphire/utilities@npm:^3.0.3":
   version: 3.0.4
   resolution: "@sapphire/utilities@npm:3.0.4"
   checksum: 3a0026b3888c655f26f0616fe899573d3864b49fa032e019f15c79e837c639779b547e25386cbd5244008b910009e84a202dd97b64877c72382cb39563c75dba
@@ -1389,7 +1380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.0.0":
+"@typescript-eslint/eslint-plugin@npm:^5.2.0":
   version: 5.2.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.2.0"
   dependencies:
@@ -1427,7 +1418,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.0.0":
+"@typescript-eslint/parser@npm:^5.2.0":
   version: 5.2.0
   resolution: "@typescript-eslint/parser@npm:5.2.0"
   dependencies:
@@ -2914,7 +2905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.1.0, eslint@npm:^8.0.1, eslint@npm:^8.1.0":
+"eslint@npm:8.1.0, eslint@npm:^8.1.0":
   version: 8.1.0
   resolution: "eslint@npm:8.1.0"
   dependencies:
