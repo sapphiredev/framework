@@ -614,13 +614,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/collection@npm:^0.2.1":
-  version: 0.2.4
-  resolution: "@discordjs/collection@npm:0.2.4"
-  checksum: 3333b65b742a876e0fe09faaff1aa5052873a68f15d47baaee39b59364d888e01f12fd04296ab1badb41af87f624bc75eaafa2d6753fdc9c5bf280667f4cb3c2
-  languageName: node
-  linkType: hard
-
 "@discordjs/collection@npm:^0.3.2":
   version: 0.3.2
   resolution: "@discordjs/collection@npm:0.3.2"
@@ -1013,39 +1006,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "@sapphire/discord-utilities@npm:2.2.2"
+"@sapphire/discord-utilities@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "@sapphire/discord-utilities@npm:2.2.3"
   dependencies:
     twemoji-parser: ^13.1.0
-  checksum: 1536da4a0d5484ef629daa2973c596ef89ffce96c6b5ddb7af7bc1c027e83f714cb67cc34c7cc4ff9a2d48f984e13a810e2a5a6239c92b2bc9d150173058d272
+  checksum: 87954ebe5014a760f0f23ca574a95c4f781595ff00f717a1792da1bc81f7b76fcd635335e658eb73b9a9220b05394ef14e381a0bb13055e5a7d9d00c7df336fe
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@sapphire/discord.js-utilities@npm:4.1.0"
+"@sapphire/discord.js-utilities@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "@sapphire/discord.js-utilities@npm:4.1.1"
   dependencies:
-    "@sapphire/discord-utilities": ^2.2.2
-    "@sapphire/time-utilities": ^1.4.6
-    "@sapphire/utilities": ^3.0.6
+    "@sapphire/discord-utilities": ^2.2.3
+    "@sapphire/time-utilities": ^1.4.7
+    "@sapphire/utilities": ^3.0.7
     tslib: ^2.3.1
-  checksum: a0c1e0b844157839edf27acb40239a1c173bf8368d5e58a24b86f4014cf0610ce6ef99dd60c442c6eb05ec95b70db497da51227809ba1fd209be382236f336d8
+  checksum: f2cb60b2aeda839d2dee9ba3224e64a5c9ec20b57806287caf3b176f83297ea026e79ea3d3e771ae878489ca78587205b128adbd5e2d503284fbc8ebde292f48
   languageName: node
   linkType: hard
 
-"@sapphire/eslint-config@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "@sapphire/eslint-config@npm:4.0.2"
+"@sapphire/eslint-config@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "@sapphire/eslint-config@npm:4.0.3"
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^5.2.0
-    "@typescript-eslint/parser": ^5.2.0
-    eslint: ^8.1.0
+    "@typescript-eslint/eslint-plugin": ^5.3.0
+    "@typescript-eslint/parser": ^5.3.0
+    eslint: ^8.2.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^4.0.0
     prettier: ^2.4.1
     typescript: ^4.4.4
-  checksum: 809745db85788f0354396d56586f35cc1ffee18419f26862285b7c418217041bd874055f4fb1c56c9c82f6adedf2951620f357d5ad495f9ed30661c4b9f458da
+  checksum: d38dc0053a74f98750d4b40cb5f627b022e300a6d2fcef9b532cdf78dc1d911ca3badfc386f101478ab13d3ef51944af97d2f75bc72b532dc1abb3d1dc6a1a72
   languageName: node
   linkType: hard
 
@@ -1066,14 +1059,14 @@ __metadata:
     "@commitlint/config-conventional": ^14.1.0
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.6
-    "@sapphire/discord-utilities": ^2.2.2
-    "@sapphire/discord.js-utilities": ^4.1.0
-    "@sapphire/eslint-config": ^4.0.2
-    "@sapphire/pieces": ^3.1.0
-    "@sapphire/prettier-config": ^1.2.3
-    "@sapphire/ratelimits": ^2.1.6
-    "@sapphire/ts-config": ^3.1.3
-    "@sapphire/utilities": ^3.0.6
+    "@sapphire/discord-utilities": ^2.2.3
+    "@sapphire/discord.js-utilities": ^4.1.1
+    "@sapphire/eslint-config": ^4.0.3
+    "@sapphire/pieces": ^3.1.1
+    "@sapphire/prettier-config": ^1.2.4
+    "@sapphire/ratelimits": ^2.1.7
+    "@sapphire/ts-config": ^3.1.4
+    "@sapphire/utilities": ^3.0.7
     "@types/jest": ^27.0.2
     "@types/node": ^16.11.6
     "@types/ws": ^8.2.0
@@ -1099,51 +1092,51 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sapphire/pieces@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@sapphire/pieces@npm:3.1.0"
+"@sapphire/pieces@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@sapphire/pieces@npm:3.1.1"
   dependencies:
-    "@discordjs/collection": ^0.2.1
-    "@sapphire/utilities": ^3.0.3
+    "@discordjs/collection": ^0.3.2
+    "@sapphire/utilities": ^3.0.6
     tslib: ^2.3.1
-  checksum: 53be335ed46aa58bf705a2d6fc913752f16f9476b1eec51dc6090d756b0e3e39cb790811839d9ff8003dfa7cb9139d76d251b60719b367c35a22f2d096b34180
+  checksum: b1961335bcc0480ab0291b6c591101c377871184cb73f8096cc9a71a5bbca65157be9c70438d3c4e875d69062ac2ebb6f681ec0a12f5b78161d97918074a4c71
   languageName: node
   linkType: hard
 
-"@sapphire/prettier-config@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "@sapphire/prettier-config@npm:1.2.3"
+"@sapphire/prettier-config@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "@sapphire/prettier-config@npm:1.2.4"
   dependencies:
     prettier: ^2.4.1
-  checksum: 6bc48802044f2cb413d8b4e705334bb999b39541eb1bd8110f21c4644816db0538bd8113dc7d44ba0b85d8e7d3dd3c86a4c97f1ad757361147335fe9714743ce
+  checksum: d16f12d65646de8c686b2dd0293ba2b0857b6130bc0842af6f4b606cde56566648e6251764f3f0ccd66c00518d6bf9cf31c456ce077138f39b39947dcd906f0b
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.1.6":
-  version: 2.1.6
-  resolution: "@sapphire/ratelimits@npm:2.1.6"
+"@sapphire/ratelimits@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "@sapphire/ratelimits@npm:2.1.7"
   dependencies:
-    "@sapphire/time-utilities": ^1.4.6
-  checksum: a627d66ae1361d978afa1c3b1d255eaabb711cf940c5d687987ae93393f5f9c1fb695c6ebaf81f5bb1dc249611dc815b42b6dbc9d1cf14497cebfe14ca24a0d1
+    "@sapphire/time-utilities": ^1.4.7
+  checksum: ffd3a1476d4757bb928d8c056a26cc5ca0c37fbf478a8a165de196ca2119b48401f4b87265508f9d92c98a8c8499107c32f4e1c19ac50e2dfd0867cc1fb58653
   languageName: node
   linkType: hard
 
-"@sapphire/time-utilities@npm:^1.4.6":
-  version: 1.4.6
-  resolution: "@sapphire/time-utilities@npm:1.4.6"
+"@sapphire/time-utilities@npm:^1.4.7":
+  version: 1.4.7
+  resolution: "@sapphire/time-utilities@npm:1.4.7"
   dependencies:
-    "@sapphire/utilities": ^3.0.6
-  checksum: f1415ed1ea0dff26fcd98414c93daf57df11d983e241b578f208801080364e9235928a51ad340f13974535943daa0310c7be7df079a420b4ac966f158556d737
+    "@sapphire/utilities": ^3.0.7
+  checksum: 9bbc39ce1a6212274f76254789a041fe437aa6e60566f002b9aece191c8d1fd98d9462dbbd8f6dbd27915a575126a07337aa62ee59a04bbc0d5c94af05f705f4
   languageName: node
   linkType: hard
 
-"@sapphire/ts-config@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@sapphire/ts-config@npm:3.1.3"
+"@sapphire/ts-config@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@sapphire/ts-config@npm:3.1.4"
   dependencies:
     tslib: ^2.3.1
     typescript: ^4.4.4
-  checksum: e808e4857754f5a5303b2f2de48597bc5553473a0687b29d8921ac2a46b62b6ef8f405ada87dc8b7008a102c3d0cb15b1495631bb54fa6220dfbd8ca1c085717
+  checksum: 342c9c31365d8cf14e8622b87a261953da298c4264e0b6d9dc9cef9f378dd73fd7ef0fddda003529d535f768ff51ac3f0844cdd23caa406519aa91901bc1e60f
   languageName: node
   linkType: hard
 
@@ -1151,6 +1144,13 @@ __metadata:
   version: 3.0.6
   resolution: "@sapphire/utilities@npm:3.0.6"
   checksum: cfe4dd76ec27521cf85931a2a2fd4f8d82387667090ba61bbe985dd9a4ed55b0abd5767bf2538479d31a135ed2051b96f941732d7ef39ce23815e4f147c37037
+  languageName: node
+  linkType: hard
+
+"@sapphire/utilities@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "@sapphire/utilities@npm:3.0.7"
+  checksum: 780a3a0e3cc39cb79d5c7dd43abb9d7f481767b60e6f1f1a69f9faf963148ef4af68fac1a6cc04686b6c4560037535ee04410c042f8f7eca0c310ef98ba28f3b
   languageName: node
   linkType: hard
 
@@ -1390,7 +1390,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.2.0":
+"@typescript-eslint/eslint-plugin@npm:^5.3.0":
   version: 5.3.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.3.0"
   dependencies:
@@ -1428,7 +1428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.2.0":
+"@typescript-eslint/parser@npm:^5.3.0":
   version: 5.3.0
   resolution: "@typescript-eslint/parser@npm:5.3.0"
   dependencies:
@@ -2916,7 +2916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.1.0, eslint@npm:^8.2.0":
+"eslint@npm:^8.2.0":
   version: 8.2.0
   resolution: "eslint@npm:8.2.0"
   dependencies:
