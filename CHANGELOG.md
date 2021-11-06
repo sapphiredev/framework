@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/sapphiredev/framework/compare/v2.1.3...v2.1.4) (2021-11-06)
+
+### Bug Fixes
+
+-   **deps:** update dependency @sapphire/discord.js-utilities to v4 ([#317](https://github.com/sapphiredev/framework/issues/317)) ([98cafa6](https://github.com/sapphiredev/framework/commit/98cafa670eecd68cbf93ec3c9871142605b2e304))
+-   **docs:** replace command usage of `run` to `messageRun` ([#310](https://github.com/sapphiredev/framework/issues/310)) ([6d40eb6](https://github.com/sapphiredev/framework/commit/6d40eb6e9eaf271213521ef3d3a44920a3f5b018))
+-   **SapphireClient:** include `Ready` generic type from parent `Client` ([#312](https://github.com/sapphiredev/framework/issues/312)) ([4d528f5](https://github.com/sapphiredev/framework/commit/4d528f5651531ed9419dad7915376076f687594e))
+-   update outdated `Args` path in jsdoc ([#309](https://github.com/sapphiredev/framework/issues/309)) ([cd7f1cc](https://github.com/sapphiredev/framework/commit/cd7f1ccc024c4290ef56900a3da0350a12de8192))
+
 ### [2.1.3](https://github.com/sapphiredev/framework/compare/v2.1.2...v2.1.3) (2021-10-17)
 
 ### Bug Fixes
