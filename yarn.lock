@@ -1087,7 +1087,7 @@ __metadata:
     ts-jest: ^27.0.7
     ts-node: ^10.4.0
     tslib: ^2.3.1
-    typedoc: ^0.22.7
+    typedoc: ^0.22.8
     typedoc-plugin-djs-links: ^1.0.0
     typedoc-plugin-mdn-links: ^1.0.4
     typescript: ^4.4.4
@@ -7050,9 +7050,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.22.7":
-  version: 0.22.7
-  resolution: "typedoc@npm:0.22.7"
+"typedoc@npm:^0.22.8":
+  version: 0.22.8
+  resolution: "typedoc@npm:0.22.8"
   dependencies:
     glob: ^7.2.0
     lunr: ^2.3.9
@@ -7063,7 +7063,7 @@ __metadata:
     typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x
   bin:
     typedoc: bin/typedoc
-  checksum: cff0fc67dd069eabbd161644172e7da66cd4ad772f98c511d5d87d2bcd35851a7f8c232a9a70fdfa55c3d3f5fbcff8a44f263f2bbedeedb4202b9f8cb057d3fa
+  checksum: c54929f219f6663b55ce1314742467d621371c6e063cd41ec79bc5c2e30ddf2736d0ca5e32b22d5a1775e7ff60a6c0bc8d10d929c4955cdc90c681fa4612dcb6
   languageName: node
   linkType: hard
 
