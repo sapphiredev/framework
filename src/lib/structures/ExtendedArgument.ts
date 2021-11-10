@@ -4,6 +4,9 @@ import { isOk } from '../parsers/Result';
 import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgumentResult, IArgument } from './Argument';
 
 /**
+ * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+ * Use {@link Argument} instead, and abstract the resolving of the argument data to an external resolver.
+ * ---
  * The extended argument class. This class is abstract and is to be extended by subclasses which
  * will implement the {@link ExtendedArgument#handle} method.
  * Much like the {@link Argument} class, this class handles parsing user-specified command arguments
@@ -52,6 +55,9 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
 export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argument<T> {
 	public baseArgument: K;
 
+	/**
+	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+	 */
 	public constructor(context: PieceContext, options: ExtendedArgumentOptions<K>) {
 		super(context, options);
 		this.baseArgument = options.baseArgument;
@@ -60,11 +66,15 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	/**
 	 * Represents the underlying argument that transforms the raw argument
 	 * into the value used to compute the extended argument's value.
+	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
 	 */
 	public get base(): IArgument<ArgType[K]> {
 		return this.container.stores.get('arguments').get(this.baseArgument) as IArgument<ArgType[K]>;
 	}
 
+	/**
+	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+	 */
 	public async run(parameter: string, context: ArgumentContext<T>): AsyncArgumentResult<T> {
 		const result = await this.base.run(parameter, context as unknown as ArgumentContext<ArgType[K]>);
 		// If the result was successful (i.e. is of type `Ok<ArgType[K]>`), pass its
@@ -73,9 +83,15 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 		return isOk(result) ? this.handle(result.value, { ...context, parameter }) : result;
 	}
 
+	/**
+	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+	 */
 	public abstract handle(parsed: ArgType[K], context: ExtendedArgumentContext): ArgumentResult<T>;
 }
 
+/**
+ * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+ */
 export interface ExtendedArgumentOptions<K extends keyof ArgType> extends ArgumentOptions {
 	/**
 	 * The name of the underlying argument whose value is used to compute
@@ -84,6 +100,9 @@ export interface ExtendedArgumentOptions<K extends keyof ArgType> extends Argume
 	baseArgument: K;
 }
 
+/**
+ * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
+ */
 export interface ExtendedArgumentContext extends ArgumentContext {
 	/**
 	 * The canonical parameter specified by the user in the command, as
