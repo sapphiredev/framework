@@ -51,6 +51,11 @@ export * as CorePreconditions from './preconditions';
 export type { CooldownContext } from './preconditions/Cooldown';
 
 /**
+ * @deprecated. Please use `CorePreconditions.ClientPermissions`. `ClientPermissionsCorePrecondition` will be removed in v3.0.0
+ */
+export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
+
+/**
  * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.
  * An example use of this is showing it of in a bot information command.
  *
