@@ -47,8 +47,8 @@ export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition'
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
+export * as CorePreconditions from './preconditions';
 export type { CooldownContext } from './preconditions/Cooldown';
-export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
 
 /**
  * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.
