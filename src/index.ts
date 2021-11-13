@@ -47,7 +47,12 @@ export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition'
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
+export * as CorePreconditions from './preconditions';
 export type { CooldownContext } from './preconditions/Cooldown';
+
+/**
+ * @deprecated. Please use `CorePreconditions.ClientPermissions`. `ClientPermissionsCorePrecondition` will be removed in v3.0.0
+ */
 export { CorePrecondition as ClientPermissionsCorePrecondition } from './preconditions/ClientPermissions';
 
 /**
