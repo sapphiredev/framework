@@ -4,7 +4,7 @@ import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
+export class CoreListener extends Listener {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PrefixedMessage });
 	}

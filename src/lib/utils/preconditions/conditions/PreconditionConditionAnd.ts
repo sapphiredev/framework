@@ -43,7 +43,7 @@ export const PreconditionConditionAnd: IPreconditionCondition = {
 		return ok();
 	},
 	async contextMenuParallel(interaction, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.chatInputRun(interaction, command, context)));
+		const results = await Promise.all(entries.map((entry) => entry.contextMenuRun(interaction, command, context)));
 		// This is simplified compared to PreconditionContainerAny because we're looking for the first error.
 		// However, the base implementation short-circuits with the first Ok.
 		return results.find(isErr) ?? ok();

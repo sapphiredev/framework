@@ -4,7 +4,7 @@ import { Message, Permissions } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
+export class CoreListener extends Listener {
 	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
 
 	public constructor(context: PieceContext) {

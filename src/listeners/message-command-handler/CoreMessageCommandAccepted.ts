@@ -3,7 +3,7 @@ import { Listener } from '../../lib/structures/Listener';
 import { MessageCommandAcceptedPayload, Events } from '../../lib/types/Events';
 import { isErr, fromAsync } from '../../lib/parsers/Result';
 
-export class CoreListener extends Listener<typeof Events.MessageCommandAccepted> {
+export class CoreListener extends Listener {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.MessageCommandAccepted });
 	}

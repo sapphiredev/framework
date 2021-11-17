@@ -1,4 +1,12 @@
-import { BaseGuildTextChannel, CommandInteraction, ContextMenuInteraction, Message, Permissions, PermissionString } from 'discord.js';
+import {
+	BaseGuildTextChannel,
+	CommandInteraction,
+	ContextMenuInteraction,
+	GuildTextBasedChannel,
+	Message,
+	Permissions,
+	PermissionString
+} from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
@@ -41,7 +49,7 @@ export class ClientPermissionsPrecondition extends AllFlowsPrecondition {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.inCachedGuild()
 			? // We are in a cached guild, try to get our permissions
-			  interaction.channel!.permissionsFor(interaction.applicationId)
+			  (interaction.channel as GuildTextBasedChannel).permissionsFor(interaction.applicationId)
 			: // We are in an uncached guild so we don't know our permissions
 			// TODO(vladfrangu): Do we want to fetch the channel somehow and use that?
 			interaction.inRawGuild()
@@ -55,7 +63,7 @@ export class ClientPermissionsPrecondition extends AllFlowsPrecondition {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.inCachedGuild()
 			? // We are in a cached guild, try to get our permissions
-			  interaction.channel!.permissionsFor(interaction.applicationId)
+			  (interaction.channel as GuildTextBasedChannel).permissionsFor(interaction.applicationId)
 			: // We are in an uncached guild so we don't know our permissions
 			// TODO(vladfrangu): Do we want to fetch the channel somehow and use that?
 			interaction.inRawGuild()

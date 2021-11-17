@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.MessageCreate> {
+export class CoreListener extends Listener {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.MessageCreate });
 	}

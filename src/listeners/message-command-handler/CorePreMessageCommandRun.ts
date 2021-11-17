@@ -2,7 +2,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
 import { Events, PreMessageCommandRunPayload } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PreMessageCommandRun> {
+export class CoreListener extends Listener {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PreMessageCommandRun });
 	}

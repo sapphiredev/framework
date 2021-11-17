@@ -1,8 +1,6 @@
 import type { ContextMenuCommandBuilder, SlashCommandBuilder } from '@discordjs/builders';
 import { container } from '@sapphire/pieces';
 import {
-	APIApplicationCommandOption,
-	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
@@ -78,6 +76,7 @@ export class ApplicationCommandRegistry {
 		const flattened = names.flat(Infinity) as string[];
 
 		for (const command of flattened) {
+			this.debug(`Registering name "${command}" to internal map`);
 			this.warn(
 				`Registering the chat input command "${command}" using a name is not recommended.`,
 				'Please use the "addChatInputCommandIds" method instead with a command id.'
@@ -92,6 +91,7 @@ export class ApplicationCommandRegistry {
 		const flattened = names.flat(Infinity) as string[];
 
 		for (const command of flattened) {
+			this.debug(`Registering name "${command}" to internal map`);
 			this.warn(
 				`Registering the context menu command "${command}" using a name is not recommended.`,
 				'Please use the "addContextMenuCommandIds" method instead with a command id.'
@@ -108,8 +108,10 @@ export class ApplicationCommandRegistry {
 		for (const entry of flattened) {
 			try {
 				BigInt(entry);
+				this.debug(`Registering id "${entry}" to internal map`);
 			} catch {
 				// Don't be silly, save yourself the headaches and do as we say
+				this.debug(`Registering name "${entry}" to internal map`);
 				this.warn(
 					`Registering the chat input command "${entry}" using a name *and* trying to bypass this warning by calling "addChatInputCommandIds" is not recommended.`,
 					'Please use the "addChatInputCommandIds" method with a valid command id instead.'
@@ -127,7 +129,9 @@ export class ApplicationCommandRegistry {
 		for (const entry of flattened) {
 			try {
 				BigInt(entry);
+				this.debug(`Registering id "${entry}" to internal map`);
 			} catch {
+				this.debug(`Registering name "${entry}" to internal map`);
 				// Don't be silly, save yourself the headaches and do as we say
 				this.warn(
 					`Registering the context menu command "${entry}" using a name *and* trying to bypass this warning by calling "addContextMenuCommandIds" is not recommended.`,
@@ -234,6 +238,8 @@ export class ApplicationCommandRegistry {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
+				apiCall.type === 'chat_input' ? this.addChatInputCommandIds(globalCommand.id) : this.addContextMenuCommandIds(globalCommand.id);
+
 				this.debug(`Checking if command "${commandName}" is identical with global ${type} command with id "${globalCommand.id}"`);
 				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual);
 			} else {
@@ -257,6 +263,10 @@ export class ApplicationCommandRegistry {
 
 			if (existingGuildCommand) {
 				this.debug(`Checking if guild ${type} command "${commandName}" is identical to command "${existingGuildCommand.id}"`);
+				apiCall.type === 'chat_input'
+					? this.addChatInputCommandIds(existingGuildCommand.id)
+					: this.addContextMenuCommandIds(existingGuildCommand.id);
+
 				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual);
 			} else {
 				this.debug(`Creating new guild ${type} command with name "${commandName}" for guild "${guildId}"`);
@@ -271,6 +281,10 @@ export class ApplicationCommandRegistry {
 		behaviorIfNotEqual: RegisterBehavior,
 		guildId?: string
 	) {
+		// Step -1: If we outright don't care, we can just return
+		if (behaviorIfNotEqual === RegisterBehavior.Ignore) {
+			return;
+		}
 		// Step 0: compute differences
 		const differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
 
@@ -284,15 +298,15 @@ export class ApplicationCommandRegistry {
 			return;
 		}
 
+		// @ts-expect-error Need to compile just to test, shut up I will implement it later
+		this.logCommandDifferences(differences, applicationCommand, apiData);
+
 		// Step 2: if the behavior is to log to console, log the differences
 		if (behaviorIfNotEqual === RegisterBehavior.LogToConsole) {
-			this.logCommandDifferences(differences, applicationCommand, apiData);
+			return;
 		}
 
-		// Step 3: if the behavior is to ignore, return
-		if (behaviorIfNotEqual === RegisterBehavior.Ignore) return;
-
-		// Step 4: if the behavior is to update, update the command
+		// Step 3: if the behavior is to update, update the command
 		try {
 			this.debug(`Updating command ${applicationCommand.name} (${applicationCommand.id})`);
 			await applicationCommand.edit(apiData as ChatInputApplicationCommandData);
@@ -303,7 +317,10 @@ export class ApplicationCommandRegistry {
 
 	private async createMissingCommand(commandsManager: ApplicationCommandManager, apiData: InternalAPICall['builtData'], guildId?: string) {
 		try {
-			await commandsManager.create(apiData, guildId);
+			// @ts-expect-error I messed up the overload, PR https://github.com/discordjs/discord.js/pull/6970 needs to be released
+			const result = await commandsManager.create(apiData, guildId);
+
+			apiData.type === ApplicationCommandType.ChatInput ? this.addChatInputCommandIds(result.id) : this.addContextMenuCommandIds(result.id);
 		} catch (err) {
 			this.error(`Failed to register application command with name "${apiData.name}"${guildId ? ` for guild "${guildId}"` : ''}`, err);
 		}

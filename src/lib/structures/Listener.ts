@@ -1,5 +1,5 @@
-import { Piece } from '@sapphire/pieces';
-import type { Client, ClientEvents } from 'discord.js';
+import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
+import type { Client } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { fromAsync, isErr } from '../parsers/Result';
 import { Events } from '../types/Events';
@@ -15,8 +15,8 @@ import { Events } from '../types/Events';
  *
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
- * export class CoreListener extends Listener<typeof Events.Ready> {
- *   public constructor(context: Listener.Context) {
+ * export class CoreListener extends Listener {
+ *   public constructor(context: PieceContext) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
  *
@@ -43,7 +43,7 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends Listener.Options = Listener.Options> extends Piece<O> {
+export abstract class Listener<O extends ListenerOptions = ListenerOptions> extends Piece<O> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -62,7 +62,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 	 */
 	public readonly once: boolean;
 
-	private _listener: ((...args: any[]) => void) | null;
+	private _listener: ((...args: unknown[]) => void) | null;
 
 	public constructor(context: Listener.Context, options: Listener.Options = {}) {
 		super(context, options);
@@ -81,7 +81,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 		if (this.emitter === null || this._listener === null) this.enabled = false;
 	}
 
-	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
+	public abstract run(...args: unknown[]): unknown;
 
 	public onLoad() {
 		if (this._listener) {

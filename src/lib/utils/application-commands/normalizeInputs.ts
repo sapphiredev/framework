@@ -92,7 +92,7 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 	if (command.options.length) {
-		returnData.options = command.options.map((option) => ApplicationCommand['transformOption'](option) as APIApplicationCommandOption);
+		returnData.options = command.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
 	}
 
 	return returnData;
