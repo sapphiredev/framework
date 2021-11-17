@@ -281,13 +281,13 @@ export class ApplicationCommandRegistry {
 		behaviorIfNotEqual: RegisterBehavior,
 		guildId?: string
 	) {
-		// Step -1: If we outright don't care, we can just return
-		if (behaviorIfNotEqual === RegisterBehavior.Ignore) {
-			return;
-		}
+		const now = Date.now();
 
 		// Step 0: compute differences
 		const differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
+
+		const later = Date.now() - now;
+		this.debug(`Took ${later}ms to process differences`);
 
 		// Step 1: if there are no differences, return
 		if (!differences.length) {
