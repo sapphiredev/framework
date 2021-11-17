@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
-import type { Client } from 'discord.js';
+import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { fromAsync, isErr } from '../parsers/Result';
 import { Events } from '../types/Events';
@@ -15,7 +15,7 @@ import { Events } from '../types/Events';
  *
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
- * export class CoreListener extends Listener {
+ * export class CoreListener extends Listener<typeof Events.Ready> {
  *   public constructor(context: PieceContext) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
@@ -43,7 +43,7 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<O extends ListenerOptions = ListenerOptions> extends Piece<O> {
+export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends ListenerOptions = ListenerOptions> extends Piece<O> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -54,7 +54,7 @@ export abstract class Listener<O extends ListenerOptions = ListenerOptions> exte
 	 * The name of the event the listener listens to.
 	 * @since 2.0.0
 	 */
-	public readonly event: string;
+	public readonly event: string | symbol;
 
 	/**
 	 * Whether or not the listener will be unloaded after the first run.
@@ -62,7 +62,7 @@ export abstract class Listener<O extends ListenerOptions = ListenerOptions> exte
 	 */
 	public readonly once: boolean;
 
-	private _listener: ((...args: unknown[]) => void) | null;
+	private _listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: Listener.Context, options: Listener.Options = {}) {
 		super(context, options);
@@ -81,7 +81,7 @@ export abstract class Listener<O extends ListenerOptions = ListenerOptions> exte
 		if (this.emitter === null || this._listener === null) this.enabled = false;
 	}
 
-	public abstract run(...args: unknown[]): unknown;
+	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
 	public onLoad() {
 		if (this._listener) {
@@ -135,12 +135,12 @@ export abstract class Listener<O extends ListenerOptions = ListenerOptions> exte
 
 export interface ListenerOptions extends Piece.Options {
 	readonly emitter?: keyof Client | EventEmitter;
-	readonly event?: string;
+	readonly event?: string | symbol;
 	readonly once?: boolean;
 }
 
 export interface ListenerJSON extends Piece.JSON {
-	event: string;
+	event: string | symbol;
 	once: boolean;
 }
 

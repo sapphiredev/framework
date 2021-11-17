@@ -4,7 +4,7 @@ import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
 import { MessageCommandRunPayload, Events } from '../../lib/types/Events';
 
-export class CoreListener extends Listener {
+export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.MessageCommandRun });
 		this.enabled = this.container.client.options.typing ?? false;
