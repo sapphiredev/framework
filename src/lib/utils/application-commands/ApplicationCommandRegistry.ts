@@ -285,6 +285,7 @@ export class ApplicationCommandRegistry {
 		if (behaviorIfNotEqual === RegisterBehavior.Ignore) {
 			return;
 		}
+
 		// Step 0: compute differences
 		const differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
 
