@@ -1,3 +1,9 @@
+import { acquire } from './lib/utils/application-commands/ApplicationCommandRegistries';
+
+const ApplicationCommandRegistries = {
+	acquire
+};
+
 export {
 	AliasPiece,
 	AliasPieceOptions,
@@ -39,6 +45,8 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
+export { ApplicationCommandRegistries };
+export { ApplicationCommandRegistry, ApplicationCommandRegistryRegisterOptions } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';

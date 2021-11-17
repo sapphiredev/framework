@@ -179,10 +179,14 @@ declare module 'discord.js' {
 		// #region Sapphire load cycle events
 		[Events.PieceUnload]: [store: Store<Piece>, piece: Piece];
 		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
-		[Events.MentionPrefixOnly]: [message: Message];
+
 		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
+
 		[Events.PreMessageParsed]: [message: Message];
+		[Events.MentionPrefixOnly]: [message: Message];
 		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
+		[Events.NonPrefixedMessage]: [message: Message];
+
 		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
 		[Events.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
 		[Events.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
@@ -194,8 +198,9 @@ declare module 'discord.js' {
 		[Events.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
 		[Events.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
 		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
+
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
-		[Events.NonPrefixedMessage]: [message: Message];
+
 		[Events.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
 		[Events.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
 		// #endregion Sapphire load cycle events

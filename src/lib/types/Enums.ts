@@ -33,3 +33,9 @@ export const enum BucketScope {
 	 */
 	User
 }
+
+export const enum RegisterBehavior {
+	Ignore = 'IGNORE',
+	Overwrite = 'OVERWRITE',
+	LogToConsole = 'LOG_TO_CONSOLE'
+}
