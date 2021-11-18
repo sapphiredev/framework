@@ -11,8 +11,11 @@ import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { BucketScope, PluginHook } from './types/Enums';
 import { Events } from './types/Events';
+import { acquire } from './utils/application-commands/ApplicationCommandRegistries';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
+
+container.applicationCommandRegistries = { acquire };
 
 /**
  * A valid prefix in Sapphire.
@@ -329,6 +332,9 @@ declare module '@sapphire/pieces' {
 		client: SapphireClient;
 		logger: ILogger;
 		stores: StoreRegistry;
+		applicationCommandRegistries: {
+			acquire: typeof acquire;
+		};
 	}
 
 	interface StoreRegistryEntries {
