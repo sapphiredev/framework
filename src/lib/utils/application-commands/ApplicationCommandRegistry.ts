@@ -239,7 +239,14 @@ export class ApplicationCommandRegistry {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
-				apiCall.type === 'chat_input' ? this.addChatInputCommandIds(globalCommand.id) : this.addContextMenuCommandIds(globalCommand.id);
+				switch (apiCall.type) {
+					case 'chat_input':
+						this.addChatInputCommandIds(globalCommand.id);
+						break;
+					case 'context_menu':
+						this.addContextMenuCommandIds(globalCommand.id);
+						break;
+				}
 
 				this.debug(`Checking if command "${commandName}" is identical with global ${type} command with id "${globalCommand.id}"`);
 				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual);
@@ -264,9 +271,15 @@ export class ApplicationCommandRegistry {
 
 			if (existingGuildCommand) {
 				this.debug(`Checking if guild ${type} command "${commandName}" is identical to command "${existingGuildCommand.id}"`);
-				apiCall.type === 'chat_input'
-					? this.addChatInputCommandIds(existingGuildCommand.id)
-					: this.addContextMenuCommandIds(existingGuildCommand.id);
+
+				switch (apiCall.type) {
+					case 'chat_input':
+						this.addChatInputCommandIds(existingGuildCommand.id);
+						break;
+					case 'context_menu':
+						this.addContextMenuCommandIds(existingGuildCommand.id);
+						break;
+				}
 
 				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual);
 			} else {
@@ -351,7 +364,16 @@ export class ApplicationCommandRegistry {
 				}". You should add the id to the "idHints" property of the register method you used!`
 			);
 
-			apiData.type === ApplicationCommandType.ChatInput ? this.addChatInputCommandIds(result.id) : this.addContextMenuCommandIds(result.id);
+			switch (apiData.type) {
+				case undefined:
+				case ApplicationCommandType.ChatInput:
+					this.addChatInputCommandIds(result.id);
+					break;
+				case ApplicationCommandType.Message:
+				case ApplicationCommandType.User:
+					this.addContextMenuCommandIds(result.id);
+					break;
+			}
 		} catch (err) {
 			this.error(
 				`Failed to register${guildId ? ' guild' : ''} application command with name "${apiData.name}"${
