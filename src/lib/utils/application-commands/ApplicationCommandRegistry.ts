@@ -209,7 +209,8 @@ export class ApplicationCommandRegistry {
 			}
 
 			// Find the command by name or by id hint (mostly useful for context menus)
-			return registerOptions.idHints?.includes(entry.id) || entry.name === commandName;
+			const isInIdHint = registerOptions.idHints?.includes(entry.id);
+			return typeof isInIdHint === 'boolean' ? isInIdHint || entry.name === commandName : entry.name === commandName;
 		};
 
 		let type: string;
