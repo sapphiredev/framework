@@ -17,6 +17,8 @@ import { Logger } from './utils/logger/Logger';
 
 container.applicationCommandRegistries = { acquire };
 
+const optionalListenersPath = join(__dirname, '..', 'optional-listeners');
+
 /**
  * A valid prefix in Sapphire.
  * * `string`: a single prefix, e.g. `'!'`.
@@ -256,7 +258,9 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 			.register(new ListenerStore().registerPath(join(__dirname, '..', 'listeners')))
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
 
-		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
+		if (options.loadDefaultErrorListeners !== false) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'error-listeners'));
+		}
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
