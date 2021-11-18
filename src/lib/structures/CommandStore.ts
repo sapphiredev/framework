@@ -19,8 +19,14 @@ export class CommandStore extends AliasStore<Command> {
 		return [...categories] as string[];
 	}
 
-	public override insert(piece: Command) {
-		// TODO(vladfrangu): handle the contextMenuName/chatInputName based on how we decide to do the structures
+	public override async insert(piece: Command) {
+		try {
+			await piece.registerApplicationCommands(piece.applicationCommandRegistry);
+		} catch (error) {
+			// TODO: emit CommandApplicationCommandRegistryError
+			// For now,
+			this.container.logger.error(error);
+		}
 
 		return super.insert(piece);
 	}

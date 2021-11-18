@@ -93,7 +93,7 @@ export function getCommandDifferences(existingCommand: RESTPostAPIChatInputAppli
 	return differences;
 }
 
-interface CommandDifference {
+export interface CommandDifference {
 	key: string;
 	expected: string;
 	original: string;
@@ -154,7 +154,7 @@ function* reportDifferences({
 	if ((existingOption.required ?? false) !== (option.required ?? false)) {
 		yield {
 			key: `${keyPath(currentIndex)}.required`,
-			original: String(existingOption.required),
+			original: String(existingOption.required ?? false),
 			expected: String(option.required ?? false)
 		};
 	}

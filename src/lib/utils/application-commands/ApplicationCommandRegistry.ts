@@ -15,7 +15,7 @@ import type {
 	UserApplicationCommandData
 } from 'discord.js';
 import { RegisterBehavior } from '../../types/Enums';
-import { getCommandDifferences } from './computeDifferences';
+import { CommandDifference, getCommandDifferences } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
 export class ApplicationCommandRegistry {
@@ -299,8 +299,7 @@ export class ApplicationCommandRegistry {
 			return;
 		}
 
-		// @ts-expect-error Need to compile just to test, shut up I will implement it later
-		this.logCommandDifferences(differences, applicationCommand, apiData);
+		this.logCommandDifferences(differences, applicationCommand, behaviorIfNotEqual === RegisterBehavior.LogToConsole);
 
 		// Step 2: if the behavior is to log to console, log the differences
 		if (behaviorIfNotEqual === RegisterBehavior.LogToConsole) {
@@ -309,11 +308,35 @@ export class ApplicationCommandRegistry {
 
 		// Step 3: if the behavior is to update, update the command
 		try {
-			this.debug(`Updating command ${applicationCommand.name} (${applicationCommand.id})`);
 			await applicationCommand.edit(apiData as ChatInputApplicationCommandData);
+			this.debug(`Updated command ${applicationCommand.name} (${applicationCommand.id}) with new api data`);
 		} catch (error) {
 			this.error(`Failed to update command ${applicationCommand.name} (${applicationCommand.id})`, error);
 		}
+	}
+
+	private logCommandDifferences(differences: CommandDifference[], applicationCommand: ApplicationCommand, logAsWarn: boolean) {
+		const finalMessage: string[] = [];
+
+		for (const difference of differences) {
+			finalMessage.push(
+				[
+					`├── At path ${difference.key}`, //
+					`    ├── Received: ${difference.original}`,
+					`    └── Expected: ${difference.expected}\n`
+				].join('\n')
+			);
+		}
+
+		logAsWarn
+			? this.warn(
+					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data`,
+					...finalMessage
+			  )
+			: this.debug(
+					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data`,
+					...finalMessage
+			  );
 	}
 
 	private async createMissingCommand(commandsManager: ApplicationCommandManager, apiData: InternalAPICall['builtData'], guildId?: string) {

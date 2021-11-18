@@ -4,6 +4,8 @@ import { CommandInteraction, ContextMenuInteraction, Message, PermissionResolvab
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope } from '../types/Enums';
+import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
+import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
@@ -48,6 +50,12 @@ export class Command<PreParseReturn = Args> extends AliasPiece {
 	 * @default true
 	 */
 	public typing: boolean;
+
+	/**
+	 * The application command registry associated with this command.
+	 * @since 3.0.0
+	 */
+	public readonly applicationCommandRegistry = acquire(this.name);
 
 	/**
 	 * The lexer to be used for command parsing
@@ -167,6 +175,14 @@ export class Command<PreParseReturn = Args> extends AliasPiece {
 			detailedDescription: this.detailedDescription,
 			category: this.category
 		};
+	}
+
+	/**
+	 * Registers the application commands that should be handled by this command.
+	 * @param registry This command's registry
+	 */
+	public registerApplicationCommands(_registry: ApplicationCommandRegistry): Awaitable<void> {
+		// TODO: handle command option for automatic registration (because some of y'all really want that)
 	}
 
 	/**
