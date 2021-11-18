@@ -3,7 +3,9 @@ import {
 	ApplicationCommandOptionType,
 	APIApplicationCommandOption,
 	APIApplicationCommandSubCommandOptions,
-	RESTPostAPIChatInputApplicationCommandsJSONBody
+	RESTPostAPIApplicationCommandsJSONBody,
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
+	RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v9';
 import type { InternalAPICall } from './ApplicationCommandRegistry';
 
@@ -20,15 +22,40 @@ const optionTypeToPrettyName = new Map([
 	[ApplicationCommandOptionType.Number, 'number option']
 ]);
 
-export function getCommandDifferences(existingCommand: RESTPostAPIChatInputApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
-	// We don't care about context menus here
-	if ((apiData.type ?? ApplicationCommandType.ChatInput) !== ApplicationCommandType.ChatInput) {
-		return [];
+const contextMenuTypes = [ApplicationCommandType.Message, ApplicationCommandType.User];
+
+export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
+	const differences: CommandDifference[] = [];
+
+	if (existingCommand.type !== ApplicationCommandType.ChatInput && existingCommand.type) {
+		// Check context menus
+		if (contextMenuTypes.includes(existingCommand.type ?? ApplicationCommandType.ChatInput)) {
+			const casted = apiData as RESTPostAPIContextMenuApplicationCommandsJSONBody;
+
+			// Check name
+			if (existingCommand.name !== casted.name) {
+				differences.push({
+					key: 'name',
+					original: existingCommand.name,
+					expected: casted.name
+				});
+			}
+
+			// Check defaultPermissions
+			// TODO(vladfrangu): This will be deprecated
+			if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
+				differences.push({
+					key: 'defaultPermission',
+					original: String(existingCommand.default_permission ?? true),
+					expected: String(casted.default_permission ?? true)
+				});
+			}
+		}
+
+		return differences;
 	}
 
-	const differences: CommandDifference[] = [];
 	const casted = apiData as RESTPostAPIChatInputApplicationCommandsJSONBody;
-
 	// Check defaultPermissions
 	// TODO(vladfrangu): This will be deprecated
 	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {

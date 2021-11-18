@@ -2,22 +2,63 @@ import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatIn
 import { getCommandDifferences } from '../../src/lib/utils/application-commands/computeDifferences';
 
 describe('Compute differences for provided application commands', () => {
-	it('given two context menu commands, it should not return any difference', () => {
+	it('given two identical context menu commands, it should not return any difference', () => {
 		expect(
 			getCommandDifferences(
 				{
-					// @ts-expect-error Validating context menus
 					type: ApplicationCommandType.Message,
-					description: 'owo',
 					name: 'boop'
 				},
 				{
 					type: ApplicationCommandType.Message,
-					description: 'owo',
 					name: 'boop'
 				}
 			)
 		).toEqual([]);
+	});
+
+	it('given one context menu command with one name and one context menu command with a different name, it should return the difference', () => {
+		expect(
+			getCommandDifferences(
+				{
+					type: ApplicationCommandType.Message,
+					name: 'boop'
+				},
+				{
+					type: ApplicationCommandType.Message,
+					name: 'beep'
+				}
+			)
+		).toEqual([
+			{
+				key: 'name',
+				original: 'boop',
+				expected: 'beep'
+			}
+		]);
+	});
+
+	it('given a context menu command with a default_permission set to true and one set to false, it should return the difference', () => {
+		expect(
+			getCommandDifferences(
+				{
+					type: ApplicationCommandType.Message,
+					name: 'boop',
+					default_permission: true
+				},
+				{
+					type: ApplicationCommandType.Message,
+					name: 'boop',
+					default_permission: false
+				}
+			)
+		).toEqual([
+			{
+				key: 'defaultPermission',
+				original: 'true',
+				expected: 'false'
+			}
+		]);
 	});
 
 	it('given two identical commands, it should not return any difference', () => {
