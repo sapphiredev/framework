@@ -292,7 +292,7 @@ export class ApplicationCommandRegistry {
 		// Step 1: if there are no differences, return
 		if (!differences.length) {
 			this.debug(
-				`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command ${applicationCommand.name} (${
+				`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command "${applicationCommand.name}" (${
 					applicationCommand.id
 				})`
 			);
@@ -321,9 +321,9 @@ export class ApplicationCommandRegistry {
 		for (const difference of differences) {
 			finalMessage.push(
 				[
-					`├── At path ${difference.key}`, //
-					`    ├── Received: ${difference.original}`,
-					`    └── Expected: ${difference.expected}`,
+					`└── At path ${difference.key}`, //
+					`     ├── Received: ${difference.original}`,
+					`     └── Expected: ${difference.expected}`,
 					''
 				].join('\n')
 			);
@@ -351,12 +351,19 @@ export class ApplicationCommandRegistry {
 			const result = await commandsManager.create(apiData, guildId);
 
 			this.info(
-				`Successfully created ${type} command ${apiData.name} with id "${result.id}". You should add the id to the "idHints" property of the register method you used!`
+				`Successfully created ${type}${guildId ? ' guild' : ''} command "${apiData.name}" with id "${
+					result.id
+				}". You should add the id to the "idHints" property of the register method you used!`
 			);
 
 			apiData.type === ApplicationCommandType.ChatInput ? this.addChatInputCommandIds(result.id) : this.addContextMenuCommandIds(result.id);
 		} catch (err) {
-			this.error(`Failed to register application command with name "${apiData.name}"${guildId ? ` for guild "${guildId}"` : ''}`, err);
+			this.error(
+				`Failed to register${guildId ? ' guild' : ''} application command with name "${apiData.name}"${
+					guildId ? ` for guild "${guildId}"` : ''
+				}`,
+				err
+			);
 		}
 	}
 
