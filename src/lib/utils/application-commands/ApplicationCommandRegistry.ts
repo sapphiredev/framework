@@ -329,15 +329,9 @@ export class ApplicationCommandRegistry {
 			);
 		}
 
-		logAsWarn
-			? this.warn(
-					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data\n`,
-					...finalMessage
-			  )
-			: this.debug(
-					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data\n`,
-					...finalMessage
-			  );
+		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data\n`;
+
+		logAsWarn ? this.warn(header, ...finalMessage) : this.debug(header, ...finalMessage);
 	}
 
 	private async createMissingCommand(
