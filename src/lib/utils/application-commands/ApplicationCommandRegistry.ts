@@ -76,7 +76,7 @@ export class ApplicationCommandRegistry {
 		const flattened = names.flat(Infinity) as string[];
 
 		for (const command of flattened) {
-			this.debug(`Registering name "${command}" to internal map`);
+			this.debug(`Registering name "${command}" to internal chat input map`);
 			this.warn(
 				`Registering the chat input command "${command}" using a name is not recommended.`,
 				'Please use the "addChatInputCommandIds" method instead with a command id.'
@@ -91,7 +91,7 @@ export class ApplicationCommandRegistry {
 		const flattened = names.flat(Infinity) as string[];
 
 		for (const command of flattened) {
-			this.debug(`Registering name "${command}" to internal map`);
+			this.debug(`Registering name "${command}" to internal context menu map`);
 			this.warn(
 				`Registering the context menu command "${command}" using a name is not recommended.`,
 				'Please use the "addContextMenuCommandIds" method instead with a command id.'
@@ -108,10 +108,10 @@ export class ApplicationCommandRegistry {
 		for (const entry of flattened) {
 			try {
 				BigInt(entry);
-				this.debug(`Registering id "${entry}" to internal map`);
+				this.debug(`Registering id "${entry}" to internal chat input map`);
 			} catch {
 				// Don't be silly, save yourself the headaches and do as we say
-				this.debug(`Registering name "${entry}" to internal map`);
+				this.debug(`Registering name "${entry}" to internal chat input map`);
 				this.warn(
 					`Registering the chat input command "${entry}" using a name *and* trying to bypass this warning by calling "addChatInputCommandIds" is not recommended.`,
 					'Please use the "addChatInputCommandIds" method with a valid command id instead.'
@@ -129,9 +129,9 @@ export class ApplicationCommandRegistry {
 		for (const entry of flattened) {
 			try {
 				BigInt(entry);
-				this.debug(`Registering id "${entry}" to internal map`);
+				this.debug(`Registering id "${entry}" to internal context menu map`);
 			} catch {
-				this.debug(`Registering name "${entry}" to internal map`);
+				this.debug(`Registering name "${entry}" to internal context menu map`);
 				// Don't be silly, save yourself the headaches and do as we say
 				this.warn(
 					`Registering the context menu command "${entry}" using a name *and* trying to bypass this warning by calling "addContextMenuCommandIds" is not recommended.`,
@@ -208,8 +208,8 @@ export class ApplicationCommandRegistry {
 				if (apiCallType !== entry.type) return false;
 			}
 
-			// Find the command by name
-			return entry.name === commandName;
+			// Find the command by name or by id hint (mostly useful for context menus)
+			return registerOptions.idHints?.includes(entry.id) || entry.name === commandName;
 		};
 
 		let type: string;
@@ -244,7 +244,7 @@ export class ApplicationCommandRegistry {
 				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual);
 			} else {
 				this.debug(`Creating new global ${type} command with name "${commandName}"`);
-				await this.createMissingCommand(commandsManager, builtData);
+				await this.createMissingCommand(commandsManager, builtData, type);
 			}
 
 			return;
@@ -255,7 +255,7 @@ export class ApplicationCommandRegistry {
 
 			if (!guildCommands) {
 				this.debug(`There are no commands for guild with id "${guildId}". Will create ${type} command "${commandName}".`);
-				await this.createMissingCommand(commandsManager, builtData, guildId);
+				await this.createMissingCommand(commandsManager, builtData, type, guildId);
 				continue;
 			}
 
@@ -270,7 +270,7 @@ export class ApplicationCommandRegistry {
 				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual);
 			} else {
 				this.debug(`Creating new guild ${type} command with name "${commandName}" for guild "${guildId}"`);
-				await this.createMissingCommand(commandsManager, builtData, guildId);
+				await this.createMissingCommand(commandsManager, builtData, type, guildId);
 			}
 		}
 	}
@@ -323,31 +323,45 @@ export class ApplicationCommandRegistry {
 				[
 					`├── At path ${difference.key}`, //
 					`    ├── Received: ${difference.original}`,
-					`    └── Expected: ${difference.expected}\n`
+					`    └── Expected: ${difference.expected}`,
+					''
 				].join('\n')
 			);
 		}
 
 		logAsWarn
 			? this.warn(
-					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data`,
+					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data\n`,
 					...finalMessage
 			  )
 			: this.debug(
-					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data`,
+					`Found differences for command ${applicationCommand.name} (${applicationCommand.id}) versus provided api data\n`,
 					...finalMessage
 			  );
 	}
 
-	private async createMissingCommand(commandsManager: ApplicationCommandManager, apiData: InternalAPICall['builtData'], guildId?: string) {
+	private async createMissingCommand(
+		commandsManager: ApplicationCommandManager,
+		apiData: InternalAPICall['builtData'],
+		type: string,
+		guildId?: string
+	) {
 		try {
 			// @ts-expect-error I messed up the overload, PR https://github.com/discordjs/discord.js/pull/6970 needs to be released
 			const result = await commandsManager.create(apiData, guildId);
+
+			this.info(
+				`Successfully created ${type} command ${apiData.name} with id "${result.id}". You should add the id to the "idHints" property of the register method you used!`
+			);
 
 			apiData.type === ApplicationCommandType.ChatInput ? this.addChatInputCommandIds(result.id) : this.addContextMenuCommandIds(result.id);
 		} catch (err) {
 			this.error(`Failed to register application command with name "${apiData.name}"${guildId ? ` for guild "${guildId}"` : ''}`, err);
 		}
+	}
+
+	private info(message: string, ...other: unknown[]) {
+		container.logger.info(`ApplicationCommandRegistry[${this.commandName}] ${message}`, ...other);
 	}
 
 	private error(message: string, ...other: unknown[]) {
@@ -380,6 +394,11 @@ export namespace ApplicationCommandRegistry {
 		 * @default RegisterBehavior.LogToConsole
 		 */
 		behaviorWhenNotIdentical?: RegisterBehavior;
+		/**
+		 * Specifies a list of command ids that we should check in the event of a name mismatch
+		 * @default []
+		 */
+		idHints?: string[];
 	}
 }
 

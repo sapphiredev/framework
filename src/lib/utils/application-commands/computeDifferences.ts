@@ -31,11 +31,11 @@ export function getCommandDifferences(existingCommand: RESTPostAPIChatInputAppli
 
 	// Check defaultPermissions
 	// TODO(vladfrangu): This will be deprecated
-	if (Reflect.has(casted, 'default_permission') && existingCommand.default_permission !== casted.default_permission) {
+	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
 		differences.push({
 			key: 'defaultPermission',
-			original: String(existingCommand.default_permission),
-			expected: String(casted.default_permission)
+			original: String(existingCommand.default_permission ?? true),
+			expected: String(casted.default_permission ?? true)
 		});
 	}
 
