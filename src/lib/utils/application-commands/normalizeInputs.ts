@@ -3,6 +3,7 @@ import { isFunction } from '@sapphire/utilities';
 import {
 	ApplicationCommandType,
 	APIApplicationCommandOption,
+	RESTPostAPIApplicationCommandsJSONBody,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v9';
@@ -83,13 +84,20 @@ export function normalizeContextMenuCommand(
 	return finalObject;
 }
 
-export function convertApplicationCommandToApiData(command: ApplicationCommand): RESTPostAPIChatInputApplicationCommandsJSONBody {
+export function convertApplicationCommandToApiData(command: ApplicationCommand): RESTPostAPIApplicationCommandsJSONBody {
 	const returnData = {
 		name: command.name,
-		description: command.description,
-		default_permission: command.defaultPermission,
-		type: ApplicationCommandType.ChatInput
-	} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		default_permission: command.defaultPermission
+	} as RESTPostAPIApplicationCommandsJSONBody;
+
+	if (command.type === 'CHAT_INPUT') {
+		returnData.type = ApplicationCommandType.ChatInput;
+		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
+	} else if (command.type === 'MESSAGE') {
+		returnData.type = ApplicationCommandType.Message;
+	} else if (command.type === 'USER') {
+		returnData.type = ApplicationCommandType.User;
+	}
 
 	if (command.options.length) {
 		returnData.options = command.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
