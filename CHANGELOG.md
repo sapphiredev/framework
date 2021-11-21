@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/sapphiredev/framework/compare/v2.1.4...v2.2.0) (2021-11-21)
+
+### Features
+
+-   deprecate `ExtendedArgument` ([#321](https://github.com/sapphiredev/framework/issues/321)) ([fd6d095](https://github.com/sapphiredev/framework/commit/fd6d0954786746f6f46b9f280d8a34802dd95e00))
+-   expose and use namespaces for options, context, etc ([#330](https://github.com/sapphiredev/framework/issues/330)) ([85e7588](https://github.com/sapphiredev/framework/commit/85e7588313e2472b2268856be79196e1473953da))
+-   **preconditions:** export all core preconditions ([#322](https://github.com/sapphiredev/framework/issues/322)) ([5a4898f](https://github.com/sapphiredev/framework/commit/5a4898f6faa464fb27c1473676f2d2da0ccc2f75))
+
+### Bug Fixes
+
+-   **Listener:** fixed compile issues on TS 4.5 ([#329](https://github.com/sapphiredev/framework/issues/329)) ([cb40369](https://github.com/sapphiredev/framework/commit/cb40369fe110506d740b965f16e87e3d1bae04b4))
+
 ### [2.1.4](https://github.com/sapphiredev/framework/compare/v2.1.3...v2.1.4) (2021-11-06)
 
 ### Bug Fixes
