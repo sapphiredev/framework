@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { ArgType } from '../parsers/Args';
 import { isOk } from '../parsers/Result';
-import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgumentResult, IArgument } from './Argument';
+import { Argument, IArgument } from './Argument';
 
 /**
  * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
@@ -17,7 +17,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  * ```typescript
  * // TypeScript:
  * import { ApplyOptions } from '@sapphire/decorators';
- * import { ArgumentResult, ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '@sapphire/framework';
+ * import { ExtendedArgument, ExtendedArgumentContext, ExtendedArgumentOptions } from '@sapphire/framework';
  * import type { Channel, TextChannel } from 'discord.js';
  *
  * // Just like with `Argument`, you can use `export default` or `export =` too.
@@ -26,7 +26,7 @@ import { Argument, ArgumentContext, ArgumentOptions, ArgumentResult, AsyncArgume
  *   baseArgument: 'channel'
  * })
  * export class TextChannelArgument extends ExtendedArgument<'channel', TextChannel> {
- *   public handle(parsed: Channel, { argument }: ExtendedArgumentContext): ArgumentResult<TextChannel> {
+ *   public handle(parsed: Channel, { argument }: ExtendedArgumentContext): Argument.Result<TextChannel> {
  *     return parsed.type === 'text'
  *       ? this.ok(parsed as TextChannel)
  *       : this.error({ identifier: 'ArgumentTextChannelInvalidTextChannel', message: 'The argument did not resolve to a text channel.' });
@@ -75,8 +75,8 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	/**
 	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
 	 */
-	public async run(parameter: string, context: ArgumentContext<T>): AsyncArgumentResult<T> {
-		const result = await this.base.run(parameter, context as unknown as ArgumentContext<ArgType[K]>);
+	public async run(parameter: string, context: Argument.Context<T>): Argument.AsyncResult<T> {
+		const result = await this.base.run(parameter, context as unknown as Argument.Context<ArgType[K]>);
 		// If the result was successful (i.e. is of type `Ok<ArgType[K]>`), pass its
 		// value to [[ExtendedArgument#handle]] for further parsing. Otherwise, return
 		// the error as is; it'll provide contextual information from the base argument.
@@ -86,13 +86,13 @@ export abstract class ExtendedArgument<K extends keyof ArgType, T> extends Argum
 	/**
 	 * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
 	 */
-	public abstract handle(parsed: ArgType[K], context: ExtendedArgumentContext): ArgumentResult<T>;
+	public abstract handle(parsed: ArgType[K], context: ExtendedArgumentContext): Argument.Result<T>;
 }
 
 /**
  * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
  */
-export interface ExtendedArgumentOptions<K extends keyof ArgType> extends ArgumentOptions {
+export interface ExtendedArgumentOptions<K extends keyof ArgType> extends Argument.Options {
 	/**
 	 * The name of the underlying argument whose value is used to compute
 	 * the extended argument value; see {@link ArgType} for valid keys.
@@ -103,7 +103,7 @@ export interface ExtendedArgumentOptions<K extends keyof ArgType> extends Argume
 /**
  * @deprecated {@link ExtendedArgument} is deprecated and will be removed in v3.0.0.
  */
-export interface ExtendedArgumentContext extends ArgumentContext {
+export interface ExtendedArgumentContext extends Argument.Context {
 	/**
 	 * The canonical parameter specified by the user in the command, as
 	 * a string, equivalent to the first parameter of {@link Argument#run}.

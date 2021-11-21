@@ -1,4 +1,4 @@
-import { Piece, PieceContext, PieceOptions } from '@sapphire/pieces';
+import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Message, Permissions } from 'discord.js';
 import type { CooldownContext } from '../../preconditions/Cooldown';
@@ -13,7 +13,7 @@ export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 export abstract class Precondition<O extends PreconditionOptions = PreconditionOptions> extends Piece<O> {
 	public readonly position: number | null;
 
-	public constructor(context: PieceContext, options: Precondition.Options = {}) {
+	public constructor(context: Piece.Context, options: Precondition.Options = {}) {
 		super(context, options);
 		this.position = options.position ?? null;
 	}
@@ -105,7 +105,7 @@ export type SimplePreconditionKeys = {
 	[K in PreconditionKeys]: Preconditions[K] extends never ? K : never;
 }[PreconditionKeys];
 
-export interface PreconditionOptions extends PieceOptions {
+export interface PreconditionOptions extends Piece.Options {
 	/**
 	 * The position for the precondition to be set at in the global precondition list. If set to `null`, this
 	 * precondition will not be set as a global one.
@@ -118,7 +118,6 @@ export interface PreconditionContext extends Record<PropertyKey, unknown> {
 	external?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Precondition {
 	export type Options = PreconditionOptions;
 	export type Context = PreconditionContext;

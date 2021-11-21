@@ -1,7 +1,7 @@
+import { isNewsThreadChannel } from '@sapphire/discord.js-utilities';
 import type { Guild, ThreadChannel } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import type { Result } from '../parsers/Result';
-import { isNewsThreadChannel } from '@sapphire/discord.js-utilities';
 import { resolveGuildChannelPredicate } from '../utils/resolvers/resolveGuildChannelPredicate';
 
 export function resolveGuildNewsThreadChannel(

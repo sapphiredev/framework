@@ -2,14 +2,14 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { StageChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildStageVoiceChannel } from '../lib/resolvers';
-import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<StageChannel> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildStageVoiceChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<StageChannel> {
+	public run(parameter: string, context: Argument.Context): Argument.Result<StageChannel> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({
