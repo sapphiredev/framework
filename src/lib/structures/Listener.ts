@@ -120,6 +120,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 	}
 
 	private async _run(...args: unknown[]) {
+		// @ts-expect-error This seems to be a TS bug, so for now ts-expect-error it
 		const result = await fromAsync(() => this.run(...args));
 		if (isErr(result)) {
 			this.container.client.emit(Events.ListenerError, result.error, { piece: this });
