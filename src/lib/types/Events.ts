@@ -2,7 +2,7 @@ import type { Piece, Store } from '@sapphire/pieces';
 import { Constants, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type { Args } from '../parsers/Args';
-import type { Command, CommandContext } from '../structures/Command';
+import type { Command } from '../structures/Command';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
 
@@ -107,12 +107,12 @@ export interface PreCommandRunPayload extends CommandDeniedPayload {}
 
 export interface CommandDeniedPayload extends ICommandPayload {
 	parameters: string;
-	context: CommandContext;
+	context: Command.Context;
 }
 
 export interface CommandAcceptedPayload extends ICommandPayload {
 	parameters: string;
-	context: CommandContext;
+	context: Command.Context;
 }
 
 export interface CommandRunPayload<T extends Args = Args> extends CommandAcceptedPayload {

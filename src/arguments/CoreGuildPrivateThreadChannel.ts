@@ -2,14 +2,14 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { ThreadChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildPrivateThreadChannel } from '../lib/resolvers';
-import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<ThreadChannel> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildPrivateThreadChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<ThreadChannel> {
+	public run(parameter: string, context: Argument.Context): Argument.Result<ThreadChannel> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({

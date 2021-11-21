@@ -2,14 +2,14 @@ import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildChannel } from '../lib/resolvers';
-import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildBasedChannelTypes> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<GuildBasedChannelTypes> {
+	public run(parameter: string, context: Argument.Context): Argument.Result<GuildBasedChannelTypes> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({

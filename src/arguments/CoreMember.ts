@@ -2,14 +2,14 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { GuildMember } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveMember } from '../lib/resolvers';
-import { Argument, ArgumentContext, AsyncArgumentResult } from '../lib/structures/Argument';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<GuildMember> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'member' });
 	}
 
-	public async run(parameter: string, context: ArgumentContext): AsyncArgumentResult<GuildMember> {
+	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<GuildMember> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({

@@ -2,14 +2,14 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { CategoryChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildCategoryChannel } from '../lib/resolvers';
-import { Argument, ArgumentContext, ArgumentResult } from '../lib/structures/Argument';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<CategoryChannel> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'guildCategoryChannel' });
 	}
 
-	public run(parameter: string, context: ArgumentContext): ArgumentResult<CategoryChannel> {
+	public run(parameter: string, context: Argument.Context): Argument.Result<CategoryChannel> {
 		const { guild } = context.message;
 		if (!guild) {
 			return this.error({

@@ -5,15 +5,15 @@ import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
 import type { Result } from '../parsers/Result';
-import type { Command, CommandContext } from './Command';
+import type { Command } from './Command';
 
 /**
- * Defines a synchronous result of an {@link Argument}, check {@link AsyncArgumentResult} for the asynchronous version.
+ * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
  */
 export type ArgumentResult<T> = Awaitable<Result<T, UserError>>;
 
 /**
- * Defines an asynchronous result of an {@link Argument}, check {@link ArgumentResult} for the synchronous version.
+ * Defines an asynchronous result of an {@link Argument}, check {@link Argument.Result} for the synchronous version.
  */
 export type AsyncArgumentResult<T> = Promise<Result<T, UserError>>;
 
@@ -28,7 +28,7 @@ export interface IArgument<T> {
 	 * @param parameter The string parameter to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(parameter: string, context: Argument.Context<T>): ArgumentResult<T>;
+	run(parameter: string, context: Argument.Context<T>): Argument.Result<T>;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface IArgument<T> {
  * @example
  * ```typescript
  * // TypeScript:
- * import { Argument, ArgumentResult, PieceContext } from '@sapphire/framework';
+ * import { Argument, PieceContext } from '@sapphire/framework';
  * import { URL } from 'url';
  *
  * // Define a class extending `Argument`, then export it.
@@ -48,7 +48,7 @@ export interface IArgument<T> {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
  *   }
  *
- *   public run(argument: string): ArgumentResult<URL> {
+ *   public run(argument: string): Argument.Result<URL> {
  *     try {
  *       return this.ok(new URL(argument));
  *     } catch {
@@ -88,13 +88,13 @@ export interface IArgument<T> {
  * ```
  */
 export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
-	public abstract run(parameter: string, context: Argument.Context<T>): ArgumentResult<T>;
+	public abstract run(parameter: string, context: Argument.Context<T>): Argument.Result<T>;
 
 	/**
 	 * Wraps a value into a successful value.
 	 * @param value The value to wrap.
 	 */
-	public ok(value: T): ArgumentResult<T> {
+	public ok(value: T): Argument.Result<T> {
 		return Args.ok(value);
 	}
 
@@ -104,7 +104,7 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * @param type The identifier for the error.
 	 * @param message The description message for the rejection.
 	 */
-	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): ArgumentResult<T> {
+	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
 		return Args.error({ argument: this, identifier: this.name, ...options });
 	}
 }
@@ -116,7 +116,7 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 	args: Args;
 	message: Message;
 	command: Command;
-	commandContext: CommandContext;
+	commandContext: Command.Context;
 	minimum?: number;
 	maximum?: number;
 	inclusive?: boolean;
