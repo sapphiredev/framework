@@ -1,4 +1,4 @@
-import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
+import { Piece } from '@sapphire/pieces';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { fromAsync, isErr } from '../parsers/Result';
@@ -11,12 +11,12 @@ import { Events } from '../types/Events';
  * @example
  * ```typescript
  * // TypeScript:
- * import { Events, Listener, PieceContext } from '@sapphire/framework';
+ * import { Events, Listener } from '@sapphire/framework';
  *
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
  * export class CoreListener extends Listener<typeof Events.Ready> {
- *   public constructor(context: PieceContext) {
+ *   public constructor(context: Listener.Context) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
  *
@@ -43,7 +43,7 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends ListenerOptions = ListenerOptions> extends Piece<O> {
+export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends Listener.Options = Listener.Options> extends Piece<O> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -64,7 +64,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	private _listener: ((...args: any[]) => void) | null;
 
-	public constructor(context: PieceContext, options: ListenerOptions = {}) {
+	public constructor(context: Listener.Context, options: Listener.Options = {}) {
 		super(context, options);
 
 		this.emitter =
@@ -133,13 +133,19 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 	}
 }
 
-export interface ListenerOptions extends PieceOptions {
+export interface ListenerOptions extends Piece.Options {
 	readonly emitter?: keyof Client | EventEmitter;
 	readonly event?: string;
 	readonly once?: boolean;
 }
 
-export interface ListenerJSON extends PieceJSON {
+export interface ListenerJSON extends Piece.JSON {
 	event: string;
 	once: boolean;
+}
+
+export namespace Listener {
+	export type Options = ListenerOptions;
+	export type JSON = ListenerJSON;
+	export type Context = Piece.Context;
 }

@@ -1,4 +1,4 @@
-import { AliasPiece, AliasPieceJSON, AliasPieceOptions, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
 import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
@@ -7,7 +7,7 @@ import { BucketScope } from '../types/Enums';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export abstract class Command<T = Args, O extends CommandOptions = CommandOptions> extends AliasPiece<O> {
+export abstract class Command<T = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -61,7 +61,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	protected constructor(context: PieceContext, options: CommandOptions = {}) {
+	protected constructor(context: PieceContext, options: Command.Options = {}) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
@@ -105,7 +105,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: CommandContext): Awaitable<T> {
+	public preParse(message: Message, parameters: string, context: Command.Context): Awaitable<T> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -117,7 +117,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * This getter retrieves the first value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
+	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get category(): string | null {
 		return this.fullCategory.length > 0 ? this.fullCategory[0] : null;
@@ -129,7 +129,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * This getter retrieves the second value of {@link Command.fullCategory}, if it has at least two items, otherwise
 	 * it returns `null`.
 	 *
-	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
+	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get subCategory(): string | null {
 		return this.fullCategory.length > 1 ? this.fullCategory[1] : null;
@@ -141,7 +141,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * This getter retrieves the last value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link CommandOptions.fullCategory} to override the built-in category resolution.
+	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get parentCategory(): string | null {
 		return this.fullCategory.length > 1 ? this.fullCategory[this.fullCategory.length - 1] : null;
@@ -152,7 +152,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 */
-	public abstract messageRun(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
+	public abstract messageRun(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -174,7 +174,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	 * @since 2.0.0
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditions(options: CommandOptions): void {
+	protected parseConstructorPreConditions(options: Command.Options): void {
 		this.parseConstructorPreConditionsRunIn(options);
 		this.parseConstructorPreConditionsNsfw(options);
 		this.parseConstructorPreConditionsRequiredClientPermissions(options);
@@ -183,30 +183,30 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	}
 
 	/**
-	 * Appends the `NSFW` precondition if {@link CommandOptions.nsfw} is set to true.
+	 * Appends the `NSFW` precondition if {@link Command.Options.nsfw} is set to true.
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditionsNsfw(options: CommandOptions) {
+	protected parseConstructorPreConditionsNsfw(options: Command.Options) {
 		if (options.nsfw) this.preconditions.append(CommandPreConditions.NotSafeForWork);
 	}
 
 	/**
 	 * Appends the `DMOnly`, `GuildOnly`, `NewsOnly`, and `TextOnly` preconditions based on the values passed in
-	 * {@link CommandOptions.runIn}, optimizing in specific cases (`NewsOnly` + `TextOnly` = `GuildOnly`; `DMOnly` +
+	 * {@link Command.Options.runIn}, optimizing in specific cases (`NewsOnly` + `TextOnly` = `GuildOnly`; `DMOnly` +
 	 * `GuildOnly` = `null`), defaulting to `null`, which doesn't add a precondition.
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditionsRunIn(options: CommandOptions) {
+	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
 		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
 		if (runIn !== null) this.preconditions.append(runIn as any);
 	}
 
 	/**
-	 * Appends the `ClientPermissions` precondition when {@link CommandOptions.requiredClientPermissions} resolves to a
+	 * Appends the `ClientPermissions` precondition when {@link Command.Options.requiredClientPermissions} resolves to a
 	 * non-zero bitfield.
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditionsRequiredClientPermissions(options: CommandOptions) {
+	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
 		const permissions = new Permissions(options.requiredClientPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
@@ -214,11 +214,11 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	}
 
 	/**
-	 * Appends the `UserPermissions` precondition when {@link CommandOptions.requiredUserPermissions} resolves to a
+	 * Appends the `UserPermissions` precondition when {@link Command.Options.requiredUserPermissions} resolves to a
 	 * non-zero bitfield.
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditionsRequiredUserPermissions(options: CommandOptions) {
+	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
 		const permissions = new Permissions(options.requiredUserPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
@@ -226,11 +226,11 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 	}
 
 	/**
-	 * Appends the `Cooldown` precondition when {@link CommandOptions.cooldownLimit} and
-	 * {@link CommandOptions.cooldownDelay} are both non-zero.
+	 * Appends the `Cooldown` precondition when {@link Command.Options.cooldownLimit} and
+	 * {@link Command.Options.cooldownDelay} are both non-zero.
 	 * @param options The command options given from the constructor.
 	 */
-	protected parseConstructorPreConditionsCooldown(options: CommandOptions) {
+	protected parseConstructorPreConditionsCooldown(options: Command.Options) {
 		const { defaultCooldown } = this.container.client.options;
 
 		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
@@ -250,7 +250,7 @@ export abstract class Command<T = Args, O extends CommandOptions = CommandOption
 		}
 	}
 
-	private resolveConstructorPreConditionsRunType(runIn: CommandOptions['runIn']): PreconditionContainerArray | CommandPreConditions | null {
+	private resolveConstructorPreConditionsRunType(runIn: Command.Options['runIn']): PreconditionContainerArray | CommandPreConditions | null {
 		if (isNullish(runIn)) return null;
 		if (typeof runIn === 'string') {
 			switch (runIn) {
@@ -334,12 +334,12 @@ export interface Command<T = Args> {
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 * @deprecated Use `messageRun` instead.
 	 */
-	run?(message: Message, args: T, context: CommandContext): Awaitable<unknown>;
+	run?(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
 }
 
 /**
- * The allowed values for {@link CommandOptions.runIn}.
- * @remark It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
+ * The allowed values for {@link Command.Options.runIn}.
+ * @remark It is discouraged to use this type, we recommend using {@link Command.OptionsRunTypeEnum} instead.
  * @since 2.0.0
  */
 export type CommandOptionsRunType =
@@ -352,7 +352,7 @@ export type CommandOptionsRunType =
 	| 'GUILD_ANY';
 
 /**
- * The allowed values for {@link CommandOptions.runIn} as an enum.
+ * The allowed values for {@link Command.Options.runIn} as an enum.
  * @since 2.0.0
  */
 export const enum CommandOptionsRunTypeEnum {
@@ -388,7 +388,7 @@ export const enum CommandPreConditions {
  * The {@link Command} options.
  * @since 1.0.0
  */
-export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
+export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions {
 	/**
 	 * Whether to add aliases for commands with dashes in them
 	 * @since 1.0.0
@@ -453,14 +453,14 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	nsfw?: boolean;
 
 	/**
-	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link CommandOptions.cooldownDelay}, the `Cooldown` precondition will be added to the list.
+	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link Command.Options.cooldownDelay}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 1
 	 */
 	cooldownLimit?: number;
 
 	/**
-	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link CommandOptions.cooldownLimit}, the `Cooldown` precondition will be added to the list.
+	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link Command.Options.cooldownLimit}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 0
 	 */
@@ -500,7 +500,7 @@ export interface CommandOptions extends AliasPieceOptions, FlagStrategyOptions {
 	 * @since 2.0.0
 	 * @default null
 	 */
-	runIn?: CommandOptionsRunType | CommandOptionsRunTypeEnum | readonly (CommandOptionsRunType | CommandOptionsRunTypeEnum)[] | null;
+	runIn?: Command.RunInTypes | CommandOptionsRunTypeEnum | readonly (Command.RunInTypes | CommandOptionsRunTypeEnum)[] | null;
 
 	/**
 	 * If {@link SapphireClient.typing} is true, this option will override it.
@@ -522,7 +522,7 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as {@link CommandContext.prefix} if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link Command.Context.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;
@@ -532,4 +532,11 @@ export interface CommandJSON extends AliasPieceJSON {
 	description: string;
 	detailedDescription: string;
 	category: string | null;
+}
+
+export namespace Command {
+	export type Options = CommandOptions;
+	export type JSON = CommandJSON;
+	export type Context = CommandContext;
+	export type RunInTypes = CommandOptionsRunType;
 }

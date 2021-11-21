@@ -1,4 +1,4 @@
-import { AliasPiece, AliasPieceOptions } from '@sapphire/pieces';
+import { AliasPiece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
@@ -28,7 +28,7 @@ export interface IArgument<T> {
 	 * @param parameter The string parameter to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
+	run(parameter: string, context: Argument.Context<T>): ArgumentResult<T>;
 }
 
 /**
@@ -87,8 +87,8 @@ export interface IArgument<T> {
  * }
  * ```
  */
-export abstract class Argument<T = unknown, O extends ArgumentOptions = ArgumentOptions> extends AliasPiece<O> implements IArgument<T> {
-	public abstract run(parameter: string, context: ArgumentContext<T>): ArgumentResult<T>;
+export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
+	public abstract run(parameter: string, context: Argument.Context<T>): ArgumentResult<T>;
 
 	/**
 	 * Wraps a value into a successful value.
@@ -109,7 +109,7 @@ export abstract class Argument<T = unknown, O extends ArgumentOptions = Argument
 	}
 }
 
-export interface ArgumentOptions extends AliasPieceOptions {}
+export interface ArgumentOptions extends AliasPiece.Options {}
 
 export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
 	argument: IArgument<T>;
@@ -120,4 +120,11 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 	minimum?: number;
 	maximum?: number;
 	inclusive?: boolean;
+}
+
+export namespace Argument {
+	export type Options = ArgumentOptions;
+	export type Context<T = unknown> = ArgumentContext<T>;
+	export type Result<T> = ArgumentResult<T>;
+	export type AsyncResult<T> = AsyncArgumentResult<T>;
 }

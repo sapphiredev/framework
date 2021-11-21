@@ -19,7 +19,6 @@ export class PreconditionError extends UserError {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace PreconditionError {
 	/**
 	 * The options for {@link PreconditionError}.

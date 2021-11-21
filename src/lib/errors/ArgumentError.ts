@@ -22,7 +22,6 @@ export class ArgumentError<T = unknown> extends UserError {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ArgumentError {
 	/**
 	 * The options for {@link ArgumentError}.
