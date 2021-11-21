@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { fromAsync, isErr } from '../../lib/parsers/Result';
 import { Listener } from '../../lib/structures/Listener';
 import { CommandAcceptedPayload, Events } from '../../lib/types/Events';
-import { isErr, fromAsync } from '../../lib/parsers/Result';
 
 export class CoreListener extends Listener<typeof Events.CommandAccepted> {
 	public constructor(context: PieceContext) {

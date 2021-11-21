@@ -1,6 +1,6 @@
-import type { Command } from '../../lib/structures/Command';
-import type { Message } from 'discord.js';
 import type { PieceContext } from '@sapphire/pieces';
+import type { Message } from 'discord.js';
+import type { Command } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
 import { CommandRunPayload, Events } from '../../lib/types/Events';
 
