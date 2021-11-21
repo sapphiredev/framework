@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
-import type { Client, ClientEvents } from 'discord.js';
+import type { Client } from 'discord.js';
 import type { EventEmitter } from 'events';
 import { fromAsync, isErr } from '../parsers/Result';
 import { Events } from '../types/Events';
@@ -43,7 +43,10 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends ListenerOptions = ListenerOptions> extends Piece<O> {
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export abstract class Listener<E extends any = any, O extends ListenerOptions = ListenerOptions> extends Piece<O> {
+	// @ts-expect-error This is temporary until we remove the generic in v3.0.0
+	#internal!: E;
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -81,7 +84,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 		if (this.emitter === null || this._listener === null) this.enabled = false;
 	}
 
-	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
+	public abstract run(...args: unknown[]): unknown;
 
 	public onLoad() {
 		if (this._listener) {
