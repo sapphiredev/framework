@@ -144,35 +144,14 @@ export class ApplicationCommandRegistry {
 		return this;
 	}
 
-	protected async runAPICalls() {
+	protected async runAPICalls(
+		applicationCommands: ApplicationCommandManager,
+		globalCommands: Collection<string, ApplicationCommand>,
+		guildCommands: Map<string, Collection<string, ApplicationCommand>>
+	) {
 		this.debug(`Preparing to process ${this.apiCalls.length} possible command registrations / updates...`);
 
-		const { client } = container;
-
-		const applicationCommands = client.application!.commands;
-		const globalCommands = await applicationCommands.fetch();
-
-		const unprocessedGuildIds = this.apiCalls.reduce<string[]>((acc, current) => {
-			if (current.registerOptions.guildIds) acc.push(...current.registerOptions.guildIds);
-			return acc;
-		}, []);
-
-		const uniqueGuildIds = new Set(unprocessedGuildIds);
-
-		const guildCommands = await this.fetchGuildCommands(applicationCommands, uniqueGuildIds);
-
 		await Promise.allSettled(this.apiCalls.map((call) => this.handleAPICall(applicationCommands, globalCommands, guildCommands, call)));
-	}
-
-	private async fetchGuildCommands(commands: ApplicationCommandManager, guildIds: ReadonlySet<string>) {
-		const map = new Map<string, Collection<string, ApplicationCommand>>();
-
-		for (const guildId of guildIds) {
-			const guildCommands = await commands.fetch({ guildId });
-			map.set(guildId, guildCommands);
-		}
-
-		return map;
 	}
 
 	private async handleAPICall(
