@@ -23,6 +23,7 @@ const optionTypeToPrettyName = new Map([
 ]);
 
 const contextMenuTypes = [ApplicationCommandType.Message, ApplicationCommandType.User];
+const subcommandTypes = [ApplicationCommandOptionType.SubcommandGroup, ApplicationCommandOptionType.Subcommand];
 
 export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
 	const differences: CommandDifference[] = [];
@@ -97,7 +98,7 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 		for (const option of casted.options) {
 			const currentIndex = index++;
 			const existingOption = existingCommand.options![currentIndex];
-			differences.push(...reportDifferences({ currentIndex, option, existingOption }));
+			differences.push(...reportOptionDifferences({ currentIndex, option, existingOption }));
 		}
 
 		// If we went through less options than we previously had, report that
@@ -126,7 +127,7 @@ export interface CommandDifference {
 	original: string;
 }
 
-function* reportDifferences({
+function* reportOptionDifferences({
 	option,
 	existingOption,
 	currentIndex,
@@ -138,7 +139,6 @@ function* reportDifferences({
 	keyPath?: (index: number) => string;
 }): Generator<CommandDifference> {
 	const expectedType = optionTypeToPrettyName.get(option.type) ?? 'unknown; please contact Sapphire developers about this!';
-	const subcommandTypes = [ApplicationCommandOptionType.SubcommandGroup, ApplicationCommandOptionType.Subcommand];
 
 	// If current option doesn't exist, report and return
 	if (!existingOption) {
@@ -197,7 +197,7 @@ function* reportDifferences({
 		) {
 			// We know we have options in this case, because they are both groups
 			for (const [subcommandIndex, subcommandOption] of castedExpected.options!.entries()) {
-				yield* reportDifferences({
+				yield* reportOptionDifferences({
 					currentIndex: subcommandIndex,
 					option: subcommandOption,
 					existingOption: castedExisting.options?.[subcommandIndex],
@@ -231,7 +231,7 @@ function* reportDifferences({
 					const currentSubCommandOptionIndex = processedIndex++;
 					const existingSubcommandOption = castedExisting.options![currentSubCommandOptionIndex];
 
-					yield* reportDifferences({
+					yield* reportOptionDifferences({
 						currentIndex: currentSubCommandOptionIndex,
 						option: subcommandOption,
 						existingOption: existingSubcommandOption,
