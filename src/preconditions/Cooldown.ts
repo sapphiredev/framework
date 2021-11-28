@@ -30,7 +30,9 @@ export class CorePrecondition extends Precondition {
 			const remaining = ratelimit.remainingTime;
 			return this.error({
 				identifier: Identifiers.PreconditionCooldown,
-				message: `You have just used this command. Try again in ${Math.ceil(remaining / 1000)} second${remaining > 1000 ? 's' : ''}.`,
+				message: `There is a cooldown in effect for this command. It can be used again in ${Math.ceil(remaining / 1000)} second${
+					remaining > 1000 ? 's' : ''
+				}.`,
 				context: { remaining }
 			});
 		}
