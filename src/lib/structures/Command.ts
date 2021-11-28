@@ -363,7 +363,7 @@ export const enum CommandOptionsRunTypeEnum {
 	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
 	GuildPrivateThread = 'GUILD_PRIVATE_THREAD',
 	GuildAny = 'GUILD_ANY'
-} book
+}
 
 /**
  * The available command pre-conditions.
