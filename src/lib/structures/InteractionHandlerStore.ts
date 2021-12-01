@@ -12,7 +12,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 	public async run(interaction: Interaction) {
 		// Early-exit for optimization
-		if (this.size === 0) return;
+		if (this.size === 0) return false;
 
 		const promises = [];
 
@@ -47,7 +47,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 		}
 
 		// Yet another early exit
-		if (promises.length === 0) return;
+		if (promises.length === 0) return false;
 
 		const results = await Promise.allSettled(promises);
 
@@ -70,6 +70,8 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 			this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
 		}
+
+		return true;
 	}
 }
 
@@ -77,5 +79,6 @@ export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (inter
 	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
 	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isSelectMenu()],
 
-	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()]
+	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
+	[InteractionHandlerTypes.Autocomplete, (Interaction) => Interaction.isAutocomplete()]
 ]);

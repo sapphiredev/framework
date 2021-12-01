@@ -1,7 +1,17 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import { CommandInteraction, Constants, Interaction, Message } from 'discord.js';
+import { AutocompleteInteraction, CommandInteraction, Constants, ContextMenuInteraction, Interaction, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
-import type { ChatInputCommand, Command, MessageCommand, MessageCommandContext } from '../structures/Command';
+import type {
+	AutocompleteCommand,
+	AutocompleteCommandContext,
+	ChatInputCommand,
+	ChatInputCommandContext,
+	Command,
+	ContextMenuCommand,
+	ContextMenuCommandContext,
+	MessageCommand,
+	MessageCommandContext
+} from '../structures/Command';
 import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
@@ -75,29 +85,77 @@ export const Events = {
 	// #endregion Discord.js base events
 
 	// #region Sapphire events
-	MessageCommandAccepted: 'messageCommandAccepted' as const,
-	MessageCommandDenied: 'messageCommandDenied' as const,
-	MessageCommandError: 'messageCommandError' as const,
-	MessageCommandFinish: 'messageCommandFinish' as const,
-	MessageCommandRun: 'messageCommandRun' as const,
-	MessageCommandSuccess: 'messageCommandSuccess' as const,
-	MessageCommandTypingError: 'messageCommandTypingError' as const,
-	ListenerError: 'listenerError' as const,
+	// Message commands chain
+	PreMessageParsed: 'preMessageParsed' as const,
 	MentionPrefixOnly: 'mentionPrefixOnly' as const,
 	NonPrefixedMessage: 'nonPrefixedMessage' as const,
-	PiecePostLoad: 'piecePostLoad' as const,
-	PieceUnload: 'pieceUnload' as const,
-	PluginLoaded: 'pluginLoaded' as const,
-	PreMessageCommandRun: 'preMessageCommandRun' as const,
 	PrefixedMessage: 'prefixedMessage' as const,
-	PreMessageParsed: 'preMessageParsed' as const,
+
+	UnknownMessageCommandName: 'unknownMessageCommandName' as const,
 	UnknownMessageCommand: 'unknownMessageCommand' as const,
 	CommandDoesNotHaveMessageCommandHandler: 'commandDoesNotHaveMessageCommandHandler' as const,
-	UnknownMessageCommandName: 'unknownMessageCommandName' as const,
+	PreMessageCommandRun: 'preMessageCommandRun' as const,
+
+	MessageCommandDenied: 'messageCommandDenied' as const,
+	MessageCommandAccepted: 'messageCommandAccepted' as const,
+
+	MessageCommandRun: 'messageCommandRun' as const,
+	MessageCommandSuccess: 'messageCommandSuccess' as const,
+	MessageCommandError: 'messageCommandError' as const,
+	MessageCommandFinish: 'messageCommandFinish' as const,
+
+	MessageCommandTypingError: 'messageCommandTypingError' as const,
+
+	// Listener errors
+	ListenerError: 'listenerError' as const,
+
+	// Registry errors
+	CommandApplicationCommandRegistryError: 'commandApplicationCommandRegistryError' as const,
+
+	// Piece store?
+	PiecePostLoad: 'piecePostLoad' as const,
+	PieceUnload: 'pieceUnload' as const,
+
+	// Plugin
+	PluginLoaded: 'pluginLoaded' as const,
+
+	// Interaction handlers
 	InteractionHandlerParseError: 'interactionHandlerParseError' as const,
 	InteractionHandlerError: 'interactionHandlerError' as const,
 
-	ChatInputCommandError: 'chatInputCommandError' as const
+	// Autocomplete interaction
+	PossibleAutocompleteInteraction: 'possibleAutocompleteInteraction' as const,
+	AutocompleteInteractionSuccess: 'autocompleteInteractionSuccess' as const,
+	AutocompleteInteractionError: 'autocompleteInteractionError' as const,
+
+	// Chat input command chain
+	PossibleChatInputCommand: 'possibleChatInputCommand' as const,
+	UnknownChatInputCommand: 'unknownChatInputCommand' as const,
+	CommandDoesNotHaveChatInputCommandHandler: 'commandDoesNotHaveChatInputCommandHandler' as const,
+	PreChatInputCommandRun: 'preChatInputCommandRun' as const,
+
+	ChatInputCommandDenied: 'chatInputCommandDenied' as const,
+	ChatInputCommandAccepted: 'chatInputCommandAccepted' as const,
+
+	ChatInputCommandRun: 'chatInputCommandRun' as const,
+	ChatInputCommandSuccess: 'chatInputCommandSuccess' as const,
+	ChatInputCommandError: 'chatInputCommandError' as const,
+	ChatInputCommandFinish: 'chatInputCommandFinish' as const,
+
+	// Context menu chain
+	PossibleContextMenuCommand: 'possibleContextMenuCommand' as const,
+	UnknownContextMenuCommand: 'unknownContextMenuCommand' as const,
+	CommandDoesNotHaveContextMenuCommandHandler: 'commandDoesNotHaveContextMenuCommandHandler' as const,
+	PreContextMenuCommandRun: 'preContextMenuCommandRun' as const,
+
+	ContextMenuCommandDenied: 'contextMenuCommandDenied' as const,
+	ContextMenuCommandAccepted: 'contextMenuCommandAccepted' as const,
+
+	ContextMenuCommandRun: 'contextMenuCommandRun' as const,
+	ContextMenuCommandSuccess: 'contextMenuCommandSuccess' as const,
+	ContextMenuCommandError: 'contextMenuCommandError' as const,
+	ContextMenuCommandFinish: 'contextMenuCommandFinish' as const
+
 	// #endregion Sapphire events
 };
 
@@ -157,13 +215,73 @@ export interface MessageCommandSuccessPayload extends MessageCommandRunPayload {
 
 export interface MessageCommandTypingErrorPayload extends MessageCommandRunPayload {}
 
+export interface UnknownChatInputCommandPayload {
+	interaction: CommandInteraction;
+	context: ChatInputCommandContext;
+}
+
+export interface CommandDoesNotHaveChatInputCommandHandlerPayload {
+	interaction: CommandInteraction;
+	command: Command;
+	context: ChatInputCommandContext;
+}
+
 export interface IChatInputCommandPayload {
 	interaction: CommandInteraction;
 	command: ChatInputCommand;
 }
 
-// TODO: ChatInputCommandErrorPayload, ContextMenuSameStuff
+export interface PreChatInputCommandRunPayload extends IChatInputCommandPayload {
+	context: ChatInputCommandContext;
+}
+
+export interface ChatInputCommandDeniedPayload extends IChatInputCommandPayload {
+	context: ChatInputCommandContext;
+}
+
+export interface ChatInputCommandAcceptedPayload extends PreChatInputCommandRunPayload {}
+
+export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {}
+
+export interface ChatInputCommandSuccessPayload extends ChatInputCommandRunPayload {
+	result: unknown;
+}
+
 export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {}
+
+export interface UnknownContextMenuCommandPayload {
+	interaction: ContextMenuInteraction;
+	context: ContextMenuCommandContext;
+}
+
+export interface CommandDoesNotHaveContextMenuCommandHandlerPayload {
+	interaction: ContextMenuInteraction;
+	context: ContextMenuCommandContext;
+	command: Command;
+}
+
+export interface IContextMenuCommandPayload {
+	interaction: ContextMenuInteraction;
+	command: ContextMenuCommand;
+}
+
+export interface PreContextMenuCommandRunPayload extends IContextMenuCommandPayload {
+	context: ContextMenuCommandContext;
+}
+
+export interface ContextMenuCommandDeniedPayload extends IContextMenuCommandPayload {
+	context: ContextMenuCommandContext;
+}
+
+export interface ContextMenuCommandAcceptedPayload extends PreContextMenuCommandRunPayload {}
+
+export interface ContextMenuCommandRunPayload extends ContextMenuCommandAcceptedPayload {}
+
+export interface ContextMenuCommandSuccessPayload extends ContextMenuCommandRunPayload {
+	result: unknown;
+}
+
+export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPayload {}
 
 export interface IInteractionHandlerPayload {
 	interaction: Interaction;
@@ -174,6 +292,12 @@ export interface InteractionHandlerParseError extends IInteractionHandlerPayload
 
 export interface InteractionHandlerError extends IInteractionHandlerPayload {}
 
+export interface AutocompleteInteractionPayload {
+	interaction: AutocompleteInteraction;
+	command: AutocompleteCommand;
+	context: AutocompleteCommandContext;
+}
+
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
@@ -181,28 +305,65 @@ declare module 'discord.js' {
 		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
 
 		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
+		[Events.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
 
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.MentionPrefixOnly]: [message: Message];
-		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 		[Events.NonPrefixedMessage]: [message: Message];
+		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 
-		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
+		[Events.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
+		[Events.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
+		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
+		[Events.PreMessageCommandRun]: [payload: PreMessageCommandRunPayload];
+
 		[Events.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
-		[Events.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
-		[Events.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
+		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
+
 		[Events.MessageCommandRun]: [message: Message, command: Command, payload: MessageCommandRunPayload];
 		[Events.MessageCommandSuccess]: [payload: MessageCommandSuccessPayload];
+		[Events.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
+		[Events.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
+
 		[Events.MessageCommandTypingError]: [error: Error, payload: MessageCommandTypingErrorPayload];
-		[Events.PreMessageCommandRun]: [payload: PreMessageCommandRunPayload];
-		[Events.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
-		[Events.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
-		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
 
 		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 
 		[Events.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
 		[Events.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
+
+		[Events.PossibleAutocompleteInteraction]: [interaction: AutocompleteInteraction];
+		[Events.AutocompleteInteractionError]: [error: unknown, payload: AutocompleteInteractionPayload];
+		[Events.AutocompleteInteractionSuccess]: [payload: AutocompleteInteractionPayload];
+
+		// Chat input command chain
+		[Events.PossibleChatInputCommand]: [interaction: CommandInteraction];
+		[Events.UnknownChatInputCommand]: [payload: UnknownChatInputCommandPayload];
+		[Events.CommandDoesNotHaveChatInputCommandHandler]: [payload: CommandDoesNotHaveChatInputCommandHandlerPayload];
+		[Events.PreChatInputCommandRun]: [payload: PreChatInputCommandRunPayload];
+
+		[Events.ChatInputCommandDenied]: [error: UserError, payload: ChatInputCommandDeniedPayload];
+		[Events.ChatInputCommandAccepted]: [payload: ChatInputCommandAcceptedPayload];
+
+		[Events.ChatInputCommandRun]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
+		[Events.ChatInputCommandSuccess]: [payload: ChatInputCommandSuccessPayload];
+		[Events.ChatInputCommandError]: [error: unknown, payload: ChatInputCommandErrorPayload];
+		[Events.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
+
+		// Context menu command chain
+		[Events.PossibleContextMenuCommand]: [interaction: ContextMenuInteraction];
+		[Events.UnknownContextMenuCommand]: [payload: UnknownContextMenuCommandPayload];
+		[Events.CommandDoesNotHaveContextMenuCommandHandler]: [payload: CommandDoesNotHaveContextMenuCommandHandlerPayload];
+		[Events.PreContextMenuCommandRun]: [payload: PreContextMenuCommandRunPayload];
+
+		[Events.ContextMenuCommandDenied]: [error: UserError, payload: ContextMenuCommandDeniedPayload];
+		[Events.ContextMenuCommandAccepted]: [payload: ContextMenuCommandAcceptedPayload];
+
+		[Events.ContextMenuCommandRun]: [interaction: ContextMenuInteraction, command: ContextMenuCommand, payload: ContextMenuCommandRunPayload];
+		[Events.ContextMenuCommandSuccess]: [payload: ContextMenuCommandSuccessPayload];
+		[Events.ContextMenuCommandError]: [error: unknown, payload: ContextMenuCommandErrorPayload];
+		[Events.ContextMenuCommandFinish]: [interaction: ContextMenuInteraction, command: ContextMenuCommand, payload: ContextMenuCommandRunPayload];
+
 		// #endregion Sapphire load cycle events
 
 		// #region Termination

@@ -103,5 +103,7 @@ export const enum InteractionHandlerTypes {
 	SelectMenu = 'SELECT_MENU',
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
-	MessageComponent = 'MESSAGE_COMPONENT'
+	MessageComponent = 'MESSAGE_COMPONENT',
+	// Optional autocompletes, you can use this or in-command
+	Autocomplete = 'AUTOCOMPLETE'
 }
