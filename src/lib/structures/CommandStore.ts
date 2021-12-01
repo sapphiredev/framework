@@ -1,4 +1,5 @@
 import { AliasStore } from '@sapphire/pieces';
+import { Events } from '../types/Events';
 import { Command } from './Command';
 
 /**
@@ -23,11 +24,37 @@ export class CommandStore extends AliasStore<Command> {
 		try {
 			await piece.registerApplicationCommands(piece.applicationCommandRegistry);
 		} catch (error) {
-			// TODO: emit CommandApplicationCommandRegistryError
-			// For now,
-			this.container.logger.error(error);
+			this.container.client.emit(Events.CommandApplicationCommandRegistryError, error, piece);
+		}
+
+		for (const nameOrId of piece.applicationCommandRegistry.chatInputCommands) {
+			this.aliases.set(nameOrId, piece);
+		}
+
+		for (const nameOrId of piece.applicationCommandRegistry.contextMenuCommands) {
+			this.aliases.set(nameOrId, piece);
 		}
 
 		return super.insert(piece);
+	}
+
+	public override unload(name: string | Command) {
+		const piece = this.resolve(name);
+
+		for (const nameOrId of piece.applicationCommandRegistry.chatInputCommands) {
+			const aliasedPiece = this.aliases.get(nameOrId);
+			if (aliasedPiece === piece) {
+				this.aliases.delete(nameOrId);
+			}
+		}
+
+		for (const nameOrId of piece.applicationCommandRegistry.contextMenuCommands) {
+			const aliasedPiece = this.aliases.get(nameOrId);
+			if (aliasedPiece === piece) {
+				this.aliases.delete(nameOrId);
+			}
+		}
+
+		return super.unload(name);
 	}
 }
