@@ -418,32 +418,32 @@ export class Command<PreParseReturn = Args> extends AliasPiece {
 	}
 }
 
-export namespace Command {
-	export type Options = CommandOptions;
-}
-
 export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 
 export namespace MessageCommand {
 	export type Options = CommandOptions;
+	export type Context = MessageCommandContext;
 }
 
 export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
 
 export namespace ChatInputCommand {
 	export type Options = CommandOptions;
+	export type Context = ChatInputCommandContext;
 }
 
 export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
 
 export namespace ContextMenuCommand {
 	export type Options = CommandOptions;
+	export type Context = ContextMenuCommandContext;
 }
 
 export type AutocompleteCommand = Command & Required<Pick<Command, 'autocompleteRun'>>;
 
 export namespace AutocompleteCommand {
 	export type Options = CommandOptions;
+	export type Context = AutocompleteCommandContext;
 }
 
 /**
@@ -732,6 +732,6 @@ export interface CommandJSON extends AliasPieceJSON {
 export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = CommandContext;
+	export type Context = unknown;
 	export type RunInTypes = CommandOptionsRunType;
 }

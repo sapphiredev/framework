@@ -9,8 +9,7 @@ import type {
 	Command,
 	ContextMenuCommand,
 	ContextMenuCommandContext,
-	MessageCommand,
-	MessageCommandContext
+	MessageCommand
 } from '../structures/Command';
 import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
