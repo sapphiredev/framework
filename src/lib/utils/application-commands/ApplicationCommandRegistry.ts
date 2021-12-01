@@ -48,6 +48,12 @@ export class ApplicationCommandRegistry {
 			type: 'chat_input'
 		});
 
+		if (options?.idHints) {
+			for (const hint of options.idHints) {
+				this.chatInputCommands.add(hint);
+			}
+		}
+
 		return this;
 	}
 
@@ -68,6 +74,12 @@ export class ApplicationCommandRegistry {
 			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: RegisterBehavior.LogToConsole },
 			type: 'context_menu'
 		});
+
+		if (options?.idHints) {
+			for (const hint of options.idHints) {
+				this.contextMenuCommands.add(hint);
+			}
+		}
 
 		return this;
 	}

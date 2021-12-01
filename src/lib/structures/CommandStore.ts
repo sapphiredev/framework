@@ -27,14 +27,6 @@ export class CommandStore extends AliasStore<Command> {
 			this.container.client.emit(Events.CommandApplicationCommandRegistryError, error, piece);
 		}
 
-		for (const nameOrId of piece.applicationCommandRegistry.chatInputCommands) {
-			this.aliases.set(nameOrId, piece);
-		}
-
-		for (const nameOrId of piece.applicationCommandRegistry.contextMenuCommands) {
-			this.aliases.set(nameOrId, piece);
-		}
-
 		return super.insert(piece);
 	}
 

@@ -17,7 +17,8 @@ export function acquire(commandName: string) {
 }
 
 export async function handleRegistryAPICalls() {
-	const { client } = container;
+	const { client, stores } = container;
+	const commandStore = stores.get('commands');
 
 	const applicationCommands = client.application!.commands;
 	const globalCommands = await applicationCommands.fetch();
@@ -26,6 +27,18 @@ export async function handleRegistryAPICalls() {
 	for (const registry of registries.values()) {
 		// eslint-disable-next-line @typescript-eslint/dot-notation
 		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+
+		const piece = registry.command;
+
+		if (piece) {
+			for (const nameOrId of piece.applicationCommandRegistry.chatInputCommands) {
+				commandStore.aliases.set(nameOrId, piece);
+			}
+
+			for (const nameOrId of piece.applicationCommandRegistry.contextMenuCommands) {
+				commandStore.aliases.set(nameOrId, piece);
+			}
+		}
 	}
 }
 
