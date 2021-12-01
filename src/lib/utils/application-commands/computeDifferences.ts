@@ -258,5 +258,5 @@ function* reportOptionDifferences({
 		}
 	}
 
-	// TODO(vladfrangu): publish discord-api-types already, so many new types to be had and validated >.>
+	// TODO(vladfrangu): publish discord-api-types already, so many new types to be had and validated >.> (min/max_value, autocomplete)
 }
