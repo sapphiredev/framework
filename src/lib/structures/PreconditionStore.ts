@@ -37,7 +37,6 @@ export class PreconditionStore extends Store<Precondition> {
 				? await precondition.chatInputRun(interaction, command, context)
 				: await precondition.error({
 						identifier: Identifiers.PreconditionMissingChatInputHandler,
-						// TODO(vladfrangu): command.chatInputName?
 						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 
@@ -57,7 +56,6 @@ export class PreconditionStore extends Store<Precondition> {
 				? await precondition.contextMenuRun(interaction, command, context)
 				: await precondition.error({
 						identifier: Identifiers.PreconditionMissingContextMenuHandler,
-						// TODO(vladfrangu): command.contextMenuName?
 						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 
