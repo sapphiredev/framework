@@ -9,6 +9,6 @@ export class CoreEvent extends Listener<typeof Events.ChatInputCommandError> {
 
 	public run(error: Error, context: ChatInputCommandErrorPayload) {
 		const { name, location } = context.command;
-		this.container.logger.error(`Encountered error on message command "${name}" at path "${location.full}"`, error);
+		this.container.logger.error(`Encountered error on chat input command "${name}" at path "${location.full}"`, error);
 	}
 }
