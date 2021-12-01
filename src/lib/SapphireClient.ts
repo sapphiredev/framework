@@ -109,11 +109,18 @@ export interface SapphireClientOptions {
 	enableLoaderTraceLoggings?: boolean;
 
 	/**
-	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
+	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
 	 * @since 1.0.0
 	 * @default true
 	 */
 	loadDefaultErrorListeners?: boolean;
+
+	/**
+	 * If Sapphire should load the pre-included message command listeners that are used to process incoming messages for commands.
+	 * @since 3.0.0
+	 * @default false
+	 */
+	loadMessageCommandListeners?: boolean;
 
 	/**
 	 * Controls whether the bot will automatically appear to be typing when a command is accepted.
@@ -260,6 +267,10 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 		if (options.loadDefaultErrorListeners !== false) {
 			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'error-listeners'));
+		}
+
+		if (options.loadMessageCommandListeners === true) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'message-command-listeners'));
 		}
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
