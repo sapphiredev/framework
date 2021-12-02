@@ -5,7 +5,7 @@ import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
-import type { Command, MessageCommand } from './Command';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
@@ -20,9 +20,9 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 
 	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public chatInputRun?(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public chatInputRun?(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
 
-	public contextMenuRun?(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public contextMenuRun?(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: Precondition.Context): Precondition.Result;
 
 	public ok(): Precondition.Result {
 		return ok();
@@ -49,9 +49,13 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 export abstract class AllFlowsPrecondition extends Precondition {
 	public abstract messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public abstract chatInputRun(interaction: CommandInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public abstract chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
 
-	public abstract contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: Precondition.Context): Precondition.Result;
+	public abstract contextMenuRun(
+		interaction: ContextMenuInteraction,
+		command: ContextMenuCommand,
+		context: Precondition.Context
+	): Precondition.Result;
 }
 
 /**
