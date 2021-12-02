@@ -16,7 +16,7 @@ import { Events } from '../types/Events';
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
  * export class CoreListener extends Listener<typeof Events.Ready> {
- *   public constructor(context: PieceContext) {
+ *   public constructor(context: Listener.Context) {
  *     super(context, { event: Events.Ready, once: true });
  *   }
  *
@@ -43,7 +43,7 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends ListenerOptions = ListenerOptions> extends Piece<O> {
+export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends Listener.Options = Listener.Options> extends Piece<O> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -64,7 +64,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	private _listener: ((...args: any[]) => void) | null;
 
-	public constructor(context: Listener.Context, options: Listener.Options = {}) {
+	public constructor(context: Listener.Context, options: O = {} as O) {
 		super(context, options);
 
 		this.emitter =
