@@ -217,15 +217,23 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 */
 	public registerApplicationCommands(registry: ApplicationCommandRegistry): Awaitable<void> {
 		if (this.chatInputCommandOptions.register) {
-			registry.registerChatInputCommand((builder) => {
-				builder.setName(this.name).setDescription(this.description);
+			registry.registerChatInputCommand(
+				(builder) => {
+					builder.setName(this.name).setDescription(this.description);
 
-				if (Reflect.has(this.chatInputCommandOptions, 'defaultPermission')) {
-					builder.setDefaultPermission(this.chatInputCommandOptions.defaultPermission!);
+					if (Reflect.has(this.chatInputCommandOptions, 'defaultPermission')) {
+						builder.setDefaultPermission(this.chatInputCommandOptions.defaultPermission!);
+					}
+
+					return builder;
+				},
+				{
+					behaviorWhenNotIdentical: this.chatInputCommandOptions.registerBehavior,
+					guildIds: this.chatInputCommandOptions.guildIds,
+					idHints: this.chatInputCommandOptions.idHints,
+					registerCommandIfMissing: true
 				}
-
-				return builder;
-			});
+			);
 		}
 	}
 
@@ -637,7 +645,7 @@ export interface CommandChatInputRegisterShortcut {
 	 * Specifies what we should do when the command is present, but not identical with the data you provided
 	 * @default RegisterBehavior.LogToConsole
 	 */
-	registerBehavior: RegisterBehavior;
+	registerBehavior?: RegisterBehavior;
 	/**
 	 * If we should register the command, be it missing or present already
 	 * @default false

@@ -91,9 +91,9 @@ export interface InteractionHandlerJSON extends PieceJSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace InteractionHandler {
 	export type Options = InteractionHandlerOptions;
+	export type JSON = InteractionHandlerJSON;
 	export type ParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
 }
 

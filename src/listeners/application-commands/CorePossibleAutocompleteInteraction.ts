@@ -33,14 +33,6 @@ export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInt
 		}
 
 		// Unless we ran a command handler, always call interaction handlers with the interaction
-		try {
-			await this.container.stores.get('interaction-handlers').run(interaction);
-		} catch (err) {
-			this.container.client.emit(Events.AutocompleteInteractionError, err, {
-				command: command as AutocompleteCommand,
-				context: { commandId: interaction.commandId, commandName: interaction.commandName },
-				interaction
-			});
-		}
+		await this.container.stores.get('interaction-handlers').run(interaction);
 	}
 }
