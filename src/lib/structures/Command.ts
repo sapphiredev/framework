@@ -17,7 +17,7 @@ import type { ApplicationCommandRegistry } from '../utils/application-commands/A
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export class Command<PreParseReturn = Args> extends AliasPiece {
+export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -84,7 +84,7 @@ export class Command<PreParseReturn = Args> extends AliasPiece {
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	protected constructor(context: PieceContext, options: Command.Options = {}) {
+	protected constructor(context: PieceContext, options: O = {} as O) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
