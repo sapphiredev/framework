@@ -146,7 +146,6 @@ export namespace Precondition {
 	export type AsyncResult = AsyncPreconditionResult;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AllFlowsPrecondition {
 	export type Options = PreconditionOptions;
 	export type Context = PreconditionContext;
