@@ -69,7 +69,7 @@ export class PreconditionStore extends Store<Precondition> {
 		if (value.position !== null) {
 			const index = this.globalPreconditions.findIndex((precondition) => precondition.position! >= value.position!);
 
-			// If a middleware with lower priority wasn't found, push to the end of the array
+			// If a precondition with lower priority wasn't found, push to the end of the array
 			if (index === -1) this.globalPreconditions.push(value);
 			else this.globalPreconditions.splice(index, 0, value);
 		}
@@ -80,7 +80,7 @@ export class PreconditionStore extends Store<Precondition> {
 	public delete(key: string): boolean {
 		const index = this.globalPreconditions.findIndex((precondition) => precondition.name === key);
 
-		// If the middleware was found, remove it
+		// If the precondition was found, remove it
 		if (index !== -1) this.globalPreconditions.splice(index, 1);
 
 		return super.delete(key);
