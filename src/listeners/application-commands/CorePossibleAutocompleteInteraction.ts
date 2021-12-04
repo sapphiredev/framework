@@ -17,13 +17,13 @@ export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInt
 		if (command?.autocompleteRun) {
 			try {
 				await command.autocompleteRun(interaction);
-				this.container.client.emit(Events.AutocompleteInteractionSuccess, {
+				this.container.client.emit(Events.CommandAutocompleteInteractionSuccess, {
 					command: command as AutocompleteCommand,
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction
 				});
 			} catch (err) {
-				this.container.client.emit(Events.AutocompleteInteractionError, err, {
+				this.container.client.emit(Events.CommandAutocompleteInteractionError, err, {
 					command: command as AutocompleteCommand,
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction

@@ -124,8 +124,8 @@ export const Events = {
 
 	// Autocomplete interaction
 	PossibleAutocompleteInteraction: 'possibleAutocompleteInteraction' as const,
-	AutocompleteInteractionSuccess: 'autocompleteInteractionSuccess' as const,
-	AutocompleteInteractionError: 'autocompleteInteractionError' as const,
+	CommandAutocompleteInteractionSuccess: 'commandAutocompleteInteractionSuccess' as const,
+	CommandAutocompleteInteractionError: 'commandAutocompleteInteractionError' as const,
 
 	// Chat input command chain
 	PossibleChatInputCommand: 'possibleChatInputCommand' as const,
@@ -332,8 +332,8 @@ declare module 'discord.js' {
 		[Events.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
 
 		[Events.PossibleAutocompleteInteraction]: [interaction: AutocompleteInteraction];
-		[Events.AutocompleteInteractionError]: [error: unknown, payload: AutocompleteInteractionPayload];
-		[Events.AutocompleteInteractionSuccess]: [payload: AutocompleteInteractionPayload];
+		[Events.CommandAutocompleteInteractionError]: [error: unknown, payload: AutocompleteInteractionPayload];
+		[Events.CommandAutocompleteInteractionSuccess]: [payload: AutocompleteInteractionPayload];
 
 		// Chat input command chain
 		[Events.PossibleChatInputCommand]: [interaction: CommandInteraction];
