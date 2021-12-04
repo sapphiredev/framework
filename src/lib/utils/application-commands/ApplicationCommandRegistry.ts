@@ -226,7 +226,7 @@ export class ApplicationCommandRegistry {
 				type = 'unknown';
 		}
 
-		if (!registerOptions.guildIds) {
+		if (!registerOptions.guildIds?.length) {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
@@ -241,9 +241,11 @@ export class ApplicationCommandRegistry {
 
 				this.debug(`Checking if command "${commandName}" is identical with global ${type} command with id "${globalCommand.id}"`);
 				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual);
-			} else {
+			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new global ${type} command with name "${commandName}"`);
 				await this.createMissingCommand(commandsManager, builtData, type);
+			} else {
+				this.debug(`Doing nothing about missing global ${type} command with name "${commandName}"`);
 			}
 
 			return;
@@ -273,9 +275,11 @@ export class ApplicationCommandRegistry {
 				}
 
 				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual);
-			} else {
+			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new guild ${type} command with name "${commandName}" for guild "${guildId}"`);
 				await this.createMissingCommand(commandsManager, builtData, type, guildId);
+			} else {
+				this.debug(`Doing nothing about missing guild ${type} command with name "${commandName}" for guild "${guildId}"`);
 			}
 		}
 	}
