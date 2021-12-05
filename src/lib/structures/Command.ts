@@ -1,4 +1,4 @@
-import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, Piece, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
 import {
 	AutocompleteInteraction,
@@ -123,7 +123,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public messagePreParse(message: Message, parameters: string, context: MessageCommand.Context): Awaitable<PreParseReturn> {
+	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -430,28 +430,40 @@ export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 
 export namespace MessageCommand {
 	export type Options = CommandOptions;
-	export type Context = MessageCommandContext;
+	export type JSON = CommandJSON;
+	export type Context = Piece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = MessageCommandContext;
 }
 
 export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
 
 export namespace ChatInputCommand {
 	export type Options = CommandOptions;
-	export type Context = ChatInputCommandContext;
+	export type JSON = CommandJSON;
+	export type Context = Piece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = ChatInputCommandContext;
 }
 
 export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
 
 export namespace ContextMenuCommand {
 	export type Options = CommandOptions;
-	export type Context = ContextMenuCommandContext;
+	export type JSON = CommandJSON;
+	export type Context = Piece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = ContextMenuCommandContext;
 }
 
 export type AutocompleteCommand = Command & Required<Pick<Command, 'autocompleteRun'>>;
 
 export namespace AutocompleteCommand {
 	export type Options = CommandOptions;
-	export type Context = AutocompleteCommandContext;
+	export type JSON = CommandJSON;
+	export type Context = Piece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = AutocompleteCommandContext;
 }
 
 /**
@@ -692,7 +704,7 @@ export interface MessageCommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as {@link MessageCommand.Context.prefix} if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link MessageCommand.RunContext.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;
@@ -740,6 +752,6 @@ export interface CommandJSON extends AliasPieceJSON {
 export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = unknown;
+	export type Context = Piece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 }

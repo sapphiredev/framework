@@ -192,12 +192,12 @@ export interface PreMessageCommandRunPayload extends MessageCommandDeniedPayload
 
 export interface MessageCommandDeniedPayload extends IMessageCommandPayload {
 	parameters: string;
-	context: MessageCommand.Context;
+	context: MessageCommand.RunContext;
 }
 
 export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
 	parameters: string;
-	context: MessageCommand.Context;
+	context: MessageCommand.RunContext;
 }
 
 export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload {

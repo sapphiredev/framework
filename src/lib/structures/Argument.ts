@@ -116,7 +116,7 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 	args: Args;
 	message: Message;
 	command: MessageCommand;
-	commandContext: MessageCommand.Context;
+	commandContext: MessageCommand.RunContext;
 	minimum?: number;
 	maximum?: number;
 	inclusive?: boolean;
