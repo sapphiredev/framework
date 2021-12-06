@@ -52,7 +52,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager) {
 		} catch (err) {
 			container.logger.warn(
 				`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
-				'Make sure to authorize your application with the "applications.commands" scope in that guild,.'
+				'Make sure to authorize your application with the "applications.commands" scope in that guild.'
 			);
 		}
 	}
