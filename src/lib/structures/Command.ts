@@ -1,4 +1,4 @@
-import { AliasPiece, AliasPieceJSON, Piece, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
 import {
 	AutocompleteInteraction,
@@ -431,7 +431,7 @@ export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 export namespace MessageCommand {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = Piece.Context;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = MessageCommandContext;
 }
@@ -441,7 +441,7 @@ export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>
 export namespace ChatInputCommand {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = Piece.Context;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ChatInputCommandContext;
 }
@@ -451,7 +451,7 @@ export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRu
 export namespace ContextMenuCommand {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = Piece.Context;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
 }
@@ -461,7 +461,7 @@ export type AutocompleteCommand = Command & Required<Pick<Command, 'autocomplete
 export namespace AutocompleteCommand {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = Piece.Context;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = AutocompleteCommandContext;
 }
@@ -752,6 +752,6 @@ export interface CommandJSON extends AliasPieceJSON {
 export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = Piece.Context;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 }
