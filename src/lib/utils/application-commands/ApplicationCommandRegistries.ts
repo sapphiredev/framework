@@ -45,9 +45,16 @@ export async function handleRegistryAPICalls() {
 async function fetchGuildCommands(commands: ApplicationCommandManager) {
 	const map = new Map<string, Collection<string, ApplicationCommand>>();
 
-	for (const guildId of commands.client.guilds.cache.keys()) {
-		const guildCommands = await commands.fetch({ guildId });
-		map.set(guildId, guildCommands);
+	for (const [guildId, guild] of commands.client.guilds.cache.entries()) {
+		try {
+			const guildCommands = await commands.fetch({ guildId });
+			map.set(guildId, guildCommands);
+		} catch (err) {
+			container.logger.warn(
+				`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
+				'Make sure to authorize your application with the "applications.commands" scope in that guild,.'
+			);
+		}
 	}
 
 	return map;
