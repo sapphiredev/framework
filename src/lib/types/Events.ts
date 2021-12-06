@@ -107,12 +107,12 @@ export interface PreCommandRunPayload extends CommandDeniedPayload {}
 
 export interface CommandDeniedPayload extends ICommandPayload {
 	parameters: string;
-	context: Command.Context;
+	context: Command.RunContext;
 }
 
 export interface CommandAcceptedPayload extends ICommandPayload {
 	parameters: string;
-	context: Command.Context;
+	context: Command.RunContext;
 }
 
 export interface CommandRunPayload<T extends Args = Args> extends CommandAcceptedPayload {

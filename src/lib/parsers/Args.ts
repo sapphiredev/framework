@@ -40,7 +40,7 @@ export class Args {
 	/**
 	 * The context of the command being run.
 	 */
-	public readonly commandContext: Command.Context;
+	public readonly commandContext: Command.RunContext;
 
 	/**
 	 * The internal Lexure parser.
@@ -54,7 +54,7 @@ export class Args {
 	 */
 	private readonly states: Lexure.ArgsState[] = [];
 
-	public constructor(message: Message, command: Command, parser: Lexure.Args, context: Command.Context) {
+	public constructor(message: Message, command: Command, parser: Lexure.Args, context: Command.RunContext) {
 		this.message = message;
 		this.command = command;
 		this.parser = parser;

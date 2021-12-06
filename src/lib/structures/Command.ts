@@ -105,7 +105,7 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: Command.Context): Awaitable<T> {
+	public preParse(message: Message, parameters: string, context: Command.RunContext): Awaitable<T> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -152,7 +152,7 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	 * @param message The message that triggered the command.
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 */
-	public abstract messageRun(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
+	public abstract messageRun(message: Message, args: T, context: Command.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -334,7 +334,7 @@ export interface Command<T = Args> {
 	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
 	 * @deprecated Use `messageRun` instead.
 	 */
-	run?(message: Message, args: T, context: Command.Context): Awaitable<unknown>;
+	run?(message: Message, args: T, context: Command.RunContext): Awaitable<unknown>;
 }
 
 /**
@@ -522,7 +522,7 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as {@link Command.Context.prefix} if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link Command.RunContext.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;
@@ -538,5 +538,6 @@ export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
+	export type RunContext = CommandContext;
 	export type RunInTypes = CommandOptionsRunType;
 }
