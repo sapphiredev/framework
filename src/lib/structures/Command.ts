@@ -537,6 +537,6 @@ export interface CommandJSON extends AliasPieceJSON {
 export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = CommandContext;
+	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 }
