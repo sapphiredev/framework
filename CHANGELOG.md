@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/sapphiredev/framework/compare/v2.2.0...v2.2.1) (2021-12-06)
+
+### Bug Fixes
+
+-   **command:** TS Only - Fixed type of re-export of `Command.Context` ([422a093](https://github.com/sapphiredev/framework/commit/422a093bd88e2d47630247520ded3ca6bc28729a))
+-   **deps:** update sapphire dependencies ([#337](https://github.com/sapphiredev/framework/issues/337)) ([0d06bc0](https://github.com/sapphiredev/framework/commit/0d06bc07eae2bef34b66771182a33646ed0bb7ae))
+
 ## [2.2.0](https://github.com/sapphiredev/framework/compare/v2.1.4...v2.2.0) (2021-11-21)
 
 ### Features

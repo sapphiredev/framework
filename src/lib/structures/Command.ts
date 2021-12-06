@@ -171,19 +171,19 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
 	 * @param context The context in which the command was executed.
 	 */
-	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommandContext): Awaitable<unknown>;
+	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the application command's logic.
 	 * @param interaction The interaction that triggered the command.
 	 */
-	public chatInputRun?(interaction: CommandInteraction, context: ChatInputCommandContext): Awaitable<unknown>;
+	public chatInputRun?(interaction: CommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the context menu's logic.
 	 * @param interaction The interaction that triggered the command.
 	 */
-	public contextMenuRun?(interaction: ContextMenuInteraction, context: ContextMenuCommandContext): Awaitable<unknown>;
+	public contextMenuRun?(interaction: ContextMenuInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the autocomplete logic.
