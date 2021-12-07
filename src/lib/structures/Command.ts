@@ -113,7 +113,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		this.chatInputCommandOptions = options.chatInputCommand ?? {
 			register: false,
-			registerBehavior: RegisterBehavior.LogToConsole
+			behaviorWhenNotIdentical: RegisterBehavior.LogToConsole
 		};
 	}
 
@@ -228,7 +228,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 					return builder;
 				},
 				{
-					behaviorWhenNotIdentical: this.chatInputCommandOptions.registerBehavior,
+					behaviorWhenNotIdentical: this.chatInputCommandOptions.behaviorWhenNotIdentical,
 					guildIds: this.chatInputCommandOptions.guildIds,
 					idHints: this.chatInputCommandOptions.idHints,
 					registerCommandIfMissing: true
@@ -657,7 +657,7 @@ export interface CommandChatInputRegisterShortcut {
 	 * Specifies what we should do when the command is present, but not identical with the data you provided
 	 * @default RegisterBehavior.LogToConsole
 	 */
-	registerBehavior?: RegisterBehavior;
+	behaviorWhenNotIdentical?: RegisterBehavior;
 	/**
 	 * If we should register the command, be it missing or present already
 	 * @default false
