@@ -93,7 +93,7 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 		});
 	}
 	// 2. Iterate over each option if we have any and see what's different
-	else if (casted.options) {
+	else if (casted.options?.length) {
 		let index = 0;
 		for (const option of casted.options) {
 			const currentIndex = index++;
@@ -225,7 +225,7 @@ function* reportOptionDifferences({
 				};
 			}
 			// 2. Iterate over each option if we have any and see what's different
-			else if (castedExpected.options) {
+			else if (castedExpected.options?.length) {
 				let processedIndex = 0;
 				for (const subcommandOption of castedExpected.options) {
 					const currentSubCommandOptionIndex = processedIndex++;
