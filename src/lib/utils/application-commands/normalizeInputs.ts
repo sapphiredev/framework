@@ -1,4 +1,9 @@
-import { ContextMenuCommandBuilder, SlashCommandBuilder } from '@discordjs/builders';
+import {
+	ContextMenuCommandBuilder,
+	SlashCommandBuilder,
+	SlashCommandSubcommandsOnlyBuilder,
+	SlashCommandOptionsOnlyBuilder
+} from '@discordjs/builders';
 import { isFunction } from '@sapphire/utilities';
 import {
 	ApplicationCommandType,
@@ -15,8 +20,17 @@ import {
 	UserApplicationCommandData
 } from 'discord.js';
 
+function isBuilder(command: unknown): command is SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder {
+	return command instanceof SlashCommandBuilder;
+}
+
 export function normalizeChatInputCommand(
-	command: ChatInputApplicationCommandData | SlashCommandBuilder | ((builder: SlashCommandBuilder) => SlashCommandBuilder)
+	command:
+		| ChatInputApplicationCommandData
+		| SlashCommandBuilder
+		| SlashCommandSubcommandsOnlyBuilder
+		| SlashCommandOptionsOnlyBuilder
+		| ((builder: SlashCommandBuilder) => SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder)
 ): RESTPostAPIChatInputApplicationCommandsJSONBody {
 	if (isFunction(command)) {
 		const builder = new SlashCommandBuilder();
@@ -24,7 +38,7 @@ export function normalizeChatInputCommand(
 		return builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
 	}
 
-	if (command instanceof SlashCommandBuilder) {
+	if (isBuilder(command)) {
 		return command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
 	}
 

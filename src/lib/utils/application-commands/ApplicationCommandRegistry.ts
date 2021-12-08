@@ -1,4 +1,9 @@
-import type { ContextMenuCommandBuilder, SlashCommandBuilder } from '@discordjs/builders';
+import type {
+	ContextMenuCommandBuilder,
+	SlashCommandBuilder,
+	SlashCommandSubcommandsOnlyBuilder,
+	SlashCommandOptionsOnlyBuilder
+} from '@discordjs/builders';
 import { container } from '@sapphire/pieces';
 import {
 	ApplicationCommandType,
@@ -35,7 +40,12 @@ export class ApplicationCommandRegistry {
 	}
 
 	public registerChatInputCommand(
-		command: ChatInputApplicationCommandData | SlashCommandBuilder | ((builder: SlashCommandBuilder) => SlashCommandBuilder),
+		command:
+			| ChatInputApplicationCommandData
+			| SlashCommandBuilder
+			| SlashCommandSubcommandsOnlyBuilder
+			| SlashCommandOptionsOnlyBuilder
+			| ((builder: SlashCommandBuilder) => SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
 		const builtData = normalizeChatInputCommand(command);
