@@ -342,7 +342,7 @@ export class ApplicationCommandRegistry {
 		for (const difference of differences) {
 			finalMessage.push(
 				[
-					`└── At path ${difference.key}`, //
+					`└── At path: ${difference.key}`, //
 					`     ├── Received: ${difference.original}`,
 					`     └── Expected: ${difference.expected}`,
 					''
