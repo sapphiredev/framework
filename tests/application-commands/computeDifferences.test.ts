@@ -687,4 +687,20 @@ describe('Compute differences for provided application commands', () => {
 			}
 		]);
 	});
+
+	it('given a command with no options and one with an empty options array, it should not throw an error', () => {
+		const command1 = {
+			description: 'description 1',
+			name: 'command1'
+		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		const command2 = {
+			description: 'description 1',
+			name: 'command2',
+			options: []
+		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		expect(() => getCommandDifferences(command1, command2)).not.toThrow();
+		expect(() => getCommandDifferences(command2, command1)).not.toThrow();
+	});
 });
