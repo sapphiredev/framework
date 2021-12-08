@@ -173,7 +173,7 @@ export class ApplicationCommandRegistry {
 			this.error(`Received ${errored.length} errors while processing command registrations / updates`);
 
 			for (const error of errored) {
-				this.error(error.reason);
+				this.error(error.reason.stack ?? error.reason);
 			}
 		}
 	}
