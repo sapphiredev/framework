@@ -163,7 +163,19 @@ export class ApplicationCommandRegistry {
 	) {
 		this.debug(`Preparing to process ${this.apiCalls.length} possible command registrations / updates...`);
 
-		await Promise.allSettled(this.apiCalls.map((call) => this.handleAPICall(applicationCommands, globalCommands, guildCommands, call)));
+		const results = await Promise.allSettled(
+			this.apiCalls.map((call) => this.handleAPICall(applicationCommands, globalCommands, guildCommands, call))
+		);
+
+		const errored = results.filter((result) => result.status === 'rejected') as PromiseRejectedResult[];
+
+		if (errored.length) {
+			this.error(`Received ${errored.length} errors while processing command registrations / updates`);
+
+			for (const error of errored) {
+				this.error(error.reason);
+			}
+		}
 	}
 
 	private async handleAPICall(
