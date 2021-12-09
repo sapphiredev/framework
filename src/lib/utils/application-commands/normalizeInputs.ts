@@ -20,7 +20,13 @@ import {
 	UserApplicationCommandData
 } from 'discord.js';
 
-function isBuilder(command: unknown): command is SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder {
+function isBuilder(
+	command: unknown
+): command is
+	| SlashCommandBuilder
+	| SlashCommandSubcommandsOnlyBuilder
+	| SlashCommandOptionsOnlyBuilder
+	| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'> {
 	return command instanceof SlashCommandBuilder;
 }
 
@@ -30,7 +36,14 @@ export function normalizeChatInputCommand(
 		| SlashCommandBuilder
 		| SlashCommandSubcommandsOnlyBuilder
 		| SlashCommandOptionsOnlyBuilder
-		| ((builder: SlashCommandBuilder) => SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder)
+		| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+		| ((
+				builder: SlashCommandBuilder
+		  ) =>
+				| SlashCommandBuilder
+				| SlashCommandSubcommandsOnlyBuilder
+				| SlashCommandOptionsOnlyBuilder
+				| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>)
 ): RESTPostAPIChatInputApplicationCommandsJSONBody {
 	if (isFunction(command)) {
 		const builder = new SlashCommandBuilder();

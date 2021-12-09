@@ -45,7 +45,14 @@ export class ApplicationCommandRegistry {
 			| SlashCommandBuilder
 			| SlashCommandSubcommandsOnlyBuilder
 			| SlashCommandOptionsOnlyBuilder
-			| ((builder: SlashCommandBuilder) => SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder),
+			| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+			| ((
+					builder: SlashCommandBuilder
+			  ) =>
+					| SlashCommandBuilder
+					| SlashCommandSubcommandsOnlyBuilder
+					| SlashCommandOptionsOnlyBuilder
+					| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
 		const builtData = normalizeChatInputCommand(command);
