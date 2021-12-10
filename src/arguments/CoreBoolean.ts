@@ -7,7 +7,7 @@ export class CoreArgument extends Argument<boolean> {
 		super(context, { name: 'boolean' });
 	}
 
-	public run(parameter: string, context: { truths?: string[]; falses?: string[] } & Argument.Context): Argument.Result<boolean> {
+	public run(parameter: string, context: { readonly truths?: string[]; falses?: readonly string[] } & Argument.Context): Argument.Result<boolean> {
 		const resolved = resolveBoolean(parameter, { truths: context.truths, falses: context.falses });
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
