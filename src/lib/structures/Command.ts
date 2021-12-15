@@ -1,4 +1,4 @@
-import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
 import {
 	AutocompleteInteraction,
@@ -12,8 +12,9 @@ import {
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
-import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
+import { acquire, defaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
+import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
@@ -113,7 +114,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		this.chatInputCommandOptions = options.chatInputCommand ?? {
 			register: false,
-			behaviorWhenNotIdentical: RegisterBehavior.LogToConsole
+			behaviorWhenNotIdentical: defaultBehaviorWhenNotIdentical
 		};
 	}
 
@@ -263,6 +264,50 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 */
 	public supportsAutocompleteInteractions(): this is AutocompleteCommand {
 		return Reflect.has(this, 'autocompleteRun');
+	}
+
+	public override async reload() {
+		// Remove the aliases from the command store
+		const store = this.store as AliasStore<this>;
+		const registry = this.applicationCommandRegistry;
+
+		for (const nameOrId of registry.chatInputCommands) {
+			const aliasedPiece = store.aliases.get(nameOrId);
+			if (aliasedPiece === this) {
+				store.aliases.delete(nameOrId);
+			}
+		}
+
+		for (const nameOrId of registry.contextMenuCommands) {
+			const aliasedPiece = store.aliases.get(nameOrId);
+			if (aliasedPiece === this) {
+				store.aliases.delete(nameOrId);
+			}
+		}
+
+		// Reset the registry's contents
+		registry.chatInputCommands.clear();
+		registry.contextMenuCommands.clear();
+		registry['apiCalls'].length = 0;
+
+		// Reload the command
+		await super.reload();
+
+		// Re-initialize the store and the API data (insert in the store handles the register method)
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+
+		// Handle the API calls
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+
+		// Re-set the aliases
+		for (const nameOrId of registry.chatInputCommands) {
+			store.aliases.set(nameOrId, this);
+		}
+
+		for (const nameOrId of registry.contextMenuCommands) {
+			store.aliases.set(nameOrId, this);
+		}
 	}
 
 	/**

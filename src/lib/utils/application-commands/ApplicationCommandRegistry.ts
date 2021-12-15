@@ -20,6 +20,7 @@ import type {
 	UserApplicationCommandData
 } from 'discord.js';
 import { RegisterBehavior } from '../../types/Enums';
+import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
 import { CommandDifference, getCommandDifferences } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
@@ -61,7 +62,7 @@ export class ApplicationCommandRegistry {
 
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: RegisterBehavior.LogToConsole },
+			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
 			type: 'chat_input'
 		});
 
@@ -88,7 +89,7 @@ export class ApplicationCommandRegistry {
 
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: RegisterBehavior.LogToConsole },
+			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
 			type: 'context_menu'
 		});
 
@@ -203,7 +204,7 @@ export class ApplicationCommandRegistry {
 	) {
 		const { builtData, registerOptions } = apiCall;
 		const commandName = builtData.name;
-		const behaviorIfNotEqual = registerOptions.behaviorWhenNotIdentical ?? RegisterBehavior.LogToConsole;
+		const behaviorIfNotEqual = registerOptions.behaviorWhenNotIdentical ?? getDefaultBehaviorWhenNotIdentical();
 
 		const findCallback = (entry: ApplicationCommand) => {
 			// If the command is a chat input command, we need to check if the entry is a chat input command
@@ -439,7 +440,7 @@ export namespace ApplicationCommandRegistry {
 		registerCommandIfMissing?: boolean;
 		/**
 		 * Specifies what we should do when the command is present, but not identical with the data you provided
-		 * @default RegisterBehavior.LogToConsole
+		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical`
 		 */
 		behaviorWhenNotIdentical?: RegisterBehavior;
 		/**

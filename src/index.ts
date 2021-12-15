@@ -1,7 +1,13 @@
-import { acquire } from './lib/utils/application-commands/ApplicationCommandRegistries';
+import {
+	acquire,
+	getDefaultBehaviorWhenNotIdentical,
+	setDefaultBehaviorWhenNotIdentical
+} from './lib/utils/application-commands/ApplicationCommandRegistries';
 
 const ApplicationCommandRegistries = {
-	acquire
+	acquire,
+	setDefaultBehaviorWhenNotIdentical,
+	getDefaultBehaviorWhenNotIdentical
 };
 
 export {

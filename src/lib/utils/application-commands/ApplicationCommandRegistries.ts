@@ -1,9 +1,17 @@
 import { container } from '@sapphire/pieces';
-import type { ApplicationCommand, ApplicationCommandManager, Collection } from 'discord.js';
+import { RegisterBehavior } from '../../types/Enums';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
+import { getNeededRegistryParameters } from './getNeededParameters';
+
+export let defaultBehaviorWhenNotIdentical = RegisterBehavior.LogToConsole;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
+/**
+ * Acquires a registry for a command by its name.
+ * @param commandName The name of the command.
+ * @returns The application command registry for the command
+ */
 export function acquire(commandName: string) {
 	const existing = registries.get(commandName);
 	if (existing) {
@@ -16,13 +24,24 @@ export function acquire(commandName: string) {
 	return newRegistry;
 }
 
+/**
+ * Sets the default behavior when registered commands aren't identical to provided data.
+ * @param behavior The default behavior to have. Set this to `null` to reset it to the default
+ * of `RegisterBehavior.LogToConsole`.
+ */
+export function setDefaultBehaviorWhenNotIdentical(behavior?: RegisterBehavior) {
+	defaultBehaviorWhenNotIdentical = behavior ?? RegisterBehavior.LogToConsole;
+}
+
+export function getDefaultBehaviorWhenNotIdentical() {
+	return defaultBehaviorWhenNotIdentical;
+}
+
 export async function handleRegistryAPICalls() {
-	const { client, stores } = container;
+	const { stores } = container;
 	const commandStore = stores.get('commands');
 
-	const applicationCommands = client.application!.commands;
-	const globalCommands = await applicationCommands.fetch();
-	const guildCommands = await fetchGuildCommands(applicationCommands);
+	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
 
 	for (const registry of registries.values()) {
 		// eslint-disable-next-line @typescript-eslint/dot-notation
@@ -40,22 +59,4 @@ export async function handleRegistryAPICalls() {
 			}
 		}
 	}
-}
-
-async function fetchGuildCommands(commands: ApplicationCommandManager) {
-	const map = new Map<string, Collection<string, ApplicationCommand>>();
-
-	for (const [guildId, guild] of commands.client.guilds.cache.entries()) {
-		try {
-			const guildCommands = await commands.fetch({ guildId });
-			map.set(guildId, guildCommands);
-		} catch (err) {
-			container.logger.warn(
-				`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
-				'Make sure to authorize your application with the "applications.commands" scope in that guild.'
-			);
-		}
-	}
-
-	return map;
 }
