@@ -60,6 +60,9 @@ export class CommandStore extends AliasStore<Command> {
 	public override async loadAll() {
 		await super.loadAll();
 
+		// If we don't have an application, this was called on login...
+		if (!this.container.client.application) return;
+
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
 
 		for (const command of this.values()) {
