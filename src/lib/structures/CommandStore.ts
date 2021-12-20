@@ -1,5 +1,5 @@
 import { AliasStore } from '@sapphire/pieces';
-import { Events } from '../types/Events';
+import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
 
@@ -25,7 +25,7 @@ export class CommandStore extends AliasStore<Command> {
 		try {
 			await piece.registerApplicationCommands(piece.applicationCommandRegistry);
 		} catch (error) {
-			this.container.client.emit(Events.CommandApplicationCommandRegistryError, error, piece);
+			emitRegistryError(error, piece);
 		}
 
 		return super.insert(piece);
