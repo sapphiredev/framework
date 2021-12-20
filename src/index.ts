@@ -1,13 +1,18 @@
 import {
 	acquire,
 	getDefaultBehaviorWhenNotIdentical,
+	registries,
 	setDefaultBehaviorWhenNotIdentical
 } from './lib/utils/application-commands/ApplicationCommandRegistries';
+import type { ApplicationCommandRegistry } from './lib/utils/application-commands/ApplicationCommandRegistry';
 
 const ApplicationCommandRegistries = {
 	acquire,
 	setDefaultBehaviorWhenNotIdentical,
-	getDefaultBehaviorWhenNotIdentical
+	getDefaultBehaviorWhenNotIdentical,
+	get registries(): ReadonlyMap<string, ApplicationCommandRegistry> {
+		return registries;
+	}
 };
 
 export {
