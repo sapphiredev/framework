@@ -57,6 +57,16 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 	}
 
 	const casted = apiData as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+	// Check name
+	if (existingCommand.name.toLowerCase() !== casted.name.toLowerCase()) {
+		differences.push({
+			key: 'name',
+			original: existingCommand.name,
+			expected: casted.name
+		});
+	}
+
 	// Check defaultPermissions
 	// TODO(vladfrangu): This will be deprecated
 	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
@@ -105,7 +115,8 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 		if (index < existingCommand.options!.length) {
 			let option: APIApplicationCommandOption;
 			while ((option = existingCommand.options![index]) !== undefined) {
-				const expectedType = optionTypeToPrettyName.get(option.type) ?? 'unknown; please contact Sapphire developers about this!';
+				const expectedType =
+					optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
 
 				differences.push({
 					key: `existing command option at index ${index}`,
@@ -138,7 +149,7 @@ function* reportOptionDifferences({
 	existingOption?: APIApplicationCommandOption;
 	keyPath?: (index: number) => string;
 }): Generator<CommandDifference> {
-	const expectedType = optionTypeToPrettyName.get(option.type) ?? 'unknown; please contact Sapphire developers about this!';
+	const expectedType = optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
 
 	// If current option doesn't exist, report and return
 	if (!existingOption) {
@@ -154,7 +165,8 @@ function* reportOptionDifferences({
 	if (existingOption.type !== option.type) {
 		yield {
 			key: `${keyPath(currentIndex)}.type`,
-			original: optionTypeToPrettyName.get(existingOption.type) ?? 'unknown; please contact Sapphire developers about this!',
+			original:
+				optionTypeToPrettyName.get(existingOption.type) ?? `unknown (${existingOption.type}); please contact Sapphire developers about this!`,
 			expected: expectedType
 		};
 	}
@@ -243,7 +255,8 @@ function* reportOptionDifferences({
 				if (processedIndex < castedExisting.options!.length) {
 					let option: APIApplicationCommandOption;
 					while ((option = castedExisting.options![processedIndex]) !== undefined) {
-						const expectedType = optionTypeToPrettyName.get(option.type) ?? 'unknown; please contact Sapphire developers about this!';
+						const expectedType =
+							optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
 
 						yield {
 							key: `existing command option at path ${keyPath(currentIndex)}.options[${processedIndex}]`,
