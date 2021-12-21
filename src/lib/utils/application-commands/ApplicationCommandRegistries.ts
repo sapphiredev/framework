@@ -38,8 +38,7 @@ export function getDefaultBehaviorWhenNotIdentical() {
 }
 
 export async function handleRegistryAPICalls() {
-	const { stores } = container;
-	const commandStore = stores.get('commands');
+	const commandStore = container.stores.get('commands');
 
 	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
 
