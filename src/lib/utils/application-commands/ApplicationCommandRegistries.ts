@@ -29,7 +29,7 @@ export function acquire(commandName: string) {
  * @param behavior The default behavior to have. Set this to `null` to reset it to the default
  * of `RegisterBehavior.LogToConsole`.
  */
-export function setDefaultBehaviorWhenNotIdentical(behavior?: RegisterBehavior) {
+export function setDefaultBehaviorWhenNotIdentical(behavior?: RegisterBehavior | null) {
 	defaultBehaviorWhenNotIdentical = behavior ?? RegisterBehavior.LogToConsole;
 }
 
