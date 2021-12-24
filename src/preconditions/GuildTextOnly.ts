@@ -2,7 +2,7 @@ import type { CommandInteraction, ContextMenuInteraction, Message, TextBasedChan
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class GuildTextOnlyPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly allowedTypes: TextBasedChannelTypes[] = ['GUILD_TEXT', 'GUILD_PUBLIC_THREAD', 'GUILD_PRIVATE_THREAD'];
 
 	public messageRun(message: Message) {

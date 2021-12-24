@@ -4,7 +4,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class EnabledPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	public constructor(context: PieceContext) {
 		super(context, { position: 10 });
 	}

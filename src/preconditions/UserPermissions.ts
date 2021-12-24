@@ -2,9 +2,9 @@ import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permi
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
-import { ClientPermissionsPrecondition, UserPermissionsPreconditionContext } from './ClientPermissions';
+import { CorePrecondition as ClientPrecondition, UserPermissionsPreconditionContext } from './ClientPermissions';
 
-export class UserPermissionsPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
 		~new Permissions([
 			'ADD_REACTIONS',
@@ -55,7 +55,7 @@ export class UserPermissionsPrecondition extends AllFlowsPrecondition {
 			: this.error({
 					identifier: Identifiers.PreconditionUserPermissions,
 					message: `You are missing the following permissions to run this command: ${missing
-						.map((perm) => ClientPermissionsPrecondition.readablePermissions[perm])
+						.map((perm) => ClientPrecondition.readablePermissions[perm])
 						.join(', ')}`,
 					context: { missing }
 			  });

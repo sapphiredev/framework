@@ -15,7 +15,7 @@ export interface UserPermissionsPreconditionContext extends PreconditionContext 
 	permissions?: Permissions;
 }
 
-export class ClientPermissionsPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
 		~new Permissions([
 			//
@@ -87,7 +87,7 @@ export class ClientPermissionsPrecondition extends AllFlowsPrecondition {
 			: this.error({
 					identifier: Identifiers.PreconditionClientPermissions,
 					message: `I am missing the following permissions to run this command: ${missing
-						.map((perm) => ClientPermissionsPrecondition.readablePermissions[perm])
+						.map((perm) => CorePrecondition.readablePermissions[perm])
 						.join(', ')}`,
 					context: { missing }
 			  });

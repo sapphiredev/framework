@@ -2,7 +2,7 @@ import type { CommandInteraction, ContextMenuInteraction, Message } from 'discor
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class GuildPrivateThreadOnlyPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message) {
 		return message.thread?.type === 'GUILD_PRIVATE_THREAD'
 			? this.ok()

@@ -12,7 +12,7 @@ export interface CooldownContext extends PreconditionContext {
 	filteredUsers?: Snowflake[];
 }
 
-export class CooldownPrecondition extends AllFlowsPrecondition {
+export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
 	public messageRun(message: Message, command: Command, context: CooldownContext) {
