@@ -69,7 +69,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2'
+			name: 'command1'
 		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 		expect(getCommandDifferences(command1, command2)).toEqual([]);
@@ -83,7 +83,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 2',
-			name: 'command2'
+			name: 'command1'
 		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 		expect(getCommandDifferences(command1, command2)).toEqual([
@@ -104,7 +104,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			default_permission: false
 		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
@@ -125,7 +125,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.Boolean,
@@ -159,7 +159,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2'
+			name: 'command1'
 		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 		expect(getCommandDifferences(command1, command2)).toEqual([
@@ -186,7 +186,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.Boolean,
@@ -225,7 +225,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.Boolean,
@@ -259,7 +259,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.String,
@@ -293,7 +293,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.String,
@@ -328,7 +328,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.String,
@@ -367,7 +367,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.String,
@@ -409,7 +409,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.SubcommandGroup,
@@ -464,7 +464,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.SubcommandGroup,
@@ -528,7 +528,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.SubcommandGroup,
@@ -590,7 +590,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.SubcommandGroup,
@@ -654,7 +654,7 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: [
 				{
 					type: ApplicationCommandOptionType.SubcommandGroup,
@@ -696,11 +696,31 @@ describe('Compute differences for provided application commands', () => {
 
 		const command2 = {
 			description: 'description 1',
-			name: 'command2',
+			name: 'command1',
 			options: []
 		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 		expect(() => getCommandDifferences(command1, command2)).not.toThrow();
 		expect(() => getCommandDifferences(command2, command1)).not.toThrow();
+	});
+
+	it('given two commands with different names, it should return the difference', () => {
+		const command1 = {
+			description: 'description 1',
+			name: 'command1'
+		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		const command2 = {
+			description: 'description 1',
+			name: 'command2'
+		} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'name',
+				expected: 'command2',
+				original: 'command1'
+			}
+		]);
 	});
 });
