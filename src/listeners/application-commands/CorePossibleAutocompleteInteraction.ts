@@ -10,9 +10,12 @@ export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInt
 	}
 
 	public async run(interaction: AutocompleteInteraction) {
+		const { stores } = this.container;
+
+		const commandStore = stores.get('commands');
+
 		// Try resolving in command
-		const command =
-			this.container.stores.get('commands').get(interaction.commandId) ?? this.container.stores.get('commands').get(interaction.commandName);
+		const command = commandStore.get(interaction.commandId) ?? commandStore.get(interaction.commandName);
 
 		if (command?.autocompleteRun) {
 			try {

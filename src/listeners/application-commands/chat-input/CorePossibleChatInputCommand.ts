@@ -11,8 +11,9 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 
 	public run(interaction: CommandInteraction) {
 		const { client, stores } = this.container;
+		const commandStore = stores.get('commands');
 
-		const command = stores.get('commands').get(interaction.commandId) ?? stores.get('commands').get(interaction.commandName);
+		const command = commandStore.get(interaction.commandId) ?? commandStore.get(interaction.commandName);
 		if (!command) {
 			client.emit(Events.UnknownChatInputCommand, {
 				interaction,
