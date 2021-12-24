@@ -19,7 +19,7 @@ import type {
 	MessageApplicationCommandData,
 	UserApplicationCommandData
 } from 'discord.js';
-import { RegisterBehavior } from '../../types/Enums';
+import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
 import { CommandDifference, getCommandDifferences } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
@@ -63,7 +63,7 @@ export class ApplicationCommandRegistry {
 		this.apiCalls.push({
 			builtData,
 			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
-			type: 'chat_input'
+			type: InternalRegistryAPIType.ChatInput
 		});
 
 		if (options?.idHints) {
@@ -90,7 +90,7 @@ export class ApplicationCommandRegistry {
 		this.apiCalls.push({
 			builtData,
 			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
-			type: 'context_menu'
+			type: InternalRegistryAPIType.ContextMenu
 		});
 
 		if (options?.idHints) {
@@ -208,9 +208,9 @@ export class ApplicationCommandRegistry {
 
 		const findCallback = (entry: ApplicationCommand) => {
 			// If the command is a chat input command, we need to check if the entry is a chat input command
-			if (apiCall.type === 'chat_input' && entry.type !== 'CHAT_INPUT') return false;
+			if (apiCall.type === InternalRegistryAPIType.ChatInput && entry.type !== 'CHAT_INPUT') return false;
 			// If the command is a context menu command, we need to check if the entry is a context menu command of the same type
-			if (apiCall.type === 'context_menu') {
+			if (apiCall.type === InternalRegistryAPIType.ContextMenu) {
 				if (entry.type === 'CHAT_INPUT') return false;
 
 				let apiCallType: keyof typeof Constants['ApplicationCommandTypes'];
@@ -237,10 +237,10 @@ export class ApplicationCommandRegistry {
 		let type: string;
 
 		switch (apiCall.type) {
-			case 'chat_input':
+			case InternalRegistryAPIType.ChatInput:
 				type = 'chat input';
 				break;
-			case 'context_menu':
+			case InternalRegistryAPIType.ContextMenu:
 				switch (apiCall.builtData.type) {
 					case ApplicationCommandType.Message:
 						type = 'message context menu';
@@ -261,10 +261,10 @@ export class ApplicationCommandRegistry {
 
 			if (globalCommand) {
 				switch (apiCall.type) {
-					case 'chat_input':
+					case InternalRegistryAPIType.ChatInput:
 						this.addChatInputCommandIds(globalCommand.id);
 						break;
-					case 'context_menu':
+					case InternalRegistryAPIType.ContextMenu:
 						this.addContextMenuCommandIds(globalCommand.id);
 						break;
 				}
@@ -296,10 +296,10 @@ export class ApplicationCommandRegistry {
 				this.debug(`Checking if guild ${type} command "${commandName}" is identical to command "${existingGuildCommand.id}"`);
 
 				switch (apiCall.type) {
-					case 'chat_input':
+					case InternalRegistryAPIType.ChatInput:
 						this.addChatInputCommandIds(existingGuildCommand.id);
 						break;
-					case 'context_menu':
+					case InternalRegistryAPIType.ContextMenu:
 						this.addContextMenuCommandIds(existingGuildCommand.id);
 						break;
 				}
@@ -457,10 +457,10 @@ export type InternalAPICall =
 	| {
 			builtData: RESTPostAPIChatInputApplicationCommandsJSONBody;
 			registerOptions: ApplicationCommandRegistryRegisterOptions;
-			type: 'chat_input';
+			type: InternalRegistryAPIType.ChatInput;
 	  }
 	| {
 			builtData: RESTPostAPIContextMenuApplicationCommandsJSONBody;
 			registerOptions: ApplicationCommandRegistryRegisterOptions;
-			type: 'context_menu';
+			type: InternalRegistryAPIType.ContextMenu;
 	  };

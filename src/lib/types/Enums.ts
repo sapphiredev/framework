@@ -38,3 +38,8 @@ export const enum RegisterBehavior {
 	Overwrite = 'OVERWRITE',
 	LogToConsole = 'LOG_TO_CONSOLE'
 }
+
+export const enum InternalRegistryAPIType {
+	ChatInput,
+	ContextMenu
+}
