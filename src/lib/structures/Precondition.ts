@@ -1,6 +1,6 @@
 import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
-import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannels } from 'discord.js';
+import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
 import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -40,7 +40,7 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 		const channel = (await interaction.client.channels.fetch(interaction.channelId, {
 			cache: false,
 			allowUnknownGuild: true
-		})) as TextBasedChannels;
+		})) as TextBasedChannel;
 
 		return channel;
 	}
