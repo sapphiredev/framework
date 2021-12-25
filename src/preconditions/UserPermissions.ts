@@ -1,6 +1,6 @@
 import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import type { Command } from '../lib/structures/Command';
+import type { Command, CommandOptions } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 import { CorePrecondition as ClientPrecondition, UserPermissionsPreconditionContext } from './ClientPermissions';
 
@@ -18,6 +18,14 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			'MENTION_EVERYONE'
 		]).bitfield & Permissions.ALL
 	).freeze();
+
+  public parseCommandOptions(options: CommandOptions): UserPermissionsPreconditionContext | null {
+    const permissions = new Permissions(options.requiredUserPermissions)
+
+    if (permissions.bitfield === 0n) return null
+
+    return { permissions }
+  }
 
 	public messageRun(message: Message, _command: Command, context: UserPermissionsPreconditionContext) {
 		const required = context.permissions ?? new Permissions();

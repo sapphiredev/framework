@@ -5,7 +5,7 @@ import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
+import type { ChatInputCommand, CommandOptions, ContextMenuCommand, MessageCommand } from './Command';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
@@ -17,6 +17,10 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 		super(context, options);
 		this.position = options.position ?? null;
 	}
+
+  public parseCommandOptions(options: CommandOptions): null | boolean | Precondition.Context {
+    return Reflect.get(options, this.name) ?? null
+  }
 
 	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 

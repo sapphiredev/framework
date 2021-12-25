@@ -8,7 +8,7 @@ import {
 	PermissionString
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import type { Command } from '../lib/structures/Command';
+import type { Command, CommandOptions } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 
 export interface UserPermissionsPreconditionContext extends PreconditionContext {
@@ -28,6 +28,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			'VIEW_CHANNEL'
 		]).bitfield & Permissions.ALL
 	).freeze();
+
+  parseCommandOptions(options: CommandOptions): UserPermissionsPreconditionContext | null  {
+    const permissions = new Permissions(options.requiredClientPermissions)
+
+    if (permissions.bitfield === 0n) return null
+    return { permissions }
+  }
 
 	public messageRun(message: Message, _: Command, context: UserPermissionsPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
@@ -108,6 +115,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		KICK_MEMBERS: 'Kick Members',
 		MANAGE_CHANNELS: 'Manage Channels',
 		MANAGE_EMOJIS_AND_STICKERS: 'Manage Emojis and Stickers',
+    MANAGE_EVENTS: 'Manage Events',
 		MANAGE_GUILD: 'Manage Server',
 		MANAGE_MESSAGES: 'Manage Messages',
 		MANAGE_NICKNAMES: 'Manage Nicknames',
@@ -115,6 +123,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		MANAGE_THREADS: 'Manage Threads',
 		MANAGE_WEBHOOKS: 'Manage Webhooks',
 		MENTION_EVERYONE: 'Mention Everyone',
+    MODERATE_MEMBERS: 'Moderate Members',
 		MOVE_MEMBERS: 'Move Members',
 		MUTE_MEMBERS: 'Mute Members',
 		PRIORITY_SPEAKER: 'Priority Speaker',
@@ -135,5 +144,6 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		VIEW_AUDIT_LOG: 'View Audit Log',
 		VIEW_CHANNEL: 'Read Messages',
 		VIEW_GUILD_INSIGHTS: 'View Guild Insights'
+
 	};
 }

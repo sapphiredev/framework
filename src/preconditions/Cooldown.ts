@@ -1,7 +1,7 @@
 import { RateLimitManager } from '@sapphire/ratelimits';
 import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import type { Command } from '../lib/structures/Command';
+import type { Command, CommandOptions } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 import { BucketScope } from '../lib/types/Enums';
 
@@ -14,6 +14,24 @@ export interface CooldownContext extends PreconditionContext {
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
+
+  public parseCommandOptions(options: CommandOptions): CooldownContext | null {
+		const { defaultCooldown } = this.container.client.options;
+
+		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
+		// be set. If an overridden value is passed, it will have priority. Otherwise it will default to 0 if filtered
+		// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
+		const filtered = defaultCooldown?.filteredCommands?.includes(this.name) ?? false;
+		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
+		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
+
+    if (!limit || !delay) return null
+
+		const scope = options.cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;
+		const filteredUsers = options.cooldownFilteredUsers ?? defaultCooldown?.filteredUsers;
+
+		return { scope, limit, delay, filteredUsers }
+  }
 
 	public messageRun(message: Message, command: Command, context: CooldownContext) {
 		const cooldownId = this.getIdFromMessage(message, context);
