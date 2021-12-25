@@ -6,12 +6,18 @@ import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
 import { ArgumentStore } from './structures/ArgumentStore';
 import { CommandStore } from './structures/CommandStore';
+import { InteractionHandlerStore } from './structures/InteractionHandlerStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { BucketScope, PluginHook } from './types/Enums';
 import { Events } from './types/Events';
+import { acquire } from './utils/application-commands/ApplicationCommandRegistries';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
+
+container.applicationCommandRegistries = { acquire };
+
+const optionalListenersPath = join(__dirname, '..', 'optional-listeners');
 
 /**
  * A valid prefix in Sapphire.
@@ -103,11 +109,18 @@ export interface SapphireClientOptions {
 	enableLoaderTraceLoggings?: boolean;
 
 	/**
-	 * If Sapphire should load our pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
+	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
 	 * @since 1.0.0
 	 * @default true
 	 */
 	loadDefaultErrorListeners?: boolean;
+
+	/**
+	 * If Sapphire should load the pre-included message command listeners that are used to process incoming messages for commands.
+	 * @since 3.0.0
+	 * @default false
+	 */
+	loadMessageCommandListeners?: boolean;
 
 	/**
 	 * Controls whether the bot will automatically appear to be typing when a command is accepted.
@@ -175,7 +188,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	public id: Snowflake | null = null;
 
 	/**
-	 * The method to be overriden by the developer.
+	 * The method to be overridden by the developer.
 	 * @since 1.0.0
 	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
 	 * @example
@@ -244,12 +257,21 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		}
 
 		this.id = options.id ?? null;
+
 		this.stores
 			.register(new ArgumentStore().registerPath(join(__dirname, '..', 'arguments'))) //
 			.register(new CommandStore())
+			.register(new InteractionHandlerStore())
 			.register(new ListenerStore().registerPath(join(__dirname, '..', 'listeners')))
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
-		if (options.loadDefaultErrorListeners !== false) this.stores.get('listeners').registerPath(join(__dirname, '..', 'errorListeners'));
+
+		if (options.loadDefaultErrorListeners !== false) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'error-listeners'));
+		}
+
+		if (options.loadMessageCommandListeners === true) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'message-command-listeners'));
+		}
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
@@ -325,11 +347,15 @@ declare module '@sapphire/pieces' {
 		client: SapphireClient;
 		logger: ILogger;
 		stores: StoreRegistry;
+		applicationCommandRegistries: {
+			acquire: typeof acquire;
+		};
 	}
 
 	interface StoreRegistryEntries {
 		arguments: ArgumentStore;
 		commands: CommandStore;
+		'interaction-handlers': InteractionHandlerStore;
 		listeners: ListenerStore;
 		preconditions: PreconditionStore;
 	}

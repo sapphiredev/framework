@@ -1,5 +1,5 @@
 import type { Awaitable } from '@sapphire/utilities';
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
 import type { Result } from '../../parsers/Result';
 import type { Command } from '../../structures/Command';
@@ -12,7 +12,7 @@ import type { PreconditionContext } from '../../structures/Precondition';
 export type PreconditionContainerResult = Result<unknown, UserError>;
 
 /**
- * Defines the return type of the generic {@link IPreconditionContainer.run}.
+ * Defines the return type of the generic {@link IPreconditionContainer.messageRun}.
  * @since 1.0.0
  */
 export type PreconditionContainerReturn = Awaitable<PreconditionContainerResult>;
@@ -34,5 +34,19 @@ export interface IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	run(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	messageRun(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	/**
+	 * Runs a precondition container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	chatInputRun(interaction: CommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	/**
+	 * Runs a precondition container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	contextMenuRun(interaction: ContextMenuInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 }

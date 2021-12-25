@@ -1,7 +1,8 @@
 import { Store } from '@sapphire/pieces';
-import type { Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { Identifiers } from '../errors/Identifiers';
 import { ok } from '../parsers/Result';
-import type { Command } from './Command';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
 import { AsyncPreconditionResult, Precondition, PreconditionContext } from './Precondition';
 
 export class PreconditionStore extends Store<Precondition> {
@@ -11,9 +12,53 @@ export class PreconditionStore extends Store<Precondition> {
 		super(Precondition as any, { name: 'preconditions' });
 	}
 
-	public async run(message: Message, command: Command, context: PreconditionContext = {}): AsyncPreconditionResult {
+	public async messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): AsyncPreconditionResult {
 		for (const precondition of this.globalPreconditions) {
-			const result = await precondition.run(message, command, context);
+			const result = precondition.messageRun
+				? await precondition.messageRun(message, command, context)
+				: await precondition.error({
+						identifier: Identifiers.PreconditionMissingMessageHandler,
+						message: `The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
+				  });
+
+			if (!result.success) return result;
+		}
+
+		return ok();
+	}
+
+	public async chatInputRun(
+		interaction: CommandInteraction,
+		command: ChatInputCommand,
+		context: PreconditionContext = {}
+	): AsyncPreconditionResult {
+		for (const precondition of this.globalPreconditions) {
+			const result = precondition.chatInputRun
+				? await precondition.chatInputRun(interaction, command, context)
+				: await precondition.error({
+						identifier: Identifiers.PreconditionMissingChatInputHandler,
+						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
+				  });
+
+			if (!result.success) return result;
+		}
+
+		return ok();
+	}
+
+	public async contextMenuRun(
+		interaction: ContextMenuInteraction,
+		command: ContextMenuCommand,
+		context: PreconditionContext = {}
+	): AsyncPreconditionResult {
+		for (const precondition of this.globalPreconditions) {
+			const result = precondition.contextMenuRun
+				? await precondition.contextMenuRun(interaction, command, context)
+				: await precondition.error({
+						identifier: Identifiers.PreconditionMissingContextMenuHandler,
+						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
+				  });
+
 			if (!result.success) return result;
 		}
 
@@ -24,7 +69,7 @@ export class PreconditionStore extends Store<Precondition> {
 		if (value.position !== null) {
 			const index = this.globalPreconditions.findIndex((precondition) => precondition.position! >= value.position!);
 
-			// If a middleware with lower priority wasn't found, push to the end of the array
+			// If a precondition with lower priority wasn't found, push to the end of the array
 			if (index === -1) this.globalPreconditions.push(value);
 			else this.globalPreconditions.splice(index, 0, value);
 		}
@@ -35,7 +80,7 @@ export class PreconditionStore extends Store<Precondition> {
 	public delete(key: string): boolean {
 		const index = this.globalPreconditions.findIndex((precondition) => precondition.name === key);
 
-		// If the middleware was found, remove it
+		// If the precondition was found, remove it
 		if (index !== -1) this.globalPreconditions.splice(index, 1);
 
 		return super.delete(key);

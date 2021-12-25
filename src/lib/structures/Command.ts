@@ -1,13 +1,24 @@
-import { AliasPiece, AliasPieceJSON, PieceContext } from '@sapphire/pieces';
+import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish } from '@sapphire/utilities';
-import { Message, PermissionResolvable, Permissions, Snowflake } from 'discord.js';
+import {
+	AutocompleteInteraction,
+	CommandInteraction,
+	ContextMenuInteraction,
+	Message,
+	PermissionResolvable,
+	Permissions,
+	Snowflake
+} from 'discord.js';
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
-import { BucketScope } from '../types/Enums';
+import { BucketScope, RegisterBehavior } from '../types/Enums';
+import { acquire, defaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
+import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
+import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export abstract class Command<T = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
+export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -50,6 +61,12 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	public typing: boolean;
 
 	/**
+	 * The application command registry associated with this command.
+	 * @since 3.0.0
+	 */
+	public readonly applicationCommandRegistry = acquire(this.name);
+
+	/**
 	 * The lexer to be used for command parsing
 	 * @since 1.0.0
 	 * @private
@@ -57,11 +74,18 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	protected lexer = new Lexure.Lexer();
 
 	/**
+	 * Options used to easily register chat input commands
+	 * @since 3.0.0
+	 * @private
+	 */
+	protected readonly chatInputCommandOptions: CommandChatInputRegisterShortcut;
+
+	/**
 	 * @since 1.0.0
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	protected constructor(context: PieceContext, options: Command.Options = {}) {
+	protected constructor(context: PieceContext, options: O = {} as O) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
@@ -88,24 +112,19 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.parseConstructorPreConditions(options);
 
-		const run = Reflect.get(this, 'run');
-		if (typeof run === 'function' && !Reflect.has(this, 'messageRun')) {
-			process.emitWarning('The "run" method in commands is deprecated.', {
-				type: 'DeprecationWarning',
-				code: 'CHAT_INPUT_COMMAND_MIGRATION_PREPARATION',
-				detail: `Use "messageRun" instead (seen in "${this.name}", at "${this.location.full}")`
-			});
-			Reflect.set(this, 'messageRun', run);
-		}
+		this.chatInputCommandOptions = options.chatInputCommand ?? {
+			register: false,
+			behaviorWhenNotIdentical: defaultBehaviorWhenNotIdentical
+		};
 	}
 
 	/**
-	 * The pre-parse method. This method can be overridden by plugins to define their own argument parser.
+	 * The message pre-parse method. This method can be overridden by plugins to define their own argument parser.
 	 * @param message The message that triggered the command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public preParse(message: Message, parameters: string, context: Command.RunContext): Awaitable<T> {
+	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
 		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
 		const args = new Lexure.Args(parser.parse());
 		return new Args(message, this as any, args, context) as any;
@@ -148,11 +167,38 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	}
 
 	/**
-	 * Executes the command's logic for a message.
+	 * Executes the message command's logic.
 	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
+	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
+	 * @param context The context in which the command was executed.
 	 */
-	public abstract messageRun(message: Message, args: T, context: Command.RunContext): Awaitable<unknown>;
+	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;
+
+	/**
+	 * Executes the application command's logic.
+	 * @param interaction The interaction that triggered the command.
+	 */
+	public chatInputRun?(interaction: CommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
+
+	/**
+	 * Executes the context menu's logic.
+	 * @param interaction The interaction that triggered the command.
+	 */
+	public contextMenuRun?(interaction: ContextMenuInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
+
+	/**
+	 * Executes the autocomplete logic.
+	 *
+	 * :::tip
+	 *
+	 * You may use this, or alternatively create an {@link InteractionHandler interaction handler} to handle autocomplete interactions.
+	 * Keep in mind that commands take precedence over interaction handlers.
+	 *
+	 * :::
+	 *
+	 * @param interaction The interaction that triggered the autocomplete.
+	 */
+	public autocompleteRun?(interaction: AutocompleteInteraction): Awaitable<unknown>;
 
 	/**
 	 * Defines the JSON.stringify behavior of the command.
@@ -164,6 +210,104 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 			detailedDescription: this.detailedDescription,
 			category: this.category
 		};
+	}
+
+	/**
+	 * Registers the application commands that should be handled by this command.
+	 * @param registry This command's registry
+	 */
+	public registerApplicationCommands(registry: ApplicationCommandRegistry): Awaitable<void> {
+		if (this.chatInputCommandOptions.register) {
+			registry.registerChatInputCommand(
+				(builder) => {
+					builder.setName(this.name).setDescription(this.description);
+
+					if (Reflect.has(this.chatInputCommandOptions, 'defaultPermission')) {
+						builder.setDefaultPermission(this.chatInputCommandOptions.defaultPermission!);
+					}
+
+					return builder;
+				},
+				{
+					behaviorWhenNotIdentical: this.chatInputCommandOptions.behaviorWhenNotIdentical,
+					guildIds: this.chatInputCommandOptions.guildIds,
+					idHints: this.chatInputCommandOptions.idHints,
+					registerCommandIfMissing: true
+				}
+			);
+		}
+	}
+
+	/**
+	 * Type-guard that ensures the command supports message commands by checking if the handler for it is present
+	 */
+	public supportsMessageCommands(): this is MessageCommand {
+		return Reflect.has(this, 'messageRun');
+	}
+
+	/**
+	 * Type-guard that ensures the command supports chat input commands by checking if the handler for it is present
+	 */
+	public supportsChatInputCommands(): this is ChatInputCommand {
+		return Reflect.has(this, 'chatInputRun');
+	}
+
+	/**
+	 * Type-guard that ensures the command supports context menu commands by checking if the handler for it is present
+	 */
+	public supportsContextMenuCommands(): this is ContextMenuCommand {
+		return Reflect.has(this, 'contextMenuRun');
+	}
+
+	/**
+	 * Type-guard that ensures the command supports handling autocompletes by checking if the handler for it is present
+	 */
+	public supportsAutocompleteInteractions(): this is AutocompleteCommand {
+		return Reflect.has(this, 'autocompleteRun');
+	}
+
+	public override async reload() {
+		// Remove the aliases from the command store
+		const store = this.store as AliasStore<this>;
+		const registry = this.applicationCommandRegistry;
+
+		for (const nameOrId of registry.chatInputCommands) {
+			const aliasedPiece = store.aliases.get(nameOrId);
+			if (aliasedPiece === this) {
+				store.aliases.delete(nameOrId);
+			}
+		}
+
+		for (const nameOrId of registry.contextMenuCommands) {
+			const aliasedPiece = store.aliases.get(nameOrId);
+			if (aliasedPiece === this) {
+				store.aliases.delete(nameOrId);
+			}
+		}
+
+		// Reset the registry's contents
+		registry.chatInputCommands.clear();
+		registry.contextMenuCommands.clear();
+		registry['apiCalls'].length = 0;
+
+		// Reload the command
+		await super.reload();
+
+		// Re-initialize the store and the API data (insert in the store handles the register method)
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+
+		// Handle the API calls
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+
+		// Re-set the aliases
+		for (const nameOrId of registry.chatInputCommands) {
+			store.aliases.set(nameOrId, this);
+		}
+
+		for (const nameOrId of registry.contextMenuCommands) {
+			store.aliases.set(nameOrId, this);
+		}
 	}
 
 	/**
@@ -327,14 +471,44 @@ export abstract class Command<T = Args, O extends Command.Options = Command.Opti
 	}
 }
 
-export interface Command<T = Args> {
-	/**
-	 * Executes the command's logic.
-	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.preParse}, by default an instance of {@link Args}.
-	 * @deprecated Use `messageRun` instead.
-	 */
-	run?(message: Message, args: T, context: Command.RunContext): Awaitable<unknown>;
+export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
+
+export namespace MessageCommand {
+	export type Options = CommandOptions;
+	export type JSON = CommandJSON;
+	export type Context = AliasPiece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = MessageCommandContext;
+}
+
+export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>;
+
+export namespace ChatInputCommand {
+	export type Options = CommandOptions;
+	export type JSON = CommandJSON;
+	export type Context = AliasPiece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = ChatInputCommandContext;
+}
+
+export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
+
+export namespace ContextMenuCommand {
+	export type Options = CommandOptions;
+	export type JSON = CommandJSON;
+	export type Context = AliasPiece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = ContextMenuCommandContext;
+}
+
+export type AutocompleteCommand = Command & Required<Pick<Command, 'autocompleteRun'>>;
+
+export namespace AutocompleteCommand {
+	export type Options = CommandOptions;
+	export type JSON = CommandJSON;
+	export type Context = AliasPiece.Context;
+	export type RunInTypes = CommandOptionsRunType;
+	export type RunContext = AutocompleteCommandContext;
 }
 
 /**
@@ -508,9 +682,62 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * @default true
 	 */
 	typing?: boolean;
+	/**
+	 * Shortcuts for registering simple chat input commands
+	 *
+	 * :::warn
+	 *
+	 * You should only use this if your command does not take in options, and is just a chat input one.
+	 * Otherwise, please read the [guide about registering application commands](../OwO-Link-Here-Vlad-Please-Dont-Forget) instead.
+	 *
+	 * :::
+	 *
+	 * @since 3.0.0
+	 */
+	chatInputCommand?: CommandChatInputRegisterShortcut;
 }
 
-export interface CommandContext extends Record<PropertyKey, unknown> {
+export interface CommandChatInputRegisterShortcut {
+	/**
+	 * Specifies what we should do when the command is present, but not identical with the data you provided
+	 * @default RegisterBehavior.LogToConsole
+	 */
+	behaviorWhenNotIdentical?: RegisterBehavior;
+	/**
+	 * If we should register the command, be it missing or present already
+	 * @default false
+	 */
+	register: boolean;
+	/**
+	 * If this is specified, the application commands will only be registered for these guild ids.
+	 *
+	 * :::tip
+	 *
+	 * If you want to register both guild and global chat input commands,
+	 * please read the [guide about registering application commands](../OwO-Link-Here-Vlad-Please-Dont-Forget) instead.
+	 *
+	 * :::
+	 *
+	 */
+	guildIds?: string[];
+	/**
+	 * Specifies a list of command ids that we should check in the event of a name mismatch
+	 * @default []
+	 */
+	idHints?: string[];
+	/**
+	 * Sets the `defaultPermission` field for the chat input command
+	 *
+	 * :::warn
+	 *
+	 * This will be deprecated in the future for Discord's new permission system
+	 *
+	 * :::
+	 */
+	defaultPermission?: boolean;
+}
+
+export interface MessageCommandContext extends Record<PropertyKey, unknown> {
 	/**
 	 * The prefix used to run this command.
 	 *
@@ -522,10 +749,43 @@ export interface CommandContext extends Record<PropertyKey, unknown> {
 	 */
 	commandName: string;
 	/**
-	 * The matched prefix, this will always be the same as {@link Command.RunContext.prefix} if it was a string, otherwise it is
+	 * The matched prefix, this will always be the same as {@link MessageCommand.RunContext.prefix} if it was a string, otherwise it is
 	 * the result of doing `prefix.exec(content)[0]`.
 	 */
 	commandPrefix: string;
+}
+
+export interface ChatInputCommandContext extends Record<PropertyKey, unknown> {
+	/**
+	 * The name of the command.
+	 */
+	commandName: string;
+	/**
+	 * The id of the command.
+	 */
+	commandId: string;
+}
+
+export interface ContextMenuCommandContext extends Record<PropertyKey, unknown> {
+	/**
+	 * The name of the command.
+	 */
+	commandName: string;
+	/**
+	 * The id of the command.
+	 */
+	commandId: string;
+}
+
+export interface AutocompleteCommandContext extends Record<PropertyKey, unknown> {
+	/**
+	 * The name of the command.
+	 */
+	commandName: string;
+	/**
+	 * The id of the command.
+	 */
+	commandId: string;
 }
 
 export interface CommandJSON extends AliasPieceJSON {
@@ -538,6 +798,5 @@ export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
-	export type RunContext = CommandContext;
 	export type RunInTypes = CommandOptionsRunType;
 }
