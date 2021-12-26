@@ -4,9 +4,9 @@ import type { CommandOptions } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition<'NSFW'> {
-  public parseCommandOptions(options: CommandOptions): boolean | null {
-    return options.nsfw ?? null
-  }
+	public parseCommandOptions(options: CommandOptions): boolean | null {
+		return options.nsfw ?? null;
+	}
 
 	public messageRun(message: Message) {
 		// `nsfw` is undefined in DMChannel, doing `=== true`

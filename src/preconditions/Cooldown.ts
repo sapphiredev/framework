@@ -15,7 +15,7 @@ export interface CooldownContext extends PreconditionContext {
 export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
-  public parseCommandOptions(options: CommandOptions): CooldownContext | null {
+	public parseCommandOptions(options: CommandOptions): CooldownContext | null {
 		const { defaultCooldown } = this.container.client.options;
 
 		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
@@ -25,13 +25,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
 		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
 
-    if (!limit || !delay) return null
+		if (!limit || !delay) return null;
 
 		const scope = options.cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;
 		const filteredUsers = options.cooldownFilteredUsers ?? defaultCooldown?.filteredUsers;
 
-		return { scope, limit, delay, filteredUsers }
-  }
+		return { scope, limit, delay, filteredUsers };
+	}
 
 	public messageRun(message: Message, command: Command, context: CooldownContext) {
 		const cooldownId = this.getIdFromMessage(message, context);

@@ -19,13 +19,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-  public parseCommandOptions(options: CommandOptions): UserPermissionsPreconditionContext | null {
-    const permissions = new Permissions(options.requiredUserPermissions)
+	public parseCommandOptions(options: CommandOptions): UserPermissionsPreconditionContext | null {
+		const permissions = new Permissions(options.requiredUserPermissions);
 
-    if (permissions.bitfield === 0n) return null
+		if (permissions.bitfield === 0n) return null;
 
-    return { permissions }
-  }
+		return { permissions };
+	}
 
 	public messageRun(message: Message, _command: Command, context: UserPermissionsPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
