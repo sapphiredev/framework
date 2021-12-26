@@ -20,6 +20,13 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 		this.position = options.position ?? null;
 	}
 
+	/**
+	 * parses {@link CommandOptions} and
+	 * returns context for the precondition or true
+	 * if precondition should be applied to the command
+	 * otherwise returns null or false
+   * @returns null | PreconditionContext | boolean
+	 */
 	public parseCommandOptions?(options: CommandOptions): null | Precondition.Context | boolean;
 
 	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
