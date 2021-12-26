@@ -46,7 +46,7 @@ export const enum Identifiers {
 	PreconditionClientPermissionsNoPermissions = 'preconditionClientPermissionsNoPermissions',
 	PreconditionUserPermissions = 'preconditionUserPermissions',
 	PreconditionUserPermissionsNoPermissions = 'preconditionUserPermissionsNoPermissions',
-  PreconditionChannelType = 'preconditionChannelType',
+	PreconditionChannelType = 'preconditionChannelType',
 
 	PreconditionMissingMessageHandler = 'preconditionMissingMessageHandler',
 	PreconditionMissingChatInputHandler = 'preconditionMissingChatInputHandler',

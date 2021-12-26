@@ -25,7 +25,7 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 	 * returns context for the precondition or true
 	 * if precondition should be applied to the command
 	 * otherwise returns null or false
-   * @returns null | PreconditionContext | boolean
+	 * @returns null | PreconditionContext | boolean
 	 */
 	public parseCommandOptions?(options: CommandOptions): null | Precondition.Context | boolean;
 

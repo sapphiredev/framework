@@ -83,36 +83,36 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	}
 
 	public messageRun(message: Message, _command: Command, context: ChannelTypePreconditionContext) {
-    if (context.guild){
-      if (message.guild) return this.ok();
-      return this.error({
-        identifier: Identifiers.PreconditionChannelType,
-        message: 'This command can only work in a server.'
-      })
-    }
+		if (context.guild) {
+			if (message.guild) return this.ok();
+			return this.error({
+				identifier: Identifiers.PreconditionChannelType,
+				message: 'This command can only work in a server.'
+			});
+		}
 		return this.sharedRun(context, message.channel);
 	}
 
 	public async contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: ChannelTypePreconditionContext) {
-    if (context.guild){
-      if (interaction.inGuild()) return this.ok();
-      return this.error({
-        identifier: Identifiers.PreconditionChannelType,
-        message: 'This command can only work in a server.'
-      })
-    }
+		if (context.guild) {
+			if (interaction.inGuild()) return this.ok();
+			return this.error({
+				identifier: Identifiers.PreconditionChannelType,
+				message: 'This command can only work in a server.'
+			});
+		}
 		const channel = await this.fetchChannelFromInteraction(interaction);
 		return this.sharedRun(context, channel);
 	}
 
 	public async chatInputRun(interaction: CommandInteraction, _command: Command, context: ChannelTypePreconditionContext) {
-		if (context.guild){
-      if (interaction.inGuild()) return this.ok();
-      return this.error({
-        identifier: Identifiers.PreconditionChannelType,
-        message: 'This command can only work in a server.'
-      })
-    }
+		if (context.guild) {
+			if (interaction.inGuild()) return this.ok();
+			return this.error({
+				identifier: Identifiers.PreconditionChannelType,
+				message: 'This command can only work in a server.'
+			});
+		}
 
 		const channel = await this.fetchChannelFromInteraction(interaction);
 		return this.sharedRun(context, channel);
@@ -124,20 +124,22 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		if (allowedTypes.includes(channel.type)) return this.ok();
 
 		return this.error({
-      identifier: Identifiers.PreconditionChannelType,
-      message: `This command can only work in${allowedTypes.length ? ' following places' : ''} ${allowedTypes.map(ch => readableChannelNames[ch]).join(', ')}`,
-      context: { allowedTypes }
-    });
+			identifier: Identifiers.PreconditionChannelType,
+			message: `This command can only work in${allowedTypes.length ? ' following places' : ''} ${allowedTypes
+				.map((ch) => readableChannelNames[ch])
+				.join(', ')}`,
+			context: { allowedTypes }
+		});
 	}
 }
 
 const readableChannelNames: Record<CommandOptionsRunType, string> = {
-  "DM": 'dm',
-  "GUILD_ANY": "a server",
-  "GUILD_NEWS": "news channels",
-  "GUILD_TEXT": "text channels",
-  "THREAD_ANY": "threads",
-  "GUILD_NEWS_THREAD": "news threads",
-  "GUILD_PUBLIC_THREAD": "public threads",
-  "GUILD_PRIVATE_THREAD": "private threads"
-}
+	DM: 'dm',
+	GUILD_ANY: 'a server',
+	GUILD_NEWS: 'news channels',
+	GUILD_TEXT: 'text channels',
+	THREAD_ANY: 'threads',
+	GUILD_NEWS_THREAD: 'news threads',
+	GUILD_PUBLIC_THREAD: 'public threads',
+	GUILD_PRIVATE_THREAD: 'private threads'
+};
