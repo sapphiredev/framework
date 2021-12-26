@@ -1,22 +1,16 @@
 import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
-import { Awaitable, isNullish } from '@sapphire/utilities';
-import {
-	AutocompleteInteraction,
-	CommandInteraction,
-	ContextMenuInteraction,
-	Message,
-	PermissionResolvable,
-	Permissions,
-	Snowflake
-} from 'discord.js';
+import type { Awaitable } from '@sapphire/utilities';
+import type { AutocompleteInteraction, CommandInteraction, ContextMenuInteraction, Message, PermissionResolvable, Snowflake } from 'discord.js';
 import * as Lexure from 'lexure';
+import type { CommandOptionsRunType, CommandOptionsRunTypeEnum } from '../../preconditions/ChannelType';
 import { Args } from '../parsers/Args';
-import { BucketScope, RegisterBehavior } from '../types/Enums';
+import type { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire, defaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
+import type { PreconditionKeys, SimplePreconditionKeys } from './Precondition';
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -311,163 +305,22 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	}
 
 	/**
-	 * Parses the command's options and processes them, calling {@link Command#parseConstructorPreConditionsRunIn},
-	 * {@link Command#parseConstructorPreConditionsNsfw},
-	 * {@link Command#parseConstructorPreConditionsRequiredClientPermissions}, and
-	 * {@link Command#parseConstructorPreConditionsCooldown}.
+	 * Parses the command's options and processes them,
+	 * calling {@link Precondition#parseCommandOptions} for all non-global preconditions
 	 * @since 2.0.0
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditions(options: Command.Options): void {
-		this.parseConstructorPreConditionsRunIn(options);
-		this.parseConstructorPreConditionsNsfw(options);
-		this.parseConstructorPreConditionsRequiredClientPermissions(options);
-		this.parseConstructorPreConditionsRequiredUserPermissions(options);
-		this.parseConstructorPreConditionsCooldown(options);
-	}
+		const preconditions = this.container.stores.get('preconditions').filter((precondition) => precondition.position === null);
 
-	/**
-	 * Appends the `NSFW` precondition if {@link Command.Options.nsfw} is set to true.
-	 * @param options The command options given from the constructor.
-	 */
-	protected parseConstructorPreConditionsNsfw(options: Command.Options) {
-		if (options.nsfw) this.preconditions.append(CommandPreConditions.NotSafeForWork);
-	}
+		for (const [name, precondition] of preconditions) {
+			const context = precondition.parseCommandOptions?.(options);
 
-	/**
-	 * Appends the `DMOnly`, `GuildOnly`, `NewsOnly`, and `TextOnly` preconditions based on the values passed in
-	 * {@link Command.Options.runIn}, optimizing in specific cases (`NewsOnly` + `TextOnly` = `GuildOnly`; `DMOnly` +
-	 * `GuildOnly` = `null`), defaulting to `null`, which doesn't add a precondition.
-	 * @param options The command options given from the constructor.
-	 */
-	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
-		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
-		if (runIn !== null) this.preconditions.append(runIn as any);
-	}
+			if (!context) continue;
 
-	/**
-	 * Appends the `ClientPermissions` precondition when {@link Command.Options.requiredClientPermissions} resolves to a
-	 * non-zero bitfield.
-	 * @param options The command options given from the constructor.
-	 */
-	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredClientPermissions);
-		if (permissions.bitfield !== 0n) {
-			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
+			if (context === true) this.preconditions.append(name as SimplePreconditionKeys);
+			else this.preconditions.append({ name: name as PreconditionKeys, context });
 		}
-	}
-
-	/**
-	 * Appends the `UserPermissions` precondition when {@link Command.Options.requiredUserPermissions} resolves to a
-	 * non-zero bitfield.
-	 * @param options The command options given from the constructor.
-	 */
-	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredUserPermissions);
-		if (permissions.bitfield !== 0n) {
-			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
-		}
-	}
-
-	/**
-	 * Appends the `Cooldown` precondition when {@link Command.Options.cooldownLimit} and
-	 * {@link Command.Options.cooldownDelay} are both non-zero.
-	 * @param options The command options given from the constructor.
-	 */
-	protected parseConstructorPreConditionsCooldown(options: Command.Options) {
-		const { defaultCooldown } = this.container.client.options;
-
-		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
-		// be set. If an overridden value is passed, it will have priority. Otherwise it will default to 0 if filtered
-		// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
-		const filtered = defaultCooldown?.filteredCommands?.includes(this.name) ?? false;
-		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
-		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
-
-		if (limit && delay) {
-			const scope = options.cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;
-			const filteredUsers = options.cooldownFilteredUsers ?? defaultCooldown?.filteredUsers;
-			this.preconditions.append({
-				name: CommandPreConditions.Cooldown,
-				context: { scope, limit, delay, filteredUsers }
-			});
-		}
-	}
-
-	private resolveConstructorPreConditionsRunType(runIn: Command.Options['runIn']): PreconditionContainerArray | CommandPreConditions | null {
-		if (isNullish(runIn)) return null;
-		if (typeof runIn === 'string') {
-			switch (runIn) {
-				case 'DM':
-					return CommandPreConditions.DirectMessageOnly;
-				case 'GUILD_TEXT':
-					return CommandPreConditions.GuildTextOnly;
-				case 'GUILD_NEWS':
-					return CommandPreConditions.GuildNewsOnly;
-				case 'GUILD_NEWS_THREAD':
-					return CommandPreConditions.GuildNewsThreadOnly;
-				case 'GUILD_PUBLIC_THREAD':
-					return CommandPreConditions.GuildPublicThreadOnly;
-				case 'GUILD_PRIVATE_THREAD':
-					return CommandPreConditions.GuildPrivateThreadOnly;
-				case 'GUILD_ANY':
-					return CommandPreConditions.GuildOnly;
-				default:
-					return null;
-			}
-		}
-
-		// If there's no channel it can run on, throw an error:
-		if (runIn.length === 0) {
-			throw new Error(`${this.constructor.name}[${this.name}]: "runIn" was specified as an empty array.`);
-		}
-
-		if (runIn.length === 1) {
-			return this.resolveConstructorPreConditionsRunType(runIn[0]);
-		}
-
-		const keys = new Set(runIn);
-
-		const dm = keys.has('DM');
-		const guildText = keys.has('GUILD_TEXT');
-		const guildNews = keys.has('GUILD_NEWS');
-		const guild = guildText && guildNews;
-
-		// If runs everywhere, optimise to null:
-		if (dm && guild) return null;
-
-		const guildPublicThread = keys.has('GUILD_PUBLIC_THREAD');
-		const guildPrivateThread = keys.has('GUILD_PRIVATE_THREAD');
-		const guildNewsThread = keys.has('GUILD_NEWS_THREAD');
-		const guildThreads = guildPublicThread && guildPrivateThread && guildNewsThread;
-
-		// If runs in any thread, optimise to thread-only:
-		if (guildThreads && keys.size === 3) {
-			return CommandPreConditions.GuildThreadOnly;
-		}
-
-		const preconditions = new PreconditionContainerArray();
-		if (dm) preconditions.append(CommandPreConditions.DirectMessageOnly);
-		if (guild) {
-			preconditions.append(CommandPreConditions.GuildOnly);
-		} else {
-			// GuildText includes PublicThread and PrivateThread
-			if (guildText) {
-				preconditions.append(CommandPreConditions.GuildTextOnly);
-			} else {
-				if (guildPublicThread) preconditions.append(CommandPreConditions.GuildPublicThreadOnly);
-				if (guildPrivateThread) preconditions.append(CommandPreConditions.GuildPrivateThreadOnly);
-			}
-
-			// GuildNews includes NewsThread
-			if (guildNews) {
-				preconditions.append(CommandPreConditions.GuildNewsOnly);
-			} else if (guildNewsThread) {
-				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
-			}
-		}
-
-		return preconditions;
 	}
 }
 
@@ -509,34 +362,6 @@ export namespace AutocompleteCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = AutocompleteCommandContext;
-}
-
-/**
- * The allowed values for {@link Command.Options.runIn}.
- * @remark It is discouraged to use this type, we recommend using {@link Command.OptionsRunTypeEnum} instead.
- * @since 2.0.0
- */
-export type CommandOptionsRunType =
-	| 'DM'
-	| 'GUILD_TEXT'
-	| 'GUILD_NEWS'
-	| 'GUILD_NEWS_THREAD'
-	| 'GUILD_PUBLIC_THREAD'
-	| 'GUILD_PRIVATE_THREAD'
-	| 'GUILD_ANY';
-
-/**
- * The allowed values for {@link Command.Options.runIn} as an enum.
- * @since 2.0.0
- */
-export const enum CommandOptionsRunTypeEnum {
-	Dm = 'DM',
-	GuildText = 'GUILD_TEXT',
-	GuildNews = 'GUILD_NEWS',
-	GuildNewsThread = 'GUILD_NEWS_THREAD',
-	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
-	GuildPrivateThread = 'GUILD_PRIVATE_THREAD',
-	GuildAny = 'GUILD_ANY'
 }
 
 /**
