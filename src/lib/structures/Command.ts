@@ -10,7 +10,7 @@ import type { ApplicationCommandRegistry } from '../utils/application-commands/A
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
-import type { PreconditionKeys, SimplePreconditionKeys } from './Precondition';
+import type { PreconditionKeys, Preconditions, SimplePreconditionKeys } from './Precondition';
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -314,7 +314,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		const preconditions = this.container.stores.get('preconditions').filter((precondition) => precondition.position === null);
 
 		for (const [name, precondition] of preconditions) {
-			const context = precondition.parseCommandOptions?.(options);
+			const context = precondition.parseCommandOptions?.(options) as Preconditions[PreconditionKeys] | null | boolean;
 
 			if (!context) continue;
 
