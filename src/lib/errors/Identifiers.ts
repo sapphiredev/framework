@@ -40,21 +40,13 @@ export const enum Identifiers {
 
 	CommandDisabled = 'commandDisabled',
 
-	PreconditionCooldown = 'preconditionCooldown',
-	PreconditionDMOnly = 'preconditionDmOnly',
-	PreconditionGuildNewsOnly = 'preconditionGuildNewsOnly',
-	PreconditionGuildNewsThreadOnly = 'preconditionGuildNewsThreadOnly',
-	PreconditionGuildOnly = 'preconditionGuildOnly',
-	PreconditionGuildPrivateThreadOnly = 'preconditionGuildPrivateThreadOnly',
-	PreconditionGuildPublicThreadOnly = 'preconditionGuildPublicThreadOnly',
-	PreconditionGuildTextOnly = 'preconditionGuildTextOnly',
 	PreconditionNSFW = 'preconditionNsfw',
 	PreconditionClientPermissions = 'preconditionClientPermissions',
 	PreconditionClientPermissionsNoClient = 'preconditionClientPermissionsNoClient',
 	PreconditionClientPermissionsNoPermissions = 'preconditionClientPermissionsNoPermissions',
 	PreconditionUserPermissions = 'preconditionUserPermissions',
 	PreconditionUserPermissionsNoPermissions = 'preconditionUserPermissionsNoPermissions',
-	PreconditionThreadOnly = 'preconditionThreadOnly',
+  PreconditionChannelType = 'preconditionChannelType',
 
 	PreconditionMissingMessageHandler = 'preconditionMissingMessageHandler',
 	PreconditionMissingChatInputHandler = 'preconditionMissingChatInputHandler',
