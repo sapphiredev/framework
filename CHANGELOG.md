@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/sapphiredev/framework/compare/v2.2.1...v2.2.2) (2021-12-26)
+
+### Bug Fixes
+
+-   **deps:** update sapphire dependencies ([#342](https://github.com/sapphiredev/framework/issues/342)) ([b706571](https://github.com/sapphiredev/framework/commit/b7065719f2475cb14330a58af46bfd6ef6d90d2f))
+-   fixed module building code on DiscordJS v13.4.0 ([#346](https://github.com/sapphiredev/framework/issues/346)) ([b0d860c](https://github.com/sapphiredev/framework/commit/b0d860c578578dc682125c7727d5209adff6a2af))
+-   make `BooleanArgument`/`resolveBoolean`'s contexts immutable ([#338](https://github.com/sapphiredev/framework/issues/338)) ([be130fe](https://github.com/sapphiredev/framework/commit/be130fed3193d7ea915a0731dad7fbbfc1dade5f))
+
 ### [2.2.1](https://github.com/sapphiredev/framework/compare/v2.2.0...v2.2.1) (2021-12-06)
 
 ### Bug Fixes
