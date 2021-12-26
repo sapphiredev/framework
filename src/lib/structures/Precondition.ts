@@ -1,6 +1,8 @@
 import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
-import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
+import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, TextBasedChannel } from 'discord.js';
+import type { UserPermissionsPreconditionContext } from '../../preconditions';
+import type { ChannelTypePreconditionContext } from '../../preconditions/ChannelType';
 import type { CooldownContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -18,9 +20,7 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 		this.position = options.position ?? null;
 	}
 
-  public parseCommandOptions(options: CommandOptions): null | boolean | Precondition.Context {
-    return Reflect.get(options, this.name) ?? null
-  }
+	public parseCommandOptions?(options: CommandOptions): null | Precondition.Context | boolean;
 
 	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
@@ -50,7 +50,7 @@ export class Precondition<O extends PreconditionOptions = PreconditionOptions> e
 	}
 }
 
-export abstract class AllFlowsPrecondition extends Precondition {
+export abstract class AllFlowsPrecondition<O extends PreconditionOptions = PreconditionOptions> extends Precondition<O> {
 	public abstract messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
 	public abstract chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
@@ -111,22 +111,11 @@ export abstract class AllFlowsPrecondition extends Precondition {
  */
 export interface Preconditions {
 	Cooldown: CooldownContext;
-	DMOnly: never;
 	Enabled: never;
-	GuildNewsOnly: never;
-	GuildNewsThreadOnly: never;
-	GuildOnly: never;
-	GuildPrivateThreadOnly: never;
-	GuildPublicThreadOnly: never;
-	GuildTextOnly: never;
-	GuildThreadOnly: never;
 	NSFW: never;
-	ClientPermissions: {
-		permissions: Permissions;
-	};
-	UserPermissions: {
-		permissions: Permissions;
-	};
+	ClientPermissions: UserPermissionsPreconditionContext;
+	UserPermissions: UserPermissionsPreconditionContext;
+	ChannelType: ChannelTypePreconditionContext;
 }
 
 export type PreconditionKeys = keyof Preconditions;

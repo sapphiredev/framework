@@ -3,7 +3,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import type { CommandOptions } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export class CorePrecondition extends AllFlowsPrecondition<'NSFW'> {
+export class CorePrecondition extends AllFlowsPrecondition {
 	public parseCommandOptions(options: CommandOptions): boolean | null {
 		return options.nsfw ?? null;
 	}
