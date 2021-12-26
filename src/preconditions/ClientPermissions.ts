@@ -1,4 +1,4 @@
-import { Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { Message, NewsChannel, Permissions, PermissionString, TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { Precondition, PreconditionContext, PreconditionResult } from '../lib/structures/Precondition';
@@ -49,7 +49,7 @@ export class CorePrecondition extends Precondition {
 			  });
 	}
 
-	public static readonly readablePermissions = {
+	public static readonly readablePermissions: Record<PermissionString, string> = {
 		ADD_REACTIONS: 'Add Reactions',
 		ADMINISTRATOR: 'Administrator',
 		ATTACH_FILES: 'Attach Files',
@@ -64,6 +64,7 @@ export class CorePrecondition extends Precondition {
 		KICK_MEMBERS: 'Kick Members',
 		MANAGE_CHANNELS: 'Manage Channels',
 		MANAGE_EMOJIS_AND_STICKERS: 'Manage Emojis and Stickers',
+		MANAGE_EVENTS: 'Manage Events',
 		MANAGE_GUILD: 'Manage Server',
 		MANAGE_MESSAGES: 'Manage Messages',
 		MANAGE_NICKNAMES: 'Manage Nicknames',
@@ -71,13 +72,14 @@ export class CorePrecondition extends Precondition {
 		MANAGE_THREADS: 'Manage Threads',
 		MANAGE_WEBHOOKS: 'Manage Webhooks',
 		MENTION_EVERYONE: 'Mention Everyone',
+		MODERATE_MEMBERS: 'Moderate Members',
 		MOVE_MEMBERS: 'Move Members',
 		MUTE_MEMBERS: 'Mute Members',
 		PRIORITY_SPEAKER: 'Priority Speaker',
 		READ_MESSAGE_HISTORY: 'Read Message History',
 		REQUEST_TO_SPEAK: 'Request to Speak',
-		SEND_MESSAGES: 'Send Messages',
 		SEND_MESSAGES_IN_THREADS: 'Send Messages in Threads',
+		SEND_MESSAGES: 'Send Messages',
 		SEND_TTS_MESSAGES: 'Send TTS Messages',
 		SPEAK: 'Speak',
 		START_EMBEDDED_ACTIVITIES: 'Start Activities',
