@@ -3,6 +3,7 @@ import { container } from '@sapphire/pieces';
 import type {
 	CategoryChannel,
 	DMChannel,
+	GuildEmoji,
 	GuildMember,
 	Message,
 	NewsChannel,
@@ -689,6 +690,7 @@ export interface ArgType {
 	channel: ChannelTypes;
 	date: Date;
 	dmChannel: DMChannel;
+	emoji: GuildEmoji | string;
 	float: number;
 	guildCategoryChannel: CategoryChannel;
 	guildChannel: GuildBasedChannelTypes;
