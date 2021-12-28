@@ -1,7 +1,7 @@
-import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
 import type { PieceContext } from '@sapphire/pieces';
 import type { GuildEmoji } from 'discord.js';
-import { Identifiers } from '..';
+import { Identifiers } from '../lib/errors/Identifiers';
+import { resolveEmoji } from '../lib/resolvers/emoji';
 import { Argument, ArgumentResult } from '../lib/structures/Argument';
 
 export default class extends Argument<GuildEmoji | string> {
@@ -10,12 +10,8 @@ export default class extends Argument<GuildEmoji | string> {
 	}
 
 	public run(parameter: string): ArgumentResult<GuildEmoji | string> {
-		const emoji = EmojiRegex.exec(parameter)?.[3];
-		const twemoji = new RegExp(TwemojiRegex).exec(parameter)?.[0] ?? null;
-		const resolvable = emoji ? this.container.client.emojis.resolve(emoji) : twemoji;
-
-		if (resolvable) return this.ok(resolvable);
-
+		const resolved = resolveEmoji(parameter, this.container.client);
+		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
 			parameter,
 			identifier: Identifiers.ArgumentEmojiError,
