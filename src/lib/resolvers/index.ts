@@ -2,6 +2,7 @@ export * from './boolean';
 export * from './channel';
 export * from './date';
 export * from './dmChannel';
+export * from './emoji';
 export * from './float';
 export * from './guildCategoryChannel';
 export * from './guildChannel';

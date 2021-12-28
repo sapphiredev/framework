@@ -10,7 +10,7 @@ export default class extends Argument<GuildEmoji | string> {
 	}
 
 	public run(parameter: string): ArgumentResult<GuildEmoji | string> {
-		const resolved = resolveEmoji(parameter, this.container.client);
+		const resolved = resolveEmoji(parameter);
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
 			parameter,
