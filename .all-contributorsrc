@@ -16,7 +16,7 @@
 			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement", "plugin"]
 		},
 		{
-			"login": "Favna",
+			"login": "favna",
 			"name": "Jeroen Claassens",
 			"avatar_url": "https://avatars3.githubusercontent.com/u/4019718?v=4",
 			"profile": "https://favware.tech/",
@@ -154,6 +154,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/55610086?v=4",
 			"profile": "https://c43721.github.io/",
 			"contributions": ["code"]
+		},
+		{
+			"login": "depfu[bot]",
+			"name": "depfu[bot]",
+			"avatar_url": "https://avatars.githubusercontent.com/in/715?v=4",
+			"profile": "https://github.com/apps/depfu",
+			"contributions": ["maintenance"]
 		}
 	],
 	"contributorsPerLine": 7,
