@@ -49,6 +49,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private getMentionPrefix(message: Message): string | null {
+		if (this.container.client.disableMentionPrefix) return null;
 		// If the content is shorter than 20 characters, or does not start with `<@` then skip early:
 		if (message.content.length < 20 || !message.content.startsWith('<@')) return null;
 

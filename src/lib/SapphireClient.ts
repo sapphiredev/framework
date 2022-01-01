@@ -120,6 +120,11 @@ export interface SapphireClientOptions {
 	 * @default "No cooldown options"
 	 */
 	defaultCooldown?: CooldownOptions;
+	/**
+	 * Controls whether the bot has mention as a prefix disabled
+	 * @default false
+	 */
+	disableMentionPrefix?: boolean;
 }
 
 /**
@@ -212,6 +217,16 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	public logger: ILogger;
 
 	/**
+	 * Whether the bot has mention as a prefix disabled
+	 * @default false
+	 * @example
+	 * ```typescript
+	 * client.disableMentionPrefix = false;
+	 * ```
+	 */
+	public disableMentionPrefix?: boolean;
+
+	/**
 	 * The registered stores.
 	 * @since 1.0.0
 	 */
@@ -237,6 +252,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		container.stores = this.stores;
 
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
+		this.disableMentionPrefix = options.disableMentionPrefix;
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
