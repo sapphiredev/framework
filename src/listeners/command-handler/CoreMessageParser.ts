@@ -19,7 +19,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const mentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
-		if (disableMentionPrefix) {
+		if (mentionPrefix) {
 			if (message.content.length === disableMentionPrefix.length) {
 				client.emit(Events.MentionPrefixOnly, message);
 				return;
