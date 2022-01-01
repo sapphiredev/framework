@@ -25,7 +25,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 				return;
 			}
 
-			prefix = disableMentionPrefix;
+			prefix = mentionPrefix;
 		} else if (regexPrefix?.test(message.content)) {
 			prefix = regexPrefix;
 		} else {
