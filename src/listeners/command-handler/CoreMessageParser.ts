@@ -16,16 +16,16 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (!canRun) return;
 
 		let prefix = null;
-		const mentionPrefix = this.getMentionPrefix(message);
+		const disableMentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
-		if (mentionPrefix) {
-			if (message.content.length === mentionPrefix.length) {
+		if (disableMentionPrefix) {
+			if (message.content.length === disableMentionPrefix.length) {
 				client.emit(Events.MentionPrefixOnly, message);
 				return;
 			}
 
-			prefix = mentionPrefix;
+			prefix = disableMentionPrefix;
 		} else if (regexPrefix?.test(message.content)) {
 			prefix = regexPrefix;
 		} else {
@@ -49,7 +49,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private getMentionPrefix(message: Message): string | null {
-		if (!this.container.client.mentionPrefix) return null;
+		if (!this.container.client.disableMentionPrefix) return null;
 		// If the content is shorter than 20 characters, or does not start with `<@` then skip early:
 		if (message.content.length < 20 || !message.content.startsWith('<@')) return null;
 
