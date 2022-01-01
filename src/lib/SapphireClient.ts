@@ -252,7 +252,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		container.stores = this.stores;
 
 		this.fetchPrefix = options.fetchPrefix ?? (() => this.options.defaultPrefix ?? null);
-		this.disableMentionPrefix = options.disableMentionPrefix ?? false;
+		this.disableMentionPrefix = options.disableMentionPrefix;
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
