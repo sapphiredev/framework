@@ -38,8 +38,7 @@ export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 		}
 
 		// Run the last stage before running the command:
-		// TODO(vladfrangu): substr is deprecated!
-		const parameters = spaceIndex === -1 ? '' : prefixLess.substr(spaceIndex + 1).trim();
+		const parameters = spaceIndex === -1 ? '' : prefixLess.substring(spaceIndex + 1).trim();
 		client.emit(Events.PreMessageCommandRun, {
 			message,
 			command: command as MessageCommand,
