@@ -44,14 +44,15 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		if (context.filteredUsers?.includes(authorId)) return this.ok();
 
 		const ratelimit = this.getManager(command, context).acquire(cooldownId);
+
 		if (ratelimit.limited) {
 			const remaining = ratelimit.remainingTime;
+
 			return this.error({
 				identifier: Identifiers.PreconditionCooldown,
-				// TODO(vladfrangu): maybe use the `ms` package instead
-				message: `There is a cooldown in effect for this ${commandType} command. It can be used again in ${Math.ceil(
-					remaining / 1000
-				)} second${remaining > 1000 ? 's' : ''}.`,
+				message: `There is a cooldown in effect for this ${commandType} command. It'll be available at ${new Date(
+					ratelimit.expires
+				).toISOString()}.`,
 				context: { remaining }
 			});
 		}
