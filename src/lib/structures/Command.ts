@@ -12,7 +12,7 @@ import {
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
-import { acquire, defaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
+import { acquire, getDefaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
@@ -114,7 +114,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		this.chatInputCommandOptions = options.chatInputCommand ?? {
 			register: false,
-			behaviorWhenNotIdentical: defaultBehaviorWhenNotIdentical
+			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical()
 		};
 	}
 
