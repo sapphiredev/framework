@@ -391,7 +391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/cli@npm:^16.0.0":
+"@commitlint/cli@npm:^16.0.1":
   version: 16.0.1
   resolution: "@commitlint/cli@npm:16.0.1"
   dependencies:
@@ -1030,7 +1030,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sapphire/framework@workspace:."
   dependencies:
-    "@commitlint/cli": ^16.0.0
+    "@commitlint/cli": ^16.0.1
     "@commitlint/config-conventional": ^16.0.0
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.6
@@ -1042,11 +1042,11 @@ __metadata:
     "@sapphire/ratelimits": ^2.1.10
     "@sapphire/ts-config": ^3.1.6
     "@sapphire/utilities": ^3.1.0
-    "@types/jest": ^27.0.3
+    "@types/jest": ^27.4.0
     "@types/node": ^17.0.4
     "@types/ws": ^8.2.2
-    "@typescript-eslint/eslint-plugin": ^5.8.0
-    "@typescript-eslint/parser": ^5.8.0
+    "@typescript-eslint/eslint-plugin": ^5.8.1
+    "@typescript-eslint/parser": ^5.8.1
     cz-conventional-changelog: ^3.3.0
     discord.js: ^13.5.0
     eslint: ^8.5.0
@@ -1263,7 +1263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.0.3":
+"@types/jest@npm:^27.4.0":
   version: 27.4.0
   resolution: "@types/jest@npm:27.4.0"
   dependencies:
@@ -1364,7 +1364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.6.0, @typescript-eslint/eslint-plugin@npm:^5.8.0":
+"@typescript-eslint/eslint-plugin@npm:^5.6.0, @typescript-eslint/eslint-plugin@npm:^5.8.1":
   version: 5.8.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.8.1"
   dependencies:
@@ -1402,7 +1402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.6.0, @typescript-eslint/parser@npm:^5.8.0":
+"@typescript-eslint/parser@npm:^5.6.0, @typescript-eslint/parser@npm:^5.8.1":
   version: 5.8.1
   resolution: "@typescript-eslint/parser@npm:5.8.1"
   dependencies:
