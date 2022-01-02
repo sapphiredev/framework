@@ -399,7 +399,7 @@ function* reportOptionDifferences({
 							yield {
 								key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}].value`,
 								original: String(existingChoice.value),
-								expected: choice.value
+								expected: String(choice.value)
 							};
 						}
 					}

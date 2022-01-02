@@ -1298,7 +1298,6 @@ describe('Compute differences for provided application commands', () => {
 					type: ApplicationCommandOptionType.Number,
 					description: 'description 1',
 					name: 'option1',
-					// @ts-expect-error I messed up -types 0.26.0, but it's fixed in 0.26.1 whenever its released
 					choices: [
 						{
 							name: 'choice1',
@@ -1321,7 +1320,6 @@ describe('Compute differences for provided application commands', () => {
 					type: ApplicationCommandOptionType.Number,
 					description: 'description 1',
 					name: 'option1',
-					// @ts-expect-error I messed up -types 0.26.0, but it's fixed in 0.26.1 whenever its released
 					choices: [
 						{
 							name: 'choice1',
