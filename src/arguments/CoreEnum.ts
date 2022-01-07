@@ -7,8 +7,11 @@ export class CoreArgument extends Argument<string> {
 		super(context, { name: 'enum' });
 	}
 
-	public run(parameter: string, context: { readonly enum?: string[] } & Argument.Context): Argument.Result<string> {
-		const resolved = resolveEnum(parameter, { enum: context.enum });
+	public run(
+		parameter: string,
+		context: { readonly enum?: string[]; readonly caseInsensitive?: boolean } & Argument.Context
+	): Argument.Result<string> {
+		const resolved = resolveEnum(parameter, { enum: context.enum, caseInsensitive: context.caseInsensitive });
 		if (resolved.success) return this.ok(resolved.value);
 		return this.error({
 			parameter,
