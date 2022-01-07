@@ -22,3 +22,4 @@ export * from './partialDMChannel';
 export * from './role';
 export * from './string';
 export * from './user';
+export * from './enum';
