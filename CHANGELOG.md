@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/sapphiredev/framework/compare/v2.2.2...v2.3.0) (2022-01-08)
+
+### Features
+
+-   allow mention prefix to be disabled ([#350](https://github.com/sapphiredev/framework/issues/350)) ([26ef1dd](https://github.com/sapphiredev/framework/commit/26ef1ddb7b94e32935ec8dcc5beeeb29f1e84207))
+-   **arguments:** enum argument ([#354](https://github.com/sapphiredev/framework/issues/354)) ([9a0626c](https://github.com/sapphiredev/framework/commit/9a0626c4b3d89de7bcc47bbbfbefb66ff1fc8653))
+
 ### [2.2.2](https://github.com/sapphiredev/framework/compare/v2.2.1...v2.2.2) (2021-12-26)
 
 ### Bug Fixes
