@@ -1,5 +1,5 @@
-import { Collection, Message } from 'discord.js';
-import type { Command } from '../../structures/Command';
+import { Collection, CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
 import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
@@ -164,10 +164,38 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public run(message: Message, command: Command, context: PreconditionContext = {}): PreconditionContainerReturn {
+	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
-			? this.condition.sequential(message, command, this.entries, context)
-			: this.condition.parallel(message, command, this.entries, context);
+			? this.condition.messageSequential(message, command, this.entries, context)
+			: this.condition.messageParallel(message, command, this.entries, context);
+	}
+
+	/**
+	 * Runs the container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
+		return this.mode === PreconditionRunMode.Sequential
+			? this.condition.chatInputSequential(interaction, command, this.entries, context)
+			: this.condition.chatInputParallel(interaction, command, this.entries, context);
+	}
+
+	/**
+	 * Runs the container.
+	 * @since 3.0.0
+	 * @param interaction The interaction that ran this precondition.
+	 * @param command The command the interaction invoked.
+	 */
+	public contextMenuRun(
+		interaction: ContextMenuInteraction,
+		command: ContextMenuCommand,
+		context: PreconditionContext = {}
+	): PreconditionContainerReturn {
+		return this.mode === PreconditionRunMode.Sequential
+			? this.condition.contextMenuSequential(interaction, command, this.entries, context)
+			: this.condition.contextMenuParallel(interaction, command, this.entries, context);
 	}
 
 	/**

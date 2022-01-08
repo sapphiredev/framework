@@ -38,7 +38,7 @@ export class Logger implements ILogger {
 	public write(level: LogLevel, ...values: readonly unknown[]): void {
 		if (!this.has(level)) return;
 		const method = Logger.levels.get(level);
-		if (typeof method === 'string') console[method](...values);
+		if (typeof method === 'string') console[method](`[${method.toUpperCase()}]`, ...values);
 	}
 
 	protected static readonly levels = new Map<LogLevel, LogMethods>([

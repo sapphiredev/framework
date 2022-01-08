@@ -1,5 +1,6 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
+import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
@@ -19,20 +20,31 @@ export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 		const spaceIndex = prefixLess.indexOf(' ');
 		const commandName = spaceIndex === -1 ? prefixLess : prefixLess.slice(0, spaceIndex);
 		if (commandName.length === 0) {
-			client.emit(Events.UnknownCommandName, { message, prefix, commandPrefix });
+			client.emit(Events.UnknownMessageCommandName, { message, prefix, commandPrefix });
 			return;
 		}
 
 		// Retrieve the command and validate:
 		const command = stores.get('commands').get(client.options.caseInsensitiveCommands ? commandName.toLowerCase() : commandName);
 		if (!command) {
-			client.emit(Events.UnknownCommand, { message, prefix, commandName, commandPrefix });
+			client.emit(Events.UnknownMessageCommand, { message, prefix, commandName, commandPrefix });
+			return;
+		}
+
+		// If the command exists but is missing a message handler, emit a different event (maybe an application command variant exists)
+		if (!command.messageRun) {
+			client.emit(Events.CommandDoesNotHaveMessageCommandHandler, { message, prefix, commandPrefix, command });
 			return;
 		}
 
 		// Run the last stage before running the command:
-		const parameters = spaceIndex === -1 ? '' : prefixLess.substr(spaceIndex + 1).trim();
-		client.emit(Events.PreCommandRun, { message, command, parameters, context: { commandName, commandPrefix, prefix } });
+		const parameters = spaceIndex === -1 ? '' : prefixLess.substring(spaceIndex + 1).trim();
+		client.emit(Events.PreMessageCommandRun, {
+			message,
+			command: command as MessageCommand,
+			parameters,
+			context: { commandName, commandPrefix, prefix }
+		});
 	}
 
 	private getCommandPrefix(content: string, prefix: string | RegExp): string {

@@ -5,7 +5,7 @@ import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
 import type { Result } from '../parsers/Result';
-import type { Command } from './Command';
+import type { MessageCommand } from './Command';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
@@ -115,8 +115,8 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 	argument: IArgument<T>;
 	args: Args;
 	message: Message;
-	command: Command;
-	commandContext: Command.RunContext;
+	command: MessageCommand;
+	commandContext: MessageCommand.RunContext;
 	minimum?: number;
 	maximum?: number;
 	inclusive?: boolean;

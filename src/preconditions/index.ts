@@ -1,5 +1,5 @@
-export { CorePrecondition as ClientPermissions } from './ClientPermissions';
-export { CorePrecondition as Cooldown } from './Cooldown';
+export { CorePrecondition as ClientPermissions, UserPermissionsPreconditionContext } from './ClientPermissions';
+export { CorePrecondition as Cooldown, CooldownContext } from './Cooldown';
 export { CorePrecondition as DMOnly } from './DMOnly';
 export { CorePrecondition as Enabled } from './Enabled';
 export { CorePrecondition as GuildNewsOnly } from './GuildNewsOnly';
