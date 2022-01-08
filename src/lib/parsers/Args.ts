@@ -709,6 +709,7 @@ export interface ArgType {
 	string: string;
 	url: URL;
 	user: User;
+	enum: string;
 }
 
 export interface ArgOptions extends Omit<Argument.Context, 'message' | 'command'> {}
