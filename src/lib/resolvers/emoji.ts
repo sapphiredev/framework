@@ -1,5 +1,5 @@
 import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
-import { container } from '@sapphire/pieces';
+import { Snowflake, Util } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import { err, ok } from '../parsers/Result';
 
@@ -13,7 +13,7 @@ export function resolveEmoji(parameter: string) {
 	const emojiId = EmojiRegex.exec(parameter)?.groups?.id;
 
 	if (emojiId) {
-		const resolved = container.client.emojis.resolve(emojiId);
+		const resolved = Util.parseEmoji(emojiId) as GuildEmojiStructure;
 
 		if (resolved) {
 			return ok(resolved);
@@ -21,4 +21,10 @@ export function resolveEmoji(parameter: string) {
 	}
 
 	return err(Identifiers.ArgumentEmojiError);
+}
+
+export interface GuildEmojiStructure {
+	animated: boolean;
+	name: string;
+	id: Snowflake;
 }
