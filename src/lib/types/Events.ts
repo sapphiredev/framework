@@ -228,6 +228,7 @@ export interface CommandDoesNotHaveChatInputCommandHandlerPayload {
 export interface IChatInputCommandPayload {
 	interaction: CommandInteraction;
 	command: ChatInputCommand;
+	duration?: number;
 }
 
 export interface PreChatInputCommandRunPayload extends IChatInputCommandPayload {
@@ -262,6 +263,7 @@ export interface CommandDoesNotHaveContextMenuCommandHandlerPayload {
 export interface IContextMenuCommandPayload {
 	interaction: ContextMenuInteraction;
 	command: ContextMenuCommand;
+	duration?: number;
 }
 
 export interface PreContextMenuCommandRunPayload extends IContextMenuCommandPayload {
