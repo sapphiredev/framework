@@ -36,7 +36,7 @@
 		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^16.0.1",
+		"@commitlint/cli": "^16.0.2",
 		"@commitlint/config-conventional": "^16.0.0",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.7",
