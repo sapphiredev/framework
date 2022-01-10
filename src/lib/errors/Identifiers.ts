@@ -8,6 +8,7 @@ export const enum Identifiers {
 	ArgumentDateTooEarly = 'dateTooEarly',
 	ArgumentDateTooFar = 'dateTooFar',
 	ArgumentDMChannelError = 'dmChannelError',
+	ArgumentEmojiError = 'emojiError',
 	ArgumentFloatError = 'floatError',
 	ArgumentFloatTooLarge = 'floatTooLarge',
 	ArgumentFloatTooSmall = 'floatTooSmall',
