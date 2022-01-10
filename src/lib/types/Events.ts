@@ -198,6 +198,7 @@ export interface MessageCommandDeniedPayload extends IMessageCommandPayload {
 export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
 	parameters: string;
 	context: MessageCommand.RunContext;
+	duration?: number;
 }
 
 export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload {
