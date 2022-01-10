@@ -7,7 +7,7 @@ export function resolveEmoji(parameter: string): Ok<EmojiObject> | Err<Identifie
 	const twemoji = TwemojiRegex.exec(parameter)?.[0] ?? null;
 
 	if (twemoji) {
-		return ok({
+		return ok<EmojiObject>({
 			name: twemoji,
 			id: null
 		});
