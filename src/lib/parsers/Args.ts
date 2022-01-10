@@ -3,7 +3,6 @@ import { container } from '@sapphire/pieces';
 import type {
 	CategoryChannel,
 	DMChannel,
-	GuildEmoji,
 	GuildMember,
 	Message,
 	NewsChannel,
@@ -19,6 +18,7 @@ import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
+import type { EmojiObject } from '../resolvers';
 import type { Argument, IArgument } from '../structures/Argument';
 import type { MessageCommand } from '../structures/Command';
 import { isSome, maybe, Maybe } from './Maybe';
@@ -690,7 +690,7 @@ export interface ArgType {
 	channel: ChannelTypes;
 	date: Date;
 	dmChannel: DMChannel;
-	emoji: GuildEmoji | string;
+	emoji: EmojiObject | string;
 	float: number;
 	guildCategoryChannel: CategoryChannel;
 	guildChannel: GuildBasedChannelTypes;
