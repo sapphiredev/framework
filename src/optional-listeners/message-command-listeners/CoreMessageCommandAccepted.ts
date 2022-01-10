@@ -1,8 +1,8 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { Listener } from '../../lib/structures/Listener';
-import { MessageCommandAcceptedPayload, Events } from '../../lib/types/Events';
-import { isErr, fromAsync } from '../../lib/parsers/Result';
 import { Stopwatch } from '@sapphire/stopwatch';
+import { fromAsync, isErr } from '../../lib/parsers/Result';
+import { Listener } from '../../lib/structures/Listener';
+import { Events, MessageCommandAcceptedPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.MessageCommandAccepted> {
 	public constructor(context: PieceContext) {

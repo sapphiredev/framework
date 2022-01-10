@@ -198,16 +198,19 @@ export interface MessageCommandDeniedPayload extends IMessageCommandPayload {
 export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
 	parameters: string;
 	context: MessageCommand.RunContext;
-	duration?: number;
 }
 
 export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload {
 	args: unknown;
 }
 
-export interface MessageCommandFinishPayload extends MessageCommandRunPayload {}
+export interface MessageCommandFinishPayload extends MessageCommandRunPayload {
+	duration: number;
+}
 
-export interface MessageCommandErrorPayload extends MessageCommandRunPayload {}
+export interface MessageCommandErrorPayload extends MessageCommandRunPayload {
+	duration: number;
+}
 
 export interface MessageCommandSuccessPayload extends MessageCommandRunPayload {
 	result: unknown;
@@ -229,7 +232,6 @@ export interface CommandDoesNotHaveChatInputCommandHandlerPayload {
 export interface IChatInputCommandPayload {
 	interaction: CommandInteraction;
 	command: ChatInputCommand;
-	duration?: number;
 }
 
 export interface PreChatInputCommandRunPayload extends IChatInputCommandPayload {
@@ -244,11 +246,17 @@ export interface ChatInputCommandAcceptedPayload extends PreChatInputCommandRunP
 
 export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {}
 
+export interface ChatInputCommandFinishPayload extends ChatInputCommandAcceptedPayload {
+	duration: number;
+}
+
 export interface ChatInputCommandSuccessPayload extends ChatInputCommandRunPayload {
 	result: unknown;
 }
 
-export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {}
+export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
+	duration: number;
+}
 
 export interface UnknownContextMenuCommandPayload {
 	interaction: ContextMenuInteraction;
@@ -264,7 +272,6 @@ export interface CommandDoesNotHaveContextMenuCommandHandlerPayload {
 export interface IContextMenuCommandPayload {
 	interaction: ContextMenuInteraction;
 	command: ContextMenuCommand;
-	duration?: number;
 }
 
 export interface PreContextMenuCommandRunPayload extends IContextMenuCommandPayload {
@@ -279,11 +286,17 @@ export interface ContextMenuCommandAcceptedPayload extends PreContextMenuCommand
 
 export interface ContextMenuCommandRunPayload extends ContextMenuCommandAcceptedPayload {}
 
+export interface ContextMenuCommandFinishPayload extends ContextMenuCommandAcceptedPayload {
+	duration: number;
+}
+
 export interface ContextMenuCommandSuccessPayload extends ContextMenuCommandRunPayload {
 	result: unknown;
 }
 
-export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPayload {}
+export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPayload {
+	duration: number;
+}
 
 export interface IInteractionHandlerPayload {
 	interaction: Interaction;
@@ -350,7 +363,7 @@ declare module 'discord.js' {
 		[Events.ChatInputCommandRun]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
 		[Events.ChatInputCommandSuccess]: [payload: ChatInputCommandSuccessPayload];
 		[Events.ChatInputCommandError]: [error: unknown, payload: ChatInputCommandErrorPayload];
-		[Events.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
+		[Events.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandFinishPayload];
 
 		// Context menu command chain
 		[Events.PossibleContextMenuCommand]: [interaction: ContextMenuInteraction];
@@ -364,7 +377,11 @@ declare module 'discord.js' {
 		[Events.ContextMenuCommandRun]: [interaction: ContextMenuInteraction, command: ContextMenuCommand, payload: ContextMenuCommandRunPayload];
 		[Events.ContextMenuCommandSuccess]: [payload: ContextMenuCommandSuccessPayload];
 		[Events.ContextMenuCommandError]: [error: unknown, payload: ContextMenuCommandErrorPayload];
-		[Events.ContextMenuCommandFinish]: [interaction: ContextMenuInteraction, command: ContextMenuCommand, payload: ContextMenuCommandRunPayload];
+		[Events.ContextMenuCommandFinish]: [
+			interaction: ContextMenuInteraction,
+			command: ContextMenuCommand,
+			payload: ContextMenuCommandFinishPayload
+		];
 
 		// #endregion Sapphire load cycle events
 
