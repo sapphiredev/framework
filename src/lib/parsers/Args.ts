@@ -690,7 +690,7 @@ export interface ArgType {
 	channel: ChannelTypes;
 	date: Date;
 	dmChannel: DMChannel;
-	emoji: EmojiObject | string;
+	emoji: EmojiObject;
 	float: number;
 	guildCategoryChannel: CategoryChannel;
 	guildChannel: GuildBasedChannelTypes;
