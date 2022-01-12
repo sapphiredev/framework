@@ -10,7 +10,7 @@ import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Com
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
-export class Precondition<O extends PreconditionOptions = PreconditionOptions> extends Piece<O> {
+export class Precondition<O extends Precondition.Options = Precondition.Options> extends Piece<O> {
 	public readonly position: number | null;
 
 	public constructor(context: Piece.Context, options: Precondition.Options = {}) {
