@@ -214,6 +214,7 @@ export interface MessageCommandErrorPayload extends MessageCommandRunPayload {
 
 export interface MessageCommandSuccessPayload extends MessageCommandRunPayload {
 	result: unknown;
+	duration: number;
 }
 
 export interface MessageCommandTypingErrorPayload extends MessageCommandRunPayload {}
@@ -252,6 +253,7 @@ export interface ChatInputCommandFinishPayload extends ChatInputCommandAcceptedP
 
 export interface ChatInputCommandSuccessPayload extends ChatInputCommandRunPayload {
 	result: unknown;
+	duration: number;
 }
 
 export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
@@ -292,6 +294,7 @@ export interface ContextMenuCommandFinishPayload extends ContextMenuCommandAccep
 
 export interface ContextMenuCommandSuccessPayload extends ContextMenuCommandRunPayload {
 	result: unknown;
+	duration: number;
 }
 
 export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPayload {
