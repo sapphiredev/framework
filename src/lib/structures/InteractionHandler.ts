@@ -3,7 +3,7 @@ import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
 import { some, Maybe, none, None, UnwrapMaybeValue } from '../parsers/Maybe';
 
-export abstract class InteractionHandler extends Piece {
+export abstract class InteractionHandler<O extends InteractionHandler.Options = InteractionHandler.Options> extends Piece<O> {
 	/**
 	 * The type for this handler
 	 * @since 3.0.0
