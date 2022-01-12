@@ -22,7 +22,7 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 			return { result, duration };
 		});
 
-		const { duration } = result.value!;
+		const { duration } = result.value ?? { duration: -1 };
 
 		if (isErr(result)) {
 			this.container.client.emit(Events.ChatInputCommandError, result.error, { ...payload, duration });

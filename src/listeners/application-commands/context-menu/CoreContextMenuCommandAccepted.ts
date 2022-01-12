@@ -23,7 +23,7 @@ export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccep
 			return { result, duration };
 		});
 
-		const { duration } = result.value!;
+		const { duration } = result.value ?? { duration: -1 };
 
 		if (isErr(result)) {
 			this.container.client.emit(Events.ContextMenuCommandError, result.error, { ...payload, duration });

@@ -23,7 +23,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 			return { result, duration };
 		});
 
-		const { duration } = result.value!;
+		const { duration } = result.value ?? { duration: -1 };
 
 		if (isErr(result)) {
 			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args, duration });
