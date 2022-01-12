@@ -84,6 +84,9 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 }
 
 export interface InteractionHandlerOptions extends PieceOptions {
+	/**
+	 * The type of interaction this handler is for. Must be one of {@link InteractionHandlerTypes}.
+	 */
 	readonly interactionHandlerType: InteractionHandlerTypes;
 }
 
