@@ -91,10 +91,12 @@ export interface InteractionHandlerJSON extends PieceJSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 
+export type InteractionHandlerParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
+
 export namespace InteractionHandler {
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;
-	export type ParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
+	export type ParseResult<Instance extends InteractionHandler> = InteractionHandlerParseResult<Instance>;
 }
 
 export const enum InteractionHandlerTypes {
