@@ -51,7 +51,7 @@
 		"@typescript-eslint/parser": "^5.9.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^13.6.0",
-		"eslint": "~8.6.0",
+		"eslint": "~8.7.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"gen-esm-wrapper": "^1.1.3",
