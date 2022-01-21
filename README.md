@@ -20,6 +20,13 @@
 
 Sapphire is a Discord bot framework built on top of [discord.js] for advanced and amazing bots.
 
+<div align="center" style="padding-top: 2rem; padding-bottom: 1rem">
+
+| [**Click here for the documentation and guides**](https://www.sapphirejs.dev/) |
+| ------------------------------------------------------------------------------ |
+
+</div>
+
 ## Features
 
 -   Written in TypeScript
@@ -27,6 +34,7 @@ Sapphire is a Discord bot framework built on top of [discord.js] for advanced an
 -   Completely Modular and Extendable
 -   Advanced Plugins Support
 -   Supports many [plugins](https://github.com/sapphiredev/plugins)
+-   Full TypeScript & JavaScript support
 
 ## Installation
 
