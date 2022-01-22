@@ -14,21 +14,20 @@ export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccep
 
 		const result = await fromAsync(async () => {
 			this.container.client.emit(Events.ContextMenuCommandRun, interaction, command, { ...payload });
+
 			const stopwatch = new Stopwatch();
 			const result = await command.contextMenuRun(interaction, context);
 			const { duration } = stopwatch.stop();
 
 			this.container.client.emit(Events.ContextMenuCommandSuccess, { ...payload, result, duration });
 
-			return { result, duration };
+			return duration;
 		});
 
-		const { duration } = result.value ?? { duration: -1 };
-
 		if (isErr(result)) {
-			this.container.client.emit(Events.ContextMenuCommandError, result.error, { ...payload, duration });
+			this.container.client.emit(Events.ContextMenuCommandError, result.error, { ...payload, duration: result.value ?? -1 });
 		}
 
-		this.container.client.emit(Events.ContextMenuCommandFinish, interaction, command, { ...payload, duration });
+		this.container.client.emit(Events.ContextMenuCommandFinish, interaction, command, { ...payload, duration: result.value ?? -1 });
 	}
 }

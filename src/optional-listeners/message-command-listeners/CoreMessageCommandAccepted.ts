@@ -15,20 +15,20 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 
 		const result = await fromAsync(async () => {
 			message.client.emit(Events.MessageCommandRun, message, command, { ...payload, args });
+
 			const stopwatch = new Stopwatch();
 			const result = await command.messageRun(message, args, context);
 			const { duration } = stopwatch.stop();
+
 			message.client.emit(Events.MessageCommandSuccess, { ...payload, args, result, duration });
 
-			return { result, duration };
+			return duration;
 		});
 
-		const { duration } = result.value ?? { duration: -1 };
-
 		if (isErr(result)) {
-			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args, duration });
+			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args, duration: result.value ?? -1 });
 		}
 
-		message.client.emit(Events.MessageCommandFinish, message, command, { ...payload, args, duration });
+		message.client.emit(Events.MessageCommandFinish, message, command, { ...payload, args, duration: result.value ?? -1 });
 	}
 }
