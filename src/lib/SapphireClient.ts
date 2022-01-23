@@ -136,6 +136,23 @@ export interface SapphireClientOptions {
 	 * @default false
 	 */
 	disableMentionPrefix?: boolean;
+
+	/**
+	 * Whenever starting the bot process Sapphire can throw an error when failing to fetch guild commands.
+	 * One of the causes for this can be when a bot was invited to a server without the `application.commands` scope.
+	 *
+	 * Normally this produce a log in the console at the WARN level, however because bot lists have a tendency to invite your
+	 * bot specifically without the scope to ensure that your Chat Input and Context Menu commands do not show up as usable commands
+	 * in that server, you may want to include their guild Ids in this list.
+	 *
+	 * By adding Ids to this list, whenever a guildId matches one of the Ids in the list no warning log will be emitted for that guild.
+	 *
+	 * Note that this specifically applies to the warning log:
+	 *
+	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
+	 *
+	 */
+	guildIdsDisabledFailedToFetchGuildCommandsLog?: string[];
 }
 
 /**
