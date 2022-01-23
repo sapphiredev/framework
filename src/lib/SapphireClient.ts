@@ -145,13 +145,13 @@ export interface SapphireClientOptions {
 	 * bot specifically without the scope to ensure that your Chat Input and Context Menu commands do not show up as usable commands
 	 * in that server, you may want to include their guild ids in this list.
 	 *
-	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no error log message will be emitted for that guild.
+	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
 	 *
 	 * Note that this specifically applies to the warning log:
 	 *
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
-	guildIdsDisabledFailedToFetchGuildCommandsLog?: string[];
+	preventFailedToFetchLogForGuildIds?: string[];
 }
 
 /**

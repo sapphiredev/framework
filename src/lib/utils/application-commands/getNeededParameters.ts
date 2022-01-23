@@ -23,7 +23,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager) {
 			const guildCommands = await commands.fetch({ guildId });
 			map.set(guildId, guildCommands);
 		} catch (err) {
-			if (!container.client.options.guildIdsDisabledFailedToFetchGuildCommandsLog?.includes(guildId)) {
+			if (!container.client.options.preventFailedToFetchLogForGuildIds?.includes(guildId)) {
 				container.logger.warn(
 					`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
 					'Make sure to authorize your application with the "applications.commands" scope in that guild.'
