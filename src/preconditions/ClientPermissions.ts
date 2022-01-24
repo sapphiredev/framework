@@ -11,7 +11,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 
-export interface UserPermissionsPreconditionContext extends PreconditionContext {
+export interface PermissionPreconditionContext extends PreconditionContext {
 	permissions?: Permissions;
 }
 
@@ -29,7 +29,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public messageRun(message: Message, _: Command, context: UserPermissionsPreconditionContext) {
+	public messageRun(message: Message, _: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 		const channel = message.channel as BaseGuildTextChannel;
 
@@ -45,7 +45,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'message');
 	}
 
-	public async chatInputRun(interaction: CommandInteraction, _: Command, context: UserPermissionsPreconditionContext) {
+	public async chatInputRun(interaction: CommandInteraction, _: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
@@ -55,7 +55,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction, _: Command, context: UserPermissionsPreconditionContext) {
+	public async contextMenuRun(interaction: ContextMenuInteraction, _: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
 

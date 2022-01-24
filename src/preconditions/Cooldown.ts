@@ -5,7 +5,7 @@ import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 import { BucketScope } from '../lib/types/Enums';
 
-export interface CooldownContext extends PreconditionContext {
+export interface CooldownPreconditionContext extends PreconditionContext {
 	scope?: BucketScope;
 	delay: number;
 	limit?: number;
@@ -15,25 +15,25 @@ export interface CooldownContext extends PreconditionContext {
 export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
-	public messageRun(message: Message, command: Command, context: CooldownContext) {
+	public messageRun(message: Message, command: Command, context: CooldownPreconditionContext) {
 		const cooldownId = this.getIdFromMessage(message, context);
 
 		return this.sharedRun(message.author.id, command, context, cooldownId, 'message');
 	}
 
-	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownContext) {
+	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownPreconditionContext) {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
 		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownContext) {
+	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownPreconditionContext) {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
 		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'context menu');
 	}
 
-	private sharedRun(authorId: string, command: Command, context: CooldownContext, cooldownId: string, commandType: string) {
+	private sharedRun(authorId: string, command: Command, context: CooldownPreconditionContext, cooldownId: string, commandType: string) {
 		// If the command it is testing for is not this one, return ok:
 		if (context.external) return this.ok();
 
@@ -61,7 +61,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.ok();
 	}
 
-	private getIdFromMessage(message: Message, context: CooldownContext) {
+	private getIdFromMessage(message: Message, context: CooldownPreconditionContext) {
 		switch (context.scope) {
 			case BucketScope.Global:
 				return 'global';
@@ -74,7 +74,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		}
 	}
 
-	private getIdFromInteraction(interaction: BaseCommandInteraction, context: CooldownContext) {
+	private getIdFromInteraction(interaction: BaseCommandInteraction, context: CooldownPreconditionContext) {
 		switch (context.scope) {
 			case BucketScope.Global:
 				return 'global';
@@ -87,7 +87,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		}
 	}
 
-	private getManager(command: Command, context: CooldownContext) {
+	private getManager(command: Command, context: CooldownPreconditionContext) {
 		let manager = this.buckets.get(command);
 		if (!manager) {
 			manager = new RateLimitManager(context.delay, context.limit);
