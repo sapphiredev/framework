@@ -5,6 +5,19 @@ import {
 	setDefaultBehaviorWhenNotIdentical
 } from './lib/utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from './lib/utils/application-commands/ApplicationCommandRegistry';
+import { CorePrecondition as ClientPermissions, type PermissionPreconditionContext } from './preconditions/ClientPermissions';
+import { CorePrecondition as Cooldown, type CooldownPreconditionContext } from './preconditions/Cooldown';
+import { CorePrecondition as DMOnly } from './preconditions/DMOnly';
+import { CorePrecondition as Enabled } from './preconditions/Enabled';
+import { CorePrecondition as GuildNewsOnly } from './preconditions/GuildNewsOnly';
+import { CorePrecondition as GuildNewsThreadOnly } from './preconditions/GuildNewsThreadOnly';
+import { CorePrecondition as GuildOnly } from './preconditions/GuildOnly';
+import { CorePrecondition as GuildPrivateThreadOnly } from './preconditions/GuildPrivateThreadOnly';
+import { CorePrecondition as GuildPublicThreadOnly } from './preconditions/GuildPublicThreadOnly';
+import { CorePrecondition as GuildTextOnly } from './preconditions/GuildTextOnly';
+import { CorePrecondition as GuildThreadOnly } from './preconditions/GuildThreadOnly';
+import { CorePrecondition as NSFW } from './preconditions/NSFW';
+import { CorePrecondition as UserPermissions } from './preconditions/UserPermissions';
 
 const ApplicationCommandRegistries = {
 	acquire,
@@ -56,7 +69,6 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
-export { ApplicationCommandRegistries };
 export { ApplicationCommandRegistry, ApplicationCommandRegistryRegisterOptions } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
@@ -68,7 +80,28 @@ export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition'
 export * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
-export * as CorePreconditions from './preconditions/index';
+export { ApplicationCommandRegistries };
+
+export const CorePreconditions = {
+	ClientPermissions,
+	Cooldown,
+	DMOnly,
+	Enabled,
+	GuildNewsOnly,
+	GuildNewsThreadOnly,
+	GuildOnly,
+	GuildPrivateThreadOnly,
+	GuildPublicThreadOnly,
+	GuildTextOnly,
+	GuildThreadOnly,
+	NSFW,
+	UserPermissions
+};
+
+export namespace CorePreconditions {
+	export type UserPermissionsPreconditionContext = PermissionPreconditionContext;
+	export type CooldownContext = CooldownPreconditionContext;
+}
 
 /**
  * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.

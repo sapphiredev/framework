@@ -2,7 +2,7 @@ import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permi
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
-import { CorePrecondition as ClientPrecondition, UserPermissionsPreconditionContext } from './ClientPermissions';
+import { CorePrecondition as ClientPrecondition, PermissionPreconditionContext } from './ClientPermissions';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
@@ -19,7 +19,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public messageRun(message: Message, _command: Command, context: UserPermissionsPreconditionContext) {
+	public messageRun(message: Message, _command: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
 		const permissions = message.guild ? channel.permissionsFor(message.author) : this.dmChannelPermissions;
@@ -27,14 +27,14 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'message');
 	}
 
-	public chatInputRun(interaction: CommandInteraction, _command: Command, context: UserPermissionsPreconditionContext) {
+	public chatInputRun(interaction: CommandInteraction, _command: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: UserPermissionsPreconditionContext) {
+	public contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: PermissionPreconditionContext) {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
