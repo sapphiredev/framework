@@ -1,7 +1,7 @@
 import { Piece } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
-import type { CooldownContext } from '../../preconditions/Cooldown';
+import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import { err, ok, Result } from '../parsers/Result';
@@ -106,7 +106,7 @@ export abstract class AllFlowsPrecondition extends Precondition {
  * ```
  */
 export interface Preconditions {
-	Cooldown: CooldownContext;
+	Cooldown: CooldownPreconditionContext;
 	DMOnly: never;
 	Enabled: never;
 	GuildNewsOnly: never;
