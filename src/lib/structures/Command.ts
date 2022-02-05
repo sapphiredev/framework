@@ -801,6 +801,5 @@ export namespace Command {
 	export type RunInTypes = CommandOptionsRunType;
 }
 
-
 export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObject;
 export interface DetailedDescriptionCommandObject extends NonNullObject {}
