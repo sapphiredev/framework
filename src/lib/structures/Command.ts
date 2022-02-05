@@ -35,7 +35,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * Longer version of command's summary and how to use it
 	 * @since 1.0.0
 	 */
-	public detailedDescription: string;
+	public detailedDescription: DetailedDescriptionCommand;
 
 	/**
 	 * The full category for the command. Either an array of strings that denote every (sub)folder the command is in,
@@ -582,7 +582,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * @since 1.0.0
 	 * @default ''
 	 */
-	detailedDescription?: string;
+	detailedDescription?: DetailedDescriptionCommand;
 
 	/**
 	 * The full category path for the command
@@ -790,7 +790,7 @@ export interface AutocompleteCommandContext extends Record<PropertyKey, unknown>
 
 export interface CommandJSON extends AliasPieceJSON {
 	description: string;
-	detailedDescription: string;
+	detailedDescription: DetailedDescriptionCommand;
 	category: string | null;
 }
 
@@ -800,3 +800,5 @@ export namespace Command {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 }
+
+export type DetailedDescriptionCommand = string | Record<string, unknown>;
