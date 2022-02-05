@@ -44,6 +44,8 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
 
+		if (me.isCommunicationDisabled()) return false;
+
 		const channel = message.channel as GuildBasedChannelTypes;
 		return channel.permissionsFor(me).has(this.requiredPermissions, false);
 	}
