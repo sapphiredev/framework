@@ -1,5 +1,5 @@
 import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
-import { Awaitable, isNullish, AnyObject } from '@sapphire/utilities';
+import { Awaitable, isNullish, NonNullObject } from '@sapphire/utilities';
 import {
 	AutocompleteInteraction,
 	CommandInteraction,
@@ -801,4 +801,4 @@ export namespace Command {
 	export type RunInTypes = CommandOptionsRunType;
 }
 
-export type DetailedDescriptionCommand = string | AnyObject;
+export type DetailedDescriptionCommand = string | NonNullObject;
