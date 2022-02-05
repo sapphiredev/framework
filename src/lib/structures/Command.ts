@@ -802,4 +802,5 @@ export namespace Command {
 }
 
 export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObject;
+
 export interface DetailedDescriptionCommandObject extends NonNullObject {}
