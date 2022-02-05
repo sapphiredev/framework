@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/sapphiredev/framework/compare/v2.3.0...v2.4.0) (2022-02-05)
+
+### Features
+
+-   **commands:** more types for detailed description ([#372](https://github.com/sapphiredev/framework/issues/372)) ([5085644](https://github.com/sapphiredev/framework/commit/5085644fa4037c92a1f435e13a6322b1530a3af5))
+
+### Bug Fixes
+
+-   bump dependencies to their latest versions ([3b35c91](https://github.com/sapphiredev/framework/commit/3b35c915648ff0fad6dd2eb569e5fe360a655726))
+-   **message-parser:** do not run commands when the bot has been timed out ([#373](https://github.com/sapphiredev/framework/issues/373)) ([760227d](https://github.com/sapphiredev/framework/commit/760227d8d23a846bccc5615e4ae9fef832c1abb7))
+
 ## [2.3.0](https://github.com/sapphiredev/framework/compare/v2.2.2...v2.3.0) (2022-01-08)
 
 ### Features
