@@ -1,7 +1,6 @@
 import { Store } from '@sapphire/pieces';
+import { err, fromAsync, isErr, isSome, Result } from '@sapphire/result';
 import type { Interaction } from 'discord.js';
-import { isSome } from '../parsers/Maybe';
-import { err, fromAsync, isErr, Result } from '../parsers/Result';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes } from './InteractionHandler';
 

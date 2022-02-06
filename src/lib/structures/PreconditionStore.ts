@@ -1,7 +1,7 @@
 import { Store } from '@sapphire/pieces';
+import { ok } from '@sapphire/result';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import { ok } from '../parsers/Result';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
 import { AsyncPreconditionResult, Precondition, PreconditionContext } from './Precondition';
 

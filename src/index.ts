@@ -43,14 +43,13 @@ export {
 	StoreRegistry,
 	StoreRegistryEntries
 } from '@sapphire/pieces';
+export * from '@sapphire/result';
 export type { Awaitable } from '@sapphire/utilities';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
 export * from './lib/errors/UserError';
 export * from './lib/parsers/Args';
-export * from './lib/parsers/Maybe';
-export * from './lib/parsers/Result';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';

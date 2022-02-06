@@ -1,6 +1,6 @@
 import type { PieceContext } from '@sapphire/pieces';
+import { fromAsync, isErr } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
-import { fromAsync, isErr } from '../../../lib/parsers/Result';
 import { Listener } from '../../../lib/structures/Listener';
 import { ChatInputCommandAcceptedPayload, Events } from '../../../lib/types/Events';
 

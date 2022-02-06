@@ -1,7 +1,7 @@
 import { isVoiceChannel } from '@sapphire/discord.js-utilities';
+import type { Result } from '@sapphire/result';
 import type { Guild, VoiceChannel } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import type { Result } from '../parsers/Result';
 import { resolveGuildChannelPredicate } from '../utils/resolvers/resolveGuildChannelPredicate';
 
 export function resolveGuildVoiceChannel(

@@ -1,8 +1,8 @@
-import type { MessageCommand } from '../../lib/structures/Command';
-import type { Message } from 'discord.js';
 import type { PieceContext } from '@sapphire/pieces';
+import type { Message } from 'discord.js';
+import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
-import { MessageCommandRunPayload, Events } from '../../lib/types/Events';
+import { Events, MessageCommandRunPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
 	public constructor(context: PieceContext) {

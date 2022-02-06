@@ -1,7 +1,7 @@
 import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
+import { Err, err, Ok, ok } from '@sapphire/result';
 import { Util } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import { Err, err, Ok, ok } from '../parsers/Result';
 
 export function resolveEmoji(parameter: string): Ok<EmojiObject> | Err<Identifiers> {
 	const twemoji = TwemojiRegex.exec(parameter)?.[0] ?? null;

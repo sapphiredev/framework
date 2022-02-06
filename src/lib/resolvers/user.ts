@@ -1,8 +1,8 @@
 import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import { container } from '@sapphire/pieces';
+import { err, ok, Result } from '@sapphire/result';
 import type { Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import { err, ok, Result } from '../parsers/Result';
 
 export async function resolveUser(parameter: string): Promise<Result<User, Identifiers.ArgumentUserError>> {
 	const userId = UserOrMemberMentionRegex.exec(parameter) ?? SnowflakeRegex.exec(parameter);

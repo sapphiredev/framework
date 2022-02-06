@@ -1,8 +1,8 @@
 import { ChannelMentionRegex, ChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
+import { err, ok, Result } from '@sapphire/result';
 import type { Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import { err, ok, Result } from '../parsers/Result';
 
 export function resolveChannel(parameter: string, message: Message): Result<ChannelTypes, Identifiers.ArgumentChannelError> {
 	const channelId = (ChannelMentionRegex.exec(parameter)?.[1] ?? parameter) as Snowflake;

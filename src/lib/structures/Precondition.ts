@@ -1,10 +1,10 @@
 import { Piece } from '@sapphire/pieces';
+import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
-import { err, ok, Result } from '../parsers/Result';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;

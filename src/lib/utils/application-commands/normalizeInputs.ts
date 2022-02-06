@@ -1,13 +1,13 @@
 import {
 	ContextMenuCommandBuilder,
 	SlashCommandBuilder,
-	SlashCommandSubcommandsOnlyBuilder,
-	SlashCommandOptionsOnlyBuilder
+	SlashCommandOptionsOnlyBuilder,
+	SlashCommandSubcommandsOnlyBuilder
 } from '@discordjs/builders';
 import { isFunction } from '@sapphire/utilities';
 import {
-	ApplicationCommandType,
 	APIApplicationCommandOption,
+	ApplicationCommandType,
 	RESTPostAPIApplicationCommandsJSONBody,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
