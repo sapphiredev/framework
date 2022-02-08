@@ -1,5 +1,5 @@
+import { err, ok, Result } from '@sapphire/result';
 import { Identifiers } from '../errors/Identifiers';
-import { err, ok, Result } from '../parsers/Result';
 
 export function resolveInteger(
 	parameter: string,

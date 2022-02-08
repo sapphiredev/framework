@@ -1,4 +1,4 @@
-import { isOk, ok } from '../../../parsers/Result';
+import { isOk, ok } from '@sapphire/result';
 import type { PreconditionContainerResult } from '../IPreconditionContainer';
 import type { IPreconditionCondition } from './IPreconditionCondition';
 

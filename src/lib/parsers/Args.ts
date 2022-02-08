@@ -1,5 +1,6 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
+import { err, isErr, isOk, isSome, maybe, ok, type Err, type Maybe, type Ok, type Result } from '@sapphire/result';
 import type {
 	CategoryChannel,
 	DMChannel,
@@ -21,8 +22,6 @@ import { UserError } from '../errors/UserError';
 import type { EmojiObject } from '../resolvers';
 import type { Argument, IArgument } from '../structures/Argument';
 import type { MessageCommand } from '../structures/Command';
-import { isSome, maybe, Maybe } from './Maybe';
-import { Err, err, isErr, isOk, ok, Ok, Result } from './Result';
 
 /**
  * The argument parser to be used in {@link Command}.
@@ -126,7 +125,9 @@ export class Args {
 		);
 		if (result === null) return this.missingArguments();
 		if (isOk(result)) return result as Ok<ArgType[K]>;
-		return result;
+
+		// We need to typecast here because TS doesn't resolve that the type from @sapphire/result is identical to that of Lexure
+		return result as Result<ArgType[K], UserError>;
 	}
 
 	/**
@@ -299,7 +300,11 @@ export class Args {
 			);
 			if (result === null) break;
 			if (isErr(result)) {
-				if (output.length === 0) return result;
+				if (output.length === 0) {
+					// We need to typecast here because TS doesn't resolve that the type from @sapphire/result is identical to that of Lexure
+					return result as Result<ArgType[K][], UserError>;
+				}
+
 				break;
 			}
 

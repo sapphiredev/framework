@@ -1,7 +1,7 @@
+import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
-import type { Result } from '../../parsers/Result';
 import type { Command } from '../../structures/Command';
 import type { PreconditionContext } from '../../structures/Precondition';
 

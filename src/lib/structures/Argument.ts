@@ -1,10 +1,10 @@
 import { AliasPiece } from '@sapphire/pieces';
+import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
-import type { Result } from '../parsers/Result';
 import type { MessageCommand } from './Command';
 
 /**

@@ -1,8 +1,8 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
+import { err, ok, Result } from '@sapphire/result';
 import type { Nullish } from '@sapphire/utilities';
 import type { Guild } from 'discord.js';
 import type { Identifiers } from '../../errors/Identifiers';
-import { err, ok, Result } from '../../parsers/Result';
 import { resolveGuildChannel } from '../../resolvers';
 
 export function resolveGuildChannelPredicate<TChannel extends GuildBasedChannelTypes, TError extends Identifiers>(

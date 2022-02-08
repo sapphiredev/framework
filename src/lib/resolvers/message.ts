@@ -1,10 +1,10 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import { GuildBasedChannelTypes, isNewsChannel, isTextChannel, TextBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
+import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import { Message, Permissions, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import { err, ok, Result } from '../parsers/Result';
 
 interface MessageResolverOptions {
 	channel?: TextBasedChannelTypes;

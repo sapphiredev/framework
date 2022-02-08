@@ -1,8 +1,8 @@
 import type {
 	ContextMenuCommandBuilder,
 	SlashCommandBuilder,
-	SlashCommandSubcommandsOnlyBuilder,
-	SlashCommandOptionsOnlyBuilder
+	SlashCommandOptionsOnlyBuilder,
+	SlashCommandSubcommandsOnlyBuilder
 } from '@discordjs/builders';
 import { container } from '@sapphire/pieces';
 import {

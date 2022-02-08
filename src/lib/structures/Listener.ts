@@ -1,7 +1,7 @@
 import { Piece } from '@sapphire/pieces';
+import { fromAsync, isErr } from '@sapphire/result';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
-import { fromAsync, isErr } from '../parsers/Result';
 import { Events } from '../types/Events';
 
 /**

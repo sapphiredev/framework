@@ -1,7 +1,7 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
+import { Maybe, none, None, some, UnwrapMaybeValue } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
-import { some, Maybe, none, None, UnwrapMaybeValue } from '../parsers/Maybe';
 
 export abstract class InteractionHandler<O extends InteractionHandler.Options = InteractionHandler.Options> extends Piece<O> {
 	/**
