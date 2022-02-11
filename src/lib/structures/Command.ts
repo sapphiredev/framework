@@ -805,6 +805,8 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
+	export type Interaction = CommandInteraction;
+	export type Registry = ApplicationCommandRegistry;
 }
 
 export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObject;
