@@ -805,7 +805,9 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
-	export type Interaction = CommandInteraction;
+	export type ChatInputInteraction = CommandInteraction;
+	export type ContextMenuInteraction = ContextMenuInteraction;
+	export type AutocompleteInteraction = AutocompleteInteraction;
 	export type Registry = ApplicationCommandRegistry;
 }
 
