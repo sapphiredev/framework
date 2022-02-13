@@ -805,7 +805,7 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
-	export type ChatInputInteraction = CommandInteraction;
+	export type ChatInputInteraction = import('discord.js').CommandInteraction;
 	export type ContextMenuInteraction = import('discord.js').ContextMenuInteraction;
 	export type AutocompleteInteraction = import('discord.js').AutocompleteInteraction;
 	export type Registry = ApplicationCommandRegistry;
