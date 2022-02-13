@@ -489,6 +489,8 @@ export namespace ChatInputCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ChatInputCommandContext;
+	export type Interaction = CommandInteraction;
+	export type Registry = ApplicationCommandRegistry;
 }
 
 export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRun'>>;
@@ -499,6 +501,8 @@ export namespace ContextMenuCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
+	export type Interaction = ContextMenuInteraction;
+	export type Registry = ApplicationCommandRegistry;
 }
 
 export type AutocompleteCommand = Command & Required<Pick<Command, 'autocompleteRun'>>;
@@ -509,6 +513,8 @@ export namespace AutocompleteCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = AutocompleteCommandContext;
+	export type Interaction = AutocompleteInteraction;
+	export type Registry = ApplicationCommandRegistry;
 }
 
 /**
@@ -799,6 +805,10 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
+	export type ChatInputInteraction = import('discord.js').CommandInteraction;
+	export type ContextMenuInteraction = import('discord.js').ContextMenuInteraction;
+	export type AutocompleteInteraction = import('discord.js').AutocompleteInteraction;
+	export type Registry = ApplicationCommandRegistry;
 }
 
 export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObject;
