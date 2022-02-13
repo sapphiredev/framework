@@ -1046,15 +1046,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "@sapphire/discord.js-utilities@npm:4.6.0"
+"@sapphire/discord.js-utilities@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@sapphire/discord.js-utilities@npm:4.7.0"
   dependencies:
     "@sapphire/discord-utilities": ^2.7.0
     "@sapphire/time-utilities": ^1.6.0
     "@sapphire/utilities": ^3.3.0
     tslib: ^2.3.1
-  checksum: d1d255412409e77247d7a114049268751ff2f0c4124755027d76d8f7fc5bf47c65da57a1ae44f886cfb4d3da7ec0e1ea4662365f9abfcfb2b70a1d2997726876
+  checksum: 09ba1ac9c9f5aa4395ebccdf05eab5298a9a46fb45986a645885b2631ecb21a6ed5d806cf0c603e3c9d3575bbbc9ff5e721c4d0c1df5f9f9eeae8b2335033a03
   languageName: node
   linkType: hard
 
@@ -1091,14 +1091,14 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.7
     "@sapphire/discord-utilities": ^2.7.0
-    "@sapphire/discord.js-utilities": ^4.6.0
+    "@sapphire/discord.js-utilities": ^4.7.0
     "@sapphire/eslint-config": ^4.2.0
     "@sapphire/pieces": ^3.2.0
     "@sapphire/prettier-config": ^1.3.0
     "@sapphire/ratelimits": ^2.3.0
     "@sapphire/result": ^1.0.0
     "@sapphire/stopwatch": ^1.3.0
-    "@sapphire/ts-config": ^3.3.0
+    "@sapphire/ts-config": ^3.3.1
     "@sapphire/utilities": ^3.3.0
     "@types/jest": ^27.4.0
     "@types/node": ^17.0.8
@@ -1185,13 +1185,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ts-config@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "@sapphire/ts-config@npm:3.3.0"
+"@sapphire/ts-config@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@sapphire/ts-config@npm:3.3.1"
   dependencies:
     tslib: ^2.3.1
     typescript: ^4.5.5
-  checksum: 05be4e8fc88046bb0a12513c2c6f870fc31b5abe1f92a5fc12e747b1dfde17a21d0bdd4b0c23539004da3234b4cfb2f3b131516296382d10075e39fea261e05c
+  checksum: c63c208dcd528a30a3799ca992553e029dc541580479ea6e7aca4bd0ef46ad103de1fe47fed9e6254a4fb348b769bf0a019d28e6cce05792eb51b69666811e78
   languageName: node
   linkType: hard
 
