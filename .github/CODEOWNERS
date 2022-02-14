@@ -1,0 +1,12 @@
+/src/ @kyranet @favna @vladfrangu
+/tests/ @kyranet @favna @vladfrangu
+LICENSE.md @kyranet @favna @vladfrangu
+
+/scripts/ @favna
+/.github/ @favna
+/.vscode/ @favna
+/.all-contributorsrc @favna
+.npm-deprecaterc.yml @favna
+jest.config.ts @favna
+package.json @favna
+README.md @favna
