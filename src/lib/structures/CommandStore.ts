@@ -1,5 +1,5 @@
 import { AliasStore } from '@sapphire/pieces';
-import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
+import { registries } from '../utils/application-commands/ApplicationCommandRegistries';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
 
@@ -21,16 +21,6 @@ export class CommandStore extends AliasStore<Command> {
 		return [...categories] as string[];
 	}
 
-	public override async insert(piece: Command) {
-		try {
-			await piece.registerApplicationCommands(piece.applicationCommandRegistry);
-		} catch (error) {
-			emitRegistryError(error, piece);
-		}
-
-		return super.insert(piece);
-	}
-
 	public override unload(name: string | Command) {
 		const piece = this.resolve(name);
 
@@ -49,10 +39,8 @@ export class CommandStore extends AliasStore<Command> {
 			}
 		}
 
-		// Reset the registry's contents
-		piece.applicationCommandRegistry.chatInputCommands.clear();
-		piece.applicationCommandRegistry.contextMenuCommands.clear();
-		piece.applicationCommandRegistry['apiCalls'].length = 0;
+		// Remove the registry from the application command registries
+		registries.delete(piece.name);
 
 		return super.unload(name);
 	}

@@ -14,6 +14,7 @@ import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire, getDefaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
+import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
@@ -97,7 +98,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			options.quotes ?? [
 				['"', '"'], // Double quotes
 				['“', '”'], // Fancy quotes (on iOS)
-				['「', '」'] // Corner brackets (CJK)
+				['「', '」'], // Corner brackets (CJK)
+				['«', '»'] // French quotes (guillemets)
 			]
 		);
 
@@ -292,6 +294,15 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		// Reload the command
 		await super.reload();
+
+		// Rerun the registry
+		try {
+			await this.registerApplicationCommands(this.applicationCommandRegistry);
+		} catch (err) {
+			emitRegistryError(err, this);
+			// No point on continuing
+			return;
+		}
 
 		// Re-initialize the store and the API data (insert in the store handles the register method)
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();

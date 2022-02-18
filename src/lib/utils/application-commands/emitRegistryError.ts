@@ -7,7 +7,7 @@ import { Events } from '../../types/Events';
  * @param error The emitted error
  * @param command The command which had the error
  */
-export function emitRegistryError(error: unknown, command: Command) {
+export function emitRegistryError(error: unknown, command: Command<any, any>) {
 	const { name, location } = command;
 	const { client, logger } = container;
 

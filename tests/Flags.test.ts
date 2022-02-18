@@ -7,7 +7,8 @@ const parse = (testString: string) =>
 			.setQuotes([
 				['"', '"'],
 				['“', '”'],
-				['「', '」']
+				['「', '」'],
+				['«', '»']
 			])
 			.lex()
 	)

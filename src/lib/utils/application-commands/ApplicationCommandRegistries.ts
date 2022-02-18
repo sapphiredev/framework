@@ -1,6 +1,7 @@
 import { container } from '@sapphire/pieces';
 import { RegisterBehavior } from '../../types/Enums';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
+import { emitRegistryError } from './emitRegistryError';
 import { getNeededRegistryParameters } from './getNeededParameters';
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.LogToConsole;
@@ -39,6 +40,14 @@ export function getDefaultBehaviorWhenNotIdentical() {
 
 export async function handleRegistryAPICalls() {
 	const commandStore = container.stores.get('commands');
+
+	for (const command of commandStore.values()) {
+		try {
+			await command.registerApplicationCommands(command.applicationCommandRegistry);
+		} catch (error) {
+			emitRegistryError(error, command);
+		}
+	}
 
 	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
 
