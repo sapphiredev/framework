@@ -805,9 +805,12 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
-	export type ChatInputInteraction = import('discord.js').CommandInteraction;
-	export type ContextMenuInteraction = import('discord.js').ContextMenuInteraction;
-	export type AutocompleteInteraction = import('discord.js').AutocompleteInteraction;
+	export type ChatInputInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').CommandInteraction<Cached>;
+	export type ContextMenuInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').ContextMenuInteraction<Cached>;
+	export type AutocompleteInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').AutocompleteInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
