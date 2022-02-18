@@ -97,7 +97,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			options.quotes ?? [
 				['"', '"'], // Double quotes
 				['“', '”'], // Fancy quotes (on iOS)
-				['「', '」'] // Corner brackets (CJK)
+				['「', '」'], // Corner brackets (CJK)
+				['«', '»'] // French quotes (guillemets)
 			]
 		);
 
