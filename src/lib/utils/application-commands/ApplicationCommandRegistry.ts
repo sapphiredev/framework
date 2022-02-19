@@ -179,6 +179,11 @@ export class ApplicationCommandRegistry {
 		globalCommands: Collection<string, ApplicationCommand>,
 		guildCommands: Map<string, Collection<string, ApplicationCommand>>
 	) {
+		// Early return for no API calls
+		if (this.apiCalls.length === 0) {
+			return;
+		}
+
 		this.debug(`Preparing to process ${this.apiCalls.length} possible command registrations / updates...`);
 
 		const results = await Promise.allSettled(
