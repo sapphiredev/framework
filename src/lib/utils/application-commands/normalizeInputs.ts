@@ -48,11 +48,25 @@ export function normalizeChatInputCommand(
 	if (isFunction(command)) {
 		const builder = new SlashCommandBuilder();
 		command(builder);
-		return builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		const json = builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		// TODO: once d.js updates builders version, remove this!!
+		if (json.options) {
+			json.options = json.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
+		}
+
+		return json;
 	}
 
 	if (isBuilder(command)) {
-		return command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		const json = command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+
+		// TODO: once d.js updates builders version, remove this!!
+		if (json.options) {
+			json.options = json.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
+		}
+
+		return json;
 	}
 
 	const finalObject = {
