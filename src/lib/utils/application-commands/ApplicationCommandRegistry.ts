@@ -181,6 +181,25 @@ export class ApplicationCommandRegistry {
 	) {
 		// Early return for no API calls
 		if (this.apiCalls.length === 0) {
+			const { command } = this;
+
+			// If we have no command piece in store, then we simply return (can happen if the registry is used directly)
+			if (!command) {
+				this.trace('No API calls to run, and no command to register');
+				return;
+			}
+
+			// If this is set to true, we expected at least one command to be registered, and this seems to usually fix it for people using TS 🤷
+			// That, and we haven't had any JS users yet reporting issues with this, so we'll just leave it in for now
+			if (command.chatInputCommandOptions.register) {
+				this.warn(
+					'Expected command to have at least one command registered since chatInputCommandOptions.register is set to true, but none were actually registered.',
+					"If you're using TypeScript, please try clearing the compiled code output folder, re-building your project, and restarting."
+				);
+			} else {
+				this.trace('No API calls to run, and no command to register');
+			}
+
 			return;
 		}
 
@@ -428,6 +447,10 @@ export class ApplicationCommandRegistry {
 
 	private debug(message: string, ...other: unknown[]) {
 		container.logger.debug(`ApplicationCommandRegistry[${this.commandName}] ${message}`, ...other);
+	}
+
+	private trace(message: string, ...other: unknown[]) {
+		container.logger.trace(`ApplicationCommandRegistry[${this.commandName}] ${message}`, ...other);
 	}
 }
 

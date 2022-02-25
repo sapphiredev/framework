@@ -68,18 +68,18 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	public readonly applicationCommandRegistry = acquire(this.name);
 
 	/**
+	 * Options used to easily register chat input commands
+	 * @since 3.0.0
+	 * @private
+	 */
+	public readonly chatInputCommandOptions: CommandChatInputRegisterShortcut;
+
+	/**
 	 * The lexer to be used for command parsing
 	 * @since 1.0.0
 	 * @private
 	 */
 	protected lexer = new Lexure.Lexer();
-
-	/**
-	 * Options used to easily register chat input commands
-	 * @since 3.0.0
-	 * @private
-	 */
-	protected readonly chatInputCommandOptions: CommandChatInputRegisterShortcut;
 
 	/**
 	 * @since 1.0.0
