@@ -194,7 +194,7 @@ export class ApplicationCommandRegistry {
 			if (command.chatInputCommandOptions.register) {
 				this.warn(
 					'Expected command to have at least one command registered since chatInputCommandOptions.register is set to true, but none were actually registered.',
-					"If you're using TypeScript, please try clearing the built folder, re-building the application and restarting."
+					"If you're using TypeScript, please try clearing the compiled code output folder, re-building your project, and restarting."
 				);
 			} else {
 				this.trace('No API calls to run, and no command to register');
