@@ -500,7 +500,7 @@ export namespace ChatInputCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ChatInputCommandContext;
-	export type Interaction = CommandInteraction;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = CommandInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
@@ -512,7 +512,7 @@ export namespace ContextMenuCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
-	export type Interaction = ContextMenuInteraction;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ContextMenuInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
@@ -524,7 +524,7 @@ export namespace AutocompleteCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = AutocompleteCommandContext;
-	export type Interaction = AutocompleteInteraction;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = AutocompleteInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
