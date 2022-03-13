@@ -1016,24 +1016,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^2.10.0":
-  version: 2.10.0
-  resolution: "@sapphire/discord-utilities@npm:2.10.0"
+"@sapphire/discord-utilities@npm:^2.10.1":
+  version: 2.10.1
+  resolution: "@sapphire/discord-utilities@npm:2.10.1"
   dependencies:
     twemoji-parser: ^13.1.0
-  checksum: 36d161704a9046ae26a6b6e55eca0af3ad49b22c33782792e126f429cc6bc278cef459f77c261969ea4d30c049aa3631ce0c31ba08b0a87babf47aa8a3cb52e8
+  checksum: 092b177156ac38071d7896cc404d02aaa36936c80b1a7d245370826a87be7f495848cfaef0d4538556e8b8c9dd5cece79e621aa3653e692226c4dcdf81cd4268
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.9.0":
-  version: 4.9.0
-  resolution: "@sapphire/discord.js-utilities@npm:4.9.0"
+"@sapphire/discord.js-utilities@npm:^4.9.1":
+  version: 4.9.1
+  resolution: "@sapphire/discord.js-utilities@npm:4.9.1"
   dependencies:
-    "@sapphire/discord-utilities": ^2.10.0
-    "@sapphire/time-utilities": ^1.7.0
-    "@sapphire/utilities": ^3.4.0
+    "@sapphire/discord-utilities": ^2.10.1
+    "@sapphire/time-utilities": ^1.7.1
+    "@sapphire/utilities": ^3.5.0
     tslib: ^2.3.1
-  checksum: 6ec4b35a087ddaaf408197fd96dff40cc2fe04d8dabe98fd3b352739f5d8153fed0293c6ecdab34117b5f57e4efea04aa1c8deb6c787bb2d45cdc58c1d7b7ea9
+  checksum: 5889adf196b93564930862d8f9edb5f7a824f366fd25d9a6d5dfd24b5d300f8bdfe0b03d3d9ec5ba048fecf0b532d049ffbc06e5b26ae15e1d6ae6ee3daa7158
   languageName: node
   linkType: hard
 
@@ -1069,16 +1069,16 @@ __metadata:
     "@commitlint/config-conventional": ^16.2.1
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.7
-    "@sapphire/discord-utilities": ^2.10.0
-    "@sapphire/discord.js-utilities": ^4.9.0
+    "@sapphire/discord-utilities": ^2.10.1
+    "@sapphire/discord.js-utilities": ^4.9.1
     "@sapphire/eslint-config": ^4.3.0
     "@sapphire/pieces": ^3.3.0
     "@sapphire/prettier-config": ^1.4.0
-    "@sapphire/ratelimits": ^2.4.0
+    "@sapphire/ratelimits": ^2.4.1
     "@sapphire/result": ^1.1.0
     "@sapphire/stopwatch": ^1.4.0
     "@sapphire/ts-config": ^3.3.2
-    "@sapphire/utilities": ^3.4.0
+    "@sapphire/utilities": ^3.5.0
     "@types/jest": ^27.4.1
     "@types/node": ^17.0.21
     "@types/ws": ^8.5.2
@@ -1130,12 +1130,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@sapphire/ratelimits@npm:2.4.0"
+"@sapphire/ratelimits@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "@sapphire/ratelimits@npm:2.4.1"
   dependencies:
-    "@sapphire/time-utilities": ^1.7.0
-  checksum: f29ddc21033e48304fc578d293162232aed856f537da5bfe91e0936d488c93fb6d4e4785789a4273ef3c08cf523ae69091e4a0378d9e4192faf093f705421a72
+    "@sapphire/time-utilities": ^1.7.1
+  checksum: 8b1f5d9b007bc4ac22b605b48491645f1a74dde56d70e6c2ae306cb035e276ee3acb396c1acc93fa3cf96e29e18bdc071298b7b635ac7bfa027b363021124cda
   languageName: node
   linkType: hard
 
@@ -1155,12 +1155,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/time-utilities@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@sapphire/time-utilities@npm:1.7.0"
+"@sapphire/time-utilities@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@sapphire/time-utilities@npm:1.7.1"
   dependencies:
-    "@sapphire/utilities": ^3.4.0
-  checksum: af2efcd9489bec41bd8cff8c5b8d567651d13767d2dcdcb421e60d3bda510e1c06c1e2b87d06f15d42ea81690edec7fa6c448fc4926f47d03d7a6cede2e2899a
+    "@sapphire/utilities": ^3.5.0
+  checksum: 0a6a3b0bd5fcd58bd8801430615a0f79ba918e2e938a10e4f08f4be05103d42a30f735554170f598930e924315963b8baa9bcb6327bcaf094b647f44c701b20b
   languageName: node
   linkType: hard
 
@@ -1178,6 +1178,13 @@ __metadata:
   version: 3.4.0
   resolution: "@sapphire/utilities@npm:3.4.0"
   checksum: b17a172a9e277da3437a2994cfcefd298a4e9c7cfc9c6dbaa1cc00050ca991446de9bca231da46d62e6d8c0e7e4c2350d32308e0961a2260de9dfd33b965ae42
+  languageName: node
+  linkType: hard
+
+"@sapphire/utilities@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "@sapphire/utilities@npm:3.5.0"
+  checksum: 6c2de9b69d17b565e1a206c10093843fc024dd036874fe058a41abeb752fd5cc786a1768402879c7f174d94f3b0b5a725647a571a6a534b9a2ae244b5260162e
   languageName: node
   linkType: hard
 
