@@ -8,7 +8,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
-					message: 'You can only run this command in private server thread channels.'
+					message: 'You can only run this message command in private server thread channels.'
 			  });
 	}
 

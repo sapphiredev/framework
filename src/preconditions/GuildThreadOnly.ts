@@ -30,7 +30,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionThreadOnly,
-					message: 'You can only run this chat input command in server thread channels.'
+					message: 'You can only run this context menu command in server thread channels.'
 			  });
 	}
 }
