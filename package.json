@@ -28,13 +28,13 @@
 		"prepare": "husky install .github/husky"
 	},
 	"dependencies": {
-		"@sapphire/discord-utilities": "^2.10.1",
-		"@sapphire/discord.js-utilities": "^4.9.1",
+		"@sapphire/discord-utilities": "^2.10.2",
+		"@sapphire/discord.js-utilities": "^4.9.2",
 		"@sapphire/pieces": "^3.3.0",
-		"@sapphire/ratelimits": "^2.4.1",
+		"@sapphire/ratelimits": "^2.4.2",
 		"@sapphire/result": "^1.1.0",
 		"@sapphire/stopwatch": "^1.4.0",
-		"@sapphire/utilities": "^3.5.0",
+		"@sapphire/utilities": "^3.6.0",
 		"lexure": "^0.17.0",
 		"tslib": "^2.3.1"
 	},
@@ -43,7 +43,7 @@
 		"@commitlint/config-conventional": "^16.2.1",
 		"@favware/npm-deprecate": "^1.0.4",
 		"@favware/rollup-type-bundler": "^1.0.7",
-		"@sapphire/eslint-config": "^4.3.0",
+		"@sapphire/eslint-config": "^4.3.1",
 		"@sapphire/prettier-config": "^1.4.0",
 		"@sapphire/ts-config": "^3.3.2",
 		"@types/jest": "^27.4.1",
