@@ -111,6 +111,14 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
 
+		if (options.generateUnderscoreLessAliases) {
+			const underscoreLessAliases = [];
+			if (this.name.includes('_')) underscoreLessAliases.push(this.name.replace(/_/g, ''));
+			for (const alias of this.aliases) if (alias.includes('_')) underscoreLessAliases.push(alias.replace(/_/g, ''));
+
+			this.aliases = [...this.aliases, ...underscoreLessAliases];
+		}
+
 		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.parseConstructorPreConditions(options);
 
@@ -586,6 +594,13 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * @default false
 	 */
 	generateDashLessAliases?: boolean;
+
+	/**
+	 * Whether to add aliases for commands with underscores in them
+	 * @since 3.0.0
+	 * @default false
+	 */
+	generateUnderscoreLessAliases?: boolean;
 
 	/**
 	 * The description for the command.
