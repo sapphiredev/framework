@@ -647,6 +647,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 *   ['"', '"'], // Double quotes
 	 *   ['“', '”'], // Fancy quotes (on iOS)
 	 *   ['「', '」'] // Corner brackets (CJK)
+	 *   ['«', '»'] // French quotes (guillemets)
 	 * ]
 	 */
 	quotes?: [string, string][];
