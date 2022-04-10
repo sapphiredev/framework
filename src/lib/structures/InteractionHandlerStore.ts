@@ -1,8 +1,8 @@
 import { Store } from '@sapphire/pieces';
-import { err, fromAsync, isErr, isSome, Result } from '@sapphire/result';
+import { err, fromAsync, isErr, isSome, Result, type Err, type Ok } from '@sapphire/result';
 import type { Interaction } from 'discord.js';
 import { Events } from '../types/Events';
-import { InteractionHandler, InteractionHandlerTypes } from './InteractionHandler';
+import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
 
 export class InteractionHandlerStore extends Store<InteractionHandler> {
 	public constructor() {
@@ -13,7 +13,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 		// Early-exit for optimization
 		if (this.size === 0) return false;
 
-		const promises = [];
+		const promises: Promise<Ok<unknown> | Err<{ handler: InteractionHandler<InteractionHandlerOptions>; error: unknown }>>[] = [];
 
 		// Iterate through every registered handler
 		for (const handler of this.values()) {

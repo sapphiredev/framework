@@ -104,7 +104,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		);
 
 		if (options.generateDashLessAliases) {
-			const dashLessAliases = [];
+			const dashLessAliases: string[] = [];
 			if (this.name.includes('-')) dashLessAliases.push(this.name.replace(/-/g, ''));
 			for (const alias of this.aliases) if (alias.includes('-')) dashLessAliases.push(alias.replace(/-/g, ''));
 
@@ -112,7 +112,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		}
 
 		if (options.generateUnderscoreLessAliases) {
-			const underscoreLessAliases = [];
+			const underscoreLessAliases: string[] = [];
 			if (this.name.includes('_')) underscoreLessAliases.push(this.name.replace(/_/g, ''));
 			for (const alias of this.aliases) if (alias.includes('_')) underscoreLessAliases.push(alias.replace(/_/g, ''));
 

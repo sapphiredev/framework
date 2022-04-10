@@ -16,7 +16,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const canRun = await this.canRunInChannel(message);
 		if (!canRun) return;
 
-		let prefix = null;
+		let prefix: string | null | RegExp = null;
 		const mentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
