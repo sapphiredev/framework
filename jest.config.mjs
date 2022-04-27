@@ -3,7 +3,6 @@ const config = {
 	displayName: 'unit test',
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-	testRunner: 'jest-circus/runner',
 	testMatch: ['<rootDir>/tests/**/*.test.ts'],
 	collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
 	globals: {
