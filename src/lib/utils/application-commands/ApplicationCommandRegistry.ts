@@ -280,7 +280,7 @@ export class ApplicationCommandRegistry {
 				type = 'unknown';
 		}
 
-		if (!registerOptions.guildIds?.length || container.client.options.alwaysRegisterApplicationCommandsAsGlobal) {
+		if (!registerOptions.guildIds?.length || registerOptions.registerAsGlobal) {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
@@ -457,8 +457,6 @@ export class ApplicationCommandRegistry {
 export namespace ApplicationCommandRegistry {
 	export interface RegisterOptions {
 		/**
-		 * Only if the client option `alwaysRegisterApplicationCommandsAsGlobal` is `false`.
-		 *
 		 * If this is specified, the application commands will only be registered for these guild ids.
 		 */
 		guildIds?: string[];
@@ -477,6 +475,11 @@ export namespace ApplicationCommandRegistry {
 		 * @default []
 		 */
 		idHints?: string[];
+
+		/**
+		 * If this is specified, the command will register globally and not only on the guild ids set in the `guildIds` option.
+		 */
+		registerAsGlobal?: boolean;
 	}
 }
 

@@ -152,11 +152,6 @@ export interface SapphireClientOptions {
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
 	preventFailedToFetchLogForGuildIds?: string[];
-
-	/**
-	 * Determines whether application commands should always be registered globally regardless of whether they have the `guildIds` property in their registration options.
-	 */
-	alwaysRegisterApplicationCommandsAsGlobal?: boolean;
 }
 
 /**
