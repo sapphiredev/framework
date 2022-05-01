@@ -457,6 +457,8 @@ export class ApplicationCommandRegistry {
 export namespace ApplicationCommandRegistry {
 	export interface RegisterOptions {
 		/**
+		 * Only if the client option `alwaysRegisterApplicationCommandsAsGlobal` is `false`.
+		 *
 		 * If this is specified, the application commands will only be registered for these guild ids.
 		 */
 		guildIds?: string[];
