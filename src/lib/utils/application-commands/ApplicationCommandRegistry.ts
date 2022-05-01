@@ -280,7 +280,7 @@ export class ApplicationCommandRegistry {
 				type = 'unknown';
 		}
 
-		if (!registerOptions.guildIds?.length) {
+		if (!registerOptions.guildIds?.length || container.client.options.alwaysRegisterApplicationCommandsAsGlobal) {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
