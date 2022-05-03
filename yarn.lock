@@ -1183,7 +1183,7 @@ __metadata:
     rollup: ^2.71.1
     rollup-plugin-version-injector: ^1.3.3
     standard-version: ^9.3.2
-    ts-jest: next
+    ts-jest: ^28.0.0
     tslib: ^2.4.0
     typedoc: ^0.22.15
     typedoc-plugin-djs-links: ^1.0.4
@@ -7231,9 +7231,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:next":
-  version: 28.0.0-next.1
-  resolution: "ts-jest@npm:28.0.0-next.1"
+"ts-jest@npm:^28.0.0":
+  version: 28.0.0
+  resolution: "ts-jest@npm:28.0.0"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -7260,7 +7260,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: 81e9fe6872ec092ec23c4a40b40f9d2c1df67185a1fd7f26282ab3c3fa4c741a27edb9ddaafb2cebd34ad9a69c76d11ed9c3d430d7072871dfedb4739f3a5dcc
+  checksum: a8bbcb5ec931e6f9a9a347cb28d211c1ca440e6205128fcd766e6edbb0706469cb0e675d766a86bfda813037d65a82f0956ed49a452241097a4577970279cb90
   languageName: node
   linkType: hard
 
