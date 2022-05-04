@@ -7,6 +7,6 @@ LICENSE.md @kyranet @favna @vladfrangu
 /.vscode/ @favna
 /.all-contributorsrc @favna
 .npm-deprecaterc.yml @favna
-jest.config.ts @favna
+jest.config.mjs @favna
 package.json @favna
 README.md @favna
