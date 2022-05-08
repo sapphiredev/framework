@@ -1109,15 +1109,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.9.7":
-  version: 4.9.7
-  resolution: "@sapphire/discord.js-utilities@npm:4.9.7"
+"@sapphire/discord.js-utilities@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "@sapphire/discord.js-utilities@npm:4.10.0"
   dependencies:
     "@sapphire/discord-utilities": ^2.10.3
     "@sapphire/time-utilities": ^1.7.4
     "@sapphire/utilities": ^3.6.2
     tslib: ^2.4.0
-  checksum: c174b512c283216c3382fea518ba01ceda5ade39cd7ae8988bc4a9bb1fe37d0a7f7b7a578cd0053c3bcf6230ede2f7cee50810f08082186b311e220117b9ec50
+  checksum: 7794e35aa500aa7fbe7c2a1528124c5f70642b071cb3821d23909d40a3625adf51ebbca4cd3871806eb2b501d73c31758f21d8fef57a7af5fec8562e517611fb
   languageName: node
   linkType: hard
 
@@ -1154,7 +1154,7 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.7
     "@sapphire/discord-utilities": ^2.10.3
-    "@sapphire/discord.js-utilities": ^4.9.7
+    "@sapphire/discord.js-utilities": ^4.10.0
     "@sapphire/eslint-config": ^4.3.4
     "@sapphire/pieces": ^3.3.1
     "@sapphire/prettier-config": ^1.4.3
