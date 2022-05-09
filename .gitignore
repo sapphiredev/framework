@@ -13,16 +13,6 @@ docs/
 # Ignore tsc dist folder
 dist/
 
-# Ignore JavaScript files
-**/*.js
-**/*.mjs
-**/*.js.map
-**/*.d.ts
-!src/**/*.d.ts
-**/*.tsbuildinfo
-!jest.config.mjs
-!scripts/*.mjs
-
 # Ignore heapsnapshot and log files
 *.heapsnapshot
 *.log
