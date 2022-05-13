@@ -106,6 +106,7 @@ export const enum InteractionHandlerTypes {
 	// Specifically focused types
 	Button = 'BUTTON',
 	SelectMenu = 'SELECT_MENU',
+	ModalSubmit = 'MODAL_SUBMIT',
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
 	MessageComponent = 'MESSAGE_COMPONENT',

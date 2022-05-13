@@ -1338,4 +1338,132 @@ describe('Compute differences for provided application commands', () => {
 			}
 		]);
 	});
+
+	// Localizations
+	it('given a command with no name localizations and a command with name localizations, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			name: 'command1',
+			description: 'description 1'
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda1'
+			}
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'nameLocalizations',
+				expected: 'localized names',
+				original: 'no localized names'
+			}
+		]);
+	});
+
+	it('given a command with name localizations and a command with no name localizations, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda1'
+			}
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1'
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'nameLocalizations',
+				expected: 'no localized names',
+				original: 'localized names'
+			}
+		]);
+	});
+
+	it('given a command with name localizations and a command with different name localizations, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda1'
+			}
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				'es-ES': 'dominio1'
+			}
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'nameLocalizations.es-ES',
+				original: 'no localization present',
+				expected: 'dominio1'
+			},
+			{
+				key: 'nameLocalizations.ro',
+				expected: 'no localization present',
+				original: 'comanda1'
+			}
+		]);
+	});
+
+	it('given a command with name localizations and a command with empty name localizations, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda1'
+			}
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {}
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'nameLocalizations.ro',
+				expected: 'no localization present',
+				original: 'comanda1'
+			}
+		]);
+	});
+
+	it('given a command with name localizations and a command with different name localizations for the same locale, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda1'
+			}
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			name_localizations: {
+				ro: 'comanda2'
+			}
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'nameLocalizations.ro',
+				expected: 'comanda2',
+				original: 'comanda1'
+			}
+		]);
+	});
 });
