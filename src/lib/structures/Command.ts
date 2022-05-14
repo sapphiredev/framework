@@ -310,9 +310,14 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		// Reload the command
 		await super.reload();
 
+		// Get the command from the store to get any changes from the reload
+		const updatedPiece = store.get(this.name);
+		// This likely shouldn't happen but not worth continuing if the piece is somehow no longer available
+		if (!updatedPiece) return;
+
 		// Rerun the registry
 		try {
-			await this.registerApplicationCommands(this.applicationCommandRegistry);
+			await updatedPiece.registerApplicationCommands(this.applicationCommandRegistry);
 		} catch (err) {
 			emitRegistryError(err, this);
 			// No point on continuing
@@ -328,11 +333,11 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		// Re-set the aliases
 		for (const nameOrId of registry.chatInputCommands) {
-			store.aliases.set(nameOrId, this);
+			store.aliases.set(nameOrId, updatedPiece);
 		}
 
 		for (const nameOrId of registry.contextMenuCommands) {
-			store.aliases.set(nameOrId, this);
+			store.aliases.set(nameOrId, updatedPiece);
 		}
 	}
 
