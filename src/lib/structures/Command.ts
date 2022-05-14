@@ -312,6 +312,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		// Get the command from the store to get any changes from the reload
 		const updatedPiece = store.get(this.name);
+
 		// This likely shouldn't happen but not worth continuing if the piece is somehow no longer available
 		if (!updatedPiece) return;
 
