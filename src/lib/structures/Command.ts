@@ -316,9 +316,11 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		// This likely shouldn't happen but not worth continuing if the piece is somehow no longer available
 		if (!updatedPiece) return;
 
+		const updatedRegistry = updatedPiece.applicationCommandRegistry;
+
 		// Rerun the registry
 		try {
-			await updatedPiece.registerApplicationCommands(this.applicationCommandRegistry);
+			await updatedPiece.registerApplicationCommands(updatedRegistry);
 		} catch (err) {
 			emitRegistryError(err, this);
 			// No point on continuing
@@ -330,14 +332,14 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		// Handle the API calls
 		// eslint-disable-next-line @typescript-eslint/dot-notation
-		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+		await updatedRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
 		// Re-set the aliases
-		for (const nameOrId of registry.chatInputCommands) {
+		for (const nameOrId of updatedRegistry.chatInputCommands) {
 			store.aliases.set(nameOrId, updatedPiece);
 		}
 
-		for (const nameOrId of registry.contextMenuCommands) {
+		for (const nameOrId of updatedRegistry.contextMenuCommands) {
 			store.aliases.set(nameOrId, updatedPiece);
 		}
 	}
