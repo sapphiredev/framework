@@ -3,3 +3,4 @@ packagePath: .
 org: sapphire
 monoRepo: false
 commitMessageTemplate: 'chore(release): release {{new-version}}'
+tagTemplate: v{{new-version}}
