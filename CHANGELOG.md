@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## 🚀 Features
 
--   **\*:** Update to discord.js v13.7.0 (#435) ([a2ea376](https://github.com/sapphiredev/framework/commit/a2ea376f18ddc52b709ad5d6ceb748464b29a63e))
+-   Update to discord.js v13.7.0 (#435) ([a2ea376](https://github.com/sapphiredev/framework/commit/a2ea376f18ddc52b709ad5d6ceb748464b29a63e))
 
 ### [2.4.1](https://github.com/sapphiredev/framework/compare/v2.4.0...v2.4.1) (2022-02-18)
 
