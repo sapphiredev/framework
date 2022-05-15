@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.5.0](https://github.com/sapphiredev/framework/compare/v2.4.1...v2.5.0) - (2022-05-15)
+
+## 🚀 Features
+
+-   **\*:** Update to discord.js v13.7.0 (#435) ([a2ea376](https://github.com/sapphiredev/framework/commit/a2ea376f18ddc52b709ad5d6ceb748464b29a63e))
+
+### [2.4.1](https://github.com/sapphiredev/framework/compare/v2.4.0...v2.4.1) (2022-02-18)
+
+### Bug Fixes
+
+-   explicitly bump sapphire dependencies to their latest versions ([df3a3d1](https://github.com/sapphiredev/framework/commit/df3a3d1dc58fc85312ea8db33944a049c88037a7))
+
 ## [2.4.0](https://github.com/sapphiredev/framework/compare/v2.3.0...v2.4.0) (2022-02-05)
 
 ### Features
