@@ -1,5 +1,6 @@
 import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
 import { Awaitable, isNullish, NonNullObject } from '@sapphire/utilities';
+import type { LocalizationMap } from 'discord-api-types/v9';
 import {
 	AutocompleteInteraction,
 	CommandInteraction,
@@ -236,7 +237,13 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 						builder.setDefaultPermission(this.chatInputCommandOptions.defaultPermission!);
 					}
 
-					return builder;
+					if (this.chatInputCommandOptions.nameLocalizations) {
+						builder.setNameLocalizations(this.chatInputCommandOptions.nameLocalizations);
+					}
+
+					if (this.chatInputCommandOptions.descriptionLocalizations) {
+						builder.setDescriptionLocalizations(this.chatInputCommandOptions.descriptionLocalizations);
+					}
 				},
 				{
 					behaviorWhenNotIdentical: this.chatInputCommandOptions.behaviorWhenNotIdentical,
@@ -270,7 +277,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	}
 
 	/**
-	 * Type-guard that ensures the command supports handling autocompletes by checking if the handler for it is present
+	 * Type-guard that ensures the command supports handling autocomplete interactions by checking if the handler for it is present
 	 */
 	public supportsAutocompleteInteractions(): this is AutocompleteCommand {
 		return Reflect.has(this, 'autocompleteRun');
@@ -763,11 +770,19 @@ export interface CommandChatInputRegisterShortcut {
 	 *
 	 * :::warn
 	 *
-	 * This will be deprecated in the future for Discord's new permission system
+	 * This will be deprecated in the future for Discord's new permission system.
 	 *
 	 * :::
 	 */
 	defaultPermission?: boolean;
+	/**
+	 * Sets the `nameLocalizations` for the chat input command
+	 */
+	nameLocalizations?: LocalizationMap;
+	/**
+	 * Sets the `descriptionLocalizations` for the chat input command
+	 */
+	descriptionLocalizations?: LocalizationMap;
 }
 
 export interface MessageCommandContext extends Record<PropertyKey, unknown> {

@@ -47,13 +47,7 @@ export class ApplicationCommandRegistry {
 			| SlashCommandSubcommandsOnlyBuilder
 			| SlashCommandOptionsOnlyBuilder
 			| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
-			| ((
-					builder: SlashCommandBuilder
-			  ) =>
-					| SlashCommandBuilder
-					| SlashCommandSubcommandsOnlyBuilder
-					| SlashCommandOptionsOnlyBuilder
-					| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>),
+			| ((builder: SlashCommandBuilder) => unknown),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
 		const builtData = normalizeChatInputCommand(command);
@@ -80,7 +74,7 @@ export class ApplicationCommandRegistry {
 			| UserApplicationCommandData
 			| MessageApplicationCommandData
 			| ContextMenuCommandBuilder
-			| ((builder: ContextMenuCommandBuilder) => ContextMenuCommandBuilder),
+			| ((builder: ContextMenuCommandBuilder) => unknown),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
 		const builtData = normalizeContextMenuCommand(command);
@@ -468,7 +462,7 @@ export namespace ApplicationCommandRegistry {
 		registerCommandIfMissing?: boolean;
 		/**
 		 * Specifies what we should do when the command is present, but not identical with the data you provided
-		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical`
+		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
 		 */
 		behaviorWhenNotIdentical?: RegisterBehavior;
 		/**
