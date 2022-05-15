@@ -37,44 +37,27 @@ export function normalizeChatInputCommand(
 		| SlashCommandSubcommandsOnlyBuilder
 		| SlashCommandOptionsOnlyBuilder
 		| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
-		| ((
-				builder: SlashCommandBuilder
-		  ) =>
-				| SlashCommandBuilder
-				| SlashCommandSubcommandsOnlyBuilder
-				| SlashCommandOptionsOnlyBuilder
-				| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>)
+		| ((builder: SlashCommandBuilder) => unknown)
 ): RESTPostAPIChatInputApplicationCommandsJSONBody {
 	if (isFunction(command)) {
 		const builder = new SlashCommandBuilder();
 		command(builder);
-		const json = builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
-
-		// TODO: once d.js updates builders version, remove this!!
-		if (json.options) {
-			json.options = json.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
-		}
-
-		return json;
+		return builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
 	}
 
 	if (isBuilder(command)) {
-		const json = command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
-
-		// TODO: once d.js updates builders version, remove this!!
-		if (json.options) {
-			json.options = json.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
-		}
-
-		return json;
+		return command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
 	}
 
-	const finalObject = {
-		description: command.description,
+	const finalObject: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 		name: command.name,
+		name_localizations: command.nameLocalizations,
+		description: command.description,
+		description_localizations: command.descriptionLocalizations,
 		default_permission: command.defaultPermission,
 		type: ApplicationCommandType.ChatInput
-	} as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		// TODO: once command perms v2 drops, add the fields here
+	};
 
 	if (command.options?.length) {
 		finalObject.options = command.options.map((option) => ApplicationCommand['transformOption'](option) as APIApplicationCommandOption);
@@ -88,7 +71,7 @@ export function normalizeContextMenuCommand(
 		| UserApplicationCommandData
 		| MessageApplicationCommandData
 		| ContextMenuCommandBuilder
-		| ((builder: ContextMenuCommandBuilder) => ContextMenuCommandBuilder)
+		| ((builder: ContextMenuCommandBuilder) => unknown)
 ): RESTPostAPIContextMenuApplicationCommandsJSONBody {
 	if (isFunction(command)) {
 		const builder = new ContextMenuCommandBuilder();
@@ -116,11 +99,13 @@ export function normalizeContextMenuCommand(
 			throw new Error(`Unhandled command type: ${command.type}`);
 	}
 
-	const finalObject = {
+	const finalObject: RESTPostAPIContextMenuApplicationCommandsJSONBody = {
 		name: command.name,
+		name_localizations: command.nameLocalizations,
 		type,
 		default_permission: command.defaultPermission
-	} as RESTPostAPIContextMenuApplicationCommandsJSONBody;
+		// TODO: once command perms v2 drops, add the fields here
+	};
 
 	return finalObject;
 }
@@ -128,12 +113,15 @@ export function normalizeContextMenuCommand(
 export function convertApplicationCommandToApiData(command: ApplicationCommand): RESTPostAPIApplicationCommandsJSONBody {
 	const returnData = {
 		name: command.name,
+		name_localizations: command.nameLocalizations,
 		default_permission: command.defaultPermission
+		// TODO: once command perms v2 drops, add the fields here
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
 	if (command.type === 'CHAT_INPUT') {
 		returnData.type = ApplicationCommandType.ChatInput;
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
+		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description_localizations = command.descriptionLocalizations;
 	} else if (command.type === 'MESSAGE') {
 		returnData.type = ApplicationCommandType.Message;
 	} else if (command.type === 'USER') {

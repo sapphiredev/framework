@@ -8,6 +8,7 @@ import {
 	APIApplicationCommandSubcommandOption,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	LocalizationMap,
 	RESTPostAPIApplicationCommandsJSONBody,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
@@ -24,7 +25,8 @@ const optionTypeToPrettyName = new Map([
 	[ApplicationCommandOptionType.Channel, 'channel option'],
 	[ApplicationCommandOptionType.Role, 'role option'],
 	[ApplicationCommandOptionType.Mentionable, 'mentionable option'],
-	[ApplicationCommandOptionType.Number, 'number option']
+	[ApplicationCommandOptionType.Number, 'number option'],
+	[ApplicationCommandOptionType.Attachment, 'attachment option']
 ]);
 
 const contextMenuTypes = [ApplicationCommandType.Message, ApplicationCommandType.User];
@@ -60,6 +62,26 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 					expected: String(casted.default_permission ?? true)
 				});
 			}
+
+			// Check localized names
+			const originalLocalizedNames = existingCommand.name_localizations;
+			const expectedLocalizedNames = casted.name_localizations;
+
+			if (!originalLocalizedNames && expectedLocalizedNames) {
+				differences.push({
+					key: 'nameLocalizations',
+					original: 'no localized names',
+					expected: 'localized names'
+				});
+			} else if (originalLocalizedNames && !expectedLocalizedNames) {
+				differences.push({
+					key: 'nameLocalizations',
+					original: 'localized names',
+					expected: 'no localized names'
+				});
+			} else if (originalLocalizedNames && expectedLocalizedNames) {
+				differences.push(...reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations'));
+			}
 		}
 
 		return differences;
@@ -74,6 +96,26 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 			original: existingCommand.name,
 			expected: casted.name
 		});
+	}
+
+	// Check localized names
+	const originalLocalizedNames = existingCommand.name_localizations;
+	const expectedLocalizedNames = casted.name_localizations;
+
+	if (!originalLocalizedNames && expectedLocalizedNames) {
+		differences.push({
+			key: 'nameLocalizations',
+			original: 'no localized names',
+			expected: 'localized names'
+		});
+	} else if (originalLocalizedNames && !expectedLocalizedNames) {
+		differences.push({
+			key: 'nameLocalizations',
+			original: 'localized names',
+			expected: 'no localized names'
+		});
+	} else if (originalLocalizedNames && expectedLocalizedNames) {
+		differences.push(...reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations'));
 	}
 
 	// Check defaultPermissions
@@ -93,6 +135,28 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 			original: existingCommand.description,
 			expected: casted.description
 		});
+	}
+
+	// Check localized descriptions
+	const originalLocalizedDescriptions = existingCommand.description_localizations;
+	const expectedLocalizedDescriptions = casted.description_localizations;
+
+	if (!originalLocalizedDescriptions && expectedLocalizedDescriptions) {
+		differences.push({
+			key: 'descriptionLocalizations',
+			original: 'no localized descriptions',
+			expected: 'localized descriptions'
+		});
+	} else if (originalLocalizedDescriptions && !expectedLocalizedDescriptions) {
+		differences.push({
+			key: 'descriptionLocalizations',
+			original: 'localized descriptions',
+			expected: 'no localized descriptions'
+		});
+	} else if (originalLocalizedDescriptions && expectedLocalizedDescriptions) {
+		differences.push(
+			...reportLocalizationMapDifferences(originalLocalizedDescriptions, expectedLocalizedDescriptions, 'descriptionLocalizations')
+		);
 	}
 
 	// 0. No existing options and now we have options
@@ -139,6 +203,59 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 	}
 
 	return differences;
+}
+
+function* reportLocalizationMapDifferences(
+	originalMap: LocalizationMap,
+	expectedMap: LocalizationMap,
+	mapName: string
+): Generator<CommandDifference> {
+	const originalLocalizations = new Map(Object.entries(originalMap));
+
+	for (const [key, value] of Object.entries(expectedMap)) {
+		const possiblyExistingEntry = originalLocalizations.get(key) as string | undefined;
+		originalLocalizations.delete(key);
+
+		const wasMissingBefore = typeof possiblyExistingEntry === 'undefined';
+		const isResetNow = value === null;
+
+		// Was missing before and now is present
+		if (wasMissingBefore && !isResetNow) {
+			yield {
+				key: `${mapName}.${key}`,
+				original: 'no localization present',
+				expected: value
+			};
+		}
+		// Was present before and now is reset
+		else if (!wasMissingBefore && isResetNow) {
+			yield {
+				key: `${mapName}.${key}`,
+				original: possiblyExistingEntry,
+				expected: 'no localization present'
+			};
+		}
+		// Not equal
+		// eslint-disable-next-line no-negated-condition
+		else if (possiblyExistingEntry !== value) {
+			yield {
+				key: `${mapName}.${key}`,
+				original: String(possiblyExistingEntry),
+				expected: String(value)
+			};
+		}
+	}
+
+	// Report any remaining localizations
+	for (const [key, value] of originalLocalizations) {
+		if (value) {
+			yield {
+				key: `${mapName}.${key}`,
+				original: value,
+				expected: 'no localization present'
+			};
+		}
+	}
 }
 
 export interface CommandDifference {
@@ -189,6 +306,26 @@ function* reportOptionDifferences({
 		};
 	}
 
+	// Check localized names
+	const originalLocalizedNames = existingOption.name_localizations;
+	const expectedLocalizedNames = option.name_localizations;
+
+	if (!originalLocalizedNames && expectedLocalizedNames) {
+		yield {
+			key: `${keyPath(currentIndex)}.nameLocalizations`,
+			original: 'no localized names',
+			expected: 'localized names'
+		};
+	} else if (originalLocalizedNames && !expectedLocalizedNames) {
+		yield {
+			key: `${keyPath(currentIndex)}.nameLocalizations`,
+			original: 'localized names',
+			expected: 'no localized names'
+		};
+	} else if (originalLocalizedNames && expectedLocalizedNames) {
+		yield* reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, `${keyPath(currentIndex)}.nameLocalizations`);
+	}
+
 	// Check description
 	if (existingOption.description !== option.description) {
 		yield {
@@ -196,6 +333,30 @@ function* reportOptionDifferences({
 			original: existingOption.description,
 			expected: option.description
 		};
+	}
+
+	// Check localized descriptions
+	const originalLocalizedDescriptions = existingOption.description_localizations;
+	const expectedLocalizedDescriptions = option.description_localizations;
+
+	if (!originalLocalizedDescriptions && expectedLocalizedDescriptions) {
+		yield {
+			key: `${keyPath(currentIndex)}.descriptionLocalizations`,
+			original: 'no localized descriptions',
+			expected: 'localized descriptions'
+		};
+	} else if (originalLocalizedDescriptions && !expectedLocalizedDescriptions) {
+		yield {
+			key: `${keyPath(currentIndex)}.descriptionLocalizations`,
+			original: 'localized descriptions',
+			expected: 'no localized descriptions'
+		};
+	} else if (originalLocalizedDescriptions && expectedLocalizedDescriptions) {
+		yield* reportLocalizationMapDifferences(
+			originalLocalizedDescriptions,
+			expectedLocalizedDescriptions,
+			`${keyPath(currentIndex)}.descriptionLocalizations`
+		);
 	}
 
 	// Check required
@@ -393,6 +554,30 @@ function* reportOptionDifferences({
 								original: existingChoice.name,
 								expected: choice.name
 							};
+						}
+
+						// Check localized names
+						const originalLocalizedNames = existingChoice.name_localizations;
+						const expectedLocalizedNames = choice.name_localizations;
+
+						if (!originalLocalizedNames && expectedLocalizedNames) {
+							yield {
+								key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}].nameLocalizations`,
+								original: 'no localized names',
+								expected: 'localized names'
+							};
+						} else if (originalLocalizedNames && !expectedLocalizedNames) {
+							yield {
+								key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}].nameLocalizations`,
+								original: 'localized names',
+								expected: 'no localized names'
+							};
+						} else if (originalLocalizedNames && expectedLocalizedNames) {
+							yield* reportLocalizationMapDifferences(
+								originalLocalizedNames,
+								expectedLocalizedNames,
+								`${keyPath(currentIndex)}.choices[${currentChoiceIndex}].nameLocalizations`
+							);
 						}
 
 						if (choice.value !== existingChoice.value) {

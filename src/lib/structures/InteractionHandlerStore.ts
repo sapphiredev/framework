@@ -77,6 +77,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (interaction: Interaction) => boolean>([
 	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
 	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isSelectMenu()],
+	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.isModalSubmit()],
 
 	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
 	[InteractionHandlerTypes.Autocomplete, (Interaction) => Interaction.isAutocomplete()]
