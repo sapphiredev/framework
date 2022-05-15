@@ -15,7 +15,7 @@ export class CoreEvent extends Listener<typeof Events.InteractionCreate> {
 			this.container.client.emit(Events.PossibleContextMenuCommand, interaction);
 		} else if (interaction.isAutocomplete()) {
 			this.container.client.emit(Events.PossibleAutocompleteInteraction, interaction);
-		} else if (interaction.isMessageComponent()) {
+		} else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
 			await this.container.stores.get('interaction-handlers').run(interaction);
 		} else {
 			this.container.logger.warn(`Unhandled interaction type: ${interaction.constructor.name}`);
