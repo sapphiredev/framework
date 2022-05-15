@@ -121,6 +121,8 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	if (command.type === 'CHAT_INPUT') {
 		returnData.type = ApplicationCommandType.ChatInput;
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
+		// TODO (favna): Remove this line after website rewrite is done
+		// @ts-ignore this is currently ignored for the website
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description_localizations = command.descriptionLocalizations;
 	} else if (command.type === 'MESSAGE') {
 		returnData.type = ApplicationCommandType.Message;
