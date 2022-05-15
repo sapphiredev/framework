@@ -399,7 +399,8 @@ export class ApplicationCommandRegistry {
 		guildId?: string
 	) {
 		try {
-			// @ts-expect-error Currently there's a discord-api-types version clash between builders and discord.js
+			// TODO (favna): Replace with ts-expect-error after website rewrite is done
+			// @ts-ignore Currently there's a discord-api-types version clash between builders and discord.js
 			const result = await commandsManager.create(apiData, guildId);
 
 			this.info(
