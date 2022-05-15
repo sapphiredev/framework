@@ -18,7 +18,7 @@ export class CoreEvent extends Listener<typeof Events.InteractionCreate> {
 		} else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
 			await this.container.stores.get('interaction-handlers').run(interaction);
 		} else {
-			this.container.logger.warn(`Unhandled interaction type: ${interaction.constructor.name}`);
+			this.container.logger.warn(`[Sapphire ${this.location.name}] Unhandled interaction type: ${interaction.constructor.name}`);
 		}
 	}
 }
