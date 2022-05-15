@@ -1,0 +1,5 @@
+name: framework
+packagePath: .
+org: sapphire
+monoRepo: false
+commitMessageTemplate: 'chore(release): release {{new-version}}'
