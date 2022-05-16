@@ -5,7 +5,7 @@ export async function getNeededRegistryParameters() {
 	const { client } = container;
 
 	const applicationCommands = client.application!.commands;
-	const globalCommands = await applicationCommands.fetch();
+	const globalCommands = await applicationCommands.fetch({ withLocalizations: true });
 	const guildCommands = await fetchGuildCommands(applicationCommands);
 
 	return {
@@ -20,7 +20,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager) {
 
 	for (const [guildId, guild] of commands.client.guilds.cache.entries()) {
 		try {
-			const guildCommands = await commands.fetch({ guildId });
+			const guildCommands = await commands.fetch({ guildId, withLocalizations: true });
 			map.set(guildId, guildCommands);
 		} catch (err) {
 			if (!container.client.options.preventFailedToFetchLogForGuildIds?.includes(guildId)) {
