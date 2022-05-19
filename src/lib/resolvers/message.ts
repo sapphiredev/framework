@@ -1,5 +1,12 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
-import { GuildBasedChannelTypes, isNewsChannel, isTextChannel, TextBasedChannelTypes } from '@sapphire/discord.js-utilities';
+import {
+	GuildBasedChannelTypes,
+	isGuildBasedChannel,
+	isNewsChannel,
+	isTextBasedChannel,
+	isTextChannel,
+	TextBasedChannelTypes
+} from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
@@ -22,7 +29,18 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 }
 
 function resolveById(parameter: string, channel: TextBasedChannelTypes): Awaitable<Message | null> {
-	return SnowflakeRegex.test(parameter) ? channel.messages.fetch(parameter as Snowflake) : null;
+	if (!SnowflakeRegex.test(parameter)) return null;
+
+	if (isGuildBasedChannel(channel)) {
+		for (const chan of channel.guild.channels.cache.values()) {
+			if (!isTextBasedChannel(chan)) continue;
+
+			const message = chan.messages.cache.get(parameter);
+			if (message) return message;
+		}
+	}
+
+	return channel.messages.fetch(parameter as Snowflake);
 }
 
 async function resolveByLink(parameter: string, message: Message): Promise<Message | null> {
