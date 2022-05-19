@@ -1132,8 +1132,8 @@ describe('Compute differences for provided application commands', () => {
 		expect(getCommandDifferences(command1, command2)).toEqual([
 			{
 				key: 'options[0].choices[1]',
-				expected: 'no choice present',
-				original: 'choice present'
+				original: 'no choice present',
+				expected: 'choice present'
 			}
 		]);
 	});
