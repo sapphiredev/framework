@@ -544,8 +544,8 @@ function* reportOptionDifferences({
 					if (existingChoice === undefined) {
 						yield {
 							key: `${keyPath(currentIndex)}.choices[${currentChoiceIndex}]`,
-							expected: 'no choice present',
-							original: 'choice present'
+							original: 'no choice present',
+							expected: 'choice present'
 						};
 					} else {
 						if (choice.name !== existingChoice.name) {
