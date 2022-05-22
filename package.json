@@ -28,7 +28,7 @@
 		"postpack": "pinst --enable"
 	},
 	"dependencies": {
-		"@sapphire/discord-utilities": "^2.10.3",
+		"@sapphire/discord-utilities": "^2.11.0",
 		"@sapphire/discord.js-utilities": "^4.11.0",
 		"@sapphire/pieces": "^3.3.3",
 		"@sapphire/ratelimits": "^2.4.4",
