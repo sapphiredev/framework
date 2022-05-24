@@ -28,7 +28,7 @@ export interface MessageResolverOptions {
 	message: Message;
 	/**
 	 * Whether to scan the entire guild cache for the message.
-	 * Overrides the channel option, if both are given.
+	 * If channel is given with this option, this option is ignored.
 	 * @default false
 	 */
 	scan?: boolean;
@@ -46,10 +46,12 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {
 	if (!SnowflakeRegex.test(parameter)) return null;
 
-	if (!options.scan) {
+	if (options.channel) {
 		const channel = options.channel ?? options.message.channel;
 		return channel.messages.fetch(parameter as Snowflake);
 	}
+
+	if (!options.scan) return null;
 
 	if (isGuildBasedChannel(options.message.channel)) {
 		for (const channel of options.message.channel.guild.channels.cache.values()) {
