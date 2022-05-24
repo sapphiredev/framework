@@ -13,34 +13,53 @@ import type { Awaitable } from '@sapphire/utilities';
 import { Message, Permissions, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
-interface MessageResolverOptions {
+/**
+ * Options to resolve a message from a string, given a certain context.
+ */
+export interface MessageResolverOptions {
+	/**
+	 * Channel to resolve the message in.
+	 * @default message.channel
+	 */
 	channel?: TextBasedChannelTypes;
+	/**
+	 * Base message to resolve the message from (e.g. pick the channel if not given).
+	 */
 	message: Message;
+	/**
+	 * Whether to scan the entire guild cache for the message.
+	 * Overrides the channel option, if both are given.
+	 * @default false
+	 */
+	scan?: boolean;
 }
 
 export async function resolveMessage(parameter: string, options: MessageResolverOptions): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
-	const channel = options.channel ?? options.message.channel;
 	const message =
-		(await resolveById(parameter, channel)) ??
+		(await resolveById(parameter, options)) ??
 		(await resolveByLink(parameter, options.message)) ??
 		(await resolveByChannelAndMessage(parameter, options.message));
 	if (message) return ok(message);
 	return err(Identifiers.ArgumentMessageError);
 }
 
-function resolveById(parameter: string, channel: TextBasedChannelTypes): Awaitable<Message | null> {
+function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {
 	if (!SnowflakeRegex.test(parameter)) return null;
 
-	if (isGuildBasedChannel(channel)) {
-		for (const chan of channel.guild.channels.cache.values()) {
-			if (!isTextBasedChannel(chan)) continue;
+	if (!options.scan) {
+		const channel = options.channel ?? options.message.channel;
+		return channel.messages.fetch(parameter as Snowflake);
+	}
 
-			const message = chan.messages.cache.get(parameter);
+	if (isGuildBasedChannel(options.message.channel)) {
+		for (const channel of options.message.channel.guild.channels.cache.values()) {
+			if (!isTextBasedChannel(channel)) continue;
+
+			const message = channel.messages.cache.get(parameter);
 			if (message) return message;
 		}
 	}
-
-	return channel.messages.fetch(parameter as Snowflake);
+	return null;
 }
 
 async function resolveByLink(parameter: string, message: Message): Promise<Message | null> {
