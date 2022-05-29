@@ -15,7 +15,7 @@ jobs:
         with:
           repository: 'sapphiredev/readme'
       - name: Run Label Sync
-        uses: crazy-max/ghaction-github-labeler@52525cb66833763f651fc34e244e4f73b6e07ff5 # renovate: tag=v3
+        uses: crazy-max/ghaction-github-labeler@f8d36db286402ecb67054c6a14ec17ba2cd681a0 # tag=v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
