@@ -46,14 +46,9 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {
 	if (!SnowflakeRegex.test(parameter)) return null;
 
-	if (options.channel) {
-		const channel = options.channel ?? options.message.channel;
-		return channel.messages.fetch(parameter as Snowflake);
-	}
+	if (options.channel) return options.channel.messages.fetch(parameter as Snowflake);
 
-	if (!options.scan) return null;
-
-	if (isGuildBasedChannel(options.message.channel)) {
+	if (options.scan && isGuildBasedChannel(options.message.channel)) {
 		for (const channel of options.message.channel.guild.channels.cache.values()) {
 			if (!isTextBasedChannel(channel)) continue;
 
@@ -61,7 +56,8 @@ function resolveById(parameter: string, options: MessageResolverOptions): Awaita
 			if (message) return message;
 		}
 	}
-	return null;
+
+	return options.message.channel.messages.fetch(parameter as Snowflake);
 }
 
 async function resolveByLink(parameter: string, message: Message): Promise<Message | null> {
