@@ -1162,24 +1162,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^2.11.1":
-  version: 2.11.1
-  resolution: "@sapphire/discord-utilities@npm:2.11.1"
-  dependencies:
-    twemoji-parser: ^14.0.0
-  checksum: 65f62b30ced40424ff968715751f53259641e30e84292306aecd039dee1705f8fd1105d061474df4d247ab9be2ee23db0f898d615bcd46c3d2e2597f7f467cb0
+"@sapphire/discord-utilities@npm:^2.11.2":
+  version: 2.11.2
+  resolution: "@sapphire/discord-utilities@npm:2.11.2"
+  checksum: 4f6c020d66f2cbb31b3b9558392c3a8f128be389273c122e46c5f7e74512e5bbb93a4bf4ed4d7ebbe18acf76dc7219e3ba2d883f9e39d8ca34b1eca4ca76ef82
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.11.1":
-  version: 4.11.1
-  resolution: "@sapphire/discord.js-utilities@npm:4.11.1"
+"@sapphire/discord.js-utilities@npm:^4.11.2":
+  version: 4.11.2
+  resolution: "@sapphire/discord.js-utilities@npm:4.11.2"
   dependencies:
-    "@sapphire/discord-utilities": ^2.11.1
+    "@sapphire/discord-utilities": ^2.11.2
     "@sapphire/time-utilities": ^1.7.4
     "@sapphire/utilities": ^3.6.2
     tslib: ^2.4.0
-  checksum: 83a5ac2ba9b2ac29a46d26be5cf838b9ad0ce918dcf347727f8808d11d86ad67d7615f4d0863d0ae4b2650688f7109a2ffccdc65dc0d447c0855282ede6ca3ff
+  checksum: 98a1668eca1b60b810811958916b66a2a6e901360ec8a5b14e6b471e58adfd37f49f643462c277a2df3e75c6b85a68c271563b81c8e47250347142d4f8a94f8b
   languageName: node
   linkType: hard
 
@@ -1216,8 +1214,8 @@ __metadata:
     "@favware/cliff-jumper": ^1.8.3
     "@favware/npm-deprecate": ^1.0.4
     "@favware/rollup-type-bundler": ^1.0.7
-    "@sapphire/discord-utilities": ^2.11.1
-    "@sapphire/discord.js-utilities": ^4.11.1
+    "@sapphire/discord-utilities": ^2.11.2
+    "@sapphire/discord.js-utilities": ^4.11.2
     "@sapphire/eslint-config": ^4.3.6
     "@sapphire/pieces": ^3.3.3
     "@sapphire/prettier-config": ^1.4.3
@@ -6971,13 +6969,6 @@ __metadata:
   peerDependencies:
     typescript: ">=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta"
   checksum: 1843f4c1b2e0f975e08c4c21caa4af4f7f65a12ac1b81b3b8489366826259323feb3fc7a243123453d2d1a02314205a7634e048d4a8009921da19f99755cdc48
-  languageName: node
-  linkType: hard
-
-"twemoji-parser@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "twemoji-parser@npm:14.0.0"
-  checksum: 8eede69cf71f94735de7b6fddf5dfbfe3cb2e01baefc3201360984ccc97cfc659f206c8f73bd1405a2282779af3b79a8c9bed3864c672e15e2dc6f8ce4810452
   languageName: node
   linkType: hard
 
