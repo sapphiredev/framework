@@ -115,6 +115,7 @@ export interface Preconditions {
 	GuildPrivateThreadOnly: never;
 	GuildPublicThreadOnly: never;
 	GuildTextOnly: never;
+	GuildVoiceOnly: never;
 	GuildThreadOnly: never;
 	NSFW: never;
 	ClientPermissions: {

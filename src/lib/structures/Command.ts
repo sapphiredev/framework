@@ -592,6 +592,7 @@ export const enum CommandPreConditions {
 	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
 	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
 	GuildTextOnly = 'GuildTextOnly',
+	GuildVoiceOnly = 'GuildVoiceOnly',
 	GuildThreadOnly = 'GuildThreadOnly',
 	NotSafeForWork = 'NSFW',
 	ClientPermissions = 'ClientPermissions',
