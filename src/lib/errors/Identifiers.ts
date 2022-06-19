@@ -50,6 +50,7 @@ export const enum Identifiers {
 	PreconditionGuildPrivateThreadOnly = 'preconditionGuildPrivateThreadOnly',
 	PreconditionGuildPublicThreadOnly = 'preconditionGuildPublicThreadOnly',
 	PreconditionGuildTextOnly = 'preconditionGuildTextOnly',
+	PreconditionGuildVoiceOnly = 'preconditionGuildVoiceOnly',
 	PreconditionNSFW = 'preconditionNsfw',
 	PreconditionClientPermissions = 'preconditionClientPermissions',
 	PreconditionClientPermissionsNoClient = 'preconditionClientPermissionsNoClient',

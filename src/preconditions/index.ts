@@ -8,6 +8,7 @@ export { CorePrecondition as GuildOnly } from './GuildOnly';
 export { CorePrecondition as GuildPrivateThreadOnly } from './GuildPrivateThreadOnly';
 export { CorePrecondition as GuildPublicThreadOnly } from './GuildPublicThreadOnly';
 export { CorePrecondition as GuildTextOnly } from './GuildTextOnly';
+export { CorePrecondition as GuildVoiceOnly } from './GuildVoiceOnly';
 export { CorePrecondition as GuildThreadOnly } from './GuildThreadOnly';
 export { CorePrecondition as NSFW } from './NSFW';
 export { CorePrecondition as UserPermissions } from './UserPermissions';
