@@ -436,6 +436,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 					return CommandPreConditions.DirectMessageOnly;
 				case 'GUILD_TEXT':
 					return CommandPreConditions.GuildTextOnly;
+				case 'GUILD_VOICE':
+					return CommandPreConditions.GuildVoiceOnly;
 				case 'GUILD_NEWS':
 					return CommandPreConditions.GuildNewsOnly;
 				case 'GUILD_NEWS_THREAD':
@@ -559,6 +561,7 @@ export namespace AutocompleteCommand {
 export type CommandOptionsRunType =
 	| 'DM'
 	| 'GUILD_TEXT'
+	| 'GUILD_VOICE'
 	| 'GUILD_NEWS'
 	| 'GUILD_NEWS_THREAD'
 	| 'GUILD_PUBLIC_THREAD'
@@ -572,6 +575,7 @@ export type CommandOptionsRunType =
 export const enum CommandOptionsRunTypeEnum {
 	Dm = 'DM',
 	GuildText = 'GUILD_TEXT',
+	GuildVoice = 'GUILD_VOICE',
 	GuildNews = 'GUILD_NEWS',
 	GuildNewsThread = 'GUILD_NEWS_THREAD',
 	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
