@@ -1,12 +1,11 @@
-import type { CommandInteraction, ContextMenuInteraction, Message, TextBasedChannelTypes } from 'discord.js';
+import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
+import { isVoiceChannel } from '@sapphire/discord.js-utilities';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly allowedTypes: TextBasedChannelTypes[] = ['GUILD_VOICE'];
-
 	public messageRun(message: Message) {
-		return this.allowedTypes.includes(message.channel.type)
+		return isVoiceChannel(message.channel)
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildVoiceOnly,
@@ -17,7 +16,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public async chatInputRun(interaction: CommandInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return this.allowedTypes.includes(channel.type)
+		return isVoiceChannel(channel)
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildVoiceOnly,
@@ -28,7 +27,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public async contextMenuRun(interaction: ContextMenuInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return this.allowedTypes.includes(channel.type)
+		return isVoiceChannel(channel)
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildVoiceOnly,
