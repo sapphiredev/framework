@@ -466,8 +466,9 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		const dm = keys.has('DM');
 		const guildText = keys.has('GUILD_TEXT');
+		const guildVoice = keys.has('GUILD_VOICE');
 		const guildNews = keys.has('GUILD_NEWS');
-		const guild = guildText && guildNews;
+		const guild = guildText && guildNews && guildVoice;
 
 		// If runs everywhere, optimise to null:
 		if (dm && guild) return null;
@@ -501,6 +502,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			} else if (guildNewsThread) {
 				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
 			}
+
+			if (guildVoice) preconditions.append(CommandPreConditions.GuildVoiceOnly);
 		}
 
 		return preconditions;
