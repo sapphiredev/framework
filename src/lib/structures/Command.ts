@@ -503,7 +503,9 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
 			}
 
-			if (guildVoice) preconditions.append(CommandPreConditions.GuildVoiceOnly);
+			if (guildVoice) {
+				preconditions.append(CommandPreConditions.GuildVoiceOnly);
+			}
 		}
 
 		return preconditions;
