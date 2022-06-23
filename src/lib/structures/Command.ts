@@ -285,7 +285,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			try {
 				await updatedPiece.registerApplicationCommands(updatedRegistry);
 			} catch (err) {
-				emitRegistryError(err, this);
+				emitRegistryError(err, updatedPiece);
 				// No point on continuing
 				return;
 			}
