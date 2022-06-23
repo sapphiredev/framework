@@ -42,10 +42,12 @@ export async function handleRegistryAPICalls() {
 	const commandStore = container.stores.get('commands');
 
 	for (const command of commandStore.values()) {
-		try {
-			await command.registerApplicationCommands(command.applicationCommandRegistry);
-		} catch (error) {
-			emitRegistryError(error, command);
+		if (command.registerApplicationCommands) {
+			try {
+				await command.registerApplicationCommands(command.applicationCommandRegistry);
+			} catch (error) {
+				emitRegistryError(error, command);
+			}
 		}
 	}
 
