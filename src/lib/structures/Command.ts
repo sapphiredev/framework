@@ -436,6 +436,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 					return CommandPreConditions.DirectMessageOnly;
 				case 'GUILD_TEXT':
 					return CommandPreConditions.GuildTextOnly;
+				case 'GUILD_VOICE':
+					return CommandPreConditions.GuildVoiceOnly;
 				case 'GUILD_NEWS':
 					return CommandPreConditions.GuildNewsOnly;
 				case 'GUILD_NEWS_THREAD':
@@ -464,8 +466,9 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		const dm = keys.has('DM');
 		const guildText = keys.has('GUILD_TEXT');
+		const guildVoice = keys.has('GUILD_VOICE');
 		const guildNews = keys.has('GUILD_NEWS');
-		const guild = guildText && guildNews;
+		const guild = guildText && guildNews && guildVoice;
 
 		// If runs everywhere, optimise to null:
 		if (dm && guild) return null;
@@ -498,6 +501,10 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 				preconditions.append(CommandPreConditions.GuildNewsOnly);
 			} else if (guildNewsThread) {
 				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
+			}
+
+			if (guildVoice) {
+				preconditions.append(CommandPreConditions.GuildVoiceOnly);
 			}
 		}
 
@@ -559,6 +566,7 @@ export namespace AutocompleteCommand {
 export type CommandOptionsRunType =
 	| 'DM'
 	| 'GUILD_TEXT'
+	| 'GUILD_VOICE'
 	| 'GUILD_NEWS'
 	| 'GUILD_NEWS_THREAD'
 	| 'GUILD_PUBLIC_THREAD'
@@ -572,6 +580,7 @@ export type CommandOptionsRunType =
 export const enum CommandOptionsRunTypeEnum {
 	Dm = 'DM',
 	GuildText = 'GUILD_TEXT',
+	GuildVoice = 'GUILD_VOICE',
 	GuildNews = 'GUILD_NEWS',
 	GuildNewsThread = 'GUILD_NEWS_THREAD',
 	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
@@ -592,6 +601,7 @@ export const enum CommandPreConditions {
 	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
 	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
 	GuildTextOnly = 'GuildTextOnly',
+	GuildVoiceOnly = 'GuildVoiceOnly',
 	GuildThreadOnly = 'GuildThreadOnly',
 	NotSafeForWork = 'NSFW',
 	ClientPermissions = 'ClientPermissions',
