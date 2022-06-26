@@ -13,7 +13,7 @@ import {
 import * as Lexure from 'lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
-import { acquire, getDefaultBehaviorWhenNotIdentical } from '../utils/application-commands/ApplicationCommandRegistries';
+import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
@@ -69,13 +69,6 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	public readonly applicationCommandRegistry = acquire(this.name);
 
 	/**
-	 * Options used to easily register chat input commands
-	 * @since 3.0.0
-	 * @private
-	 */
-	public readonly chatInputCommandOptions: CommandChatInputRegisterShortcut;
-
-	/**
 	 * The lexer to be used for command parsing
 	 * @since 1.0.0
 	 * @private
@@ -122,11 +115,6 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		this.preconditions = new PreconditionContainerArray(options.preconditions);
 		this.parseConstructorPreConditions(options);
-
-		this.chatInputCommandOptions = options.chatInputCommand ?? {
-			register: false,
-			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical()
-		};
 	}
 
 	/**
@@ -227,33 +215,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * Registers the application commands that should be handled by this command.
 	 * @param registry This command's registry
 	 */
-	public registerApplicationCommands(registry: ApplicationCommandRegistry): Awaitable<void> {
-		if (this.chatInputCommandOptions.register) {
-			registry.registerChatInputCommand(
-				(builder) => {
-					builder.setName(this.name).setDescription(this.description);
-
-					if (Reflect.has(this.chatInputCommandOptions, 'defaultPermission')) {
-						builder.setDefaultPermission(this.chatInputCommandOptions.defaultPermission!);
-					}
-
-					if (this.chatInputCommandOptions.nameLocalizations) {
-						builder.setNameLocalizations(this.chatInputCommandOptions.nameLocalizations);
-					}
-
-					if (this.chatInputCommandOptions.descriptionLocalizations) {
-						builder.setDescriptionLocalizations(this.chatInputCommandOptions.descriptionLocalizations);
-					}
-				},
-				{
-					behaviorWhenNotIdentical: this.chatInputCommandOptions.behaviorWhenNotIdentical,
-					guildIds: this.chatInputCommandOptions.guildIds,
-					idHints: this.chatInputCommandOptions.idHints,
-					registerCommandIfMissing: true
-				}
-			);
-		}
-	}
+	public registerApplicationCommands?(registry: ApplicationCommandRegistry): Awaitable<void>;
 
 	/**
 	 * Type-guard that ensures the command supports message commands by checking if the handler for it is present
@@ -318,13 +280,15 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		const updatedRegistry = updatedPiece.applicationCommandRegistry;
 
-		// Rerun the registry
-		try {
-			await updatedPiece.registerApplicationCommands(updatedRegistry);
-		} catch (err) {
-			emitRegistryError(err, this);
-			// No point on continuing
-			return;
+		if (updatedPiece.registerApplicationCommands) {
+			// Rerun the registry
+			try {
+				await updatedPiece.registerApplicationCommands(updatedRegistry);
+			} catch (err) {
+				emitRegistryError(err, updatedPiece);
+				// No point on continuing
+				return;
+			}
 		}
 
 		// Re-initialize the store and the API data (insert in the store handles the register method)
@@ -740,19 +704,6 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * @default true
 	 */
 	typing?: boolean;
-	/**
-	 * Shortcuts for registering simple chat input commands
-	 *
-	 * :::warn
-	 *
-	 * You should only use this if your command does not take in options, and is just a chat input one.
-	 * Otherwise, please read the [guide about registering application commands](https://www.sapphirejs.dev/docs/Guide/commands/registering-application-commands) instead.
-	 *
-	 * :::
-	 *
-	 * @since 3.0.0
-	 */
-	chatInputCommand?: CommandChatInputRegisterShortcut;
 }
 
 export interface CommandChatInputRegisterShortcut {
