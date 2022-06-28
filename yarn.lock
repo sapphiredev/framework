@@ -1244,7 +1244,7 @@ __metadata:
     ts-jest: ^28.0.5
     tslib: ^2.4.0
     typedoc: ^0.22.18
-    typedoc-plugin-djs-links: ^1.1.0
+    typedoc-plugin-djs-links: ^1.0
     typedoc-plugin-mdn-links: ^1.0.6
     typescript: ^4.7.4
   languageName: unknown
@@ -6801,10 +6801,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-djs-links@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "typedoc-plugin-djs-links@npm:1.1.0"
-  checksum: fd4d4d680e160e52918c4ecce32bc599074a9a8b48040ef1b2b6cbac0c4c3ee3a29d21a9012bb1277db0ca2f4a712a4c50a47685773627e07a7d0af90574fea7
+"typedoc-plugin-djs-links@npm:^1.0":
+  version: 1.0.4
+  resolution: "typedoc-plugin-djs-links@npm:1.0.4"
+  checksum: 9db409c50400f4b9f15d24dd7b7a32a5672f61bd2840a0533661f42c92fbad0a5496ad898e08acb2a25a9e36a7ebbc698d3a36e8eb77ad5f471628d13f496d8d
   languageName: node
   linkType: hard
 
