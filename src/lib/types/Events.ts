@@ -412,6 +412,7 @@ export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload 
 }
 
 export interface MessageCommandFinishPayload extends MessageCommandRunPayload {
+	success: boolean;
 	duration: number;
 }
 
@@ -497,6 +498,7 @@ export interface ContextMenuCommandAcceptedPayload extends PreContextMenuCommand
 export interface ContextMenuCommandRunPayload extends ContextMenuCommandAcceptedPayload {}
 
 export interface ContextMenuCommandFinishPayload extends ContextMenuCommandAcceptedPayload {
+	success: boolean;
 	duration: number;
 }
 
