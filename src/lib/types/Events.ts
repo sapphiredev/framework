@@ -455,6 +455,7 @@ export interface ChatInputCommandAcceptedPayload extends PreChatInputCommandRunP
 export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {}
 
 export interface ChatInputCommandFinishPayload extends ChatInputCommandAcceptedPayload {
+	success: boolean;
 	duration: number;
 }
 
