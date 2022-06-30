@@ -28,6 +28,10 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 			this.container.client.emit(Events.ChatInputCommandError, result.error, { ...payload, duration: result.value ?? -1 });
 		}
 
-		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, { ...payload, duration: result.value ?? -1 });
+		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, {
+			...payload,
+			success: !isErr(result),
+			duration: result.value ?? -1
+		});
 	}
 }
