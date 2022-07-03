@@ -29,13 +29,13 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "^0.15.0",
-		"@sapphire/discord-utilities": "^2.11.3",
+		"@sapphire/discord-utilities": "^2.11.4",
 		"@sapphire/discord.js-utilities": "^4.11.3",
 		"@sapphire/pieces": "^3.3.4",
 		"@sapphire/ratelimits": "^2.4.4",
 		"@sapphire/result": "^1.1.1",
 		"@sapphire/stopwatch": "^1.4.1",
-		"@sapphire/utilities": "^3.6.2",
+		"@sapphire/utilities": "^3.7.0",
 		"lexure": "^0.17.0",
 		"tslib": "^2.4.0"
 	},
