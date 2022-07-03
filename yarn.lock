@@ -1245,7 +1245,7 @@ __metadata:
     tslib: ^2.4.0
     typedoc: ^0.22.18
     typedoc-plugin-djs-links: ^1.0.4
-    typedoc-plugin-mdn-links: ^1.0.6
+    typedoc-plugin-mdn-links: ^2.0.0
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -6808,12 +6808,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-mdn-links@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "typedoc-plugin-mdn-links@npm:1.0.6"
+"typedoc-plugin-mdn-links@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "typedoc-plugin-mdn-links@npm:2.0.0"
   peerDependencies:
-    typedoc: 0.22.x
-  checksum: c88601e492b2993e9f6fc8f11bd4b7854c7fa98e27b0c77ecdf6ac3352cfb0f6e98c37ea490e5486f486cc9c92bdd9f170cd6d9e69adcf30542cf2112436e9d0
+    typedoc: 0.22.x || 0.23.x
+  checksum: 576cc61935f25f5e91ef0e9582822e9548336297b160e63d284d41f703d6fa8e000b1b9fc7083e35fecf8895d94213326f9513dbc761f3a60c228aedca488328
   languageName: node
   linkType: hard
 
