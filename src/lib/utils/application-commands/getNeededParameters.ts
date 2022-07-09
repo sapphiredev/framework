@@ -25,7 +25,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager) {
 		} catch (err) {
 			const { preventFailedToFetchLogForGuilds: preventFailedToFetchLogForGuildIds } = container.client.options;
 
-			if (typeof preventFailedToFetchLogForGuildIds === 'boolean' && preventFailedToFetchLogForGuildIds) continue;
+			if (typeof preventFailedToFetchLogForGuildIds === 'boolean' && preventFailedToFetchLogForGuildIds === true) continue;
 
 			if (Array.isArray(preventFailedToFetchLogForGuildIds) && preventFailedToFetchLogForGuildIds?.includes(guildId)) {
 				container.logger.warn(
