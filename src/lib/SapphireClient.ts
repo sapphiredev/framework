@@ -147,7 +147,7 @@ export interface SapphireClientOptions {
 	 *
 	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
 	 *
-	 * By setting this value as a boolean, when true no warning log message will be emitted for all guilds.
+	 * By setting this value to `true`, no warning log message will be emitted for any guilds we couldn't fetch the commands from.
 	 *
 	 * Note that this specifically applies to the warning log:
 	 *
