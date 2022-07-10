@@ -27,7 +27,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager) {
 
 			if (typeof preventFailedToFetchLogForGuilds === 'boolean' && preventFailedToFetchLogForGuilds) continue;
 
-			if (Array.isArray(preventFailedToFetchLogForGuilds) && preventFailedToFetchLogForGuilds?.includes(guildId)) {
+			if (Array.isArray(preventFailedToFetchLogForGuilds) && !preventFailedToFetchLogForGuilds?.includes(guildId)) {
 				container.logger.warn(
 					`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
 					'Make sure to authorize your application with the "applications.commands" scope in that guild.'
