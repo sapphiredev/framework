@@ -153,7 +153,7 @@ export interface SapphireClientOptions {
 	 *
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
-	preventFailedToFetchLogForGuilds?: string[] | boolean;
+	preventFailedToFetchLogForGuilds?: string[] | true;
 }
 
 /**
