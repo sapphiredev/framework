@@ -17,7 +17,7 @@ import { Events } from '../types/Events';
  * // NOTE: You can use `export default` or `export =` too.
  * export class CoreListener extends Listener<typeof Events.Ready> {
  *   public constructor(context: Listener.Context) {
- *     super(context, { event: Events.Ready, once: true });
+ *     super(context, { event: Events.ClientReady, once: true });
  *   }
  *
  *   public run() {
