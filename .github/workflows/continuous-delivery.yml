@@ -32,7 +32,7 @@ jobs:
       - name: Add TypeScript problem matcher
         run: echo "::add-matcher::.github/problemMatchers/tsc.json"
       - name: Use Node.js v16
-        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93 # tag=v3
         with:
           node-version: 16
           cache: yarn
