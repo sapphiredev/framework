@@ -1,21 +1,21 @@
 import type { PieceContext } from '@sapphire/pieces';
-import type { ContextMenuInteraction } from 'discord.js';
+import type { ContextMenuCommandInteraction } from 'discord.js';
 import type { ContextMenuCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
-import { Events } from '../../../lib/types/Events';
+import { SapphireEvents } from '../../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PossibleContextMenuCommand> {
+export class CoreListener extends Listener<typeof SapphireEvents.PossibleContextMenuCommand> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.PossibleContextMenuCommand });
+		super(context, { event: SapphireEvents.PossibleContextMenuCommand });
 	}
 
-	public run(interaction: ContextMenuInteraction) {
+	public run(interaction: ContextMenuCommandInteraction) {
 		const { client, stores } = this.container;
 		const commandStore = stores.get('commands');
 
 		const command = commandStore.get(interaction.commandId) ?? commandStore.get(interaction.commandName);
 		if (!command) {
-			client.emit(Events.UnknownContextMenuCommand, {
+			client.emit(SapphireEvents.UnknownContextMenuCommand, {
 				interaction,
 				context: { commandId: interaction.commandId, commandName: interaction.commandName }
 			});
@@ -23,7 +23,7 @@ export class CoreListener extends Listener<typeof Events.PossibleContextMenuComm
 		}
 
 		if (!command.contextMenuRun) {
-			client.emit(Events.CommandDoesNotHaveContextMenuCommandHandler, {
+			client.emit(SapphireEvents.CommandDoesNotHaveContextMenuCommandHandler, {
 				command,
 				interaction,
 				context: { commandId: interaction.commandId, commandName: interaction.commandName }
@@ -31,7 +31,7 @@ export class CoreListener extends Listener<typeof Events.PossibleContextMenuComm
 			return;
 		}
 
-		client.emit(Events.PreContextMenuCommandRun, {
+		client.emit(SapphireEvents.PreContextMenuCommandRun, {
 			command: command as ContextMenuCommand,
 			context: { commandId: interaction.commandId, commandName: interaction.commandName },
 			interaction

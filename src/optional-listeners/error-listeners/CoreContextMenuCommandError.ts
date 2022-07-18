@@ -1,10 +1,10 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
-import { ContextMenuCommandErrorPayload, Events } from '../../lib/types/Events';
+import { ContextMenuCommandErrorPayload, SapphireEvents } from '../../lib/types/Events';
 
-export class CoreEvent extends Listener<typeof Events.ContextMenuCommandError> {
+export class CoreEvent extends Listener<typeof SapphireEvents.ContextMenuCommandError> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.ContextMenuCommandError });
+		super(context, { event: SapphireEvents.ContextMenuCommandError });
 	}
 
 	public run(error: unknown, context: ContextMenuCommandErrorPayload) {

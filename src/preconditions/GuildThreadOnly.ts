@@ -1,4 +1,4 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
@@ -23,7 +23,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return channel.isThread()

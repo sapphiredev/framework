@@ -1,10 +1,10 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
-import { Events, InteractionHandlerError } from '../../lib/types/Events';
+import { SapphireEvents, InteractionHandlerError } from '../../lib/types/Events';
 
-export class CoreEvent extends Listener<typeof Events.InteractionHandlerError> {
+export class CoreEvent extends Listener<typeof SapphireEvents.InteractionHandlerError> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.InteractionHandlerError });
+		super(context, { event: SapphireEvents.InteractionHandlerError });
 	}
 
 	public run(error: unknown, context: InteractionHandlerError) {

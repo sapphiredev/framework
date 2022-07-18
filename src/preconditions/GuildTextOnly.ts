@@ -1,9 +1,9 @@
-import type { CommandInteraction, ContextMenuInteraction, Message, TextBasedChannelTypes } from 'discord.js';
+import { ChannelType, CommandInteraction, ContextMenuCommandInteraction, Message, TextBasedChannelTypes } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly allowedTypes: TextBasedChannelTypes[] = ['GUILD_TEXT', 'GUILD_PUBLIC_THREAD', 'GUILD_PRIVATE_THREAD'];
+	private readonly allowedTypes: TextBasedChannelTypes[] = [ChannelType.GuildText, ChannelType.GuildPublicThread, ChannelType.GuildPrivateThread];
 
 	public messageRun(message: Message) {
 		return this.allowedTypes.includes(message.channel.type)
@@ -25,7 +25,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type)

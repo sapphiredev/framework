@@ -1,10 +1,10 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
-import { ChatInputCommandErrorPayload, Events } from '../../lib/types/Events';
+import { ChatInputCommandErrorPayload, SapphireEvents } from '../../lib/types/Events';
 
-export class CoreEvent extends Listener<typeof Events.ChatInputCommandError> {
+export class CoreEvent extends Listener<typeof SapphireEvents.ChatInputCommandError> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.ChatInputCommandError });
+		super(context, { event: SapphireEvents.ChatInputCommandError });
 	}
 
 	public run(error: unknown, context: ChatInputCommandErrorPayload) {

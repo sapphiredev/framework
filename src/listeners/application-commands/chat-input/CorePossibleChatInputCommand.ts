@@ -2,11 +2,11 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { CommandInteraction } from 'discord.js';
 import type { ChatInputCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
-import { Events } from '../../../lib/types/Events';
+import { SapphireEvents } from '../../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PossibleChatInputCommand> {
+export class CoreListener extends Listener<typeof SapphireEvents.PossibleChatInputCommand> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.PossibleChatInputCommand });
+		super(context, { event: SapphireEvents.PossibleChatInputCommand });
 	}
 
 	public run(interaction: CommandInteraction) {
@@ -15,7 +15,7 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 
 		const command = commandStore.get(interaction.commandId) ?? commandStore.get(interaction.commandName);
 		if (!command) {
-			client.emit(Events.UnknownChatInputCommand, {
+			client.emit(SapphireEvents.UnknownChatInputCommand, {
 				interaction,
 				context: { commandId: interaction.commandId, commandName: interaction.commandName }
 			});
@@ -23,7 +23,7 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 		}
 
 		if (!command.chatInputRun) {
-			client.emit(Events.CommandDoesNotHaveChatInputCommandHandler, {
+			client.emit(SapphireEvents.CommandDoesNotHaveChatInputCommandHandler, {
 				command,
 				interaction,
 				context: { commandId: interaction.commandId, commandName: interaction.commandName }
@@ -31,7 +31,7 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 			return;
 		}
 
-		client.emit(Events.PreChatInputCommandRun, {
+		client.emit(SapphireEvents.PreChatInputCommandRun, {
 			command: command as ChatInputCommand,
 			context: { commandId: interaction.commandId, commandName: interaction.commandName },
 			interaction

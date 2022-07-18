@@ -1,4 +1,4 @@
-import { Collection, CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { Collection, CommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
@@ -189,7 +189,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param command The command the interaction invoked.
 	 */
 	public contextMenuRun(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		context: PreconditionContext = {}
 	): PreconditionContainerReturn {

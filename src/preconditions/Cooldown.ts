@@ -1,5 +1,5 @@
 import { RateLimitManager } from '@sapphire/ratelimits';
-import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Snowflake } from 'discord.js';
+import type { BaseInteraction, CommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
@@ -24,13 +24,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownPreconditionContext) {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
-		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'chat input');
+		return this.sharedRun(interaction.user.id, command, context, cooldownId ?? 'global', 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownPreconditionContext) {
+	public contextMenuRun(interaction: ContextMenuCommandInteraction, command: Command, context: CooldownPreconditionContext) {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
-		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'context menu');
+		return this.sharedRun(interaction.user.id, command, context, cooldownId ?? 'global', 'context menu');
 	}
 
 	private sharedRun(authorId: string, command: Command, context: CooldownPreconditionContext, cooldownId: string, commandType: string) {
@@ -74,7 +74,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		}
 	}
 
-	private getIdFromInteraction(interaction: BaseCommandInteraction, context: CooldownPreconditionContext) {
+	private getIdFromInteraction(interaction: BaseInteraction, context: CooldownPreconditionContext) {
 		switch (context.scope) {
 			case BucketScope.Global:
 				return 'global';

@@ -1,10 +1,10 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
-import { Events, PreMessageCommandRunPayload } from '../../lib/types/Events';
+import { SapphireEvents, PreMessageCommandRunPayload } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PreMessageCommandRun> {
+export class CoreListener extends Listener<typeof SapphireEvents.PreMessageCommandRun> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.PreMessageCommandRun });
+		super(context, { event: SapphireEvents.PreMessageCommandRun });
 	}
 
 	public async run(payload: PreMessageCommandRunPayload) {
@@ -13,17 +13,17 @@ export class CoreListener extends Listener<typeof Events.PreMessageCommandRun> {
 		// Run global preconditions:
 		const globalResult = await this.container.stores.get('preconditions').messageRun(message, command, payload as any);
 		if (!globalResult.success) {
-			message.client.emit(Events.MessageCommandDenied, globalResult.error, payload);
+			message.client.emit(SapphireEvents.MessageCommandDenied, globalResult.error, payload);
 			return;
 		}
 
 		// Run command-specific preconditions:
 		const localResult = await command.preconditions.messageRun(message, command, payload as any);
 		if (!localResult.success) {
-			message.client.emit(Events.MessageCommandDenied, localResult.error, payload);
+			message.client.emit(SapphireEvents.MessageCommandDenied, localResult.error, payload);
 			return;
 		}
 
-		message.client.emit(Events.MessageCommandAccepted, payload);
+		message.client.emit(SapphireEvents.MessageCommandAccepted, payload);
 	}
 }

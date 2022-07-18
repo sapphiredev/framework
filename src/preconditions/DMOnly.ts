@@ -1,4 +1,4 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
@@ -15,7 +15,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this chat input command outside DMs.' });
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction) {
+	public contextMenuRun(interaction: ContextMenuCommandInteraction) {
 		return interaction.guildId === null
 			? this.ok()
 			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this context menu command outside DMs.' });

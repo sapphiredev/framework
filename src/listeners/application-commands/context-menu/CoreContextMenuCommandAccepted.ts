@@ -2,33 +2,33 @@ import type { PieceContext } from '@sapphire/pieces';
 import { fromAsync, isErr } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
-import { ContextMenuCommandAcceptedPayload, Events } from '../../../lib/types/Events';
+import { ContextMenuCommandAcceptedPayload, SapphireEvents } from '../../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccepted> {
+export class CoreListener extends Listener<typeof SapphireEvents.ContextMenuCommandAccepted> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.ContextMenuCommandAccepted });
+		super(context, { event: SapphireEvents.ContextMenuCommandAccepted });
 	}
 
 	public async run(payload: ContextMenuCommandAcceptedPayload) {
 		const { command, context, interaction } = payload;
 
 		const result = await fromAsync(async () => {
-			this.container.client.emit(Events.ContextMenuCommandRun, interaction, command, { ...payload });
+			this.container.client.emit(SapphireEvents.ContextMenuCommandRun, interaction, command, { ...payload });
 
 			const stopwatch = new Stopwatch();
 			const result = await command.contextMenuRun(interaction, context);
 			const { duration } = stopwatch.stop();
 
-			this.container.client.emit(Events.ContextMenuCommandSuccess, { ...payload, result, duration });
+			this.container.client.emit(SapphireEvents.ContextMenuCommandSuccess, { ...payload, result, duration });
 
 			return duration;
 		});
 
 		if (isErr(result)) {
-			this.container.client.emit(Events.ContextMenuCommandError, result.error, { ...payload, duration: result.value ?? -1 });
+			this.container.client.emit(SapphireEvents.ContextMenuCommandError, result.error, { ...payload, duration: result.value ?? -1 });
 		}
 
-		this.container.client.emit(Events.ContextMenuCommandFinish, interaction, command, {
+		this.container.client.emit(SapphireEvents.ContextMenuCommandFinish, interaction, command, {
 			...payload,
 			success: !isErr(result),
 			duration: result.value ?? -1

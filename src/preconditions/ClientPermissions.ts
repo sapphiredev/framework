@@ -1,36 +1,35 @@
 import {
 	BaseGuildTextChannel,
 	CommandInteraction,
-	ContextMenuInteraction,
+	ContextMenuCommandInteraction,
 	GuildTextBasedChannel,
 	Message,
-	Permissions,
-	PermissionString
+	PermissionsBitField,
+	PermissionsString
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
 
 export interface PermissionPreconditionContext extends PreconditionContext {
-	permissions?: Permissions;
+	permissions?: PermissionsBitField;
 }
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly dmChannelPermissions = new Permissions(
-		~new Permissions([
-			//
-			'ADD_REACTIONS',
-			'ATTACH_FILES',
-			'EMBED_LINKS',
-			'READ_MESSAGE_HISTORY',
-			'SEND_MESSAGES',
-			'USE_EXTERNAL_EMOJIS',
-			'VIEW_CHANNEL'
-		]).bitfield & Permissions.ALL
+	private readonly dmChannelPermissions = new PermissionsBitField(
+		~new PermissionsBitField([
+			'AddReactions',
+			'AttachFiles',
+			'EmbedLinks',
+			'ReadMessageHistory',
+			'SendMessages',
+			'UseExternalEmojis',
+			'ViewChannel'
+		]).bitfield & PermissionsBitField.All
 	).freeze();
 
 	public messageRun(message: Message, _: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+		const required = context.permissions ?? new PermissionsBitField();
 		const channel = message.channel as BaseGuildTextChannel;
 
 		if (!message.client.id) {
@@ -46,7 +45,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	}
 
 	public async chatInputRun(interaction: CommandInteraction, _: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+		const required = context.permissions ?? new PermissionsBitField();
 
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
 
@@ -55,8 +54,8 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction, _: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction, _: Command, context: PermissionPreconditionContext) {
+		const required = context.permissions ?? new PermissionsBitField();
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
 
 		const permissions = interaction.inGuild() ? channel.permissionsFor(interaction.applicationId) : this.dmChannelPermissions;
@@ -64,7 +63,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'context menu');
 	}
 
-	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string) {
+	private sharedRun(requiredPermissions: PermissionsBitField, availablePermissions: PermissionsBitField | null, commandType: string) {
 		if (!availablePermissions) {
 			return this.error({
 				identifier: Identifiers.PreconditionClientPermissionsNoPermissions,
@@ -84,49 +83,47 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public static readonly readablePermissions: Record<PermissionString, string> = {
-		ADD_REACTIONS: 'Add Reactions',
-		ADMINISTRATOR: 'Administrator',
-		ATTACH_FILES: 'Attach Files',
-		BAN_MEMBERS: 'Ban Members',
-		CHANGE_NICKNAME: 'Change Nickname',
-		CONNECT: 'Connect',
-		CREATE_INSTANT_INVITE: 'Create Instant Invite',
-		CREATE_PRIVATE_THREADS: 'Create Private Threads',
-		CREATE_PUBLIC_THREADS: 'Create Public Threads',
-		DEAFEN_MEMBERS: 'Deafen Members',
-		EMBED_LINKS: 'Embed Links',
-		KICK_MEMBERS: 'Kick Members',
-		MANAGE_CHANNELS: 'Manage Channels',
-		MANAGE_EMOJIS_AND_STICKERS: 'Manage Emojis and Stickers',
-		MANAGE_EVENTS: 'Manage Events',
-		MANAGE_GUILD: 'Manage Server',
-		MANAGE_MESSAGES: 'Manage Messages',
-		MANAGE_NICKNAMES: 'Manage Nicknames',
-		MANAGE_ROLES: 'Manage Roles',
-		MANAGE_THREADS: 'Manage Threads',
-		MANAGE_WEBHOOKS: 'Manage Webhooks',
-		MENTION_EVERYONE: 'Mention Everyone',
-		MODERATE_MEMBERS: 'Moderate Members',
-		MOVE_MEMBERS: 'Move Members',
-		MUTE_MEMBERS: 'Mute Members',
-		PRIORITY_SPEAKER: 'Priority Speaker',
-		READ_MESSAGE_HISTORY: 'Read Message History',
-		REQUEST_TO_SPEAK: 'Request to Speak',
-		SEND_MESSAGES_IN_THREADS: 'Send Messages in Threads',
-		SEND_MESSAGES: 'Send Messages',
-		SEND_TTS_MESSAGES: 'Send TTS Messages',
-		SPEAK: 'Speak',
-		START_EMBEDDED_ACTIVITIES: 'Start Activities',
-		STREAM: 'Stream',
-		USE_APPLICATION_COMMANDS: 'Use Application Commands',
-		USE_EXTERNAL_EMOJIS: 'Use External Emojis',
-		USE_EXTERNAL_STICKERS: 'Use External Stickers',
-		USE_PRIVATE_THREADS: 'Use Private Threads',
-		USE_PUBLIC_THREADS: 'Use Public Threads',
-		USE_VAD: 'Use Voice Activity',
-		VIEW_AUDIT_LOG: 'View Audit Log',
-		VIEW_CHANNEL: 'Read Messages',
-		VIEW_GUILD_INSIGHTS: 'View Guild Insights'
+	public static readonly readablePermissions: Record<PermissionsString, string> = {
+		AddReactions: 'Add Reactions',
+		Administrator: 'Administrator',
+		AttachFiles: 'Attach Files',
+		BanMembers: 'Ban Members',
+		ChangeNickname: 'Change Nickname',
+		Connect: 'Connect',
+		CreateInstantInvite: 'Create Instant Invite',
+		CreatePrivateThreads: 'Create Private Threads',
+		CreatePublicThreads: 'Create Public Threads',
+		DeafenMembers: 'Deafen Members',
+		EmbedLinks: 'Embed Links',
+		KickMembers: 'Kick Members',
+		ManageChannels: 'Manage Channels',
+		ManageEmojisAndStickers: 'Manage Emojis and Stickers',
+		ManageEvents: 'Manage Events',
+		ManageGuild: 'Manage Server',
+		ManageMessages: 'Manage Messages',
+		ManageNicknames: 'Manage Nicknames',
+		ManageRoles: 'Manage Roles',
+		ManageThreads: 'Manage Threads',
+		ManageWebhooks: 'Manage Webhooks',
+		MentionEveryone: 'Mention Everyone',
+		ModerateMembers: 'Moderate Members',
+		MoveMembers: 'Move Members',
+		MuteMembers: 'Mute Members',
+		PrioritySpeaker: 'Priority Speaker',
+		ReadMessageHistory: 'Read Message History',
+		RequestToSpeak: 'Request to Speak',
+		SendMessagesInThreads: 'Send Messages in Threads',
+		SendMessages: 'Send Messages',
+		SendTTSMessages: 'Send TTS Messages',
+		Speak: 'Speak',
+		UseEmbeddedActivities: 'Use Activities',
+		Stream: 'Stream',
+		UseApplicationCommands: 'Use Application Commands',
+		UseExternalEmojis: 'Use External Emojis',
+		UseExternalStickers: 'Use External Stickers',
+		UseVAD: 'Use Voice Activity',
+		ViewAuditLog: 'View Audit Log',
+		ViewChannel: 'Read Messages',
+		ViewGuildInsights: 'View Guild Insights'
 	};
 }

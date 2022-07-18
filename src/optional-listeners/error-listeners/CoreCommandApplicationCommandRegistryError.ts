@@ -1,11 +1,11 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Command } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
-import { Events } from '../../lib/types/Events';
+import { SapphireEvents } from '../../lib/types/Events';
 
-export class CoreEvent extends Listener<typeof Events.CommandApplicationCommandRegistryError> {
+export class CoreEvent extends Listener<typeof SapphireEvents.CommandApplicationCommandRegistryError> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.CommandApplicationCommandRegistryError });
+		super(context, { event: SapphireEvents.CommandApplicationCommandRegistryError });
 	}
 
 	public run(error: unknown, command: Command) {

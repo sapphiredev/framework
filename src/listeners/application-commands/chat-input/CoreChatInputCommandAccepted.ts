@@ -2,33 +2,33 @@ import type { PieceContext } from '@sapphire/pieces';
 import { fromAsync, isErr } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
-import { ChatInputCommandAcceptedPayload, Events } from '../../../lib/types/Events';
+import { ChatInputCommandAcceptedPayload, SapphireEvents } from '../../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepted> {
+export class CoreListener extends Listener<typeof SapphireEvents.ChatInputCommandAccepted> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.ChatInputCommandAccepted });
+		super(context, { event: SapphireEvents.ChatInputCommandAccepted });
 	}
 
 	public async run(payload: ChatInputCommandAcceptedPayload) {
 		const { command, context, interaction } = payload;
 
 		const result = await fromAsync(async () => {
-			this.container.client.emit(Events.ChatInputCommandRun, interaction, command, { ...payload });
+			this.container.client.emit(SapphireEvents.ChatInputCommandRun, interaction, command, { ...payload });
 
 			const stopwatch = new Stopwatch();
 			const result = await command.chatInputRun(interaction, context);
 			const { duration } = stopwatch.stop();
 
-			this.container.client.emit(Events.ChatInputCommandSuccess, { ...payload, result, duration });
+			this.container.client.emit(SapphireEvents.ChatInputCommandSuccess, { ...payload, result, duration });
 
 			return duration;
 		});
 
 		if (isErr(result)) {
-			this.container.client.emit(Events.ChatInputCommandError, result.error, { ...payload, duration: result.value ?? -1 });
+			this.container.client.emit(SapphireEvents.ChatInputCommandError, result.error, { ...payload, duration: result.value ?? -1 });
 		}
 
-		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, {
+		this.container.client.emit(SapphireEvents.ChatInputCommandFinish, interaction, command, {
 			...payload,
 			success: !isErr(result),
 			duration: result.value ?? -1

@@ -2,11 +2,11 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
-import { Events, MessageCommandRunPayload } from '../../lib/types/Events';
+import { SapphireEvents, MessageCommandRunPayload } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
+export class CoreListener extends Listener<typeof SapphireEvents.MessageCommandRun> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.MessageCommandRun });
+		super(context, { event: SapphireEvents.MessageCommandRun });
 		this.enabled = this.container.client.options.typing ?? false;
 	}
 
@@ -16,7 +16,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
 		try {
 			await message.channel.sendTyping();
 		} catch (error) {
-			message.client.emit(Events.MessageCommandTypingError, error as Error, { ...payload, command, message });
+			message.client.emit(SapphireEvents.MessageCommandTypingError, error as Error, { ...payload, command, message });
 		}
 	}
 }
