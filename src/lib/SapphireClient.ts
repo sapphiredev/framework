@@ -147,11 +147,13 @@ export interface SapphireClientOptions {
 	 *
 	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
 	 *
+	 * By setting this value to `true`, no warning log message will be emitted for any guilds we couldn't fetch the commands from.
+	 *
 	 * Note that this specifically applies to the warning log:
 	 *
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
-	preventFailedToFetchLogForGuildIds?: string[];
+	preventFailedToFetchLogForGuilds?: string[] | true;
 }
 
 /**
