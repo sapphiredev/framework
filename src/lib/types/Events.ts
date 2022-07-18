@@ -1,5 +1,5 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import { AutocompleteInteraction, CommandInteraction, Constants, ContextMenuInteraction, Interaction, Message } from 'discord.js';
+import { AutocompleteInteraction, CommandInteraction, Events as DJSEvents, ContextMenuCommandInteraction, Interaction, Message } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type {
 	AutocompleteCommand,
@@ -17,70 +17,68 @@ import type { PluginHook } from './Enums';
 
 export const Events = {
 	// #region Discord.js base events
-	ChannelCreate: Constants.Events.CHANNEL_CREATE,
-	ChannelDelete: Constants.Events.CHANNEL_DELETE,
-	ChannelPinsUpdate: Constants.Events.CHANNEL_PINS_UPDATE,
-	ChannelUpdate: Constants.Events.CHANNEL_UPDATE,
-	ClientReady: Constants.Events.CLIENT_READY,
-	Debug: Constants.Events.DEBUG,
-	Error: Constants.Events.ERROR,
-	GuildBanAdd: Constants.Events.GUILD_BAN_ADD,
-	GuildBanRemove: Constants.Events.GUILD_BAN_REMOVE,
-	GuildCreate: Constants.Events.GUILD_CREATE,
-	GuildDelete: Constants.Events.GUILD_DELETE,
-	GuildEmojiCreate: Constants.Events.GUILD_EMOJI_CREATE,
-	GuildEmojiDelete: Constants.Events.GUILD_EMOJI_DELETE,
-	GuildEmojiUpdate: Constants.Events.GUILD_EMOJI_UPDATE,
-	GuildIntegrationsUpdate: Constants.Events.GUILD_INTEGRATIONS_UPDATE,
-	GuildMemberAdd: Constants.Events.GUILD_MEMBER_ADD,
-	GuildMemberAvailable: Constants.Events.GUILD_MEMBER_AVAILABLE,
-	GuildMemberRemove: Constants.Events.GUILD_MEMBER_REMOVE,
-	GuildMembersChunk: Constants.Events.GUILD_MEMBERS_CHUNK,
-	GuildMemberUpdate: Constants.Events.GUILD_MEMBER_UPDATE,
-	GuildRoleCreate: Constants.Events.GUILD_ROLE_CREATE,
-	GuildRoleDelete: Constants.Events.GUILD_ROLE_DELETE,
-	GuildRoleUpdate: Constants.Events.GUILD_ROLE_UPDATE,
-	GuildStickerCreate: Constants.Events.GUILD_STICKER_CREATE,
-	GuildStickerDelete: Constants.Events.GUILD_STICKER_DELETE,
-	GuildStickerUpdate: Constants.Events.GUILD_STICKER_UPDATE,
-	GuildUnavailable: Constants.Events.GUILD_UNAVAILABLE,
-	GuildUpdate: Constants.Events.GUILD_UPDATE,
-	InteractionCreate: Constants.Events.INTERACTION_CREATE,
-	Invalidated: Constants.Events.INVALIDATED,
-	InvalidRequestWarning: Constants.Events.INVALID_REQUEST_WARNING,
-	InviteCreate: Constants.Events.INVITE_CREATE,
-	InviteDelete: Constants.Events.INVITE_DELETE,
-	MessageBulkDelete: Constants.Events.MESSAGE_BULK_DELETE,
-	MessageCreate: Constants.Events.MESSAGE_CREATE,
-	MessageDelete: Constants.Events.MESSAGE_DELETE,
-	MessageReactionAdd: Constants.Events.MESSAGE_REACTION_ADD,
-	MessageReactionRemove: Constants.Events.MESSAGE_REACTION_REMOVE,
-	MessageReactionRemoveAll: Constants.Events.MESSAGE_REACTION_REMOVE_ALL,
-	MessageReactionRemoveEmoji: Constants.Events.MESSAGE_REACTION_REMOVE_EMOJI,
-	MessageUpdate: Constants.Events.MESSAGE_UPDATE,
-	PresenceUpdate: Constants.Events.PRESENCE_UPDATE,
-	RateLimit: Constants.Events.RATE_LIMIT,
-	Raw: Constants.Events.RAW,
-	ShardDisconnect: Constants.Events.SHARD_DISCONNECT,
-	ShardError: Constants.Events.SHARD_ERROR,
-	ShardReady: Constants.Events.SHARD_READY,
-	ShardReconnecting: Constants.Events.SHARD_RECONNECTING,
-	ShardResume: Constants.Events.SHARD_RESUME,
-	StageInstanceCreate: Constants.Events.STAGE_INSTANCE_CREATE,
-	StageInstanceDelete: Constants.Events.STAGE_INSTANCE_DELETE,
-	StageInstanceUpdate: Constants.Events.STAGE_INSTANCE_UPDATE,
-	ThreadCreate: Constants.Events.THREAD_CREATE,
-	ThreadDelete: Constants.Events.THREAD_DELETE,
-	ThreadListSync: Constants.Events.THREAD_LIST_SYNC,
-	ThreadMembersUpdate: Constants.Events.THREAD_MEMBERS_UPDATE,
-	ThreadMemberUpdate: Constants.Events.THREAD_MEMBER_UPDATE,
-	ThreadUpdate: Constants.Events.THREAD_UPDATE,
-	TypingStart: Constants.Events.TYPING_START,
-	UserUpdate: Constants.Events.USER_UPDATE,
-	VoiceServerUpdate: Constants.Events.VOICE_SERVER_UPDATE,
-	VoiceStateUpdate: Constants.Events.VOICE_STATE_UPDATE,
-	Warn: Constants.Events.WARN,
-	WebhooksUpdate: Constants.Events.WEBHOOKS_UPDATE,
+	ChannelCreate: DJSEvents.ChannelCreate,
+	ChannelDelete: DJSEvents.ChannelDelete,
+	ChannelPinsUpdate: DJSEvents.ChannelPinsUpdate,
+	ChannelUpdate: DJSEvents.ChannelUpdate,
+	ClientReady: DJSEvents.ClientReady,
+	Debug: DJSEvents.Debug,
+	Error: DJSEvents.Error,
+	GuildBanAdd: DJSEvents.GuildBanAdd,
+	GuildBanRemove: DJSEvents.GuildBanRemove,
+	GuildCreate: DJSEvents.GuildCreate,
+	GuildDelete: DJSEvents.GuildDelete,
+	GuildEmojiCreate: DJSEvents.GuildEmojiCreate,
+	GuildEmojiDelete: DJSEvents.GuildEmojiDelete,
+	GuildEmojiUpdate: DJSEvents.GuildEmojiUpdate,
+	GuildIntegrationsUpdate: DJSEvents.GuildIntegrationsUpdate,
+	GuildMemberAdd: DJSEvents.GuildMemberAdd,
+	GuildMemberAvailable: DJSEvents.GuildMemberAvailable,
+	GuildMemberRemove: DJSEvents.GuildMemberRemove,
+	GuildMembersChunk: DJSEvents.GuildMembersChunk,
+	GuildMemberUpdate: DJSEvents.GuildMemberUpdate,
+	GuildRoleCreate: DJSEvents.GuildRoleCreate,
+	GuildRoleDelete: DJSEvents.GuildRoleDelete,
+	GuildRoleUpdate: DJSEvents.GuildRoleUpdate,
+	GuildStickerCreate: DJSEvents.GuildStickerCreate,
+	GuildStickerDelete: DJSEvents.GuildStickerDelete,
+	GuildStickerUpdate: DJSEvents.GuildStickerUpdate,
+	GuildUnavailable: DJSEvents.GuildUnavailable,
+	GuildUpdate: DJSEvents.GuildUpdate,
+	InteractionCreate: DJSEvents.InteractionCreate,
+	Invalidated: DJSEvents.Invalidated,
+	InviteCreate: DJSEvents.InviteCreate,
+	InviteDelete: DJSEvents.InviteDelete,
+	MessageBulkDelete: DJSEvents.MessageBulkDelete,
+	MessageCreate: DJSEvents.MessageCreate,
+	MessageDelete: DJSEvents.MessageDelete,
+	MessageReactionAdd: DJSEvents.MessageReactionAdd,
+	MessageReactionRemove: DJSEvents.MessageReactionRemove,
+	MessageReactionRemoveAll: DJSEvents.MessageReactionRemoveAll,
+	MessageReactionRemoveEmoji: DJSEvents.MessageReactionRemoveEmoji,
+	MessageUpdate: DJSEvents.MessageUpdate,
+	PresenceUpdate: DJSEvents.PresenceUpdate,
+	Raw: DJSEvents.Raw,
+	ShardDisconnect: DJSEvents.ShardDisconnect,
+	ShardError: DJSEvents.ShardError,
+	ShardReady: DJSEvents.ShardReady,
+	ShardReconnecting: DJSEvents.ShardReconnecting,
+	ShardResume: DJSEvents.ShardResume,
+	StageInstanceCreate: DJSEvents.StageInstanceCreate,
+	StageInstanceDelete: DJSEvents.StageInstanceDelete,
+	StageInstanceUpdate: DJSEvents.StageInstanceUpdate,
+	ThreadCreate: DJSEvents.ThreadCreate,
+	ThreadDelete: DJSEvents.ThreadDelete,
+	ThreadListSync: DJSEvents.ThreadUpdate,
+	ThreadMembersUpdate: DJSEvents.ThreadMembersUpdate,
+	ThreadMemberUpdate: DJSEvents.ThreadMemberUpdate,
+	ThreadUpdate: DJSEvents.ThreadUpdate,
+	TypingStart: DJSEvents.TypingStart,
+	UserUpdate: DJSEvents.UserUpdate,
+	VoiceServerUpdate: DJSEvents.VoiceServerUpdate,
+	VoiceStateUpdate: DJSEvents.VoiceStateUpdate,
+	Warn: DJSEvents.Warn,
+	WebhooksUpdate: DJSEvents.WebhooksUpdate,
 	// #endregion Discord.js base events
 
 	// #region Sapphire events
@@ -305,7 +303,7 @@ export const Events = {
 	// Context menu chain
 	/**
 	 * Emitted when a context menu interaction is recieved.
-	 * @param {ContextMenuInteraction} interaction The interaction that was recieved.
+	 * @param {ContextMenuCommandInteraction} interaction The interaction that was recieved.
 	 */
 	PossibleContextMenuCommand: 'possibleContextMenuCommand' as const,
 	/**
@@ -338,7 +336,7 @@ export const Events = {
 
 	/**
 	 * Emitted directly before a context menu command is run.
-	 * @param {ContextMenuInteraction} interaction The interaction that executed the command
+	 * @param {ContextMenuCommandInteraction} interaction The interaction that executed the command
 	 * @param {ContextMenuCommand} command The command that is being run
 	 * @param {ContextMenuCommandRunPayload} payload The contextual payload
 	 */
@@ -470,18 +468,18 @@ export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
 }
 
 export interface UnknownContextMenuCommandPayload {
-	interaction: ContextMenuInteraction;
+	interaction: ContextMenuCommandInteraction;
 	context: ContextMenuCommandContext;
 }
 
 export interface CommandDoesNotHaveContextMenuCommandHandlerPayload {
-	interaction: ContextMenuInteraction;
+	interaction: ContextMenuCommandInteraction;
 	context: ContextMenuCommandContext;
 	command: Command;
 }
 
 export interface IContextMenuCommandPayload {
-	interaction: ContextMenuInteraction;
+	interaction: ContextMenuCommandInteraction;
 	command: ContextMenuCommand;
 }
 
@@ -579,7 +577,7 @@ declare module 'discord.js' {
 		[Events.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandFinishPayload];
 
 		// Context menu command chain
-		[Events.PossibleContextMenuCommand]: [interaction: ContextMenuInteraction];
+		[Events.PossibleContextMenuCommand]: [interaction: ContextMenuCommandInteraction];
 		[Events.UnknownContextMenuCommand]: [payload: UnknownContextMenuCommandPayload];
 		[Events.CommandDoesNotHaveContextMenuCommandHandler]: [payload: CommandDoesNotHaveContextMenuCommandHandlerPayload];
 		[Events.PreContextMenuCommandRun]: [payload: PreContextMenuCommandRunPayload];
@@ -587,11 +585,15 @@ declare module 'discord.js' {
 		[Events.ContextMenuCommandDenied]: [error: UserError, payload: ContextMenuCommandDeniedPayload];
 		[Events.ContextMenuCommandAccepted]: [payload: ContextMenuCommandAcceptedPayload];
 
-		[Events.ContextMenuCommandRun]: [interaction: ContextMenuInteraction, command: ContextMenuCommand, payload: ContextMenuCommandRunPayload];
+		[Events.ContextMenuCommandRun]: [
+			interaction: ContextMenuCommandInteraction,
+			command: ContextMenuCommand,
+			payload: ContextMenuCommandRunPayload
+		];
 		[Events.ContextMenuCommandSuccess]: [payload: ContextMenuCommandSuccessPayload];
 		[Events.ContextMenuCommandError]: [error: unknown, payload: ContextMenuCommandErrorPayload];
 		[Events.ContextMenuCommandFinish]: [
-			interaction: ContextMenuInteraction,
+			interaction: ContextMenuCommandInteraction,
 			command: ContextMenuCommand,
 			payload: ContextMenuCommandFinishPayload
 		];

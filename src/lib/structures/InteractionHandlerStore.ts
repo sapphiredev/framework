@@ -1,6 +1,6 @@
 import { Store } from '@sapphire/pieces';
 import { err, fromAsync, isErr, isSome, Result, type Err, type Ok } from '@sapphire/result';
-import type { Interaction } from 'discord.js';
+import { type Interaction, InteractionType } from 'discord.js';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
 
@@ -77,8 +77,8 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (interaction: Interaction) => boolean>([
 	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
 	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isSelectMenu()],
-	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.isModalSubmit()],
+	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.type === InteractionType.ModalSubmit],
 
-	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
-	[InteractionHandlerTypes.Autocomplete, (Interaction) => Interaction.isAutocomplete()]
+	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.type === InteractionType.MessageComponent],
+	[InteractionHandlerTypes.Autocomplete, (Interaction) => Interaction.type === InteractionType.ApplicationCommandAutocomplete]
 ]);
