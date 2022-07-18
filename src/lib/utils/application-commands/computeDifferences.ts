@@ -67,8 +67,8 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 			if ((existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
 				differences.push({
 					key: 'dmPermission',
-					original: String(existingCommand.default_permission ?? true),
-					expected: String(casted.default_permission ?? true)
+					original: String(existingCommand.dm_permission ?? true),
+					expected: String(casted.dm_permission ?? true)
 				});
 			}
 
@@ -143,6 +143,24 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 			key: 'defaultPermission',
 			original: String(existingCommand.default_permission ?? true),
 			expected: String(casted.default_permission ?? true)
+		});
+	}
+
+	// Check dmPermission
+	if ((existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
+		differences.push({
+			key: 'dmPermission',
+			original: String(existingCommand.dm_permission ?? true),
+			expected: String(casted.dm_permission ?? true)
+		});
+	}
+
+	// Check defaultMemberPermissions
+	if (existingCommand.default_member_permissions !== casted.default_member_permissions) {
+		differences.push({
+			key: 'defaultMemberPermissions',
+			original: String(existingCommand.default_member_permissions),
+			expected: String(casted.default_member_permissions)
 		});
 	}
 
