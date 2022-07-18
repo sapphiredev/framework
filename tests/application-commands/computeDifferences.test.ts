@@ -117,6 +117,72 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
+	it('given a command with dm_permission set to undefined and one set to false, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			dm_permission: undefined
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			dm_permission: false
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'dmPermission',
+				original: String(true),
+				expected: String(command2.dm_permission)
+			}
+		]);
+	});
+
+	it('given a command with default_member_permissions set to undefined and one set to "0", it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: undefined
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: '0'
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'defaultMemberPermissions',
+				original: String(command1.default_member_permissions),
+				expected: String(command2.default_member_permissions)
+			}
+		]);
+	});
+
+	it('given a command with default_member_permissions set to "0" and one set to null, it should return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: '0'
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: null
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'defaultMemberPermissions',
+				original: String(command1.default_member_permissions),
+				expected: String(command2.default_member_permissions)
+			}
+		]);
+	});
+
 	it('given a command with no options and one with options, it should return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
