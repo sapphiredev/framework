@@ -10,7 +10,7 @@ import {
 import { container } from '@sapphire/pieces';
 import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import { Message, Permissions, Snowflake, User } from 'discord.js';
+import { Message, PermissionFlagsBits, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 /**
@@ -85,7 +85,7 @@ async function getMessageFromChannel(channelId: Snowflake, messageId: Snowflake,
 	if (!channel) return null;
 	if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
 	if (!channel.viewable) return null;
-	if (!channel.permissionsFor(originalAuthor)?.has(Permissions.FLAGS.VIEW_CHANNEL)) return null;
+	if (!channel.permissionsFor(originalAuthor)?.has(PermissionFlagsBits.ViewChannel)) return null;
 
 	return channel.messages.fetch(messageId);
 }

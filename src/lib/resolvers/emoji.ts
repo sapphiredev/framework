@@ -1,6 +1,9 @@
 import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
 import { Err, err, Ok, ok } from '@sapphire/result';
+
+// @ts-expect-error Pending reply from devs
 import { Util } from 'discord.js';
+
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveEmoji(parameter: string): Ok<EmojiObject> | Err<Identifiers> {
