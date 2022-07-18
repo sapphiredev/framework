@@ -55,9 +55,13 @@ export function normalizeChatInputCommand(
 		description: command.description,
 		description_localizations: command.descriptionLocalizations,
 		default_permission: command.defaultPermission,
-		type: ApplicationCommandType.ChatInput
-		// TODO: once command perms v2 drops, add the fields here
+		type: ApplicationCommandType.ChatInput,
+		dm_permission: command.dmPermission
 	};
+
+	if (command.defaultMemberPermissions) {
+		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	}
 
 	if (command.options?.length) {
 		finalObject.options = command.options.map((option) => ApplicationCommand['transformOption'](option) as APIApplicationCommandOption);
@@ -103,9 +107,13 @@ export function normalizeContextMenuCommand(
 		name: command.name,
 		name_localizations: command.nameLocalizations,
 		type,
-		default_permission: command.defaultPermission
-		// TODO: once command perms v2 drops, add the fields here
+		default_permission: command.defaultPermission,
+		dm_permission: command.dmPermission
 	};
+
+	if (command.defaultMemberPermissions) {
+		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	}
 
 	return finalObject;
 }
@@ -114,9 +122,13 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	const returnData = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		default_permission: command.defaultPermission
-		// TODO: once command perms v2 drops, add the fields here
+		default_permission: command.defaultPermission,
+		dm_permission: command.dmPermission
 	} as RESTPostAPIApplicationCommandsJSONBody;
+
+	if (command.defaultMemberPermissions) {
+		returnData.default_member_permissions = String(command.defaultMemberPermissions);
+	}
 
 	if (command.type === 'CHAT_INPUT') {
 		returnData.type = ApplicationCommandType.ChatInput;
