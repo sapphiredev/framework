@@ -15,9 +15,9 @@ import { Events } from '../types/Events';
  *
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
- * export class CoreListener extends Listener<typeof Events.Ready> {
+ * export class CoreListener extends Listener<typeof Events.ClientReady> {
  *   public constructor(context: Listener.Context) {
- *     super(context, { event: Events.Ready, once: true });
+ *     super(context, { event: Events.ClientReady, once: true });
  *   }
  *
  *   public run() {
@@ -34,7 +34,7 @@ import { Events } from '../types/Events';
  * // Define a class extending `Listener`, then export it.
  * module.exports = class CoreListener extends Listener {
  *   constructor(context) {
- *     super(context, { event: Events.Ready, once: true });
+ *     super(context, { event: Events.ClientReady, once: true });
  *   }
  *
  *   run() {
