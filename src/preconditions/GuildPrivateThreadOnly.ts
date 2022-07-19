@@ -1,10 +1,10 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { ChannelType, type CommandInteraction, type ContextMenuCommandInteraction, type Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message) {
-		return message.thread?.type === 'GUILD_PRIVATE_THREAD'
+		return message.thread?.type === ChannelType.GuildPrivateThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
@@ -15,7 +15,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public async chatInputRun(interaction: CommandInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return channel.type === 'GUILD_PRIVATE_THREAD'
+		return channel.type === ChannelType.GuildPrivateThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
@@ -23,10 +23,10 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction) {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return channel.type === 'GUILD_PRIVATE_THREAD'
+		return channel.type === ChannelType.GuildPrivateThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,

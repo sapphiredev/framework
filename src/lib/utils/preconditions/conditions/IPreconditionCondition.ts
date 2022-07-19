@@ -1,4 +1,4 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../../structures/Command';
 import type { PreconditionContext } from '../../../structures/Precondition';
 import type { IPreconditionContainer, PreconditionContainerReturn } from '../IPreconditionContainer';
@@ -77,7 +77,7 @@ export interface IPreconditionCondition {
 	 * @param entries The containers to run.
 	 */
 	contextMenuSequential(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		entries: readonly IPreconditionContainer[],
 		context: PreconditionContext
@@ -92,7 +92,7 @@ export interface IPreconditionCondition {
 	 * @param entries The containers to run.
 	 */
 	contextMenuParallel(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		entries: readonly IPreconditionContainer[],
 		context: PreconditionContext

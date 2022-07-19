@@ -1,5 +1,5 @@
 import { container } from '@sapphire/pieces';
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
@@ -111,7 +111,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
-	public contextMenuRun(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
+	public contextMenuRun(interaction: ContextMenuCommandInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			if (precondition.contextMenuRun) return precondition.contextMenuRun(interaction, command, { ...context, ...this.context });

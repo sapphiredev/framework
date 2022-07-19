@@ -1,7 +1,7 @@
 import { Piece } from '@sapphire/pieces';
 import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import type { Interaction, CommandInteraction, ContextMenuCommandInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -40,7 +40,7 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 		return err(new PreconditionError({ precondition: this, ...options }));
 	}
 
-	protected async fetchChannelFromInteraction(interaction: Interaction<'cached'>) {
+	protected async fetchChannelFromInteraction(interaction: CommandInteraction) {
 		const channel = (await interaction.client.channels.fetch(interaction.channelId, {
 			cache: false,
 			allowUnknownGuild: true

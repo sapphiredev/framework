@@ -1,26 +1,26 @@
-import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { CommandInteraction, ContextMenuCommandInteraction, Message, NewsChannel, PermissionsBitField, TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 import { CorePrecondition as ClientPrecondition, PermissionPreconditionContext } from './ClientPermissions';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly dmChannelPermissions = new Permissions(
-		~new Permissions([
-			'ADD_REACTIONS',
-			'ATTACH_FILES',
-			'EMBED_LINKS',
-			'READ_MESSAGE_HISTORY',
-			'SEND_MESSAGES',
-			'USE_EXTERNAL_EMOJIS',
-			'VIEW_CHANNEL',
-			'USE_EXTERNAL_STICKERS',
-			'MENTION_EVERYONE'
-		]).bitfield & Permissions.ALL
+	private readonly dmChannelPermissions = new PermissionsBitField(
+		~new PermissionsBitField([
+			'AddReactions',
+			'AttachFiles',
+			'EmbedLinks',
+			'ReadMessageHistory',
+			'SendMessages',
+			'UseExternalEmojis',
+			'ViewChannel',
+			'UseExternalEmojis',
+			'MentionEveryone'
+		]).bitfield & PermissionsBitField.All
 	).freeze();
 
 	public messageRun(message: Message, _command: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+		const required = context.permissions ?? new PermissionsBitField();
 		const channel = message.channel as TextChannel | NewsChannel;
 		const permissions = message.guild ? channel.permissionsFor(message.author) : this.dmChannelPermissions;
 
@@ -28,20 +28,20 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	}
 
 	public chatInputRun(interaction: CommandInteraction, _command: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+		const required = context.permissions ?? new PermissionsBitField();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: PermissionPreconditionContext) {
-		const required = context.permissions ?? new Permissions();
+	public contextMenuRun(interaction: ContextMenuCommandInteraction, _command: Command, context: PermissionPreconditionContext) {
+		const required = context.permissions ?? new PermissionsBitField();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'context menu');
 	}
 
-	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string) {
+	private sharedRun(requiredPermissions: PermissionsBitField, availablePermissions: PermissionsBitField | null, commandType: string) {
 		if (!availablePermissions) {
 			return this.error({
 				identifier: Identifiers.PreconditionUserPermissionsNoPermissions,

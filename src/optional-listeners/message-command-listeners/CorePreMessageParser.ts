@@ -1,11 +1,11 @@
 import { GuildBasedChannelTypes, isDMChannel } from '@sapphire/discord.js-utilities';
 import type { PieceContext } from '@sapphire/pieces';
-import { Message, Permissions } from 'discord.js';
+import { Message, PermissionsBitField } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
-	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
+	private readonly requiredPermissions = new PermissionsBitField(['ViewChannel', 'SendMessages']).freeze();
 
 	public constructor(context: PieceContext) {
 		super(context, { event: Events.PreMessageParsed });
@@ -43,7 +43,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private async canRunInChannel(message: Message): Promise<boolean> {
 		if (isDMChannel(message.channel)) return true;
 
-		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
+		const me = message.guild!.members.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
 		if (!me) return false;
 
 		const channel = message.channel as GuildBasedChannelTypes;
