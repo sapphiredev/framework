@@ -127,7 +127,7 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
 	if (command.defaultMemberPermissions) {
-		returnData.default_member_permissions = String(command.defaultMemberPermissions);
+		returnData.default_member_permissions = command.defaultMemberPermissions.bitfield.toString();
 	}
 
 	if (command.type === 'CHAT_INPUT') {
