@@ -1,4 +1,4 @@
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveDate(
@@ -8,10 +8,10 @@ export function resolveDate(
 	const parsed = new Date(parameter);
 
 	const time = parsed.getTime();
-	if (Number.isNaN(time)) return err(Identifiers.ArgumentDateError);
+	if (Number.isNaN(time)) return Result.err(Identifiers.ArgumentDateError);
 
-	if (typeof options?.minimum === 'number' && time < options.minimum) return err(Identifiers.ArgumentDateTooEarly);
-	if (typeof options?.maximum === 'number' && time > options.maximum) return err(Identifiers.ArgumentDateTooFar);
+	if (typeof options?.minimum === 'number' && time < options.minimum) return Result.err(Identifiers.ArgumentDateTooEarly);
+	if (typeof options?.maximum === 'number' && time > options.maximum) return Result.err(Identifiers.ArgumentDateTooFar);
 
-	return ok(parsed);
+	return Result.ok(parsed);
 }

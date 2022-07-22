@@ -1,5 +1,5 @@
 import { Piece } from '@sapphire/pieces';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
@@ -25,7 +25,7 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 	public contextMenuRun?(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: Precondition.Context): Precondition.Result;
 
 	public ok(): Precondition.Result {
-		return ok();
+		return Result.ok();
 	}
 
 	/**
@@ -33,7 +33,7 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 	 * @param options The information.
 	 */
 	public error(options: Omit<PreconditionError.Options, 'precondition'> = {}): Precondition.Result {
-		return err(new PreconditionError({ precondition: this, ...options }));
+		return Result.err(new PreconditionError({ precondition: this, ...options }));
 	}
 
 	protected async fetchChannelFromInteraction(interaction: BaseCommandInteraction) {

@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { fromAsync, isErr } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
 import { ChatInputCommandAcceptedPayload, Events } from '../../../lib/types/Events';
@@ -12,7 +12,7 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 	public async run(payload: ChatInputCommandAcceptedPayload) {
 		const { command, context, interaction } = payload;
 
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			this.container.client.emit(Events.ChatInputCommandRun, interaction, command, { ...payload });
 
 			const stopwatch = new Stopwatch();
@@ -24,8 +24,8 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 			return duration;
 		});
 
-		if (isErr(result)) {
-			this.container.client.emit(Events.ChatInputCommandError, result.error, { ...payload, duration: result.value ?? -1 });
+		if (result.isErr()) {
+			this.container.client.emit(Events.ChatInputCommandError, result.unwrapErr(), { ...payload, duration: result.unwrapOr(-1) });
 		}
 
 		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, {

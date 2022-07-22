@@ -1,12 +1,12 @@
 import { RoleMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Guild, Role, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export async function resolveRole(parameter: string, guild: Guild): Promise<Result<Role, Identifiers.ArgumentRoleError>> {
 	const role = (await resolveById(parameter, guild)) ?? resolveByQuery(parameter, guild);
-	if (role) return ok(role);
-	return err(Identifiers.ArgumentRoleError);
+	if (role) return Result.ok(role);
+	return Result.err(Identifiers.ArgumentRoleError);
 }
 
 async function resolveById(argument: string, guild: Guild): Promise<Role | null> {

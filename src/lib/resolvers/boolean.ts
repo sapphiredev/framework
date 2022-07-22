@@ -1,4 +1,4 @@
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Identifiers } from '../errors/Identifiers';
 
 const baseTruths = ['1', 'true', '+', 't', 'yes', 'y'] as const;
@@ -9,8 +9,8 @@ export function resolveBoolean(
 	customs?: { truths?: readonly string[]; falses?: readonly string[] }
 ): Result<boolean, Identifiers.ArgumentBooleanError> {
 	const boolean = parameter.toLowerCase();
-	if ([...baseTruths, ...(customs?.truths ?? [])].includes(boolean)) return ok(true);
-	if ([...baseFalses, ...(customs?.falses ?? [])].includes(boolean)) return ok(false);
+	if ([...baseTruths, ...(customs?.truths ?? [])].includes(boolean)) return Result.ok(true);
+	if ([...baseFalses, ...(customs?.falses ?? [])].includes(boolean)) return Result.ok(false);
 
-	return err(Identifiers.ArgumentBooleanError);
+	return Result.err(Identifiers.ArgumentBooleanError);
 }

@@ -1,4 +1,4 @@
-import { isOk, ok } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { PreconditionContainerResult } from '../IPreconditionContainer';
 import type { IPreconditionCondition } from './IPreconditionCondition';
 
@@ -11,63 +11,63 @@ export const PreconditionConditionOr: IPreconditionCondition = {
 		let error: PreconditionContainerResult | null = null;
 		for (const child of entries) {
 			const result = await child.messageRun(message, command, context);
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	},
 	async messageParallel(message, command, entries, context) {
 		const results = await Promise.all(entries.map((entry) => entry.messageRun(message, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	},
 	async chatInputSequential(interaction, command, entries, context) {
 		let error: PreconditionContainerResult | null = null;
 		for (const child of entries) {
 			const result = await child.chatInputRun(interaction, command, context);
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	},
 	async chatInputParallel(interaction, command, entries, context) {
 		const results = await Promise.all(entries.map((entry) => entry.chatInputRun(interaction, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	},
 	async contextMenuSequential(interaction, command, entries, context) {
 		let error: PreconditionContainerResult | null = null;
 		for (const child of entries) {
 			const result = await child.contextMenuRun(interaction, command, context);
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	},
 	async contextMenuParallel(interaction, command, entries, context) {
 		const results = await Promise.all(entries.map((entry) => entry.contextMenuRun(interaction, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {
-			if (isOk(result)) return result;
+			if (result.isOk()) return result;
 			error = result;
 		}
 
-		return error ?? ok();
+		return error ?? Result.ok();
 	}
 };

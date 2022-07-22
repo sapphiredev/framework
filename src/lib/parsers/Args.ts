@@ -1,6 +1,6 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
-import { err, isErr, isOk, isSome, maybe, ok, type Err, type Maybe, type Ok, type Result } from '@sapphire/result';
+import type { Result } from '@sapphire/result';
 import type {
 	CategoryChannel,
 	DMChannel,

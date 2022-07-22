@@ -1,5 +1,5 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Nullish } from '@sapphire/utilities';
 import type { Guild } from 'discord.js';
 import type { Identifiers } from '../../errors/Identifiers';
@@ -12,7 +12,7 @@ export function resolveGuildChannelPredicate<TChannel extends GuildBasedChannelT
 	error: TError
 ): Result<TChannel, TError | Identifiers.ArgumentGuildChannelError> {
 	const result = resolveGuildChannel(parameter, guild);
-	if (!result.success) return result;
-	if (predicate(result.value)) return ok(result.value);
-	return err(error);
+	if (!result.isErr()) return result;
+	if (predicate(result.unwrap())) return Result.ok(result.unwrap());
+	return Result.err(error);
 }

@@ -1,13 +1,13 @@
 import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
-import { Err, err, Ok, ok } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Util } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
-export function resolveEmoji(parameter: string): Ok<EmojiObject> | Err<Identifiers> {
+export function resolveEmoji(parameter: string): Result<EmojiObject, Identifiers> {
 	const twemoji = TwemojiRegex.exec(parameter)?.[0] ?? null;
 
 	if (twemoji) {
-		return ok<EmojiObject>({
+		return Result.ok<EmojiObject>({
 			name: twemoji,
 			id: null
 		});
@@ -19,11 +19,11 @@ export function resolveEmoji(parameter: string): Ok<EmojiObject> | Err<Identifie
 		const resolved = Util.parseEmoji(parameter) as EmojiObject | null;
 
 		if (resolved) {
-			return ok(resolved);
+			return Result.ok(resolved);
 		}
 	}
 
-	return err(Identifiers.ArgumentEmojiError);
+	return Result.err(Identifiers.ArgumentEmojiError);
 }
 
 export interface EmojiObject {

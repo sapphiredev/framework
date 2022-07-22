@@ -1,12 +1,12 @@
 import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Guild, GuildMember, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export async function resolveMember(parameter: string, guild: Guild): Promise<Result<GuildMember, Identifiers.ArgumentMemberError>> {
 	const member = (await resolveById(parameter, guild)) ?? (await resolveByQuery(parameter, guild));
-	if (member) return ok(member);
-	return err(Identifiers.ArgumentMemberError);
+	if (member) return Result.ok(member);
+	return Result.err(Identifiers.ArgumentMemberError);
 }
 
 async function resolveById(argument: string, guild: Guild): Promise<GuildMember | null> {

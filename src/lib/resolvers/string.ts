@@ -1,4 +1,4 @@
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveString(
@@ -6,12 +6,12 @@ export function resolveString(
 	options?: { minimum?: number; maximum?: number }
 ): Result<string, Identifiers.ArgumentStringTooShort | Identifiers.ArgumentStringTooLong> {
 	if (typeof options?.minimum === 'number' && parameter.length < options.minimum) {
-		return err(Identifiers.ArgumentStringTooShort);
+		return Result.err(Identifiers.ArgumentStringTooShort);
 	}
 
 	if (typeof options?.maximum === 'number' && parameter.length > options.maximum) {
-		return err(Identifiers.ArgumentStringTooLong);
+		return Result.err(Identifiers.ArgumentStringTooLong);
 	}
 
-	return ok(parameter);
+	return Result.ok(parameter);
 }
