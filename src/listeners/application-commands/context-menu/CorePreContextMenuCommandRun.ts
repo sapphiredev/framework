@@ -12,15 +12,15 @@ export class CoreListener extends Listener<typeof Events.PreContextMenuCommandRu
 
 		// Run global preconditions:
 		const globalResult = await this.container.stores.get('preconditions').contextMenuRun(interaction, command, payload as any);
-		if (!globalResult.success) {
-			this.container.client.emit(Events.ContextMenuCommandDenied, globalResult.error, payload);
+		if (!globalResult.isErr()) {
+			this.container.client.emit(Events.ContextMenuCommandDenied, globalResult.unwrapErr(), payload);
 			return;
 		}
 
 		// Run command-specific preconditions:
 		const localResult = await command.preconditions.contextMenuRun(interaction, command, payload as any);
-		if (!localResult.success) {
-			this.container.client.emit(Events.ContextMenuCommandDenied, localResult.error, payload);
+		if (!localResult.isErr()) {
+			this.container.client.emit(Events.ContextMenuCommandDenied, localResult.unwrapErr(), payload);
 			return;
 		}
 

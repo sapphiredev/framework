@@ -10,10 +10,10 @@ export class CoreArgument extends Argument<DMChannel> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<DMChannel> {
 		const resolved = resolveDMChannel(parameter, context.message);
-		if (resolved.success) return this.ok(resolved.value);
+		if (resolved.isOk()) return this.ok(resolved.unwrap());
 		return this.error({
 			parameter,
-			identifier: resolved.error,
+			identifier: resolved.unwrapErr(),
 			message: 'The argument did not resolve to a DM channel.',
 			context
 		});

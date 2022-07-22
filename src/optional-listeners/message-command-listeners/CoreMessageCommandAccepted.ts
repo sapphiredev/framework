@@ -32,8 +32,8 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 		message.client.emit(Events.MessageCommandFinish, message, command, {
 			...payload,
 			args,
-			success: !isErr(result),
-			duration: result.value ?? -1
+			success: result.isOk(),
+			duration: result.unwrapOr(-1)
 		});
 	}
 }

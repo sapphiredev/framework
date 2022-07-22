@@ -10,8 +10,8 @@ export class CoreArgument extends Argument<EmojiObject> {
 
 	public run(parameter: string): ArgumentResult<EmojiObject> {
 		const resolved = resolveEmoji(parameter);
-		return resolved.success
-			? this.ok(resolved.value)
+		return resolved.isOk()
+			? this.ok(resolved.unwrap())
 			: this.error({
 					parameter,
 					identifier: Identifiers.ArgumentEmojiError,

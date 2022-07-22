@@ -21,10 +21,10 @@ export class CoreArgument extends Argument<StageChannel> {
 		}
 
 		const resolved = resolveGuildStageVoiceChannel(parameter, guild);
-		if (resolved.success) return this.ok(resolved.value);
+		if (resolved.isOk()) return this.ok(resolved.unwrap());
 		return this.error({
 			parameter,
-			identifier: resolved.error,
+			identifier: resolved.unwrapErr(),
 			message: 'The given argument did not resolve to a valid stage voice channel.',
 			context: { ...context, guild }
 		});

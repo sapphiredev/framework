@@ -10,6 +10,6 @@ export function resolvePartialDMChannel(
 ): Result<DMChannel | PartialDMChannel, Identifiers.ArgumentChannelError | Identifiers.ArgumentDMChannelError> {
 	const result = resolveChannel(parameter, message);
 	if (!result.isOk()) return result;
-	if (isDMChannel(result.value)) return Result.ok(result.value);
+	if (isDMChannel(result.unwrap())) return Result.ok(result.unwrap());
 	return Result.err(Identifiers.ArgumentDMChannelError);
 }

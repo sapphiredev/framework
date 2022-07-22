@@ -15,11 +15,11 @@ export class CoreArgument extends Argument<string> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<string> {
 		const resolved = resolveString(parameter, { minimum: context?.minimum, maximum: context?.maximum });
-		if (resolved.success) return this.ok(resolved.value);
+		if (resolved.isOk()) return this.ok(resolved.unwrap());
 		return this.error({
 			parameter,
-			identifier: resolved.error,
-			message: this.messages[resolved.error](context),
+			identifier: resolved.unwrapErr(),
+			message: this.messages[resolved.unwrapErr()](context),
 			context
 		});
 	}

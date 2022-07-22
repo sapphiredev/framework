@@ -1,6 +1,6 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
-import type { Result } from '@sapphire/result';
+import { Result, Ok, Err } from '@sapphire/result';
 import type {
 	CategoryChannel,
 	DMChannel,
@@ -124,7 +124,7 @@ export class Args {
 			})
 		);
 		if (result === null) return this.missingArguments();
-		if (isOk(result)) return result as Ok<ArgType[K]>;
+		if (result.isOk()) return result.unwrap() as Ok<ArgType[K]>;
 
 		// We need to typecast here because TS doesn't resolve that the type from @sapphire/result is identical to that of Lexure
 		return result as Result<ArgType[K], UserError>;
@@ -163,7 +163,7 @@ export class Args {
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.pickResult(type, options);
-		if (isOk(result)) return result.value;
+		if (result.isOk()) return result.unwrap();
 		throw result.error;
 	}
 
@@ -214,7 +214,7 @@ export class Args {
 			commandContext: this.commandContext,
 			...options
 		});
-		if (isOk(result)) return result;
+		if (result.isOk()) return result.unwrap();
 
 		this.parser.restore(state);
 		return result;
@@ -248,7 +248,7 @@ export class Args {
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.restResult(type, options);
-		if (isOk(result)) return result.value;
+		if (result.isOk()) return result.unwrap();
 		throw result.error;
 	}
 
@@ -299,7 +299,7 @@ export class Args {
 				})
 			);
 			if (result === null) break;
-			if (isErr(result)) {
+			if (result.isErr()) {
 				if (output.length === 0) {
 					// We need to typecast here because TS doesn't resolve that the type from @sapphire/result is identical to that of Lexure
 					return result as Result<ArgType[K][], UserError>;
@@ -311,7 +311,7 @@ export class Args {
 			output.push(result.value as ArgType[K]);
 		}
 
-		return ok(output);
+		return Result.ok(output);
 	}
 
 	/**
@@ -341,7 +341,7 @@ export class Args {
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]>;
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]> {
 		const result = await this.repeatResult(type, options);
-		if (isOk(result)) return result.value;
+		if (result.isOk()) return result.unwrap();
 		throw result.error;
 	}
 
@@ -481,7 +481,7 @@ export class Args {
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.peekResult(type, options);
-		if (isOk(result)) return result.value;
+		if (result.isOk()) return result.unwrap();
 		throw result.error;
 	}
 
@@ -495,7 +495,7 @@ export class Args {
 	 * // -> { exists: true, value: '1' }
 	 * ```
 	 */
-	public nextMaybe(): Maybe<string>;
+	public nextMaybe(): Result<string, any>;
 	/**
 	 * Retrieves the value of the next unused ordered token, but only if it could be transformed.
 	 * That token will now be consider used if the transformation succeeds.
@@ -513,9 +513,9 @@ export class Args {
 	 * // -> { exists: true, value: 1 }
 	 * ```
 	 */
-	public nextMaybe<T>(cb: ArgsNextCallback<T>): Maybe<T>;
-	public nextMaybe<T>(cb?: ArgsNextCallback<T>): Maybe<T | string> {
-		return maybe<T | string>(typeof cb === 'function' ? this.parser.singleMap(cb) : this.parser.single());
+	public nextMaybe<T>(cb: ArgsNextCallback<T>): Result<T, any>;
+	public nextMaybe<T>(cb?: ArgsNextCallback<T>): Result<T | string> {
+		return Result.from<T | string>(typeof cb === 'function' ? this.parser.singleMap(cb) : this.parser.single());
 	}
 
 	/**
@@ -548,7 +548,7 @@ export class Args {
 	public next<T>(cb: ArgsNextCallback<T>): T;
 	public next<T>(cb?: ArgsNextCallback<T>): T | string | null {
 		const value = cb ? this.nextMaybe(cb) : this.nextMaybe();
-		return isSome<T | string>(value) ? value.value : null;
+		return value.unwrapOr(null);
 	}
 
 	/**
@@ -643,7 +643,7 @@ export class Args {
 
 	protected unavailableArgument<T>(type: string | IArgument<T>) {
 		const name = typeof type === 'string' ? type : type.name;
-		return err(
+		return Result.err(
 			new UserError({
 				identifier: Identifiers.ArgsUnavailable,
 				message: `The argument "${name}" was not found.`,
@@ -653,7 +653,7 @@ export class Args {
 	}
 
 	protected missingArguments() {
-		return err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.', context: this.toJSON() }));
+		return Result.err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.', context: this.toJSON() }));
 	}
 
 	/**
@@ -678,7 +678,7 @@ export class Args {
 	 * @param value The value to pass.
 	 */
 	public static ok<T>(value: T): Ok<T> {
-		return ok(value);
+		return Result.ok(value);
 	}
 
 	/**
@@ -686,7 +686,7 @@ export class Args {
 	 * @param options The options for the argument error.
 	 */
 	public static error<T>(options: ArgumentError.Options<T>): Err<ArgumentError<T>> {
-		return err(new ArgumentError<T>(options));
+		return Result.err(new ArgumentError<T>(options));
 	}
 }
 
@@ -732,9 +732,9 @@ export interface RepeatArgOptions extends ArgOptions {
 /**
  * The callback used for {@link Args.nextMaybe} and {@link Args.next}.
  */
-export interface ArgsNextCallback<T> {
+export interface ArgsNextCallback<T, E> {
 	/**
 	 * The value to be mapped.
 	 */
-	(value: string): Maybe<T>;
+	(value: string): Result<T, E>;
 }

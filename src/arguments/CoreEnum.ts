@@ -12,10 +12,10 @@ export class CoreArgument extends Argument<string> {
 		context: { readonly enum?: string[]; readonly caseInsensitive?: boolean } & Argument.Context
 	): Argument.Result<string> {
 		const resolved = resolveEnum(parameter, { enum: context.enum, caseInsensitive: context.caseInsensitive });
-		if (resolved.success) return this.ok(resolved.value);
+		if (resolved.isOk()) return this.ok(resolved.unwrap());
 		return this.error({
 			parameter,
-			identifier: resolved.error,
+			identifier: resolved.unwrapErr(),
 			message: `The argument must have one of the following values: ${context.enum?.join(', ')}`,
 			context
 		});
