@@ -94,7 +94,7 @@ export interface InteractionHandlerJSON extends PieceJSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 
-export type InteractionHandlerParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
+export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Result.UnwrapOk<Awaited<ReturnType<Instance['parse']>>>;
 
 export namespace InteractionHandler {
 	export type Options = InteractionHandlerOptions;
