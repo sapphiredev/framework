@@ -12,7 +12,7 @@ import {
 	RESTPostAPIApplicationCommandsJSONBody,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
-} from 'discord-api-types/v9';
+} from 'discord-api-types/v10';
 import type { InternalAPICall } from './ApplicationCommandRegistry';
 
 const optionTypeToPrettyName = new Map([
@@ -644,6 +644,61 @@ function* reportOptionDifferences({
 			}
 		}
 	}
+
+	if (hasMinMaxLengthSupport(option)) {
+		// Check min and max_value
+		const existingCasted = existingOption as APIApplicationCommandStringOption;
+
+		// 0. No min_length and now we have min_length
+		if (existingCasted.min_length === undefined && option.min_length !== undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_length`,
+				expected: 'min_length present',
+				original: 'no min_length present'
+			};
+		}
+		// 1. Have min_length and now we don't
+		else if (existingCasted.min_length !== undefined && option.min_length === undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_length`,
+				expected: 'no min_length present',
+				original: 'min_length present'
+			};
+		}
+		// 2. Equality check
+		else if (existingCasted.min_length !== option.min_length) {
+			yield {
+				key: `${keyPath(currentIndex)}.min_length`,
+				original: String(existingCasted.min_length),
+				expected: String(option.min_length)
+			};
+		}
+
+		// 0. No max_length and now we have max_length
+		if (existingCasted.max_length === undefined && option.max_length !== undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_length`,
+				expected: 'max_length present',
+				original: 'no max_length present'
+			};
+		}
+		// 1. Have max_length and now we don't
+		else if (existingCasted.max_length !== undefined && option.max_length === undefined) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_length`,
+				expected: 'no max_length present',
+				original: 'max_length present'
+			};
+		}
+		// 2. Equality check
+		else if (existingCasted.max_length !== option.max_length) {
+			yield {
+				key: `${keyPath(currentIndex)}.max_length`,
+				original: String(existingCasted.max_length),
+				expected: String(option.max_length)
+			};
+		}
+	}
 }
 
 function hasMinMaxValueSupport(option: APIApplicationCommandOption): option is APIApplicationCommandNumericTypes {
@@ -652,4 +707,8 @@ function hasMinMaxValueSupport(option: APIApplicationCommandOption): option is A
 
 function hasChoicesAndAutocompleteSupport(option: APIApplicationCommandOption): option is APIApplicationCommandChoosableAndAutocompletableTypes {
 	return [ApplicationCommandOptionType.Integer, ApplicationCommandOptionType.Number, ApplicationCommandOptionType.String].includes(option.type);
+}
+
+function hasMinMaxLengthSupport(option: APIApplicationCommandOption): option is APIApplicationCommandStringOption {
+	return option.type === ApplicationCommandOptionType.String;
 }

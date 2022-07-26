@@ -4,7 +4,7 @@ import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
 import { emitRegistryError } from './emitRegistryError';
 import { getNeededRegistryParameters } from './getNeededParameters';
 
-export let defaultBehaviorWhenNotIdentical = RegisterBehavior.LogToConsole;
+export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
@@ -28,10 +28,10 @@ export function acquire(commandName: string) {
 /**
  * Sets the default behavior when registered commands aren't identical to provided data.
  * @param behavior The default behavior to have. Set this to `null` to reset it to the default
- * of `RegisterBehavior.LogToConsole`.
+ * of `RegisterBehavior.Overwrite`.
  */
 export function setDefaultBehaviorWhenNotIdentical(behavior?: RegisterBehavior | null) {
-	defaultBehaviorWhenNotIdentical = behavior ?? RegisterBehavior.LogToConsole;
+	defaultBehaviorWhenNotIdentical = behavior ?? RegisterBehavior.Overwrite;
 }
 
 export function getDefaultBehaviorWhenNotIdentical() {

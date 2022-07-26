@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v9';
+import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { getCommandDifferences } from '../../src/lib/utils/application-commands/computeDifferences';
 
 describe('Compute differences for provided application commands', () => {
@@ -1401,6 +1401,148 @@ describe('Compute differences for provided application commands', () => {
 				key: 'existing choice at path options[0].choices[1]',
 				expected: 'no choice present',
 				original: 'choice with name "choice2" and value 2 present'
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN a string option has no minimum length and a command with a string option has a minimum length THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1'
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					min_length: 1
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'options[0].min_length',
+				expected: 'min_length present',
+				original: 'no min_length present'
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN a string option has a minimum length of 69 and a command with a string option has a minimum length of 420 THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					min_length: 69
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					min_length: 420
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'options[0].min_length',
+				expected: '420',
+				original: '69'
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN a string option has no maximum length and a command with a string option has a maximum length THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1'
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					max_length: 1
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'options[0].max_length',
+				expected: 'max_length present',
+				original: 'no max_length present'
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN a string option has a maximum length of 69 and a command with a string option has a maximum length of 420 THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					max_length: 69
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.String,
+					description: 'description 1',
+					name: 'option1',
+					max_length: 420
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'options[0].max_length',
+				expected: '420',
+				original: '69'
 			}
 		]);
 	});
