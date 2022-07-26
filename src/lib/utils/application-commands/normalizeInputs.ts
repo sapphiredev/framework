@@ -13,9 +13,9 @@ import {
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v9';
 import {
+	PermissionsBitField,
 	ApplicationCommand,
 	ChatInputApplicationCommandData,
-	Constants,
 	MessageApplicationCommandData,
 	UserApplicationCommandData
 } from 'discord.js';
@@ -54,9 +54,9 @@ export function normalizeChatInputCommand(
 		name_localizations: command.nameLocalizations,
 		description: command.description,
 		description_localizations: command.descriptionLocalizations,
-		default_permission: command.defaultPermission,
+		default_member_permissions: new PermissionsBitField(command.defaultMemberPermissions!).bitfield.toString(),
+		dm_permission: command.dmPermission,
 		type: ApplicationCommandType.ChatInput
-		// TODO: once command perms v2 drops, add the fields here
 	};
 
 	if (command.options?.length) {
@@ -86,16 +86,13 @@ export function normalizeContextMenuCommand(
 	let type: ApplicationCommandType;
 
 	switch (command.type) {
-		case Constants.ApplicationCommandTypes.MESSAGE:
-		case 'MESSAGE':
+		case ApplicationCommandType.Message:
 			type = ApplicationCommandType.Message;
 			break;
-		case Constants.ApplicationCommandTypes.USER:
-		case 'USER':
+		case ApplicationCommandType.User:
 			type = ApplicationCommandType.User;
 			break;
 		default:
-			// @ts-expect-error command gets turned to never, which is half true.
 			throw new Error(`Unhandled command type: ${command.type}`);
 	}
 
@@ -103,8 +100,8 @@ export function normalizeContextMenuCommand(
 		name: command.name,
 		name_localizations: command.nameLocalizations,
 		type,
-		default_permission: command.defaultPermission
-		// TODO: once command perms v2 drops, add the fields here
+		default_member_permissions: new PermissionsBitField(command.defaultMemberPermissions!).bitfield.toString(),
+		dm_permission: command.dmPermission
 	};
 
 	return finalObject;
@@ -114,20 +111,16 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	const returnData = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		default_permission: command.defaultPermission
-		// TODO: once command perms v2 drops, add the fields here
+		default_member_permission: command.defaultMemberPermissions,
+		type: command.type
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
-	if (command.type === 'CHAT_INPUT') {
+	if (command.type === ApplicationCommandType.ChatInput) {
 		returnData.type = ApplicationCommandType.ChatInput;
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
 		// TODO (favna): Remove this line after website rewrite is done
 		// @ts-ignore this is currently ignored for the website
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description_localizations = command.descriptionLocalizations;
-	} else if (command.type === 'MESSAGE') {
-		returnData.type = ApplicationCommandType.Message;
-	} else if (command.type === 'USER') {
-		returnData.type = ApplicationCommandType.User;
 	}
 
 	if (command.options.length) {

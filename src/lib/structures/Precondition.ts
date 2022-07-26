@@ -1,7 +1,7 @@
 import { Piece } from '@sapphire/pieces';
 import { err, ok, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import type { CommandInteraction, ContextMenuCommandInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
+import type { CommandInteraction, ContextMenuCommandInteraction, Message, PermissionsBitField, TextBasedChannel } from 'discord.js';
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -123,10 +123,10 @@ export interface Preconditions {
 	GuildThreadOnly: never;
 	NSFW: never;
 	ClientPermissions: {
-		permissions: Permissions;
+		permissions: PermissionsBitField;
 	};
 	UserPermissions: {
-		permissions: Permissions;
+		permissions: PermissionsBitField;
 	};
 }
 

@@ -363,8 +363,6 @@ export const SapphireEvents = {
 	// #endregion Sapphire events
 };
 
-export { SapphireEvents as Events };
-
 export interface IPieceError {
 	piece: Piece;
 }
