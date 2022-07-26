@@ -15,7 +15,7 @@ import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
 import type { PluginHook } from './Enums';
 
-export const Events = {
+export const SapphireEvents = {
 	// #region Discord.js base events
 	ChannelCreate: DJSEvents.ChannelCreate,
 	ChannelDelete: DJSEvents.ChannelDelete,
@@ -363,6 +363,8 @@ export const Events = {
 	// #endregion Sapphire events
 };
 
+export { SapphireEvents as Events };
+
 export interface IPieceError {
 	piece: Piece;
 }
@@ -527,72 +529,72 @@ export interface AutocompleteInteractionPayload {
 declare module 'discord.js' {
 	interface ClientEvents {
 		// #region Sapphire load cycle events
-		[Events.PieceUnload]: [store: Store<Piece>, piece: Piece];
-		[Events.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
+		[SapphireEvents.PieceUnload]: [store: Store<Piece>, piece: Piece];
+		[SapphireEvents.PiecePostLoad]: [store: Store<Piece>, piece: Piece];
 
-		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
-		[Events.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
+		[SapphireEvents.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
+		[SapphireEvents.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
 
-		[Events.PreMessageParsed]: [message: Message];
-		[Events.MentionPrefixOnly]: [message: Message];
-		[Events.NonPrefixedMessage]: [message: Message];
-		[Events.PrefixedMessage]: [message: Message, prefix: string | RegExp];
+		[SapphireEvents.PreMessageParsed]: [message: Message];
+		[SapphireEvents.MentionPrefixOnly]: [message: Message];
+		[SapphireEvents.NonPrefixedMessage]: [message: Message];
+		[SapphireEvents.PrefixedMessage]: [message: Message, prefix: string | RegExp];
 
-		[Events.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
-		[Events.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
-		[Events.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
-		[Events.PreMessageCommandRun]: [payload: PreMessageCommandRunPayload];
+		[SapphireEvents.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
+		[SapphireEvents.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];
+		[SapphireEvents.CommandDoesNotHaveMessageCommandHandler]: [payload: CommandDoesNotHaveMessageCommandHandler];
+		[SapphireEvents.PreMessageCommandRun]: [payload: PreMessageCommandRunPayload];
 
-		[Events.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
-		[Events.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
+		[SapphireEvents.MessageCommandDenied]: [error: UserError, payload: MessageCommandDeniedPayload];
+		[SapphireEvents.MessageCommandAccepted]: [payload: MessageCommandAcceptedPayload];
 
-		[Events.MessageCommandRun]: [message: Message, command: Command, payload: MessageCommandRunPayload];
-		[Events.MessageCommandSuccess]: [payload: MessageCommandSuccessPayload];
-		[Events.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
-		[Events.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
+		[SapphireEvents.MessageCommandRun]: [message: Message, command: Command, payload: MessageCommandRunPayload];
+		[SapphireEvents.MessageCommandSuccess]: [payload: MessageCommandSuccessPayload];
+		[SapphireEvents.MessageCommandError]: [error: unknown, payload: MessageCommandErrorPayload];
+		[SapphireEvents.MessageCommandFinish]: [message: Message, command: Command, payload: MessageCommandFinishPayload];
 
-		[Events.MessageCommandTypingError]: [error: Error, payload: MessageCommandTypingErrorPayload];
+		[SapphireEvents.MessageCommandTypingError]: [error: Error, payload: MessageCommandTypingErrorPayload];
 
-		[Events.PluginLoaded]: [hook: PluginHook, name: string | undefined];
+		[SapphireEvents.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 
-		[Events.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
-		[Events.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
+		[SapphireEvents.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
+		[SapphireEvents.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
 
-		[Events.PossibleAutocompleteInteraction]: [interaction: AutocompleteInteraction];
-		[Events.CommandAutocompleteInteractionError]: [error: unknown, payload: AutocompleteInteractionPayload];
-		[Events.CommandAutocompleteInteractionSuccess]: [payload: AutocompleteInteractionPayload];
+		[SapphireEvents.PossibleAutocompleteInteraction]: [interaction: AutocompleteInteraction];
+		[SapphireEvents.CommandAutocompleteInteractionError]: [error: unknown, payload: AutocompleteInteractionPayload];
+		[SapphireEvents.CommandAutocompleteInteractionSuccess]: [payload: AutocompleteInteractionPayload];
 
 		// Chat input command chain
-		[Events.PossibleChatInputCommand]: [interaction: CommandInteraction];
-		[Events.UnknownChatInputCommand]: [payload: UnknownChatInputCommandPayload];
-		[Events.CommandDoesNotHaveChatInputCommandHandler]: [payload: CommandDoesNotHaveChatInputCommandHandlerPayload];
-		[Events.PreChatInputCommandRun]: [payload: PreChatInputCommandRunPayload];
+		[SapphireEvents.PossibleChatInputCommand]: [interaction: CommandInteraction];
+		[SapphireEvents.UnknownChatInputCommand]: [payload: UnknownChatInputCommandPayload];
+		[SapphireEvents.CommandDoesNotHaveChatInputCommandHandler]: [payload: CommandDoesNotHaveChatInputCommandHandlerPayload];
+		[SapphireEvents.PreChatInputCommandRun]: [payload: PreChatInputCommandRunPayload];
 
-		[Events.ChatInputCommandDenied]: [error: UserError, payload: ChatInputCommandDeniedPayload];
-		[Events.ChatInputCommandAccepted]: [payload: ChatInputCommandAcceptedPayload];
+		[SapphireEvents.ChatInputCommandDenied]: [error: UserError, payload: ChatInputCommandDeniedPayload];
+		[SapphireEvents.ChatInputCommandAccepted]: [payload: ChatInputCommandAcceptedPayload];
 
-		[Events.ChatInputCommandRun]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
-		[Events.ChatInputCommandSuccess]: [payload: ChatInputCommandSuccessPayload];
-		[Events.ChatInputCommandError]: [error: unknown, payload: ChatInputCommandErrorPayload];
-		[Events.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandFinishPayload];
+		[SapphireEvents.ChatInputCommandRun]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandRunPayload];
+		[SapphireEvents.ChatInputCommandSuccess]: [payload: ChatInputCommandSuccessPayload];
+		[SapphireEvents.ChatInputCommandError]: [error: unknown, payload: ChatInputCommandErrorPayload];
+		[SapphireEvents.ChatInputCommandFinish]: [interaction: CommandInteraction, command: ChatInputCommand, payload: ChatInputCommandFinishPayload];
 
 		// Context menu command chain
-		[Events.PossibleContextMenuCommand]: [interaction: ContextMenuCommandInteraction];
-		[Events.UnknownContextMenuCommand]: [payload: UnknownContextMenuCommandPayload];
-		[Events.CommandDoesNotHaveContextMenuCommandHandler]: [payload: CommandDoesNotHaveContextMenuCommandHandlerPayload];
-		[Events.PreContextMenuCommandRun]: [payload: PreContextMenuCommandRunPayload];
+		[SapphireEvents.PossibleContextMenuCommand]: [interaction: ContextMenuCommandInteraction];
+		[SapphireEvents.UnknownContextMenuCommand]: [payload: UnknownContextMenuCommandPayload];
+		[SapphireEvents.CommandDoesNotHaveContextMenuCommandHandler]: [payload: CommandDoesNotHaveContextMenuCommandHandlerPayload];
+		[SapphireEvents.PreContextMenuCommandRun]: [payload: PreContextMenuCommandRunPayload];
 
-		[Events.ContextMenuCommandDenied]: [error: UserError, payload: ContextMenuCommandDeniedPayload];
-		[Events.ContextMenuCommandAccepted]: [payload: ContextMenuCommandAcceptedPayload];
+		[SapphireEvents.ContextMenuCommandDenied]: [error: UserError, payload: ContextMenuCommandDeniedPayload];
+		[SapphireEvents.ContextMenuCommandAccepted]: [payload: ContextMenuCommandAcceptedPayload];
 
-		[Events.ContextMenuCommandRun]: [
+		[SapphireEvents.ContextMenuCommandRun]: [
 			interaction: ContextMenuCommandInteraction,
 			command: ContextMenuCommand,
 			payload: ContextMenuCommandRunPayload
 		];
-		[Events.ContextMenuCommandSuccess]: [payload: ContextMenuCommandSuccessPayload];
-		[Events.ContextMenuCommandError]: [error: unknown, payload: ContextMenuCommandErrorPayload];
-		[Events.ContextMenuCommandFinish]: [
+		[SapphireEvents.ContextMenuCommandSuccess]: [payload: ContextMenuCommandSuccessPayload];
+		[SapphireEvents.ContextMenuCommandError]: [error: unknown, payload: ContextMenuCommandErrorPayload];
+		[SapphireEvents.ContextMenuCommandFinish]: [
 			interaction: ContextMenuCommandInteraction,
 			command: ContextMenuCommand,
 			payload: ContextMenuCommandFinishPayload
