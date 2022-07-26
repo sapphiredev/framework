@@ -398,9 +398,8 @@ export class ApplicationCommandRegistry {
 			);
 		}
 
-		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data.${
-			finalMessage.length ? '\n' : ''
-		}`;
+		const finalMessageNewLine = finalMessage.length ? '\n' : '';
+		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data.${finalMessageNewLine}`;
 
 		logAsWarn ? this.warn(header, ...finalMessage) : this.debug(header, ...finalMessage);
 	}
