@@ -14,7 +14,7 @@ import type {
 	User,
 	VoiceChannel
 } from 'discord.js';
-import * as Lexure from 'lexure';
+import type * as Lexure from '@sapphire/lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
@@ -45,16 +45,16 @@ export class Args {
 	/**
 	 * The internal Lexure parser.
 	 */
-	protected readonly parser: Lexure.Args;
+	protected readonly parser: Lexure.ArgumentStream;
 
 	/**
 	 * The states stored in the args.
 	 * @see Args#save
 	 * @see Args#restore
 	 */
-	private readonly states: Lexure.ArgsState[] = [];
+	private readonly states: Lexure.ArgumentStream.State[] = [];
 
-	public constructor(message: Message, command: MessageCommand, parser: Lexure.Args, context: MessageCommand.RunContext) {
+	public constructor(message: Message, command: MessageCommand, parser: Lexure.ArgumentStream, context: MessageCommand.RunContext) {
 		this.message = message;
 		this.command = command;
 		this.parser = parser;
@@ -66,9 +66,8 @@ export class Args {
 	 */
 	public start(): Args {
 		this.parser.state = {
-			usedIndices: new Set(),
-			position: 0,
-			positionFromEnd: this.parser.parserOutput.ordered.length - 1
+			used: new Set(),
+			position: 0
 		};
 		return this;
 	}
@@ -114,20 +113,18 @@ export class Args {
 		if (!argument) return this.unavailableArgument(type);
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
-			Args.toLexure(
-				await argument.run(arg, {
-					args: this,
-					argument,
-					message: this.message,
-					command: this.command,
-					commandContext: this.commandContext,
-					...options
-				})
-			)
+			argument.run(arg, {
+				args: this,
+				argument,
+				message: this.message,
+				command: this.command,
+				commandContext: this.commandContext,
+				...options
+			})
 		);
-		if (result === null) return this.missingArguments();
+		if (result.isErrAnd((value) => value === null)) return this.missingArguments();
 
-		return Args.fromLexure(result);
+		return this.missingArguments();
 	}
 
 	/**
@@ -205,7 +202,11 @@ export class Args {
 		if (this.parser.finished) return this.missingArguments();
 
 		const state = this.parser.save();
-		const data = this.parser.many().reduce((acc, token) => `${acc}${token.value}${token.trailing}`, '');
+		const data = this.parser
+			.many()
+			.unwrapOr<Lexure.Parameter[]>([])
+			.map((parameter) => parameter.value)
+			.join(' ');
 		const result = await argument.run(data, {
 			args: this,
 			argument,
@@ -289,27 +290,27 @@ export class Args {
 		const output: ArgType[K][] = [];
 		for (let i = 0, times = options.times ?? Infinity; i < times; i++) {
 			const result = await this.parser.singleParseAsync(async (arg) =>
-				Args.toLexure(
-					await argument.run(arg, {
-						args: this,
-						argument,
-						message: this.message,
-						command: this.command,
-						commandContext: this.commandContext,
-						...options
-					})
-				)
+				argument.run(arg, {
+					args: this,
+					argument,
+					message: this.message,
+					command: this.command,
+					commandContext: this.commandContext,
+					...options
+				})
 			);
-			if (result === null) break;
-			if (result.error) {
+			if (result.isErr()) {
+				const error = result.unwrapErr();
+				if (error === null) break;
+
 				if (output.length === 0) {
-					return Args.fromLexure<ArgType[K][], UserError>(result);
+					return Result.err(error);
 				}
 
 				break;
 			}
 
-			output.push(result.value as ArgType[K]);
+			output.push(result.unwrap() as ArgType[K]);
 		}
 
 		return Result.ok(output);
@@ -516,9 +517,7 @@ export class Args {
 	 */
 	public nextMaybe<T>(cb: ArgsNextCallback<T>): Option<T>;
 	public nextMaybe<T>(cb?: ArgsNextCallback<T>): Option<T | string> {
-		return Option.from<T | string>(
-			typeof cb === 'function' ? Args.fromLexureOption(this.parser.singleMap((s) => Args.toLexureOption(cb(s)))) : this.parser.single()
-		);
+		return Option.from<T | string>(typeof cb === 'function' ? this.parser.singleMap(cb) : this.parser.single());
 	}
 
 	/**
@@ -690,27 +689,6 @@ export class Args {
 	 */
 	public static error<T>(options: ArgumentError.Options<T>): Result.Err<ArgumentError<T>> {
 		return Result.err(new ArgumentError<T>(options));
-	}
-
-	private static toLexure<T, E>(result: Result<T, E>): Lexure.Result<T, E> {
-		if (result.isErr()) return Lexure.err(result.unwrapErr());
-		return Lexure.ok(result.unwrap());
-	}
-
-	private static fromLexure<T, E>(result: Lexure.Result<T, E>): Result<T, E> {
-		if (!result.success) return Result.err(result.error);
-		return Result.ok(result.value);
-	}
-
-	private static toLexureOption<T>(option: Option<T>): Lexure.Option<T> {
-		if (option.isNone()) return Lexure.none();
-		return Lexure.some(option.unwrap());
-	}
-
-	private static fromLexureOption<T>(option: Lexure.Option<T> | null): Option<T> | null {
-		if (option === null) return null;
-		if (!option.exists) return Option.none;
-		return Option.some(option.value);
 	}
 }
 

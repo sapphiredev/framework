@@ -10,7 +10,7 @@ import {
 	Permissions,
 	Snowflake
 } from 'discord.js';
-import * as Lexure from 'lexure';
+import * as Lexure from '@sapphire/lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
@@ -53,7 +53,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * The strategy to use for the lexer.
 	 * @since 1.0.0
 	 */
-	public strategy: Lexure.UnorderedStrategy;
+	public strategy: Lexure.IUnorderedStrategy;
 
 	/**
 	 * If {@link SapphireClient.typing} is true, it can be overridden for a specific command using this property, set via its options.
@@ -73,7 +73,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @since 1.0.0
 	 * @private
 	 */
-	protected lexer = new Lexure.Lexer();
+	protected lexer;
 
 	/**
 	 * @since 1.0.0
@@ -88,14 +88,14 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		this.fullCategory = options.fullCategory ?? this.location.directories;
 		this.typing = options.typing ?? true;
 
-		this.lexer.setQuotes(
-			options.quotes ?? [
+		this.lexer = new Lexure.Lexer({
+			quotes: options.quotes ?? [
 				['"', '"'], // Double quotes
 				['“', '”'], // Fancy quotes (on iOS)
 				['「', '」'], // Corner brackets (CJK)
 				['«', '»'] // French quotes (guillemets)
 			]
-		);
+		});
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases: string[] = [];
@@ -124,8 +124,8 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param context The command-context used in this execution.
 	 */
 	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
-		const parser = new Lexure.Parser(this.lexer.setInput(parameters).lex()).setUnorderedStrategy(this.strategy);
-		const args = new Lexure.Args(parser.parse());
+		const parser = new Lexure.Parser(this.strategy);
+		const args = new Lexure.ArgumentStream(parser.run(this.lexer.run(parameters)));
 		return new Args(message, this as any, args, context) as any;
 	}
 
