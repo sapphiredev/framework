@@ -9,7 +9,7 @@ import {
 	ApplicationCommandType,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
-} from 'discord-api-types/v9';
+} from 'discord-api-types/v10';
 import type {
 	ApplicationCommand,
 	ApplicationCommandManager,
@@ -19,6 +19,7 @@ import type {
 	MessageApplicationCommandData,
 	UserApplicationCommandData
 } from 'discord.js';
+import objectHash from 'object-hash';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
 import { CommandDifference, getCommandDifferences } from './computeDifferences';
@@ -322,27 +323,53 @@ export class ApplicationCommandRegistry {
 		behaviorIfNotEqual: RegisterBehavior,
 		guildId?: string
 	) {
-		const now = Date.now();
+		let differences: CommandDifference[] = [];
 
-		// Step 0: compute differences
-		const differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
+		if (behaviorIfNotEqual === RegisterBehavior.VerboseOverwrite) {
+			const now = Date.now();
 
-		const later = Date.now() - now;
-		this.debug(`Took ${later}ms to process differences`);
+			// Step 0: compute differences
+			differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
 
-		// Step 1: if there are no differences, return
-		if (!differences.length) {
-			this.debug(
-				`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command "${applicationCommand.name}" (${
-					applicationCommand.id
-				})`
-			);
-			return;
+			const later = Date.now() - now;
+			this.debug(`Took ${later}ms to process differences via computing differences`);
+
+			// Step 1: if there are no differences, return
+			if (!differences.length) {
+				this.debug(
+					`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command "${applicationCommand.name}" (${
+						applicationCommand.id
+					})`
+				);
+				return;
+			}
 		}
 
-		this.logCommandDifferences(differences, applicationCommand, behaviorIfNotEqual === RegisterBehavior.LogToConsole);
+		// Run the fast path even if the user wants to just log if the command has a difference
+		if (behaviorIfNotEqual === RegisterBehavior.Overwrite || behaviorIfNotEqual === RegisterBehavior.LogToConsole) {
+			const now = Date.now();
 
-		// Step 2: if the behavior is to log to console, log the differences
+			// Step 0: compute differences
+			const oldHash = objectHash(convertApplicationCommandToApiData(applicationCommand));
+			const newHash = objectHash(apiData);
+
+			const later = Date.now() - now;
+			this.debug(`Took ${later}ms to process differences via object hashing`);
+
+			// Step 1: if there are no differences, return
+			if (oldHash === newHash) {
+				this.debug(
+					`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command "${applicationCommand.name}" (${
+						applicationCommand.id
+					})`
+				);
+				return;
+			}
+		}
+
+		this.logCommandDifferencesFound(applicationCommand, behaviorIfNotEqual === RegisterBehavior.LogToConsole, differences);
+
+		// Step 2: if the behavior is to log to console, only log the differences
 		if (behaviorIfNotEqual === RegisterBehavior.LogToConsole) {
 			return;
 		}
@@ -356,7 +383,7 @@ export class ApplicationCommandRegistry {
 		}
 	}
 
-	private logCommandDifferences(differences: CommandDifference[], applicationCommand: ApplicationCommand, logAsWarn: boolean) {
+	private logCommandDifferencesFound(applicationCommand: ApplicationCommand, logAsWarn: boolean, differences: CommandDifference[]) {
 		const finalMessage: string[] = [];
 		const pad = ' '.repeat(5);
 
@@ -371,7 +398,8 @@ export class ApplicationCommandRegistry {
 			);
 		}
 
-		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data\n`;
+		const finalMessageNewLine = finalMessage.length ? '\n' : '';
+		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data.${finalMessageNewLine}`;
 
 		logAsWarn ? this.warn(header, ...finalMessage) : this.debug(header, ...finalMessage);
 	}
