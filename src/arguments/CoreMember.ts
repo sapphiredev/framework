@@ -21,12 +21,13 @@ export class CoreArgument extends Argument<GuildMember> {
 		}
 
 		const resolved = await resolveMember(parameter, guild);
-		if (resolved.isOk()) return this.ok(resolved.unwrap());
-		return this.error({
-			parameter,
-			identifier: resolved.unwrapErr(),
-			message: 'The given argument did not resolve to a server member.',
-			context: { ...context, guild }
-		});
+		return resolved.mapErr((identifier) =>
+			this.errorContext({
+				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a server member.',
+				context: { ...context, guild }
+			})
+		);
 	}
 }

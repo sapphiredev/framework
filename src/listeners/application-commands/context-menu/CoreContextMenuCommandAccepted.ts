@@ -24,9 +24,7 @@ export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccep
 			return duration;
 		});
 
-		if (result.isErr()) {
-			this.container.client.emit(Events.ContextMenuCommandError, result.unwrapErr(), { ...payload, duration: result.unwrapOr(-1) });
-		}
+		result.inspectErr((error) => this.container.client.emit(Events.ContextMenuCommandError, error, { ...payload, duration: -1 }));
 
 		this.container.client.emit(Events.ContextMenuCommandFinish, interaction, command, {
 			...payload,

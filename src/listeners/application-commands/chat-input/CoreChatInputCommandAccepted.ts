@@ -24,9 +24,7 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 			return duration;
 		});
 
-		if (result.isErr()) {
-			this.container.client.emit(Events.ChatInputCommandError, result.unwrapErr(), { ...payload, duration: result.unwrapOr(-1) });
-		}
+		result.inspectErr((error) => this.container.client.emit(Events.ChatInputCommandError, error, { ...payload, duration: -1 }));
 
 		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, {
 			...payload,

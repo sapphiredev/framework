@@ -9,12 +9,13 @@ export class CoreArgument extends Argument<boolean> {
 
 	public run(parameter: string, context: { readonly truths?: string[]; falses?: readonly string[] } & Argument.Context): Argument.Result<boolean> {
 		const resolved = resolveBoolean(parameter, { truths: context.truths, falses: context.falses });
-		if (resolved.isOk()) return this.ok(resolved.unwrap());
-		return this.error({
-			parameter,
-			identifier: resolved.unwrapErr(),
-			message: 'The argument did not resolve to a boolean.',
-			context
-		});
+		return resolved.mapErr((identifier) =>
+			this.errorContext({
+				parameter,
+				identifier,
+				message: 'The argument did not resolve to a boolean.',
+				context
+			})
+		);
 	}
 }

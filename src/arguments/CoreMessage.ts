@@ -11,12 +11,13 @@ export class CoreArgument extends Argument<Message> {
 	public async run(parameter: string, context: Omit<MessageResolverOptions, 'message'> & Argument.Context): Argument.AsyncResult<Message> {
 		const channel = context.channel ?? context.message.channel;
 		const resolved = await resolveMessage(parameter, { message: context.message, channel: context.channel, scan: context.scan ?? false });
-		if (resolved.isOk()) return this.ok(resolved.unwrap());
-		return this.error({
-			parameter,
-			identifier: resolved.unwrapErr(),
-			message: 'The given argument did not resolve to a message.',
-			context: { ...context, channel }
-		});
+		return resolved.mapErr((identifier) =>
+			this.errorContext({
+				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a message.',
+				context: { ...context, channel }
+			})
+		);
 	}
 }

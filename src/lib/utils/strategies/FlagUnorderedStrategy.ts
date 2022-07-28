@@ -53,11 +53,10 @@ export class FlagUnorderedStrategy extends PrefixedStrategy {
 			this.allowedOption = always;
 		} else if (this.options.length === 0) {
 			this.matchOption = never;
-			this.matchCompactOption = never;
 		}
 	}
 
-	public matchFlag(s: string): Option<string> {
+	public override matchFlag(s: string): Option<string> {
 		const result = super.matchFlag(s);
 
 		// The flag must be an allowed one.
@@ -67,30 +66,12 @@ export class FlagUnorderedStrategy extends PrefixedStrategy {
 		return Option.none;
 	}
 
-	public matchOption(s: string): Option<readonly [key: string, value: string]> {
+	public override matchOption(s: string): Option<readonly [key: string, value: string]> {
 		const result = super.matchOption(s);
 
 		if (result.isSomeAnd((option) => this.allowedOption(option[0]))) return result;
 
 		return Option.none;
-	}
-
-	public matchCompactOption(s: string): Option<readonly [key: string, value: string]> {
-		const pre = this.prefixes.find((x) => s.startsWith(x));
-		if (!pre) return Option.none;
-
-		s = s.slice(pre.length);
-		const sep = this.separators.find((x) => s.includes(x));
-		if (!sep) return Option.none;
-
-		const i = s.indexOf(sep);
-		if (i + sep.length === s.length) return Option.none;
-
-		const k = s.slice(0, i);
-		if (!this.allowedOption(k)) return Option.none;
-
-		const v = s.slice(i + sep.length);
-		return Option.some([k, v] as const);
 	}
 
 	private allowedFlag(s: string) {

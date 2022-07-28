@@ -14,7 +14,7 @@ import type {
 	User,
 	VoiceChannel
 } from 'discord.js';
-import type * as Lexure from '@sapphire/lexure';
+import type { ArgumentStream, Parameter } from '@sapphire/lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
@@ -45,16 +45,16 @@ export class Args {
 	/**
 	 * The internal Lexure parser.
 	 */
-	protected readonly parser: Lexure.ArgumentStream;
+	protected readonly parser: ArgumentStream;
 
 	/**
 	 * The states stored in the args.
 	 * @see Args#save
 	 * @see Args#restore
 	 */
-	private readonly states: Lexure.ArgumentStream.State[] = [];
+	private readonly states: ArgumentStream.State[] = [];
 
-	public constructor(message: Message, command: MessageCommand, parser: Lexure.ArgumentStream, context: MessageCommand.RunContext) {
+	public constructor(message: Message, command: MessageCommand, parser: ArgumentStream, context: MessageCommand.RunContext) {
 		this.message = message;
 		this.command = command;
 		this.parser = parser;
@@ -122,9 +122,11 @@ export class Args {
 				...options
 			})
 		);
-		if (result.isErrAnd((value) => value === null)) return this.missingArguments();
+		if (result.isErrAnd((value) => value === null)) {
+			return this.missingArguments();
+		}
 
-		return this.missingArguments();
+		return result as Result<ArgType[K], UserError>;
 	}
 
 	/**
@@ -160,8 +162,7 @@ export class Args {
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.pickResult(type, options);
-		if (result.isOk()) return result.unwrap();
-		throw result.unwrapErr();
+		return result.unwrap();
 	}
 
 	/**
@@ -204,7 +205,7 @@ export class Args {
 		const state = this.parser.save();
 		const data = this.parser
 			.many()
-			.unwrapOr<Lexure.Parameter[]>([])
+			.unwrapOr<Parameter[]>([])
 			.map((parameter) => parameter.value)
 			.join(' ');
 		const result = await argument.run(data, {
@@ -249,8 +250,7 @@ export class Args {
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.restResult(type, options);
-		if (result.isOk()) return result.unwrap();
-		throw result.unwrapErr();
+		return result.unwrap();
 	}
 
 	/**
@@ -343,8 +343,7 @@ export class Args {
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]>;
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]> {
 		const result = await this.repeatResult(type, options);
-		if (result.isOk()) return result.unwrap();
-		throw result.unwrapErr();
+		return result.unwrap();
 	}
 
 	/**
@@ -483,8 +482,7 @@ export class Args {
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.peekResult(type, options);
-		if (result.isOk()) return result.unwrap();
-		throw result.unwrapErr();
+		return result.unwrap();
 	}
 
 	/**
@@ -549,7 +547,7 @@ export class Args {
 	 */
 	public next<T>(cb: ArgsNextCallback<T>): T;
 	public next<T>(cb?: ArgsNextCallback<T>): T | string | null {
-		const value: Option<T | string | null> = cb ? this.nextMaybe(cb) : this.nextMaybe();
+		const value = cb ? this.nextMaybe<T | string | null>(cb) : this.nextMaybe();
 		return value.unwrapOr(null);
 	}
 
@@ -689,6 +687,14 @@ export class Args {
 	 */
 	public static error<T>(options: ArgumentError.Options<T>): Result.Err<ArgumentError<T>> {
 		return Result.err(new ArgumentError<T>(options));
+	}
+
+	/**
+	 * Constructs an {@link ArgumentError}.
+	 * @param options The options for the argument error.
+	 */
+	public static errorContext<T>(options: ArgumentError.Options<T>): ArgumentError<T> {
+		return new ArgumentError<T>(options);
 	}
 }
 
