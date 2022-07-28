@@ -39,7 +39,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 					return res.isErr() ? Result.err({ handler, error: res.unwrapErr() }) : res;
 				});
 
-				promises.push(promise as any);
+				promises.push(promise);
 			}
 		}
 
