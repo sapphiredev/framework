@@ -9,8 +9,8 @@ export class CoreArgument extends Argument<EmojiObject> {
 
 	public run(parameter: string): ArgumentResult<EmojiObject> {
 		const resolved = resolveEmoji(parameter);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The argument did not resolve to an emoji.'

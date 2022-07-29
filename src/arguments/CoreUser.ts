@@ -10,8 +10,8 @@ export class CoreArgument extends Argument<User> {
 
 	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<User> {
 		const resolved = await resolveUser(parameter);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The given argument did not resolve to a Discord user.',

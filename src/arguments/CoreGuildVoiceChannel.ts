@@ -21,8 +21,8 @@ export class CoreArgument extends Argument<VoiceChannel> {
 		}
 
 		const resolved = resolveGuildVoiceChannel(parameter, guild);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The given argument did not resolve to a valid voice channel.',

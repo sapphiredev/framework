@@ -10,8 +10,8 @@ export class CoreArgument extends Argument<DMChannel | PartialDMChannel> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<DMChannel | PartialDMChannel> {
 		const resolved = resolvePartialDMChannel(parameter, context.message);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The argument did not resolve to a Partial DM channel.',

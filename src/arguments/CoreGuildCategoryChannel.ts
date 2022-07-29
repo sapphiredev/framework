@@ -21,8 +21,8 @@ export class CoreArgument extends Argument<CategoryChannel> {
 		}
 
 		const resolved = resolveGuildCategoryChannel(parameter, guild);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The argument did not resolve to a valid server category channel.',

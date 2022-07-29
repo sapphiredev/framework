@@ -15,8 +15,8 @@ export class CoreArgument extends Argument<string> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<string> {
 		const resolved = resolveString(parameter, { minimum: context?.minimum, maximum: context?.maximum });
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: this.messages[resolved.unwrapErr()](context),

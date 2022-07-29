@@ -21,8 +21,8 @@ export class CoreArgument extends Argument<NewsChannel> {
 		}
 
 		const resolved = resolveGuildNewsChannel(parameter, guild);
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: 'The given argument did not resolve to a valid announcements channel.',

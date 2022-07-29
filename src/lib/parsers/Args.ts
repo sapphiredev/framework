@@ -688,14 +688,6 @@ export class Args {
 	public static error<T>(options: ArgumentError.Options<T>): Result.Err<ArgumentError<T>> {
 		return Result.err(new ArgumentError<T>(options));
 	}
-
-	/**
-	 * Constructs an {@link ArgumentError}.
-	 * @param options The options for the argument error.
-	 */
-	public static errorContext<T>(options: ArgumentError.Options<T>): ArgumentError<T> {
-		return new ArgumentError<T>(options);
-	}
 }
 
 export interface ArgType {

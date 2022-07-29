@@ -16,8 +16,8 @@ export class CoreArgument extends Argument<Date> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<Date> {
 		const resolved = resolveDate(parameter, { minimum: context.minimum, maximum: context.maximum });
-		return resolved.mapErr((identifier) =>
-			this.errorContext({
+		return resolved.mapErrInto((identifier) =>
+			this.error({
 				parameter,
 				identifier,
 				message: this.messages[resolved.unwrapErr()](context),
