@@ -20,7 +20,7 @@ export class CoreArgument extends Argument<Date> {
 			this.error({
 				parameter,
 				identifier,
-				message: this.messages[resolved.unwrapErr()](context),
+				message: this.messages[identifier](context),
 				context
 			})
 		);
