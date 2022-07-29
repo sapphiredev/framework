@@ -28,7 +28,7 @@
 		"postpack": "pinst --enable"
 	},
 	"dependencies": {
-		"@discordjs/builders": "^0.16.0",
+		"@discordjs/builders": "^0.15.0",
 		"@sapphire/discord-utilities": "^2.11.5",
 		"@sapphire/discord.js-utilities": "^4.11.3",
 		"@sapphire/pieces": "^3.3.5",

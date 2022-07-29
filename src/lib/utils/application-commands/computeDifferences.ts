@@ -1,3 +1,4 @@
+import { cast } from '@sapphire/utilities';
 import {
 	APIApplicationCommandIntegerOption,
 	APIApplicationCommandNumberOption,
@@ -647,10 +648,13 @@ function* reportOptionDifferences({
 
 	if (hasMinMaxLengthSupport(option)) {
 		// Check min and max_value
-		const existingCasted = existingOption as APIApplicationCommandStringOption;
+		const existingCasted = cast<APIApplicationCommandStringOption & { min_length?: number; max_length?: number }>(existingOption);
+
+		// TODO (Framework#485): With discord-api-types 0.36.x this cast will no longer be necessary
+		const optionCasted = cast<APIApplicationCommandStringOption & { min_length?: number; max_length?: number }>(option);
 
 		// 0. No min_length and now we have min_length
-		if (existingCasted.min_length === undefined && option.min_length !== undefined) {
+		if (existingCasted.min_length === undefined && optionCasted.min_length !== undefined) {
 			yield {
 				key: `${keyPath(currentIndex)}.min_length`,
 				expected: 'min_length present',
@@ -658,7 +662,7 @@ function* reportOptionDifferences({
 			};
 		}
 		// 1. Have min_length and now we don't
-		else if (existingCasted.min_length !== undefined && option.min_length === undefined) {
+		else if (existingCasted.min_length !== undefined && optionCasted.min_length === undefined) {
 			yield {
 				key: `${keyPath(currentIndex)}.min_length`,
 				expected: 'no min_length present',
@@ -666,16 +670,16 @@ function* reportOptionDifferences({
 			};
 		}
 		// 2. Equality check
-		else if (existingCasted.min_length !== option.min_length) {
+		else if (existingCasted.min_length !== optionCasted.min_length) {
 			yield {
 				key: `${keyPath(currentIndex)}.min_length`,
 				original: String(existingCasted.min_length),
-				expected: String(option.min_length)
+				expected: String(optionCasted.min_length)
 			};
 		}
 
 		// 0. No max_length and now we have max_length
-		if (existingCasted.max_length === undefined && option.max_length !== undefined) {
+		if (existingCasted.max_length === undefined && optionCasted.max_length !== undefined) {
 			yield {
 				key: `${keyPath(currentIndex)}.max_length`,
 				expected: 'max_length present',
@@ -683,7 +687,7 @@ function* reportOptionDifferences({
 			};
 		}
 		// 1. Have max_length and now we don't
-		else if (existingCasted.max_length !== undefined && option.max_length === undefined) {
+		else if (existingCasted.max_length !== undefined && optionCasted.max_length === undefined) {
 			yield {
 				key: `${keyPath(currentIndex)}.max_length`,
 				expected: 'no max_length present',
@@ -691,11 +695,11 @@ function* reportOptionDifferences({
 			};
 		}
 		// 2. Equality check
-		else if (existingCasted.max_length !== option.max_length) {
+		else if (existingCasted.max_length !== optionCasted.max_length) {
 			yield {
 				key: `${keyPath(currentIndex)}.max_length`,
 				original: String(existingCasted.max_length),
-				expected: String(option.max_length)
+				expected: String(optionCasted.max_length)
 			};
 		}
 	}
