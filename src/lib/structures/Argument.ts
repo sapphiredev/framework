@@ -94,7 +94,7 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * Wraps a value into a successful value.
 	 * @param value The value to wrap.
 	 */
-	public ok(value: T): Argument.Result<T> {
+	public ok(value: T): Result<T, UserError> {
 		return Args.ok(value);
 	}
 
