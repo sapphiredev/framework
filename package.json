@@ -36,7 +36,7 @@
 		"@sapphire/ratelimits": "^2.4.4",
 		"@sapphire/result": "^2.1.1",
 		"@sapphire/stopwatch": "^1.4.1",
-		"@sapphire/utilities": "^3.7.0",
+		"@sapphire/utilities": "^3.8.0",
 		"@types/object-hash": "^2.2.1",
 		"object-hash": "^3.0.0",
 		"tslib": "^2.4.0"
@@ -51,7 +51,7 @@
 		"@sapphire/prettier-config": "^1.4.3",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/jest": "^28.1.6",
-		"@types/node": "^18.6.1",
+		"@types/node": "^18.6.3",
 		"@types/ws": "^8.5.3",
 		"@typescript-eslint/eslint-plugin": "^5.31.0",
 		"@typescript-eslint/parser": "^5.31.0",
