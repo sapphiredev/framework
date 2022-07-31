@@ -2,13 +2,13 @@ import { GuildBasedChannelTypes, isDMChannel } from '@sapphire/discord.js-utilit
 import type { PieceContext } from '@sapphire/pieces';
 import { Message, PermissionsBitField } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
-import { Events } from '../../lib/types/Events';
+import { SapphireEvents } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
+export class CoreListener extends Listener<typeof SapphireEvents.PreMessageParsed> {
 	private readonly requiredPermissions = new PermissionsBitField(['ViewChannel', 'SendMessages']).freeze();
 
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.PreMessageParsed });
+		super(context, { event: SapphireEvents.PreMessageParsed });
 	}
 
 	public async run(message: Message) {
@@ -23,7 +23,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 
 		if (mentionPrefix) {
 			if (message.content.length === mentionPrefix.length) {
-				client.emit(Events.MentionPrefixOnly, message);
+				client.emit(SapphireEvents.MentionPrefixOnly, message);
 				return;
 			}
 
@@ -36,8 +36,8 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 			if (parsed !== null) prefix = parsed;
 		}
 
-		if (prefix === null) client.emit(Events.NonPrefixedMessage, message);
-		else client.emit(Events.PrefixedMessage, message, prefix);
+		if (prefix === null) client.emit(SapphireEvents.NonPrefixedMessage, message);
+		else client.emit(SapphireEvents.PrefixedMessage, message, prefix);
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {

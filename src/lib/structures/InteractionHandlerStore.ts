@@ -1,7 +1,7 @@
 import { Store } from '@sapphire/pieces';
 import { err, fromAsync, isErr, isSome, Result, type Err, type Ok } from '@sapphire/result';
 import { type Interaction, InteractionType } from 'discord.js';
-import { Events } from '../types/Events';
+import { SapphireEvents } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
 
 export class InteractionHandlerStore extends Store<InteractionHandler> {
@@ -28,7 +28,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 			if (isErr(result)) {
 				// If the `parse` method threw an error (spoiler: please don't), skip the handler
-				this.container.client.emit(Events.InteractionHandlerParseError, result.error, { interaction, handler });
+				this.container.client.emit(SapphireEvents.InteractionHandlerParseError, result.error, { interaction, handler });
 				continue;
 			}
 
@@ -67,7 +67,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 			const value = res.error;
 
-			this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
+			this.container.client.emit(SapphireEvents.InteractionHandlerError, value.error, { interaction, handler: value.handler });
 		}
 
 		return true;

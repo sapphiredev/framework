@@ -2,7 +2,7 @@ import { Piece } from '@sapphire/pieces';
 import { fromAsync, isErr } from '@sapphire/result';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'events';
-import { Events } from '../types/Events';
+import { SapphireEvents } from '../types/Events';
 
 /**
  * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
@@ -123,7 +123,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 		// @ts-expect-error This seems to be a TS bug, so for now ts-expect-error it
 		const result = await fromAsync(() => this.run(...args));
 		if (isErr(result)) {
-			this.container.client.emit(Events.ListenerError, result.error, { piece: this });
+			this.container.client.emit(SapphireEvents.ListenerError, result.error, { piece: this });
 		}
 	}
 

@@ -2,11 +2,11 @@ import type { PieceContext } from '@sapphire/pieces';
 import type { AutocompleteInteraction } from 'discord.js';
 import type { AutocompleteCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
-import { Events } from '../../lib/types/Events';
+import { SapphireEvents } from '../../lib/types/Events';
 
-export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInteraction> {
+export class CoreListener extends Listener<typeof SapphireEvents.PossibleAutocompleteInteraction> {
 	public constructor(context: PieceContext) {
-		super(context, { event: Events.PossibleAutocompleteInteraction });
+		super(context, { event: SapphireEvents.PossibleAutocompleteInteraction });
 	}
 
 	public async run(interaction: AutocompleteInteraction) {
@@ -20,13 +20,13 @@ export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInt
 		if (command?.autocompleteRun) {
 			try {
 				await command.autocompleteRun(interaction);
-				this.container.client.emit(Events.CommandAutocompleteInteractionSuccess, {
+				this.container.client.emit(SapphireEvents.CommandAutocompleteInteractionSuccess, {
 					command: command as AutocompleteCommand,
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction
 				});
 			} catch (err) {
-				this.container.client.emit(Events.CommandAutocompleteInteractionError, err, {
+				this.container.client.emit(SapphireEvents.CommandAutocompleteInteractionError, err, {
 					command: command as AutocompleteCommand,
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction
