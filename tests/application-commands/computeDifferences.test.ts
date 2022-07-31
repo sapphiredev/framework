@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatIn
 import { getCommandDifferences } from '../../src/lib/utils/application-commands/computeDifferences';
 
 describe('Compute differences for provided application commands', () => {
-	it('given two identical context menu commands, it should not return any difference', () => {
+	test('GIVEN two identical context menu commands THEN do not return any difference', () => {
 		expect(
 			getCommandDifferences(
 				{
@@ -17,7 +17,7 @@ describe('Compute differences for provided application commands', () => {
 		).toEqual([]);
 	});
 
-	it('given one context menu command with one name and one context menu command with a different name, it should return the difference', () => {
+	test('GIVEN one context menu command WHEN one name and one context menu command with a different name THEN return the difference', () => {
 		expect(
 			getCommandDifferences(
 				{
@@ -38,7 +38,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a context menu command with a default_permission set to true and one set to false, it should return the difference', () => {
+	test('GIVEN a context menu command WHEN a "default_permission" set to true and one set to false THEN return the difference', () => {
 		expect(
 			getCommandDifferences(
 				{
@@ -61,7 +61,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given two identical commands, it should not return any difference', () => {
+	test('GIVEN two identical commands THEN do not return any difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
@@ -75,7 +75,7 @@ describe('Compute differences for provided application commands', () => {
 		expect(getCommandDifferences(command1, command2)).toEqual([]);
 	});
 
-	it('given 2 different descriptions, it should return the difference', () => {
+	test('GIVEN 2 different descriptions THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
@@ -95,7 +95,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a default_permission set to true and one set to false, it should return the difference', () => {
+	test('GIVEN a command WHEN a default_permission set to true and one set to false THEN should return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -117,7 +117,73 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with no options and one with options, it should return the difference', () => {
+	test('GIVEN a command WHEN "dm_permission" set to undefined and one set to false THEN return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			dm_permission: undefined
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			dm_permission: false
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'dmPermission',
+				original: String(true),
+				expected: String(command2.dm_permission)
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN default_member_permissions set to undefined and one set to "0" THEN return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: undefined
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: '0'
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'defaultMemberPermissions',
+				original: String(command1.default_member_permissions),
+				expected: String(command2.default_member_permissions)
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN default_member_permissions set to "0" and one set to null THEN return the difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: '0'
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			default_member_permissions: null
+		};
+
+		expect(getCommandDifferences(command1, command2)).toEqual([
+			{
+				key: 'defaultMemberPermissions',
+				original: String(command1.default_member_permissions),
+				expected: String(command2.default_member_permissions)
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN no options and one with options THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
@@ -144,7 +210,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with options and one without options, it should return the difference', () => {
+	test('GIVEN a command WHEN options and one without options THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -171,7 +237,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 option and one with 2 options, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 option and one with 2 options THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -210,7 +276,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 string option and one with 1 boolean option, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 string option and one with 1 boolean option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -244,7 +310,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 string option and one with 1 string option named differently, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 string option and one with 1 string option named differently THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -278,7 +344,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 string option and one with 1 string option with different descriptions, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 string option and one with 1 string option with different descriptions THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -312,7 +378,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a required option and one with an option that is not required, it should return the difference', () => {
+	test('GIVEN a command WHEN a required option and one with an option that is not required THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -347,7 +413,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 2 options and one with 1 option, it should return the difference', () => {
+	test('GIVEN a command WHEN 2 options and one with 1 option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -386,7 +452,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 sub command group that has 1 sub command and one with 1 sub command group that has 2 sub commands, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 sub command group that has 1 sub command and one with 1 sub command group that has 2 sub commands THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -441,7 +507,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 sub command with no options and one command with 1 sub command with 1 option, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 sub command with no options and one command with 1 sub command with 1 option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -498,7 +564,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 sub command with 1 option and one command with 1 sub command with no options, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 sub command with 1 option and one command with 1 sub command with no options THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -555,7 +621,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 sub command with 2 options and one command with 1 sub command with 1 option, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 sub command with 2 options and one command with 1 sub command with 1 option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -624,7 +690,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with 1 sub command with 1 string option and one command with 1 sub command with 1 boolean option, it should return the difference', () => {
+	test('GIVEN a command WHEN 1 sub command with 1 string option and one command with 1 sub command with 1 boolean option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -688,7 +754,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with no options and one with an empty options array, it should not throw an error', () => {
+	test('GIVEN a command WHEN no options and one with an empty options array THEN do not throw an error', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
@@ -704,7 +770,7 @@ describe('Compute differences for provided application commands', () => {
 		expect(() => getCommandDifferences(command2, command1)).not.toThrow();
 	});
 
-	it('given two commands with different names, it should return the difference', () => {
+	test('GIVEN two commands WHEN different names THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
@@ -724,7 +790,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option and a command with a number option expecting a minimum value of 69, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option and a command with a number option expecting a minimum value of 69 THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -759,7 +825,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option expecting a minimum value of 69 and a command with a number option, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option expecting a minimum value of 69 and a command with a number option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -794,7 +860,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option expecting a minimum value of 69 and a command with a number option expecting a minimum value of 420, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option expecting a minimum value of 69 and a command with a number option expecting a minimum value of 420 THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -832,7 +898,7 @@ describe('Compute differences for provided application commands', () => {
 
 	//
 
-	it('given a command with a number option and a command with a number option expecting a maximum value of 69, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option and a command with a number option expecting a maximum value of 69 THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -867,7 +933,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option expecting a maximum value of 69 and a command with a number option, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option expecting a maximum value of 69 and a command with a number option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -902,7 +968,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option expecting a maximum value of 69 and a command with a number option expecting a maximum value of 420, it should return the difference', () => {
+	test('GIVEN a command WHEN a number option expecting a maximum value of 69 and a command with a number option expecting a maximum value of 420 THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -938,7 +1004,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option and a command with a string option that can be autocompleted, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option and a command with a string option that can be autocompleted THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -973,7 +1039,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option that can be autocompleted and a command with a string option, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option that can be autocompleted and a command with a string option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1008,7 +1074,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option and a command with a string option with a choice, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option and a command with a string option with a choice THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1048,7 +1114,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option with a choice and a command with a string option, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option with a choice and a command with a string option THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1088,7 +1154,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option with a choice and a command with a string option with two choices, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option with a choice and a command with a string option with two choices THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1138,7 +1204,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option with a choice and a command with a string option with a choice with a different name, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option with a choice and a command with a string option with a choice with a different name THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1184,7 +1250,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option with a choice and a command with a string option with a choice with a different value, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option with a choice and a command with a string option with a choice with a different value THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1230,7 +1296,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a string option with three choices and a command with a string option with one choice, it should return the difference', () => {
+	test('GIVEN a command WHEN a string option with three choices and a command with a string option with one choice THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1289,7 +1355,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with a number option with two choices and a command with a number option with one choice, it should return the differences', () => {
+	test('GIVEN a command WHEN a number option with two choices and a command with a number option with one choice THEN return the differences', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1340,7 +1406,7 @@ describe('Compute differences for provided application commands', () => {
 	});
 
 	// Localizations
-	it('given a command with no name localizations and a command with name localizations, it should return the difference', () => {
+	test('GIVEN a command WHEN no name localizations and a command with name localizations THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			name: 'command1',
 			description: 'description 1'
@@ -1363,7 +1429,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with name localizations and a command with no name localizations, it should return the difference', () => {
+	test('GIVEN a command WHEN name localizations and a command with no name localizations THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1386,7 +1452,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with name localizations and a command with different name localizations, it should return the difference', () => {
+	test('GIVEN a command WHEN name localizations and a command with different name localizations THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1417,7 +1483,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with name localizations and a command with empty name localizations, it should return the difference', () => {
+	test('GIVEN a command WHEN name localizations and a command with empty name localizations THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',
@@ -1441,7 +1507,7 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	it('given a command with name localizations and a command with different name localizations for the same locale, it should return the difference', () => {
+	test('GIVEN a command WHEN name localizations and a command with different name localizations for the same locale THEN return the difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1',

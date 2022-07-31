@@ -59,6 +59,10 @@ export function normalizeChatInputCommand(
 		type: ApplicationCommandType.ChatInput
 	};
 
+	if (command.defaultMemberPermissions) {
+		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	}
+
 	if (command.options?.length) {
 		finalObject.options = command.options.map((option) => ApplicationCommand['transformOption'](option) as APIApplicationCommandOption);
 	}
@@ -104,6 +108,10 @@ export function normalizeContextMenuCommand(
 		dm_permission: command.dmPermission
 	};
 
+	if (command.defaultMemberPermissions) {
+		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	}
+
 	return finalObject;
 }
 
@@ -114,6 +122,10 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 		default_member_permission: command.defaultMemberPermissions,
 		type: command.type
 	} as RESTPostAPIApplicationCommandsJSONBody;
+
+	if (command.defaultMemberPermissions) {
+		returnData.default_member_permissions = command.defaultMemberPermissions.bitfield.toString();
+	}
 
 	if (command.type === ApplicationCommandType.ChatInput) {
 		returnData.type = ApplicationCommandType.ChatInput;

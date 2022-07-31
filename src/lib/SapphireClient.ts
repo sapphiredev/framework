@@ -10,7 +10,7 @@ import { InteractionHandlerStore } from './structures/InteractionHandlerStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
 import { BucketScope, PluginHook } from './types/Enums';
-import { Events } from './types/Events';
+import { SapphireEvents } from './types/Events';
 import { acquire } from './utils/application-commands/ApplicationCommandRegistries';
 import { ILogger, LogLevel } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
@@ -147,11 +147,13 @@ export interface SapphireClientOptions {
 	 *
 	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
 	 *
+	 * By setting this value to `true`, no warning log message will be emitted for any guilds we couldn't fetch the commands from.
+	 *
 	 * Note that this specifically applies to the warning log:
 	 *
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
-	preventFailedToFetchLogForGuildIds?: string[];
+	preventFailedToFetchLogForGuilds?: string[] | true;
 }
 
 /**
@@ -266,7 +268,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreGenericsInitialization)) {
 			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+			this.emit(SapphireEvents.PluginLoaded, plugin.type, plugin.name);
 		}
 
 		this.logger = options.logger?.instance ?? new Logger(options.logger?.level ?? LogLevel.Info);
@@ -283,7 +285,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreInitialization)) {
 			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+			this.emit(SapphireEvents.PluginLoaded, plugin.type, plugin.name);
 		}
 
 		this.id = options.id ?? null;
@@ -307,7 +309,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
 			plugin.hook.call(this, options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+			this.emit(SapphireEvents.PluginLoaded, plugin.type, plugin.name);
 		}
 	}
 
@@ -326,7 +328,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		// Call pre-login plugins:
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PreLogin)) {
 			await plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+			this.emit(SapphireEvents.PluginLoaded, plugin.type, plugin.name);
 		}
 
 		// Loads all stores, then call login:
@@ -336,7 +338,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		// Call post-login plugins:
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostLogin)) {
 			await plugin.hook.call(this, this.options);
-			this.emit(Events.PluginLoaded, plugin.type, plugin.name);
+			this.emit(SapphireEvents.PluginLoaded, plugin.type, plugin.name);
 		}
 
 		return login;
