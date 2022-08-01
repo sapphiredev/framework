@@ -12,14 +12,14 @@ export class CoreListener extends Listener<typeof Events.PreMessageCommandRun> {
 
 		// Run global preconditions:
 		const globalResult = await this.container.stores.get('preconditions').messageRun(message, command, payload as any);
-		if (!globalResult.isErr()) {
+		if (globalResult.isErr()) {
 			message.client.emit(Events.MessageCommandDenied, globalResult.unwrapErr(), payload);
 			return;
 		}
 
 		// Run command-specific preconditions:
 		const localResult = await command.preconditions.messageRun(message, command, payload as any);
-		if (!localResult.isErr()) {
+		if (localResult.isErr()) {
 			message.client.emit(Events.MessageCommandDenied, localResult.unwrapErr(), payload);
 			return;
 		}
