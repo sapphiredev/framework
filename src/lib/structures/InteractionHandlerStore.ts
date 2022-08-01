@@ -63,9 +63,9 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 			if (!res.isErr()) continue;
 
-			const value = res.unwrapErr();
-
-			this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
+			res.inspectErr((value) =>
+				this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler })
+			);
 		}
 
 		return true;

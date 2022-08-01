@@ -25,9 +25,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 			return duration;
 		});
 
-		if (result.isErr()) {
-			message.client.emit(Events.MessageCommandError, result.unwrapErr(), { ...payload, args, duration: result.unwrapOr(-1) });
-		}
+		result.inspectErr((error) => message.client.emit(Events.MessageCommandError, error, { ...payload, args, duration: -1 }));
 
 		message.client.emit(Events.MessageCommandFinish, message, command, {
 			...payload,
