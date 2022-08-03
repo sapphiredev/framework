@@ -36,7 +36,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 			if (result.unwrap()) {
 				// Schedule the run of the handler method
 				const promise = Result.fromAsync(() => handler.run(interaction, result.unwrap())).then((res) => {
-					return res.isErr() ? Result.err({ handler, error: res.unwrapErr() }) : res;
+					return res.mapErr((error) => ({ handler, error }));
 				});
 
 				promises.push(promise);

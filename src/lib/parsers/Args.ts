@@ -216,9 +216,7 @@ export class Args {
 			commandContext: this.commandContext,
 			...options
 		});
-		if (result.isOk()) return result;
-
-		this.parser.restore(state);
+		result.inspectErr(() => this.parser.restore(state));
 		return result;
 	}
 
@@ -304,7 +302,7 @@ export class Args {
 				if (error === null) break;
 
 				if (output.length === 0) {
-					return Result.err(error);
+					return result as Result.Err<UserError>;
 				}
 
 				break;

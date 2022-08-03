@@ -12,8 +12,5 @@ export function resolveGuildChannelPredicate<TChannel extends GuildBasedChannelT
 	error: TError
 ): Result<TChannel, TError | Identifiers.ArgumentGuildChannelError> {
 	const result = resolveGuildChannel(parameter, guild);
-	if (result.isErr()) return result;
-	const channel = result.unwrap();
-	if (predicate(channel)) return Result.ok(channel);
-	return Result.err(error);
+	return result.mapInto((channel) => predicate(channel) ? Result.ok(channel) : Result.err(error));
 }
