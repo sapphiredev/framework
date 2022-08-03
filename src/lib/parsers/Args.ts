@@ -206,8 +206,7 @@ export class Args {
 		const data = this.parser
 			.many()
 			.unwrapOr<Parameter[]>([])
-			.map((parameter) => parameter.value)
-			.join(' ');
+			.reduce((acc, parameter) => `${acc}${parameter.leading}${parameter.value}`, '');
 		const result = await argument.run(data, {
 			args: this,
 			argument,
