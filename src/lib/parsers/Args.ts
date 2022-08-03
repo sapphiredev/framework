@@ -65,10 +65,7 @@ export class Args {
 	 * Sets the parser to the first token.
 	 */
 	public start(): Args {
-		this.parser.state = {
-			used: new Set(),
-			position: 0
-		};
+		this.parser.reset();
 		return this;
 	}
 
