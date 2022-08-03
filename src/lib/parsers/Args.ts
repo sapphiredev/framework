@@ -212,8 +212,8 @@ export class Args {
 			commandContext: this.commandContext,
 			...options
 		});
-		result.inspectErr(() => this.parser.restore(state));
-		return result;
+
+		return result.inspectErr(() => this.parser.restore(state));
 	}
 
 	/**
