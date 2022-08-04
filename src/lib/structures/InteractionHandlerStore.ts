@@ -33,7 +33,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 			}
 
 			// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
-			if (result.unwrap()) {
+			if (result.isSome()) {
 				// Schedule the run of the handler method
 				const promise = Result.fromAsync(() => handler.run(interaction, result.unwrap()))
 					.then((res) => res.mapErr((error) => ({ handler, error })));
