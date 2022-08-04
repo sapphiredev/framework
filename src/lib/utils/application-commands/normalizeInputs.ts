@@ -30,6 +30,29 @@ function isBuilder(
 	return command instanceof SlashCommandBuilder;
 }
 
+function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommandsJSONBody): RESTPostAPIChatInputApplicationCommandsJSONBody {
+	data.default_permission ??= true;
+	data.dm_permission ??= true;
+	data.type ??= ApplicationCommandType.ChatInput;
+
+	// Localizations default to null from d.js
+	data.name_localizations ??= null;
+	data.description_localizations ??= null;
+
+	return data;
+}
+
+function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCommandsJSONBody): RESTPostAPIContextMenuApplicationCommandsJSONBody {
+	data.default_permission ??= true;
+	data.dm_permission ??= true;
+
+	// Localizations default to null from d.js
+	data.name_localizations ??= null;
+	data.description_localizations ??= null;
+
+	return data;
+}
+
 export function normalizeChatInputCommand(
 	command:
 		| ChatInputApplicationCommandData
@@ -42,11 +65,11 @@ export function normalizeChatInputCommand(
 	if (isFunction(command)) {
 		const builder = new SlashCommandBuilder();
 		command(builder);
-		return builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		return addDefaultsToChatInputJSON(builder.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody);
 	}
 
 	if (isBuilder(command)) {
-		return command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody;
+		return addDefaultsToChatInputJSON(command.toJSON() as RESTPostAPIChatInputApplicationCommandsJSONBody);
 	}
 
 	const finalObject: RESTPostAPIChatInputApplicationCommandsJSONBody = {
@@ -67,7 +90,7 @@ export function normalizeChatInputCommand(
 		finalObject.options = command.options.map((option) => ApplicationCommand['transformOption'](option) as APIApplicationCommandOption);
 	}
 
-	return finalObject;
+	return addDefaultsToChatInputJSON(finalObject);
 }
 
 export function normalizeContextMenuCommand(
@@ -80,11 +103,11 @@ export function normalizeContextMenuCommand(
 	if (isFunction(command)) {
 		const builder = new ContextMenuCommandBuilder();
 		command(builder);
-		return builder.toJSON() as RESTPostAPIContextMenuApplicationCommandsJSONBody;
+		return addDefaultsToContextMenuJSON(builder.toJSON() as RESTPostAPIContextMenuApplicationCommandsJSONBody);
 	}
 
 	if (command instanceof ContextMenuCommandBuilder) {
-		return command.toJSON() as RESTPostAPIContextMenuApplicationCommandsJSONBody;
+		return addDefaultsToContextMenuJSON(command.toJSON() as RESTPostAPIContextMenuApplicationCommandsJSONBody);
 	}
 
 	let type: ApplicationCommandType;
@@ -115,7 +138,7 @@ export function normalizeContextMenuCommand(
 		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
 	}
 
-	return finalObject;
+	return addDefaultsToContextMenuJSON(finalObject);
 }
 
 export function convertApplicationCommandToApiData(command: ApplicationCommand): RESTPostAPIApplicationCommandsJSONBody {
