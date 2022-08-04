@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
-import { Option, Result } from '@sapphire/result';
+import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
 
@@ -61,7 +61,7 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 	 * @returns An {@link Option} (or a {@link Promise Promised} {@link Option}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler.run run method}
 	 */
-	public parse(_interaction: Interaction): Awaitable<Option.Some<unknown>> {
+	public parse(_interaction: Interaction): Awaitable<Option<unknown>> {
 		return this.some();
 	}
 
@@ -94,7 +94,7 @@ export interface InteractionHandlerJSON extends PieceJSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 
-export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Result.UnwrapOk<Awaited<ReturnType<Instance['parse']>>>;
+export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
 export namespace InteractionHandler {
 	export type Context = PieceContext;

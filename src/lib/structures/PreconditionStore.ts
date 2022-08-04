@@ -21,7 +21,9 @@ export class PreconditionStore extends Store<Precondition> {
 						message: `The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 
-			if (!result.isErr()) return result;
+			if (result.isErr()) {
+				return result;
+			}
 		}
 
 		return Result.ok();
@@ -40,7 +42,9 @@ export class PreconditionStore extends Store<Precondition> {
 						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 
-			if (!result.isErr()) return result;
+			if (result.isErr()) {
+				return result;
+			}
 		}
 
 		return Result.ok();
@@ -59,7 +63,9 @@ export class PreconditionStore extends Store<Precondition> {
 						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 
-			if (!result.isErr()) return result;
+			if (result.isErr()) {
+				return result;
+			}
 		}
 
 		return Result.ok();
