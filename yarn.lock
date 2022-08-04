@@ -607,7 +607,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/collection@npm:^1.0.0":
+"@discordjs/collection@npm:^1.0.1":
   version: 1.0.1
   resolution: "@discordjs/collection@npm:1.0.1"
   checksum: 6477ae9870f3c069b190f673a6b34467930b409a6d763f1b0d4f6169051b8499d03de7b0e7e4c3697222845aea6d94283573ad6a488b50516764df675915ff44
@@ -1144,7 +1144,7 @@ __metadata:
     "@sapphire/discord.js-utilities": ^4.11.3
     "@sapphire/eslint-config": ^4.3.7
     "@sapphire/lexure": ^1.0.1
-    "@sapphire/pieces": ^3.3.5
+    "@sapphire/pieces": ^3.4.0
     "@sapphire/prettier-config": ^1.4.3
     "@sapphire/ratelimits": ^2.4.4
     "@sapphire/result": ^2.2.0
@@ -1152,7 +1152,7 @@ __metadata:
     "@sapphire/ts-config": ^3.3.4
     "@sapphire/utilities": ^3.8.0
     "@types/jest": ^28.1.6
-    "@types/node": ^18.6.3
+    "@types/node": ^18.6.4
     "@types/object-hash": ^2.2.1
     "@types/ws": ^8.5.3
     "@typescript-eslint/eslint-plugin": ^5.32.0
@@ -1190,14 +1190,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^3.3.5":
-  version: 3.3.5
-  resolution: "@sapphire/pieces@npm:3.3.5"
+"@sapphire/pieces@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@sapphire/pieces@npm:3.4.0"
   dependencies:
-    "@discordjs/collection": ^1.0.0
-    "@sapphire/utilities": ^3.7.0
+    "@discordjs/collection": ^1.0.1
+    "@sapphire/utilities": ^3.8.0
     tslib: ^2.4.0
-  checksum: fb86ab91a002dc85033cf160d0f4429930e4cc580323888c2e2032aedb7ca599ec69743071fd08baef228e9497930b8afff7d9c4d43427b47da1ba3a537666ab
+  checksum: 05d05a5471aa3f049c8b53684e54cd43128fe77831b9a2fec0e94d5934f5c43cb1294ef839f9bfce41511ef4d44e0f484b194c8fce90a5b457ef47a4903f650f
   languageName: node
   linkType: hard
 
@@ -1447,10 +1447,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=12, @types/node@npm:^18.6.3":
-  version: 18.6.3
-  resolution: "@types/node@npm:18.6.3"
-  checksum: 38495b8fd27200d2b7ab9ccd8c1e2475d2411fba15330f2cba869a85ef79dd42382a2658c8dd298ace8c21ed3bfafcdea408faecd74928b144377d07d00e7c8c
+"@types/node@npm:*, @types/node@npm:>=12, @types/node@npm:^18.6.4":
+  version: 18.6.4
+  resolution: "@types/node@npm:18.6.4"
+  checksum: fc453dd2b541f5812ba1a8f957f577727cf2d8aee886f1d5c03eb153b2b3373d2e0953c5bd2b7a5b184073bc317f54ec91f1ec4830a58eda4a833e90654021de
   languageName: node
   linkType: hard
 
