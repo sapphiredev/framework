@@ -25,21 +25,22 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 			// Get the result of the `parse` method in the handler
 			const result = await Result.fromAsync(() => handler.parse(interaction));
+			result.match({
+				ok: (option) => {
+					// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
+					option.inspect((value) => {
+						// Schedule the run of the handler method
+						const promise = Result.fromAsync(() => handler.run(interaction, value)) //
+							.then((res) => res.mapErr((error) => ({ handler, error })));
 
-			if (result.isErr()) {
-				// If the `parse` method threw an error (spoiler: please don't), skip the handler
-				this.container.client.emit(Events.InteractionHandlerParseError, result.unwrapErr(), { interaction, handler });
-				continue;
-			}
-
-			// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
-			if (result.isSome()) {
-				// Schedule the run of the handler method
-				const promise = Result.fromAsync(() => handler.run(interaction, result.unwrap()))
-					.then((res) => res.mapErr((error) => ({ handler, error })));
-
-				promises.push(promise);
-			}
+						promises.push(promise);
+					});
+				},
+				err: (error) => {
+					// If the `parse` method threw an error (spoiler: please don't), skip the handler
+					this.container.client.emit(Events.InteractionHandlerParseError, error, { interaction, handler });
+				}
+			});
 		}
 
 		// Yet another early exit
