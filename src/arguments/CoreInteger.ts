@@ -16,12 +16,13 @@ export class CoreArgument extends Argument<number> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<number> {
 		const resolved = resolveInteger(parameter, { minimum: context.minimum, maximum: context.maximum });
-		if (resolved.success) return this.ok(resolved.value);
-		return this.error({
-			parameter,
-			identifier: resolved.error,
-			message: this.messages[resolved.error](context),
-			context
-		});
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter,
+				identifier,
+				message: this.messages[identifier](context),
+				context
+			})
+		);
 	}
 }

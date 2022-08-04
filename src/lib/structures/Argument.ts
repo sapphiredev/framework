@@ -94,17 +94,17 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * Wraps a value into a successful value.
 	 * @param value The value to wrap.
 	 */
-	public ok(value: T): Argument.Result<T> {
+	public ok(value: T): Result<T, UserError> {
 		return Args.ok(value);
 	}
 
 	/**
-	 * Constructs an {@link ArgumentError} with a custom type.
+	 * Constructs an {@link Err} result containing an {@link ArgumentError} with a custom type.
 	 * @param parameter The parameter that triggered the argument.
 	 * @param type The identifier for the error.
 	 * @param message The description message for the rejection.
 	 */
-	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
+	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Result<T, UserError> {
 		return Args.error({ argument: this, identifier: this.name, ...options });
 	}
 }

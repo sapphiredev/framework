@@ -1,4 +1,5 @@
-import type { UnorderedStrategy } from 'lexure';
+import { PrefixedStrategy } from '@sapphire/lexure';
+import { Option } from '@sapphire/result';
 
 /**
  * The strategy options used in Sapphire.
@@ -33,20 +34,17 @@ export interface FlagStrategyOptions {
 	separators?: string[];
 }
 
-const never = () => null;
+const never = () => Option.none;
 const always = () => true;
 
-export class FlagUnorderedStrategy implements UnorderedStrategy {
+export class FlagUnorderedStrategy extends PrefixedStrategy {
 	public readonly flags: readonly string[] | true;
 	public readonly options: readonly string[] | true;
-	public readonly prefixes: readonly string[];
-	public readonly separators: readonly string[];
 
 	public constructor({ flags, options, prefixes = ['--', '-', '—'], separators = ['=', ':'] }: FlagStrategyOptions = {}) {
+		super(prefixes, separators);
 		this.flags = flags || [];
 		this.options = options || [];
-		this.prefixes = prefixes;
-		this.separators = separators;
 
 		if (this.flags === true) this.allowedFlag = always;
 		else if (this.flags.length === 0) this.matchFlag = never;
@@ -55,56 +53,25 @@ export class FlagUnorderedStrategy implements UnorderedStrategy {
 			this.allowedOption = always;
 		} else if (this.options.length === 0) {
 			this.matchOption = never;
-			this.matchCompactOption = never;
 		}
 	}
 
-	public matchFlag(s: string): string | null {
-		const prefix = this.prefixes.find((p) => s.startsWith(p));
-		if (!prefix) return null;
-
-		s = s.slice(prefix.length);
-
-		// Flags must not contain separators.
-		if (this.separators.some((p) => s.includes(p))) return null;
+	public override matchFlag(s: string): Option<string> {
+		const result = super.matchFlag(s);
 
 		// The flag must be an allowed one.
-		if (this.allowedFlag(s)) return s;
+		if (result.isSomeAnd((value) => this.allowedFlag(value))) return result;
 
 		// If it did not match a flag, return null.
-		return null;
+		return Option.none;
 	}
 
-	public matchOption(s: string): string | null {
-		const prefix = this.prefixes.find((p) => s.startsWith(p));
-		if (!prefix) return null;
+	public override matchOption(s: string): Option<readonly [key: string, value: string]> {
+		const result = super.matchOption(s);
 
-		s = s.slice(prefix.length);
-		const separator = this.separators.find((p) => s.endsWith(p));
-		if (!separator) return null;
+		if (result.isSomeAnd((option) => this.allowedOption(option[0]))) return result;
 
-		s = s.slice(0, -separator.length);
-		if (this.allowedOption(s)) return s;
-
-		return null;
-	}
-
-	public matchCompactOption(s: string): [string, string] | null {
-		const pre = this.prefixes.find((x) => s.startsWith(x));
-		if (!pre) return null;
-
-		s = s.slice(pre.length);
-		const sep = this.separators.find((x) => s.includes(x));
-		if (!sep) return null;
-
-		const i = s.indexOf(sep);
-		if (i + sep.length === s.length) return null;
-
-		const k = s.slice(0, i);
-		if (!this.allowedOption(k)) return null;
-
-		const v = s.slice(i + sep.length);
-		return [k, v];
+		return Option.none;
 	}
 
 	private allowedFlag(s: string) {

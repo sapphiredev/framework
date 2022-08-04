@@ -1,4 +1,4 @@
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveInteger(
@@ -6,10 +6,10 @@ export function resolveInteger(
 	options?: { minimum?: number; maximum?: number }
 ): Result<number, Identifiers.ArgumentIntegerError | Identifiers.ArgumentIntegerTooSmall | Identifiers.ArgumentIntegerTooLarge> {
 	const parsed = Number(parameter);
-	if (!Number.isInteger(parsed)) return err(Identifiers.ArgumentIntegerError);
+	if (!Number.isInteger(parsed)) return Result.err(Identifiers.ArgumentIntegerError);
 
-	if (typeof options?.minimum === 'number' && parsed < options.minimum) return err(Identifiers.ArgumentIntegerTooSmall);
-	if (typeof options?.maximum === 'number' && parsed > options.maximum) return err(Identifiers.ArgumentIntegerTooLarge);
+	if (typeof options?.minimum === 'number' && parsed < options.minimum) return Result.err(Identifiers.ArgumentIntegerTooSmall);
+	if (typeof options?.maximum === 'number' && parsed > options.maximum) return Result.err(Identifiers.ArgumentIntegerTooLarge);
 
-	return ok(parsed);
+	return Result.ok(parsed);
 }

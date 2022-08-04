@@ -21,12 +21,13 @@ export class CoreArgument extends Argument<GuildBasedChannelTypes> {
 		}
 
 		const resolved = resolveGuildChannel(parameter, guild);
-		if (resolved.success) return this.ok(resolved.value);
-		return this.error({
-			parameter,
-			identifier: resolved.error,
-			message: 'The argument did not resolve to a valid server channel.',
-			context: { ...context, guild }
-		});
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter,
+				identifier,
+				message: 'The argument did not resolve to a valid server channel.',
+				context: { ...context, guild }
+			})
+		);
 	}
 }

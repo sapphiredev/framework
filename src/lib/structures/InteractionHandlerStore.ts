@@ -1,5 +1,5 @@
 import { Store } from '@sapphire/pieces';
-import { err, fromAsync, isErr, isSome, Result, type Err, type Ok } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Interaction } from 'discord.js';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
@@ -13,7 +13,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 		// Early-exit for optimization
 		if (this.size === 0) return false;
 
-		const promises: Promise<Ok<unknown> | Err<{ handler: InteractionHandler<InteractionHandlerOptions>; error: unknown }>>[] = [];
+		const promises: Promise<Result<unknown, { handler: InteractionHandler<InteractionHandlerOptions>; error: unknown }>>[] = [];
 
 		// Iterate through every registered handler
 		for (const handler of this.values()) {
@@ -24,25 +24,23 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 			if (!filter?.(interaction)) continue;
 
 			// Get the result of the `parse` method in the handler
-			const result = await fromAsync(() => handler.parse(interaction));
+			const result = await Result.fromAsync(() => handler.parse(interaction));
+			result.match({
+				ok: (option) => {
+					// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
+					option.inspect((value) => {
+						// Schedule the run of the handler method
+						const promise = Result.fromAsync(() => handler.run(interaction, value)) //
+							.then((res) => res.mapErr((error) => ({ handler, error })));
 
-			if (isErr(result)) {
-				// If the `parse` method threw an error (spoiler: please don't), skip the handler
-				this.container.client.emit(Events.InteractionHandlerParseError, result.error, { interaction, handler });
-				continue;
-			}
-
-			const finalValue = result.value;
-
-			// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
-			if (isSome(finalValue)) {
-				// Schedule the run of the handler method
-				const promise = fromAsync(() => handler.run(interaction, finalValue.value)).then((res) => {
-					return isErr(res) ? err({ handler, error: res.error }) : res;
-				});
-
-				promises.push(promise);
-			}
+						promises.push(promise);
+					});
+				},
+				err: (error) => {
+					// If the `parse` method threw an error (spoiler: please don't), skip the handler
+					this.container.client.emit(Events.InteractionHandlerParseError, error, { interaction, handler });
+				}
+			});
 		}
 
 		// Yet another early exit
@@ -63,11 +61,9 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 				>
 			).value;
 
-			if (!isErr(res)) continue;
-
-			const value = res.error;
-
-			this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler });
+			res.inspectErr((value) =>
+				this.container.client.emit(Events.InteractionHandlerError, value.error, { interaction, handler: value.handler })
+			);
 		}
 
 		return true;

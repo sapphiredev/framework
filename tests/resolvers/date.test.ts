@@ -1,4 +1,4 @@
-import { Identifiers, Resolvers } from '../../src';
+import { Identifiers, Resolvers, Result } from '../../src';
 
 const DATE_2018_PLAIN_STRING = 'August 11, 2018 00:00:00';
 const DATE_2018 = new Date(DATE_2018_PLAIN_STRING);
@@ -14,39 +14,21 @@ const MAXIMUM = { maximum: new Date('August 11, 2021 00:00:00').getTime() };
 
 describe('Date resolver tests', () => {
 	test('GIVEN a valid date-time THEN returns the associated timestamp', () => {
-		const resolvedDate = Resolvers.resolveDate(DATE_2020_PLAIN_STRING);
-		expect(resolvedDate.success).toBe(true);
-		expect(resolvedDate.error).toBeUndefined();
-		expect(resolvedDate.value?.getTime()).toBe(DATE_2020.getTime());
+		expect(Resolvers.resolveDate(DATE_2020_PLAIN_STRING)).toEqual(Result.ok(DATE_2020));
 	});
 	test('GIVEN a valid date-time with minimum THEN returns the associated timestamp', () => {
-		const resolvedDate = Resolvers.resolveDate(DATE_2022_PLAIN_STRING, MINIMUM);
-		expect(resolvedDate.success).toBe(true);
-		expect(resolvedDate.error).toBeUndefined();
-		expect(resolvedDate.value?.getTime()).toBe(DATE_2022.getTime());
+		expect(Resolvers.resolveDate(DATE_2022_PLAIN_STRING, MINIMUM)).toEqual(Result.ok(DATE_2022));
 	});
 	test('GIVEN a valid date-time with maximum THEN returns the associated timestamp', () => {
-		const resolvedDate = Resolvers.resolveDate(DATE_2018_PLAIN_STRING, MAXIMUM);
-		expect(resolvedDate.success).toBe(true);
-		expect(resolvedDate.error).toBeUndefined();
-		expect(resolvedDate.value?.getTime()).toBe(DATE_2018.getTime());
+		expect(Resolvers.resolveDate(DATE_2018_PLAIN_STRING, MAXIMUM)).toEqual(Result.ok(DATE_2018));
 	});
 	test('GIVEN a date-time before minimum THEN returns error', () => {
-		const resolvedDate = Resolvers.resolveDate(DATE_2018_PLAIN_STRING, MINIMUM);
-		expect(resolvedDate.success).toBe(false);
-		expect(resolvedDate.value).toBeUndefined();
-		expect(resolvedDate.error).toBe(Identifiers.ArgumentDateTooEarly);
+		expect(Resolvers.resolveDate(DATE_2018_PLAIN_STRING, MINIMUM)).toEqual(Result.err(Identifiers.ArgumentDateTooEarly));
 	});
 	test('GIVEN a date-time beyond maximum THEN returns error', () => {
-		const resolvedDate = Resolvers.resolveDate(DATE_2022_PLAIN_STRING, MAXIMUM);
-		expect(resolvedDate.success).toBe(false);
-		expect(resolvedDate.value).toBeUndefined();
-		expect(resolvedDate.error).toBe(Identifiers.ArgumentDateTooFar);
+		expect(Resolvers.resolveDate(DATE_2022_PLAIN_STRING, MAXIMUM)).toEqual(Result.err(Identifiers.ArgumentDateTooFar));
 	});
 	test('GIVEN an invalid date THEN returns error', () => {
-		const resolvedDate = Resolvers.resolveDate('hello');
-		expect(resolvedDate.success).toBe(false);
-		expect(resolvedDate.value).toBeUndefined();
-		expect(resolvedDate.error).toBe(Identifiers.ArgumentDateError);
+		expect(Resolvers.resolveDate('hello')).toEqual(Result.err(Identifiers.ArgumentDateError));
 	});
 });

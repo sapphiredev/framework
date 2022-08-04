@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
-import { Maybe, none, None, some, UnwrapMaybeValue } from '@sapphire/result';
+import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
 
@@ -58,21 +58,21 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 	 * }
 	 * ```
 	 *
-	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
+	 * @returns An {@link Option} (or a {@link Promise Promised} {@link Option}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler.run run method}
 	 */
-	public parse(_interaction: Interaction): Awaitable<Maybe<unknown>> {
+	public parse(_interaction: Interaction): Awaitable<Option<unknown>> {
 		return this.some();
 	}
 
-	public some(): Maybe<never>;
-	public some<T>(data: T): Maybe<T>;
-	public some<T>(data?: T): Maybe<T | undefined> {
-		return some(data);
+	public some(): Option.Some<never>;
+	public some<T>(data: T): Option.Some<T>;
+	public some<T>(data?: T): Option.Some<T | undefined> {
+		return Option.some(data);
 	}
 
-	public none(): None {
-		return none();
+	public none(): Option.None {
+		return Option.none;
 	}
 
 	public toJSON(): InteractionHandlerJSON {
@@ -94,9 +94,10 @@ export interface InteractionHandlerJSON extends PieceJSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 
-export type InteractionHandlerParseResult<Instance extends InteractionHandler> = UnwrapMaybeValue<Awaited<ReturnType<Instance['parse']>>>;
+export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
 export namespace InteractionHandler {
+	export type Context = PieceContext;
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;
 	export type ParseResult<Instance extends InteractionHandler> = InteractionHandlerParseResult<Instance>;

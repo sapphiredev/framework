@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { fromAsync, isErr } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../lib/structures/Listener';
 import { Events, MessageCommandAcceptedPayload } from '../../lib/types/Events';
@@ -13,7 +13,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 		const { message, command, parameters, context } = payload;
 		const args = await command.messagePreParse(message, parameters, context);
 
-		const result = await fromAsync(async () => {
+		const result = await Result.fromAsync(async () => {
 			message.client.emit(Events.MessageCommandRun, message, command, { ...payload, args });
 
 			const stopwatch = new Stopwatch();
@@ -25,15 +25,13 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 			return duration;
 		});
 
-		if (isErr(result)) {
-			message.client.emit(Events.MessageCommandError, result.error, { ...payload, args, duration: result.value ?? -1 });
-		}
+		result.inspectErr((error) => message.client.emit(Events.MessageCommandError, error, { ...payload, args, duration: -1 }));
 
 		message.client.emit(Events.MessageCommandFinish, message, command, {
 			...payload,
 			args,
-			success: !isErr(result),
-			duration: result.value ?? -1
+			success: result.isOk(),
+			duration: result.unwrapOr(-1)
 		});
 	}
 }

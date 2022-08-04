@@ -21,12 +21,13 @@ export class CoreArgument extends Argument<TextChannel> {
 		}
 
 		const resolved = resolveGuildTextChannel(parameter, guild);
-		if (resolved.success) return this.ok(resolved.value);
-		return this.error({
-			parameter,
-			identifier: resolved.error,
-			message: 'The given argument did not resolve to a valid text channel.',
-			context: { ...context, guild }
-		});
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a valid text channel.',
+				context: { ...context, guild }
+			})
+		);
 	}
 }

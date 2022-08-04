@@ -1,19 +1,17 @@
-import { Lexer, Parser } from 'lexure';
+import { Lexer, Parser } from '@sapphire/lexure';
 import { FlagUnorderedStrategy } from '../src/lib/utils/strategies/FlagUnorderedStrategy';
 
 const parse = (testString: string) =>
-	new Parser(
-		new Lexer(testString)
-			.setQuotes([
+	new Parser(new FlagUnorderedStrategy({ flags: ['f', 'hello'], options: ['o', 'option'] })).run(
+		new Lexer({
+			quotes: [
 				['"', '"'],
 				['“', '”'],
 				['「', '」'],
 				['«', '»']
-			])
-			.lex()
-	)
-		.setUnorderedStrategy(new FlagUnorderedStrategy({ flags: ['f', 'hello'], options: ['o', 'option'] }))
-		.parse();
+			]
+		}).run(testString)
+	);
 
 describe('Flag parsing strategy', () => {
 	test('GIVEN typeof FlagStrategy THEN returns function', () => {

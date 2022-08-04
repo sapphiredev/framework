@@ -10,12 +10,13 @@ export class CoreArgument extends Argument<URL> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<URL> {
 		const resolved = resolveHyperlink(parameter);
-		if (resolved.success) return this.ok(resolved.value);
-		return this.error({
-			parameter,
-			identifier: resolved.error,
-			message: 'The argument did not resolve to a valid URL.',
-			context
-		});
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter,
+				identifier,
+				message: 'The argument did not resolve to a valid URL.',
+				context
+			})
+		);
 	}
 }

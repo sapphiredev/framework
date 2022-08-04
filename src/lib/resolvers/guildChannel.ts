@@ -1,13 +1,13 @@
 import { ChannelMentionRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Guild, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveGuildChannel(parameter: string, guild: Guild): Result<GuildBasedChannelTypes, Identifiers.ArgumentGuildChannelError> {
 	const channel = resolveById(parameter, guild) ?? resolveByQuery(parameter, guild);
-	if (channel) return ok(channel);
-	return err(Identifiers.ArgumentGuildChannelError);
+	if (channel) return Result.ok(channel);
+	return Result.err(Identifiers.ArgumentGuildChannelError);
 }
 
 function resolveById(argument: string, guild: Guild): GuildBasedChannelTypes | null {

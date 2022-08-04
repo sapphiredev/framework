@@ -8,7 +8,7 @@ import {
 	TextBasedChannelTypes
 } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
-import { err, ok, Result } from '@sapphire/result';
+import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import { Message, Permissions, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
@@ -39,8 +39,8 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 		(await resolveById(parameter, options)) ??
 		(await resolveByLink(parameter, options.message)) ??
 		(await resolveByChannelAndMessage(parameter, options.message));
-	if (message) return ok(message);
-	return err(Identifiers.ArgumentMessageError);
+	if (message) return Result.ok(message);
+	return Result.err(Identifiers.ArgumentMessageError);
 }
 
 function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {

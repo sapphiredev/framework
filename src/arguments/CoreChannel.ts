@@ -10,12 +10,13 @@ export class CoreArgument extends Argument<ChannelTypes> {
 
 	public run(parameter: string, context: Argument.Context): Argument.Result<ChannelTypes> {
 		const resolved = resolveChannel(parameter, context.message);
-		if (resolved.success) return this.ok(resolved.value);
-		return this.error({
-			parameter,
-			identifier: resolved.error,
-			message: 'The argument did not resolve to a channel.',
-			context
-		});
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter,
+				identifier,
+				message: 'The argument did not resolve to a channel.',
+				context
+			})
+		);
 	}
 }
