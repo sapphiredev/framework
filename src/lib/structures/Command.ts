@@ -73,7 +73,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @since 1.0.0
 	 * @private
 	 */
-	protected lexer;
+	protected lexer: Lexer;
 
 	/**
 	 * @since 1.0.0
