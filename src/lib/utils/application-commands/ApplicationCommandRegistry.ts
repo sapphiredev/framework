@@ -19,11 +19,11 @@ import type {
 	MessageApplicationCommandData,
 	UserApplicationCommandData
 } from 'discord.js';
-import objectHash from 'object-hash';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
 import { CommandDifference, getCommandDifferences } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
+import { objectHash } from './objectHash';
 
 export class ApplicationCommandRegistry {
 	public readonly commandName: string;

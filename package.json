@@ -36,9 +36,8 @@
 		"@sapphire/result": "^1.1.1",
 		"@sapphire/stopwatch": "^1.4.1",
 		"@sapphire/utilities": "^3.8.0",
-		"@types/object-hash": "^2.2.1",
+		"json-stringify-deterministic": "^1.0.7",
 		"lexure": "^0.17.0",
-		"object-hash": "^3.0.0",
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
