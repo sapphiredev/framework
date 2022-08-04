@@ -21,9 +21,8 @@ import type {
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
-import { CommandDifference, getCommandDifferences } from './computeDifferences';
+import { CommandDifference, getCommandDifferences, getCommandDifferencesFast } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
-import { objectHash } from './objectHash';
 
 export class ApplicationCommandRegistry {
 	public readonly commandName: string;
@@ -350,14 +349,13 @@ export class ApplicationCommandRegistry {
 			const now = Date.now();
 
 			// Step 0: compute differences
-			const oldHash = objectHash(convertApplicationCommandToApiData(applicationCommand));
-			const newHash = objectHash(apiData);
+			const areThereDifferences = getCommandDifferencesFast(convertApplicationCommandToApiData(applicationCommand), apiData);
 
 			const later = Date.now() - now;
-			this.debug(`Took ${later}ms to process differences via object hashing`);
+			this.debug(`Took ${later}ms to process differences via fast compute differences`);
 
 			// Step 1: if there are no differences, return
-			if (oldHash === newHash) {
+			if (!areThereDifferences) {
 				this.debug(
 					`${guildId ? 'Guild command' : 'Command'} "${apiData.name}" is identical to command "${applicationCommand.name}" (${
 						applicationCommand.id
