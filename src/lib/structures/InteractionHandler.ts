@@ -58,7 +58,7 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 	 * }
 	 * ```
 	 *
-	 * @returns A {@link Maybe} (or a {@link Promise Promised} {@link Maybe}) that indicates if this interaction should be
+	 * @returns An {@link Option} (or a {@link Promise Promised} {@link Option}) that indicates if this interaction should be
 	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler.run run method}
 	 */
 	public parse(_interaction: Interaction): Awaitable<Option.Some<unknown>> {
