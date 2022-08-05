@@ -1144,7 +1144,7 @@ __metadata:
     "@sapphire/discord.js-utilities": ^4.11.3
     "@sapphire/eslint-config": ^4.3.7
     "@sapphire/lexure": ^1.0.1
-    "@sapphire/pieces": ^3.4.1
+    "@sapphire/pieces": ^3.5.0
     "@sapphire/prettier-config": ^1.4.3
     "@sapphire/ratelimits": ^2.4.4
     "@sapphire/result": ^2.3.0
@@ -1190,14 +1190,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "@sapphire/pieces@npm:3.4.1"
+"@sapphire/pieces@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "@sapphire/pieces@npm:3.5.0"
   dependencies:
     "@discordjs/collection": ^1.0.1
     "@sapphire/utilities": ^3.9.0
     tslib: ^2.4.0
-  checksum: 0e93d597779bc7bbec29d25d5dc043c2ed9725147cde1919784304212afa8deff0eb19631c6bde5f04bc41b2182ccda2274bc48941bb1d6f3d249be74684990c
+  checksum: e38e8f58931f2b497e0ba5209851de0f83290512410f36f10c01f0abb1e092a7e4005965c0a1a817b1e5ce56995a901c8bfabd2bc1cddc9b5d59281358fe7eed
   languageName: node
   linkType: hard
 
