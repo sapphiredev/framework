@@ -353,12 +353,14 @@ export class Args {
 	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
 	 *
 	 * const result = await args.peekResult(() => args.repeatResult(resolver));
-	 * if (isOk(result)) await message.channel.send(
-	 *   `Reversed ${result.value.length} word(s): ${result.value.join(' ')}`
+	 * await result.inspectAsync((value) =>
+	 * 	message.channel.send(`Reversed ${value.length} word(s): ${value.join(' ')}`)
 	 * ); // Reversed 2 word(s): olleh dlrow
 	 *
 	 * const firstWord = await args.pickResult('string');
-	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // HELLO
+	 * await firstWord.inspectAsync((value) =>
+	 * 	message.channel.send(firstWord.value.toUpperCase())
+	 * ); // HELLO
 	 * ```
 	 */
 	public async peekResult<T>(type: () => Argument.Result<T>): Promise<ResultType<T>>;
@@ -374,10 +376,10 @@ export class Args {
 	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
 	 *
 	 * const peekedWord = await args.peekResult(resolver);
-	 * if (isOk(peekedWord)) await message.channel.send(peekedWord.value); // erihppas
+	 * await peekedWord.inspectAsync((value) => message.channel.send(peekedWord.value)); // erihppas
 	 *
 	 * const firstWord = await args.pickResult('string');
-	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // SAPPHIRE
+	 * await firstWord.inspectAsync((value) => message.channel.send(value.toUpperCase())); // SAPPHIRE
 	 * ```
 	 */
 	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
@@ -391,12 +393,14 @@ export class Args {
 	 * ```typescript
 	 * // !datethenaddtwo 1608867472611
 	 * const date = await args.peekResult('date');
-	 * if (isOk(date)) await message.channel.send(
-	 *   `Your date (in UTC): ${date.value.toUTCString()}`
+	 * await date.inspectAsync((value) =>
+	 * 	message.channel.send(`Your date (in UTC): ${date.value.toUTCString()}`)
 	 * ); // Your date (in UTC): Fri, 25 Dec 2020 03:37:52 GMT
 	 *
 	 * const result = await args.pickResult('number', { maximum: Number.MAX_SAFE_INTEGER - 2 });
-	 * if (isOk(result)) await message.channel.send(`Your number plus two: ${result.value + 2}`); // Your number plus two: 1608867472613
+	 * await result.inspectAsync((value) =>
+	 * 	message.channel.send(`Your number plus two: ${result.value + 2}`)
+	 * ); // Your number plus two: 1608867472613
 	 * ```
 	 */
 	public async peekResult<K extends keyof ArgType>(
