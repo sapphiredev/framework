@@ -36,6 +36,18 @@ type APIApplicationCommandSubcommandTypes = APIApplicationCommandSubcommandOptio
 type APIApplicationCommandNumericTypes = APIApplicationCommandIntegerOption | APIApplicationCommandNumberOption;
 type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationCommandNumericTypes | APIApplicationCommandStringOption;
 
+/**
+ * @returns `true` if there are differences, `false` otherwise
+ */
+export function getCommandDifferencesFast(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
+	for (const _ of getCommandDifferences(existingCommand, apiData)) {
+		// Return immediately on first difference found (also means we skip all other checks)
+		return true;
+	}
+
+	return false;
+}
+
 export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
 	const differences: CommandDifference[] = [];
 
