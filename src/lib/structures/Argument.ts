@@ -3,19 +3,23 @@ import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
-import type { UserError } from '../errors/UserError';
 import { Args } from '../parsers/Args';
 import type { MessageCommand } from './Command';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
  */
-export type ArgumentResult<T> = Awaitable<Result<T, UserError>>;
+export type ArgumentResult<T> = Result<T, ArgumentError<T>>;
+
+/**
+ * Defines a synchronous or asynchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
+ */
+export type AwaitableArgumentResult<T> = Awaitable<ArgumentResult<T>>;
 
 /**
  * Defines an asynchronous result of an {@link Argument}, check {@link Argument.Result} for the synchronous version.
  */
-export type AsyncArgumentResult<T> = Promise<Result<T, UserError>>;
+export type AsyncArgumentResult<T> = Promise<ArgumentResult<T>>;
 
 export interface IArgument<T> {
 	/**
@@ -28,7 +32,7 @@ export interface IArgument<T> {
 	 * @param parameter The string parameter to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(parameter: string, context: Argument.Context<T>): Argument.Result<T>;
+	run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
 }
 
 /**
@@ -88,23 +92,21 @@ export interface IArgument<T> {
  * ```
  */
 export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
-	public abstract run(parameter: string, context: Argument.Context<T>): Argument.Result<T>;
+	public abstract run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
 
 	/**
 	 * Wraps a value into a successful value.
 	 * @param value The value to wrap.
 	 */
-	public ok(value: T): Result<T, UserError> {
+	public ok(value: T): Argument.Result<T> {
 		return Args.ok(value);
 	}
 
 	/**
 	 * Constructs an {@link Err} result containing an {@link ArgumentError} with a custom type.
-	 * @param parameter The parameter that triggered the argument.
-	 * @param type The identifier for the error.
-	 * @param message The description message for the rejection.
+	 * @param options The options to pass to the ArgumentError.
 	 */
-	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Result<T, UserError> {
+	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
 		return Args.error({ argument: this, identifier: this.name, ...options });
 	}
 }
@@ -126,5 +128,6 @@ export namespace Argument {
 	export type Options = ArgumentOptions;
 	export type Context<T = unknown> = ArgumentContext<T>;
 	export type Result<T> = ArgumentResult<T>;
+	export type AwaitableResult<T> = AwaitableArgumentResult<T>;
 	export type AsyncResult<T> = AsyncArgumentResult<T>;
 }
