@@ -1,9 +1,8 @@
-import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
 import { AutocompleteInteractionPayload, Events } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.CommandAutocompleteInteractionError> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Listener.Context) {
 		super(context, { event: Events.CommandAutocompleteInteractionError });
 	}
 

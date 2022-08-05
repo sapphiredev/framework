@@ -37,7 +37,7 @@ export interface SapphireClientOptions {
 	 * @since 1.0.0
 	 * @default undefined
 	 */
-	baseUserDirectory?: string | null;
+	baseUserDirectory?: URL | string | null;
 
 	/**
 	 * Whether commands can be case insensitive

@@ -1,11 +1,10 @@
-import type { PieceContext } from '@sapphire/pieces';
 import type { ContextMenuInteraction } from 'discord.js';
 import type { ContextMenuCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
 import { Events } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PossibleContextMenuCommand> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Listener.Context) {
 		super(context, { event: Events.PossibleContextMenuCommand });
 	}
 

@@ -1,4 +1,4 @@
-import { Piece, PieceContext, PieceJSON, PieceOptions } from '@sapphire/pieces';
+import { Piece, PieceJSON, PieceOptions } from '@sapphire/pieces';
 import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
@@ -10,7 +10,7 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 	 */
 	public readonly interactionHandlerType: InteractionHandlerTypes;
 
-	public constructor(context: PieceContext, options: InteractionHandlerOptions) {
+	public constructor(context: Piece.Context, options: InteractionHandlerOptions) {
 		super(context, options);
 
 		this.interactionHandlerType = options.interactionHandlerType;
@@ -97,7 +97,7 @@ export interface InteractionHandlerJSON extends PieceJSON {
 export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
 export namespace InteractionHandler {
-	export type Context = PieceContext;
+	export type Context = Piece.Context;
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;
 	export type ParseResult<Instance extends InteractionHandler> = InteractionHandlerParseResult<Instance>;

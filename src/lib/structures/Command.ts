@@ -1,4 +1,5 @@
-import { AliasPiece, AliasPieceJSON, AliasStore, PieceContext } from '@sapphire/pieces';
+import { ArgumentStream, IUnorderedStrategy, Lexer, Parser } from '@sapphire/lexure';
+import { AliasPiece, AliasPieceJSON, AliasStore } from '@sapphire/pieces';
 import { Awaitable, isNullish, NonNullObject } from '@sapphire/utilities';
 import type { LocalizationMap } from 'discord-api-types/v10';
 import {
@@ -10,7 +11,6 @@ import {
 	Permissions,
 	Snowflake
 } from 'discord.js';
-import { ArgumentStream, IUnorderedStrategy, Lexer, Parser } from '@sapphire/lexure';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
@@ -80,7 +80,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	protected constructor(context: PieceContext, options: O = {} as O) {
+	public constructor(context: AliasPiece.Context, options: O = {} as O) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';

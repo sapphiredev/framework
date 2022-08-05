@@ -1,9 +1,8 @@
-import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../../lib/structures/Listener';
 import { Events, ListenerErrorPayload } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.ListenerError> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Listener.Context) {
 		super(context, { event: Events.ListenerError });
 	}
 

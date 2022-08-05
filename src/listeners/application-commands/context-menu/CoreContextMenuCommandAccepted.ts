@@ -1,11 +1,10 @@
-import type { PieceContext } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
 import { ContextMenuCommandAcceptedPayload, Events } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccepted> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Listener.Context) {
 		super(context, { event: Events.ContextMenuCommandAccepted });
 	}
 
