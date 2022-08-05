@@ -1,6 +1,8 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
+import type { ArgumentStream, Parameter } from '@sapphire/lexure';
 import { container } from '@sapphire/pieces';
 import { Option, Result } from '@sapphire/result';
+import type { Awaitable } from '@sapphire/utilities';
 import type {
 	CategoryChannel,
 	DMChannel,
@@ -14,7 +16,6 @@ import type {
 	User,
 	VoiceChannel
 } from 'discord.js';
-import type { ArgumentStream, Parameter } from '@sapphire/lexure';
 import type { URL } from 'url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
@@ -87,7 +88,7 @@ export class Args {
 	 * // Sends "The result is: 25"
 	 * ```
 	 */
-	public async pickResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
+	public async pickResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Retrieves the next parameter and parses it. Advances index on success.
 	 * @param type The type of the argument.
@@ -104,8 +105,8 @@ export class Args {
 	 * // Sends "The result is: 3"
 	 * ```
 	 */
-	public async pickResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
-	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<Result<ArgType[K], UserError>> {
+	public async pickResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ResultType<ArgType[K]>>;
+	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<ResultType<ArgType[K]>> {
 		const argument = this.resolveArgument<ArgType[K]>(type);
 		if (!argument) return this.unavailableArgument(type);
 
@@ -123,7 +124,7 @@ export class Args {
 			return this.missingArguments();
 		}
 
-		return result as Result<ArgType[K], UserError>;
+		return result as ResultType<ArgType[K]>;
 	}
 
 	/**
@@ -176,7 +177,7 @@ export class Args {
 	 * // Sends "The reversed value is... !dlrow olleH"
 	 * ```
 	 */
-	public async restResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
+	public async restResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
@@ -193,8 +194,8 @@ export class Args {
 	 * // Sends "The repeated value is... Hello World!Hello World!"
 	 * ```
 	 */
-	public async restResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<Result<ArgType[K], UserError>>;
-	public async restResult<T>(type: keyof ArgType | IArgument<T>, options: ArgOptions = {}): Promise<Result<unknown, UserError>> {
+	public async restResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ResultType<ArgType[K]>>;
+	public async restResult<T>(type: keyof ArgType | IArgument<T>, options: ArgOptions = {}): Promise<ResultType<T>> {
 		const argument = this.resolveArgument(type);
 		if (!argument) return this.unavailableArgument(type);
 		if (this.parser.finished) return this.missingArguments();
@@ -261,7 +262,7 @@ export class Args {
 	 * // Sends "You have written 2 word(s): olleH !dlroW"
 	 * ```
 	 */
-	public async repeatResult<T>(type: IArgument<T>, options?: RepeatArgOptions): Promise<Result<T[], UserError>>;
+	public async repeatResult<T>(type: IArgument<T>, options?: RepeatArgOptions): Promise<ArrayResultType<T>>;
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
@@ -275,8 +276,8 @@ export class Args {
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
 	 */
-	public async repeatResult<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<Result<ArgType[K][], UserError>>;
-	public async repeatResult<K extends keyof ArgType>(type: K, options: RepeatArgOptions = {}): Promise<Result<ArgType[K][], UserError>> {
+	public async repeatResult<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArrayResultType<ArgType[K]>>;
+	public async repeatResult<K extends keyof ArgType>(type: K, options: RepeatArgOptions = {}): Promise<ArrayResultType<ArgType[K]>> {
 		const argument = this.resolveArgument(type);
 		if (!argument) return this.unavailableArgument(type);
 		if (this.parser.finished) return this.missingArguments();
@@ -298,7 +299,7 @@ export class Args {
 				if (error === null) break;
 
 				if (output.length === 0) {
-					return result as Result.Err<UserError>;
+					return result as Result.Err<UserError | ArgumentError<ArgType[K]>>;
 				}
 
 				break;
@@ -360,7 +361,7 @@ export class Args {
 	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // HELLO
 	 * ```
 	 */
-	public async peekResult<T>(type: () => Argument.Result<T>): Promise<Result<T, UserError>>;
+	public async peekResult<T>(type: () => Argument.Result<T>): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
 	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
@@ -379,7 +380,7 @@ export class Args {
 	 * if (isOk(firstWord)) await message.channel.send(firstWord.value.toUpperCase()); // SAPPHIRE
 	 * ```
 	 */
-	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<Result<T, UserError>>;
+	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
 	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
@@ -399,14 +400,14 @@ export class Args {
 	 * ```
 	 */
 	public async peekResult<K extends keyof ArgType>(
-		type: (() => Argument.Result<ArgType[K]>) | K,
+		type: (() => Awaitable<Argument.Result<ArgType[K]>>) | K,
 		options?: ArgOptions
-	): Promise<Result<ArgType[K], UserError>>;
+	): Promise<ResultType<ArgType[K]>>;
 
 	public async peekResult<K extends keyof ArgType>(
-		type: (() => Argument.Result<ArgType[K]>) | K,
+		type: (() => Awaitable<Argument.Result<ArgType[K]>>) | K,
 		options: ArgOptions = {}
-	): Promise<Result<ArgType[K], UserError>> {
+	): Promise<ResultType<ArgType[K]>> {
 		this.save();
 		const result = typeof type === 'function' ? await type() : await this.pickResult(type, options);
 		this.restore();
@@ -732,3 +733,6 @@ export interface ArgsNextCallback<T> {
 	 */
 	(value: string): Option<T>;
 }
+
+export type ResultType<T> = Result<T, UserError | ArgumentError<T>>;
+export type ArrayResultType<T> = Result<T[], UserError | ArgumentError<T>>;
