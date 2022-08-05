@@ -1,10 +1,9 @@
-import type { PieceContext } from '@sapphire/pieces';
 import { Listener } from '../lib/structures/Listener';
 import { Events } from '../lib/types/Events';
 import { handleRegistryAPICalls } from '../lib/utils/application-commands/ApplicationCommandRegistries';
 
 export class CoreEvent extends Listener {
-	public constructor(context: PieceContext) {
+	public constructor(context: Listener.Context) {
 		super(context, { event: Events.ClientReady, once: true });
 	}
 

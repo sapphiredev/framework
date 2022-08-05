@@ -9,7 +9,7 @@ export class PreconditionStore extends Store<Precondition> {
 	private readonly globalPreconditions: Precondition[] = [];
 
 	public constructor() {
-		super(Precondition as any, { name: 'preconditions' });
+		super(Precondition, { name: 'preconditions' });
 	}
 
 	public async messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): AsyncPreconditionResult {

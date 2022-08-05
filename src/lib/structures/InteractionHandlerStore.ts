@@ -6,7 +6,7 @@ import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOpt
 
 export class InteractionHandlerStore extends Store<InteractionHandler> {
 	public constructor() {
-		super(InteractionHandler as any, { name: 'interaction-handlers' });
+		super(InteractionHandler, { name: 'interaction-handlers' });
 	}
 
 	public async run(interaction: Interaction) {
