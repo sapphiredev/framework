@@ -12,7 +12,7 @@ import type { MessageCommand } from './Command';
 export type ArgumentResult<T> = Result<T, ArgumentError<T>>;
 
 /**
- * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
+ * Defines a synchronous or asynchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
  */
 export type AwaitableArgumentResult<T> = Awaitable<ArgumentResult<T>>;
 
