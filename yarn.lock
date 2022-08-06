@@ -1147,7 +1147,7 @@ __metadata:
     "@sapphire/pieces": ^3.5.0
     "@sapphire/prettier-config": ^1.4.3
     "@sapphire/ratelimits": ^2.4.4
-    "@sapphire/result": ^2.3.2
+    "@sapphire/result": ^2.3.3
     "@sapphire/stopwatch": ^1.4.1
     "@sapphire/ts-config": ^3.3.4
     "@sapphire/utilities": ^3.9.0
@@ -1219,10 +1219,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/result@npm:^2.1.1, @sapphire/result@npm:^2.3.2":
-  version: 2.3.2
-  resolution: "@sapphire/result@npm:2.3.2"
-  checksum: 95bd86b447a948c9bce9f17a0bd019d2013956aa3294f46e5b7765b5171d46c5e0435e23f50b36ced66d917fb9d232605ffe6e0e6a055eb8bff9a69353bbc790
+"@sapphire/result@npm:^2.1.1, @sapphire/result@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "@sapphire/result@npm:2.3.3"
+  checksum: 9691638cf9b8da28f3cfde49b42ec90ae2d0215ef526d6e44ae7363a7f4ea0df6ebd1eb1fe990da4353a836793f8bae4d2868397a8ec9a6cc42b81e99c31bda7
   languageName: node
   linkType: hard
 
