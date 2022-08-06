@@ -10,7 +10,7 @@ import {
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import { Message, Permissions, Snowflake, User } from 'discord.js';
+import { BaseCommandInteraction, Message, Permissions, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 /**
@@ -34,12 +34,21 @@ export interface MessageResolverOptions {
 	scan?: boolean;
 }
 
-export async function resolveMessage(parameter: string, options: MessageResolverOptions): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
-	const message =
-		(await resolveById(parameter, options)) ??
-		(await resolveByLink(parameter, options.message)) ??
-		(await resolveByChannelAndMessage(parameter, options.message));
-	if (message) return Result.ok(message);
+export async function resolveMessage(
+	parameter: string | BaseCommandInteraction,
+	options: MessageResolverOptions
+): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
+	if (typeof parameter === 'string') {
+		const message =
+			(await resolveById(parameter, options)) ??
+			(await resolveByLink(parameter, options.message)) ??
+			(await resolveByChannelAndMessage(parameter, options.message));
+		if (message) return Result.ok(message);
+	} else {
+		const message = parameter.options.resolved.messages?.first();
+		if (message) return resolveMessage(message.id, options);
+	}
+
 	return Result.err(Identifiers.ArgumentMessageError);
 }
 
