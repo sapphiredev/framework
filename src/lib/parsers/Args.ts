@@ -77,7 +77,7 @@ export class Args {
 	 * ```typescript
 	 * // !square 5
 	 * const resolver = Args.make((arg) => {
-	 *   const parsed = Number(argument);
+	 *   const parsed = Number(arg);
 	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must write a valid number.'));
 	 *   return ok(parsed);
 	 * });
@@ -134,7 +134,7 @@ export class Args {
 	 * ```typescript
 	 * // !square 5
 	 * const resolver = Args.make((arg) => {
-	 *   const parsed = Number(argument);
+	 *   const parsed = Number(arg);
 	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must write a valid number.'));
 	 *   return ok(parsed);
 	 * });
