@@ -11,7 +11,7 @@ import {
 	Permissions,
 	Snowflake
 } from 'discord.js';
-import { Args } from '../parsers/Args';
+import { MessageArgs } from '../parsers/MessageArgs';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
@@ -20,7 +20,7 @@ import { getNeededRegistryParameters } from '../utils/application-commands/getNe
 import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
 
-export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
+export class Command<PreParseReturn = MessageArgs, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -126,7 +126,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
 		const parser = new Parser(this.strategy);
 		const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
-		return new Args(message, this as any, args, context) as any;
+		return new MessageArgs(message, this as any, args, context) as any;
 	}
 
 	/**
@@ -168,7 +168,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	/**
 	 * Executes the message command's logic.
 	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
+	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link MessageArgs}.
 	 * @param context The context in which the command was executed.
 	 */
 	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;

@@ -3,7 +3,7 @@ import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
-import { Args } from '../parsers/Args';
+import { MessageArgs } from '../parsers/MessageArgs';
 import type { MessageCommand } from './Command';
 
 /**
@@ -37,7 +37,7 @@ export interface IArgument<T> {
 
 /**
  * The base argument class. This class is abstract and is to be extended by subclasses implementing the methods. In
- * Sapphire's workflow, arguments are called when using {@link Args}'s methods (usually used inside {@link Command}s by default).
+ * Sapphire's workflow, arguments are called when using {@link MessageArgs}'s methods (usually used inside {@link Command}s by default).
  *
  * @example
  * ```typescript
@@ -99,7 +99,7 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * @param value The value to wrap.
 	 */
 	public ok(value: T): Argument.Result<T> {
-		return Args.ok(value);
+		return MessageArgs.ok(value);
 	}
 
 	/**
@@ -107,7 +107,7 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * @param options The options to pass to the ArgumentError.
 	 */
 	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
-		return Args.error({ argument: this, identifier: this.name, ...options });
+		return MessageArgs.error({ argument: this, identifier: this.name, ...options });
 	}
 }
 
@@ -115,7 +115,7 @@ export interface ArgumentOptions extends AliasPiece.Options {}
 
 export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
 	argument: IArgument<T>;
-	args: Args;
+	args: MessageArgs;
 	message: Message;
 	command: MessageCommand;
 	commandContext: MessageCommand.RunContext;

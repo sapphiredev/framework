@@ -27,7 +27,7 @@ import type { MessageCommand } from '../structures/Command';
 /**
  * The argument parser to be used in {@link Command}.
  */
-export class Args {
+export class MessageArgs {
 	/**
 	 * The original message that triggered the command.
 	 */
@@ -50,8 +50,8 @@ export class Args {
 
 	/**
 	 * The states stored in the args.
-	 * @see Args#save
-	 * @see Args#restore
+	 * @see MessageArgs#save
+	 * @see MessageArgs#restore
 	 */
 	private readonly states: ArgumentStream.State[] = [];
 
@@ -65,7 +65,7 @@ export class Args {
 	/**
 	 * Sets the parser to the first token.
 	 */
-	public start(): Args {
+	public start(): MessageArgs {
 		this.parser.reset();
 		return this;
 	}
@@ -128,7 +128,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -146,7 +146,7 @@ export class Args {
 	 */
 	public async pick<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -218,7 +218,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -231,7 +231,7 @@ export class Args {
 	 */
 	public async rest<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -312,7 +312,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -325,7 +325,7 @@ export class Args {
 	 */
 	public async repeat<T>(type: IArgument<T>, options?: RepeatArgOptions): Promise<T[]>;
 	/**
-	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @example
 	 * ```typescript
@@ -343,9 +343,9 @@ export class Args {
 
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -366,9 +366,9 @@ export class Args {
 	public async peekResult<T>(type: () => Argument.Result<T>): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -385,9 +385,9 @@ export class Args {
 	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -419,7 +419,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -441,7 +441,7 @@ export class Args {
 	 */
 	public async peek<T>(type: () => Argument.Result<T>): Promise<T>;
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -464,7 +464,7 @@ export class Args {
 	 */
 	public async peek<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
@@ -518,7 +518,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
+	 * Similar to {@link MessageArgs.nextMaybe} but returns the value on success, null otherwise.
 	 * @example
 	 * ```typescript
 	 * // !numbers 1 2 3
@@ -529,7 +529,7 @@ export class Args {
 	 */
 	public next(): string;
 	/**
-	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
+	 * Similar to {@link MessageArgs.nextMaybe} but returns the value on success, null otherwise.
 	 * @typeparam T Output type of the {@link ArgsNextCallback callback}.
 	 * @param cb Gives an option of either the resulting value, or nothing if failed.
 	 * @example
@@ -612,7 +612,7 @@ export class Args {
 
 	/**
 	 * Saves the current state into the stack following a FILO strategy (first-in, last-out).
-	 * @see Args#restore
+	 * @see MessageArgs#restore
 	 */
 	public save() {
 		this.states.push(this.parser.save());
@@ -620,7 +620,7 @@ export class Args {
 
 	/**
 	 * Restores the previously saved state from the stack.
-	 * @see Args#save
+	 * @see MessageArgs#save
 	 */
 	public restore() {
 		if (this.states.length !== 0) this.parser.restore(this.states.pop()!);
@@ -729,7 +729,7 @@ export interface RepeatArgOptions extends ArgOptions {
 }
 
 /**
- * The callback used for {@link Args.nextMaybe} and {@link Args.next}.
+ * The callback used for {@link MessageArgs.nextMaybe} and {@link MessageArgs.next}.
  */
 export interface ArgsNextCallback<T> {
 	/**
