@@ -6,7 +6,11 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveGuildChannel(parameter: string, guild: Guild): Result<GuildBasedChannelTypes, Identifiers.ArgumentGuildChannelError> {
 	const channel = resolveById(parameter, guild) ?? resolveByQuery(parameter, guild);
-	if (channel) return Result.ok(channel);
+
+	if (channel) {
+		return Result.ok(channel);
+	}
+
 	return Result.err(Identifiers.ArgumentGuildChannelError);
 }
 
