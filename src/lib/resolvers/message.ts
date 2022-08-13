@@ -35,24 +35,14 @@ export interface MessageResolverOptions {
 	scan?: boolean;
 }
 
-export async function resolveMessage(
-	parameter: string | BaseCommandInteraction,
-	options: MessageResolverOptions
-): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
-	if (typeof parameter === 'string') {
-		const message =
-			(await resolveById(parameter, options)) ??
-			(await resolveByLink(parameter, options)) ??
-			(await resolveByChannelAndMessage(parameter, options));
+export async function resolveMessage(parameter: string, options: MessageResolverOptions): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
+	const message =
+		(await resolveById(parameter, options)) ??
+		(await resolveByLink(parameter, options)) ??
+		(await resolveByChannelAndMessage(parameter, options));
 
-		if (message) {
-			return Result.ok(message);
-		}
-	} else {
-		const message = parameter.options.resolved.messages?.first();
-		if (message) {
-			return resolveMessage(message.id, options);
-		}
+	if (message) {
+		return Result.ok(message);
 	}
 
 	return Result.err(Identifiers.ArgumentMessageError);

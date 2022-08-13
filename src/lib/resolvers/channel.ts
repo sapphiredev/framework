@@ -1,10 +1,10 @@
 import { ChannelMentionRegex, ChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
-import type { Message } from 'discord.js';
+import type { CommandInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
-export function resolveChannel(parameter: string, message: Message): Result<ChannelTypes, Identifiers.ArgumentChannelError> {
+export function resolveChannel(parameter: string, message: Message | CommandInteraction): Result<ChannelTypes, Identifiers.ArgumentChannelError> {
 	const channelId = (ChannelMentionRegex.exec(parameter)?.[1] ?? parameter) as Snowflake;
 	const channel = (message.guild ? message.guild.channels : container.client.channels).cache.get(channelId);
 
