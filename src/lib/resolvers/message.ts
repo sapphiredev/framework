@@ -1,17 +1,18 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import {
+	AnyInteraction,
 	GuildBasedChannelTypes,
+	isAnyInteraction,
 	isGuildBasedChannel,
 	isNewsChannel,
 	isTextBasedChannel,
 	isTextChannel,
-	runsOnInteraction,
 	TextBasedChannelTypes
 } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import { CommandInteraction, Message, Permissions, Snowflake, User } from 'discord.js';
+import { Message, Permissions, Snowflake, User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 /**
@@ -24,9 +25,9 @@ export interface MessageResolverOptions {
 	 */
 	channel?: TextBasedChannelTypes;
 	/**
-	 * Base {@link Message} or {@link CommandInteraction} to resolve the message from (e.g. pick the channel if not given).
+	 * Base {@link Message} or {@link AnyInteraction} to resolve the message from (e.g. pick the channel if not given).
 	 */
-	messageOrInteraction: Message | CommandInteraction;
+	messageOrInteraction: Message | AnyInteraction;
 	/**
 	 * Whether to scan the entire guild cache for the message.
 	 * If channel is given with this option, this option is ignored.
@@ -91,7 +92,7 @@ async function resolveByLink(parameter: string, options: MessageResolverOptions)
 	return getMessageFromChannel(
 		channelId,
 		messageId,
-		runsOnInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
+		isAnyInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
 	);
 }
 
@@ -105,7 +106,7 @@ async function resolveByChannelAndMessage(parameter: string, options: MessageRes
 	return getMessageFromChannel(
 		result.channelId,
 		result.messageId,
-		runsOnInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
+		isAnyInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
 	);
 }
 
