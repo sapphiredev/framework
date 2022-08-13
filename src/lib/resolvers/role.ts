@@ -4,12 +4,10 @@ import type { Guild, Role, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export async function resolveRole(parameter: string, guild: Guild): Promise<Result<Role, Identifiers.ArgumentRoleError>> {
-	if (guild) {
-		const role = (await resolveById(parameter, guild)) ?? resolveByQuery(parameter, guild);
+	const role = (await resolveById(parameter, guild)) ?? resolveByQuery(parameter, guild);
 
-		if (role) {
-			return Result.ok(role);
-		}
+	if (role) {
+		return Result.ok(role);
 	}
 
 	return Result.err(Identifiers.ArgumentRoleError);

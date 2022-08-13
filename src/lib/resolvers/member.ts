@@ -4,12 +4,10 @@ import type { Guild, GuildMember, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export async function resolveMember(parameter: string, guild: Guild): Promise<Result<GuildMember, Identifiers.ArgumentMemberError>> {
-	if (guild) {
-		const member = (await resolveById(parameter, guild)) ?? (await resolveByQuery(parameter, guild));
+	const member = (await resolveById(parameter, guild)) ?? (await resolveByQuery(parameter, guild));
 
-		if (member) {
-			return Result.ok(member);
-		}
+	if (member) {
+		return Result.ok(member);
 	}
 
 	return Result.err(Identifiers.ArgumentMemberError);
