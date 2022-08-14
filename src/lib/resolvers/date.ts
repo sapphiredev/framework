@@ -8,10 +8,18 @@ export function resolveDate(
 	const parsed = new Date(parameter);
 
 	const time = parsed.getTime();
-	if (Number.isNaN(time)) return Result.err(Identifiers.ArgumentDateError);
 
-	if (typeof options?.minimum === 'number' && time < options.minimum) return Result.err(Identifiers.ArgumentDateTooEarly);
-	if (typeof options?.maximum === 'number' && time > options.maximum) return Result.err(Identifiers.ArgumentDateTooFar);
+	if (Number.isNaN(time)) {
+		return Result.err(Identifiers.ArgumentDateError);
+	}
+
+	if (typeof options?.minimum === 'number' && time < options.minimum) {
+		return Result.err(Identifiers.ArgumentDateTooEarly);
+	}
+
+	if (typeof options?.maximum === 'number' && time > options.maximum) {
+		return Result.err(Identifiers.ArgumentDateTooFar);
+	}
 
 	return Result.ok(parsed);
 }

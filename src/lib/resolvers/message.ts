@@ -1,6 +1,8 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import {
+	AnyInteraction,
 	GuildBasedChannelTypes,
+	isAnyInteraction,
 	isGuildBasedChannel,
 	isNewsChannel,
 	isTextBasedChannel,
@@ -23,9 +25,9 @@ export interface MessageResolverOptions {
 	 */
 	channel?: TextBasedChannelTypes;
 	/**
-	 * Base message to resolve the message from (e.g. pick the channel if not given).
+	 * Base {@link Message} or {@link AnyInteraction} to resolve the message from (e.g. pick the channel if not given).
 	 */
-	message: Message;
+	messageOrInteraction: Message | AnyInteraction;
 	/**
 	 * Whether to scan the entire guild cache for the message.
 	 * If channel is given with this option, this option is ignored.
@@ -37,55 +39,94 @@ export interface MessageResolverOptions {
 export async function resolveMessage(parameter: string, options: MessageResolverOptions): Promise<Result<Message, Identifiers.ArgumentMessageError>> {
 	const message =
 		(await resolveById(parameter, options)) ??
-		(await resolveByLink(parameter, options.message)) ??
-		(await resolveByChannelAndMessage(parameter, options.message));
-	if (message) return Result.ok(message);
+		(await resolveByLink(parameter, options)) ??
+		(await resolveByChannelAndMessage(parameter, options));
+
+	if (message) {
+		return Result.ok(message);
+	}
+
 	return Result.err(Identifiers.ArgumentMessageError);
 }
 
 function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {
-	if (!SnowflakeRegex.test(parameter)) return null;
+	if (!SnowflakeRegex.test(parameter)) {
+		return null;
+	}
 
-	if (options.channel) return options.channel.messages.fetch(parameter as Snowflake);
+	if (options.channel) {
+		return options.channel.messages.fetch(parameter as Snowflake);
+	}
 
-	if (options.scan && isGuildBasedChannel(options.message.channel)) {
-		for (const channel of options.message.channel.guild.channels.cache.values()) {
+	if (options.scan && isGuildBasedChannel(options.messageOrInteraction.channel)) {
+		for (const channel of options.messageOrInteraction.channel.guild.channels.cache.values()) {
 			if (!isTextBasedChannel(channel)) continue;
 
 			const message = channel.messages.cache.get(parameter);
-			if (message) return message;
+			if (message) {
+				return message;
+			}
 		}
 	}
 
-	return options.message.channel.messages.fetch(parameter as Snowflake);
+	return options.messageOrInteraction.channel?.messages.fetch(parameter as Snowflake) ?? null;
 }
 
-async function resolveByLink(parameter: string, message: Message): Promise<Message | null> {
-	if (!message.guild) return null;
+async function resolveByLink(parameter: string, options: MessageResolverOptions): Promise<Message | null> {
+	if (!options.messageOrInteraction.guild) {
+		return null;
+	}
 
 	const matches = MessageLinkRegex.exec(parameter);
-	if (!matches) return null;
+	if (!matches) {
+		return null;
+	}
+
 	const [, guildId, channelId, messageId] = matches;
 
 	const guild = container.client.guilds.cache.get(guildId as Snowflake);
-	if (guild !== message.guild) return null;
+	if (guild !== options.messageOrInteraction.guild) {
+		return null;
+	}
 
-	return getMessageFromChannel(channelId, messageId, message.author);
+	return getMessageFromChannel(
+		channelId,
+		messageId,
+		isAnyInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
+	);
 }
 
-async function resolveByChannelAndMessage(parameter: string, message: Message): Promise<Message | null> {
+async function resolveByChannelAndMessage(parameter: string, options: MessageResolverOptions): Promise<Message | null> {
 	const result = ChannelMessageRegex.exec(parameter)?.groups;
-	if (!result) return null;
 
-	return getMessageFromChannel(result.channelId, result.messageId, message.author);
+	if (!result) {
+		return null;
+	}
+
+	return getMessageFromChannel(
+		result.channelId,
+		result.messageId,
+		isAnyInteraction(options.messageOrInteraction) ? options.messageOrInteraction.user : options.messageOrInteraction.author
+	);
 }
 
 async function getMessageFromChannel(channelId: Snowflake, messageId: Snowflake, originalAuthor: User): Promise<Message | null> {
 	const channel = container.client.channels.cache.get(channelId) as GuildBasedChannelTypes;
-	if (!channel) return null;
-	if (!(isNewsChannel(channel) || isTextChannel(channel))) return null;
-	if (!channel.viewable) return null;
-	if (!channel.permissionsFor(originalAuthor)?.has(Permissions.FLAGS.VIEW_CHANNEL)) return null;
+	if (!channel) {
+		return null;
+	}
+
+	if (!(isNewsChannel(channel) || isTextChannel(channel))) {
+		return null;
+	}
+
+	if (!channel.viewable) {
+		return null;
+	}
+
+	if (!channel.permissionsFor(originalAuthor)?.has(Permissions.FLAGS.VIEW_CHANNEL)) {
+		return null;
+	}
 
 	return channel.messages.fetch(messageId);
 }

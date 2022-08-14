@@ -8,9 +8,17 @@ export class CoreArgument extends Argument<Message> {
 		super(context, { name: 'message' });
 	}
 
-	public async run(parameter: string, context: Omit<MessageResolverOptions, 'message'> & Argument.Context): Argument.AsyncResult<Message> {
+	public async run(
+		parameter: string,
+		context: Omit<MessageResolverOptions, 'messageOrInteraction'> & Argument.Context
+	): Argument.AsyncResult<Message> {
 		const channel = context.channel ?? context.message.channel;
-		const resolved = await resolveMessage(parameter, { message: context.message, channel: context.channel, scan: context.scan ?? false });
+		const resolved = await resolveMessage(parameter, {
+			messageOrInteraction: context.message,
+			channel: context.channel,
+			scan: context.scan ?? false
+		});
+
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,

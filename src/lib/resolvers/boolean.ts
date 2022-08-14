@@ -9,8 +9,14 @@ export function resolveBoolean(
 	customs?: { truths?: readonly string[]; falses?: readonly string[] }
 ): Result<boolean, Identifiers.ArgumentBooleanError> {
 	const boolean = parameter.toLowerCase();
-	if ([...baseTruths, ...(customs?.truths ?? [])].includes(boolean)) return Result.ok(true);
-	if ([...baseFalses, ...(customs?.falses ?? [])].includes(boolean)) return Result.ok(false);
+
+	if ([...baseTruths, ...(customs?.truths ?? [])].includes(boolean)) {
+		return Result.ok(true);
+	}
+
+	if ([...baseFalses, ...(customs?.falses ?? [])].includes(boolean)) {
+		return Result.ok(false);
+	}
 
 	return Result.err(Identifiers.ArgumentBooleanError);
 }
