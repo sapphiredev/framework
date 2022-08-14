@@ -114,6 +114,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Picowchew"><img src="https://avatars.githubusercontent.com/u/58180935?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Picowchew The Panda</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=Picowchew" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/samfundev"><img src="https://avatars.githubusercontent.com/u/6759716?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=samfundev" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/UndiedGamer"><img src="https://avatars.githubusercontent.com/u/84702365?v=4?s=100" width="100px;" alt=""/><br /><sub><b>UndiedGamer</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=UndiedGamer" title="Code">💻</a></td>
+    <td align="center"><a href="https://botato.gq/"><img src="https://avatars.githubusercontent.com/u/63275405?v=4?s=100" width="100px;" alt=""/><br /><sub><b>botato</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=botatooo" title="Code">💻</a></td>
   </tr>
 </table>
 
