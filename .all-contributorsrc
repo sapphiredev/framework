@@ -252,6 +252,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/63275405?v=4",
 			"profile": "https://botato.gq/",
 			"contributions": ["code"]
+		},
+		{
+			"login": "nicklvh",
+			"name": "nick",
+			"avatar_url": "https://avatars.githubusercontent.com/u/62725534?v=4",
+			"profile": "https://github.com/nicklvh",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,

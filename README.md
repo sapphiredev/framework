@@ -116,6 +116,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/UndiedGamer"><img src="https://avatars.githubusercontent.com/u/84702365?v=4?s=100" width="100px;" alt=""/><br /><sub><b>UndiedGamer</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=UndiedGamer" title="Code">💻</a></td>
     <td align="center"><a href="https://botato.gq/"><img src="https://avatars.githubusercontent.com/u/63275405?v=4?s=100" width="100px;" alt=""/><br /><sub><b>botato</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=botatooo" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/nicklvh"><img src="https://avatars.githubusercontent.com/u/62725534?v=4?s=100" width="100px;" alt=""/><br /><sub><b>nick</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=nicklvh" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
