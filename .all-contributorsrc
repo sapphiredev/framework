@@ -217,6 +217,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/85353424?v=4",
 			"profile": "https://github.com/EvolutionX-10",
 			"contributions": ["code"]
+		},
+		{
+			"login": "matteoturini",
+			"name": "Mattéo Turini",
+			"avatar_url": "https://avatars.githubusercontent.com/u/69425093?v=4",
+			"profile": "https://github.com/matteoturini",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
