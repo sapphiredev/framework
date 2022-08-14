@@ -196,6 +196,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/3487559?v=4",
 			"profile": "https://github.com/feralheart",
 			"contributions": ["code"]
+		},
+		{
+			"login": "r-priyam",
+			"name": "Priyam",
+			"avatar_url": "https://avatars.githubusercontent.com/u/50884372?v=4",
+			"profile": "https://github.com/r-priyam",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
