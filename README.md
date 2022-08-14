@@ -111,6 +111,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/imranbarbhuiya"><img src="https://avatars.githubusercontent.com/u/74945038?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Parbez</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=imranbarbhuiya" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/EvolutionX-10"><img src="https://avatars.githubusercontent.com/u/85353424?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evo</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=EvolutionX-10" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/matteoturini"><img src="https://avatars.githubusercontent.com/u/69425093?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mattéo Turini</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=matteoturini" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Picowchew"><img src="https://avatars.githubusercontent.com/u/58180935?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Picowchew The Panda</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=Picowchew" title="Code">💻</a></td>
   </tr>
 </table>
 
