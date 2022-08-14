@@ -238,6 +238,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/6759716?v=4",
 			"profile": "https://github.com/samfundev",
 			"contributions": ["code"]
+		},
+		{
+			"login": "UndiedGamer",
+			"name": "UndiedGamer",
+			"avatar_url": "https://avatars.githubusercontent.com/u/84702365?v=4",
+			"profile": "https://github.com/UndiedGamer",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
