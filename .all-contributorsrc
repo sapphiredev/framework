@@ -210,6 +210,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/74945038?v=4",
 			"profile": "https://github.com/imranbarbhuiya",
 			"contributions": ["code"]
+		},
+		{
+			"login": "EvolutionX-10",
+			"name": "Evo",
+			"avatar_url": "https://avatars.githubusercontent.com/u/85353424?v=4",
+			"profile": "https://github.com/EvolutionX-10",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
