@@ -3,7 +3,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	public messageRun(message: Message) {
+	public messageRun(message: Message): AllFlowsPrecondition.Result {
 		return message.thread?.type === 'GUILD_NEWS_THREAD'
 			? this.ok()
 			: this.error({
@@ -12,7 +12,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async chatInputRun(interaction: CommandInteraction) {
+	public async chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return channel.type === 'GUILD_NEWS_THREAD'
@@ -23,7 +23,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return channel.type === 'GUILD_NEWS_THREAD'

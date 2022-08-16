@@ -15,25 +15,31 @@ export interface CooldownPreconditionContext extends PreconditionContext {
 export class CorePrecondition extends AllFlowsPrecondition {
 	public buckets = new WeakMap<Command, RateLimitManager<string>>();
 
-	public messageRun(message: Message, command: Command, context: CooldownPreconditionContext) {
+	public messageRun(message: Message, command: Command, context: CooldownPreconditionContext): AllFlowsPrecondition.Result {
 		const cooldownId = this.getIdFromMessage(message, context);
 
 		return this.sharedRun(message.author.id, command, context, cooldownId, 'message');
 	}
 
-	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownPreconditionContext) {
+	public chatInputRun(interaction: CommandInteraction, command: Command, context: CooldownPreconditionContext): AllFlowsPrecondition.Result {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
 		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownPreconditionContext) {
+	public contextMenuRun(interaction: ContextMenuInteraction, command: Command, context: CooldownPreconditionContext): AllFlowsPrecondition.Result {
 		const cooldownId = this.getIdFromInteraction(interaction, context);
 
 		return this.sharedRun(interaction.user.id, command, context, cooldownId, 'context menu');
 	}
 
-	private sharedRun(authorId: string, command: Command, context: CooldownPreconditionContext, cooldownId: string, commandType: string) {
+	private sharedRun(
+		authorId: string,
+		command: Command,
+		context: CooldownPreconditionContext,
+		cooldownId: string,
+		commandType: string
+	): AllFlowsPrecondition.Result {
 		// If the command it is testing for is not this one, return ok:
 		if (context.external) return this.ok();
 

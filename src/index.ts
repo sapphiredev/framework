@@ -15,8 +15,8 @@ import { CorePrecondition as GuildOnly } from './preconditions/GuildOnly';
 import { CorePrecondition as GuildPrivateThreadOnly } from './preconditions/GuildPrivateThreadOnly';
 import { CorePrecondition as GuildPublicThreadOnly } from './preconditions/GuildPublicThreadOnly';
 import { CorePrecondition as GuildTextOnly } from './preconditions/GuildTextOnly';
-import { CorePrecondition as GuildVoiceOnly } from './preconditions/GuildVoiceOnly';
 import { CorePrecondition as GuildThreadOnly } from './preconditions/GuildThreadOnly';
+import { CorePrecondition as GuildVoiceOnly } from './preconditions/GuildVoiceOnly';
 import { CorePrecondition as NSFW } from './preconditions/NSFW';
 import { CorePrecondition as UserPermissions } from './preconditions/UserPermissions';
 

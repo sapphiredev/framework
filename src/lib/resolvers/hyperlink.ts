@@ -1,5 +1,5 @@
 import { Result } from '@sapphire/result';
-import { URL } from 'url';
+import { URL } from 'node:url';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveHyperlink(parameter: string): Result<URL, Identifiers.ArgumentHyperlinkError> {

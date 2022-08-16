@@ -5,7 +5,7 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly allowedTypes: TextBasedChannelTypes[] = ['GUILD_TEXT', 'GUILD_PUBLIC_THREAD', 'GUILD_PRIVATE_THREAD'];
 
-	public messageRun(message: Message) {
+	public messageRun(message: Message): AllFlowsPrecondition.Result {
 		return this.allowedTypes.includes(message.channel.type)
 			? this.ok()
 			: this.error({
@@ -14,7 +14,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async chatInputRun(interaction: CommandInteraction) {
+	public async chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type)
@@ -25,7 +25,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type)

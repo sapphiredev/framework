@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import type { URL } from 'url';
+import type { URL } from 'node:url';
 import { resolveHyperlink } from '../lib/resolvers';
 import { Argument } from '../lib/structures/Argument';
 
