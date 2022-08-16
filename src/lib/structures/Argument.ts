@@ -43,7 +43,7 @@ export interface IArgument<T> {
  * ```typescript
  * // TypeScript:
  * import { Argument, PieceContext } from '@sapphire/framework';
- * import { URL } from 'url';
+ * import { URL } from 'node:url';
  *
  * // Define a class extending `Argument`, then export it.
  * // NOTE: You can use `export default` or `export =` too.

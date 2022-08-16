@@ -19,7 +19,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public messageRun(message: Message, _command: Command, context: PermissionPreconditionContext) {
+	public messageRun(message: Message, _command: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.Result {
 		const required = context.permissions ?? new Permissions();
 		const channel = message.channel as TextChannel | NewsChannel;
 		const permissions = message.guild ? channel.permissionsFor(message.author) : this.dmChannelPermissions;
@@ -27,21 +27,25 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'message');
 	}
 
-	public chatInputRun(interaction: CommandInteraction, _command: Command, context: PermissionPreconditionContext) {
+	public chatInputRun(interaction: CommandInteraction, _command: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.Result {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction, _command: Command, context: PermissionPreconditionContext) {
+	public contextMenuRun(
+		interaction: ContextMenuInteraction,
+		_command: Command,
+		context: PermissionPreconditionContext
+	): AllFlowsPrecondition.Result {
 		const required = context.permissions ?? new Permissions();
 		const permissions = interaction.guildId ? interaction.memberPermissions : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'context menu');
 	}
 
-	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string) {
+	private sharedRun(requiredPermissions: Permissions, availablePermissions: Permissions | null, commandType: string): AllFlowsPrecondition.Result {
 		if (!availablePermissions) {
 			return this.error({
 				identifier: Identifiers.PreconditionUserPermissionsNoPermissions,

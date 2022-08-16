@@ -16,7 +16,7 @@ import type {
 	User,
 	VoiceChannel
 } from 'discord.js';
-import type { URL } from 'url';
+import type { URL } from 'node:url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
@@ -640,7 +640,7 @@ export class Args {
 		return { message: this.message, command: this.command, commandContext: this.commandContext };
 	}
 
-	protected unavailableArgument<T>(type: string | IArgument<T>) {
+	protected unavailableArgument<T>(type: string | IArgument<T>): Result.Err<UserError> {
 		const name = typeof type === 'string' ? type : type.name;
 		return Result.err(
 			new UserError({
@@ -651,7 +651,7 @@ export class Args {
 		);
 	}
 
-	protected missingArguments() {
+	protected missingArguments(): Result.Err<UserError> {
 		return Result.err(new UserError({ identifier: Identifiers.ArgsMissing, message: 'There are no more arguments.', context: this.toJSON() }));
 	}
 

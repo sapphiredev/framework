@@ -29,7 +29,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & Permissions.ALL
 	).freeze();
 
-	public messageRun(message: Message, _: Command, context: PermissionPreconditionContext) {
+	public messageRun(message: Message, _: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.Result {
 		const required = context.permissions ?? new Permissions();
 		const channel = message.channel as BaseGuildTextChannel;
 
@@ -45,7 +45,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'message');
 	}
 
-	public async chatInputRun(interaction: CommandInteraction, _: Command, context: PermissionPreconditionContext) {
+	public async chatInputRun(interaction: CommandInteraction, _: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new Permissions();
 
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
@@ -55,7 +55,11 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, permissions, 'chat input');
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction, _: Command, context: PermissionPreconditionContext) {
+	public async contextMenuRun(
+		interaction: ContextMenuInteraction,
+		_: Command,
+		context: PermissionPreconditionContext
+	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new Permissions();
 		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
 

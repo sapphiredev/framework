@@ -1,4 +1,4 @@
-import { URL } from 'url';
+import { URL } from 'node:url';
 import { Identifiers, Resolvers, Result } from '../../src';
 
 const STRING_URL = 'https://github.com/sapphiredev';

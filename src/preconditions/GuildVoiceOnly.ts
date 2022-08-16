@@ -1,10 +1,10 @@
+import { isVoiceChannel } from '@sapphire/discord.js-utilities';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
-import { isVoiceChannel } from '@sapphire/discord.js-utilities';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	public messageRun(message: Message) {
+	public messageRun(message: Message): AllFlowsPrecondition.Result {
 		return isVoiceChannel(message.channel)
 			? this.ok()
 			: this.error({
@@ -13,7 +13,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async chatInputRun(interaction: CommandInteraction) {
+	public async chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return isVoiceChannel(channel)
@@ -24,7 +24,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction) {
+	public async contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return isVoiceChannel(channel)
