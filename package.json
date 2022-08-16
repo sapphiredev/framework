@@ -23,7 +23,7 @@
 		"watch": "tsc -b src -w",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"_postinstall": "husky install .github/husky",
+		"postinstall": "husky install .github/husky",
 		"prepack": "rollup-type-bundler -v -e node:url node:events && pinst --disable",
 		"postpack": "pinst --enable"
 	},
