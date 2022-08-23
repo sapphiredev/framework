@@ -566,12 +566,13 @@ export class Args {
 	 * // >>> false
 	 * ```
 	 */
-	public getFlags(...keys: readonly string[]) {
+	public getFlags(...keys: readonly string[]): boolean {
 		return this.parser.flag(...keys);
 	}
 
 	/**
 	 * Gets the last value of one or more options.
+	 * Similar to {@link Args.optionResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -586,12 +587,13 @@ export class Args {
 	 * // >>> null
 	 * ```
 	 */
-	public getOption(...keys: readonly string[]) {
-		return this.parser.option(...keys);
+	public getOption(...keys: readonly string[]): string | null {
+		return this.parser.option(...keys).unwrapOr(null);
 	}
 
 	/**
 	 * Gets all the values of one or more option.
+	 * Similar to {@link Args.getOptionsResults} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -606,15 +608,15 @@ export class Args {
 	 * // >>> null
 	 * ```
 	 */
-	public getOptions(...keys: readonly string[]) {
-		return this.parser.options(...keys);
+	public getOptions(...keys: readonly string[]): readonly string[] | null {
+		return this.parser.options(...keys).unwrapOr(null);
 	}
 
 	/**
 	 * Saves the current state into the stack following a FILO strategy (first-in, last-out).
 	 * @see Args#restore
 	 */
-	public save() {
+	public save(): void {
 		this.states.push(this.parser.save());
 	}
 
@@ -622,14 +624,14 @@ export class Args {
 	 * Restores the previously saved state from the stack.
 	 * @see Args#save
 	 */
-	public restore() {
+	public restore(): void {
 		if (this.states.length !== 0) this.parser.restore(this.states.pop()!);
 	}
 
 	/**
 	 * Whether all arguments have been consumed.
 	 */
-	public get finished() {
+	public get finished(): boolean {
 		return this.parser.finished;
 	}
 
