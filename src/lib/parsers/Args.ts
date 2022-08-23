@@ -571,8 +571,30 @@ export class Args {
 	}
 
 	/**
+	 * Gets the last value of one or more options as an {@link Option}.
+	 * If you do not care about safely handling non-existing values
+	 * you can use {@link Args.getOption} to get `string | null` as return type
+	 * @param keys The name(s) of the option.
+	 * @example
+	 * ```typescript
+	 * // Suppose args are from '--a=1 --b=2 --c=3'.
+	 * console.log(args.getOptionResult('a'));
+	 * // >>> Some { value: '1' }
+	 *
+	 * console.log(args.getOptionResult('b', 'c'));
+	 * // >>> Some { value: '2' }
+	 *
+	 * console.log(args.getOptionResult('d'));
+	 * // >>> None {}
+	 * ```
+	 */
+	public getOptionResult(...keys: readonly string[]): Option<string> {
+		return this.parser.option(...keys);
+	}
+
+	/**
 	 * Gets the last value of one or more options.
-	 * Similar to {@link Args.optionResult} but returns the value on success, or `null` if not.
+	 * Similar to {@link Args.getOptionResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -593,7 +615,30 @@ export class Args {
 
 	/**
 	 * Gets all the values of one or more option.
-	 * Similar to {@link Args.getOptionsResults} but returns the value on success, or `null` if not.
+	 * @param keys The name(s) of the option.
+	 * @example
+	 * ```typescript
+	 * // Suppose args are from '--a=1 --a=1 --b=2 --c=3'.
+	 * console.log(args.getOptionsResult('a'));
+	 * // >>> Some { value: [ '1' ] }
+	 *
+	 * console.log(args.getOptionsResult('a', 'd'));
+	 * // >>> Some { value: [ '1' ] }
+	 *
+	 * console.log(args.getOptionsResult('b', 'c'));
+	 * // >>> Some { value: [ '2', '3' ] }
+	 *
+	 * console.log(args.getOptionsResult('d'));
+	 * // >>> None {}
+	 * ```
+	 */
+	public getOptionsResult(...keys: readonly string[]): Option<readonly string[]> {
+		return this.parser.options(...keys);
+	}
+
+	/**
+	 * Gets all the values of one or more option.
+	 * Similar to {@link Args.getOptionsResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
