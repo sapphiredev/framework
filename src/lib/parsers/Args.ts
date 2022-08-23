@@ -638,7 +638,7 @@ export class Args {
 	/**
 	 * Defines the `JSON.stringify` override.
 	 */
-	public toJSON() {
+	public toJSON(): ArgsJson {
 		return { message: this.message, command: this.command, commandContext: this.commandContext };
 	}
 
@@ -689,6 +689,12 @@ export class Args {
 	public static error<T>(options: ArgumentError.Options<T>): Result.Err<ArgumentError<T>> {
 		return Result.err(new ArgumentError<T>(options));
 	}
+}
+
+export interface ArgsJson {
+	message: Message<boolean>;
+	command: MessageCommand;
+	commandContext: MessageCommand.RunContext;
 }
 
 export interface ArgType {
