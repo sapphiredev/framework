@@ -73,6 +73,7 @@ export class Args {
 	/**
 	 * Retrieves the next parameter and parses it. Advances index on success.
 	 * @param type The type of the argument.
+	 * @param options The pickResult options.
 	 * @example
 	 * ```typescript
 	 * // !square 5
@@ -92,6 +93,7 @@ export class Args {
 	/**
 	 * Retrieves the next parameter and parses it. Advances index on success.
 	 * @param type The type of the argument.
+	 * @param options The pickResult options.
 	 * @example
 	 * ```typescript
 	 * // !add 1 2
@@ -130,6 +132,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The pick options.
 	 * @example
 	 * ```typescript
 	 * // !square 5
@@ -148,6 +151,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The pick options.
 	 * @example
 	 * ```typescript
 	 * // !add 1 2
@@ -166,6 +170,7 @@ export class Args {
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
+	 * @param options The restResult options.
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
@@ -181,6 +186,7 @@ export class Args {
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
+	 * @param options The restResult options.
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
@@ -217,6 +223,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The rest options.
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
@@ -230,6 +237,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The rest options.
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
@@ -248,6 +256,7 @@ export class Args {
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
+	 * @param options The repeatResult options.
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
@@ -263,6 +272,7 @@ export class Args {
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
+	 * @param options The repeatResult options.
 	 * @example
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
@@ -311,6 +321,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The repeat options.
 	 * @example
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
@@ -324,6 +335,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
+	 * @param options The repeat options.
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
@@ -367,6 +379,7 @@ export class Args {
 	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
 	 * will use {@link Args.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
+	 * @param options The peekResult options.
 	 * @example
 	 * ```typescript
 	 * // !reverseandscreamfirst sapphire community
@@ -386,6 +399,7 @@ export class Args {
 	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
 	 * will use {@link Args.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
+	 * @param options The peekResult options.
 	 * @example
 	 * ```typescript
 	 * // !datethenaddtwo 1608867472611
@@ -440,6 +454,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
+	 * @param options The peek options.
 	 * @example
 	 * ```typescript
 	 * // !createdat 730159185517477900
@@ -463,6 +478,7 @@ export class Args {
 	/**
 	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
+	 * @param options The peek options.
 	 * @example
 	 * ```typescript
 	 * // !messagelink https://discord.com/channels/737141877803057244/737142209639350343/791843123898089483
@@ -494,7 +510,7 @@ export class Args {
 	public nextMaybe(): Option<string>;
 	/**
 	 * Retrieves the value of the next unused ordered token, but only if it could be transformed.
-	 * That token will now be consider used if the transformation succeeds.
+	 * That token will now be used if the transformation succeeds.
 	 * @typeparam T Output type of the {@link ArgsNextCallback callback}.
 	 * @param cb Gives an option of either the resulting value, or nothing if failed.
 	 * @example
@@ -709,8 +725,9 @@ export class Args {
 	}
 
 	/**
-	 * Converts a callback into an usable argument.
+	 * Converts a callback into a usable argument.
 	 * @param cb The callback to convert into an {@link IArgument}.
+	 * @param name The name of the argument.
 	 */
 	public static make<T>(cb: IArgument<T>['run'], name = ''): IArgument<T> {
 		return { run: cb, name };

@@ -1,4 +1,4 @@
-import { Permissions, type PermissionResolvable } from 'discord.js';
+import { PermissionsBitField, type PermissionResolvable } from 'discord.js';
 import type { PreconditionSingleResolvableDetails } from '../PreconditionContainerSingle';
 
 /**
@@ -24,7 +24,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  */
 export class UserPermissionsPrecondition implements PreconditionSingleResolvableDetails<'UserPermissions'> {
 	public name: 'UserPermissions';
-	public context: { permissions: Permissions };
+	public context: { permissions: PermissionsBitField };
 
 	/**
 	 * Constructs a precondition container entry.
@@ -33,7 +33,7 @@ export class UserPermissionsPrecondition implements PreconditionSingleResolvable
 	public constructor(permissions: PermissionResolvable) {
 		this.name = 'UserPermissions';
 		this.context = {
-			permissions: new Permissions(permissions)
+			permissions: new PermissionsBitField(permissions)
 		};
 	}
 }

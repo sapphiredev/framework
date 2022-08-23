@@ -1,4 +1,4 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
@@ -9,13 +9,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			: this.ok();
 	}
 
-	public chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.Result {
+	public chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.Result {
 		return interaction.guildId === null
 			? this.error({ identifier: Identifiers.PreconditionGuildOnly, message: 'You cannot run this chat input command in DMs.' })
 			: this.ok();
 	}
 
-	public contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.Result {
+	public contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.Result {
 		return interaction.guildId === null
 			? this.error({ identifier: Identifiers.PreconditionGuildOnly, message: 'You cannot run this context menu command in DMs.' })
 			: this.ok();

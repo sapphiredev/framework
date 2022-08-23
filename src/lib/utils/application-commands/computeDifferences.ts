@@ -71,16 +71,6 @@ export function* getCommandDifferences(
 				};
 			}
 
-			// Check defaultPermissions
-			// TODO(vladfrangu): This will be deprecated
-			if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
-				yield {
-					key: 'defaultPermission',
-					original: String(existingCommand.default_permission ?? true),
-					expected: String(casted.default_permission ?? true)
-				};
-			}
-
 			// Check dmPermission only for non-guild commands
 			if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
 				yield {
@@ -152,16 +142,6 @@ export function* getCommandDifferences(
 		};
 	} else if (originalLocalizedNames && expectedLocalizedNames) {
 		yield* reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations');
-	}
-
-	// Check defaultPermissions
-	// TODO(vladfrangu): This will be deprecated
-	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
-		yield {
-			key: 'defaultPermission',
-			original: String(existingCommand.default_permission ?? true),
-			expected: String(casted.default_permission ?? true)
-		};
 	}
 
 	// Check dmPermission

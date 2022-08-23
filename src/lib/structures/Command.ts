@@ -3,10 +3,10 @@ import { AliasPiece, type AliasPieceJSON, type AliasStore } from '@sapphire/piec
 import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
 import type { LocalizationMap } from 'discord-api-types/v10';
 import {
-	Permissions,
+	ChatInputCommandInteraction,
+	ContextMenuCommandInteraction,
+	PermissionsBitField,
 	type AutocompleteInteraction,
-	type CommandInteraction,
-	type ContextMenuInteraction,
 	type Message,
 	type PermissionResolvable,
 	type Snowflake
@@ -43,7 +43,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * The full category for the command. Either an array of strings that denote every (sub)folder the command is in,
 	 * or `null` if it could not be resolved automatically.
 	 *
-	 * If this is `null` for how you setup your code then you can overwrite how the `fullCategory` is resolved by
+	 * If this is `null` with how you set up your code then you can overwrite how the `fullCategory` is resolved by
 	 * extending this class and overwriting the assignment in the constructor.
 	 * @since 2.0.0
 	 */
@@ -176,14 +176,16 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	/**
 	 * Executes the application command's logic.
 	 * @param interaction The interaction that triggered the command.
+	 * @param context The chat input command run context.
 	 */
-	public chatInputRun?(interaction: CommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
+	public chatInputRun?(interaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the context menu's logic.
 	 * @param interaction The interaction that triggered the command.
+	 * @param context The context menu command run context.
 	 */
-	public contextMenuRun?(interaction: ContextMenuInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
+	public contextMenuRun?(interaction: ContextMenuCommandInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the autocomplete logic.
@@ -350,7 +352,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredClientPermissions);
+		const permissions = new PermissionsBitField(options.requiredClientPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
 		}
@@ -362,7 +364,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredUserPermissions);
+		const permissions = new PermissionsBitField(options.requiredUserPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
 		}
@@ -377,7 +379,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		const { defaultCooldown } = this.container.client.options;
 
 		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
-		// be set. If an overridden value is passed, it will have priority. Otherwise it will default to 0 if filtered
+		// be set. If an overridden value is passed, it will have priority. Otherwise, it will default to 0 if filtered
 		// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
 		const filtered = defaultCooldown?.filteredCommands?.includes(this.name) ?? false;
 		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
@@ -495,7 +497,7 @@ export namespace ChatInputCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ChatInputCommandContext;
-	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = CommandInteraction<Cached>;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ChatInputCommandInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
@@ -507,7 +509,7 @@ export namespace ContextMenuCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
-	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ContextMenuInteraction<Cached>;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ContextMenuCommandInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
@@ -525,7 +527,7 @@ export namespace AutocompleteCommand {
 
 /**
  * The allowed values for {@link Command.Options.runIn}.
- * @remark It is discouraged to use this type, we recommend using {@link Command.OptionsRunTypeEnum} instead.
+ * @remark It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
  * @since 2.0.0
  */
 export type CommandOptionsRunType =
@@ -542,7 +544,7 @@ export type CommandOptionsRunType =
  * The allowed values for {@link Command.Options.runIn} as an enum.
  * @since 2.0.0
  */
-export const enum CommandOptionsRunTypeEnum {
+export enum CommandOptionsRunTypeEnum {
 	Dm = 'DM',
 	GuildText = 'GUILD_TEXT',
 	GuildVoice = 'GUILD_VOICE',
@@ -557,7 +559,7 @@ export const enum CommandOptionsRunTypeEnum {
  * The available command pre-conditions.
  * @since 2.0.0
  */
-export const enum CommandPreConditions {
+export enum CommandPreConditions {
 	Cooldown = 'Cooldown',
 	DirectMessageOnly = 'DMOnly',
 	GuildNewsOnly = 'GuildNewsOnly',
@@ -643,7 +645,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	quotes?: [string, string][];
 
 	/**
-	 * Sets whether or not the command should be treated as NSFW. If set to true, the `NSFW` precondition will be added to the list.
+	 * Sets whether the command should be treated as NSFW. If set to true, the `NSFW` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default false
 	 */
@@ -817,10 +819,10 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
-	export type ChatInputInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
-		import('discord.js').CommandInteraction<Cached>;
-	export type ContextMenuInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
-		import('discord.js').ContextMenuInteraction<Cached>;
+	export type ChatInputCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').ChatInputCommandInteraction<Cached>;
+	export type ContextMenuCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').ContextMenuCommandInteraction<Cached>;
 	export type AutocompleteInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').AutocompleteInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
