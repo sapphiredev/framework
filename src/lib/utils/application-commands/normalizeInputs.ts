@@ -25,7 +25,6 @@ function isBuilder(
 }
 
 function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommandsJSONBody): RESTPostAPIChatInputApplicationCommandsJSONBody {
-	data.default_permission ??= true;
 	data.dm_permission ??= true;
 	data.type ??= ApplicationCommandType.ChatInput;
 
@@ -37,7 +36,6 @@ function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommand
 }
 
 function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCommandsJSONBody): RESTPostAPIContextMenuApplicationCommandsJSONBody {
-	data.default_permission ??= true;
 	data.dm_permission ??= true;
 
 	// Localizations default to null from d.js
