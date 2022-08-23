@@ -103,14 +103,14 @@ export namespace InteractionHandler {
 	export type ParseResult<Instance extends InteractionHandler> = InteractionHandlerParseResult<Instance>;
 }
 
-export const enum InteractionHandlerTypes {
+export enum InteractionHandlerTypes {
 	// Specifically focused types
-	Button = 'BUTTON',
-	SelectMenu = 'SELECT_MENU',
-	ModalSubmit = 'MODAL_SUBMIT',
+	Button,
+	SelectMenu,
+	ModalSubmit,
 
 	// More free-falling handlers, for 1 shared handler between buttons and select menus (someone will have a use for this >,>)
-	MessageComponent = 'MESSAGE_COMPONENT',
+	MessageComponent,
 	// Optional autocompletes, you can use this or in-command
-	Autocomplete = 'AUTOCOMPLETE'
+	Autocomplete
 }

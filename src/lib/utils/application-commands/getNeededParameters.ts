@@ -18,6 +18,7 @@ export async function getNeededRegistryParameters() {
 async function fetchGuildCommands(commands: ApplicationCommandManager) {
 	const map = new Map<string, Collection<string, ApplicationCommand>>();
 
+	// TODO(vladfrangu): v3/v4 improve this with promise.all instead
 	for (const [guildId, guild] of commands.client.guilds.cache.entries()) {
 		try {
 			const guildCommands = await commands.fetch({ guildId, withLocalizations: true });

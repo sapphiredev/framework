@@ -1,10 +1,10 @@
-import { GuildBasedChannelTypes, isDMChannel } from '@sapphire/discord.js-utilities';
-import { Message, Permissions } from 'discord.js';
+import { isDMChannel } from '@sapphire/discord.js-utilities';
+import { Message, PermissionFlagsBits, PermissionsBitField } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
-	private readonly requiredPermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']).freeze();
+	private readonly requiredPermissions = new PermissionsBitField([PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages]).freeze();
 
 	public constructor(context: Listener.Context) {
 		super(context, { event: Events.PreMessageParsed });
@@ -42,11 +42,10 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private async canRunInChannel(message: Message): Promise<boolean> {
 		if (isDMChannel(message.channel)) return true;
 
-		const me = message.guild!.me ?? (message.client.id ? await message.guild!.members.fetch(message.client.id) : null);
+		const me = await message.guild?.members.fetchMe();
 		if (!me) return false;
 
-		const channel = message.channel as GuildBasedChannelTypes;
-		return channel.permissionsFor(me).has(this.requiredPermissions, true);
+		return message.channel.permissionsFor(me).has(this.requiredPermissions, true);
 	}
 
 	private getMentionPrefix(message: Message): string | null {

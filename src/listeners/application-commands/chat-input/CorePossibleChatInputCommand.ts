@@ -1,4 +1,4 @@
-import type { CommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction } from 'discord.js';
 import type { ChatInputCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
 import { Events } from '../../../lib/types/Events';
@@ -8,7 +8,7 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 		super(context, { event: Events.PossibleChatInputCommand });
 	}
 
-	public run(interaction: CommandInteraction) {
+	public run(interaction: ChatInputCommandInteraction) {
 		const { client, stores } = this.container;
 		const commandStore = stores.get('commands');
 

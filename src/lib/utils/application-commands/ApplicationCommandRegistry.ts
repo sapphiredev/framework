@@ -15,7 +15,6 @@ import type {
 	ApplicationCommandManager,
 	ChatInputApplicationCommandData,
 	Collection,
-	Constants,
 	MessageApplicationCommandData,
 	UserApplicationCommandData
 } from 'discord.js';
@@ -210,25 +209,11 @@ export class ApplicationCommandRegistry {
 
 		const findCallback = (entry: ApplicationCommand) => {
 			// If the command is a chat input command, we need to check if the entry is a chat input command
-			if (apiCall.type === InternalRegistryAPIType.ChatInput && entry.type !== 'CHAT_INPUT') return false;
+			if (apiCall.type === InternalRegistryAPIType.ChatInput && entry.type !== ApplicationCommandType.ChatInput) return false;
 			// If the command is a context menu command, we need to check if the entry is a context menu command of the same type
 			if (apiCall.type === InternalRegistryAPIType.ContextMenu) {
-				if (entry.type === 'CHAT_INPUT') return false;
-
-				let apiCallType: keyof typeof Constants['ApplicationCommandTypes'];
-
-				switch (apiCall.builtData.type) {
-					case ApplicationCommandType.Message:
-						apiCallType = 'MESSAGE';
-						break;
-					case ApplicationCommandType.User:
-						apiCallType = 'USER';
-						break;
-					default:
-						throw new Error(`Unhandled context command type: ${apiCall.builtData.type}`);
-				}
-
-				if (apiCallType !== entry.type) return false;
+				if (entry.type === ApplicationCommandType.ChatInput) return false;
+				return apiCall.builtData.type === entry.type;
 			}
 
 			// Find the command by name or by id hint (mostly useful for context menus)
@@ -409,8 +394,6 @@ export class ApplicationCommandRegistry {
 		guildId?: string
 	) {
 		try {
-			// TODO (favna): Replace with ts-expect-error after website rewrite is done
-			// @ts-ignore Currently there's a discord-api-types version clash between builders and discord.js
 			const result = await commandsManager.create(apiData, guildId);
 
 			this.info(

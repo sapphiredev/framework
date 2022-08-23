@@ -38,29 +38,6 @@ describe('Compute differences for provided application commands', () => {
 		]);
 	});
 
-	test('GIVEN a context menu command WHEN a "default_permission" set to true and one set to false THEN return the difference', () => {
-		expect(
-			getCommandDifferences(
-				{
-					type: ApplicationCommandType.Message,
-					name: 'boop',
-					default_permission: true
-				},
-				{
-					type: ApplicationCommandType.Message,
-					name: 'boop',
-					default_permission: false
-				}
-			)
-		).toEqual([
-			{
-				key: 'defaultPermission',
-				original: 'true',
-				expected: 'false'
-			}
-		]);
-	});
-
 	test('GIVEN two identical commands THEN do not return any difference', () => {
 		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
@@ -91,28 +68,6 @@ describe('Compute differences for provided application commands', () => {
 				key: 'description',
 				original: command1.description,
 				expected: command2.description
-			}
-		]);
-	});
-
-	test('GIVEN a command WHEN a default_permission set to true and one set to false THEN should return the difference', () => {
-		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
-			description: 'description 1',
-			name: 'command1',
-			default_permission: true
-		};
-
-		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
-			description: 'description 1',
-			name: 'command1',
-			default_permission: false
-		};
-
-		expect(getCommandDifferences(command1, command2)).toEqual([
-			{
-				key: 'defaultPermission',
-				original: String(command1.default_permission),
-				expected: String(command2.default_permission)
 			}
 		]);
 	});

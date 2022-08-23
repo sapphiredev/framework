@@ -1,4 +1,4 @@
-import { Collection, CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { ChatInputCommandInteraction, Collection, ContextMenuCommandInteraction, Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
@@ -176,7 +176,11 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
-	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
+	public chatInputRun(
+		interaction: ChatInputCommandInteraction,
+		command: ChatInputCommand,
+		context: PreconditionContext = {}
+	): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
 			? this.condition.chatInputSequential(interaction, command, this.entries, context)
 			: this.condition.chatInputParallel(interaction, command, this.entries, context);
@@ -189,7 +193,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @param command The command the interaction invoked.
 	 */
 	public contextMenuRun(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		context: PreconditionContext = {}
 	): PreconditionContainerReturn {
