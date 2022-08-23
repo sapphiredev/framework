@@ -1,4 +1,4 @@
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
@@ -12,7 +12,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.AsyncResult {
+	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return channel.isThread()
@@ -23,7 +23,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.AsyncResult {
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return channel.isThread()

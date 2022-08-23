@@ -1,9 +1,9 @@
-import type { CommandInteraction, ContextMenuInteraction, Message, TextBasedChannelTypes } from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, TextBasedChannelTypes } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly allowedTypes: TextBasedChannelTypes[] = ['GUILD_NEWS', 'GUILD_NEWS_THREAD'];
+	private readonly allowedTypes: TextBasedChannelTypes[] = [ChannelType.GuildNews, ChannelType.GuildNewsThread];
 
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
 		return this.allowedTypes.includes(message.channel.type)
@@ -14,7 +14,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async chatInputRun(interaction: CommandInteraction): AllFlowsPrecondition.AsyncResult {
+	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type)
@@ -25,7 +25,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			  });
 	}
 
-	public async contextMenuRun(interaction: ContextMenuInteraction): AllFlowsPrecondition.AsyncResult {
+	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type)

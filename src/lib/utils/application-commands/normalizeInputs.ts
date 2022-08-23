@@ -12,13 +12,7 @@ import {
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 	RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
-import {
-	ApplicationCommand,
-	ChatInputApplicationCommandData,
-	Constants,
-	MessageApplicationCommandData,
-	UserApplicationCommandData
-} from 'discord.js';
+import { ApplicationCommand, ChatInputApplicationCommandData, MessageApplicationCommandData, UserApplicationCommandData } from 'discord.js';
 
 function isBuilder(
 	command: unknown
@@ -31,7 +25,6 @@ function isBuilder(
 }
 
 function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommandsJSONBody): RESTPostAPIChatInputApplicationCommandsJSONBody {
-	data.default_permission ??= true;
 	data.dm_permission ??= true;
 	data.type ??= ApplicationCommandType.ChatInput;
 
@@ -43,7 +36,6 @@ function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommand
 }
 
 function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCommandsJSONBody): RESTPostAPIContextMenuApplicationCommandsJSONBody {
-	data.default_permission ??= true;
 	data.dm_permission ??= true;
 
 	// Localizations default to null from d.js
@@ -77,7 +69,6 @@ export function normalizeChatInputCommand(
 		name_localizations: command.nameLocalizations,
 		description: command.description,
 		description_localizations: command.descriptionLocalizations,
-		default_permission: command.defaultPermission,
 		type: ApplicationCommandType.ChatInput,
 		dm_permission: command.dmPermission
 	};
@@ -110,27 +101,10 @@ export function normalizeContextMenuCommand(
 		return addDefaultsToContextMenuJSON(command.toJSON() as RESTPostAPIContextMenuApplicationCommandsJSONBody);
 	}
 
-	let type: ApplicationCommandType;
-
-	switch (command.type) {
-		case Constants.ApplicationCommandTypes.MESSAGE:
-		case 'MESSAGE':
-			type = ApplicationCommandType.Message;
-			break;
-		case Constants.ApplicationCommandTypes.USER:
-		case 'USER':
-			type = ApplicationCommandType.User;
-			break;
-		default:
-			// @ts-expect-error command gets turned to never, which is half true.
-			throw new Error(`Unhandled command type: ${command.type}`);
-	}
-
 	const finalObject: RESTPostAPIContextMenuApplicationCommandsJSONBody = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		type,
-		default_permission: command.defaultPermission,
+		type: command.type,
 		dm_permission: command.dmPermission
 	};
 
@@ -145,7 +119,6 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	const returnData = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		default_permission: command.defaultPermission,
 		dm_permission: command.dmPermission
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
@@ -153,16 +126,18 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 		returnData.default_member_permissions = command.defaultMemberPermissions.bitfield.toString();
 	}
 
-	if (command.type === 'CHAT_INPUT') {
+	if (command.type === ApplicationCommandType.ChatInput) {
 		returnData.type = ApplicationCommandType.ChatInput;
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
 		// TODO (favna): Remove this line after website rewrite is done
 		// @ts-ignore this is currently ignored for the website
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description_localizations = command.descriptionLocalizations;
-	} else if (command.type === 'MESSAGE') {
+	} else if (command.type === ApplicationCommandType.Message) {
 		returnData.type = ApplicationCommandType.Message;
-	} else if (command.type === 'USER') {
+	} else if (command.type === ApplicationCommandType.User) {
 		returnData.type = ApplicationCommandType.User;
+	} else {
+		throw new Error(`Unknown command type received: ${command.type}`);
 	}
 
 	if (command.options.length) {

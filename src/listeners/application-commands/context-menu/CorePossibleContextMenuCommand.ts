@@ -1,4 +1,4 @@
-import type { ContextMenuInteraction } from 'discord.js';
+import type { ContextMenuCommandInteraction } from 'discord.js';
 import type { ContextMenuCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
 import { Events } from '../../../lib/types/Events';
@@ -8,7 +8,7 @@ export class CoreListener extends Listener<typeof Events.PossibleContextMenuComm
 		super(context, { event: Events.PossibleContextMenuCommand });
 	}
 
-	public run(interaction: ContextMenuInteraction) {
+	public run(interaction: ContextMenuCommandInteraction) {
 		const { client, stores } = this.container;
 		const commandStore = stores.get('commands');
 

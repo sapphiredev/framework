@@ -1,6 +1,6 @@
 import { Store } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
 import { AsyncPreconditionResult, Precondition, PreconditionContext } from './Precondition';
@@ -30,7 +30,7 @@ export class PreconditionStore extends Store<Precondition> {
 	}
 
 	public async chatInputRun(
-		interaction: CommandInteraction,
+		interaction: ChatInputCommandInteraction,
 		command: ChatInputCommand,
 		context: PreconditionContext = {}
 	): AsyncPreconditionResult {
@@ -51,7 +51,7 @@ export class PreconditionStore extends Store<Precondition> {
 	}
 
 	public async contextMenuRun(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		context: PreconditionContext = {}
 	): AsyncPreconditionResult {

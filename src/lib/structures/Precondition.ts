@@ -1,7 +1,14 @@
 import { Piece } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Permissions, TextBasedChannel } from 'discord.js';
+import type {
+	ChatInputCommandInteraction,
+	CommandInteraction,
+	ContextMenuCommandInteraction,
+	Message,
+	PermissionsBitField,
+	TextBasedChannel
+} from 'discord.js';
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
@@ -20,9 +27,13 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 
 	public messageRun?(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public chatInputRun?(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
+	public chatInputRun?(interaction: ChatInputCommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
 
-	public contextMenuRun?(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: Precondition.Context): Precondition.Result;
+	public contextMenuRun?(
+		interaction: ContextMenuCommandInteraction,
+		command: ContextMenuCommand,
+		context: Precondition.Context
+	): Precondition.Result;
 
 	public ok(): Precondition.Result {
 		return Result.ok();
@@ -36,7 +47,7 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 		return Result.err(new PreconditionError({ precondition: this, ...options }));
 	}
 
-	protected async fetchChannelFromInteraction(interaction: BaseCommandInteraction) {
+	protected async fetchChannelFromInteraction(interaction: CommandInteraction) {
 		const channel = (await interaction.client.channels.fetch(interaction.channelId, {
 			cache: false,
 			allowUnknownGuild: true
@@ -49,10 +60,14 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 export abstract class AllFlowsPrecondition extends Precondition {
 	public abstract messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public abstract chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
+	public abstract chatInputRun(
+		interaction: ChatInputCommandInteraction,
+		command: ChatInputCommand,
+		context: Precondition.Context
+	): Precondition.Result;
 
 	public abstract contextMenuRun(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		context: Precondition.Context
 	): Precondition.Result;
@@ -119,10 +134,10 @@ export interface Preconditions {
 	GuildThreadOnly: never;
 	NSFW: never;
 	ClientPermissions: {
-		permissions: Permissions;
+		permissions: PermissionsBitField;
 	};
 	UserPermissions: {
-		permissions: Permissions;
+		permissions: PermissionsBitField;
 	};
 }
 

@@ -1,4 +1,4 @@
-export const enum Identifiers {
+export enum Identifiers {
 	ArgsMissing = 'argsMissing',
 	ArgsUnavailable = 'argsUnavailable',
 

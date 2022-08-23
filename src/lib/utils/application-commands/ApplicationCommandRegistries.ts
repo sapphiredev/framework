@@ -55,6 +55,7 @@ export async function handleRegistryAPICalls() {
 
 	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
+	// TODO(vladfrangu): v3/v4 see if this can benefit from Promise.all instead
 	for (const registry of registries.values()) {
 		// eslint-disable-next-line @typescript-eslint/dot-notation
 		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);

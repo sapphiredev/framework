@@ -4,11 +4,12 @@ import { Awaitable, isNullish, NonNullObject } from '@sapphire/utilities';
 import type { LocalizationMap } from 'discord-api-types/v10';
 import {
 	AutocompleteInteraction,
+	ChatInputCommandInteraction,
 	CommandInteraction,
-	ContextMenuInteraction,
+	ContextMenuCommandInteraction,
 	Message,
 	PermissionResolvable,
-	Permissions,
+	PermissionsBitField,
 	Snowflake
 } from 'discord.js';
 import { Args } from '../parsers/Args';
@@ -177,13 +178,13 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * Executes the application command's logic.
 	 * @param interaction The interaction that triggered the command.
 	 */
-	public chatInputRun?(interaction: CommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
+	public chatInputRun?(interaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the context menu's logic.
 	 * @param interaction The interaction that triggered the command.
 	 */
-	public contextMenuRun?(interaction: ContextMenuInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
+	public contextMenuRun?(interaction: ContextMenuCommandInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the autocomplete logic.
@@ -350,7 +351,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredClientPermissions);
+		const permissions = new PermissionsBitField(options.requiredClientPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
 		}
@@ -362,7 +363,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
-		const permissions = new Permissions(options.requiredUserPermissions);
+		const permissions = new PermissionsBitField(options.requiredUserPermissions);
 		if (permissions.bitfield !== 0n) {
 			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
 		}
@@ -507,7 +508,7 @@ export namespace ContextMenuCommand {
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
-	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ContextMenuInteraction<Cached>;
+	export type Interaction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> = ContextMenuCommandInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
 }
 
@@ -542,7 +543,7 @@ export type CommandOptionsRunType =
  * The allowed values for {@link Command.Options.runIn} as an enum.
  * @since 2.0.0
  */
-export const enum CommandOptionsRunTypeEnum {
+export enum CommandOptionsRunTypeEnum {
 	Dm = 'DM',
 	GuildText = 'GUILD_TEXT',
 	GuildVoice = 'GUILD_VOICE',
@@ -557,7 +558,7 @@ export const enum CommandOptionsRunTypeEnum {
  * The available command pre-conditions.
  * @since 2.0.0
  */
-export const enum CommandPreConditions {
+export enum CommandPreConditions {
 	Cooldown = 'Cooldown',
 	DirectMessageOnly = 'DMOnly',
 	GuildNewsOnly = 'GuildNewsOnly',
@@ -817,10 +818,10 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
-	export type ChatInputInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
-		import('discord.js').CommandInteraction<Cached>;
-	export type ContextMenuInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
-		import('discord.js').ContextMenuInteraction<Cached>;
+	export type ChatInputCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').ChatInputCommandInteraction<Cached>;
+	export type ContextMenuCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
+		import('discord.js').ContextMenuCommandInteraction<Cached>;
 	export type AutocompleteInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').AutocompleteInteraction<Cached>;
 	export type Registry = ApplicationCommandRegistry;
