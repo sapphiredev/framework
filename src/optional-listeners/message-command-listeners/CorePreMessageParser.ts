@@ -47,7 +47,6 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 
 		const channel = message.channel as GuildBasedChannelTypes;
 		const permissionsFor = channel.permissionsFor(me);
-
 		if (!permissionsFor) return false;
 
 		return permissionsFor.has(this.requiredPermissions, true);
