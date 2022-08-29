@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.0](https://github.com/sapphiredev/framework/compare/v3.0.0...v3.1.0) - (2022-08-29)
+
+## 🐛 Bug Fixes
+
+- **deps:** Update all non-major dependencies ([652135f](https://github.com/sapphiredev/framework/commit/652135fabffd08abbcc42cdfb9df2acceab69d86))
+- **args:** Make `getOption` and `getOptions` return `string | null` again ([77f5ed4](https://github.com/sapphiredev/framework/commit/77f5ed4b0dab5c680945fb6d4eca5c45b2e1b4c6))
+- **message-listeners:** Fixed potential null pointer exception in canRunInChannel (#515) ([5409282](https://github.com/sapphiredev/framework/commit/540928276af0129c4228f66dc44763860412418e))
+
+## 🚀 Features
+
+- **args:** Add `getOptionResult` and `getOptionsResults` ([8031e9b](https://github.com/sapphiredev/framework/commit/8031e9baaf92f66d91cd44666cb4c66766cd12f2))
+- **args:** Add `ArgsJSON` type ([b578d54](https://github.com/sapphiredev/framework/commit/b578d54a16b38bc26039c62e4bcffc9285a2e181))
+
 # [3.0.0](https://github.com/sapphiredev/framework/compare/v2.5.0...v3.0.0) - (2022-08-20)
 
 ## 🏠 Refactor
