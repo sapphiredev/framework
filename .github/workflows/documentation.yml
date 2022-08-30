@@ -1,0 +1,98 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+
+    if: github.repository_owner == 'sapphiredev'
+    outputs:
+      NAME: ${{ steps.env.outputs.NAME }}
+      TYPE: ${{ steps.env.outputs.TYPE }}
+      SHA: ${{ steps.env.outputs.SHA }}
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - name: Use Node.js v16
+        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
+        with:
+          node-version: 16
+          cache: yarn
+          registry-url: https://registry.npmjs.org/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Build Documentation
+        run: yarn docs
+      - name: Upload Documentation Artifacts
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
+        with:
+          name: docs
+          path: docs/api.json
+      - name: Set Output
+        id: env
+        run: |
+          echo "::set-output name=NAME::${GITHUB_REF_NAME}"
+          echo "::set-output name=TYPE::${GITHUB_REF_TYPE}"
+          echo "::set-output name=SHA::${GITHUB_SHA}"
+  upload:
+    name: Upload Documentation
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      NAME: ${{ needs.build.outputs.NAME }}
+      TYPE: ${{ needs.build.outputs.TYPE }}
+      SHA: ${{ needs.build.outputs.SHA }}
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - name: Use Node.js v16
+        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
+        with:
+          node-version: 16
+          cache: yarn
+          registry-url: https://registry.yarnpkg.org/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Download Documentation Artifacts
+        uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # tag=v3
+        with:
+          name: docs
+          path: docs
+      - name: Checkout Documentation Project
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        with:
+          repository: 'sapphiredev/docs'
+          token: ${{ secrets.SKYRA_TOKEN }}
+          path: 'out'
+
+      - name: Move Documentation
+        if: ${{ env.TYPE == 'tag' }}
+        env:
+          SEMVER: ${{ env.NAME }}
+        run: |
+          mkdir -p out/framework
+          mv docs/api.json out/docs/framework/${SEMVER}.json
+      - name: Move Documentation
+        if: ${{ env.TYPE == 'branch' }}
+        run: |
+          mkdir -p out/framework
+          mv docs/api.json out/docs/framework/${NAME}.json
+
+      - name: Commit & Push
+        run: |
+          cd out
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config rebase.autostash true
+          git config pull.rebase true
+          git add .
+          git commit -m "docs(framework): build for ${TYPE} ${NAME}: ${SHA}" || true
+          git pull
+          git push

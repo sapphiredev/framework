@@ -672,6 +672,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@favware/colorette-spinner@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@favware/colorette-spinner@npm:1.0.1"
+  dependencies:
+    colorette: "*"
+  checksum: 839bfa3bd4480da4ce1c5cf34fe617769ed8c0298ceab440401d5849020d9cf95537a634c33e22f452390cd68034b818cf92c471e360cab0e68be45c954cd636
+  languageName: node
+  linkType: hard
+
 "@favware/npm-deprecate@npm:^1.0.5":
   version: 1.0.5
   resolution: "@favware/npm-deprecate@npm:1.0.5"
@@ -1235,8 +1244,7 @@ __metadata:
     ts-jest: ^28.0.8
     tslib: ^2.4.0
     typedoc: ^0.23.11
-    typedoc-plugin-djs-links: ^1.2.0
-    typedoc-plugin-mdn-links: ^2.0.0
+    typedoc-json-parser: ^2.3.2
     typescript: ^4.8.2
   languageName: unknown
   linkType: soft
@@ -2408,7 +2416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.16, colorette@npm:^2.0.17, colorette@npm:^2.0.19":
+"colorette@npm:*, colorette@npm:^2.0.16, colorette@npm:^2.0.17, colorette@npm:^2.0.19":
   version: 2.0.19
   resolution: "colorette@npm:2.0.19"
   checksum: 888cf5493f781e5fcf54ce4d49e9d7d698f96ea2b2ef67906834bb319a392c667f9ec69f4a10e268d2946d13a9503d2d19b3abaaaf174e3451bfe91fb9d82427
@@ -6806,23 +6814,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-plugin-djs-links@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "typedoc-plugin-djs-links@npm:1.2.0"
-  checksum: 0f54136a4efebbdc689273d933ac70fc4d36df7c7b67179a86077678a152e3add6be3bc7c0633f66bea1b32a69bd18ac49b8812ab7aeca57a66fd042ce6b5a91
+"typedoc-json-parser@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "typedoc-json-parser@npm:2.3.2"
+  dependencies:
+    "@favware/colorette-spinner": ^1.0.0
+    colorette: ^2.0.19
+    commander: ^9.4.0
+    js-yaml: ^4.1.0
+    tslib: ^2.4.0
+    typedoc: ^0.23.10
+  bin:
+    typedoc-json-parser: ./dist/bin/index.js
+  checksum: 9223c36cc93cc9c71b710532080b282c3c4e5ff9836474d2af6701058bd3073f4078d4286f08572de7e32983db9967a4d71d37c0250382130f8e738636d3406b
   languageName: node
   linkType: hard
 
-"typedoc-plugin-mdn-links@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "typedoc-plugin-mdn-links@npm:2.0.0"
-  peerDependencies:
-    typedoc: 0.22.x || 0.23.x
-  checksum: 576cc61935f25f5e91ef0e9582822e9548336297b160e63d284d41f703d6fa8e000b1b9fc7083e35fecf8895d94213326f9513dbc761f3a60c228aedca488328
-  languageName: node
-  linkType: hard
-
-"typedoc@npm:^0.23.11":
+"typedoc@npm:^0.23.10, typedoc@npm:^0.23.11":
   version: 0.23.11
   resolution: "typedoc@npm:0.23.11"
   dependencies:
