@@ -52,7 +52,8 @@ describe('Compute differences for provided application commands', () => {
 					type: ApplicationCommandType.Message,
 					name: 'boop',
 					default_permission: false
-				}
+				},
+				false
 			)
 		).toEqual([
 			{
@@ -110,7 +111,7 @@ describe('Compute differences for provided application commands', () => {
 			default_permission: false
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'defaultPermission',
 				original: String(command1.default_permission),
