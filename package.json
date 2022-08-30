@@ -14,7 +14,7 @@
 	"scripts": {
 		"lint": "eslint src tests scripts --ext mjs,ts --fix",
 		"format": "prettier --write \"{src,tests,scripts}/**/*.ts\"",
-		"docs": "typedoc",
+		"docs": "typedoc-json-parser",
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"update": "yarn upgrade-interactive",
@@ -71,8 +71,7 @@
 		"rollup-plugin-version-injector": "^1.3.3",
 		"ts-jest": "^28.0.8",
 		"typedoc": "^0.23.11",
-		"typedoc-plugin-djs-links": "^1.2.0",
-		"typedoc-plugin-mdn-links": "^2.0.0",
+		"typedoc-json-parser": "^2.3.2",
 		"typescript": "^4.8.2"
 	},
 	"repository": {
