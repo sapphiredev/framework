@@ -272,7 +272,7 @@ export class ApplicationCommandRegistry {
 				}
 
 				this.debug(`Checking if command "${commandName}" is identical with global ${type} command with id "${globalCommand.id}"`);
-				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual);
+				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual, null);
 			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new global ${type} command with name "${commandName}"`);
 				await this.createMissingCommand(commandsManager, builtData, type);
@@ -306,7 +306,7 @@ export class ApplicationCommandRegistry {
 						break;
 				}
 
-				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual);
+				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual, guildId);
 			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new guild ${type} command with name "${commandName}" for guild "${guildId}"`);
 				await this.createMissingCommand(commandsManager, builtData, type, guildId);
@@ -320,7 +320,7 @@ export class ApplicationCommandRegistry {
 		applicationCommand: ApplicationCommand,
 		apiData: InternalAPICall['builtData'],
 		behaviorIfNotEqual: RegisterBehavior,
-		guildId?: string
+		guildId: string | null
 	) {
 		let differences: CommandDifference[] = [];
 
@@ -328,7 +328,7 @@ export class ApplicationCommandRegistry {
 			const now = Date.now();
 
 			// Step 0: compute differences
-			differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData);
+			differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData, guildId !== null);
 
 			const later = Date.now() - now;
 			this.debug(`Took ${later}ms to process differences via computing differences`);
@@ -349,7 +349,7 @@ export class ApplicationCommandRegistry {
 			const now = Date.now();
 
 			// Step 0: compute differences
-			const areThereDifferences = getCommandDifferencesFast(convertApplicationCommandToApiData(applicationCommand), apiData);
+			const areThereDifferences = getCommandDifferencesFast(convertApplicationCommandToApiData(applicationCommand), apiData, guildId !== null);
 
 			const later = Date.now() - now;
 			this.debug(`Took ${later}ms to process differences via fast compute differences`);

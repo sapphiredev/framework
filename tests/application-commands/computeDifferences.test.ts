@@ -12,7 +12,8 @@ describe('Compute differences for provided application commands', () => {
 				{
 					type: ApplicationCommandType.Message,
 					name: 'boop'
-				}
+				},
+				false
 			)
 		).toEqual([]);
 	});
@@ -27,7 +28,8 @@ describe('Compute differences for provided application commands', () => {
 				{
 					type: ApplicationCommandType.Message,
 					name: 'beep'
-				}
+				},
+				false
 			)
 		).toEqual([
 			{
@@ -50,7 +52,8 @@ describe('Compute differences for provided application commands', () => {
 					type: ApplicationCommandType.Message,
 					name: 'boop',
 					default_permission: false
-				}
+				},
+				false
 			)
 		).toEqual([
 			{
@@ -72,7 +75,7 @@ describe('Compute differences for provided application commands', () => {
 			name: 'command1'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([]);
+		expect(getCommandDifferences(command1, command2, false)).toEqual([]);
 	});
 
 	test('GIVEN 2 different descriptions THEN return the difference', () => {
@@ -86,7 +89,7 @@ describe('Compute differences for provided application commands', () => {
 			name: 'command1'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'description',
 				original: command1.description,
@@ -108,7 +111,7 @@ describe('Compute differences for provided application commands', () => {
 			default_permission: false
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'defaultPermission',
 				original: String(command1.default_permission),
@@ -130,7 +133,7 @@ describe('Compute differences for provided application commands', () => {
 			dm_permission: false
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'dmPermission',
 				original: String(true),
@@ -152,7 +155,7 @@ describe('Compute differences for provided application commands', () => {
 			default_member_permissions: '0'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'defaultMemberPermissions',
 				original: String(command1.default_member_permissions),
@@ -174,7 +177,7 @@ describe('Compute differences for provided application commands', () => {
 			default_member_permissions: null
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'defaultMemberPermissions',
 				original: String(command1.default_member_permissions),
@@ -201,7 +204,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options',
 				original: 'no options present',
@@ -228,7 +231,7 @@ describe('Compute differences for provided application commands', () => {
 			name: 'command1'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options',
 				original: 'options present',
@@ -267,7 +270,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[1]',
 				original: 'no option present',
@@ -301,7 +304,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].type',
 				original: 'string option',
@@ -335,7 +338,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].name',
 				original: 'option1',
@@ -369,7 +372,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].description',
 				original: 'description 1',
@@ -404,7 +407,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].required',
 				original: 'true',
@@ -443,7 +446,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'existing command option at index 1',
 				expected: 'no option present',
@@ -498,7 +501,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].options[1]',
 				original: 'no option present',
@@ -555,7 +558,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].options[0].options',
 				original: 'no options present',
@@ -612,7 +615,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].options[0].options',
 				expected: 'no options present',
@@ -681,7 +684,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'existing command option at path options[0].options[0].options[1]',
 				expected: 'no option present',
@@ -745,7 +748,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].options[0].options[0].type',
 				expected: 'boolean option',
@@ -766,8 +769,8 @@ describe('Compute differences for provided application commands', () => {
 			options: []
 		};
 
-		expect(() => getCommandDifferences(command1, command2)).not.toThrow();
-		expect(() => getCommandDifferences(command2, command1)).not.toThrow();
+		expect(() => getCommandDifferences(command1, command2, false)).not.toThrow();
+		expect(() => getCommandDifferences(command2, command1, false)).not.toThrow();
 	});
 
 	test('GIVEN two commands WHEN different names THEN return the difference', () => {
@@ -781,7 +784,7 @@ describe('Compute differences for provided application commands', () => {
 			name: 'command2'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'name',
 				expected: 'command2',
@@ -816,7 +819,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].min_value',
 				expected: 'min_value present',
@@ -851,7 +854,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].min_value',
 				expected: 'no min_value present',
@@ -887,7 +890,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].min_value',
 				expected: '420',
@@ -924,7 +927,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].max_value',
 				expected: 'max_value present',
@@ -959,7 +962,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].max_value',
 				expected: 'no max_value present',
@@ -995,7 +998,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].max_value',
 				expected: '420',
@@ -1030,7 +1033,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].autocomplete',
 				expected: 'autocomplete enabled',
@@ -1065,7 +1068,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].autocomplete',
 				expected: 'autocomplete disabled',
@@ -1105,7 +1108,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].choices',
 				expected: 'choices present',
@@ -1145,7 +1148,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].choices',
 				expected: 'no choices present',
@@ -1195,7 +1198,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].choices[1]',
 				original: 'no choice present',
@@ -1241,7 +1244,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].choices[0].name',
 				expected: 'choice2',
@@ -1287,7 +1290,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].choices[0].value',
 				expected: 'value2',
@@ -1341,7 +1344,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'existing choice at path options[0].choices[1]',
 				expected: 'no choice present',
@@ -1396,7 +1399,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'existing choice at path options[0].choices[1]',
 				expected: 'no choice present',
@@ -1431,7 +1434,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].min_length',
 				expected: 'min_length present',
@@ -1467,7 +1470,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].min_length',
 				expected: '420',
@@ -1502,7 +1505,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].max_length',
 				expected: 'max_length present',
@@ -1538,7 +1541,7 @@ describe('Compute differences for provided application commands', () => {
 			]
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'options[0].max_length',
 				expected: '420',
@@ -1562,7 +1565,7 @@ describe('Compute differences for provided application commands', () => {
 			}
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'nameLocalizations',
 				expected: 'localized names',
@@ -1585,7 +1588,7 @@ describe('Compute differences for provided application commands', () => {
 			name: 'command1'
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'nameLocalizations',
 				expected: 'no localized names',
@@ -1611,7 +1614,7 @@ describe('Compute differences for provided application commands', () => {
 			}
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'nameLocalizations.es-ES',
 				original: 'no localization present',
@@ -1640,7 +1643,7 @@ describe('Compute differences for provided application commands', () => {
 			name_localizations: {}
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'nameLocalizations.ro',
 				expected: 'no localization present',
@@ -1666,12 +1669,28 @@ describe('Compute differences for provided application commands', () => {
 			}
 		};
 
-		expect(getCommandDifferences(command1, command2)).toEqual([
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
 			{
 				key: 'nameLocalizations.ro',
 				expected: 'comanda2',
 				original: 'comanda1'
 			}
 		]);
+	});
+
+	// Guild commands shenanigans
+	test('GIVEN a guild command WHEN dm_permission is set to false in the builder THEN returns no differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1'
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			dm_permission: false
+		};
+
+		expect(getCommandDifferences(command1, command2, true)).toEqual([]);
 	});
 });
