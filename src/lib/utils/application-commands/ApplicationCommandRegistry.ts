@@ -5,6 +5,7 @@ import type {
 	SlashCommandSubcommandsOnlyBuilder
 } from '@discordjs/builders';
 import { container } from '@sapphire/pieces';
+import { isNullishOrEmpty } from '@sapphire/utilities';
 import {
 	ApplicationCommandType,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
@@ -67,8 +68,8 @@ export class ApplicationCommandRegistry {
 			}
 		}
 
-		if (options?.guildIds) {
-			for (const id of options.guildIds) {
+		if (!isNullishOrEmpty(options?.guildIds)) {
+			for (const id of options!.guildIds) {
 				this.guildIdsToFetch.add(id);
 				allGuildIdsToFetchCommandsFor.add(id);
 			}
@@ -101,8 +102,8 @@ export class ApplicationCommandRegistry {
 			}
 		}
 
-		if (options?.guildIds) {
-			for (const id of options.guildIds) {
+		if (!isNullishOrEmpty(options?.guildIds)) {
+			for (const id of options!.guildIds) {
 				this.guildIdsToFetch.add(id);
 				allGuildIdsToFetchCommandsFor.add(id);
 			}
