@@ -36,7 +36,7 @@
 		"@sapphire/ratelimits": "^2.4.4",
 		"@sapphire/result": "^2.4.1",
 		"@sapphire/stopwatch": "^1.4.1",
-		"@sapphire/utilities": "^3.9.2",
+		"@sapphire/utilities": "^3.9.3",
 		"@types/object-hash": "^2.2.1",
 		"object-hash": "^3.0.0",
 		"tslib": "^2.4.0"
