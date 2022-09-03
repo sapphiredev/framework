@@ -28,7 +28,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager, guildIds:
 			if (preventFailedToFetchLogForGuilds === true) continue;
 
 			if (Array.isArray(preventFailedToFetchLogForGuilds) && !preventFailedToFetchLogForGuilds?.includes(guildId)) {
-				const guild = container.client.guilds.resolve(guildId)!;
+				const guild = container.client.guilds.resolve(guildId) ?? { name: 'Guild not in cache' };
 				container.logger.warn(
 					`ApplicationCommandRegistries: Failed to fetch guild commands for guild "${guild.name}" (${guildId}).`,
 					'Make sure to authorize your application with the "applications.commands" scope in that guild.'
