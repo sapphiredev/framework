@@ -1,5 +1,5 @@
 import { AliasStore } from '@sapphire/pieces';
-import { registries } from '../utils/application-commands/ApplicationCommandRegistries';
+import { allGuildIdsToFetchCommandsFor, registries } from '../utils/application-commands/ApplicationCommandRegistries';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
 
@@ -51,7 +51,7 @@ export class CommandStore extends AliasStore<Command> {
 		// If we don't have an application, that means this was called on login...
 		if (!this.container.client.application) return;
 
-		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
 		for (const command of this.values()) {
 			// eslint-disable-next-line @typescript-eslint/dot-notation

@@ -8,6 +8,8 @@ export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
+export const allGuildIdsToFetchCommandsFor = new Set<string>();
+
 /**
  * Acquires a registry for a command by its name.
  * @param commandName The name of the command.
@@ -51,7 +53,7 @@ export async function handleRegistryAPICalls() {
 		}
 	}
 
-	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
 	for (const registry of registries.values()) {
 		// eslint-disable-next-line @typescript-eslint/dot-notation

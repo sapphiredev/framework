@@ -20,7 +20,7 @@ import type {
 	UserApplicationCommandData
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
-import { getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
+import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
 import { CommandDifference, getCommandDifferences, getCommandDifferencesFast } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
@@ -29,6 +29,7 @@ export class ApplicationCommandRegistry {
 
 	public readonly chatInputCommands = new Set<string>();
 	public readonly contextMenuCommands = new Set<string>();
+	public readonly guildIdsToFetch = new Set<string>();
 
 	private readonly apiCalls: InternalAPICall[] = [];
 
@@ -66,6 +67,13 @@ export class ApplicationCommandRegistry {
 			}
 		}
 
+		if (options?.guildIds) {
+			for (const id of options.guildIds) {
+				this.guildIdsToFetch.add(id);
+				allGuildIdsToFetchCommandsFor.add(id);
+			}
+		}
+
 		return this;
 	}
 
@@ -90,6 +98,13 @@ export class ApplicationCommandRegistry {
 		if (options?.idHints) {
 			for (const hint of options.idHints) {
 				this.contextMenuCommands.add(hint);
+			}
+		}
+
+		if (options?.guildIds) {
+			for (const id of options.guildIds) {
+				this.guildIdsToFetch.add(id);
+				allGuildIdsToFetchCommandsFor.add(id);
 			}
 		}
 
