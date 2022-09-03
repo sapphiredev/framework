@@ -267,6 +267,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		// Reset the registry's contents
 		registry.chatInputCommands.clear();
 		registry.contextMenuCommands.clear();
+		registry.guildIdsToFetch.clear();
 		registry['apiCalls'].length = 0;
 
 		// Reload the command
@@ -292,7 +293,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		}
 
 		// Re-initialize the store and the API data (insert in the store handles the register method)
-		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(updatedRegistry.guildIdsToFetch);
 
 		// Handle the API calls
 		// eslint-disable-next-line @typescript-eslint/dot-notation
