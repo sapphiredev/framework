@@ -67,11 +67,6 @@ export class CommandStore extends AliasStore<Command> {
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
 		for (const command of this.values()) {
-			// Skip commands without any api calls to run
-			if (!command.applicationCommandRegistry['apiCalls'].length) {
-				continue;
-			}
-
 			// eslint-disable-next-line @typescript-eslint/dot-notation
 			await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
