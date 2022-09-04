@@ -54,6 +54,7 @@
 		"@types/ws": "^8.5.3",
 		"@typescript-eslint/eslint-plugin": "^5.36.1",
 		"@typescript-eslint/parser": "^5.36.1",
+		"@vitest/coverage-c8": "^0.23.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^13.10.3",
 		"eslint": "^8.23.0",
