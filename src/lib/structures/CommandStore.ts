@@ -1,5 +1,6 @@
 import { AliasStore } from '@sapphire/pieces';
 import { allGuildIdsToFetchCommandsFor, registries } from '../utils/application-commands/ApplicationCommandRegistries';
+import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
 
@@ -51,9 +52,26 @@ export class CommandStore extends AliasStore<Command> {
 		// If we don't have an application, that means this was called on login...
 		if (!this.container.client.application) return;
 
+		// Unfortunately, we have to have double iterations here as we need all the guild ids before we fetch the needed
+		// registry parameters. Cries in double iterations
+		for (const command of this.values()) {
+			if (command.registerApplicationCommands) {
+				try {
+					await command.registerApplicationCommands(command.applicationCommandRegistry);
+				} catch (error) {
+					emitRegistryError(error, command);
+				}
+			}
+		}
+
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
 		for (const command of this.values()) {
+			// Skip commands without any api calls to run
+			if (!command.applicationCommandRegistry['apiCalls'].length) {
+				continue;
+			}
+
 			// eslint-disable-next-line @typescript-eslint/dot-notation
 			await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
