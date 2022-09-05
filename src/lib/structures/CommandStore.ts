@@ -52,8 +52,8 @@ export class CommandStore extends AliasStore<Command> {
 		// If we don't have an application, that means this was called on login...
 		if (!this.container.client.application) return;
 
-		// Unfortunately, we have to have double iterations here as we need all the guild ids before we fetch the needed
-		// registry parameters. Cries in double iterations
+		// super.loadAll() currently deletes all application command registries while unloading old pieces,
+		// re-register application commands to ensure allGuildIdsToFetchCommandsFor has new guild ids for getNeededRegistryParameters
 		for (const command of this.values()) {
 			if (command.registerApplicationCommands) {
 				try {
