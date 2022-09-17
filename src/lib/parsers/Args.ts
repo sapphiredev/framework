@@ -204,7 +204,7 @@ export class Args {
 		const data = this.parser
 			.many()
 			.unwrapOr<Parameter[]>([])
-			.reduce((acc, parameter) => `${acc}${parameter.leading}${parameter.value}`, '');
+			.reduce((acc, parameter) => `${acc}${acc === '' ? '' : parameter.leading}${parameter.value}`, '');
 		const result = await argument.run(data, {
 			args: this,
 			argument,
