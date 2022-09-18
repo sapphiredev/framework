@@ -60,6 +60,8 @@ export const enum Identifiers {
 	PreconditionUserPermissionsNoPermissions = 'preconditionUserPermissionsNoPermissions',
 	PreconditionThreadOnly = 'preconditionThreadOnly',
 
+	PreconditionUnavailable = 'preconditionUnavailable',
+
 	PreconditionMissingMessageHandler = 'preconditionMissingMessageHandler',
 	PreconditionMissingChatInputHandler = 'preconditionMissingChatInputHandler',
 	PreconditionMissingContextMenuHandler = 'preconditionMissingContextMenuHandler'
