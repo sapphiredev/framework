@@ -546,7 +546,7 @@ __metadata:
     "@sapphire/discord-utilities": ^2.11.6
     "@sapphire/discord.js-utilities": ^5.0.0
     "@sapphire/eslint-config": ^4.3.8
-    "@sapphire/lexure": ^1.0.2
+    "@sapphire/lexure": ^1.1.0
     "@sapphire/pieces": ^3.5.1
     "@sapphire/prettier-config": ^1.4.4
     "@sapphire/ratelimits": ^2.4.4
@@ -582,12 +582,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sapphire/lexure@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@sapphire/lexure@npm:1.0.2"
+"@sapphire/lexure@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@sapphire/lexure@npm:1.1.0"
   dependencies:
     "@sapphire/result": ^2.4.1
-  checksum: 83ffbeb60c93a663bf7eea5677545a6f974744ef5dbc9aad32b7e4684ef2fe11472ffe82455bc326e1f855a154af742c7b3021b4848ff32c8b816636c6dad833
+  checksum: 7c8f9d356c3f7a67c72748561ca0043e41ca8025ca560f918ed677a3add52f2ad0d0196e432317c50e832881bade49dee03e0f957f763965919ebf1ce922e82f
   languageName: node
   linkType: hard
 
