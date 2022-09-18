@@ -50,7 +50,7 @@
 		"@sapphire/eslint-config": "^4.3.8",
 		"@sapphire/prettier-config": "^1.4.4",
 		"@sapphire/ts-config": "^3.3.4",
-		"@types/node": "^18.7.14",
+		"@types/node": "^18.7.18",
 		"@types/ws": "^8.5.3",
 		"@typescript-eslint/eslint-plugin": "^5.37.0",
 		"@typescript-eslint/parser": "^5.37.0",
