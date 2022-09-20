@@ -1,5 +1,5 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import { ArgumentStream, join, Parameter } from '@sapphire/lexure';
+import { join, type ArgumentStream, type Parameter } from '@sapphire/lexure';
 import { container } from '@sapphire/pieces';
 import { Option, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
