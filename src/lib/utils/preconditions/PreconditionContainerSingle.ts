@@ -80,7 +80,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
 	 */
-	public async messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}) {
+	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			return precondition.messageRun
@@ -101,7 +101,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
-	public async chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}) {
+	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			return precondition.chatInputRun
@@ -122,7 +122,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
 	 */
-	public async contextMenuRun(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
+	public contextMenuRun(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			return precondition.contextMenuRun
