@@ -25,3 +25,6 @@ gh
 
 # Ignore the "wiki" folder so we can checkout the wiki inside the same folder
 wiki/
+
+# Ignore build artifacts
+*.tgz

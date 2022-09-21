@@ -1,5 +1,5 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import type { ArgumentStream, Parameter } from '@sapphire/lexure';
+import { join, type ArgumentStream, type Parameter } from '@sapphire/lexure';
 import { container } from '@sapphire/pieces';
 import { Option, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
@@ -201,10 +201,7 @@ export class Args {
 		if (this.parser.finished) return this.missingArguments();
 
 		const state = this.parser.save();
-		const data = this.parser
-			.many()
-			.unwrapOr<Parameter[]>([])
-			.reduce((acc, parameter) => `${acc}${parameter.leading}${parameter.value}`, '');
+		const data = join(this.parser.many().unwrapOr<Parameter[]>([]));
 		const result = await argument.run(data, {
 			args: this,
 			argument,
