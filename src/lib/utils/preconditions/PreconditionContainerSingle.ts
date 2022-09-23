@@ -1,5 +1,5 @@
 import { container } from '@sapphire/pieces';
-import { Result } from '@sapphire/result';
+import { err } from '@sapphire/result';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../../errors/Identifiers';
 import { UserError } from '../../errors/UserError';
@@ -90,9 +90,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 						message: `The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 		}
-		return Result.err(
-			new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` })
-		);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 
 	/**
@@ -111,9 +109,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 		}
-		return Result.err(
-			new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` })
-		);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 
 	/**
@@ -132,8 +128,6 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
 				  });
 		}
-		return Result.err(
-			new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` })
-		);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 }
