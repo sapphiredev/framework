@@ -497,15 +497,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@sapphire/discord.js-utilities@npm:5.0.0"
+"@sapphire/discord.js-utilities@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@sapphire/discord.js-utilities@npm:5.0.1"
   dependencies:
     "@sapphire/discord-utilities": ^2.11.6
-    "@sapphire/time-utilities": ^1.7.6
-    "@sapphire/utilities": ^3.9.2
+    "@sapphire/duration": ^1.0.0
+    "@sapphire/utilities": ^3.9.3
     tslib: ^2.4.0
-  checksum: 1380c73bac409cc39ee4d1116983f86054fa33ec4769b5496c8cb7eb65aebd6e5ab86bc6dfc83db314a1f5851d38e699260d659c46e60081651315701b7c61dd
+  checksum: a4569fe945d5d3d4064e2b8d7dacfb83c0677200daf5cfaa706fa6d34ce986f0005ee5a3fd058b9d2ce20f895cf62e5e599105d3720ee87487ec78dbfd597cd2
+  languageName: node
+  linkType: hard
+
+"@sapphire/duration@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/duration@npm:1.0.0"
+  checksum: dadf3b5742742b5f724d1d78b0c59fd468ffe3ac817da2ba84361ac310528cb8c43f3d9d6032ff08f0f22fcaf61b495fb29b87800748e14abb0b780e86afda75
   languageName: node
   linkType: hard
 
@@ -544,12 +551,12 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.5
     "@favware/rollup-type-bundler": ^1.0.11
     "@sapphire/discord-utilities": ^2.11.6
-    "@sapphire/discord.js-utilities": ^5.0.0
+    "@sapphire/discord.js-utilities": ^5.0.1
     "@sapphire/eslint-config": ^4.3.8
     "@sapphire/lexure": ^1.1.0
     "@sapphire/pieces": ^3.5.1
     "@sapphire/prettier-config": ^1.4.4
-    "@sapphire/ratelimits": ^2.4.4
+    "@sapphire/ratelimits": ^2.4.5
     "@sapphire/result": ^2.4.1
     "@sapphire/stopwatch": ^1.4.1
     "@sapphire/ts-config": ^3.3.4
@@ -611,12 +618,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.4.4":
-  version: 2.4.4
-  resolution: "@sapphire/ratelimits@npm:2.4.4"
+"@sapphire/ratelimits@npm:^2.4.5":
+  version: 2.4.5
+  resolution: "@sapphire/ratelimits@npm:2.4.5"
   dependencies:
-    "@sapphire/time-utilities": ^1.7.4
-  checksum: 8bb31173f2fd61ca64b4f34ff3a927de00e339ee8d4dad7b8d80fa10e9020889033fc1f3ec0560256f54b8aedf3d2973378fe24d87f6aa1ca98be936eea35fcb
+    "@sapphire/timer-manager": ^1.0.0
+  checksum: e987d285c974e600222298e2c5e9523581c024059b3ec93cdfc71fc704b2dca5a55f126b897ee71b8bd82d2516e1d6c17c22355f329f43ead7bc001d9fbd9118
   languageName: node
   linkType: hard
 
@@ -646,12 +653,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/time-utilities@npm:^1.7.4, @sapphire/time-utilities@npm:^1.7.6":
-  version: 1.7.6
-  resolution: "@sapphire/time-utilities@npm:1.7.6"
-  dependencies:
-    "@sapphire/utilities": ^3.9.2
-  checksum: eadcdf2cbadcc15fa36d7d3b4719acb05f30ed0611f3f8bcfd47d8037221239168f190e79b2c05942cc66a66cbbf3c7d313eda15e9a2a3cff81cf25cec42f3ce
+"@sapphire/timer-manager@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/timer-manager@npm:1.0.0"
+  checksum: 2f131c2bf1882528c80e6a4aa8f0d3078ae1e2e3d1afc054878fbdb946dc987073d037dad5122e67d20b98e0ec6a37a8e4da7f9c0a91b9711819ad54bbedd6a4
   languageName: node
   linkType: hard
 
