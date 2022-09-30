@@ -156,6 +156,16 @@ export function getCommandDifferences(
 		differences.push(...reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations'));
 	}
 
+	// Check defaultPermissions
+	// TODO(vladfrangu): This will be deprecated
+	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
+		differences.push({
+			key: 'defaultPermission',
+			original: String(existingCommand.default_permission ?? true),
+			expected: String(casted.default_permission ?? true)
+		});
+	}
+
 	// Check dmPermission
 	if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
 		differences.push({
