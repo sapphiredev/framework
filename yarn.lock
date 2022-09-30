@@ -603,7 +603,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.38.0
     "@vitest/coverage-c8": ^0.23.4
     cz-conventional-changelog: ^3.3.0
-    discord.js: ^14.3.0
+    discord.js: ^14.5.0
     eslint: ^8.24.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -2058,7 +2058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.3.0":
+"discord.js@npm:^14.5.0":
   version: 14.5.0
   resolution: "discord.js@npm:14.5.0"
   dependencies:
