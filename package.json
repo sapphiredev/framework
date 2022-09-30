@@ -56,7 +56,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.34.0",
 		"@typescript-eslint/parser": "^5.34.0",
 		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^14.3.0",
+		"discord.js": "^14.5.0",
 		"eslint": "^8.22.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
