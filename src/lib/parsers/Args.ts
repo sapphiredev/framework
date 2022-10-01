@@ -1,5 +1,5 @@
 import type { ChannelTypes, GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import type { ArgumentStream, Parameter } from '@sapphire/lexure';
+import { join, type ArgumentStream, type Parameter } from '@sapphire/lexure';
 import { container } from '@sapphire/pieces';
 import { Option, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
@@ -201,10 +201,7 @@ export class Args {
 		if (this.parser.finished) return this.missingArguments();
 
 		const state = this.parser.save();
-		const data = this.parser
-			.many()
-			.unwrapOr<Parameter[]>([])
-			.reduce((acc, parameter) => `${acc}${parameter.leading}${parameter.value}`, '');
+		const data = join(this.parser.many().unwrapOr<Parameter[]>([]));
 		const result = await argument.run(data, {
 			args: this,
 			argument,
@@ -566,12 +563,35 @@ export class Args {
 	 * // >>> false
 	 * ```
 	 */
-	public getFlags(...keys: readonly string[]) {
+	public getFlags(...keys: readonly string[]): boolean {
 		return this.parser.flag(...keys);
 	}
 
 	/**
+	 * Gets the last value of one or more options as an {@link Option}.
+	 * If you do not care about safely handling non-existing values
+	 * you can use {@link Args.getOption} to get `string | null` as return type
+	 * @param keys The name(s) of the option.
+	 * @example
+	 * ```typescript
+	 * // Suppose args are from '--a=1 --b=2 --c=3'.
+	 * console.log(args.getOptionResult('a'));
+	 * // >>> Some { value: '1' }
+	 *
+	 * console.log(args.getOptionResult('b', 'c'));
+	 * // >>> Some { value: '2' }
+	 *
+	 * console.log(args.getOptionResult('d'));
+	 * // >>> None {}
+	 * ```
+	 */
+	public getOptionResult(...keys: readonly string[]): Option<string> {
+		return this.parser.option(...keys);
+	}
+
+	/**
 	 * Gets the last value of one or more options.
+	 * Similar to {@link Args.getOptionResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -586,12 +606,36 @@ export class Args {
 	 * // >>> null
 	 * ```
 	 */
-	public getOption(...keys: readonly string[]) {
-		return this.parser.option(...keys);
+	public getOption(...keys: readonly string[]): string | null {
+		return this.parser.option(...keys).unwrapOr(null);
 	}
 
 	/**
 	 * Gets all the values of one or more option.
+	 * @param keys The name(s) of the option.
+	 * @example
+	 * ```typescript
+	 * // Suppose args are from '--a=1 --a=1 --b=2 --c=3'.
+	 * console.log(args.getOptionsResult('a'));
+	 * // >>> Some { value: [ '1' ] }
+	 *
+	 * console.log(args.getOptionsResult('a', 'd'));
+	 * // >>> Some { value: [ '1' ] }
+	 *
+	 * console.log(args.getOptionsResult('b', 'c'));
+	 * // >>> Some { value: [ '2', '3' ] }
+	 *
+	 * console.log(args.getOptionsResult('d'));
+	 * // >>> None {}
+	 * ```
+	 */
+	public getOptionsResult(...keys: readonly string[]): Option<readonly string[]> {
+		return this.parser.options(...keys);
+	}
+
+	/**
+	 * Gets all the values of one or more option.
+	 * Similar to {@link Args.getOptionsResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -606,15 +650,15 @@ export class Args {
 	 * // >>> null
 	 * ```
 	 */
-	public getOptions(...keys: readonly string[]) {
-		return this.parser.options(...keys);
+	public getOptions(...keys: readonly string[]): readonly string[] | null {
+		return this.parser.options(...keys).unwrapOr(null);
 	}
 
 	/**
 	 * Saves the current state into the stack following a FILO strategy (first-in, last-out).
 	 * @see Args#restore
 	 */
-	public save() {
+	public save(): void {
 		this.states.push(this.parser.save());
 	}
 
@@ -622,21 +666,21 @@ export class Args {
 	 * Restores the previously saved state from the stack.
 	 * @see Args#save
 	 */
-	public restore() {
+	public restore(): void {
 		if (this.states.length !== 0) this.parser.restore(this.states.pop()!);
 	}
 
 	/**
 	 * Whether all arguments have been consumed.
 	 */
-	public get finished() {
+	public get finished(): boolean {
 		return this.parser.finished;
 	}
 
 	/**
 	 * Defines the `JSON.stringify` override.
 	 */
-	public toJSON() {
+	public toJSON(): ArgsJson {
 		return { message: this.message, command: this.command, commandContext: this.commandContext };
 	}
 
@@ -687,6 +731,12 @@ export class Args {
 	public static error<T>(options: ArgumentError.Options<T>): Result.Err<ArgumentError<T>> {
 		return Result.err(new ArgumentError<T>(options));
 	}
+}
+
+export interface ArgsJson {
+	message: Message<boolean>;
+	command: MessageCommand;
+	commandContext: MessageCommand.RunContext;
 }
 
 export interface ArgType {

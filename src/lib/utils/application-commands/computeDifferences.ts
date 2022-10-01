@@ -39,8 +39,12 @@ type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationComma
 /**
  * @returns `true` if there are differences, `false` otherwise
  */
-export function getCommandDifferencesFast(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
-	for (const _ of getCommandDifferences(existingCommand, apiData)) {
+export function getCommandDifferencesFast(
+	existingCommand: RESTPostAPIApplicationCommandsJSONBody,
+	apiData: InternalAPICall['builtData'],
+	guildCommand: boolean
+) {
+	for (const _ of getCommandDifferences(existingCommand, apiData, guildCommand)) {
 		// Return immediately on first difference found (also means we skip all other checks)
 		return true;
 	}
@@ -48,7 +52,11 @@ export function getCommandDifferencesFast(existingCommand: RESTPostAPIApplicatio
 	return false;
 }
 
-export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCommandsJSONBody, apiData: InternalAPICall['builtData']) {
+export function getCommandDifferences(
+	existingCommand: RESTPostAPIApplicationCommandsJSONBody,
+	apiData: InternalAPICall['builtData'],
+	guildCommand: boolean
+) {
 	const differences: CommandDifference[] = [];
 
 	if (existingCommand.type !== ApplicationCommandType.ChatInput && existingCommand.type) {
@@ -65,8 +73,8 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 				});
 			}
 
-			// Check dmPermission
-			if ((existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
+			// Check dmPermission only for non-guild commands
+			if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
 				differences.push({
 					key: 'dmPermission',
 					original: String(existingCommand.dm_permission ?? true),
@@ -139,7 +147,7 @@ export function getCommandDifferences(existingCommand: RESTPostAPIApplicationCom
 	}
 
 	// Check dmPermission
-	if ((existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
+	if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
 		differences.push({
 			key: 'dmPermission',
 			original: String(existingCommand.dm_permission ?? true),

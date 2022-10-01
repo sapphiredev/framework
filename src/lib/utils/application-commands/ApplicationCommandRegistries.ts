@@ -8,6 +8,8 @@ export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
+export const allGuildIdsToFetchCommandsFor = new Set<string>();
+
 /**
  * Acquires a registry for a command by its name.
  * @param commandName The name of the command.
@@ -51,7 +53,7 @@ export async function handleRegistryAPICalls() {
 		}
 	}
 
-	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters();
+	const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
 	// TODO(vladfrangu): v3/v4 see if this can benefit from Promise.all instead
 	for (const registry of registries.values()) {

@@ -67,6 +67,23 @@ jobs:
       - name: Build Code
         run: yarn build
 
+  docs:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - name: Use Node.js v16
+        uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93 # tag=v3
+        with:
+          node-version: 16
+          cache: yarn
+          registry-url: https://registry.npmjs.org/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Generate Documentation
+        run: yarn docs
+
   Upload_Coverage_Report:
     name: Upload coverage report to codecov
     needs: [Testing]
@@ -82,7 +99,7 @@ jobs:
           name: coverage
           path: coverage/
       - name: Codecov Upload
-        uses: codecov/codecov-action@81cd2dc8148241f03f5839d295e000b8f761e378 # tag=v3
+        uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # tag=v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage/

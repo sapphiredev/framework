@@ -45,7 +45,11 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const me = await message.guild?.members.fetchMe();
 		if (!me) return false;
 
-		return message.channel.permissionsFor(me).has(this.requiredPermissions, true);
+		const { channel } = message;
+		const permissionsFor = channel.permissionsFor(me);
+		if (!permissionsFor) return false;
+
+		return permissionsFor.has(this.requiredPermissions, true);
 	}
 
 	private getMentionPrefix(message: Message): string | null {
