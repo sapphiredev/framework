@@ -1,5 +1,8 @@
 import { container } from '@sapphire/pieces';
+import { err } from '@sapphire/result';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { Identifiers } from '../../errors/Identifiers';
+import { UserError } from '../../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
@@ -80,12 +83,14 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
-			if (precondition.messageRun) return precondition.messageRun(message, command, { ...context, ...this.context });
-			throw new Error(
-				`The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
-			);
+			return precondition.messageRun
+				? precondition.messageRun(message, command, { ...context, ...this.context })
+				: precondition.error({
+						identifier: Identifiers.PreconditionMissingMessageHandler,
+						message: `The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
+				  });
 		}
-		throw new Error(`The precondition "${this.name}" is not available.`);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 
 	/**
@@ -97,12 +102,14 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
-			if (precondition.chatInputRun) return precondition.chatInputRun(interaction, command, { ...context, ...this.context });
-			throw new Error(
-				`The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
-			);
+			return precondition.chatInputRun
+				? precondition.chatInputRun(interaction, command, { ...context, ...this.context })
+				: precondition.error({
+						identifier: Identifiers.PreconditionMissingChatInputHandler,
+						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
+				  });
 		}
-		throw new Error(`The precondition "${this.name}" is not available.`);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 
 	/**
@@ -114,11 +121,13 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	public contextMenuRun(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
-			if (precondition.contextMenuRun) return precondition.contextMenuRun(interaction, command, { ...context, ...this.context });
-			throw new Error(
-				`The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
-			);
+			return precondition.contextMenuRun
+				? precondition.contextMenuRun(interaction, command, { ...context, ...this.context })
+				: precondition.error({
+						identifier: Identifiers.PreconditionMissingContextMenuHandler,
+						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
+				  });
 		}
-		throw new Error(`The precondition "${this.name}" is not available.`);
+		return err(new UserError({ identifier: Identifiers.PreconditionUnavailable, message: `The precondition "${this.name}" is not available.` }));
 	}
 }
