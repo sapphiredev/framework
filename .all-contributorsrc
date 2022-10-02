@@ -273,6 +273,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/34194692?v=4",
 			"profile": "https://github.com/BenSegal855",
 			"contributions": ["code"]
+		},
+		{
+			"login": "feefs",
+			"name": "feefs",
+			"avatar_url": "https://avatars.githubusercontent.com/u/25848712?v=4",
+			"profile": "https://github.com/feefs",
+			"contributions": ["code"]
 		}
 	],
 	"contributorsPerLine": 7,
