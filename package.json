@@ -34,7 +34,7 @@
 		"@sapphire/lexure": "^1.1.0",
 		"@sapphire/pieces": "^3.5.1",
 		"@sapphire/ratelimits": "^2.4.5",
-		"@sapphire/result": "^2.4.1",
+		"@sapphire/result": "^2.5.0",
 		"@sapphire/stopwatch": "^1.4.1",
 		"@sapphire/utilities": "^3.9.3",
 		"@types/object-hash": "^2.2.1",
