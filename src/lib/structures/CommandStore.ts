@@ -1,5 +1,6 @@
 import { AliasStore } from '@sapphire/pieces';
 import { allGuildIdsToFetchCommandsFor, registries } from '../utils/application-commands/ApplicationCommandRegistries';
+import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
 
@@ -50,6 +51,18 @@ export class CommandStore extends AliasStore<Command> {
 
 		// If we don't have an application, that means this was called on login...
 		if (!this.container.client.application) return;
+
+		// super.loadAll() currently deletes all application command registries while unloading old pieces,
+		// re-register application commands to ensure allGuildIdsToFetchCommandsFor has new guild ids for getNeededRegistryParameters
+		for (const command of this.values()) {
+			if (command.registerApplicationCommands) {
+				try {
+					await command.registerApplicationCommands(command.applicationCommandRegistry);
+				} catch (error) {
+					emitRegistryError(error, command);
+				}
+			}
+		}
 
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
 
