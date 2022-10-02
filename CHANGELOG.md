@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.3](https://github.com/sapphiredev/framework/compare/v3.1.2...v3.1.3) - (2022-10-02)
+
+## 🐛 Bug Fixes
+
+- Reloading the entire command store didn't fire ApplicationCommandRegistries (#525) ([ad21eaa](https://github.com/sapphiredev/framework/commit/ad21eaac267646f8829a30049d7c58ee10787742))
+
+## 📝 Documentation
+
+- Add @itsUrcute as a contributor ([8a8e10f](https://github.com/sapphiredev/framework/commit/8a8e10f59e6c23264fb54204c21131917b9095dc))
+- Add @feefs as a contributor ([f7927a9](https://github.com/sapphiredev/framework/commit/f7927a9e5731c5b8d66138706f141bdd1f2a0dee))
+- Add @BenSegal855 as a contributor ([af2559c](https://github.com/sapphiredev/framework/commit/af2559c1c2671c8f4999e913f392c6e2a93a7aa3))
+- Add @RealShadowNova as a contributor ([45e740b](https://github.com/sapphiredev/framework/commit/45e740bf4fb90a435d222088bff49a9137fd5d7c))
+
 # [3.1.2](https://github.com/sapphiredev/framework/compare/v3.1.1...v3.1.2) - (2022-10-02)
 
 ## 🐛 Bug Fixes

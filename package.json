@@ -1,6 +1,6 @@
 {
 	"name": "@sapphire/framework",
-	"version": "3.1.2",
+	"version": "3.1.3",
 	"description": "Discord bot framework built for advanced and amazing bots.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
