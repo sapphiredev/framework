@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.2](https://github.com/sapphiredev/framework/compare/v3.1.1...v3.1.2) - (2022-10-02)
+
+## 🐛 Bug Fixes
+
+- Remove `object-hash` dependency ([699eaa7](https://github.com/sapphiredev/framework/commit/699eaa7c0af5e3570b547a2cc01f78c83e0e0908))
+- Bump dependencies ([5f5a28f](https://github.com/sapphiredev/framework/commit/5f5a28fbb57a47cac8796bfe2de6747c7a43a084))
+- **deps:** Update dependency @sapphire/result to ^2.5.0 (#548) ([9106f9a](https://github.com/sapphiredev/framework/commit/9106f9a20963c08280d614a64f8689547dc80f06))
+- **precondition:** Use result for PreconditionContainerSingle (#535) ([05167f4](https://github.com/sapphiredev/framework/commit/05167f4b1a01458610af1772ea54940df3980f9c))
+- Fixed package description to remove mention of nonexistent /lib package (#543) ([ae89de2](https://github.com/sapphiredev/framework/commit/ae89de22662a45097cbf5d1a45c81e3396eb1c78))
+- **deps:** Update sapphire dependencies (#540) ([3ab2f33](https://github.com/sapphiredev/framework/commit/3ab2f331ab8e242237662b1cddc83ad6cd880ddc))
+- Fixed `args#restResult` including leading space (#531) ([3e560c6](https://github.com/sapphiredev/framework/commit/3e560c6c1d107642f9d967fa76c01fd8bbb31fb5))
+
+## 📝 Documentation
+
+- Install correct d.js version in installation steps (#537) ([afeb934](https://github.com/sapphiredev/framework/commit/afeb93483c43c6fb0f2a0c04c5b466f2e04258af))
+
+## 🧪 Testing
+
+- Switch from jest to vitest (#526) ([c71b8e5](https://github.com/sapphiredev/framework/commit/c71b8e58e911ca961add71aeb4d824e113dac3df))
+
 # [3.1.1](https://github.com/sapphiredev/framework/compare/v3.1.0...v3.1.1) - (2022-09-03)
 
 ## 🐛 Bug Fixes
