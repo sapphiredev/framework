@@ -259,6 +259,13 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/62725534?v=4",
 			"profile": "https://github.com/nicklvh",
 			"contributions": ["code"]
+		},
+		{
+			"login": "RealShadowNova",
+			"name": "Hezekiah Hendry",
+			"avatar_url": "https://avatars.githubusercontent.com/u/46537907?v=4",
+			"profile": "https://shadownova.dev/",
+			"contributions": ["tool"]
 		}
 	],
 	"contributorsPerLine": 7,

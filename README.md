@@ -118,6 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/nicklvh"><img src="https://avatars.githubusercontent.com/u/62725534?v=4?s=100" width="100px;" alt=""/><br /><sub><b>nick</b></sub></a><br /><a href="https://github.com/sapphiredev/framework/commits?author=nicklvh" title="Code">💻</a></td>
+    <td align="center"><a href="https://shadownova.dev/"><img src="https://avatars.githubusercontent.com/u/46537907?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hezekiah Hendry</b></sub></a><br /><a href="#tool-RealShadowNova" title="Tools">🔧</a></td>
   </tr>
 </table>
 
