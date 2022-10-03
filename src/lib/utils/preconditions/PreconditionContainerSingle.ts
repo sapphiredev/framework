@@ -1,6 +1,6 @@
 import { container } from '@sapphire/pieces';
 import { err } from '@sapphire/result';
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../../errors/Identifiers';
 import { UserError } from '../../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
