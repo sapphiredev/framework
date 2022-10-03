@@ -45,7 +45,7 @@ Sapphire is a Discord bot framework built on top of [discord.js] for advanced an
 You can use the following command to install this package, or replace `npm install` with your package manager of choice.
 
 ```sh
-npm install @sapphire/framework discord.js@13.x
+npm install @sapphire/framework discord.js
 ```
 
 ---
