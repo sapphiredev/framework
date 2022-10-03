@@ -37,8 +37,8 @@
 			"contributions": ["code", "doc"]
 		},
 		{
-			"login": "LeonardSSH",
-			"name": "LeonardSSH",
+			"login": "leonardssh",
+			"name": "Narcis B.",
 			"avatar_url": "https://avatars1.githubusercontent.com/u/35312043?v=4",
 			"profile": "http://leonard.sh",
 			"contributions": ["doc", "code"]
@@ -259,6 +259,34 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/62725534?v=4",
 			"profile": "https://github.com/nicklvh",
 			"contributions": ["code"]
+		},
+		{
+			"login": "RealShadowNova",
+			"name": "Hezekiah Hendry",
+			"avatar_url": "https://avatars.githubusercontent.com/u/46537907?v=4",
+			"profile": "https://shadownova.dev/",
+			"contributions": ["tool"]
+		},
+		{
+			"login": "BenSegal855",
+			"name": "Ben",
+			"avatar_url": "https://avatars.githubusercontent.com/u/34194692?v=4",
+			"profile": "https://github.com/BenSegal855",
+			"contributions": ["code"]
+		},
+		{
+			"login": "feefs",
+			"name": "feefs",
+			"avatar_url": "https://avatars.githubusercontent.com/u/25848712?v=4",
+			"profile": "https://github.com/feefs",
+			"contributions": ["code"]
+		},
+		{
+			"login": "itsUrcute",
+			"name": "Urcute",
+			"avatar_url": "https://avatars.githubusercontent.com/u/75350256?v=4",
+			"profile": "https://github.com/itsUrcute",
+			"contributions": ["doc"]
 		}
 	],
 	"contributorsPerLine": 7,
