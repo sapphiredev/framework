@@ -1,17 +1,17 @@
 import {
-	APIApplicationCommandIntegerOption,
-	APIApplicationCommandNumberOption,
-	APIApplicationCommandOption,
-	APIApplicationCommandOptionChoice,
-	APIApplicationCommandStringOption,
-	APIApplicationCommandSubcommandGroupOption,
-	APIApplicationCommandSubcommandOption,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
-	LocalizationMap,
-	RESTPostAPIApplicationCommandsJSONBody,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	RESTPostAPIContextMenuApplicationCommandsJSONBody
+	type APIApplicationCommandIntegerOption,
+	type APIApplicationCommandNumberOption,
+	type APIApplicationCommandOption,
+	type APIApplicationCommandOptionChoice,
+	type APIApplicationCommandStringOption,
+	type APIApplicationCommandSubcommandGroupOption,
+	type APIApplicationCommandSubcommandOption,
+	type LocalizationMap,
+	type RESTPostAPIApplicationCommandsJSONBody,
+	type RESTPostAPIChatInputApplicationCommandsJSONBody,
+	type RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
 import type { InternalAPICall } from './ApplicationCommandRegistry';
 

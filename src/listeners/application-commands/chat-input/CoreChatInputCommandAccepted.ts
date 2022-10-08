@@ -1,7 +1,7 @@
 import { Result } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
-import { ChatInputCommandAcceptedPayload, Events } from '../../../lib/types/Events';
+import { Events, type ChatInputCommandAcceptedPayload } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepted> {
 	public constructor(context: Listener.Context) {

@@ -1,4 +1,4 @@
-import { ChannelMentionRegex, ChannelTypes } from '@sapphire/discord.js-utilities';
+import { ChannelMentionRegex, type ChannelTypes } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { BaseCommandInteraction, Message, Snowflake } from 'discord.js';

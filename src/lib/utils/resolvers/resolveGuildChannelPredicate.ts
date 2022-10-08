@@ -3,7 +3,7 @@ import { Result } from '@sapphire/result';
 import type { Nullish } from '@sapphire/utilities';
 import type { Guild } from 'discord.js';
 import type { Identifiers } from '../../errors/Identifiers';
-import { resolveGuildChannel } from '../../resolvers';
+import { resolveGuildChannel } from '../../resolvers/guildChannel';
 
 export function resolveGuildChannelPredicate<TChannel extends GuildBasedChannelTypes, TError extends Identifiers>(
 	parameter: string,

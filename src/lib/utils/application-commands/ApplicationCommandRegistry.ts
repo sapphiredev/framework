@@ -8,8 +8,8 @@ import { container } from '@sapphire/pieces';
 import { isNullishOrEmpty } from '@sapphire/utilities';
 import {
 	ApplicationCommandType,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	RESTPostAPIContextMenuApplicationCommandsJSONBody
+	type RESTPostAPIChatInputApplicationCommandsJSONBody,
+	type RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
 import type {
 	ApplicationCommand,
@@ -22,7 +22,7 @@ import type {
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
-import { CommandDifference, getCommandDifferences, getCommandDifferencesFast } from './computeDifferences';
+import { getCommandDifferences, getCommandDifferencesFast, type CommandDifference } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
 export class ApplicationCommandRegistry {

@@ -3,7 +3,7 @@ import { Result } from '@sapphire/result';
 import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
-import { AsyncPreconditionResult, Precondition, PreconditionContext } from './Precondition';
+import { Precondition, type AsyncPreconditionResult } from './Precondition';
 
 export class PreconditionStore extends Store<Precondition> {
 	private readonly globalPreconditions: Precondition[] = [];
@@ -12,7 +12,7 @@ export class PreconditionStore extends Store<Precondition> {
 		super(Precondition, { name: 'preconditions' });
 	}
 
-	public async messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): AsyncPreconditionResult {
+	public async messageRun(message: Message, command: MessageCommand, context: Precondition.Context = {}): AsyncPreconditionResult {
 		for (const precondition of this.globalPreconditions) {
 			const result = precondition.messageRun
 				? await precondition.messageRun(message, command, context)
@@ -32,7 +32,7 @@ export class PreconditionStore extends Store<Precondition> {
 	public async chatInputRun(
 		interaction: CommandInteraction,
 		command: ChatInputCommand,
-		context: PreconditionContext = {}
+		context: Precondition.Context = {}
 	): AsyncPreconditionResult {
 		for (const precondition of this.globalPreconditions) {
 			const result = precondition.chatInputRun
@@ -53,7 +53,7 @@ export class PreconditionStore extends Store<Precondition> {
 	public async contextMenuRun(
 		interaction: ContextMenuInteraction,
 		command: ContextMenuCommand,
-		context: PreconditionContext = {}
+		context: Precondition.Context = {}
 	): AsyncPreconditionResult {
 		for (const precondition of this.globalPreconditions) {
 			const result = precondition.contextMenuRun
@@ -71,7 +71,7 @@ export class PreconditionStore extends Store<Precondition> {
 		return Result.ok();
 	}
 
-	public set(key: string, value: Precondition): this {
+	public override set(key: string, value: Precondition): this {
 		if (value.position !== null) {
 			const index = this.globalPreconditions.findIndex((precondition) => precondition.position! >= value.position!);
 
@@ -83,7 +83,7 @@ export class PreconditionStore extends Store<Precondition> {
 		return super.set(key, value);
 	}
 
-	public delete(key: string): boolean {
+	public override delete(key: string): boolean {
 		const index = this.globalPreconditions.findIndex((precondition) => precondition.name === key);
 
 		// If the precondition was found, remove it
@@ -92,7 +92,7 @@ export class PreconditionStore extends Store<Precondition> {
 		return super.delete(key);
 	}
 
-	public clear(): void {
+	public override clear(): void {
 		this.globalPreconditions.length = 0;
 		return super.clear();
 	}

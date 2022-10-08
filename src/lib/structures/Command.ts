@@ -1,15 +1,15 @@
-import { ArgumentStream, IUnorderedStrategy, Lexer, Parser } from '@sapphire/lexure';
-import { AliasPiece, AliasPieceJSON, AliasStore } from '@sapphire/pieces';
-import { Awaitable, isNullish, NonNullObject } from '@sapphire/utilities';
+import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
+import { AliasPiece, type AliasPieceJSON, type AliasStore } from '@sapphire/pieces';
+import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
 import type { LocalizationMap } from 'discord-api-types/v10';
 import {
-	AutocompleteInteraction,
-	CommandInteraction,
-	ContextMenuInteraction,
-	Message,
-	PermissionResolvable,
 	Permissions,
-	Snowflake
+	type AutocompleteInteraction,
+	type CommandInteraction,
+	type ContextMenuInteraction,
+	type Message,
+	type PermissionResolvable,
+	type Snowflake
 } from 'discord.js';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
@@ -17,8 +17,8 @@ import { acquire } from '../utils/application-commands/ApplicationCommandRegistr
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
-import { PreconditionContainerArray, PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
-import { FlagStrategyOptions, FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
+import { PreconditionContainerArray, type PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
+import { FlagUnorderedStrategy, type FlagStrategyOptions } from '../utils/strategies/FlagUnorderedStrategy';
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -202,7 +202,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	/**
 	 * Defines the JSON.stringify behavior of the command.
 	 */
-	public toJSON(): CommandJSON {
+	public override toJSON(): CommandJSON {
 		return {
 			...super.toJSON(),
 			description: this.description,

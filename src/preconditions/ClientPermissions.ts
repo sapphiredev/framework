@@ -1,17 +1,17 @@
 import {
-	BaseGuildTextChannel,
-	CommandInteraction,
-	ContextMenuInteraction,
-	GuildTextBasedChannel,
-	Message,
 	Permissions,
-	PermissionString
+	type BaseGuildTextChannel,
+	type CommandInteraction,
+	type ContextMenuInteraction,
+	type GuildTextBasedChannel,
+	type Message,
+	type PermissionString
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
-import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
-export interface PermissionPreconditionContext extends PreconditionContext {
+export interface PermissionPreconditionContext extends AllFlowsPrecondition.Context {
 	permissions?: Permissions;
 }
 

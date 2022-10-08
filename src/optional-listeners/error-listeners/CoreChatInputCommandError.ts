@@ -1,5 +1,5 @@
 import { Listener } from '../../lib/structures/Listener';
-import { ChatInputCommandErrorPayload, Events } from '../../lib/types/Events';
+import { Events, type ChatInputCommandErrorPayload } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.ChatInputCommandError> {
 	public constructor(context: Listener.Context) {

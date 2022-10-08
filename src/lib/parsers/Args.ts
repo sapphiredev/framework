@@ -20,7 +20,7 @@ import type { URL } from 'node:url';
 import { ArgumentError } from '../errors/ArgumentError';
 import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
-import type { EmojiObject } from '../resolvers';
+import type { EmojiObject } from '../resolvers/emoji';
 import type { Argument, IArgument } from '../structures/Argument';
 import type { MessageCommand } from '../structures/Command';
 

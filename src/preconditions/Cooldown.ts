@@ -2,10 +2,10 @@ import { RateLimitManager } from '@sapphire/ratelimits';
 import type { BaseCommandInteraction, CommandInteraction, ContextMenuInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
-import { AllFlowsPrecondition, PreconditionContext } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 import { BucketScope } from '../lib/types/Enums';
 
-export interface CooldownPreconditionContext extends PreconditionContext {
+export interface CooldownPreconditionContext extends AllFlowsPrecondition.Context {
 	scope?: BucketScope;
 	delay: number;
 	limit?: number;

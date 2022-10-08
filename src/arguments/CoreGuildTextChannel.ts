@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { resolveGuildTextChannel } from '../lib/resolvers';
+import { resolveGuildTextChannel } from '../lib/resolvers/guildTextChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<TextChannel> {

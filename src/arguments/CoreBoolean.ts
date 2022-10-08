@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { resolveBoolean } from '../lib/resolvers';
+import { resolveBoolean } from '../lib/resolvers/boolean';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<boolean> {

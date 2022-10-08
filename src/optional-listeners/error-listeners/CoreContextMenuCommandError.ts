@@ -1,5 +1,5 @@
 import { Listener } from '../../lib/structures/Listener';
-import { ContextMenuCommandErrorPayload, Events } from '../../lib/types/Events';
+import { Events, type ContextMenuCommandErrorPayload } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.ContextMenuCommandError> {
 	public constructor(context: Listener.Context) {

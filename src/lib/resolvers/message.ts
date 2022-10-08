@@ -1,18 +1,18 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import {
 	AnyInteraction,
-	GuildBasedChannelTypes,
 	isAnyInteraction,
 	isGuildBasedChannel,
 	isNewsChannel,
 	isTextBasedChannel,
 	isTextChannel,
-	TextBasedChannelTypes
+	type GuildBasedChannelTypes,
+	type TextBasedChannelTypes
 } from '@sapphire/discord.js-utilities';
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import { Message, Permissions, Snowflake, User } from 'discord.js';
+import { Permissions, type Message, type Snowflake, type User } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 /**

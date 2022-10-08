@@ -1,5 +1,5 @@
 import { Listener } from '../../lib/structures/Listener';
-import { Events, InteractionHandlerParseError as InteractionHandlerParseErrorPayload } from '../../lib/types/Events';
+import { Events, type InteractionHandlerParseError as InteractionHandlerParseErrorPayload } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.InteractionHandlerParseError> {
 	public constructor(context: Listener.Context) {

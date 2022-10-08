@@ -1,4 +1,4 @@
-import { Collection, CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import { Collection, type CommandInteraction, type ContextMenuInteraction, type Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
@@ -7,9 +7,9 @@ import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
 import type { IPreconditionContainer, PreconditionContainerReturn } from './IPreconditionContainer';
 import {
 	PreconditionContainerSingle,
-	PreconditionSingleResolvable,
-	PreconditionSingleResolvableDetails,
-	SimplePreconditionSingleResolvableDetails
+	type PreconditionSingleResolvable,
+	type PreconditionSingleResolvableDetails,
+	type SimplePreconditionSingleResolvableDetails
 } from './PreconditionContainerSingle';
 
 /**

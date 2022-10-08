@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { ThreadChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { resolveGuildThreadChannel } from '../lib/resolvers';
+import { resolveGuildThreadChannel } from '../lib/resolvers/guildThreadChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<ThreadChannel> {

@@ -1,7 +1,7 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { NewsChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { resolveGuildNewsChannel } from '../lib/resolvers';
+import { resolveGuildNewsChannel } from '../lib/resolvers/guildNewsChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<NewsChannel> {
