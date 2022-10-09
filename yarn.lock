@@ -521,15 +521,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@sapphire/discord.js-utilities@npm:5.0.1"
+"@sapphire/discord.js-utilities@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@sapphire/discord.js-utilities@npm:5.1.0"
   dependencies:
     "@sapphire/discord-utilities": ^2.11.6
     "@sapphire/duration": ^1.0.0
-    "@sapphire/utilities": ^3.9.3
+    "@sapphire/utilities": ^3.11.0
     tslib: ^2.4.0
-  checksum: a4569fe945d5d3d4064e2b8d7dacfb83c0677200daf5cfaa706fa6d34ce986f0005ee5a3fd058b9d2ce20f895cf62e5e599105d3720ee87487ec78dbfd597cd2
+  checksum: 0c5a1545278cd7092fc1e6692be6c7f95f8e0f73a39d663bd419a005e004df94b989bf0b900acd7d133c930105fe4467c30f89429db20c08dbb08bc770471434
   languageName: node
   linkType: hard
 
@@ -575,7 +575,7 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.5
     "@favware/rollup-type-bundler": ^1.0.11
     "@sapphire/discord-utilities": ^2.11.6
-    "@sapphire/discord.js-utilities": ^5.0.1
+    "@sapphire/discord.js-utilities": ^5.1.0
     "@sapphire/eslint-config": ^4.3.8
     "@sapphire/lexure": ^1.1.1
     "@sapphire/pieces": ^3.5.2
@@ -584,7 +584,7 @@ __metadata:
     "@sapphire/result": ^2.5.0
     "@sapphire/stopwatch": ^1.5.0
     "@sapphire/ts-config": ^3.3.4
-    "@sapphire/utilities": ^3.10.0
+    "@sapphire/utilities": ^3.11.0
     "@types/node": ^18.7.23
     "@types/ws": ^8.5.3
     "@typescript-eslint/eslint-plugin": ^5.39.0
@@ -696,6 +696,13 @@ __metadata:
   version: 3.10.0
   resolution: "@sapphire/utilities@npm:3.10.0"
   checksum: 93795fc0903943aa22ebcde32f5f7c52a50b085e300b655d1ff77d42585040cb459153b1aee9e7c0408d4e4d535e1978803b0a06d4a0a577f64f0b0b92f1a7bd
+  languageName: node
+  linkType: hard
+
+"@sapphire/utilities@npm:^3.11.0":
+  version: 3.11.0
+  resolution: "@sapphire/utilities@npm:3.11.0"
+  checksum: 3c8521038b8879524e8114f39eefc8b3b06cf825995f709684238b5cb14bd7df06d232a26a88f79160df290a66f9aa3133f5ce4ff8e2398033db9f301ad31e0d
   languageName: node
   linkType: hard
 
