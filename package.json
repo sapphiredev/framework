@@ -50,12 +50,12 @@
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/node": "^18.7.23",
 		"@types/ws": "^8.5.3",
-		"@typescript-eslint/eslint-plugin": "^5.38.1",
-		"@typescript-eslint/parser": "^5.38.1",
-		"@vitest/coverage-c8": "^0.23.4",
+		"@typescript-eslint/eslint-plugin": "^5.39.0",
+		"@typescript-eslint/parser": "^5.39.0",
+		"@vitest/coverage-c8": "^0.24.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^13.11.0",
-		"eslint": "^8.24.0",
+		"eslint": "^8.25.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"gen-esm-wrapper": "^1.1.3",
@@ -67,9 +67,9 @@
 		"rollup": "^2.79.1",
 		"rollup-plugin-version-injector": "^1.3.3",
 		"typedoc": "^0.23.15",
-		"typedoc-json-parser": "^5.0.1",
+		"typedoc-json-parser": "^5.2.0",
 		"typescript": "^4.8.4",
-		"vitest": "^0.23.4"
+		"vitest": "^0.24.0"
 	},
 	"repository": {
 		"type": "git",
@@ -118,5 +118,5 @@
 		"minimist": "^1.2.6"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@3.2.3"
+	"packageManager": "yarn@3.2.4"
 }
