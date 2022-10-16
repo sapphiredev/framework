@@ -1,5 +1,6 @@
-import { defineConfig } from 'tsup';
+import { esbuildPluginFilePathExtensions } from 'esbuild-plugin-file-path-extensions';
 import { esbuildPluginVersionInjector } from 'esbuild-plugin-version-injector';
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
 	clean: true,
@@ -12,25 +13,7 @@ export default defineConfig({
 	target: 'es2020',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
-	esbuildPlugins: [
-		esbuildPluginVersionInjector(),
-		{
-			name: 'add-extension-to-file-imports-and-exports',
-			setup(build) {
-				const isEsm = build.initialOptions.define?.TSUP_FORMAT === '"esm"';
-				build.onResolve({ filter: /.*/ }, (args) => {
-					if (args.importer) {
-						return {
-							path: `${args.path}.${isEsm ? 'mjs' : 'js'}`,
-							external: true
-						};
-					}
-
-					return undefined;
-				});
-			}
-		}
-	],
+	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()],
 	treeshake: true,
 	bundle: true,
 	splitting: false

@@ -568,6 +568,7 @@ __metadata:
     "@vitest/coverage-c8": ^0.24.3
     cz-conventional-changelog: ^3.3.0
     discord.js: ^13.12.0
+    esbuild-plugin-file-path-extensions: ^1.0.0
     esbuild-plugin-version-injector: ^1.0.0
     eslint: ^8.25.0
     eslint-config-prettier: ^8.5.0
@@ -2174,6 +2175,13 @@ __metadata:
   version: 0.15.11
   resolution: "esbuild-openbsd-64@npm:0.15.11"
   conditions: os=openbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-file-path-extensions@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "esbuild-plugin-file-path-extensions@npm:1.0.0"
+  checksum: 4e844b7822cf444c5e50bef81d59df0b04c4f1377970698679e0b562d5b3b7a3e415108511bbba37c0c394220faea31ec90c1c9fea048b45f218655507236ca7
   languageName: node
   linkType: hard
 
