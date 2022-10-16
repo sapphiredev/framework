@@ -1,6 +1,6 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
-import { MessageResolverOptions, resolveMessage } from '../lib/resolvers';
+import { resolveMessage, type MessageResolverOptions } from '../lib/resolvers/message';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Message> {

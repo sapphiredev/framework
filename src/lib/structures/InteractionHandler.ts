@@ -1,4 +1,4 @@
-import { Piece, PieceJSON, PieceOptions } from '@sapphire/pieces';
+import { Piece } from '@sapphire/pieces';
 import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
@@ -75,7 +75,7 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 		return Option.none;
 	}
 
-	public toJSON(): InteractionHandlerJSON {
+	public override toJSON(): InteractionHandlerJSON {
 		return {
 			...super.toJSON(),
 			interactionHandlerType: this.interactionHandlerType
@@ -83,14 +83,14 @@ export abstract class InteractionHandler<O extends InteractionHandler.Options = 
 	}
 }
 
-export interface InteractionHandlerOptions extends PieceOptions {
+export interface InteractionHandlerOptions extends Piece.Options {
 	/**
 	 * The type of interaction this handler is for. Must be one of {@link InteractionHandlerTypes}.
 	 */
 	readonly interactionHandlerType: InteractionHandlerTypes;
 }
 
-export interface InteractionHandlerJSON extends PieceJSON {
+export interface InteractionHandlerJSON extends Piece.JSON {
 	interactionHandlerType: InteractionHandlerTypes;
 }
 

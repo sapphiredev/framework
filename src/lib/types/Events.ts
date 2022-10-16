@@ -1,5 +1,12 @@
 import type { Piece, Store } from '@sapphire/pieces';
-import { AutocompleteInteraction, CommandInteraction, Constants, ContextMenuInteraction, Interaction, Message } from 'discord.js';
+import {
+	Constants,
+	type AutocompleteInteraction,
+	type CommandInteraction,
+	type ContextMenuInteraction,
+	type Interaction,
+	type Message
+} from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type {
 	AutocompleteCommand,

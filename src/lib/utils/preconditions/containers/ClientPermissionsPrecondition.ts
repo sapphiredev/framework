@@ -1,4 +1,4 @@
-import { PermissionResolvable, Permissions } from 'discord.js';
+import { Permissions, type PermissionResolvable } from 'discord.js';
 import type { PreconditionSingleResolvableDetails } from '../PreconditionContainerSingle';
 
 /**

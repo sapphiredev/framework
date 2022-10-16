@@ -31,18 +31,18 @@ const ApplicationCommandRegistries = {
 
 export {
 	AliasPiece,
-	AliasPieceOptions,
 	AliasStore,
 	container,
 	LoaderError,
 	MissingExportsError,
 	Piece,
-	PieceContext,
-	PieceOptions,
 	Store,
-	StoreOptions,
 	StoreRegistry,
-	StoreRegistryEntries
+	type AliasPieceOptions,
+	type PieceContext,
+	type PieceOptions,
+	type StoreOptions,
+	type StoreRegistryEntries
 } from '@sapphire/pieces';
 export * from '@sapphire/result';
 export type { Awaitable } from '@sapphire/utilities';
@@ -54,7 +54,9 @@ export * from './lib/parsers/Args';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
-export * as Resolvers from './lib/resolvers';
+export type { EmojiObject } from './lib/resolvers/emoji';
+export * as Resolvers from './lib/resolvers/index';
+export type { MessageResolverOptions } from './lib/resolvers/message';
 export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
@@ -68,7 +70,10 @@ export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
-export { ApplicationCommandRegistry, ApplicationCommandRegistryRegisterOptions } from './lib/utils/application-commands/ApplicationCommandRegistry';
+export {
+	ApplicationCommandRegistry,
+	type ApplicationCommandRegistryRegisterOptions
+} from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
@@ -107,7 +112,7 @@ export namespace CorePreconditions {
  * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.
  * An example use of this is showing it of in a bot information command.
  *
- * Note to Sapphire developers: This needs to explicitly be `string` so it is not typed as the string that gets replaced by Rollup
+ * Note to Sapphire developers: This needs to explicitly be `string` so it is not typed as the string that gets replaced by esbuild
  */
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-export const version: string = '[VI]{version}[/VI]';
+export const version: string = '[VI]{{inject}}[/VI]';

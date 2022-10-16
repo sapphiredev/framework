@@ -47,11 +47,15 @@ export class Precondition<O extends Precondition.Options = Precondition.Options>
 }
 
 export abstract class AllFlowsPrecondition extends Precondition {
-	public abstract messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
+	public abstract override messageRun(message: Message, command: MessageCommand, context: Precondition.Context): Precondition.Result;
 
-	public abstract chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: Precondition.Context): Precondition.Result;
+	public abstract override chatInputRun(
+		interaction: CommandInteraction,
+		command: ChatInputCommand,
+		context: Precondition.Context
+	): Precondition.Result;
 
-	public abstract contextMenuRun(
+	public abstract override contextMenuRun(
 		interaction: ContextMenuInteraction,
 		command: ContextMenuCommand,
 		context: Precondition.Context

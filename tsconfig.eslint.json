@@ -1,4 +1,9 @@
 {
 	"extends": "./tsconfig.base.json",
-	"include": ["src", "tests", "vitest.config.ts", "rollup.config.ts", "scripts"]
+	"compilerOptions": {
+		"noEmit": true,
+		"types": ["vitest/globals"],
+		"lib": ["DOM", "ESNext"]
+	},
+	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsup.config.ts"]
 }

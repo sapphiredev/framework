@@ -4,7 +4,7 @@ import type { CommandInteraction, ContextMenuInteraction, Message } from 'discor
 import { Identifiers } from '../../errors/Identifiers';
 import { UserError } from '../../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
-import type { PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
+import type { Precondition, PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionContainer } from './IPreconditionContainer';
 
 /**

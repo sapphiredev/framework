@@ -1,23 +1,23 @@
 import {
 	ContextMenuCommandBuilder,
 	SlashCommandBuilder,
-	SlashCommandOptionsOnlyBuilder,
-	SlashCommandSubcommandsOnlyBuilder
+	type SlashCommandOptionsOnlyBuilder,
+	type SlashCommandSubcommandsOnlyBuilder
 } from '@discordjs/builders';
 import { isFunction } from '@sapphire/utilities';
 import {
-	APIApplicationCommandOption,
 	ApplicationCommandType,
-	RESTPostAPIApplicationCommandsJSONBody,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	RESTPostAPIContextMenuApplicationCommandsJSONBody
+	type APIApplicationCommandOption,
+	type RESTPostAPIApplicationCommandsJSONBody,
+	type RESTPostAPIChatInputApplicationCommandsJSONBody,
+	type RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
 import {
 	ApplicationCommand,
-	ChatInputApplicationCommandData,
 	Constants,
-	MessageApplicationCommandData,
-	UserApplicationCommandData
+	type ChatInputApplicationCommandData,
+	type MessageApplicationCommandData,
+	type UserApplicationCommandData
 } from 'discord.js';
 
 function isBuilder(

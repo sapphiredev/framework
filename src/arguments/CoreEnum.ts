@@ -1,5 +1,5 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { resolveEnum } from '../lib/resolvers';
+import { resolveEnum } from '../lib/resolvers/enum';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<string> {

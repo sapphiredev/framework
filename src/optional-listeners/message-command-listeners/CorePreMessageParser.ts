@@ -1,5 +1,5 @@
-import { GuildBasedChannelTypes, isDMChannel } from '@sapphire/discord.js-utilities';
-import { Message, Permissions } from 'discord.js';
+import { isDMChannel, type GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
+import { Permissions, type Message } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 

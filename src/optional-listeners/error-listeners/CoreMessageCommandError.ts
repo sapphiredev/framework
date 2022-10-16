@@ -1,5 +1,5 @@
 import { Listener } from '../../lib/structures/Listener';
-import { Events, MessageCommandErrorPayload } from '../../lib/types/Events';
+import { Events, type MessageCommandErrorPayload } from '../../lib/types/Events';
 
 export class CoreEvent extends Listener<typeof Events.MessageCommandError> {
 	public constructor(context: Listener.Context) {

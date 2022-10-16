@@ -1,6 +1,6 @@
 import { container, Store, StoreRegistry } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
-import { Client, ClientOptions, Message, Snowflake } from 'discord.js';
+import { Client, type ClientOptions, type Message, type Snowflake } from 'discord.js';
 import { join } from 'path';
 import type { Plugin } from './plugins/Plugin';
 import { PluginManager } from './plugins/PluginManager';
@@ -12,7 +12,7 @@ import { PreconditionStore } from './structures/PreconditionStore';
 import { BucketScope, PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { acquire } from './utils/application-commands/ApplicationCommandRegistries';
-import { ILogger, LogLevel } from './utils/logger/ILogger';
+import { LogLevel, type ILogger } from './utils/logger/ILogger';
 import { Logger } from './utils/logger/Logger';
 
 container.applicationCommandRegistries = { acquire };
@@ -206,7 +206,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	 * The client's ID, used for the user prefix.
 	 * @since 1.0.0
 	 */
-	public id: Snowflake | null = null;
+	public override id: Snowflake | null = null;
 
 	/**
 	 * The method to be overridden by the developer.
@@ -236,14 +236,14 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	 * };
 	 * ```
 	 */
-	public fetchPrefix: SapphirePrefixHook;
+	public override fetchPrefix: SapphirePrefixHook;
 
 	/**
 	 * The logger to be used by the framework and plugins. By default, a {@link Logger} instance is used, which emits the
 	 * messages to the console.
 	 * @since 1.0.0
 	 */
-	public logger: ILogger;
+	public override logger: ILogger;
 
 	/**
 	 * Whether the bot has mention as a prefix disabled
@@ -259,7 +259,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	 * The registered stores.
 	 * @since 1.0.0
 	 */
-	public stores: StoreRegistry;
+	public override stores: StoreRegistry;
 
 	public constructor(options: ClientOptions) {
 		super(options);
@@ -319,7 +319,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	 * @param token Token of the account to log in with.
 	 * @return Token of the account used.
 	 */
-	public async login(token?: string) {
+	public override async login(token?: string) {
 		// Register the user directory if not null:
 		if (this.options.baseUserDirectory !== null) {
 			this.stores.registerPath(this.options.baseUserDirectory);

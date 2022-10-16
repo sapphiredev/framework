@@ -1,13 +1,13 @@
 import type { PieceContext } from '@sapphire/pieces';
-import { EmojiObject, resolveEmoji } from '../lib/resolvers/emoji';
-import { Argument, ArgumentResult } from '../lib/structures/Argument';
+import { resolveEmoji, type EmojiObject } from '../lib/resolvers/emoji';
+import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<EmojiObject> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'emoji' });
 	}
 
-	public run(parameter: string, context: Argument.Context): ArgumentResult<EmojiObject> {
+	public run(parameter: string, context: Argument.Context): Argument.Result<EmojiObject> {
 		const resolved = resolveEmoji(parameter);
 		return resolved.mapErrInto((identifier) =>
 			this.error({

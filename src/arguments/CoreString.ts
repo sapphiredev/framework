@@ -1,6 +1,6 @@
 import type { PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { resolveString } from '../lib/resolvers';
+import { resolveString } from '../lib/resolvers/string';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<string> {

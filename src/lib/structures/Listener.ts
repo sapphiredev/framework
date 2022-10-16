@@ -83,7 +83,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
-	public onLoad() {
+	public override onLoad() {
 		if (this._listener) {
 			const emitter = this.emitter!;
 
@@ -96,7 +96,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 		return super.onLoad();
 	}
 
-	public onUnload() {
+	public override onUnload() {
 		if (!this.once && this._listener) {
 			const emitter = this.emitter!;
 
@@ -111,7 +111,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 		return super.onUnload();
 	}
 
-	public toJSON(): ListenerJSON {
+	public override toJSON(): ListenerJSON {
 		return {
 			...super.toJSON(),
 			once: this.once,

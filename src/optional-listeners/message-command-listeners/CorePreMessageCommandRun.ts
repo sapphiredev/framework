@@ -1,5 +1,5 @@
 import { Listener } from '../../lib/structures/Listener';
-import { Events, PreMessageCommandRunPayload } from '../../lib/types/Events';
+import { Events, type PreMessageCommandRunPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreMessageCommandRun> {
 	public constructor(context: Listener.Context) {

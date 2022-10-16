@@ -1,7 +1,7 @@
 {
-	"extends": "@sapphire/ts-config",
+	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
 	"compilerOptions": {
-		"importHelpers": true,
-		"noEmitHelpers": true
+		"incremental": false,
+		"useDefineForClassFields": false
 	}
 }

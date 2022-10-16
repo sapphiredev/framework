@@ -1,8 +1,8 @@
-import { CommandInteraction, ContextMenuInteraction, Message, NewsChannel, Permissions, TextChannel } from 'discord.js';
+import { Permissions, type CommandInteraction, type ContextMenuInteraction, type Message, type NewsChannel, type TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
-import { CorePrecondition as ClientPrecondition, PermissionPreconditionContext } from './ClientPermissions';
+import { CorePrecondition as ClientPrecondition, type PermissionPreconditionContext } from './ClientPermissions';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly dmChannelPermissions = new Permissions(
