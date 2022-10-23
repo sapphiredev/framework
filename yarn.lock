@@ -497,6 +497,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/discord-utilities@npm:^2.11.7":
+  version: 2.11.7
+  resolution: "@sapphire/discord-utilities@npm:2.11.7"
+  checksum: 6e8dfb3353c54c37c8be0f50ed60e89b312ccd93d84d93979fc98cf1fb152ed9004f5b753a7c71cc6615b11ef59388ba2585f0966e94e99ed4bdfb3b16133832
+  languageName: node
+  linkType: hard
+
 "@sapphire/discord.js-utilities@npm:^5.1.1":
   version: 5.1.1
   resolution: "@sapphire/discord.js-utilities@npm:5.1.1"
@@ -550,7 +557,7 @@ __metadata:
     "@favware/cliff-jumper": ^1.8.8
     "@favware/npm-deprecate": ^1.0.5
     "@favware/rollup-type-bundler": ^2.0.0
-    "@sapphire/discord-utilities": ^2.11.6
+    "@sapphire/discord-utilities": ^2.11.7
     "@sapphire/discord.js-utilities": ^5.1.1
     "@sapphire/eslint-config": ^4.3.8
     "@sapphire/lexure": ^1.1.2
