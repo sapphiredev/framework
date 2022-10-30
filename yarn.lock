@@ -599,7 +599,7 @@ __metadata:
     pretty-quick: ^3.1.3
     tsup: ^6.3.0
     typedoc: ^0.23.17
-    typedoc-json-parser: ^6.0.2
+    typedoc-json-parser: ^7.0.1
     typescript: ^4.8.4
     vitest: ^0.24.3
   languageName: unknown
@@ -5794,9 +5794,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "typedoc-json-parser@npm:6.0.2"
+"typedoc-json-parser@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "typedoc-json-parser@npm:7.0.1"
   dependencies:
     "@favware/colorette-spinner": ^1.0.1
     "@sapphire/node-utilities": ^1.0.0
@@ -5804,26 +5804,10 @@ __metadata:
     commander: ^9.4.1
     js-yaml: ^4.1.0
     tslib: ^2.4.0
-    typedoc: ^0.23.16
+    typedoc: ^0.23.18
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: 4e8a5e84729d14dc98f24181d90d44d914f92ef119e0ce005b62d051a15c7bef096fd2badff99f7215511bc854a8d13807163ef6f06d294490e80fd9f63e693d
-  languageName: node
-  linkType: hard
-
-"typedoc@npm:^0.23.16":
-  version: 0.23.16
-  resolution: "typedoc@npm:0.23.16"
-  dependencies:
-    lunr: ^2.3.9
-    marked: ^4.0.19
-    minimatch: ^5.1.0
-    shiki: ^0.11.1
-  peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x
-  bin:
-    typedoc: bin/typedoc
-  checksum: 3574ee4a5fe3ca485b8a7d18cbe745bffe6d21886fcbc09c59551d0442d90b6391d435b06245199293914500c4f237fd0e7cc3eec678f1f8ee796b88b3d96089
+  checksum: 8177c48bfe06dd2d64e41aeb93c886ac4db8fd6c8581e45b333178e043b47b3a97785dc1b3c9ad69932ead5a2d9f64999b30e9fff67e3420b8230d5df97117d9
   languageName: node
   linkType: hard
 
@@ -5840,6 +5824,22 @@ __metadata:
   bin:
     typedoc: bin/typedoc
   checksum: 9bfcfa762205f42645a5c545cf75399346663209e1f91f3e630880a6f48a5676a2efab23305df7aca69c6fe19bd4b1c42470bf39b95a369811f6eb4d5a8549e8
+  languageName: node
+  linkType: hard
+
+"typedoc@npm:^0.23.18":
+  version: 0.23.19
+  resolution: "typedoc@npm:0.23.19"
+  dependencies:
+    lunr: ^2.3.9
+    marked: ^4.0.19
+    minimatch: ^5.1.0
+    shiki: ^0.11.1
+  peerDependencies:
+    typescript: 4.6.x || 4.7.x || 4.8.x
+  bin:
+    typedoc: bin/typedoc
+  checksum: 4659dce4e8550a3f0d4739b6c9c583d8f2afba9c37e2fe38325e3cff781a50daf57afe10cbcc27f11b56da0623d502628e0713c55f30eae619c4427d18ce1064
   languageName: node
   linkType: hard
 
