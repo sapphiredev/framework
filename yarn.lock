@@ -620,7 +620,7 @@ __metadata:
     cz-conventional-changelog: ^3.3.0
     discord.js: ^13.12.0
     esbuild-plugin-file-path-extensions: ^1.0.0
-    esbuild-plugin-version-injector: ^1.0.1
+    esbuild-plugin-version-injector: ^1.0.2
     eslint: ^8.28.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
@@ -2386,12 +2386,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-plugin-version-injector@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "esbuild-plugin-version-injector@npm:1.0.1"
+"esbuild-plugin-version-injector@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "esbuild-plugin-version-injector@npm:1.0.2"
   dependencies:
     "@sapphire/result": ^2.6.0
-  checksum: 72dba7cfc2cc336b5b41216d248aa922beeba32622846e524e654f6eeaad34dead03810f86e06f9fbda82d40623d5f72cfb9633a19558e41b0b56a695f986483
+  checksum: 9972c10a8bed4fb751970aaa36cbc04af1895f770f762f107db9ff15add58bb7e531936a2a21b7e4a88083c896e8846364bdd8a51bdb853bbf67906e7b50e831
   languageName: node
   linkType: hard
 
