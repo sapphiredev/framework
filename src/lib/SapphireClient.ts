@@ -154,6 +154,13 @@ export interface SapphireClientOptions {
 	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
 	 */
 	preventFailedToFetchLogForGuilds?: string[] | true;
+
+	/**
+	 * If set to `true`, it will remove any chat input application commands whose names don't match
+	 * the name of any item in the command store.
+	 * @default false
+	 */
+	automaticallyDeleteUnknownCommands?: boolean;
 }
 
 /**
@@ -305,6 +312,10 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 		if (options.loadMessageCommandListeners === true) {
 			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'message-command-listeners'));
+		}
+
+		if (options.automaticallyDeleteUnknownCommands === true) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'unknown-commands'));
 		}
 
 		for (const plugin of SapphireClient.plugins.values(PluginHook.PostInitialization)) {
