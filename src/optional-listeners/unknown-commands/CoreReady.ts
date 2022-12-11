@@ -7,10 +7,10 @@ export class CoreEvent extends Listener {
 	}
 
 	public async run() {
-		const clientCommands = await this.container.client.application?.commands.fetch();
-		if (!clientCommands) return;
-		const storedCommands = new Set(this.container.stores.get('commands').keys());
-		const commandsToDelete = clientCommands.filter((command) => !storedCommands.has(command.name));
+		const commands = await this.container.client.application?.commands.fetch();
+		const store = this.container.stores.get('commands');
+		if (!commands) return;
+		const commandsToDelete = commands.filter((command) => !store.has(command.name));
 
 		for (const command of commandsToDelete.values()) {
 			await this.container.client.application?.commands.delete(command);
