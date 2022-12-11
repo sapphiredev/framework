@@ -69,6 +69,7 @@
 		"typedoc": "^0.23.22",
 		"typedoc-json-parser": "^7.0.2",
 		"typescript": "^4.9.4",
+		"vite": "^4.0.0",
 		"vitest": "^0.25.7"
 	},
 	"repository": {
