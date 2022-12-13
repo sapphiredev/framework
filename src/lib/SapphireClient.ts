@@ -158,6 +158,11 @@ export interface SapphireClientOptions {
 	/**
 	 * If set to `true`, it will remove any chat input application commands whose names don't match
 	 * the name of any item in the command store.
+	 *
+	 * @note **Use this option with caution.** This will compare the name of the command on the Discord API side with those in the command store, which is the name as registered in the command class (normally the file name). If you have set your own custom name in the registry and not used `this.name` then that command will always be deleted when this is set to `true`.
+	 *
+	 * @note **Use this option with caution.** This will affect both Chat Input Commands _and_ Context Menu Commands. If your single command file covers both and you set a custom name for either then be wary about unintended deletions as mentioned above.
+	 *
 	 * @default false
 	 */
 	automaticallyDeleteUnknownCommands?: boolean;
