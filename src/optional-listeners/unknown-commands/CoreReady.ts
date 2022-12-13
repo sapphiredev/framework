@@ -13,6 +13,9 @@ export class CoreEvent extends Listener {
 		}
 		this.container.logger.debug(`Fetched all Application Commands for the currently logged in client`);
 		const store = this.container.stores.get('commands');
+		if (!store) {
+			return;
+		}
 		const commandsToDelete = commands.filter((command) => !store.has(command.name));
 
 		for (const command of commandsToDelete.values()) {
