@@ -32,6 +32,9 @@ export class ApplicationCommandRegistry {
 	public readonly contextMenuCommands = new Set<string>();
 	public readonly guildIdsToFetch = new Set<string>();
 
+	public globalCommandId: string | null = null;
+	public readonly guildCommandIds = new Map<string, string>();
+
 	private readonly apiCalls: InternalAPICall[] = [];
 
 	public constructor(commandName: string) {
@@ -197,6 +200,12 @@ export class ApplicationCommandRegistry {
 			return;
 		}
 
+		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
+			throw new RangeError(
+				`"runAPICalls" was called for "${this.commandName}" but the default behavior when not identical is "BulkOverwrite". This should not happen.`
+			);
+		}
+
 		this.debug(`Preparing to process ${this.apiCalls.length} possible command registrations / updates...`);
 
 		const results = await Promise.allSettled(
@@ -338,6 +347,12 @@ export class ApplicationCommandRegistry {
 		behaviorIfNotEqual: RegisterBehavior,
 		guildId: string | null
 	) {
+		if (guildId) {
+			this.guildCommandIds.set(guildId, applicationCommand.id);
+		} else {
+			this.globalCommandId = applicationCommand.id;
+		}
+
 		let differences: CommandDifference[] = [];
 
 		if (behaviorIfNotEqual === RegisterBehavior.VerboseOverwrite) {
@@ -429,6 +444,12 @@ export class ApplicationCommandRegistry {
 			// @ts-ignore Currently there's a discord-api-types version clash between builders and discord.js
 			const result = await commandsManager.create(apiData, guildId);
 
+			if (guildId) {
+				this.guildCommandIds.set(guildId, result.id);
+			} else {
+				this.globalCommandId = result.id;
+			}
+
 			this.info(
 				`Successfully created ${type}${guildId ? ' guild' : ''} command "${apiData.name}" with id "${
 					result.id
@@ -491,7 +512,7 @@ export namespace ApplicationCommandRegistry {
 		 * Specifies what we should do when the command is present, but not identical with the data you provided
 		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
 		 */
-		behaviorWhenNotIdentical?: RegisterBehavior;
+		behaviorWhenNotIdentical?: Exclude<RegisterBehavior, RegisterBehavior.BulkOverwrite>;
 		/**
 		 * Specifies a list of command ids that we should check in the event of a name mismatch
 		 * @default []
@@ -502,14 +523,18 @@ export namespace ApplicationCommandRegistry {
 
 export type ApplicationCommandRegistryRegisterOptions = ApplicationCommandRegistry.RegisterOptions;
 
+type InternalRegisterOptions = Omit<ApplicationCommandRegistry.RegisterOptions, 'behaviorWhenNotIdentical'> & {
+	behaviorWhenNotIdentical?: RegisterBehavior;
+};
+
 export type InternalAPICall =
 	| {
 			builtData: RESTPostAPIChatInputApplicationCommandsJSONBody;
-			registerOptions: ApplicationCommandRegistryRegisterOptions;
+			registerOptions: InternalRegisterOptions;
 			type: InternalRegistryAPIType.ChatInput;
 	  }
 	| {
 			builtData: RESTPostAPIContextMenuApplicationCommandsJSONBody;
-			registerOptions: ApplicationCommandRegistryRegisterOptions;
+			registerOptions: InternalRegisterOptions;
 			type: InternalRegistryAPIType.ContextMenu;
 	  };

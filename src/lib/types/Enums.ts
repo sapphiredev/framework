@@ -43,7 +43,19 @@ export enum RegisterBehavior {
 	 * @danger This can potentially cause slowdowns when booting up your bot as computing differences on big commands can take a while.
 	 * We recommend you use `OVERWRITE` instead in production.
 	 */
-	VerboseOverwrite = 'VERBOSE_OVERWRITE'
+	VerboseOverwrite = 'VERBOSE_OVERWRITE',
+	/**
+	 * Makes Sapphire handle all command registrations, removals, and updates for you.
+	 *
+	 * This mode can only be set as the **default** behavior, and cannot be set per-command.
+	 *
+	 * In this mode:
+	 * - any `idHints` set per-command are no longer respected, and can be omitted.
+	 * - any `behaviorWhenNotIdentical` that are set per-command are no longer respected, and can be omitted.
+	 * - any application commands that are *not* registered through Sapphire's {@link ApplicationCommandRegistry} are removed from the application.
+	 * 	- the same applies for guild commands, but only for guilds that are registered in the registry via `guildIds`.
+	 */
+	BulkOverwrite = 'BULK_OVERWRITE'
 }
 
 export const enum InternalRegistryAPIType {
