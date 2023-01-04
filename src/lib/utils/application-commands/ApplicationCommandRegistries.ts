@@ -148,7 +148,7 @@ async function handleBulkOverwrite(commandStore: CommandStore, applicationComman
 
 					registry.addChatInputCommandIds(id);
 
-					// idHints are useless, and any manually added id or names could end up not being valid anymore if you use bulk overwrites
+					// idHints are useless, and any manually added ids or names could no longer be valid if you use bulk overwrites.
 					// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
 					commandStore.aliases.set(id, piece);
 				} else {
