@@ -344,7 +344,7 @@ export class ApplicationCommandRegistry {
 			const now = Date.now();
 
 			// Step 0: compute differences
-			differences = getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData, guildId !== null);
+			differences = [...getCommandDifferences(convertApplicationCommandToApiData(applicationCommand), apiData, guildId !== null)];
 
 			const later = Date.now() - now;
 			this.debug(`Took ${later}ms to process differences via computing differences`);
