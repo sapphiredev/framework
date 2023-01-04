@@ -1,5 +1,9 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { getCommandDifferences } from '../../src/lib/utils/application-commands/computeDifferences';
+import { getCommandDifferences as getCommandDifferencesRaw } from '../../src/lib/utils/application-commands/computeDifferences';
+
+function getCommandDifferences(...args: Parameters<typeof getCommandDifferencesRaw>) {
+	return [...getCommandDifferencesRaw(...args)];
+}
 
 describe('Compute differences for provided application commands', () => {
 	test('GIVEN two identical context menu commands THEN do not return any difference', () => {

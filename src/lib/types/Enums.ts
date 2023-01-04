@@ -42,8 +42,6 @@ export enum RegisterBehavior {
 	 *
 	 * @danger This can potentially cause slowdowns when booting up your bot as computing differences on big commands can take a while.
 	 * We recommend you use `OVERWRITE` instead in production.
-	 * @deprecated This mode should be considered "deprecated" in the sense it won't get the same attention as the other modes. It's still usable, but it might
-	 * also remain behind compared to API updates.
 	 */
 	VerboseOverwrite = 'VERBOSE_OVERWRITE'
 }

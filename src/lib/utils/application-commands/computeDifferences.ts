@@ -52,13 +52,11 @@ export function getCommandDifferencesFast(
 	return false;
 }
 
-export function getCommandDifferences(
+export function* getCommandDifferences(
 	existingCommand: RESTPostAPIApplicationCommandsJSONBody,
 	apiData: InternalAPICall['builtData'],
 	guildCommand: boolean
-) {
-	const differences: CommandDifference[] = [];
-
+): Generator<CommandDifference> {
 	if (existingCommand.type !== ApplicationCommandType.ChatInput && existingCommand.type) {
 		// Check context menus
 		if (contextMenuTypes.includes(existingCommand.type ?? ApplicationCommandType.ChatInput)) {
@@ -66,39 +64,39 @@ export function getCommandDifferences(
 
 			// Check name
 			if (existingCommand.name !== casted.name) {
-				differences.push({
+				yield {
 					key: 'name',
 					original: existingCommand.name,
 					expected: casted.name
-				});
+				};
 			}
 
 			// Check defaultPermissions
 			// TODO(vladfrangu): This will be deprecated
 			if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
-				differences.push({
+				yield {
 					key: 'defaultPermission',
 					original: String(existingCommand.default_permission ?? true),
 					expected: String(casted.default_permission ?? true)
-				});
+				};
 			}
 
 			// Check dmPermission only for non-guild commands
 			if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
-				differences.push({
+				yield {
 					key: 'dmPermission',
 					original: String(existingCommand.dm_permission ?? true),
 					expected: String(casted.dm_permission ?? true)
-				});
+				};
 			}
 
 			// Check defaultMemberPermissions
 			if (existingCommand.default_member_permissions !== casted.default_member_permissions) {
-				differences.push({
+				yield {
 					key: 'defaultMemberPermissions',
 					original: String(existingCommand.default_member_permissions),
 					expected: String(casted.default_member_permissions)
-				});
+				};
 			}
 
 			// Check localized names
@@ -106,34 +104,34 @@ export function getCommandDifferences(
 			const expectedLocalizedNames = casted.name_localizations;
 
 			if (!originalLocalizedNames && expectedLocalizedNames) {
-				differences.push({
+				yield {
 					key: 'nameLocalizations',
 					original: 'no localized names',
 					expected: 'localized names'
-				});
+				};
 			} else if (originalLocalizedNames && !expectedLocalizedNames) {
-				differences.push({
+				yield {
 					key: 'nameLocalizations',
 					original: 'localized names',
 					expected: 'no localized names'
-				});
+				};
 			} else if (originalLocalizedNames && expectedLocalizedNames) {
-				differences.push(...reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations'));
+				yield* reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations');
 			}
 		}
 
-		return differences;
+		return;
 	}
 
 	const casted = apiData as RESTPostAPIChatInputApplicationCommandsJSONBody;
 
 	// Check name
 	if (existingCommand.name.toLowerCase() !== casted.name.toLowerCase()) {
-		differences.push({
+		yield {
 			key: 'name',
 			original: existingCommand.name,
 			expected: casted.name
-		});
+		};
 	}
 
 	// Check localized names
@@ -141,56 +139,56 @@ export function getCommandDifferences(
 	const expectedLocalizedNames = casted.name_localizations;
 
 	if (!originalLocalizedNames && expectedLocalizedNames) {
-		differences.push({
+		yield {
 			key: 'nameLocalizations',
 			original: 'no localized names',
 			expected: 'localized names'
-		});
+		};
 	} else if (originalLocalizedNames && !expectedLocalizedNames) {
-		differences.push({
+		yield {
 			key: 'nameLocalizations',
 			original: 'localized names',
 			expected: 'no localized names'
-		});
+		};
 	} else if (originalLocalizedNames && expectedLocalizedNames) {
-		differences.push(...reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations'));
+		yield* reportLocalizationMapDifferences(originalLocalizedNames, expectedLocalizedNames, 'nameLocalizations');
 	}
 
 	// Check defaultPermissions
 	// TODO(vladfrangu): This will be deprecated
 	if ((existingCommand.default_permission ?? true) !== (casted.default_permission ?? true)) {
-		differences.push({
+		yield {
 			key: 'defaultPermission',
 			original: String(existingCommand.default_permission ?? true),
 			expected: String(casted.default_permission ?? true)
-		});
+		};
 	}
 
 	// Check dmPermission
 	if (!guildCommand && (existingCommand.dm_permission ?? true) !== (casted.dm_permission ?? true)) {
-		differences.push({
+		yield {
 			key: 'dmPermission',
 			original: String(existingCommand.dm_permission ?? true),
 			expected: String(casted.dm_permission ?? true)
-		});
+		};
 	}
 
 	// Check defaultMemberPermissions
 	if (existingCommand.default_member_permissions !== casted.default_member_permissions) {
-		differences.push({
+		yield {
 			key: 'defaultMemberPermissions',
 			original: String(existingCommand.default_member_permissions),
 			expected: String(casted.default_member_permissions)
-		});
+		};
 	}
 
 	// Check description
 	if (existingCommand.description !== casted.description) {
-		differences.push({
+		yield {
 			key: 'description',
 			original: existingCommand.description,
 			expected: casted.description
-		});
+		};
 	}
 
 	// Check localized descriptions
@@ -198,38 +196,36 @@ export function getCommandDifferences(
 	const expectedLocalizedDescriptions = casted.description_localizations;
 
 	if (!originalLocalizedDescriptions && expectedLocalizedDescriptions) {
-		differences.push({
+		yield {
 			key: 'descriptionLocalizations',
 			original: 'no localized descriptions',
 			expected: 'localized descriptions'
-		});
+		};
 	} else if (originalLocalizedDescriptions && !expectedLocalizedDescriptions) {
-		differences.push({
+		yield {
 			key: 'descriptionLocalizations',
 			original: 'localized descriptions',
 			expected: 'no localized descriptions'
-		});
+		};
 	} else if (originalLocalizedDescriptions && expectedLocalizedDescriptions) {
-		differences.push(
-			...reportLocalizationMapDifferences(originalLocalizedDescriptions, expectedLocalizedDescriptions, 'descriptionLocalizations')
-		);
+		yield* reportLocalizationMapDifferences(originalLocalizedDescriptions, expectedLocalizedDescriptions, 'descriptionLocalizations');
 	}
 
 	// 0. No existing options and now we have options
 	if (!existingCommand.options?.length && casted.options?.length) {
-		differences.push({
+		yield {
 			key: 'options',
 			original: 'no options present',
 			expected: 'options present'
-		});
+		};
 	}
 	// 1. Existing options and now we have no options
 	else if (existingCommand.options?.length && !casted.options?.length) {
-		differences.push({
+		yield {
 			key: 'options',
 			original: 'options present',
 			expected: 'no options present'
-		});
+		};
 	}
 	// 2. Iterate over each option if we have any and see what's different
 	else if (casted.options?.length) {
@@ -237,7 +233,7 @@ export function getCommandDifferences(
 		for (const option of casted.options) {
 			const currentIndex = index++;
 			const existingOption = existingCommand.options![currentIndex];
-			differences.push(...reportOptionDifferences({ currentIndex, option, existingOption }));
+			yield* reportOptionDifferences({ currentIndex, option, existingOption });
 		}
 
 		// If we went through less options than we previously had, report that
@@ -247,18 +243,16 @@ export function getCommandDifferences(
 				const expectedType =
 					optionTypeToPrettyName.get(option.type) ?? `unknown (${option.type}); please contact Sapphire developers about this!`;
 
-				differences.push({
+				yield {
 					key: `existing command option at index ${index}`,
 					expected: 'no option present',
 					original: `${expectedType} with name ${option.name}`
-				});
+				};
 
 				index++;
 			}
 		}
 	}
-
-	return differences;
 }
 
 function* reportLocalizationMapDifferences(
