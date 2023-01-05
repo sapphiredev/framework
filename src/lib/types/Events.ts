@@ -196,12 +196,11 @@ export const Events = {
 	 */
 	CommandApplicationCommandRegistryError: 'commandApplicationCommandRegistryError' as const,
 
-	// Registry finished
 	/**
 	 * Emitted once the application command registries have been initialized.
-	 * @param {Map<string, ApplicationCommandRegistry>} registries The initalised registries
+	 * @param {Map<string, ApplicationCommandRegistry>} registries The initialised registries
 	 */
-	CommandApplicationCommandRegistryFinished: 'commandApplicationCommadnRegistryFinished' as const,
+	ApplicationCommandRegistriesRegistered: 'applicationCommandRegistriesRegistered' as const,
 
 	// Piece store?
 	/**
@@ -549,7 +548,7 @@ declare module 'discord.js' {
 
 		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[Events.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
-		[Events.CommandApplicationCommandRegistryFinished]: [registries: Map<string, ApplicationCommandRegistry>];
+		[Events.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>];
 
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.MentionPrefixOnly]: [message: Message];

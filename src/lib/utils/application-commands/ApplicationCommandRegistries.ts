@@ -73,5 +73,5 @@ export async function handleRegistryAPICalls() {
 		}
 	}
 
-	container.client.emit(Events.CommandApplicationCommandRegistryFinished, registries);
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries);
 }
