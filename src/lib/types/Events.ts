@@ -201,7 +201,7 @@ export const Events = {
 	 * Emitted once the application command registries have been initialized.
 	 * @param {Map<string, ApplicationCommandRegistry>} registries The initialised registries
 	 */
-	CommandApplicationCommandRegistryFinished: 'commandApplicationCommadnRegistryFinished' as const,
+	CommandApplicationCommandRegistryFinished: 'commandApplicationCommandRegistryFinished' as const,
 
 	// Piece store?
 	/**
