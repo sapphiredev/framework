@@ -202,7 +202,7 @@ export class ApplicationCommandRegistry {
 
 		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
 			throw new RangeError(
-				`"runAPICalls" was called for "${this.commandName}" but the default behavior when not identical is "BulkOverwrite". This should not happen.`
+				`"runAPICalls" was called for "${this.commandName}" but the defaultBehaviorWhenNotIdentical is "BulkOverwrite". This should not happen.`
 			);
 		}
 
@@ -351,6 +351,20 @@ export class ApplicationCommandRegistry {
 			this.guildCommandIds.set(guildId, applicationCommand.id);
 		} else {
 			this.globalCommandId = applicationCommand.id;
+		}
+
+		if (behaviorIfNotEqual === RegisterBehavior.BulkOverwrite) {
+			this.debug(
+				`Command "${this.commandName}" has the behaviorIfNotEqual set to "BulkOverwrite" which is invalid. Using defaultBehaviorWhenNotIdentical instead`
+			);
+
+			behaviorIfNotEqual = getDefaultBehaviorWhenNotIdentical();
+
+			if (behaviorIfNotEqual === RegisterBehavior.BulkOverwrite) {
+				throw new Error(
+					`Invalid behaviorIfNotEqual value ("BulkOverwrite") for command "${this.commandName}", and defaultBehaviorWhenNotIdentical is also "BulkOverwrite". This should not happen.`
+				);
+			}
 		}
 
 		let differences: CommandDifference[] = [];

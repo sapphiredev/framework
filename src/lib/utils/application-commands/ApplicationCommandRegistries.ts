@@ -100,9 +100,6 @@ async function handleBulkOverwrite(commandStore: CommandStore, applicationComman
 
 		// Go through each registered command, find its piece and alias it
 		for (const [id, globalCommand] of result.entries()) {
-			// I really hope nobody has a command with the same name as another command -.-
-			// Not like they could anyways as Discord would throw an error for duplicate names
-			// But yknow... If you're reading this and you did this... Why?
 			const piece = foundGlobalCommands.find((x) => x.data.name === globalCommand.name)?.piece;
 
 			if (piece) {
