@@ -1,5 +1,6 @@
 import { container } from '@sapphire/pieces';
 import { RegisterBehavior } from '../../types/Enums';
+import { Events } from '../../types/Events';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
 import { emitRegistryError } from './emitRegistryError';
 import { getNeededRegistryParameters } from './getNeededParameters';
@@ -71,4 +72,6 @@ export async function handleRegistryAPICalls() {
 			}
 		}
 	}
+
+	container.client.emit(Events.CommandApplicationCommandRegistryFinished, registries);
 }

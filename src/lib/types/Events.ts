@@ -20,6 +20,7 @@ import type {
 } from '../structures/Command';
 import type { InteractionHandler } from '../structures/InteractionHandler';
 import type { Listener } from '../structures/Listener';
+import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import type { PluginHook } from './Enums';
 
 export const Events = {
@@ -194,6 +195,13 @@ export const Events = {
 	 * @param {Command} command The command who's registry caused the error
 	 */
 	CommandApplicationCommandRegistryError: 'commandApplicationCommandRegistryError' as const,
+
+	// Registry finished
+	/**
+	 * Emitted once the application command registries have been initialized.
+	 * @param {Map<string, ApplicationCommandRegistry>} registries The initalised registries
+	 */
+	CommandApplicationCommandRegistryFinished: 'commandApplicationCommadnRegistryFinished' as const,
 
 	// Piece store?
 	/**
@@ -541,6 +549,7 @@ declare module 'discord.js' {
 
 		[Events.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[Events.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
+		[Events.CommandApplicationCommandRegistryFinished]: [registries: Map<string, ApplicationCommandRegistry>];
 
 		[Events.PreMessageParsed]: [message: Message];
 		[Events.MentionPrefixOnly]: [message: Message];
