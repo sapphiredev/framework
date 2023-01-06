@@ -9,18 +9,38 @@
 	"commitConvention": "angular",
 	"contributors": [
 		{
-			"login": "kyranet",
-			"name": "Antonio Román",
-			"avatar_url": "https://avatars0.githubusercontent.com/u/24852502?v=4",
-			"profile": "https://github.com/kyranet",
-			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement", "plugin"]
+			"login": "vladfrangu",
+			"name": "Vlad Frangu",
+			"avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
+			"profile": "https://github.com/vladfrangu",
+			"contributions": ["bug", "code", "doc", "infra", "mentoring", "projectManagement", "plugin", "question", "review", "userTesting"]
 		},
 		{
 			"login": "favna",
 			"name": "Jeroen Claassens",
 			"avatar_url": "https://avatars3.githubusercontent.com/u/4019718?v=4",
 			"profile": "https://favware.tech/",
-			"contributions": ["code", "doc", "infra", "projectManagement", "plugin"]
+			"contributions": [
+				"bug",
+				"code",
+				"doc",
+				"design",
+				"infra",
+				"maintenance",
+				"mentoring",
+				"projectManagement",
+				"plugin",
+				"question",
+				"review",
+				"userTesting"
+			]
+		},
+		{
+			"login": "kyranet",
+			"name": "Antonio Román",
+			"avatar_url": "https://avatars0.githubusercontent.com/u/24852502?v=4",
+			"profile": "https://github.com/kyranet",
+			"contributions": ["code", "doc", "design", "ideas", "infra", "projectManagement", "plugin"]
 		},
 		{
 			"login": "cfanoulis",
@@ -98,13 +118,6 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/65386243?v=4",
 			"profile": "https://lavya.tech/",
 			"contributions": ["doc"]
-		},
-		{
-			"login": "vladfrangu",
-			"name": "Vlad Frangu",
-			"avatar_url": "https://avatars.githubusercontent.com/u/17960496?v=4",
-			"profile": "https://github.com/vladfrangu",
-			"contributions": ["code", "infra", "review"]
 		},
 		{
 			"login": "noftaly",
