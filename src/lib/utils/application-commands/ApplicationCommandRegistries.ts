@@ -4,6 +4,7 @@ import type { ApplicationCommandManager } from 'discord.js';
 import type { Command } from '../../structures/Command';
 import type { CommandStore } from '../../structures/CommandStore';
 import { RegisterBehavior } from '../../types/Enums';
+import { Events } from '../../types/Events';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
 import { emitRegistryError } from './emitRegistryError';
 import { getNeededRegistryParameters } from './getNeededParameters';
@@ -184,6 +185,8 @@ async function handleAppendOrUpdate(
 			}
 		}
 	}
+
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries);
 }
 
 interface BulkOverwriteData {
