@@ -2,6 +2,210 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.2.0](https://github.com/sapphiredev/framework/compare/v3.1.4...v3.2.0) - (2023-01-06)
+
+## 🐛 Bug Fixes
+
+- **computeDifferences:** Ensure `Overwrite` strategy is actually faster (#586) ([bfa3561](https://github.com/sapphiredev/framework/commit/bfa35615b68f82e905c7bf5588793ba8f814f6dd))
+
+## 📝 Documentation
+
+- Add @JcbSm as a contributor ([ae9005a](https://github.com/sapphiredev/framework/commit/ae9005a67c496b66c82ede11205f0309b5acea93))
+
+## 🚀 Features
+
+- Add `ApplicationCommandRegistriesRegistered` event (#587) ([b49fd2a](https://github.com/sapphiredev/framework/commit/b49fd2aa89eedbeedc43891cecb3d77c20b48993))
+- **ApplicationCommandRegistries:** Add `RegisterBehavior.BulkOverwrite` which has Sapphire use bulk overwrite for registering Application Commands (#585) ([9f0ef5e](https://github.com/sapphiredev/framework/commit/9f0ef5ecad400634638145e08b0c27cd7fabd114))
+
+# [3.1.4](https://github.com/sapphiredev/framework/compare/v3.1.3...v3.1.4) - (2022-11-19)
+
+## 🐛 Bug Fixes
+
+- Update dependencies ([e474f76](https://github.com/sapphiredev/framework/commit/e474f761284e0212eab82d03cca5b81206198ff7))
+- **deps:** Update sapphire dependencies (#571) ([2d379ed](https://github.com/sapphiredev/framework/commit/2d379eded5700713d4bd99396098fd5842fe168a))
+- **deps:** Update dependency @sapphire/discord-utilities to ^2.11.7 (#562) ([894fa48](https://github.com/sapphiredev/framework/commit/894fa48d9a4fbd0e0dfa409f0ca67827133c1bd3))
+- Bump lexure and result dependencies ([bb9687c](https://github.com/sapphiredev/framework/commit/bb9687c7dbc40332fd830bd79768011fc5ff5a32))
+- **deps:** Update dependency @sapphire/discord.js-utilities to ^5.1.1 (#558) ([ac5f084](https://github.com/sapphiredev/framework/commit/ac5f0840c4ca5d3966784098f9a41bd399d7dac6))
+- **deps:** Update sapphire dependencies (#554) ([da74216](https://github.com/sapphiredev/framework/commit/da74216907aaa2bdea31cc88155f3105c3676780))
+
+# [3.1.3](https://github.com/sapphiredev/framework/compare/v3.1.2...v3.1.3) - (2022-10-02)
+
+## 🐛 Bug Fixes
+
+- Reloading the entire command store didn't fire ApplicationCommandRegistries (#525) ([ad21eaa](https://github.com/sapphiredev/framework/commit/ad21eaac267646f8829a30049d7c58ee10787742))
+
+## 📝 Documentation
+
+- Add @itsUrcute as a contributor ([8a8e10f](https://github.com/sapphiredev/framework/commit/8a8e10f59e6c23264fb54204c21131917b9095dc))
+- Add @feefs as a contributor ([f7927a9](https://github.com/sapphiredev/framework/commit/f7927a9e5731c5b8d66138706f141bdd1f2a0dee))
+- Add @BenSegal855 as a contributor ([af2559c](https://github.com/sapphiredev/framework/commit/af2559c1c2671c8f4999e913f392c6e2a93a7aa3))
+- Add @RealShadowNova as a contributor ([45e740b](https://github.com/sapphiredev/framework/commit/45e740bf4fb90a435d222088bff49a9137fd5d7c))
+
+# [3.1.2](https://github.com/sapphiredev/framework/compare/v3.1.1...v3.1.2) - (2022-10-02)
+
+## 🐛 Bug Fixes
+
+- Remove `object-hash` dependency ([699eaa7](https://github.com/sapphiredev/framework/commit/699eaa7c0af5e3570b547a2cc01f78c83e0e0908))
+- Bump dependencies ([5f5a28f](https://github.com/sapphiredev/framework/commit/5f5a28fbb57a47cac8796bfe2de6747c7a43a084))
+- **deps:** Update dependency @sapphire/result to ^2.5.0 (#548) ([9106f9a](https://github.com/sapphiredev/framework/commit/9106f9a20963c08280d614a64f8689547dc80f06))
+- **precondition:** Use result for PreconditionContainerSingle (#535) ([05167f4](https://github.com/sapphiredev/framework/commit/05167f4b1a01458610af1772ea54940df3980f9c))
+- Fixed package description to remove mention of nonexistent /lib package (#543) ([ae89de2](https://github.com/sapphiredev/framework/commit/ae89de22662a45097cbf5d1a45c81e3396eb1c78))
+- **deps:** Update sapphire dependencies (#540) ([3ab2f33](https://github.com/sapphiredev/framework/commit/3ab2f331ab8e242237662b1cddc83ad6cd880ddc))
+- Fixed `args#restResult` including leading space (#531) ([3e560c6](https://github.com/sapphiredev/framework/commit/3e560c6c1d107642f9d967fa76c01fd8bbb31fb5))
+
+## 📝 Documentation
+
+- Install correct d.js version in installation steps (#537) ([afeb934](https://github.com/sapphiredev/framework/commit/afeb93483c43c6fb0f2a0c04c5b466f2e04258af))
+
+## 🧪 Testing
+
+- Switch from jest to vitest (#526) ([c71b8e5](https://github.com/sapphiredev/framework/commit/c71b8e58e911ca961add71aeb4d824e113dac3df))
+
+# [3.1.1](https://github.com/sapphiredev/framework/compare/v3.1.0...v3.1.1) - (2022-09-03)
+
+## 🐛 Bug Fixes
+
+- Bump sapphire utilities ([7015275](https://github.com/sapphiredev/framework/commit/70152750762cad27dde63f68d41903449ef7516a))
+- Only fetch guild ids for commands that require them (#523) ([61f2c07](https://github.com/sapphiredev/framework/commit/61f2c0728d54ae7f2da1133adafe9f250f29e083))
+- **computeDifferences:** Do not compute `dm_permissions` for guild-only commands (#519) ([645df81](https://github.com/sapphiredev/framework/commit/645df81932ddf463476adde0caf24bacfe0a30e0))
+
+# [3.1.0](https://github.com/sapphiredev/framework/compare/v3.0.0...v3.1.0) - (2022-08-29)
+
+## 🐛 Bug Fixes
+
+- **deps:** Update all non-major dependencies ([652135f](https://github.com/sapphiredev/framework/commit/652135fabffd08abbcc42cdfb9df2acceab69d86))
+- **args:** Make `getOption` and `getOptions` return `string | null` again ([77f5ed4](https://github.com/sapphiredev/framework/commit/77f5ed4b0dab5c680945fb6d4eca5c45b2e1b4c6))
+- **message-listeners:** Fixed potential null pointer exception in canRunInChannel (#515) ([5409282](https://github.com/sapphiredev/framework/commit/540928276af0129c4228f66dc44763860412418e))
+
+## 🚀 Features
+
+- **args:** Add `getOptionResult` and `getOptionsResults` ([8031e9b](https://github.com/sapphiredev/framework/commit/8031e9baaf92f66d91cd44666cb4c66766cd12f2))
+- **args:** Add `ArgsJSON` type ([b578d54](https://github.com/sapphiredev/framework/commit/b578d54a16b38bc26039c62e4bcffc9285a2e181))
+
+# [3.0.0](https://github.com/sapphiredev/framework/compare/v2.5.0...v3.0.0) - (2022-08-20)
+
+## 🏠 Refactor
+
+- Cleanup types and ensure proper imports in dist (#509) ([7dd13af](https://github.com/sapphiredev/framework/commit/7dd13af31c7b3cd54c307f19955866a5831d87f4))
+- Better Args Result types (#501) ([b264c3e](https://github.com/sapphiredev/framework/commit/b264c3eaf18f498e2d52641767d859a108b0c211))
+- Cleanup and proper `/pieces@3.4.0` support (#500) ([dfe6c25](https://github.com/sapphiredev/framework/commit/dfe6c259f1d81daa0a67ce2e860a3199120bfd88))
+- ***:** Absorb changes from result@2.0.0 (#468) ([3626512](https://github.com/sapphiredev/framework/commit/36265127e1d93b8d875e0b42fc0243433910e3b7))
+  - 💥 **Co-authored-by:** A. Román <kyradiscord@gmail.com>
+  - 💥 **Co-authored-by:** samfundev <samdinner@hotmail.com>
+  - 💥 **Co-authored-by:** Jeroen Claassens <support@favware.tech>
+  - 💥 **Co-authored-by:** Jeroen Claassens <jeroen.claassens@live.nl>
+- Perms-v2 (#483) ([72b48bb](https://github.com/sapphiredev/framework/commit/72b48bb7d365b86426c0765fa7b94b0b696a030d))
+- Remove `chatInputCommandOptions` command option (#464) ([60ce845](https://github.com/sapphiredev/framework/commit/60ce845b896ab82bede440261a298f9c13b1c28f))
+- Stricter types ([5f07004](https://github.com/sapphiredev/framework/commit/5f07004f976d71df3de3f73c8c346df3aed6904e))
+- Change generic in Precondition to use namespaced type ([1a4717b](https://github.com/sapphiredev/framework/commit/1a4717b3e63f8e15b35453edb43c5f5d03463c4c))
+
+## 🐛 Bug Fixes
+
+- Bump deps ([275e2a3](https://github.com/sapphiredev/framework/commit/275e2a3930275366503f6dcac6b5ba341d9e9159))
+- Bump dependencies ([79c76a1](https://github.com/sapphiredev/framework/commit/79c76a15820842ae5b3a9fb35b882858ae7e7f59))
+- **deps:** Update dependency @sapphire/discord.js-utilities to ^4.12.0 (#508) ([694bd88](https://github.com/sapphiredev/framework/commit/694bd8832e9b4247dddb5f1def06907d314fbaa2))
+- Bump @sapphire/result ([8366b86](https://github.com/sapphiredev/framework/commit/8366b86813d69bad180efaba9914216a766a50ab))
+- Update sapphire result ([fb3aadd](https://github.com/sapphiredev/framework/commit/fb3aadd4b7d04aa5c6f39886d3803bbab695119f))
+- Bump @sapphire/pieces ([86b9fbc](https://github.com/sapphiredev/framework/commit/86b9fbc2e39732e4b79f11faff0aef90b87be291))
+- Fixed the infinite difference found for commands (#499) ([1e11f53](https://github.com/sapphiredev/framework/commit/1e11f5356230605cc39785cfc13ccde870afcc29))
+- Update sapphire result ([c0470f5](https://github.com/sapphiredev/framework/commit/c0470f5b0b85de5e099f0adfc2010d7ec2600546))
+- **deps:** Update dependencies (#489) ([28633d3](https://github.com/sapphiredev/framework/commit/28633d34afd99ca466534f762452c2cb86a52e85))
+- Debump builders to 0.15.x ([747be01](https://github.com/sapphiredev/framework/commit/747be013ae95440d74a580c709dddabef2fc0c87))
+- Bump dependencies ([91ed2d2](https://github.com/sapphiredev/framework/commit/91ed2d221057f5b14d87e214415057e5b1c4cb86))
+- **deps:** Update dependency @discordjs/builders to v1 (#492) ([f75351b](https://github.com/sapphiredev/framework/commit/f75351bca4efffafb770e48dbf7fb28dc149341e))
+- Parse `BitField` to string (#487) ([9a74f02](https://github.com/sapphiredev/framework/commit/9a74f02f8eabb4201a1020c96fd69d36277a2f15))
+- **deps:** Update sapphire dependencies (#474) ([961e0bf](https://github.com/sapphiredev/framework/commit/961e0bfef693ed618eecae89b5a73347c2eff214))
+- **deps:** Update sapphire dependencies (#461) ([9dc776c](https://github.com/sapphiredev/framework/commit/9dc776cdaf301fe1482091b206b495304a45c1de))
+- Add @discordjs/builders dependency and bump @sapphire/pieces (#458) ([9d876ff](https://github.com/sapphiredev/framework/commit/9d876ff7a8e28fca77ad7f4a7a519637f781db11))
+- **deps:** Update sapphire dependencies (#456) ([0e6aa35](https://github.com/sapphiredev/framework/commit/0e6aa35526a741b1e672faebd3ae8ad313b2f0e9))
+- **deps:** Update sapphire dependencies (#450) ([0d9551e](https://github.com/sapphiredev/framework/commit/0d9551e2a9fa0bedeabef2ce9d1c62ef9febfe79))
+- **deps:** Update dependency @sapphire/discord-utilities to ^2.11.0 (#436) ([2bb87cd](https://github.com/sapphiredev/framework/commit/2bb87cd2bc0c90e1df38f8765139cec5e6e4bbf7))
+- **computeDifferences:** Switch expected and original around for missing choice ([47b1a8d](https://github.com/sapphiredev/framework/commit/47b1a8dc8695dbc085f4081a6d6981c5abd385e0))
+- **ApplicationCommandRegistry:** Fetch localizations for commands ([1f76366](https://github.com/sapphiredev/framework/commit/1f76366c954b8396f9641058a1a5bf9892b98115))
+- Command reloading issues with HMR plugin (#432) ([c668f90](https://github.com/sapphiredev/framework/commit/c668f90470a86dea6d4c2816bf4d5b63e820ee13))
+- **InteractionHandlers:** Correctly handle modal submits ([6f19dda](https://github.com/sapphiredev/framework/commit/6f19ddabc21d2620db156f95ec6cc590673569dc))
+- **deps:** Update dependency @sapphire/discord.js-utilities to ^4.10.0 (#430) ([f36f6fd](https://github.com/sapphiredev/framework/commit/f36f6fd82dcd714026d41f2e14af28a32c84b752))
+- **deps:** Update dependency @sapphire/discord.js-utilities to ^4.9.7 (#425) ([1f048e3](https://github.com/sapphiredev/framework/commit/1f048e39e61c8852ca0e7cd610784cdb634ba5e4))
+- **deps:** Update sapphire dependencies (#420) ([6a644c8](https://github.com/sapphiredev/framework/commit/6a644c89b355adea9d1ba7a62566064fbebc7c5b))
+- **deps:** Update sapphire dependencies (#411) ([7fb4dba](https://github.com/sapphiredev/framework/commit/7fb4dbabb964a8107451caf96b523612fc5b4e1d))
+- **deps:** Update sapphire dependencies (#408) ([0ea9553](https://github.com/sapphiredev/framework/commit/0ea9553a98031ad3bba47290b6b922688fe60c28))
+- **docs:** Update `CommandOptions.quotes` default value (#407) ([c6611df](https://github.com/sapphiredev/framework/commit/c6611df6d48ac31a4b5a3f7339e7ed991b31d530))
+- **deps:** Update sapphire dependencies (#405) ([959e57e](https://github.com/sapphiredev/framework/commit/959e57ed7f9d680ccca1f6aa5bff755e16128a0f))
+- Correct preconditions error messages (#403) ([7ef7ac9](https://github.com/sapphiredev/framework/commit/7ef7ac95be71c7211bbfed7d9344b696e2719fcd))
+- **deps:** Update sapphire dependencies (#401) ([c543a34](https://github.com/sapphiredev/framework/commit/c543a34bc12b90c0770c4db5b63ba90643cd20ae))
+- **deps:** Update sapphire dependencies (#396) ([18ed641](https://github.com/sapphiredev/framework/commit/18ed64131c3f17f906d7b088975417cd82c3a6ba))
+- **command:** Use CacheType generic consistently (#390) ([5c8c955](https://github.com/sapphiredev/framework/commit/5c8c9556655bd3324137d068cb98c83a211be9da))
+- **normalizeInputs:** Correctly handle old builders version (#387) ([95dcb5c](https://github.com/sapphiredev/framework/commit/95dcb5c210968a783e5adf1b18d34be642864aec))
+- **Command:** Actually reload the registry on piece reload ([4862928](https://github.com/sapphiredev/framework/commit/4862928b377739ddb5be83a5e475cb568df8b306))
+- **ApplicationCommandRegistries:** Registries are empty sometimes ([2358f2c](https://github.com/sapphiredev/framework/commit/2358f2cc81f8d328c008af411af9170d697c71b8))
+- **deps:** Update sapphire dependencies (#380) ([ca7bc92](https://github.com/sapphiredev/framework/commit/ca7bc92bfad183ea4fd2090dc9fb5cee60c9a5cf))
+- **deps:** Update sapphire dependencies (#375) ([f829eac](https://github.com/sapphiredev/framework/commit/f829eac2f0b6b23cf5e95e780d1383fcdb650f6f))
+- **deps:** Update sapphire dependencies (#371) ([5aedfd8](https://github.com/sapphiredev/framework/commit/5aedfd88cba3bb112176449b1993ddcf9fc84c05))
+- Remove `index` from `preconditions` folder (#369) ([92b5542](https://github.com/sapphiredev/framework/commit/92b55425c0c9c4a89889ef34b154a49ea94db2f1))
+- **deps:** Update sapphire dependencies (#366) ([684acd6](https://github.com/sapphiredev/framework/commit/684acd6f548cb239f371db41ae6ce1c43ff59990))
+- **accepted events:** Ensure duration isn't destructured when not available ([1269305](https://github.com/sapphiredev/framework/commit/1269305169921bddea3cf8844efda70dd77ffb5c))
+- **CoreEmoji:** Export named class instead of default ([35d02d8](https://github.com/sapphiredev/framework/commit/35d02d8c05166f766b24bf923a6c1c6698bb5019))
+- Specify generic for InteractionHandler options ([ca0318a](https://github.com/sapphiredev/framework/commit/ca0318a44485d53754c76f4bae701e4af6c18730))
+
+## 📝 Documentation
+
+- Add @nicklvh as a contributor ([6b63c67](https://github.com/sapphiredev/framework/commit/6b63c675e16e9e94a70ce7a3484c5da5f7644cbd))
+- Add @botatooo as a contributor ([f7d113d](https://github.com/sapphiredev/framework/commit/f7d113d3c1a217c8038df373470c1eff1469fc26))
+- Add @UndiedGamer as a contributor ([53ba58a](https://github.com/sapphiredev/framework/commit/53ba58aa7a6830d7f926b46ddbd1c3729d3f0a78))
+- Add @samfundev as a contributor ([44ab580](https://github.com/sapphiredev/framework/commit/44ab580fcfb09941c5300f6a5fc0a79826e2a0ce))
+- Add @Picowchew as a contributor ([8c238a0](https://github.com/sapphiredev/framework/commit/8c238a011e6d386e39b35ae9bb6563e75b34f5af))
+- Add @matteoturini as a contributor ([ddc1d50](https://github.com/sapphiredev/framework/commit/ddc1d503928dac3a305dbedd72f9e56722298519))
+- Add @EvolutionX-10 as a contributor ([33936db](https://github.com/sapphiredev/framework/commit/33936db372469321ece0fb41db9ea7b9aed75d92))
+- Add @imranbarbhuiya as a contributor ([d483127](https://github.com/sapphiredev/framework/commit/d48312760b5ade46ad9d4b5d2fe503387563dee1))
+- Add @leonardssh as a contributor ([67517ba](https://github.com/sapphiredev/framework/commit/67517ba2010f09ce8b747dbf709d1738e07ab4f4))
+- Add @r-priyam as a contributor ([077b8bb](https://github.com/sapphiredev/framework/commit/077b8bbb835c5ad97201121815e49a1d4aecdfbd))
+- Fix a small mistake in the jsdoc (#505) ([8ca7d7e](https://github.com/sapphiredev/framework/commit/8ca7d7ee3ec8c46d7d768889360005f9cce5f411))
+- Fix Result usage (#502) ([fb07af0](https://github.com/sapphiredev/framework/commit/fb07af0982f43164f7b51ea204ffcb14d70ba3e9))
+- **listener:** Update TSDoc to mention the correct event name (#479) ([5bc8a0d](https://github.com/sapphiredev/framework/commit/5bc8a0d67cb3c6e041590033beeeabe88c0d5079))
+- Ts ignore 2 lines for website (#437) ([0fbb4ff](https://github.com/sapphiredev/framework/commit/0fbb4ffaab94ad336aca4150e84708ba6dd07a21))
+- **changelog:** List 2.4.0 on main branch ([87b9b5b](https://github.com/sapphiredev/framework/commit/87b9b5bf0d58565fdaab1ef0e26752a86a3bf5f6))
+- Add @feralheart as a contributor ([455fc3d](https://github.com/sapphiredev/framework/commit/455fc3da87d96a24036a3fd4219b22981202786c))
+- **readme:** Javascript and typescript support announcement and more (#364) ([85b241e](https://github.com/sapphiredev/framework/commit/85b241eecb4b2ca8abc21e7b44cd0853cb909da8))
+- Add tsdoc to `InteractionHandlerOptions.interactionHandlerType` ([18259a7](https://github.com/sapphiredev/framework/commit/18259a724ac515c5e81d1196e0446944f01f45d6))
+
+## 🚀 Features
+
+- Resolve interactions (#503) ([a09b4c2](https://github.com/sapphiredev/framework/commit/a09b4c2b5385bb972df7a8e90053c62c0c6a3768))
+- Faster overwrites and string min max length support (#495) ([f47e6f6](https://github.com/sapphiredev/framework/commit/f47e6f656aece7808af90c08d22f03c316ede512))
+  - 💥 **BREAKING CHANGE:** RegisterBehavior.Overwrite is now the default behaviorWhenNotEqual, and it now uses object hashing instead of checking each property
+  - 💥 **Co-authored-by:** Jeroen Claassens <support@favware.tech>
+- Omit the warn log message about getting slash commands for all guilds (#477) ([70b4861](https://github.com/sapphiredev/framework/commit/70b4861b23a9b29dd4d37cceaa2b0d5e3cb81d96))
+- Add success property in command finished payload (#470) ([8198e94](https://github.com/sapphiredev/framework/commit/8198e9434f5d2f340661bf6d97908302db44eceb))
+- **message-resolver:** Search in cache when only given ID (#438) ([cfb3547](https://github.com/sapphiredev/framework/commit/cfb3547eefc5b8d181b834a9bb5680abe9088a70))
+- **preconditions:** Add voice channel only precondition (#462) ([5da4e0e](https://github.com/sapphiredev/framework/commit/5da4e0eecb881f76c31f234164366102117481cd))
+- ***:** Update to discord.js v13.7.0 (#431) ([b2d34bd](https://github.com/sapphiredev/framework/commit/b2d34bdc81304b78da047bb040c375a323af3fff))
+- Support `generateUnderscoreLessAliases` for command options (#406) ([f1d5c21](https://github.com/sapphiredev/framework/commit/f1d5c21a5945124da9cac0a01789f73ed0096266))
+- Update sapphire dependencies to fix issues with typescript nodenext ([98b2a8b](https://github.com/sapphiredev/framework/commit/98b2a8bb9948ec38bf9a19dfb4104b99548bd786))
+- Allow module: NodeNext (#394) ([781d94f](https://github.com/sapphiredev/framework/commit/781d94fb83064454cab4f6124afb0d593e7ce1ce))
+- **events:** Add jsdoc description to event enum members (#389) ([93f24bd](https://github.com/sapphiredev/framework/commit/93f24bdccd53c049338ad23c8a7e668c0f9090c3))
+- **command:** Add *Interaction CacheType generics (#384) ([98bd4e4](https://github.com/sapphiredev/framework/commit/98bd4e4a90f39aad1df93dd1d8f5c083dba72c18))
+- Add "French Quotes" (`«`, `»`) support for quoted args (#381) ([9a25f47](https://github.com/sapphiredev/framework/commit/9a25f471b03f5dd63a958b72d458ae999239517a))
+- **command:** Add Interaction and Registry namespace members (#378) ([73cfe9f](https://github.com/sapphiredev/framework/commit/73cfe9f8a77c7476ddfe01b2ef2dc141a1414ed4))
+- Migrate to @sapphire/result and re-export the package (#376) ([9ed3d98](https://github.com/sapphiredev/framework/commit/9ed3d983eaaf4251380b237be73a251a424059bf))
+- **commands:** More types for detailed description (#372) ([5f3fea4](https://github.com/sapphiredev/framework/commit/5f3fea4d1d3e82515db9481c97f8f27cc6205a03))
+- **command-registry:** Allow filtering guildIds from the `Failed to fetch guild commands` log (#368) ([f330d83](https://github.com/sapphiredev/framework/commit/f330d83bb1d8052d415ccbd483ca7a04c230d742))
+- **command-duration:** Add duration to `*commandSuccess` payloads (#359) ([76eebfa](https://github.com/sapphiredev/framework/commit/76eebfa927e12da942db8e44d1a5a08a1b5bd289))
+- Extract `InteractionHandlerParseResult` from `InteractionHandler` namespace ([9416b2c](https://github.com/sapphiredev/framework/commit/9416b2cd2c1aef0ee882193408698a81c2dbfe84))
+- Add duration to `*Error` and `*Finished` `Message`, `ChatInput` and `ContextMenu` Command events (#357) ([506fd58](https://github.com/sapphiredev/framework/commit/506fd58c0434e1d5d9f9567fb3952da6c07f3151))
+  - 💥 **BREAKING CHANGE:** The payload for `Events.ChatInputCommandFinish` has been changed from `ChatInputCommandRunPayload` to `ChatInputCommandFinishPayload`
+  - 💥 **BREAKING CHANGE:** The payload for `Events.ContextMenuCommandFinish` has been changed from `ContextMenuCommandRunPayload` to `ContextMenuCommandFinishPayload`
+- Add emoji argument (#349) ([15f4e13](https://github.com/sapphiredev/framework/commit/15f4e1315e7a1b42adb80ad50e5ec2b75383ada0))
+- **Interactions:** Interaction Handlers, Application Commands and much much more! (#293) ([6bc7f1b](https://github.com/sapphiredev/framework/commit/6bc7f1b0100e239187728335916caef355a3e775))
+
+## 🚨 Deprecation
+
+- ***:** Remove deprecated ExtendedArguments class (#469) ([9b51f2c](https://github.com/sapphiredev/framework/commit/9b51f2c671a8fcacd326a32cf16c2f0798ae22c5))
+
+## 🧪 Testing
+
+- Fix test ([c7c8bfd](https://github.com/sapphiredev/framework/commit/c7c8bfd4a788c60e8e51102210926adc6bfda041))
+- Add emoji and enum resolver tests (#361) ([990be5b](https://github.com/sapphiredev/framework/commit/990be5b751a4b9125e1045baa1b2ed051f05891c))
+
 # [3.1.4](https://github.com/sapphiredev/framework/compare/v3.1.3...v3.1.4) - (2022-11-19)
 
 ## 🐛 Bug Fixes
