@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.0](https://github.com/sapphiredev/framework/compare/v3.2.0...v4.0.0) - (2023-01-08)
+
+## 🚀 Features
+
+- **deps:** Support for djs v14 (#512) ([e81cba2](https://github.com/sapphiredev/framework/commit/e81cba2c7801c63a311ceee305e6750cd509e05f))
+
 # [3.2.0](https://github.com/sapphiredev/framework/compare/v3.1.4...v3.2.0) - (2023-01-06)
 
 ## 🐛 Bug Fixes
