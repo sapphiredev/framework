@@ -240,7 +240,7 @@ export class ApplicationCommandRegistry {
 			if (apiCall.type === InternalRegistryAPIType.ContextMenu) {
 				if (entry.type === 'CHAT_INPUT') return false;
 
-				let apiCallType: keyof typeof Constants['ApplicationCommandTypes'];
+				let apiCallType: keyof (typeof Constants)['ApplicationCommandTypes'];
 
 				switch (apiCall.builtData.type) {
 					case ApplicationCommandType.Message:

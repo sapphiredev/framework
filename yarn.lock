@@ -747,11 +747,11 @@ __metadata:
     husky: ^8.0.3
     lint-staged: ^13.1.0
     pinst: ^3.0.0
-    prettier: ^2.8.1
+    prettier: ^2.8.2
     pretty-quick: ^3.1.3
     tsup: ^6.5.0
-    typedoc: ^0.23.23
-    typedoc-json-parser: ^7.0.2
+    typedoc: ^0.23.24
+    typedoc-json-parser: ^7.1.0
     typescript: ^4.9.4
     vite: ^4.0.4
     vitest: ^0.26.3
@@ -4178,7 +4178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.2.4":
+"marked@npm:^4.2.4, marked@npm:^4.2.5":
   version: 4.2.5
   resolution: "marked@npm:4.2.5"
   bin:
@@ -4283,7 +4283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^5.0.1, minimatch@npm:^5.1.1":
+"minimatch@npm:^5.0.1, minimatch@npm:^5.1.1, minimatch@npm:^5.1.2":
   version: 5.1.2
   resolution: "minimatch@npm:5.1.2"
   dependencies:
@@ -4974,12 +4974,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.7.1, prettier@npm:^2.8.1":
+"prettier@npm:^2.7.1":
   version: 2.8.1
   resolution: "prettier@npm:2.8.1"
   bin:
     prettier: bin-prettier.js
   checksum: 4f21a0f1269f76fb36f54e9a8a1ea4c11e27478958bf860661fb4b6d7ac69aac1581f8724fa98ea3585e56d42a2ea317a17ff6e3324f40cb11ff9e20b73785cc
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "prettier@npm:2.8.2"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 740c56c2128d587d656ea1dde9bc9c3503dfc94db4f3ac387259215eeb2e216680bdad9d18a0c9feecc6b42cfa188d6fa777df4c36c1d00cedd4199074fbfbd2
   languageName: node
   linkType: hard
 
@@ -5367,6 +5376,17 @@ __metadata:
     vscode-oniguruma: ^1.6.1
     vscode-textmate: ^6.0.0
   checksum: 2a4ebc3b466816263fc244ae4f67a4ff96aa74d863b9c5e7e4affc50f37fd6d1a781405de0dbf763b777bc33e49a0d441de7ff3fededb8b01e3b8dbb37e2927d
+  languageName: node
+  linkType: hard
+
+"shiki@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "shiki@npm:0.12.1"
+  dependencies:
+    jsonc-parser: ^3.2.0
+    vscode-oniguruma: ^1.7.0
+    vscode-textmate: ^8.0.0
+  checksum: a5d78a79d282f5c5168786980c66e82f075e91fa015097456486624fc5775688d685ad9b1972b0617d7f1ef50927d21b61dca476247a6f6c6b7042046e89a979
   languageName: node
   linkType: hard
 
@@ -6004,9 +6024,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "typedoc-json-parser@npm:7.0.2"
+"typedoc-json-parser@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "typedoc-json-parser@npm:7.1.0"
   dependencies:
     "@favware/colorette-spinner": ^1.0.1
     "@sapphire/node-utilities": ^1.0.0
@@ -6014,14 +6034,14 @@ __metadata:
     commander: ^9.4.1
     js-yaml: ^4.1.0
     tslib: ^2.4.1
-    typedoc: ^0.23.20
+    typedoc: ^0.23.23
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: 5b34af785d8bb5843859f0a11a8891b0083fe8b31b2a6105c22ec8ed4a0d5297d10b0c8440418f63dbe654a8e06e6d761960556ffa237d09944aa7a4f029001c
+  checksum: e1ba6c1d1be83c46e23a78e668c9447a68823e41d5c5719c0c3cdaaf5ff3cbc2452b255aebd22d2b275cc17c30aec8296b9d6d304ac83e1f859026b5610cb37f
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.23.20, typedoc@npm:^0.23.23":
+"typedoc@npm:^0.23.23":
   version: 0.23.23
   resolution: "typedoc@npm:0.23.23"
   dependencies:
@@ -6034,6 +6054,22 @@ __metadata:
   bin:
     typedoc: bin/typedoc
   checksum: 2b64f9c9dc1992ec1bbcc688f6cfc8161481872c485ba9226d1797f572469d02f7798ebe96e3626587a6952af685fa1f4aaa0d9a6137fe9fb3d37f677cb41161
+  languageName: node
+  linkType: hard
+
+"typedoc@npm:^0.23.24":
+  version: 0.23.24
+  resolution: "typedoc@npm:0.23.24"
+  dependencies:
+    lunr: ^2.3.9
+    marked: ^4.2.5
+    minimatch: ^5.1.2
+    shiki: ^0.12.1
+  peerDependencies:
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x
+  bin:
+    typedoc: bin/typedoc
+  checksum: b04f9afcba9a38d35631b08ca345f52700f9138f59b9729d7bfecf127c2a75dd6a053594db68f3141e4d7e63b701ffa5421cbdeb95f86b254257e05e240f4da0
   languageName: node
   linkType: hard
 
@@ -6265,7 +6301,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-oniguruma@npm:^1.6.1":
+"vscode-oniguruma@npm:^1.6.1, vscode-oniguruma@npm:^1.7.0":
   version: 1.7.0
   resolution: "vscode-oniguruma@npm:1.7.0"
   checksum: 53519d91d90593e6fb080260892e87d447e9b200c4964d766772b5053f5699066539d92100f77f1302c91e8fc5d9c772fbe40fe4c90f3d411a96d5a9b1e63f42
@@ -6276,6 +6312,13 @@ __metadata:
   version: 6.0.0
   resolution: "vscode-textmate@npm:6.0.0"
   checksum: ff6f17a406c2906586afc14ef01cb122e33acd35312e815abb5c924347a777c6783ce3fe7db8b83f1760ebf843c669843b9390f905b69c433b3395af28e4b483
+  languageName: node
+  linkType: hard
+
+"vscode-textmate@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "vscode-textmate@npm:8.0.0"
+  checksum: 127780dfea89559d70b8326df6ec344cfd701312dd7f3f591a718693812b7852c30b6715e3cfc8b3200a4e2515b4c96f0843c0eacc0a3020969b5de262c2a4bb
   languageName: node
   linkType: hard
 
