@@ -52,11 +52,16 @@ export interface IArgument<T> {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
  *   }
  *
- *   public run(argument: string): Argument.Result<URL> {
+ *   public run(argument: string, context: Argument.Context): Argument.Result<URL> {
  *     try {
  *       return this.ok(new URL(argument));
  *     } catch {
- *       return this.error(argument, 'ArgumentHyperlinkInvalidURL', 'The argument did not resolve to a valid URL.');
+ *       return this.error({
+ *         parameter: argument,
+ *         context,
+ *         identifier: 'ArgumentHyperlinkInvalidURL',
+ *         message: 'The argument did not resolve to a valid URL.'
+ *       });
  *     }
  *   }
  * }
@@ -81,11 +86,16 @@ export interface IArgument<T> {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
  *   }
  *
- *   run(argument) {
+ *   run(argument, context) {
  *     try {
  *       return this.ok(new URL(argument));
  *     } catch {
- *       return this.error(argument, 'ArgumentHyperlinkInvalidURL', 'The argument did not resolve to a valid URL.');
+ *       return this.error({
+ *         parameter: argument,
+ *         context,
+ *         identifier: 'ArgumentHyperlinkInvalidURL',
+ *         message: 'The argument did not resolve to a valid URL.'
+ *       });
  *     }
  *   }
  * }

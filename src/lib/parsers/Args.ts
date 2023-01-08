@@ -77,11 +77,15 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !square 5
-	 * const resolver = Args.make((arg) => {
-	 *   const parsed = Number(arg);
-	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must write a valid number.'));
-	 *   return ok(parsed);
+	 * const resolver = Args.make((parameter, { argument }) => {
+	 *   const parsed = Number(parameter);
+	 *   if (Number.isNaN(parsed)) {
+	 *     return Args.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 *   }
+	 *
+	 *   return Args.ok(parsed);
 	 * });
+	 *
 	 * const a = await args.pickResult(resolver);
 	 * if (!a.success) throw new UserError('ArgumentNumberNaN', 'You must write a valid number.');
 	 *
@@ -136,11 +140,15 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !square 5
-	 * const resolver = Args.make((arg) => {
-	 *   const parsed = Number(arg);
-	 *   if (Number.isNaN(parsed)) return err(new UserError('ArgumentNumberNaN', 'You must write a valid number.'));
-	 *   return ok(parsed);
+	 * const resolver = Args.make((parameter, { argument }) => {
+	 *   const parsed = Number(parameter);
+	 *   if (Number.isNaN(parsed)) {
+	 *     return Args.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 *   }
+	 *
+	 *   return Args.ok(parsed);
 	 * });
+	 *
 	 * const a = await args.pick(resolver);
 	 *
 	 * await message.channel.send(`The result is: ${a ** 2}!`);
@@ -174,7 +182,8 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse()));
+	 * const resolver = Args.make((parameter) => Args.ok(parameter.split('').reverse()));
+	 *
 	 * const a = await args.restResult(resolver);
 	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write some text.');
 	 *
@@ -227,7 +236,7 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse()));
+	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
 	 * const a = await args.rest(resolver);
 	 * await message.channel.send(`The reversed value is... ${a}`);
 	 * // Sends "The reversed value is... !dlrow olleH"
@@ -260,7 +269,7 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse()));
+	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
 	 * const result = await args.repeatResult(resolver, { times: 5 });
 	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
 	 *
@@ -325,7 +334,7 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse()));
+	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
 	 * const result = await args.repeat(resolver, { times: 5 });
 	 * await message.channel.send(`You have written ${result.length} word(s): ${result.join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
@@ -359,9 +368,9 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reversedandscreamfirst hello world
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
+	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse().join('')));
 	 *
-	 * const result = await args.peekResult(() => args.repeatResult(resolver));
+	 * const result = await args.repeatResult(resolver);
 	 * await result.inspectAsync((value) =>
 	 * 	message.channel.send(`Reversed ${value.length} word(s): ${value.join(' ')}`)
 	 * ); // Reversed 2 word(s): olleh dlrow
@@ -383,10 +392,10 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reverseandscreamfirst sapphire community
-	 * const resolver = Args.make((arg) => ok(arg.split('').reverse().join('')));
+	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse().join('')));
 	 *
 	 * const peekedWord = await args.peekResult(resolver);
-	 * await peekedWord.inspectAsync((value) => message.channel.send(peekedWord.value)); // erihppas
+	 * await peekedWord.inspectAsync((value) => message.channel.send(value)); // erihppas
 	 *
 	 * const firstWord = await args.pickResult('string');
 	 * await firstWord.inspectAsync((value) => message.channel.send(value.toUpperCase())); // SAPPHIRE
@@ -405,12 +414,12 @@ export class Args {
 	 * // !datethenaddtwo 1608867472611
 	 * const date = await args.peekResult('date');
 	 * await date.inspectAsync((value) =>
-	 * 	message.channel.send(`Your date (in UTC): ${date.value.toUTCString()}`)
+	 * 	message.channel.send(`Your date (in UTC): ${value.toUTCString()}`)
 	 * ); // Your date (in UTC): Fri, 25 Dec 2020 03:37:52 GMT
 	 *
 	 * const result = await args.pickResult('number', { maximum: Number.MAX_SAFE_INTEGER - 2 });
 	 * await result.inspectAsync((value) =>
-	 * 	message.channel.send(`Your number plus two: ${result.value + 2}`)
+	 * 	message.channel.send(`Your number plus two: ${value + 2}`)
 	 * ); // Your number plus two: 1608867472613
 	 * ```
 	 */
@@ -435,16 +444,16 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !bigintsumthensquarefirst 25 50 75
-	 * const resolver = Args.make((arg) => {
+	 * const resolver = Args.make((arg, { argument }) => {
 	 *   try {
-	 *     return ok(BigInt(arg));
+	 *     return Args.ok(BigInt(arg));
 	 *   } catch {
-	 *     return err(new UserError('InvalidBigInt', 'You must specify a valid number for a bigint.'));
+	 *     return Args.error({ parameter: arg, argument, identifier: 'InvalidBigInt', message: 'You must specify a valid number for a bigint.' })
 	 *   }
 	 * });
 	 *
-	 * const peeked = await args.peek(() => args.repeatResult(resolver));
-	 * await message.channel.send(`Sum: **${peeked.reduce((x, y) => x + y, 0)}**`); // Sum: 150
+	 * const peeked = await args.repeatResult(resolver);
+	 * await peeked.inspectAsync((value) => message.channel.send(`Sum: **${value.reduce((x, y) => x + y, 0n)}**`)); // Sum: 150n
 	 *
 	 * const first = await args.pick(resolver);
 	 * await message.channel.send(`First bigint squared: ${first**2n}`); // First bigint squared: 625
@@ -457,13 +466,18 @@ export class Args {
 	 * @param options The peek options.
 	 * @example
 	 * ```typescript
+	 * import { SnowflakeRegex } from '@sapphire/discord.js-utilities';
+	 * import { DiscordSnowflake } from '@sapphire/snowflake';
+	 *
 	 * // !createdat 730159185517477900
-	 * const snowflakeResolver = Args.make((arg) =>
-	 * 	 SnowflakeRegex.test(arg) ? ok(BigInt(arg)) : err(new UserError('InvalidSnowflake', 'You must specify a valid snowflake.'));
-	 * );
+	 * const snowflakeResolver = Args.make<bigint>((arg, { argument }) => {
+	 *   return SnowflakeRegex.test(arg)
+	 *     ? Args.ok(BigInt(arg))
+	 *     : Args.error({ parameter: arg, argument, identifier: 'InvalidSnowflake', message: 'You must specify a valid snowflake.' });
+	 * });
 	 *
 	 * const snowflake = await args.peek(snowflakeResolver);
-	 * const timestamp = Number((snowflake >> 22n) + DiscordSnowflake.Epoch);
+	 * const timestamp = Number((snowflake >> 22n) + DiscordSnowflake.epoch);
 	 * const createdAt = new Date(timestamp);
 	 *
 	 * await message.channel.send(
