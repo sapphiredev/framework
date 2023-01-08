@@ -1,4 +1,4 @@
-import { Collection, type CommandInteraction, type ContextMenuInteraction, type Message } from 'discord.js';
+import { Collection, type ChatInputCommandInteraction, type ContextMenuCommandInteraction, type Message } from 'discord.js';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
 import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
@@ -16,7 +16,7 @@ import {
  * The run mode for a {@link PreconditionContainerArray}.
  * @since 1.0.0
  */
-export const enum PreconditionRunMode {
+export enum PreconditionRunMode {
 	/**
 	 * The entries are run sequentially, this is the default behaviour and can be slow when doing long asynchronous
 	 * tasks, but is performance savvy.
@@ -163,6 +163,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
+	 * @param context The context for the message command precondition.
 	 */
 	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
@@ -175,8 +176,13 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context The context for the chat input precondition.
 	 */
-	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}): PreconditionContainerReturn {
+	public chatInputRun(
+		interaction: ChatInputCommandInteraction,
+		command: ChatInputCommand,
+		context: PreconditionContext = {}
+	): PreconditionContainerReturn {
 		return this.mode === PreconditionRunMode.Sequential
 			? this.condition.chatInputSequential(interaction, command, this.entries, context)
 			: this.condition.chatInputParallel(interaction, command, this.entries, context);
@@ -187,9 +193,10 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context  The context for the context menu precondition.
 	 */
 	public contextMenuRun(
-		interaction: ContextMenuInteraction,
+		interaction: ContextMenuCommandInteraction,
 		command: ContextMenuCommand,
 		context: PreconditionContext = {}
 	): PreconditionContainerReturn {

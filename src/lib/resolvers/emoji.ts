@@ -1,6 +1,6 @@
 import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
 import { Result } from '@sapphire/result';
-import { Util } from 'discord.js';
+import { parseEmoji } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
 export function resolveEmoji(parameter: string): Result<EmojiObject, Identifiers> {
@@ -16,7 +16,7 @@ export function resolveEmoji(parameter: string): Result<EmojiObject, Identifiers
 	const emojiId = EmojiRegex.test(parameter);
 
 	if (emojiId) {
-		const resolved = Util.parseEmoji(parameter) as EmojiObject | null;
+		const resolved = parseEmoji(parameter) as EmojiObject | null;
 
 		if (resolved) {
 			return Result.ok(resolved);

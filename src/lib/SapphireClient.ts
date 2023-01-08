@@ -40,14 +40,14 @@ export interface SapphireClientOptions {
 	baseUserDirectory?: URL | string | null;
 
 	/**
-	 * Whether commands can be case insensitive
+	 * Whether commands can be case-insensitive
 	 * @since 1.0.0
 	 * @default false
 	 */
 	caseInsensitiveCommands?: boolean | null;
 
 	/**
-	 * Whether prefixes can be case insensitive
+	 * Whether prefixes can be case-insensitive
 	 * @since 1.0.0
 	 * @default false
 	 */
@@ -100,7 +100,7 @@ export interface SapphireClientOptions {
 	logger?: ClientLoggerOptions;
 
 	/**
-	 * Whether or not trace logging should be enabled.
+	 * Whether trace logging should be enabled.
 	 * @since 2.0.0
 	 * @default container.logger.has(LogLevel.Trace)
 	 */

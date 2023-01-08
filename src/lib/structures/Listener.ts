@@ -57,7 +57,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 	public readonly event: string | symbol;
 
 	/**
-	 * Whether or not the listener will be unloaded after the first run.
+	 * Whether the listener will be unloaded after the first run.
 	 * @since 2.0.0
 	 */
 	public readonly once: boolean;

@@ -58,7 +58,7 @@ export enum RegisterBehavior {
 	BulkOverwrite = 'BULK_OVERWRITE'
 }
 
-export const enum InternalRegistryAPIType {
+export enum InternalRegistryAPIType {
 	ChatInput,
 	ContextMenu
 }

@@ -1,6 +1,6 @@
 import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import type { UserError } from '../../errors/UserError';
 import type { Command } from '../../structures/Command';
 import type { PreconditionContext } from '../../structures/Precondition';
@@ -33,6 +33,7 @@ export interface IPreconditionContainer {
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
+	 * @param context The context for the precondition.
 	 */
 	messageRun(message: Message, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 	/**
@@ -40,13 +41,15 @@ export interface IPreconditionContainer {
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context The context for the precondition.
 	 */
-	chatInputRun(interaction: CommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	chatInputRun(interaction: ChatInputCommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 	/**
 	 * Runs a precondition container.
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context The context for the precondition.
 	 */
-	contextMenuRun(interaction: ContextMenuInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
+	contextMenuRun(interaction: ContextMenuCommandInteraction, command: Command, context?: PreconditionContext): PreconditionContainerReturn;
 }

@@ -1,7 +1,7 @@
 /**
  * The logger levels for the {@link ILogger}.
  */
-export const enum LogLevel {
+export enum LogLevel {
 	/**
 	 * The lowest log level, used when calling {@link ILogger.trace}.
 	 */

@@ -15,8 +15,7 @@ export class UserError extends Error {
 
 	/**
 	 * Constructs an UserError.
-	 * @param type The identifier, useful to localize emitted errors.
-	 * @param message The error message.
+	 * @param options The UserError options
 	 */
 	public constructor(options: UserError.Options) {
 		super(options.message);

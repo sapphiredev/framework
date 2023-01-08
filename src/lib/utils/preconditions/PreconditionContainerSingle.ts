@@ -1,6 +1,6 @@
 import { container } from '@sapphire/pieces';
 import { err } from '@sapphire/result';
-import type { CommandInteraction, ContextMenuInteraction, Message } from 'discord.js';
+import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../../errors/Identifiers';
 import { UserError } from '../../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
@@ -79,6 +79,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @since 1.0.0
 	 * @param message The message that ran this precondition.
 	 * @param command The command the message invoked.
+	 * @param context  The context for the message precondition.
 	 */
 	public messageRun(message: Message, command: MessageCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
@@ -98,8 +99,9 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context  The context for the chat input command precondition.
 	 */
-	public chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}) {
+	public chatInputRun(interaction: ChatInputCommandInteraction, command: ChatInputCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			return precondition.chatInputRun
@@ -117,8 +119,9 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * @since 3.0.0
 	 * @param interaction The interaction that ran this precondition.
 	 * @param command The command the interaction invoked.
+	 * @param context  The context for the context menu command precondition.
 	 */
-	public contextMenuRun(interaction: ContextMenuInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
+	public contextMenuRun(interaction: ContextMenuCommandInteraction, command: ContextMenuCommand, context: PreconditionContext = {}) {
 		const precondition = container.stores.get('preconditions').get(this.name);
 		if (precondition) {
 			return precondition.contextMenuRun
