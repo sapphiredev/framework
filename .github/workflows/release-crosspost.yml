@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Parse release name
         id: get_release_name
-        run: echo ::set-output name=release_name::${RELEASE:-$TAG}
+        run: echo "release_name=${RELEASE:-$TAG}" >> $GITHUB_OUTPUT
         env:
           RELEASE: ${{ github.event.release.name }}
           TAG: ${{ github.event.release.tag_name }}

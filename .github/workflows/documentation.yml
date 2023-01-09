@@ -42,9 +42,9 @@ jobs:
       - name: Set Output
         id: env
         run: |
-          echo "::set-output name=NAME::${GITHUB_REF_NAME}"
-          echo "::set-output name=TYPE::${GITHUB_REF_TYPE}"
-          echo "::set-output name=SHA::${GITHUB_SHA}"
+          echo "NAME=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          echo "TYPE=${GITHUB_REF_TYPE}" >> $GITHUB_OUTPUT
+          echo "SHA=${GITHUB_SHA}" >> $GITHUB_OUTPUT
   upload:
     name: Upload Documentation
     needs: build
