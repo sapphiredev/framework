@@ -237,8 +237,10 @@ export class ApplicationCommandRegistry {
 			if (apiCall.type === InternalRegistryAPIType.ChatInput && entry.type !== ApplicationCommandType.ChatInput) return false;
 			// If the command is a context menu command, we need to check if the entry is a context menu command of the same type
 			if (apiCall.type === InternalRegistryAPIType.ContextMenu) {
+				// If its a chat input command, it doesn't match
 				if (entry.type === ApplicationCommandType.ChatInput) return false;
-				return apiCall.builtData.type === entry.type;
+				// Check the command type (must match)
+				if (apiCall.builtData.type !== entry.type) return false;
 			}
 
 			// Find the command by name or by id hint (mostly useful for context menus)
