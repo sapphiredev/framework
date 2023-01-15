@@ -72,7 +72,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 
 export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (interaction: Interaction) => boolean>([
 	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
-	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isSelectMenu()],
+	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isAnySelectMenu()],
 	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.isModalSubmit()],
 
 	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
