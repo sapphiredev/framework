@@ -30,7 +30,7 @@
 	"dependencies": {
 		"@discordjs/builders": "^1.4.0",
 		"@sapphire/discord-utilities": "^3.0.0",
-		"@sapphire/discord.js-utilities": "6.0.0",
+		"@sapphire/discord.js-utilities": "6.0.1",
 		"@sapphire/lexure": "^1.1.2",
 		"@sapphire/pieces": "^3.6.0",
 		"@sapphire/ratelimits": "^2.4.5",
@@ -45,7 +45,7 @@
 		"@favware/npm-deprecate": "^1.0.7",
 		"@favware/rollup-type-bundler": "^2.0.0",
 		"@sapphire/eslint-config": "^4.3.8",
-		"@sapphire/prettier-config": "^1.4.4",
+		"@sapphire/prettier-config": "^1.4.5",
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/node": "^18.11.18",
 		"@types/ws": "^8.5.4",
