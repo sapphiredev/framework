@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.2](https://github.com/sapphiredev/framework/compare/v4.0.1...v4.0.2) - (2023-01-15)
+
+## 🐛 Bug Fixes
+
+- Fixed deprecated djs code select menu (#593) ([534fcb8](https://github.com/sapphiredev/framework/commit/534fcb86355236737603b50c0919e7ce8b83e87c))
+- **deps:** Update sapphire dependencies (#592) ([02d4e1b](https://github.com/sapphiredev/framework/commit/02d4e1b741effee93bea98c6cb9baef1747ab242))
+
 # [4.0.1](https://github.com/sapphiredev/framework/compare/v4.0.0...v4.0.1) - (2023-01-11)
 
 ## 🐛 Bug Fixes
