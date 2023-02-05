@@ -172,7 +172,7 @@ export class Args {
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.pickResult(type, options);
-		return result.unwrap();
+		return result.unwrapRaw();
 	}
 
 	/**
@@ -259,7 +259,7 @@ export class Args {
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.restResult(type, options);
-		return result.unwrap();
+		return result.unwrapRaw();
 	}
 
 	/**
@@ -299,6 +299,7 @@ export class Args {
 		if (this.parser.finished) return this.missingArguments();
 
 		const output: ArgType[K][] = [];
+
 		for (let i = 0, times = options.times ?? Infinity; i < times; i++) {
 			const result = await this.parser.singleParseAsync(async (arg) =>
 				argument.run(arg, {
@@ -310,6 +311,7 @@ export class Args {
 					...options
 				})
 			);
+
 			if (result.isErr()) {
 				const error = result.unwrapErr();
 				if (error === null) break;
@@ -356,7 +358,7 @@ export class Args {
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]>;
 	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]> {
 		const result = await this.repeatResult(type, options);
-		return result.unwrap();
+		return result.unwrapRaw();
 	}
 
 	/**
@@ -508,7 +510,7 @@ export class Args {
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]>;
 	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]> {
 		const result = await this.peekResult(type, options);
-		return result.unwrap();
+		return result.unwrapRaw();
 	}
 
 	/**
