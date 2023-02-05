@@ -69,7 +69,7 @@ export async function handleRegistryAPICalls() {
 	await handleAppendOrUpdate(commandStore, params);
 }
 
-async function handleBulkOverwrite(commandStore: CommandStore, applicationCommands: ApplicationCommandManager) {
+export async function handleBulkOverwrite(commandStore: CommandStore, applicationCommands: ApplicationCommandManager) {
 	// Map registries by guild, global, etc
 	const foundGlobalCommands: BulkOverwriteData[] = [];
 	const foundGuildCommands: Record<string, BulkOverwriteData[]> = {};
