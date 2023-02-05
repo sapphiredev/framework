@@ -1,5 +1,11 @@
 import { AliasStore } from '@sapphire/pieces';
-import { allGuildIdsToFetchCommandsFor, registries } from '../utils/application-commands/ApplicationCommandRegistries';
+import { RegisterBehavior } from '../types/Enums';
+import {
+	allGuildIdsToFetchCommandsFor,
+	defaultBehaviorWhenNotIdentical,
+	handleBulkOverwrite,
+	registries
+} from '../utils/application-commands/ApplicationCommandRegistries';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
@@ -64,11 +70,25 @@ export class CommandStore extends AliasStore<Command> {
 			}
 		}
 
-		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
+		type BaseGetNeededRegistryParameters = Awaited<ReturnType<typeof getNeededRegistryParameters>>;
+		let applicationCommands: BaseGetNeededRegistryParameters['applicationCommands'] | null = null;
+		let globalCommands: BaseGetNeededRegistryParameters['globalCommands'] | null = null;
+		let guildCommands: BaseGetNeededRegistryParameters['guildCommands'] | null = null;
+
+		if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
+			await handleBulkOverwrite(this, this.container.client.application.commands);
+		} else {
+			const neededRegistryParameters = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
+			applicationCommands = neededRegistryParameters.applicationCommands;
+			globalCommands = neededRegistryParameters.globalCommands;
+			guildCommands = neededRegistryParameters.guildCommands;
+		}
 
 		for (const command of this.values()) {
-			// eslint-disable-next-line @typescript-eslint/dot-notation
-			await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+			if (applicationCommands && globalCommands && guildCommands) {
+				// eslint-disable-next-line @typescript-eslint/dot-notation
+				await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+			}
 
 			// Reinitialize the aliases
 			for (const nameOrId of command.applicationCommandRegistry.chatInputCommands) {
