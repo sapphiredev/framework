@@ -4,6 +4,7 @@ import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import { Args } from '../parsers/Args';
+import type { ArgumentStore } from './ArgumentStore';
 import type { MessageCommand } from './Command';
 
 /**
@@ -102,6 +103,11 @@ export interface IArgument<T> {
  * ```
  */
 export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
+	/**
+	 * The {@link ArgumentStore} that contains this {@link Argument}.
+	 */
+	public declare store: ArgumentStore;
+
 	public abstract run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
 
 	/**
