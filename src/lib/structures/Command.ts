@@ -709,53 +709,12 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	typing?: boolean;
 }
 
-export interface CommandChatInputRegisterShortcut {
-	/**
-	 * Specifies what we should do when the command is present, but not identical with the data you provided
-	 * @default RegisterBehavior.LogToConsole
-	 */
-	behaviorWhenNotIdentical?: RegisterBehavior;
-	/**
-	 * If we should register the command, be it missing or present already
-	 * @default false
-	 */
-	register: boolean;
-	/**
-	 * If this is specified, the application commands will only be registered for these guild ids.
-	 *
-	 * :::tip
-	 *
-	 * If you want to register both guild and global chat input commands,
-	 * please read the [guide about registering application commands](https://www.sapphirejs.dev/docs/Guide/commands/registering-application-commands) instead.
-	 *
-	 * :::
-	 *
-	 */
-	guildIds?: string[];
-	/**
-	 * Specifies a list of command ids that we should check in the event of a name mismatch
-	 * @default []
-	 */
-	idHints?: string[];
-	/**
-	 * Sets the `defaultPermission` field for the chat input command
-	 *
-	 * :::warn
-	 *
-	 * This will be deprecated in the future for Discord's new permission system.
-	 *
-	 * :::
-	 */
-	defaultPermission?: boolean;
-	/**
-	 * Sets the `nameLocalizations` for the chat input command
-	 */
-	nameLocalizations?: LocalizationMap;
-	/**
-	 * Sets the `descriptionLocalizations` for the chat input command
-	 */
-	descriptionLocalizations?: LocalizationMap;
-}
+/**
+ * The options for registering a Chat Input Command
+ * @see Alias for {@link ApplicationCommandRegistry.RegisterOptions}
+ * @deprecated Prefer using {@link ApplicationCommandRegistry.RegisterOptions} instead.
+ */
+export type CommandChatInputRegisterShortcut = ApplicationCommandRegistry.RegisterOptions;
 
 export interface MessageCommandContext extends Record<PropertyKey, unknown> {
 	/**
