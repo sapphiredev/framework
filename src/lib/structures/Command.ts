@@ -1,5 +1,5 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
-import { AliasPiece, type AliasPieceJSON, type AliasStore } from '@sapphire/pieces';
+import { AliasPiece, type AliasPieceJSON } from '@sapphire/pieces';
 import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
 import {
 	ChatInputCommandInteraction,
@@ -11,13 +11,14 @@ import {
 	type Snowflake
 } from 'discord.js';
 import { Args } from '../parsers/Args';
-import { BucketScope } from '../types/Enums';
-import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
+import { BucketScope, RegisterBehavior } from '../types/Enums';
+import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { PreconditionContainerArray, type PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagUnorderedStrategy, type FlagStrategyOptions } from '../utils/strategies/FlagUnorderedStrategy';
+import type { CommandStore } from './CommandStore';
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -248,7 +249,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 	public override async reload() {
 		// Remove the aliases from the command store
-		const store = this.store as AliasStore<this>;
+		const store = this.store as CommandStore;
 		const registry = this.applicationCommandRegistry;
 
 		for (const nameOrId of registry.chatInputCommands) {
@@ -291,6 +292,12 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 				// No point on continuing
 				return;
 			}
+		}
+
+		// If the default behavior is set to bulk overwrite, handle it as such and return.
+		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
+			await handleBulkOverwrite(store, this.container.client.application!.commands);
+			return;
 		}
 
 		// Re-initialize the store and the API data (insert in the store handles the register method)
