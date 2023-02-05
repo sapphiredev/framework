@@ -22,6 +22,11 @@ import type { CommandStore } from './CommandStore';
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
+	 * The {@link CommandStore} that contains this {@link Command}.
+	 */
+	public declare store: CommandStore;
+
+	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
 	 */
@@ -249,7 +254,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 	public override async reload() {
 		// Remove the aliases from the command store
-		const store = this.store as CommandStore;
+		const { store } = this;
 		const registry = this.applicationCommandRegistry;
 
 		for (const nameOrId of registry.chatInputCommands) {

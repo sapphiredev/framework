@@ -3,6 +3,7 @@ import { Result } from '@sapphire/result';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'node:events';
 import { Events } from '../types/Events';
+import type { ListenerStore } from './ListenerStore';
 
 /**
  * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
@@ -44,6 +45,11 @@ import { Events } from '../types/Events';
  * ```
  */
 export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends Listener.Options = Listener.Options> extends Piece<O> {
+	/**
+	 * The {@link ListenerStore} that contains this {@link Listener}.
+	 */
+	public declare store: ListenerStore;
+
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0

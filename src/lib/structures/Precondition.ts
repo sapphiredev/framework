@@ -13,11 +13,17 @@ import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
+import type { PreconditionStore } from './PreconditionStore';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
 export class Precondition<O extends Precondition.Options = Precondition.Options> extends Piece<O> {
+	/**
+	 * The {@link PreconditionStore} that contains this {@link Precondition}.
+	 */
+	public declare store: PreconditionStore;
+
 	public readonly position: number | null;
 
 	public constructor(context: Piece.Context, options: Precondition.Options = {}) {
