@@ -2,7 +2,7 @@ import { AliasStore } from '@sapphire/pieces';
 import { RegisterBehavior } from '../types/Enums';
 import {
 	allGuildIdsToFetchCommandsFor,
-	defaultBehaviorWhenNotIdentical,
+	getDefaultBehaviorWhenNotIdentical,
 	handleBulkOverwrite,
 	registries
 } from '../utils/application-commands/ApplicationCommandRegistries';
@@ -71,7 +71,7 @@ export class CommandStore extends AliasStore<Command> {
 		}
 
 		// If the default behavior is set to bulk overwrite, handle it as such and return.
-		if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
+		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
 			await handleBulkOverwrite(this, this.container.client.application.commands);
 			return;
 		}

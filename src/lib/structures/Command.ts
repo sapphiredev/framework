@@ -12,7 +12,7 @@ import {
 } from 'discord.js';
 import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
-import { acquire, defaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
+import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
@@ -295,7 +295,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		}
 
 		// If the default behavior is set to bulk overwrite, handle it as such and return.
-		if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
+		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
 			await handleBulkOverwrite(store, this.container.client.application!.commands);
 			return;
 		}
