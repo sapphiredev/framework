@@ -70,25 +70,17 @@ export class CommandStore extends AliasStore<Command> {
 			}
 		}
 
-		type BaseGetNeededRegistryParameters = Awaited<ReturnType<typeof getNeededRegistryParameters>>;
-		let applicationCommands: BaseGetNeededRegistryParameters['applicationCommands'] | null = null;
-		let globalCommands: BaseGetNeededRegistryParameters['globalCommands'] | null = null;
-		let guildCommands: BaseGetNeededRegistryParameters['guildCommands'] | null = null;
-
+		// If the default behavior is set to bulk overwrite, handle it as such and return.
 		if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
 			await handleBulkOverwrite(this, this.container.client.application.commands);
-		} else {
-			const neededRegistryParameters = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
-			applicationCommands = neededRegistryParameters.applicationCommands;
-			globalCommands = neededRegistryParameters.globalCommands;
-			guildCommands = neededRegistryParameters.guildCommands;
+			return;
 		}
 
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);
+
 		for (const command of this.values()) {
-			if (applicationCommands && globalCommands && guildCommands) {
-				// eslint-disable-next-line @typescript-eslint/dot-notation
-				await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
-			}
+			// eslint-disable-next-line @typescript-eslint/dot-notation
+			await command.applicationCommandRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
 			// Reinitialize the aliases
 			for (const nameOrId of command.applicationCommandRegistry.chatInputCommands) {

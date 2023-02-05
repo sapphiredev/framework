@@ -294,16 +294,18 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			}
 		}
 
+		// If the default behavior is set to bulk overwrite, handle it as such and return.
 		if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
 			await handleBulkOverwrite(store, this.container.client.application!.commands);
-		} else {
-			// Re-initialize the store and the API data (insert in the store handles the register method)
-			const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(updatedRegistry.guildIdsToFetch);
-
-			// Handle the API calls
-			// eslint-disable-next-line @typescript-eslint/dot-notation
-			await updatedRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
+			return;
 		}
+
+		// Re-initialize the store and the API data (insert in the store handles the register method)
+		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(updatedRegistry.guildIdsToFetch);
+
+		// Handle the API calls
+		// eslint-disable-next-line @typescript-eslint/dot-notation
+		await updatedRegistry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
 		// Re-set the aliases
 		for (const nameOrId of updatedRegistry.chatInputCommands) {
