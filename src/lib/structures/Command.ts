@@ -247,11 +247,6 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	}
 
 	public override async reload() {
-		// If this command does not have any application commands, just call the super method
-		if (!this.supportsChatInputCommands() && !this.supportsContextMenuCommands()) {
-			return super.reload();
-		}
-
 		// Remove the aliases from the command store
 		const store = this.store as AliasStore<this>;
 		const registry = this.applicationCommandRegistry;
@@ -296,6 +291,10 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 				// No point on continuing
 				return;
 			}
+		}
+
+		if (!updatedRegistry['apiCalls'].length) {
+			return;
 		}
 
 		// Re-initialize the store and the API data (insert in the store handles the register method)
