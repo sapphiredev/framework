@@ -1,7 +1,6 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece, type AliasPieceJSON, type AliasStore } from '@sapphire/pieces';
 import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
-import type { LocalizationMap } from 'discord-api-types/v10';
 import {
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
@@ -12,7 +11,7 @@ import {
 	type Snowflake
 } from 'discord.js';
 import { Args } from '../parsers/Args';
-import { BucketScope, RegisterBehavior } from '../types/Enums';
+import { BucketScope } from '../types/Enums';
 import { acquire } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
@@ -708,13 +707,6 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 */
 	typing?: boolean;
 }
-
-/**
- * The options for registering a Chat Input Command
- * @see Alias for {@link ApplicationCommandRegistry.RegisterOptions}
- * @deprecated Prefer using {@link ApplicationCommandRegistry.RegisterOptions} instead.
- */
-export type CommandChatInputRegisterShortcut = ApplicationCommandRegistry.RegisterOptions;
 
 export interface MessageCommandContext extends Record<PropertyKey, unknown> {
 	/**
