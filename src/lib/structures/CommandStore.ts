@@ -1,5 +1,11 @@
 import { AliasStore } from '@sapphire/pieces';
-import { allGuildIdsToFetchCommandsFor, registries } from '../utils/application-commands/ApplicationCommandRegistries';
+import { RegisterBehavior } from '../types/Enums';
+import {
+	allGuildIdsToFetchCommandsFor,
+	getDefaultBehaviorWhenNotIdentical,
+	handleBulkOverwrite,
+	registries
+} from '../utils/application-commands/ApplicationCommandRegistries';
 import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { Command } from './Command';
@@ -62,6 +68,12 @@ export class CommandStore extends AliasStore<Command> {
 					emitRegistryError(error, command);
 				}
 			}
+		}
+
+		// If the default behavior is set to bulk overwrite, handle it as such and return.
+		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
+			await handleBulkOverwrite(this, this.container.client.application.commands);
+			return;
 		}
 
 		const { applicationCommands, globalCommands, guildCommands } = await getNeededRegistryParameters(allGuildIdsToFetchCommandsFor);

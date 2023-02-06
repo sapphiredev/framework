@@ -69,7 +69,7 @@ export async function handleRegistryAPICalls() {
 	await handleAppendOrUpdate(commandStore, params);
 }
 
-async function handleBulkOverwrite(commandStore: CommandStore, applicationCommands: ApplicationCommandManager) {
+export async function handleBulkOverwrite(commandStore: CommandStore, applicationCommands: ApplicationCommandManager) {
 	// Map registries by guild, global, etc
 	const foundGlobalCommands: BulkOverwriteData[] = [];
 	const foundGuildCommands: Record<string, BulkOverwriteData[]> = {};
@@ -109,7 +109,7 @@ async function handleBulkOverwrite(commandStore: CommandStore, applicationComman
 				registry.globalCommandId = id;
 				registry.addChatInputCommandIds(id);
 
-				// idHints are useless, and any manually added id or names could end up not being valid anymore if you use bulk overwrites
+				// idHints are useless, and any manually added id or names could end up not being valid any longer if you use bulk overwrites
 				// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
 				commandStore.aliases.set(id, piece);
 			} else {

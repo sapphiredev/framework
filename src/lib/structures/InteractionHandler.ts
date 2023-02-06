@@ -2,8 +2,14 @@ import { Piece } from '@sapphire/pieces';
 import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
+import type { InteractionHandlerStore } from './InteractionHandlerStore';
 
 export abstract class InteractionHandler<O extends InteractionHandler.Options = InteractionHandler.Options> extends Piece<O> {
+	/**
+	 * The {@link InteractionHandlerStore} that contains this {@link InteractionHandler}.
+	 */
+	public declare store: InteractionHandlerStore;
+
 	/**
 	 * The type for this handler
 	 * @since 3.0.0
