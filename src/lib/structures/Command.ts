@@ -299,9 +299,10 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			}
 		}
 
+		// If there are no API calls to execute then exit out early
 		if (!updatedRegistry['apiCalls'].length) {
 			return;
-    }
+		}
 
 		// If the default behavior is set to bulk overwrite, handle it as such and return.
 		if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
