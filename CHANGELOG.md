@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.1.0](https://github.com/sapphiredev/framework/compare/v4.0.2...v4.1.0) - (2023-02-08)
+
+## 🐛 Bug Fixes
+
+- **Command:** Do not attempt to execute application command reloading logic when a command does not have any application commands (#598) ([61e96d2](https://github.com/sapphiredev/framework/commit/61e96d27236d9b86f23a5dbaa93495653af5d70d))
+- Use `declare` for store properties to avoid the need for `as *Store` (#602) ([b243bcd](https://github.com/sapphiredev/framework/commit/b243bcd5665d934674867f54f233826fc0bbfa95))
+- **Command:** Support `BulkOverwrite` for reloads (#600) ([b4c252e](https://github.com/sapphiredev/framework/commit/b4c252e0815323c3c48d5937f2a6ef1c0198f043))
+- **Args:** Ensure proper error types are always thrown (#601) ([ee8be2e](https://github.com/sapphiredev/framework/commit/ee8be2e1d586b60ee9f17bf353fa37502ca8b18f))
+
+## 🚀 Features
+
+- Remove `CommandChatInputRegisterShortcut` alias interface, prefer using `ApplicationCommandRegistry.RegisterOptions` instead (#597) ([18ad9fa](https://github.com/sapphiredev/framework/commit/18ad9fa9c403165b4310793cc1dfcf917ce8af48))
+
 # [4.0.2](https://github.com/sapphiredev/framework/compare/v4.0.1...v4.0.2) - (2023-01-15)
 
 ## 🐛 Bug Fixes
