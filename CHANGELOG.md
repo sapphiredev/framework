@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.1.1](https://github.com/sapphiredev/framework/compare/v4.1.0...v4.1.1) - (2023-02-18)
+
+## 🐛 Bug Fixes
+
+- Typescript fix for discord-api-types 0.37.35 (#608) ([37fdcb4](https://github.com/sapphiredev/framework/commit/37fdcb42e6da7d556701db565464531fcf855651))
+
 # [4.1.0](https://github.com/sapphiredev/framework/compare/v4.0.2...v4.1.0) - (2023-02-08)
 
 ## 🐛 Bug Fixes
