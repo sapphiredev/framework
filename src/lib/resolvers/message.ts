@@ -4,6 +4,7 @@ import {
 	isAnyInteraction,
 	isGuildBasedChannel,
 	isNewsChannel,
+	isStageChannel,
 	isTextBasedChannel,
 	isTextChannel,
 	type GuildBasedChannelTypes,
@@ -50,17 +51,19 @@ export async function resolveMessage(parameter: string, options: MessageResolver
 }
 
 function resolveById(parameter: string, options: MessageResolverOptions): Awaitable<Message | null> {
-	if (!SnowflakeRegex.test(parameter)) {
+	if (!SnowflakeRegex.test(parameter) || isStageChannel(options.messageOrInteraction.channel)) {
 		return null;
 	}
 
-	if (options.channel) {
+	if (options.channel && !isStageChannel(options.channel)) {
 		return options.channel.messages.fetch(parameter as Snowflake);
 	}
 
 	if (options.scan && isGuildBasedChannel(options.messageOrInteraction.channel)) {
 		for (const channel of options.messageOrInteraction.channel.guild.channels.cache.values()) {
-			if (!isTextBasedChannel(channel)) continue;
+			if (!isTextBasedChannel(channel) || isStageChannel(channel)) {
+				continue;
+			}
 
 			const message = channel.messages.cache.get(parameter);
 			if (message) {
