@@ -1,3 +1,4 @@
+import { isStageChannel } from '@sapphire/discord.js-utilities';
 import type { Message } from 'discord.js';
 import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
@@ -10,7 +11,9 @@ export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
 	}
 
 	public async run(message: Message, command: MessageCommand, payload: MessageCommandRunPayload) {
-		if (!command.typing) return;
+		if (!command.typing || isStageChannel(message.channel)) {
+			return;
+		}
 
 		try {
 			await message.channel.sendTyping();
