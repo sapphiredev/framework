@@ -1,10 +1,19 @@
 import { SnowflakeRegex, UserOrMemberMentionRegex } from '@sapphire/discord-utilities';
 import { Result } from '@sapphire/result';
+import { isNullish } from '@sapphire/utilities';
 import type { Guild, GuildMember, Snowflake } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
-export async function resolveMember(parameter: string, guild: Guild): Promise<Result<GuildMember, Identifiers.ArgumentMemberError>> {
-	const member = (await resolveById(parameter, guild)) ?? (await resolveByQuery(parameter, guild));
+export async function resolveMember(
+	parameter: string,
+	guild: Guild,
+	performFuzzySearch?: boolean
+): Promise<Result<GuildMember, Identifiers.ArgumentMemberError>> {
+	let member = await resolveById(parameter, guild);
+
+	if (isNullish(member) && performFuzzySearch) {
+		member = await resolveByQuery(parameter, guild);
+	}
 
 	if (member) {
 		return Result.ok(member);
