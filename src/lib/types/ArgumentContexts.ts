@@ -40,7 +40,7 @@ export interface BooleanArgumentContext extends Argument.Context {
 export interface MemberArgumentContext extends Argument.Context {
 	/**
 	 * Whether to perform a fuzzy search with the given argument.
-	 * This will leverage {@link FetchMembersOptions.query} to do the fuzzy searching.
+	 * This will leverage `FetchMembersOptions.query` to do the fuzzy searching.
 	 * @default true
 	 */
 	readonly performFuzzySearch?: boolean;
