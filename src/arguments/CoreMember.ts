@@ -3,14 +3,16 @@ import type { GuildMember } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveMember } from '../lib/resolvers/member';
 import { Argument } from '../lib/structures/Argument';
+import type { MemberArgumentContext } from '../lib/types/ArgumentContexts';
 
 export class CoreArgument extends Argument<GuildMember> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'member' });
 	}
 
-	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<GuildMember> {
+	public async run(parameter: string, context: MemberArgumentContext): Argument.AsyncResult<GuildMember> {
 		const { guild } = context.message;
+
 		if (!guild) {
 			return this.error({
 				parameter,
@@ -20,7 +22,7 @@ export class CoreArgument extends Argument<GuildMember> {
 			});
 		}
 
-		const resolved = await resolveMember(parameter, guild);
+		const resolved = await resolveMember(parameter, guild, context.performFuzzySearch ?? true);
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,

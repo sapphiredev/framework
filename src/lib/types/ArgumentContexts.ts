@@ -34,6 +34,19 @@ export interface BooleanArgumentContext extends Argument.Context {
 }
 
 /**
+ * The context for the `'member'` argument.
+ * @since 4.2.0 (🌿)
+ */
+export interface MemberArgumentContext extends Argument.Context {
+	/**
+	 * Whether to perform a fuzzy search with the given argument.
+	 * This will leverage `FetchMembersOptions.query` to do the fuzzy searching.
+	 * @default true
+	 */
+	readonly performFuzzySearch?: boolean;
+}
+
+/**
  * The context for the `'message'` argument.
  * @since 4.2.0 (🌿)
  */
