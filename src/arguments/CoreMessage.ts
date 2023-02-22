@@ -1,17 +1,15 @@
 import type { PieceContext } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
-import { resolveMessage, type MessageResolverOptions } from '../lib/resolvers/message';
+import { resolveMessage } from '../lib/resolvers/message';
 import { Argument } from '../lib/structures/Argument';
+import type { MessageArgumentContext } from '../lib/types/ArgumentContexts';
 
 export class CoreArgument extends Argument<Message> {
 	public constructor(context: PieceContext) {
 		super(context, { name: 'message' });
 	}
 
-	public async run(
-		parameter: string,
-		context: Omit<MessageResolverOptions, 'messageOrInteraction'> & Argument.Context
-	): Argument.AsyncResult<Message> {
+	public async run(parameter: string, context: MessageArgumentContext): Argument.AsyncResult<Message> {
 		const channel = context.channel ?? context.message.channel;
 		const resolved = await resolveMessage(parameter, {
 			messageOrInteraction: context.message,
