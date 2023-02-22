@@ -68,6 +68,7 @@ export * from './lib/structures/Listener';
 export * from './lib/structures/ListenerStore';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
+export * from './lib/types/ArgumentContexts';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
 export {
