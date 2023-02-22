@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.2.0](https://github.com/sapphiredev/framework/compare/v4.1.1...v4.2.0) - (2023-02-22)
+
+## 🏠 Refactor
+
+- Expose argument context types (#610) ([5ff473f](https://github.com/sapphiredev/framework/commit/5ff473fa7178c4389f00ee3cb65aab6894b4dd62))
+
+## 🚀 Features
+
+- Allow member arg to not do a fuzzy search (#611) ([22892c3](https://github.com/sapphiredev/framework/commit/22892c30108258a60327ffe47bd037ac4e903530))
+
 # [4.1.1](https://github.com/sapphiredev/framework/compare/v4.1.0...v4.1.1) - (2023-02-18)
 
 ## 🐛 Bug Fixes
