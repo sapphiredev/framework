@@ -25,6 +25,12 @@ import type { PluginHook } from './Enums';
 
 export const Events = {
 	// #region Discord.js base events
+	ApplicationCommandPermissionsUpdate: DJSEvents.ApplicationCommandPermissionsUpdate as const,
+	AutoModerationActionExecution: DJSEvents.AutoModerationActionExecution as const,
+	AutoModerationRuleCreate: DJSEvents.AutoModerationRuleCreate as const,
+	AutoModerationRuleDelete: DJSEvents.AutoModerationRuleDelete as const,
+	AutoModerationRuleUpdate: DJSEvents.AutoModerationRuleUpdate as const,
+	CacheSweep: DJSEvents.CacheSweep as const,
 	ChannelCreate: DJSEvents.ChannelCreate as const,
 	ChannelDelete: DJSEvents.ChannelDelete as const,
 	ChannelPinsUpdate: DJSEvents.ChannelPinsUpdate as const,
@@ -48,6 +54,11 @@ export const Events = {
 	GuildRoleCreate: DJSEvents.GuildRoleCreate as const,
 	GuildRoleDelete: DJSEvents.GuildRoleDelete as const,
 	GuildRoleUpdate: DJSEvents.GuildRoleUpdate as const,
+	GuildScheduledEventCreate: DJSEvents.GuildScheduledEventCreate as const,
+	GuildScheduledEventDelete: DJSEvents.GuildScheduledEventDelete as const,
+	GuildScheduledEventUpdate: DJSEvents.GuildScheduledEventUpdate as const,
+	GuildScheduledEventUserAdd: DJSEvents.GuildScheduledEventUserAdd as const,
+	GuildScheduledEventUserRemove: DJSEvents.GuildScheduledEventUserRemove as const,
 	GuildStickerCreate: DJSEvents.GuildStickerCreate as const,
 	GuildStickerDelete: DJSEvents.GuildStickerDelete as const,
 	GuildStickerUpdate: DJSEvents.GuildStickerUpdate as const,
