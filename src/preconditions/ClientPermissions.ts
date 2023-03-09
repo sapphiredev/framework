@@ -1,11 +1,12 @@
+import { isNullish } from '@sapphire/utilities';
 import {
+	BaseInteraction,
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	PermissionsBitField,
 	PermissionsString,
-	type BaseGuildTextChannel,
-	type GuildTextBasedChannel,
+	TextBasedChannel,
 	type Message
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
@@ -30,9 +31,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		]).bitfield & PermissionsBitField.All
 	).freeze();
 
-	public messageRun(message: Message, _: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.Result {
+	public async messageRun(message: Message, _: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
-		const channel = message.channel as BaseGuildTextChannel;
+		const { channel } = message;
 
 		if (!message.client.id) {
 			return this.error({
@@ -41,7 +42,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			});
 		}
 
-		const permissions = message.guild ? channel.permissionsFor(message.client.id) : this.dmChannelPermissions;
+		const permissions = await this.getPermissionsForChannel(channel, message);
 
 		return this.sharedRun(required, permissions, 'message');
 	}
@@ -53,9 +54,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
-		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
+		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		const permissions = interaction.inGuild() ? channel.permissionsFor(interaction.applicationId) : this.dmChannelPermissions;
+		const permissions = await this.getPermissionsForChannel(channel, interaction);
 
 		return this.sharedRun(required, permissions, 'chat input');
 	}
@@ -66,11 +67,31 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		context: PermissionPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
-		const channel = (await this.fetchChannelFromInteraction(interaction)) as GuildTextBasedChannel;
 
-		const permissions = interaction.inGuild() ? channel.permissionsFor(interaction.applicationId) : this.dmChannelPermissions;
+		const channel = await this.fetchChannelFromInteraction(interaction);
+
+		const permissions = await this.getPermissionsForChannel(channel, interaction);
 
 		return this.sharedRun(required, permissions, 'context menu');
+	}
+
+	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: Message | BaseInteraction) {
+		let permissions: PermissionsBitField | null = this.dmChannelPermissions;
+
+		if (messageOrInteraction.inGuild() && !channel.isDMBased()) {
+			if (!isNullish(messageOrInteraction.applicationId)) {
+				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
+			}
+
+			if (isNullish(permissions)) {
+				const me = await messageOrInteraction.guild?.members.fetchMe();
+				if (me) {
+					permissions = channel.permissionsFor(me);
+				}
+			}
+		}
+
+		return permissions;
 	}
 
 	private sharedRun(requiredPermissions: PermissionsBitField, availablePermissions: PermissionsBitField | null, commandType: string) {
