@@ -1,6 +1,5 @@
 import { isNullish } from '@sapphire/utilities';
 import {
-	BaseGuildTextChannel,
 	BaseInteraction,
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
@@ -79,7 +78,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: Message | BaseInteraction) {
 		let permissions: PermissionsBitField | null = this.dmChannelPermissions;
 
-		if (messageOrInteraction.inGuild() && channel instanceof BaseGuildTextChannel) {
+		if (messageOrInteraction.inGuild() && !channel.isDMBased()) {
 			if (!isNullish(messageOrInteraction.applicationId)) {
 				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
 			}
