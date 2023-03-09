@@ -1,12 +1,13 @@
 import { isNullish } from '@sapphire/utilities';
 import {
+	BaseGuildTextChannel,
 	BaseInteraction,
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	PermissionsBitField,
 	PermissionsString,
-	type BaseGuildTextChannel,
+	TextBasedChannel,
 	type Message
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
@@ -33,7 +34,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	public async messageRun(message: Message, _: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
-		const channel = message.channel as BaseGuildTextChannel;
+		const { channel } = message;
 
 		if (!message.client.id) {
 			return this.error({
@@ -54,7 +55,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
-		const channel = (await this.fetchChannelFromInteraction(interaction)) as BaseGuildTextChannel;
+		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		const permissions = await this.getPermissionsForChannel(channel, interaction);
 
@@ -68,17 +69,17 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
-		const channel = (await this.fetchChannelFromInteraction(interaction)) as BaseGuildTextChannel;
+		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		const permissions = await this.getPermissionsForChannel(channel, interaction);
 
 		return this.sharedRun(required, permissions, 'context menu');
 	}
 
-	private async getPermissionsForChannel(channel: BaseGuildTextChannel, messageOrInteraction: Message | BaseInteraction) {
+	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: Message | BaseInteraction) {
 		let permissions: PermissionsBitField | null = this.dmChannelPermissions;
 
-		if (messageOrInteraction.inGuild()) {
+		if (messageOrInteraction.inGuild() && channel instanceof BaseGuildTextChannel) {
 			if (!isNullish(messageOrInteraction.applicationId)) {
 				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
 			}
