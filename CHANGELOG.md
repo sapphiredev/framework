@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.2.1](https://github.com/sapphiredev/framework/compare/v4.2.0...v4.2.1) - (2023-03-09)
+
+## 🐛 Bug Fixes
+
+- **ClientPermissions:** Fixed permission checking for old applications (#616) ([725a7d3](https://github.com/sapphiredev/framework/commit/725a7d3a8e8f92860aaf946aecfc988abc8d9553))
+- **events:** Add missing discordjs events (#612) ([f9606c3](https://github.com/sapphiredev/framework/commit/f9606c3c862fd1ebed52c17d8973b37513499567))
+
 # [4.2.0](https://github.com/sapphiredev/framework/compare/v4.1.1...v4.2.0) - (2023-02-22)
 
 ## 🏠 Refactor
