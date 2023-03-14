@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.2.2](https://github.com/sapphiredev/framework/compare/v4.2.1...v4.2.2) - (2023-03-14)
+
+## 🐛 Bug Fixes
+
+- Update to discordjs v14.8.0 ([00db5f3](https://github.com/sapphiredev/framework/commit/00db5f33409cc9d0c07bd1150c525e43770ebb76))
+- **deps:** Update dependency @sapphire/ratelimits to ^2.4.6 (#617) ([ab9242a](https://github.com/sapphiredev/framework/commit/ab9242a46d62173ce714c1c5285c53a9bb2414b0))
+
 # [4.2.1](https://github.com/sapphiredev/framework/compare/v4.2.0...v4.2.1) - (2023-03-09)
 
 ## 🐛 Bug Fixes
