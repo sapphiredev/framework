@@ -6,9 +6,9 @@ import type { CommandStore } from '../../structures/CommandStore';
 import { RegisterBehavior } from '../../types/Enums';
 import { Events } from '../../types/Events';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
-import { emitRegistryError } from './emitRegistryError';
 import { getNeededRegistryParameters } from './getNeededParameters';
-import { bulkOverwriteDebug, bulkOverwriteError, bulkOverwriteInfo, bulkOverwriteWarn } from './registriesLog';
+import { emitBulkOverwriteError, emitPerRegistryError } from './registriesErrors';
+import { bulkOverwriteDebug, bulkOverwriteInfo, bulkOverwriteWarn } from './registriesLog';
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 
@@ -54,7 +54,7 @@ export async function handleRegistryAPICalls() {
 			try {
 				await command.registerApplicationCommands(command.applicationCommandRegistry);
 			} catch (error) {
-				emitRegistryError(error, command);
+				emitPerRegistryError(error, command);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 
 		bulkOverwriteInfo(`Successfully overwrote global application commands. The application now has ${result.size} global commands`);
 	} catch (error) {
-		bulkOverwriteError(`Failed to overwrite global application commands`, error);
+		emitBulkOverwriteError(error, null);
 	}
 
 	// Handle guild commands
@@ -160,9 +160,11 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 				`Successfully overwrote guild application commands for guild ${guildId}. The application now has ${result.size} guild commands for guild ${guildId}`
 			);
 		} catch (error) {
-			bulkOverwriteError(`Failed to overwrite guild application commands for guild ${guildId}`, error);
+			emitBulkOverwriteError(error, guildId);
 		}
 	}
+
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries);
 }
 
 async function handleAppendOrUpdate(
