@@ -6,8 +6,8 @@ import {
 	handleBulkOverwrite,
 	registries
 } from '../utils/application-commands/ApplicationCommandRegistries';
-import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
+import { emitPerRegistryError } from '../utils/application-commands/registriesErrors';
 import { Command } from './Command';
 
 /**
@@ -65,7 +65,7 @@ export class CommandStore extends AliasStore<Command> {
 				try {
 					await command.registerApplicationCommands(command.applicationCommandRegistry);
 				} catch (error) {
-					emitRegistryError(error, command);
+					emitPerRegistryError(error, command);
 				}
 			}
 		}

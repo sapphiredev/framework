@@ -211,6 +211,13 @@ export const Events = {
 	 */
 	ApplicationCommandRegistriesRegistered: 'applicationCommandRegistriesRegistered' as const,
 
+	/**
+	 * Emitted when an error is encountered when handling the command registries in bulk overwrite mode.
+	 * @param {*} error The error that was thrown
+	 * @param {string|null} guildId The guild id where the error was thrown
+	 */
+	ApplicationCommandRegistriesBulkOverwriteError: 'applicationCommandRegistriesBulkOverwriteError' as const,
+
 	// Piece store?
 	/**
 	 * Emitted after a piece is loaded.
@@ -560,6 +567,7 @@ declare module 'discord.js' {
 		[SapphireEvents.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[SapphireEvents.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
 		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>];
+		[SapphireEvents.ApplicationCommandRegistriesBulkOverwriteError]: [error: unknown, guildId: string | null];
 
 		[SapphireEvents.PreMessageParsed]: [message: Message];
 		[SapphireEvents.MentionPrefixOnly]: [message: Message];

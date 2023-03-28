@@ -14,8 +14,8 @@ import { Args } from '../parsers/Args';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
-import { emitRegistryError } from '../utils/application-commands/emitRegistryError';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
+import { emitPerRegistryError } from '../utils/application-commands/registriesErrors';
 import { PreconditionContainerArray, type PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagUnorderedStrategy, type FlagStrategyOptions } from '../utils/strategies/FlagUnorderedStrategy';
 import type { CommandStore } from './CommandStore';
@@ -293,7 +293,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 			try {
 				await updatedPiece.registerApplicationCommands(updatedRegistry);
 			} catch (err) {
-				emitRegistryError(err, updatedPiece);
+				emitPerRegistryError(err, updatedPiece);
 				// No point on continuing
 				return;
 			}
