@@ -12,6 +12,7 @@ export enum Identifiers {
 	ArgumentFloatError = 'floatError',
 	ArgumentFloatTooLarge = 'floatTooLarge',
 	ArgumentFloatTooSmall = 'floatTooSmall',
+	ArgumentGuildError = 'guildError',
 	ArgumentGuildCategoryChannelError = 'categoryChannelError',
 	ArgumentGuildChannelError = 'guildChannelError',
 	ArgumentGuildChannelMissingGuildError = 'guildChannelMissingGuildError',
