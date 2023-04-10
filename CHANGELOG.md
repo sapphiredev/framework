@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.3.1](https://github.com/sapphiredev/framework/compare/v4.3.0...v4.3.1) - (2023-04-10)
+
+## 🐛 Bug Fixes
+
+- **deps:** Update pieces and utilities to latest version ([e83009a](https://github.com/sapphiredev/framework/commit/e83009a056759551cb8fc00c428448404aa856fa))
+
 # [4.3.0](https://github.com/sapphiredev/framework/compare/v4.2.2...v4.3.0) - (2023-04-10)
 
 ## 🐛 Bug Fixes
