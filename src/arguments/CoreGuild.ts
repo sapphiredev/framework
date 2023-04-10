@@ -5,7 +5,7 @@ import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<Guild> {
 	public constructor(context: PieceContext) {
-		super(context, { name: 'user' });
+		super(context, { name: 'guild' });
 	}
 
 	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<Guild> {
