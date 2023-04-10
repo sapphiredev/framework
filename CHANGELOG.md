@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.3.0](https://github.com/sapphiredev/framework/compare/v4.2.2...v4.3.0) - (2023-04-10)
+
+## 🐛 Bug Fixes
+
+- Add missing type modifiers ([75fb220](https://github.com/sapphiredev/framework/commit/75fb2209cb496edfc9c45eb19c32a91774180bde))
+- Update dependencies ([7555627](https://github.com/sapphiredev/framework/commit/7555627c60b93a3f4fd2dd05700cebfc39715b9a))
+- **ApplicationCommandRegistries:** Emit event if user is listening for bulk overwrites errors (#622) ([55b26ad](https://github.com/sapphiredev/framework/commit/55b26adfa0565deba08df4ba0233cb3aab93169a))
+- **deps:** Update all non-major dependencies (#620) ([5212e8c](https://github.com/sapphiredev/framework/commit/5212e8c131b498bb4365436afa43b7f406e2ab3c))
+
+## 🚀 Features
+
+- **Args:** Add guild argument (#626) ([ed414f4](https://github.com/sapphiredev/framework/commit/ed414f4b107b371a062d576887a24eee65ae53ef))
+
 # [4.2.2](https://github.com/sapphiredev/framework/compare/v4.2.1...v4.2.2) - (2023-03-14)
 
 ## 🐛 Bug Fixes
