@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import { ApplicationCommandOptionType, ApplicationCommandType, type RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { getCommandDifferences as getCommandDifferencesRaw } from '../../src/lib/utils/application-commands/computeDifferences';
 
 function getCommandDifferences(...args: Parameters<typeof getCommandDifferencesRaw>) {

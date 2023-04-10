@@ -5,9 +5,9 @@ import {
 	ContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	PermissionsBitField,
-	PermissionsString,
-	TextBasedChannel,
-	type Message
+	type Message,
+	type PermissionsString,
+	type TextBasedChannel
 } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';

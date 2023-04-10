@@ -1,5 +1,5 @@
 import { Listener } from '../../../lib/structures/Listener';
-import { Events, PreContextMenuCommandRunPayload } from '../../../lib/types/Events';
+import { Events, type PreContextMenuCommandRunPayload } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreContextMenuCommandRun> {
 	public constructor(context: Listener.Context) {

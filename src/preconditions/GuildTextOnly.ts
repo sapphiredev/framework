@@ -1,4 +1,4 @@
-import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, TextBasedChannelTypes } from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, type TextBasedChannelTypes } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 

@@ -1,12 +1,12 @@
 import { ChannelMessageRegex, MessageLinkRegex, SnowflakeRegex } from '@sapphire/discord-utilities';
 import {
-	AnyInteraction,
 	isAnyInteraction,
 	isGuildBasedChannel,
 	isNewsChannel,
 	isStageChannel,
 	isTextBasedChannel,
 	isTextChannel,
+	type AnyInteraction,
 	type GuildBasedChannelTypes,
 	type TextBasedChannelTypes
 } from '@sapphire/discord.js-utilities';
