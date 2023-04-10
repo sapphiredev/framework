@@ -5,6 +5,7 @@ export * from './dmChannel';
 export { resolveEmoji } from './emoji';
 export * from './enum';
 export * from './float';
+export * from './guild';
 export * from './guildCategoryChannel';
 export * from './guildChannel';
 export * from './guildNewsChannel';
