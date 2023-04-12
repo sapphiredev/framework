@@ -47,6 +47,8 @@ export function getDefaultBehaviorWhenNotIdentical() {
 }
 
 export async function handleRegistryAPICalls() {
+	container.client.emit(Events.ApplicationCommandRegistriesInitialising, `ApplicationCommandRegistries: Initializing...`);
+
 	const commandStore = container.stores.get('commands');
 
 	for (const command of commandStore.values()) {
@@ -171,6 +173,8 @@ async function handleAppendOrUpdate(
 	commandStore: CommandStore,
 	{ applicationCommands, globalCommands, guildCommands }: Awaited<ReturnType<typeof getNeededRegistryParameters>>
 ) {
+	const now = Date.now();
+
 	for (const registry of registries.values()) {
 		// eslint-disable-next-line @typescript-eslint/dot-notation
 		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
@@ -188,7 +192,7 @@ async function handleAppendOrUpdate(
 		}
 	}
 
-	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries);
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
 }
 
 interface BulkOverwriteData {

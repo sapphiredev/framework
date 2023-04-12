@@ -107,6 +107,14 @@ export interface SapphireClientOptions {
 	enableLoaderTraceLoggings?: boolean;
 
 	/**
+	 * If Sapphire should load the pre-included application command registries status listeners that log the status of registering application commands to the {@link SapphireClient.logger} instance.
+	 * This includes the events {@link Events.ApplicationCommandRegistriesInitialising} and {@link Events.ApplicationCommandRegistriesRegistered}.
+	 * @since 4.4.0
+	 * @default true
+	 */
+	loadApplicationCommandRegistriesStatusListeners?: boolean;
+
+	/**
 	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
 	 * @since 1.0.0
 	 * @default true
@@ -298,6 +306,10 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 			.register(new PreconditionStore().registerPath(join(__dirname, '..', 'preconditions')));
 
 		const optionalListenersPath = join(__dirname, '..', 'optional-listeners');
+
+		if (options.loadApplicationCommandRegistriesStatusListeners !== false) {
+			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'application-command-registries-listeners'));
+		}
 
 		if (options.loadDefaultErrorListeners !== false) {
 			this.stores.get('listeners').registerPath(join(optionalListenersPath, 'error-listeners'));

@@ -10,12 +10,6 @@ export class CoreEvent extends Listener {
 	public async run() {
 		this.container.client.id ??= this.container.client.user?.id ?? null;
 
-		this.container.logger.info(`ApplicationCommandRegistries: Initializing...`);
-
-		const now = Date.now();
 		await handleRegistryAPICalls();
-		const diff = Date.now() - now;
-
-		this.container.logger.info(`ApplicationCommandRegistries: Took ${diff.toLocaleString()}ms to initialize.`);
 	}
 }
