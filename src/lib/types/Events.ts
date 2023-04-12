@@ -206,6 +206,11 @@ export const Events = {
 	CommandApplicationCommandRegistryError: 'commandApplicationCommandRegistryError' as const,
 
 	/**
+	 * Emitted when the application command registries are being initialized.
+	 */
+	ApplicationCommandRegistriesInitialising: 'applicationCommandRegistriesInitialising' as const,
+
+	/**
 	 * Emitted once the application command registries have been initialized.
 	 * @param {Map<string, ApplicationCommandRegistry>} registries The initialised registries
 	 */
@@ -566,7 +571,8 @@ declare module 'discord.js' {
 
 		[SapphireEvents.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[SapphireEvents.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
-		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>];
+		[SapphireEvents.ApplicationCommandRegistriesInitialising]: [];
+		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>, timeTaken: number];
 		[SapphireEvents.ApplicationCommandRegistriesBulkOverwriteError]: [error: unknown, guildId: string | null];
 
 		[SapphireEvents.PreMessageParsed]: [message: Message];
