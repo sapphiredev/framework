@@ -572,7 +572,7 @@ declare module 'discord.js' {
 		[SapphireEvents.ListenerError]: [error: unknown, payload: ListenerErrorPayload];
 		[SapphireEvents.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
 		[SapphireEvents.ApplicationCommandRegistriesInitialising]: [];
-		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>, timeTaken?: number];
+		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>, timeTaken: number];
 		[SapphireEvents.ApplicationCommandRegistriesBulkOverwriteError]: [error: unknown, guildId: string | null];
 
 		[SapphireEvents.PreMessageParsed]: [message: Message];
