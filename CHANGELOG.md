@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.4.0](https://github.com/sapphiredev/framework/compare/v4.3.1...v4.4.0) - (2023-04-12)
+
+## 🚀 Features
+
+- Make the Application Command Registries status listeners optional (#627) ([0e6d59a](https://github.com/sapphiredev/framework/commit/0e6d59ad0321e8a92544e86984a76cc9ffa63bb7))
+
 # [4.3.1](https://github.com/sapphiredev/framework/compare/v4.3.0...v4.3.1) - (2023-04-10)
 
 ## 🐛 Bug Fixes
