@@ -6,7 +6,7 @@ export class CoreEvent extends Listener<typeof Events.ApplicationCommandRegistri
 		super(context, { event: Events.ApplicationCommandRegistriesInitialising, once: true });
 	}
 
-	public run(message: string) {
-		this.container.logger.info(message);
+	public run() {
+		this.container.logger.info('ApplicationCommandRegistries: Initializing...');
 	}
 }

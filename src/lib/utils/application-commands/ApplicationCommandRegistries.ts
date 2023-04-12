@@ -47,7 +47,7 @@ export function getDefaultBehaviorWhenNotIdentical() {
 }
 
 export async function handleRegistryAPICalls() {
-	container.client.emit(Events.ApplicationCommandRegistriesInitialising, `ApplicationCommandRegistries: Initializing...`);
+	container.client.emit(Events.ApplicationCommandRegistriesInitialising);
 
 	const commandStore = container.stores.get('commands');
 
@@ -72,6 +72,8 @@ export async function handleRegistryAPICalls() {
 }
 
 export async function handleBulkOverwrite(commandStore: CommandStore, applicationCommands: ApplicationCommandManager) {
+	const now = Date.now();
+
 	// Map registries by guild, global, etc
 	const foundGlobalCommands: BulkOverwriteData[] = [];
 	const foundGuildCommands: Record<string, BulkOverwriteData[]> = {};
@@ -166,7 +168,7 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 		}
 	}
 
-	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries);
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
 }
 
 async function handleAppendOrUpdate(
