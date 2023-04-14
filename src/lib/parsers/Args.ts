@@ -5,6 +5,7 @@ import { Option, Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type {
 	CategoryChannel,
+	ChannelType,
 	DMChannel,
 	GuildMember,
 	Message,
@@ -782,9 +783,9 @@ export interface ArgType {
 	guildCategoryChannel: CategoryChannel;
 	guildChannel: GuildBasedChannelTypes;
 	guildNewsChannel: NewsChannel;
-	guildNewsThreadChannel: ThreadChannel & { parent: NewsChannel | null };
-	guildPrivateThreadChannel: ThreadChannel & { parent: TextChannel | null };
-	guildPublicThreadChannel: ThreadChannel & { parent: TextChannel | null };
+	guildNewsThreadChannel: ThreadChannel & { type: ChannelType.AnnouncementThread; parent: NewsChannel | null };
+	guildPrivateThreadChannel: ThreadChannel & { type: ChannelType.PrivateThread; parent: TextChannel | null };
+	guildPublicThreadChannel: ThreadChannel & { type: ChannelType.PublicThread; parent: TextChannel | null };
 	guildStageVoiceChannel: StageChannel;
 	guildTextChannel: TextChannel;
 	guildThreadChannel: ThreadChannel;
