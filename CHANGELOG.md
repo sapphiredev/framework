@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.4.1](https://github.com/sapphiredev/framework/compare/v4.4.0...v4.4.1) - (2023-04-18)
+
+## 🐛 Bug Fixes
+
+- **permissions:** Add missing permission strings (#630) ([23645bb](https://github.com/sapphiredev/framework/commit/23645bbe527119ab6be3824d2435f2dbb5bf89db))
+- **ArgType:** Update `type` for guild*ThreadChannel (#628) ([222d50e](https://github.com/sapphiredev/framework/commit/222d50e0459f7769bea660ae9ae5ce412b927cdb))
+
+## 📝 Documentation
+
+- Add code of conduct to the repo ([f4a9897](https://github.com/sapphiredev/framework/commit/f4a9897142224b0f8c238667a2d1c1180b844435))
+
 # [4.4.0](https://github.com/sapphiredev/framework/compare/v4.3.1...v4.4.0) - (2023-04-12)
 
 ## 🚀 Features
