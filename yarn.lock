@@ -800,7 +800,7 @@ __metadata:
     prettier: ^2.8.8
     pretty-quick: ^3.1.3
     tsup: 6.6.2
-    typedoc: 0.24.5
+    typedoc: 0.23.28
     typedoc-json-parser: ^7.2.0
     typescript: ^5.0.4
     vite: ^4.3.1
@@ -4191,7 +4191,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^4.2.12, marked@npm:^4.3.0":
+"marked@npm:^4.2.12":
   version: 4.3.0
   resolution: "marked@npm:4.3.0"
   bin:
@@ -4313,15 +4313,6 @@ __metadata:
   dependencies:
     brace-expansion: ^2.0.1
   checksum: ceb50867205c716a1d027e6de3bd5976a940cec266acf05ff41c29bff9967290a867b381f6317fcebddfb056f0eedff88484d121e4449c3bb16c552a51b7a745
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "minimatch@npm:9.0.0"
-  dependencies:
-    brace-expansion: ^2.0.1
-  checksum: 7bd57899edd1d1b0560f50b5b2d1ea4ad2a366c5a2c8e0a943372cf2f200b64c256bae45a87a80915adbce27fa36526264296ace0da57b600481fe5ea3e372e5
   languageName: node
   linkType: hard
 
@@ -6141,23 +6132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:0.24.5":
-  version: 0.24.5
-  resolution: "typedoc@npm:0.24.5"
-  dependencies:
-    lunr: ^2.3.9
-    marked: ^4.3.0
-    minimatch: ^9.0.0
-    shiki: ^0.14.1
-  peerDependencies:
-    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x
-  bin:
-    typedoc: bin/typedoc
-  checksum: f6cc0585d92eda2c9eeb1ad000df89e2c5a386fa3a82dc259a7c3c54f3f97b86ca5ede5b07dbc9c16f983aac2547fb3c4793dd74a2f0601ffccda916c62b0f06
-  languageName: node
-  linkType: hard
-
-"typedoc@npm:^0.23.26":
+"typedoc@npm:0.23.28, typedoc@npm:^0.23.26":
   version: 0.23.28
   resolution: "typedoc@npm:0.23.28"
   dependencies:

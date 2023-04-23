@@ -4,7 +4,7 @@
 	"npm": {
 		"packageRules": [
 			{
-				"matchPackagePatterns": ["tsup"],
+				"matchPackagePatterns": ["tsup", "typedoc"],
 				"enabled": false
 			}
 		]
