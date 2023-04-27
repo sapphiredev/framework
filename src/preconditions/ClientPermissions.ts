@@ -147,6 +147,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		SendMessages: 'Send Messages',
 		SendMessagesInThreads: 'Send Messages in Threads',
 		SendTTSMessages: 'Send TTS Messages',
+		SendVoiceMessages: 'Send Voice Messages',
 		Speak: 'Speak',
 		Stream: 'Stream',
 		UseApplicationCommands: 'Use Application Commands',
