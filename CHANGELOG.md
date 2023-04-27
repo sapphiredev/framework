@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.4.2](https://github.com/sapphiredev/framework/compare/v4.4.1...v4.4.2) - (2023-04-27)
+
+## 🐛 Bug Fixes
+
+- Add missing permission to account for discord-api-types@0.37.40 ([8c5ce9d](https://github.com/sapphiredev/framework/commit/8c5ce9dfafbb7a0a329f6feb7d5e216f1df6cedf))
+- **deps:** Update all non-major dependencies (#631) ([d9115d2](https://github.com/sapphiredev/framework/commit/d9115d266e2782604e82f0b22537771055cb8bb5))
+
 # [4.4.1](https://github.com/sapphiredev/framework/compare/v4.4.0...v4.4.1) - (2023-04-18)
 
 ## 🐛 Bug Fixes
