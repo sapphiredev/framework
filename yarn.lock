@@ -522,24 +522,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@favware/cliff-jumper@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@favware/cliff-jumper@npm:2.0.0"
+"@favware/cliff-jumper@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@favware/cliff-jumper@npm:2.0.1"
   dependencies:
     "@favware/conventional-changelog-angular": ^5.0.15
-    "@sapphire/result": ^2.6.0
-    "@sapphire/utilities": 3.11.0
-    colorette: ^2.0.19
-    commander: ^10.0.0
+    "@sapphire/result": ^2.6.4
+    "@sapphire/utilities": 3.11.2
+    colorette: ^2.0.20
+    commander: ^10.0.1
     conventional-recommended-bump: ^6.1.0
-    git-cliff: ^1.1.2
+    git-cliff: ^1.2.0
     js-yaml: ^4.1.0
-    semver: ^7.3.8
-    typescript: ^4.9.5
+    semver: ^7.5.1
   bin:
     cj: ./dist/cli.js
     cliff-jumper: ./dist/cli.js
-  checksum: 432257b5a0ba4dd1b8a784c309d9b48cecb0d8761fe7bc393742a9788c3107c2c5dabfe29ac28ac9ab7ce9bd429a2d5826c837e577813bb5576af3dee7ba04ea
+  checksum: 2c802a490dc9d2b39efd344056442533f55e1c1fb2cd9e472ccabd412446b783958c49ba58a928500e20c3ed2249d532d9f895e1cced486105ad2ac3442d31da
   languageName: node
   linkType: hard
 
@@ -811,7 +810,7 @@ __metadata:
     "@commitlint/cli": ^17.6.3
     "@commitlint/config-conventional": ^17.6.3
     "@discordjs/builders": ^1.6.3
-    "@favware/cliff-jumper": ^2.0.0
+    "@favware/cliff-jumper": ^2.0.1
     "@favware/npm-deprecate": ^1.0.7
     "@favware/rollup-type-bundler": ^2.0.0
     "@sapphire/discord-utilities": ^3.0.3
@@ -825,7 +824,7 @@ __metadata:
     "@sapphire/stopwatch": ^1.5.0
     "@sapphire/ts-config": ^4.0.0
     "@sapphire/utilities": ^3.11.2
-    "@types/node": ^18.16.14
+    "@types/node": ^18.16.16
     "@types/ws": ^8.5.4
     "@typescript-eslint/eslint-plugin": ^5.59.7
     "@typescript-eslint/parser": ^5.59.7
@@ -846,9 +845,9 @@ __metadata:
     pretty-quick: ^3.1.3
     tsup: 6.6.2
     typedoc: ^0.24.7
-    typedoc-json-parser: ^8.1.0
+    typedoc-json-parser: ^8.1.2
     typescript: ^5.0.4
-    vite: ^4.3.8
+    vite: ^4.3.9
     vitest: ^0.31.1
   languageName: unknown
   linkType: soft
@@ -939,14 +938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/utilities@npm:3.11.0":
-  version: 3.11.0
-  resolution: "@sapphire/utilities@npm:3.11.0"
-  checksum: 3c8521038b8879524e8114f39eefc8b3b06cf825995f709684238b5cb14bd7df06d232a26a88f79160df290a66f9aa3133f5ce4ff8e2398033db9f301ad31e0d
-  languageName: node
-  linkType: hard
-
-"@sapphire/utilities@npm:^3.11.0, @sapphire/utilities@npm:^3.11.1, @sapphire/utilities@npm:^3.11.2":
+"@sapphire/utilities@npm:3.11.2, @sapphire/utilities@npm:^3.11.0, @sapphire/utilities@npm:^3.11.1, @sapphire/utilities@npm:^3.11.2":
   version: 3.11.2
   resolution: "@sapphire/utilities@npm:3.11.2"
   checksum: af06b3f52156af397a3be564f992bedefd728ea2d44fee8ffdc00242de0454075e722091cc213d4ad2fb4ef5c3b78740bf5e7f75242851d31a56206f51a8f403
@@ -1039,10 +1031,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.16.14":
-  version: 18.16.14
-  resolution: "@types/node@npm:18.16.14"
-  checksum: c11cb3c787236414efe58240ae71854971592554d82ff9d201876ce7cafd51c37aaa001c63602d002e8238614d7331bd6d48ac4c1c0caa826799980b6846fb08
+"@types/node@npm:*, @types/node@npm:^18.16.16":
+  version: 18.16.16
+  resolution: "@types/node@npm:18.16.16"
+  checksum: 0efad726dd1e0bef71c392c708fc5d78c5b39c46b0ac5186fee74de4ccb1b2e847b3fa468da67d62812f56569da721b15bf31bdc795e6c69b56c73a45079ed2d
   languageName: node
   linkType: hard
 
@@ -3104,58 +3096,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"git-cliff-darwin-arm64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-darwin-arm64@npm:1.1.2"
+"git-cliff-darwin-arm64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-darwin-arm64@npm:1.2.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"git-cliff-darwin-x64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-darwin-x64@npm:1.1.2"
+"git-cliff-darwin-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-darwin-x64@npm:1.2.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"git-cliff-linux-arm64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-linux-arm64@npm:1.1.2"
+"git-cliff-linux-arm64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-linux-arm64@npm:1.2.0"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"git-cliff-linux-x64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-linux-x64@npm:1.1.2"
+"git-cliff-linux-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-linux-x64@npm:1.2.0"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"git-cliff-windows-arm64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-windows-arm64@npm:1.1.2"
+"git-cliff-windows-arm64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-windows-arm64@npm:1.2.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"git-cliff-windows-x64@npm:1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff-windows-x64@npm:1.1.2"
+"git-cliff-windows-x64@npm:1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff-windows-x64@npm:1.2.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"git-cliff@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "git-cliff@npm:1.1.2"
+"git-cliff@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "git-cliff@npm:1.2.0"
   dependencies:
-    git-cliff-darwin-arm64: 1.1.2
-    git-cliff-darwin-x64: 1.1.2
-    git-cliff-linux-arm64: 1.1.2
-    git-cliff-linux-x64: 1.1.2
-    git-cliff-windows-arm64: 1.1.2
-    git-cliff-windows-x64: 1.1.2
+    git-cliff-darwin-arm64: 1.2.0
+    git-cliff-darwin-x64: 1.2.0
+    git-cliff-linux-arm64: 1.2.0
+    git-cliff-linux-x64: 1.2.0
+    git-cliff-windows-arm64: 1.2.0
+    git-cliff-windows-x64: 1.2.0
   dependenciesMeta:
     git-cliff-darwin-arm64:
       optional: true
@@ -3171,7 +3163,7 @@ __metadata:
       optional: true
   bin:
     git-cliff: lib/index.js
-  checksum: 5098c6bbc7417ed161bf56be428c2d7dbb3b7e215ae42ec127f057b52d2951cad8f6b12b66d462ca4bccbae9908413a69cb73037c4cd1b1e4639175ae742a287
+  checksum: f9081a5fd13db895e95f5c72194a3a9d4dfdfddbae748384b5f15d97dd65f5002a4318f0491c9fda0e9b45f6ddeb634b98ff4751e51123946754642545248474
   languageName: node
   linkType: hard
 
@@ -5429,7 +5421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.5.0, semver@npm:^7.0.0, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
+"semver@npm:7.5.0":
   version: 7.5.0
   resolution: "semver@npm:7.5.0"
   dependencies:
@@ -5446,6 +5438,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.0.0, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.5.1":
+  version: 7.5.1
+  resolution: "semver@npm:7.5.1"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: d16dbedad53c65b086f79524b9ef766bf38670b2395bdad5c957f824dcc566b624988013564f4812bcace3f9d405355c3635e2007396a39d1bffc71cfec4a2fc
   languageName: node
   linkType: hard
 
@@ -6037,10 +6040,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "tslib@npm:2.5.0"
-  checksum: ae3ed5f9ce29932d049908ebfdf21b3a003a85653a9a140d614da6b767a93ef94f460e52c3d787f0e4f383546981713f165037dc2274df212ea9f8a4541004e1
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "tslib@npm:2.5.2"
+  checksum: 4d3c1e238b94127ed0e88aa0380db3c2ddae581dc0f4bae5a982345e9f50ee5eda90835b8bfba99b02df10a5734470be197158c36f9129ac49fdc14a6a9da222
   languageName: node
   linkType: hard
 
@@ -6149,20 +6152,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "typedoc-json-parser@npm:8.1.0"
+"typedoc-json-parser@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "typedoc-json-parser@npm:8.1.2"
   dependencies:
     "@favware/colorette-spinner": ^1.0.1
     "@sapphire/node-utilities": ^1.0.0
     colorette: ^2.0.20
     commander: ^10.0.1
     js-yaml: ^4.1.0
-    tslib: ^2.5.0
+    tslib: ^2.5.2
     typedoc: ^0.24.7
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: ed83fcd2e5cca18adb2437790b7fcbb1c49418c2e32ddbfb0396b98fc67f75d65ea9c2ab47b6b36146cfed4e25a7132213b9eac917bb9c1c3dce456e5095bd02
+  checksum: d4b7feb654dbff856412ae143b47741323f46c1ebafe72ca7522820e1f352f745f19ac42d3ff37c519e24632b93fc167ed509a613849b715bdfd12d30917eb53
   languageName: node
   linkType: hard
 
@@ -6192,7 +6195,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.8.4, typescript@npm:^4.9.5":
+"typescript@npm:^4.8.4":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -6212,7 +6215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
@@ -6359,9 +6362,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.0.0 || ^4.0.0, vite@npm:^4.3.8":
-  version: 4.3.8
-  resolution: "vite@npm:4.3.8"
+"vite@npm:^3.0.0 || ^4.0.0, vite@npm:^4.3.9":
+  version: 4.3.9
+  resolution: "vite@npm:4.3.9"
   dependencies:
     esbuild: ^0.17.5
     fsevents: ~2.3.2
@@ -6392,7 +6395,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 454a7c0c1bd1fd5611c9df28c62e3adbe75f48e87fc787179c5af60c4ab9a87aa0eda44be446d898851a135766d36f65f8e7d56317556aa807d30e561de369c4
+  checksum: 8c45a516278d1e0425fac00c0877336790f71484a851a318346a70e0d2aef9f3b9651deb2f9f002c791ceb920eda7d6a3cda753bdefd657321c99f448b02dd25
   languageName: node
   linkType: hard
 
