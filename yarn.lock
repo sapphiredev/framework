@@ -760,15 +760,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "@sapphire/discord.js-utilities@npm:6.1.0"
+"@sapphire/discord.js-utilities@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@sapphire/discord.js-utilities@npm:7.0.0"
   dependencies:
     "@sapphire/discord-utilities": ^3.0.3
     "@sapphire/duration": ^1.1.0
-    "@sapphire/utilities": ^3.11.1
-    tslib: ^2.5.0
-  checksum: 988fdc320a111f7574d7ca596295b642198eb7ccbbadebaa7ec3423d4c732f5140b3ba2cdc03e36592cf6669c55c7616ec507cd0237d45860f0e4cc8225fb79f
+    "@sapphire/utilities": ^3.11.2
+    tslib: ^2.5.2
+  checksum: ae5b503be20e8b788f22abf8e64a11d05e7ab07b011afdba76f089038b285e749529e33b6cae9f456edbcdcd3db6bd7603b43fa468f5caeac3cfdf7e94673aa3
   languageName: node
   linkType: hard
 
@@ -814,7 +814,7 @@ __metadata:
     "@favware/npm-deprecate": ^1.0.7
     "@favware/rollup-type-bundler": ^2.0.0
     "@sapphire/discord-utilities": ^3.0.3
-    "@sapphire/discord.js-utilities": ^6.1.0
+    "@sapphire/discord.js-utilities": ^7.0.0
     "@sapphire/eslint-config": ^4.4.2
     "@sapphire/lexure": ^1.1.5
     "@sapphire/pieces": ^3.6.3
