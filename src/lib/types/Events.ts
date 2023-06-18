@@ -1,4 +1,5 @@
 import type { Piece, Store } from '@sapphire/pieces';
+import type { Option } from '@sapphire/result';
 import {
 	Events as DJSEvents,
 	type AutocompleteInteraction,
@@ -246,6 +247,25 @@ export const Events = {
 	PluginLoaded: 'pluginLoaded' as const,
 
 	// Interaction handlers
+	/**
+	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered)
+	 * Use the {@link option} parameter to determine if `some` or `none` was passed.
+	 * @param {Option.None | Option.Some<unknown>} option The {@link Option} from the `parse` method.
+	 * @param {InteractionHandlerParseSuccess} payload The contextual payload
+	 */
+	InteractionHandlerParseSuccess: 'interactionHandlerParseSuccess' as const,
+	/**
+	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered) and `some` is returned.
+	 * @param {Option.Some<unknown>} option The {@link Option.Some} from the `parse` method.
+	 * @param {InteractionHandlerParseSome} payload The contextual payload
+	 */
+	InteractionHandlerParseSome: 'interactionHandlerParseSome' as const,
+	/**
+	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered) and `none` is returned.
+	 * @param {Option.None} option The {@link Option.None} from the `parse` method.
+	 * @param {InteractionHandlerParseNone} payload The contextual payload
+	 */
+	InteractionHandlerParseNone: 'interactionHandlerParseNone' as const,
 	/**
 	 * Emitted when the `parse` method of an interaction handler encounters an error.
 	 * @param {*} error The error that was encountered
@@ -551,6 +571,17 @@ export interface IInteractionHandlerPayload {
 	handler: InteractionHandler;
 }
 
+export interface InteractionHandlerParseSuccess extends IInteractionHandlerPayload {}
+
+export interface InteractionHandlerParseSome<T = unknown> extends IInteractionHandlerPayload {
+	/**
+	 * The value that was passed to the `some` function.
+	 */
+	value: T;
+}
+
+export interface InteractionHandlerParseNone extends IInteractionHandlerPayload {}
+
 export interface InteractionHandlerParseError extends IInteractionHandlerPayload {}
 
 export interface InteractionHandlerError extends IInteractionHandlerPayload {}
@@ -597,6 +628,9 @@ declare module 'discord.js' {
 
 		[SapphireEvents.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 
+		[SapphireEvents.InteractionHandlerParseSuccess]: [option: Option.None | Option.Some<unknown>, payload: InteractionHandlerParseSuccess];
+		[SapphireEvents.InteractionHandlerParseSome]: [option: Option.Some<unknown>, payload: InteractionHandlerParseSome];
+		[SapphireEvents.InteractionHandlerParseNone]: [option: Option.None, payload: InteractionHandlerParseNone];
 		[SapphireEvents.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
 		[SapphireEvents.InteractionHandlerError]: [error: unknown, payload: InteractionHandlerError];
 
