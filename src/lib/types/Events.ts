@@ -628,7 +628,7 @@ declare module 'discord.js' {
 
 		[SapphireEvents.PluginLoaded]: [hook: PluginHook, name: string | undefined];
 
-		[SapphireEvents.InteractionHandlerParseSuccess]: [option: Option.None | Option.Some<unknown>, payload: InteractionHandlerParseSuccess];
+		[SapphireEvents.InteractionHandlerParseSuccess]: [option: Option<unknown>, payload: InteractionHandlerParseSuccess];
 		[SapphireEvents.InteractionHandlerParseSome]: [option: Option.Some<unknown>, payload: InteractionHandlerParseSome];
 		[SapphireEvents.InteractionHandlerParseNone]: [option: Option.None, payload: InteractionHandlerParseNone];
 		[SapphireEvents.InteractionHandlerParseError]: [error: unknown, payload: InteractionHandlerParseError];
