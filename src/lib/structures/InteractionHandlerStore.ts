@@ -1,5 +1,5 @@
 import { Store } from '@sapphire/pieces';
-import { Result } from '@sapphire/result';
+import { Result, type Option } from '@sapphire/result';
 import type { Interaction } from 'discord.js';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
@@ -27,13 +27,27 @@ export class InteractionHandlerStore extends Store<InteractionHandler> {
 			const result = await Result.fromAsync(() => handler.parse(interaction));
 			result.match({
 				ok: (option) => {
-					// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
-					option.inspect((value) => {
-						// Schedule the run of the handler method
-						const promise = Result.fromAsync(() => handler.run(interaction, value)) //
-							.then((res) => res.mapErr((error) => ({ handler, error })));
+					// Emit an event to the user to let them know `parse` was successful
+					this.container.client.emit(Events.InteractionHandlerParseSuccess, option, { interaction, handler });
 
-						promises.push(promise);
+					option.match({
+						// If the `parse` method returned a `Some` (whatever that `Some`'s value is, it should be handled)
+						some: (value) => {
+							// Emit an event to the user to let them know parse was successful and `some` was returned.
+							this.container.client.emit(Events.InteractionHandlerParseSome, option as Option.Some<typeof value>, {
+								interaction,
+								handler,
+								value
+							});
+
+							// Schedule the run of the handler method
+							const promise = Result.fromAsync(() => handler.run(interaction, value)) //
+								.then((res) => res.mapErr((error) => ({ handler, error })));
+
+							promises.push(promise);
+						},
+						// Emit an event to the user to let them know parse was successful and `none` was returned.
+						none: () => this.container.client.emit(Events.InteractionHandlerParseNone, option as Option.None, { interaction, handler })
 					});
 				},
 				err: (error) => {
