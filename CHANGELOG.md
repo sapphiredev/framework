@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.5.0](https://github.com/sapphiredev/framework/compare/v4.4.4...v4.5.0) - (2023-06-29)
+
+## 🐛 Bug Fixes
+
+- **deps:** Update dependency @sapphire/discord.js-utilities to v7 (#639) ([a101ccb](https://github.com/sapphiredev/framework/commit/a101ccb67be3a0a68c16cd7056c50656995e47fa))
+
+## 🚀 Features
+
+- **interaction-handlers:** Add events for parse return states (#641) ([a069d5f](https://github.com/sapphiredev/framework/commit/a069d5f8c5f2e710fdaf45d93ae8bd22a5ce2291))
+
 # [4.4.4](https://github.com/sapphiredev/framework/compare/v4.4.3...v4.4.4) - (2023-05-24)
 
 ## 🐛 Bug Fixes
