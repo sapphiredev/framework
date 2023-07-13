@@ -8,11 +8,25 @@ export class CoreArgument extends Argument<User> {
 		super(context, { name: 'user' });
 	}
 
-	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<User> {
+	public override async messageRun(parameter: string, context: Argument.MessageContext): Argument.AsyncResult<User> {
 		const resolved = await resolveUser(parameter);
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a Discord user.',
+				context
+			})
+		);
+	}
+
+	public override async chatInputRun(name: string, context: Argument.ChatInputContext): Argument.AsyncResult<User> {
+		const resolved = context.useStringResolver
+			? await resolveUser(context.interaction.options.getString(name) ?? '')
+			: await resolveUser(context.interaction.options.getUser(name)?.id ?? '');
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
 				identifier,
 				message: 'The given argument did not resolve to a Discord user.',
 				context

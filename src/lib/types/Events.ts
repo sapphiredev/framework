@@ -508,9 +508,11 @@ export interface ChatInputCommandDeniedPayload extends IChatInputCommandPayload 
 
 export interface ChatInputCommandAcceptedPayload extends PreChatInputCommandRunPayload {}
 
-export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {}
+export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {
+	args: unknown;
+}
 
-export interface ChatInputCommandFinishPayload extends ChatInputCommandAcceptedPayload {
+export interface ChatInputCommandFinishPayload extends ChatInputCommandRunPayload {
 	success: boolean;
 	duration: number;
 }
@@ -520,7 +522,7 @@ export interface ChatInputCommandSuccessPayload extends ChatInputCommandRunPaylo
 	duration: number;
 }
 
-export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
+export interface ChatInputCommandErrorPayload extends ChatInputCommandRunPayload {
 	duration: number;
 }
 

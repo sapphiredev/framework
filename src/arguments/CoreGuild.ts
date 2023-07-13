@@ -8,11 +8,23 @@ export class CoreArgument extends Argument<Guild> {
 		super(context, { name: 'guild' });
 	}
 
-	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<Guild> {
+	public override async messageRun(parameter: string, context: Argument.MessageContext): Argument.AsyncResult<Guild> {
 		const resolved = await resolveGuild(parameter);
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a Discord guild.',
+				context
+			})
+		);
+	}
+
+	public override async chatInputRun(name: string, context: Argument.ChatInputContext): Argument.AsyncResult<Guild> {
+		const resolved = await resolveGuild(context.interaction.options.getString(name) ?? '');
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
 				identifier,
 				message: 'The given argument did not resolve to a Discord guild.',
 				context

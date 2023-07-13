@@ -9,16 +9,9 @@ export class CoreArgument extends Argument<ThreadChannel> {
 		super(context, { name: 'guildThreadChannel' });
 	}
 
-	public run(parameter: string, context: Argument.Context): Argument.Result<ThreadChannel> {
+	public override messageRun(parameter: string, context: Argument.MessageContext): Argument.Result<ThreadChannel> {
 		const { guild } = context.message;
-		if (!guild) {
-			return this.error({
-				parameter,
-				identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
-				message: 'This command can only be used in a server.',
-				context
-			});
-		}
+		if (!guild) return this.guildError(parameter, context);
 
 		const resolved = resolveGuildThreadChannel(parameter, guild);
 		return resolved.mapErrInto((identifier) =>
@@ -29,5 +22,31 @@ export class CoreArgument extends Argument<ThreadChannel> {
 				context: { ...context, guild }
 			})
 		);
+	}
+
+	public override chatInputRun(name: string, context: Argument.ChatInputContext): Argument.Result<ThreadChannel> {
+		const { guild } = context.interaction;
+		if (!guild) return this.guildError(name, context);
+
+		const resolved = context.useStringResolver
+			? resolveGuildThreadChannel(context.interaction.options.getString(name) ?? '', guild)
+			: resolveGuildThreadChannel(context.interaction.options.getChannel(name)?.id ?? '', guild);
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
+				identifier,
+				message: 'The given argument did not resolve to a valid thread.',
+				context: { ...context, guild }
+			})
+		);
+	}
+
+	private guildError(parameter: string, context: Argument.MessageContext | Argument.ChatInputContext) {
+		return this.error({
+			parameter,
+			identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
+			message: 'This command can only be used in a server.',
+			context
+		});
 	}
 }

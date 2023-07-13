@@ -5,7 +5,7 @@ import type { Argument } from '../structures/Argument';
  * The context for the `'enum'` argument.
  * @since 4.2.0 (🌿)
  */
-export interface EnumArgumentContext extends Argument.Context {
+export interface EnumArgumentContext extends Argument.MessageContext {
 	readonly enum?: string[];
 	readonly caseInsensitive?: boolean;
 }
@@ -14,7 +14,7 @@ export interface EnumArgumentContext extends Argument.Context {
  * The context for the `'boolean'` argument.
  * @since 4.2.0 (🌿)
  */
-export interface BooleanArgumentContext extends Argument.Context {
+export interface BooleanArgumentContext extends Argument.MessageContext {
 	/**
 	 * The words that resolve to `true`.
 	 * Any words added to this array will be merged with the words:
@@ -37,7 +37,7 @@ export interface BooleanArgumentContext extends Argument.Context {
  * The context for the `'member'` argument.
  * @since 4.2.0 (🌿)
  */
-export interface MemberArgumentContext extends Argument.Context {
+export interface MemberArgumentContext extends Argument.MessageContext {
 	/**
 	 * Whether to perform a fuzzy search with the given argument.
 	 * This will leverage `FetchMembersOptions.query` to do the fuzzy searching.
@@ -50,4 +50,4 @@ export interface MemberArgumentContext extends Argument.Context {
  * The context for the `'message'` argument.
  * @since 4.2.0 (🌿)
  */
-export type MessageArgumentContext = Omit<MessageResolverOptions, 'messageOrInteraction'> & Argument.Context;
+export type MessageArgumentContext = Omit<MessageResolverOptions, 'messageOrInteraction'> & Argument.MessageContext;

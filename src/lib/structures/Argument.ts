@@ -1,11 +1,12 @@
 import { AliasPiece } from '@sapphire/pieces';
 import type { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
-import type { Message } from 'discord.js';
+import type { ChatInputCommandInteraction, Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
-import { Args } from '../parsers/Args';
+import type { ChatInputArgs } from '../parsers/ChatInputArgs';
+import { MessageArgs } from '../parsers/MessageArgs';
 import type { ArgumentStore } from './ArgumentStore';
-import type { MessageCommand } from './Command';
+import type { ChatInputCommand, MessageCommand } from './Command';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
@@ -29,16 +30,23 @@ export interface IArgument<T> {
 	readonly name: string;
 
 	/**
-	 * The method which is called when invoking the argument.
+	 * The message command method which is called when invoking the argument.
 	 * @param parameter The string parameter to parse.
 	 * @param context The context for the method call, contains the message, command, and other options.
 	 */
-	run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
+	messageRun?(parameter: string, context: Argument.MessageContext<T>): Argument.AwaitableResult<T>;
+
+	/**
+	 * The chat input command method which is called when invoking the argument.
+	 * @param parameter The string parameter to parse.
+	 * @param context The context for the method call, contains the interaction, command, and other options.
+	 */
+	chatInputRun?(parameter: string, context: Argument.ChatInputContext<T>): Argument.AwaitableResult<T>;
 }
 
 /**
  * The base argument class. This class is abstract and is to be extended by subclasses implementing the methods. In
- * Sapphire's workflow, arguments are called when using {@link Args}'s methods (usually used inside {@link Command}s by default).
+ * Sapphire's workflow, arguments are called when using {@link MessageArgs}'s methods (usually used inside {@link Command}s by default).
  *
  * @example
  * ```typescript
@@ -102,20 +110,22 @@ export interface IArgument<T> {
  * }
  * ```
  */
-export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
+export class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
 	/**
 	 * The {@link ArgumentStore} that contains this {@link Argument}.
 	 */
 	public declare store: ArgumentStore;
 
-	public abstract run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
+	public messageRun?(parameter: string, context: Argument.MessageContext<T>): Argument.AwaitableResult<T>;
+
+	public chatInputRun?(parameter: string, context: Argument.ChatInputContext<T>): Argument.AwaitableResult<T>;
 
 	/**
 	 * Wraps a value into a successful value.
 	 * @param value The value to wrap.
 	 */
 	public ok(value: T): Argument.Result<T> {
-		return Args.ok(value);
+		return MessageArgs.ok(value);
 	}
 
 	/**
@@ -123,15 +133,15 @@ export abstract class Argument<T = unknown, O extends Argument.Options = Argumen
 	 * @param options The options to pass to the ArgumentError.
 	 */
 	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
-		return Args.error({ argument: this, identifier: this.name, ...options });
+		return MessageArgs.error({ argument: this, identifier: this.name, ...options });
 	}
 }
 
 export interface ArgumentOptions extends AliasPiece.Options {}
 
-export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
+export interface MessageCommandArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
 	argument: IArgument<T>;
-	args: Args;
+	args: MessageArgs;
 	message: Message;
 	command: MessageCommand;
 	commandContext: MessageCommand.RunContext;
@@ -140,9 +150,21 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 	inclusive?: boolean;
 }
 
+export interface ChatInputCommandArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
+	argument: IArgument<T>;
+	args: ChatInputArgs;
+	interaction: ChatInputCommandInteraction;
+	command: ChatInputCommand;
+	commandContext: ChatInputCommand.RunContext;
+	useStringResolver?: boolean;
+	minimum?: number;
+	maximum?: number;
+}
+
 export namespace Argument {
 	export type Options = ArgumentOptions;
-	export type Context<T = unknown> = ArgumentContext<T>;
+	export type MessageContext<T = unknown> = MessageCommandArgumentContext<T>;
+	export type ChatInputContext<T = unknown> = ChatInputCommandArgumentContext<T>;
 	export type Result<T> = ArgumentResult<T>;
 	export type AwaitableResult<T> = AwaitableArgumentResult<T>;
 	export type AsyncResult<T> = AsyncArgumentResult<T>;

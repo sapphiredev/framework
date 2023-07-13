@@ -9,7 +9,7 @@ export class CoreArgument extends Argument<Message> {
 		super(context, { name: 'message' });
 	}
 
-	public async run(parameter: string, context: MessageArgumentContext): Argument.AsyncResult<Message> {
+	public override async messageRun(parameter: string, context: MessageArgumentContext): Argument.AsyncResult<Message> {
 		const channel = context.channel ?? context.message.channel;
 		const resolved = await resolveMessage(parameter, {
 			messageOrInteraction: context.message,
@@ -20,6 +20,27 @@ export class CoreArgument extends Argument<Message> {
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,
+				identifier,
+				message: 'The given argument did not resolve to a message.',
+				context: { ...context, channel }
+			})
+		);
+	}
+
+	public override async chatInputRun(
+		name: string,
+		context: Pick<MessageArgumentContext, 'channel' | 'scan'> & Argument.ChatInputContext
+	): Argument.AsyncResult<Message> {
+		const channel = context.channel ?? context.interaction.channel;
+		const resolved = await resolveMessage(context.interaction.options.getString(name) ?? '', {
+			messageOrInteraction: context.interaction,
+			channel: context.channel,
+			scan: context.scan ?? false
+		});
+
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
 				identifier,
 				message: 'The given argument did not resolve to a message.',
 				context: { ...context, channel }

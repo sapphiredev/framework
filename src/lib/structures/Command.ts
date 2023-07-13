@@ -10,7 +10,8 @@ import {
 	type PermissionResolvable,
 	type Snowflake
 } from 'discord.js';
-import { Args } from '../parsers/Args';
+import { MessageArgs } from '../parsers/MessageArgs';
+import { ChatInputArgs } from '../parsers/ChatInputArgs';
 import { BucketScope, RegisterBehavior } from '../types/Enums';
 import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
@@ -20,7 +21,11 @@ import { PreconditionContainerArray, type PreconditionEntryResolvable } from '..
 import { FlagUnorderedStrategy, type FlagStrategyOptions } from '../utils/strategies/FlagUnorderedStrategy';
 import type { CommandStore } from './CommandStore';
 
-export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
+export class Command<
+	MessagePreParseReturn = MessageArgs,
+	ChatInputPreParseReturn = ChatInputArgs,
+	O extends Command.Options = Command.Options
+> extends AliasPiece<O> {
 	/**
 	 * The {@link CommandStore} that contains this {@link Command}.
 	 */
@@ -128,10 +133,19 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param parameters The raw parameters as a single string.
 	 * @param context The command-context used in this execution.
 	 */
-	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
+	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<MessagePreParseReturn> {
 		const parser = new Parser(this.strategy);
 		const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
-		return new Args(message, this as any, args, context) as any;
+		return new MessageArgs(message, this as any, args, context) as any;
+	}
+
+	/**
+	 * The chat input pre-parse method. This method can be overridden by plugins to define their own argument parser.
+	 * @param inteaction The message that triggered the command.
+	 * @param context The command-context used in this execution.
+	 */
+	public chatInputPreParse(inteaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext): Awaitable<ChatInputPreParseReturn> {
+		return new ChatInputArgs(inteaction, this as any, inteaction.options, context) as any;
 	}
 
 	/**
@@ -176,14 +190,18 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
 	 * @param context The context in which the command was executed.
 	 */
-	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;
+	public messageRun?(message: Message, args: MessagePreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the application command's logic.
 	 * @param interaction The interaction that triggered the command.
 	 * @param context The chat input command run context.
 	 */
-	public chatInputRun?(interaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
+	public chatInputRun?(
+		interaction: ChatInputCommandInteraction,
+		args: ChatInputPreParseReturn,
+		context: ChatInputCommand.RunContext
+	): Awaitable<unknown>;
 
 	/**
 	 * Executes the context menu's logic.

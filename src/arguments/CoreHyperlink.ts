@@ -8,11 +8,23 @@ export class CoreArgument extends Argument<URL> {
 		super(context, { name: 'hyperlink', aliases: ['url'] });
 	}
 
-	public run(parameter: string, context: Argument.Context): Argument.Result<URL> {
+	public override messageRun(parameter: string, context: Argument.MessageContext): Argument.Result<URL> {
 		const resolved = resolveHyperlink(parameter);
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,
+				identifier,
+				message: 'The argument did not resolve to a valid URL.',
+				context
+			})
+		);
+	}
+
+	public override chatInputRun(name: string, context: Argument.ChatInputContext): Argument.Result<URL> {
+		const resolved = resolveHyperlink(context.interaction.options.getString(name) ?? '');
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
 				identifier,
 				message: 'The argument did not resolve to a valid URL.',
 				context

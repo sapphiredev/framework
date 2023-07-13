@@ -8,7 +8,7 @@ export class CoreArgument extends Argument<string> {
 		super(context, { name: 'enum' });
 	}
 
-	public run(parameter: string, context: EnumArgumentContext): Argument.Result<string> {
+	public override messageRun(parameter: string, context: EnumArgumentContext): Argument.Result<string> {
 		const resolved = resolveEnum(parameter, { enum: context.enum, caseInsensitive: context.caseInsensitive });
 		return resolved.mapErrInto((identifier) =>
 			this.error({

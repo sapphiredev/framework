@@ -9,16 +9,9 @@ export class CoreArgument extends Argument<Role> {
 		super(context, { name: 'role' });
 	}
 
-	public async run(parameter: string, context: Argument.Context): Argument.AsyncResult<Role> {
+	public override async messageRun(parameter: string, context: Argument.MessageContext): Argument.AsyncResult<Role> {
 		const { guild } = context.message;
-		if (!guild) {
-			return this.error({
-				parameter,
-				identifier: Identifiers.ArgumentRoleMissingGuild,
-				message: 'This command can only be used in a server.',
-				context
-			});
-		}
+		if (!guild) return this.guildError(parameter, context);
 
 		const resolved = await resolveRole(parameter, guild);
 		return resolved.mapErrInto((identifier) =>
@@ -29,5 +22,31 @@ export class CoreArgument extends Argument<Role> {
 				context: { ...context, guild }
 			})
 		);
+	}
+
+	public override async chatInputRun(name: string, context: Argument.ChatInputContext): Argument.AsyncResult<Role> {
+		const { guild } = context.interaction;
+		if (!guild) return this.guildError(name, context);
+
+		const resolved = context.useStringResolver
+			? await resolveRole(context.interaction.options.getString(name) ?? '', guild)
+			: await resolveRole(context.interaction.options.getRole(name)?.id ?? '', guild);
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
+				identifier,
+				message: 'The given argument did not resolve to a role.',
+				context: { ...context, guild }
+			})
+		);
+	}
+
+	private guildError(parameter: string, context: Argument.MessageContext | Argument.ChatInputContext) {
+		return this.error({
+			parameter,
+			identifier: Identifiers.ArgumentRoleMissingGuild,
+			message: 'This command can only be used in a server.',
+			context
+		});
 	}
 }

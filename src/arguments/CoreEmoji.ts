@@ -7,11 +7,23 @@ export class CoreArgument extends Argument<EmojiObject> {
 		super(context, { name: 'emoji' });
 	}
 
-	public run(parameter: string, context: Argument.Context): Argument.Result<EmojiObject> {
+	public override messageRun(parameter: string, context: Argument.MessageContext): Argument.Result<EmojiObject> {
 		const resolved = resolveEmoji(parameter);
 		return resolved.mapErrInto((identifier) =>
 			this.error({
 				parameter,
+				identifier,
+				message: 'The argument did not resolve to an emoji.',
+				context
+			})
+		);
+	}
+
+	public override chatInputRun(name: string, context: Argument.ChatInputContext): Argument.Result<EmojiObject> {
+		const resolved = resolveEmoji(context.interaction.options.getString(name) ?? '');
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
 				identifier,
 				message: 'The argument did not resolve to an emoji.',
 				context

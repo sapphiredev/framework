@@ -9,16 +9,9 @@ export class CoreArgument extends Argument<StageChannel> {
 		super(context, { name: 'guildStageVoiceChannel' });
 	}
 
-	public run(parameter: string, context: Argument.Context): Argument.Result<StageChannel> {
+	public override messageRun(parameter: string, context: Argument.MessageContext): Argument.Result<StageChannel> {
 		const { guild } = context.message;
-		if (!guild) {
-			return this.error({
-				parameter,
-				identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
-				message: 'This command can only be used in a server.',
-				context
-			});
-		}
+		if (!guild) return this.guildError(parameter, context);
 
 		const resolved = resolveGuildStageVoiceChannel(parameter, guild);
 		return resolved.mapErrInto((identifier) =>
@@ -29,5 +22,31 @@ export class CoreArgument extends Argument<StageChannel> {
 				context: { ...context, guild }
 			})
 		);
+	}
+
+	public override chatInputRun(name: string, context: Argument.ChatInputContext): Argument.Result<StageChannel> {
+		const { guild } = context.interaction;
+		if (!guild) return this.guildError(name, context);
+
+		const resolved = context.useStringResolver
+			? resolveGuildStageVoiceChannel(context.interaction.options.getString(name) ?? '', guild)
+			: resolveGuildStageVoiceChannel(context.interaction.options.getChannel(name)?.id ?? '', guild);
+		return resolved.mapErrInto((identifier) =>
+			this.error({
+				parameter: name,
+				identifier,
+				message: 'The given argument did not resolve to a valid stage voice channel.',
+				context: { ...context, guild }
+			})
+		);
+	}
+
+	private guildError(parameter: string, context: Argument.MessageContext | Argument.ChatInputContext) {
+		return this.error({
+			parameter,
+			identifier: Identifiers.ArgumentGuildChannelMissingGuildError,
+			message: 'This command can only be used in a server.',
+			context
+		});
 	}
 }

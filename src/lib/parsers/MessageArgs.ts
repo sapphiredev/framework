@@ -28,7 +28,7 @@ import type { MessageCommand } from '../structures/Command';
 /**
  * The argument parser to be used in {@link Command}.
  */
-export class Args {
+export class MessageArgs {
 	/**
 	 * The original message that triggered the command.
 	 */
@@ -51,8 +51,8 @@ export class Args {
 
 	/**
 	 * The states stored in the args.
-	 * @see Args#save
-	 * @see Args#restore
+	 * @see MessageArgs#save
+	 * @see MessageArgs#restore
 	 */
 	private readonly states: ArgumentStream.State[] = [];
 
@@ -66,7 +66,7 @@ export class Args {
 	/**
 	 * Sets the parser to the first token.
 	 */
-	public start(): Args {
+	public start(): MessageArgs {
 		this.parser.reset();
 		return this;
 	}
@@ -78,13 +78,13 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !square 5
-	 * const resolver = Args.make((parameter, { argument }) => {
+	 * const resolver = MessageArgs.make((parameter, { argument }) => {
 	 *   const parsed = Number(parameter);
 	 *   if (Number.isNaN(parsed)) {
-	 *     return Args.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 *     return MessageArgs.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
 	 *   }
 	 *
-	 *   return Args.ok(parsed);
+	 *   return MessageArgs.ok(parsed);
 	 * });
 	 *
 	 * const a = await args.pickResult(resolver);
@@ -94,7 +94,7 @@ export class Args {
 	 * // Sends "The result is: 25"
 	 * ```
 	 */
-	public async pickResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
+	public async pickResult<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Retrieves the next parameter and parses it. Advances index on success.
 	 * @param type The type of the argument.
@@ -112,13 +112,13 @@ export class Args {
 	 * // Sends "The result is: 3"
 	 * ```
 	 */
-	public async pickResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ResultType<ArgType[K]>>;
-	public async pickResult<K extends keyof ArgType>(type: K, options: ArgOptions = {}): Promise<ResultType<ArgType[K]>> {
-		const argument = this.resolveArgument<ArgType[K]>(type);
-		if (!argument) return this.unavailableArgument(type);
+	public async pickResult<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<ResultType<MessageArgType[K]>>;
+	public async pickResult<K extends keyof MessageArgType>(type: K, options: MessageArgOptions = {}): Promise<ResultType<MessageArgType[K]>> {
+		const argument = this.resolveArgument<MessageArgType[K]>(type);
+		if (!argument || !argument.messageRun) return this.unavailableArgument(type);
 
 		const result = await this.parser.singleParseAsync(async (arg) =>
-			argument.run(arg, {
+			argument.messageRun!(arg, {
 				args: this,
 				argument,
 				message: this.message,
@@ -131,23 +131,23 @@ export class Args {
 			return this.missingArguments();
 		}
 
-		return result as ResultType<ArgType[K]>;
+		return result as ResultType<MessageArgType[K]>;
 	}
 
 	/**
-	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The pick options.
 	 * @example
 	 * ```typescript
 	 * // !square 5
-	 * const resolver = Args.make((parameter, { argument }) => {
+	 * const resolver = MessageArgs.make((parameter, { argument }) => {
 	 *   const parsed = Number(parameter);
 	 *   if (Number.isNaN(parsed)) {
-	 *     return Args.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 *     return MessageArgs.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
 	 *   }
 	 *
-	 *   return Args.ok(parsed);
+	 *   return MessageArgs.ok(parsed);
 	 * });
 	 *
 	 * const a = await args.pick(resolver);
@@ -156,9 +156,9 @@ export class Args {
 	 * // Sends "The result is: 25"
 	 * ```
 	 */
-	public async pick<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
+	public async pick<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.pickResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.pickResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The pick options.
 	 * @example
@@ -170,8 +170,8 @@ export class Args {
 	 * // Sends "The result is: 3"
 	 * ```
 	 */
-	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
-	public async pick<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
+	public async pick<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<MessageArgType[K]>;
+	public async pick<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<MessageArgType[K]> {
 		const result = await this.pickResult(type, options);
 		return result.unwrapRaw();
 	}
@@ -183,7 +183,7 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
-	 * const resolver = Args.make((parameter) => Args.ok(parameter.split('').reverse()));
+	 * const resolver = MessageArgs.make((parameter) => MessageArgs.ok(parameter.split('').reverse()));
 	 *
 	 * const a = await args.restResult(resolver);
 	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write some text.');
@@ -192,7 +192,7 @@ export class Args {
 	 * // Sends "The reversed value is... !dlrow olleH"
 	 * ```
 	 */
-	public async restResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
+	public async restResult<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Retrieves all the following arguments.
 	 * @param type The type of the argument.
@@ -210,15 +210,15 @@ export class Args {
 	 * // Sends "The repeated value is... Hello World!Hello World!"
 	 * ```
 	 */
-	public async restResult<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ResultType<ArgType[K]>>;
-	public async restResult<T>(type: keyof ArgType | IArgument<T>, options: ArgOptions = {}): Promise<ResultType<T>> {
+	public async restResult<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<ResultType<MessageArgType[K]>>;
+	public async restResult<T>(type: keyof MessageArgType | IArgument<T>, options: MessageArgOptions = {}): Promise<ResultType<T>> {
 		const argument = this.resolveArgument(type);
-		if (!argument) return this.unavailableArgument(type);
+		if (!argument || !argument.messageRun) return this.unavailableArgument(type);
 		if (this.parser.finished) return this.missingArguments();
 
 		const state = this.parser.save();
 		const data = join(this.parser.many().unwrapOr<Parameter[]>([]));
-		const result = await argument.run(data, {
+		const result = await argument.messageRun(data, {
 			args: this,
 			argument,
 			message: this.message,
@@ -231,21 +231,21 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The rest options.
 	 * @example
 	 * ```typescript
 	 * // !reverse Hello world!
-	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
+	 * const resolver = MessageArgs.make((arg) => MessageArgs.ok(arg.split('').reverse()));
 	 * const a = await args.rest(resolver);
 	 * await message.channel.send(`The reversed value is... ${a}`);
 	 * // Sends "The reversed value is... !dlrow olleH"
 	 * ```
 	 */
-	public async rest<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
+	public async rest<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.restResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.restResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The rest options.
 	 * @example
@@ -257,8 +257,8 @@ export class Args {
 	 * // Sends "The repeated value is... Hello World!Hello World!"
 	 * ```
 	 */
-	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]>;
-	public async rest<K extends keyof ArgType>(type: K, options?: ArgOptions): Promise<ArgType[K]> {
+	public async rest<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<MessageArgType[K]>;
+	public async rest<K extends keyof MessageArgType>(type: K, options?: MessageArgOptions): Promise<MessageArgType[K]> {
 		const result = await this.restResult(type, options);
 		return result.unwrapRaw();
 	}
@@ -270,7 +270,7 @@ export class Args {
 	 * @example
 	 * ```typescript
 	 * // !add 2 Hello World!
-	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
+	 * const resolver = MessageArgs.make((arg) => MessageArgs.ok(arg.split('').reverse()));
 	 * const result = await args.repeatResult(resolver, { times: 5 });
 	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
 	 *
@@ -293,17 +293,17 @@ export class Args {
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
 	 */
-	public async repeatResult<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArrayResultType<ArgType[K]>>;
-	public async repeatResult<K extends keyof ArgType>(type: K, options: RepeatArgOptions = {}): Promise<ArrayResultType<ArgType[K]>> {
+	public async repeatResult<K extends keyof MessageArgType>(type: K, options?: RepeatArgOptions): Promise<ArrayResultType<MessageArgType[K]>>;
+	public async repeatResult<K extends keyof MessageArgType>(type: K, options: RepeatArgOptions = {}): Promise<ArrayResultType<MessageArgType[K]>> {
 		const argument = this.resolveArgument(type);
-		if (!argument) return this.unavailableArgument(type);
+		if (!argument || !argument.messageRun) return this.unavailableArgument(type);
 		if (this.parser.finished) return this.missingArguments();
 
-		const output: ArgType[K][] = [];
+		const output: MessageArgType[K][] = [];
 
 		for (let i = 0, times = options.times ?? Infinity; i < times; i++) {
 			const result = await this.parser.singleParseAsync(async (arg) =>
-				argument.run(arg, {
+				argument.messageRun!(arg, {
 					args: this,
 					argument,
 					message: this.message,
@@ -318,26 +318,26 @@ export class Args {
 				if (error === null) break;
 
 				if (output.length === 0) {
-					return result as Result.Err<UserError | ArgumentError<ArgType[K]>>;
+					return result as Result.Err<UserError | ArgumentError<MessageArgType[K]>>;
 				}
 
 				break;
 			}
 
-			output.push(result.unwrap() as ArgType[K]);
+			output.push(result.unwrap() as MessageArgType[K]);
 		}
 
 		return Result.ok(output);
 	}
 
 	/**
-	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The repeat options.
 	 * @example
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
-	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
+	 * const resolver = MessageArgs.make((arg) => MessageArgs.ok(arg.split('').reverse()));
 	 * const result = await args.repeat(resolver, { times: 5 });
 	 * await message.channel.send(`You have written ${result.length} word(s): ${result.join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
@@ -345,7 +345,7 @@ export class Args {
 	 */
 	public async repeat<T>(type: IArgument<T>, options?: RepeatArgOptions): Promise<T[]>;
 	/**
-	 * Similar to {@link Args.repeatResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.repeatResult} but returns the value on success, throwing otherwise.
 	 * @param type The type of the argument.
 	 * @param options The repeat options.
 	 * @example
@@ -356,22 +356,22 @@ export class Args {
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
 	 */
-	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]>;
-	public async repeat<K extends keyof ArgType>(type: K, options?: RepeatArgOptions): Promise<ArgType[K][]> {
+	public async repeat<K extends keyof MessageArgType>(type: K, options?: RepeatArgOptions): Promise<MessageArgType[K][]>;
+	public async repeat<K extends keyof MessageArgType>(type: K, options?: RepeatArgOptions): Promise<MessageArgType[K][]> {
 		const result = await this.repeatResult(type, options);
 		return result.unwrapRaw();
 	}
 
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
 	 * // !reversedandscreamfirst hello world
-	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse().join('')));
+	 * const resolver = MessageArgs.make((arg) => MessageArgs.ok(arg.split('').reverse().join('')));
 	 *
 	 * const result = await args.repeatResult(resolver);
 	 * await result.inspectAsync((value) =>
@@ -387,15 +387,15 @@ export class Args {
 	public async peekResult<T>(type: () => Argument.Result<T>): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @param options The peekResult options.
 	 * @example
 	 * ```typescript
 	 * // !reverseandscreamfirst sapphire community
-	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse().join('')));
+	 * const resolver = MessageArgs.make((arg) => MessageArgs.ok(arg.split('').reverse().join('')));
 	 *
 	 * const peekedWord = await args.peekResult(resolver);
 	 * await peekedWord.inspectAsync((value) => message.channel.send(value)); // erihppas
@@ -404,12 +404,12 @@ export class Args {
 	 * await firstWord.inspectAsync((value) => message.channel.send(value.toUpperCase())); // SAPPHIRE
 	 * ```
 	 */
-	public async peekResult<T>(type: IArgument<T>, options?: ArgOptions): Promise<ResultType<T>>;
+	public async peekResult<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<ResultType<T>>;
 	/**
 	 * Peeks the following parameter(s) without advancing the parser's state.
-	 * Passing a function as a parameter allows for returning {@link Args.pickResult}, {@link Args.repeatResult},
-	 * or {@link Args.restResult}; otherwise, passing the custom argument or the argument type with options
-	 * will use {@link Args.pickResult} and only peek a single argument.
+	 * Passing a function as a parameter allows for returning {@link MessageArgs.pickResult}, {@link MessageArgs.repeatResult},
+	 * or {@link MessageArgs.restResult}; otherwise, passing the custom argument or the argument type with options
+	 * will use {@link MessageArgs.pickResult} and only peek a single argument.
 	 * @param type The function, custom argument, or argument name.
 	 * @param options The peekResult options.
 	 * @example
@@ -426,15 +426,15 @@ export class Args {
 	 * ); // Your number plus two: 1608867472613
 	 * ```
 	 */
-	public async peekResult<K extends keyof ArgType>(
-		type: (() => Awaitable<Argument.Result<ArgType[K]>>) | K,
-		options?: ArgOptions
-	): Promise<ResultType<ArgType[K]>>;
+	public async peekResult<K extends keyof MessageArgType>(
+		type: (() => Awaitable<Argument.Result<MessageArgType[K]>>) | K,
+		options?: MessageArgOptions
+	): Promise<ResultType<MessageArgType[K]>>;
 
-	public async peekResult<K extends keyof ArgType>(
-		type: (() => Awaitable<Argument.Result<ArgType[K]>>) | K,
-		options: ArgOptions = {}
-	): Promise<ResultType<ArgType[K]>> {
+	public async peekResult<K extends keyof MessageArgType>(
+		type: (() => Awaitable<Argument.Result<MessageArgType[K]>>) | K,
+		options: MessageArgOptions = {}
+	): Promise<ResultType<MessageArgType[K]>> {
 		this.save();
 		const result = typeof type === 'function' ? await type() : await this.pickResult(type, options);
 		this.restore();
@@ -442,16 +442,16 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @example
 	 * ```typescript
 	 * // !bigintsumthensquarefirst 25 50 75
-	 * const resolver = Args.make((arg, { argument }) => {
+	 * const resolver = MessageArgs.make((arg, { argument }) => {
 	 *   try {
-	 *     return Args.ok(BigInt(arg));
+	 *     return MessageArgs.ok(BigInt(arg));
 	 *   } catch {
-	 *     return Args.error({ parameter: arg, argument, identifier: 'InvalidBigInt', message: 'You must specify a valid number for a bigint.' })
+	 *     return MessageArgs.error({ parameter: arg, argument, identifier: 'InvalidBigInt', message: 'You must specify a valid number for a bigint.' })
 	 *   }
 	 * });
 	 *
@@ -464,7 +464,7 @@ export class Args {
 	 */
 	public async peek<T>(type: () => Argument.Result<T>): Promise<T>;
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @param options The peek options.
 	 * @example
@@ -473,10 +473,10 @@ export class Args {
 	 * import { DiscordSnowflake } from '@sapphire/snowflake';
 	 *
 	 * // !createdat 730159185517477900
-	 * const snowflakeResolver = Args.make<bigint>((arg, { argument }) => {
+	 * const snowflakeResolver = MessageArgs.make<bigint>((arg, { argument }) => {
 	 *   return SnowflakeRegex.test(arg)
-	 *     ? Args.ok(BigInt(arg))
-	 *     : Args.error({ parameter: arg, argument, identifier: 'InvalidSnowflake', message: 'You must specify a valid snowflake.' });
+	 *     ? MessageArgs.ok(BigInt(arg))
+	 *     : MessageArgs.error({ parameter: arg, argument, identifier: 'InvalidSnowflake', message: 'You must specify a valid snowflake.' });
 	 * });
 	 *
 	 * const snowflake = await args.peek(snowflakeResolver);
@@ -491,9 +491,9 @@ export class Args {
 	 * await message.channel.send(`Your ID, reversed: ${id.split('').reverse().join('')}`); // Your ID, reversed: 009774715581951037
 	 * ```
 	 */
-	public async peek<T>(type: IArgument<T>, options?: ArgOptions): Promise<T>;
+	public async peek<T>(type: IArgument<T>, options?: MessageArgOptions): Promise<T>;
 	/**
-	 * Similar to {@link Args.peekResult} but returns the value on success, throwing otherwise.
+	 * Similar to {@link MessageArgs.peekResult} but returns the value on success, throwing otherwise.
 	 * @param type The function, custom argument, or argument name.
 	 * @param options The peek options.
 	 * @example
@@ -508,8 +508,15 @@ export class Args {
 	 * await message.channel.send(`Hostname: ${url.hostname}`); // Hostname: discord.com
 	 * ```
 	 */
-	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]>;
-	public async peek<K extends keyof ArgType>(type: (() => Argument.Result<ArgType[K]>) | K, options?: ArgOptions): Promise<ArgType[K]> {
+	public async peek<K extends keyof MessageArgType>(
+		type: (() => Argument.Result<MessageArgType[K]>) | K,
+		options?: MessageArgOptions
+	): Promise<MessageArgType[K]>;
+
+	public async peek<K extends keyof MessageArgType>(
+		type: (() => Argument.Result<MessageArgType[K]>) | K,
+		options?: MessageArgOptions
+	): Promise<MessageArgType[K]> {
 		const result = await this.peekResult(type, options);
 		return result.unwrapRaw();
 	}
@@ -548,7 +555,7 @@ export class Args {
 	}
 
 	/**
-	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
+	 * Similar to {@link MessageArgs.nextMaybe} but returns the value on success, null otherwise.
 	 * @example
 	 * ```typescript
 	 * // !numbers 1 2 3
@@ -559,7 +566,7 @@ export class Args {
 	 */
 	public next(): string;
 	/**
-	 * Similar to {@link Args.nextMaybe} but returns the value on success, null otherwise.
+	 * Similar to {@link MessageArgs.nextMaybe} but returns the value on success, null otherwise.
 	 * @typeparam T Output type of the {@link ArgsNextCallback callback}.
 	 * @param cb Gives an option of either the resulting value, or nothing if failed.
 	 * @example
@@ -603,7 +610,7 @@ export class Args {
 	/**
 	 * Gets the last value of one or more options as an {@link Option}.
 	 * If you do not care about safely handling non-existing values
-	 * you can use {@link Args.getOption} to get `string | null` as return type
+	 * you can use {@link MessageArgs.getOption} to get `string | null` as return type
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -624,7 +631,7 @@ export class Args {
 
 	/**
 	 * Gets the last value of one or more options.
-	 * Similar to {@link Args.getOptionResult} but returns the value on success, or `null` if not.
+	 * Similar to {@link MessageArgs.getOptionResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -668,7 +675,7 @@ export class Args {
 
 	/**
 	 * Gets all the values of one or more option.
-	 * Similar to {@link Args.getOptionsResult} but returns the value on success, or `null` if not.
+	 * Similar to {@link MessageArgs.getOptionsResult} but returns the value on success, or `null` if not.
 	 * @param keys The name(s) of the option.
 	 * @example
 	 * ```typescript
@@ -689,7 +696,7 @@ export class Args {
 
 	/**
 	 * Saves the current state into the stack following a FILO strategy (first-in, last-out).
-	 * @see Args#restore
+	 * @see MessageArgs#restore
 	 */
 	public save(): void {
 		this.states.push(this.parser.save());
@@ -697,7 +704,7 @@ export class Args {
 
 	/**
 	 * Restores the previously saved state from the stack.
-	 * @see Args#save
+	 * @see MessageArgs#save
 	 */
 	public restore(): void {
 		if (this.states.length !== 0) this.parser.restore(this.states.pop()!);
@@ -713,7 +720,7 @@ export class Args {
 	/**
 	 * Defines the `JSON.stringify` override.
 	 */
-	public toJSON(): ArgsJson {
+	public toJSON(): MessageArgsJson {
 		return { message: this.message, command: this.command, commandContext: this.commandContext };
 	}
 
@@ -722,7 +729,7 @@ export class Args {
 		return Result.err(
 			new UserError({
 				identifier: Identifiers.ArgsUnavailable,
-				message: `The argument "${name}" was not found.`,
+				message: `The argument "${name}" was not found or does not include the "messageRun" method.`,
 				context: { name, ...this.toJSON() }
 			})
 		);
@@ -736,7 +743,7 @@ export class Args {
 	 * Resolves an argument.
 	 * @param arg The argument name or {@link IArgument} instance.
 	 */
-	private resolveArgument<T>(arg: keyof ArgType | IArgument<T>): IArgument<T> | undefined {
+	private resolveArgument<T>(arg: keyof MessageArgType | IArgument<T>): IArgument<T> | undefined {
 		if (typeof arg === 'object') return arg;
 		return container.stores.get('arguments').get(arg as string) as IArgument<T> | undefined;
 	}
@@ -746,8 +753,8 @@ export class Args {
 	 * @param cb The callback to convert into an {@link IArgument}.
 	 * @param name The name of the argument.
 	 */
-	public static make<T>(cb: IArgument<T>['run'], name = ''): IArgument<T> {
-		return { run: cb, name };
+	public static make<T>(cb: IArgument<T>['messageRun'], name = ''): IArgument<T> {
+		return { messageRun: cb, name };
 	}
 
 	/**
@@ -767,13 +774,15 @@ export class Args {
 	}
 }
 
-export interface ArgsJson {
+export interface MessageArgsJson {
 	message: Message<boolean>;
 	command: MessageCommand;
 	commandContext: MessageCommand.RunContext;
 }
 
-export interface ArgType {
+export interface MessageArgType extends BaseArgType {}
+
+export interface BaseArgType {
 	boolean: boolean;
 	channel: ChannelTypes;
 	date: Date;
@@ -802,9 +811,9 @@ export interface ArgType {
 	enum: string;
 }
 
-export interface ArgOptions extends Omit<Argument.Context, 'message' | 'command'> {}
+export interface MessageArgOptions extends Omit<Argument.MessageContext, 'message' | 'command'> {}
 
-export interface RepeatArgOptions extends ArgOptions {
+export interface RepeatArgOptions extends MessageArgOptions {
 	/**
 	 * The maximum amount of times the argument can be repeated.
 	 * @default Infinity
@@ -813,7 +822,7 @@ export interface RepeatArgOptions extends ArgOptions {
 }
 
 /**
- * The callback used for {@link Args.nextMaybe} and {@link Args.next}.
+ * The callback used for {@link MessageArgs.nextMaybe} and {@link MessageArgs.next}.
  */
 export interface ArgsNextCallback<T> {
 	/**
