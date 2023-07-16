@@ -347,6 +347,6 @@ export interface ChatInputArgsJson {
 	commandContext: ChatInputCommand.RunContext;
 }
 
-export interface ChatInputArgType extends Omit<BaseArgType, 'enum'> {}
+export interface ChatInputArgType extends BaseArgType {}
 
 export interface ChatInputArgOptions extends Omit<Argument.ChatInputContext, 'interaction' | 'command'> {}
