@@ -4,6 +4,7 @@ import type { ArrayResultType, BaseArgType, ResultType } from './MessageArgs';
 import type { Argument, IArgument } from '../structures/Argument';
 import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
+import { isNullish } from '@sapphire/utilities';
 import { ArgumentError } from '../errors/ArgumentError';
 import { UserError } from '../errors/UserError';
 import { Identifiers } from '../errors/Identifiers';
@@ -51,20 +52,25 @@ export class ChatInputArgs {
 	 * @param options The pickResult options.
 	 * @example
 	 * ```typescript
-	 * // !square 5
-	 * const resolver = ChatInputArgs.make((parameter, { argument }) => {
-	 *   const parsed = Number(parameter);
-	 *   if (Number.isNaN(parsed)) {
-	 *     return ChatInputArgs.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 * // /square 5
+	 * const resolver = ChatInputArgs.make((name, { argument, interaction }) => {
+	 *   const parsed = interaction.options.getNumber(name);
+	 *   if (!parsed) {
+	 *      return ChatInputArgs.error({
+	 *          argument,
+	 *          parameter: name,
+	 *          identifier: 'ArgumentNumberNaN',
+	 *          message: 'You must write a valid number.'
+	 *      });
 	 *   }
 	 *
 	 *   return ChatInputArgs.ok(parsed);
 	 * });
 	 *
 	 * const a = await args.pickResult(resolver, 'number');
-	 * if (!a.success) throw new UserError('ArgumentNumberNaN', 'You must write a valid number.');
+	 * if (a.isErr()) throw new UserError('ArgumentNumberNaN', 'You must write a valid number.');
 	 *
-	 * await interaction.reply(`The result is: ${a.value ** 2}!`);
+	 * await interaction.reply(`The result is: ${a.unwrap() ** 2}!`);
 	 * // Sends "The result is: 25"
 	 * ```
 	 */
@@ -76,14 +82,14 @@ export class ChatInputArgs {
 	 * @param options The pickResult options.
 	 * @example
 	 * ```typescript
-	 * // !add 1 2
+	 * // /add 1 2
 	 * const a = await args.pickResult('integer', 'firstinteger');
-	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write two numbers, but the first one did not match.');
+	 * if (a.isErr()) throw new UserError('AddArgumentError', 'You must write two numbers, but the first one did not match.');
 	 *
 	 * const b = await args.pickResult('integer', 'secondinteger');
-	 * if (!b.success) throw new UserError('AddArgumentError', 'You must write two numbers, but the second one did not match.');
+	 * if (b.isErr()) throw new UserError('AddArgumentError', 'You must write two numbers, but the second one did not match.');
 	 *
-	 * await interaction.reply(`The result is: ${a.value + b.value}!`);
+	 * await interaction.reply(`The result is: ${a.unwrap() + b.unwrap()}!`);
 	 * // Sends "The result is: 3"
 	 * ```
 	 */
@@ -122,11 +128,16 @@ export class ChatInputArgs {
 	 * @param options The pick options.
 	 * @example
 	 * ```typescript
-	 * // !square 5
-	 * const resolver = ChatInputArgs.make((parameter, { argument }) => {
-	 *   const parsed = Number(parameter);
-	 *   if (Number.isNaN(parsed)) {
-	 *     return ChatInputArgs.error({ argument, parameter, identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 * // /square 5
+	 * const resolver = ChatInputArgs.make((name, { argument, interaction }) => {
+	 *   const parsed = interaction.options.getNumber(name);
+	 *   if (!parsed) {
+	 *      return ChatInputArgs.error({
+	 *          argument,
+	 *          parameter: name,
+	 *          identifier: 'ArgumentNumberNaN',
+	 *          message: 'You must write a valid number.'
+	 *      });
 	 *   }
 	 *
 	 *   return ChatInputArgs.ok(parsed);
@@ -146,7 +157,7 @@ export class ChatInputArgs {
 	 * @param options The pick options.
 	 * @example
 	 * ```typescript
-	 * // !add 1 2
+	 * // /add 1 2
 	 * const a = await args.pick('integer', 'firstinteger');
 	 * const b = await args.pick('integer', 'secondinteger');
 	 * await interaction.reply(`The result is: ${a + b}!`);
@@ -166,12 +177,14 @@ export class ChatInputArgs {
 	 * @param options The repeatResult options.
 	 * @example
 	 * ```typescript
-	 * // !add 2 Hello World!
-	 * const resolver = ChatInputArgs.make((arg) => ChatInputArgs.ok(arg.split('').reverse()));
-	 * const result = await args.repeatResult(resolver, { times: 5 });
-	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
+	 * // /reverse-each Hello World!
+	 * const resolver = ChatInputArgs.make((name, { interaction }) =>
+	 *      ChatInputArgs.ok(interaction.options.getString(name)?.split('').reverse())
+	 * );
+	 * const result = await args.repeatResult(resolver, ['word1', 'word2', 'word3', 'word4', 'word5']);
+	 * if (result.isErr()) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
 	 *
-	 * await interaction.reply(`You have written ${result.value.length} word(s): ${result.value.join(' ')}`);
+	 * await interaction.reply(`You have written ${result.unwrap().length} word(s): ${result.unwrap().join(' ')}`);
 	 * // Sends "You have written 2 word(s): olleH !dlroW"
 	 * ```
 	 */
@@ -183,11 +196,11 @@ export class ChatInputArgs {
 	 * @param options The repeatResult options.
 	 * @example
 	 * ```typescript
-	 * // !reverse-each 2 Hello World!
-	 * const result = await args.repeatResult('string', { times: 5 });
-	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
+	 * // /add Hello World!
+	 * const result = await args.repeatResult('string', ['word1', 'word2', 'word3', 'word4', 'word5']);
+	 * if (result.isErr()) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
 	 *
-	 * await interaction.reply(`You have written ${result.value.length} word(s): ${result.value.join(' ')}`);
+	 * await interaction.reply(`You have written ${result.unwrap().length} word(s): ${result.unwrap().join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
 	 */
@@ -227,6 +240,8 @@ export class ChatInputArgs {
 				break;
 			}
 
+			if (isNullish(result.unwrap())) break;
+
 			output.push(result.unwrap() as ChatInputArgType[K]);
 		}
 
@@ -240,11 +255,13 @@ export class ChatInputArgs {
 	 * @param options The repeat options.
 	 * @example
 	 * ```typescript
-	 * // !reverse-each 2 Hello World!
-	 * const resolver = ChatInputArgs.make((arg) => ChatInputArgs.ok(arg.split('').reverse()));
-	 * const result = await args.repeat(resolver, { times: 5 });
-	 * await interaction.reply(`You have written ${result.length} word(s): ${result.join(' ')}`);
-	 * // Sends "You have written 2 word(s): Hello World!"
+	 * // /reverse-each Hello World!
+	 * const resolver = ChatInputArgs.make((name, { interaction }) =>
+	 *      ChatInputArgs.ok(interaction.options.getString(name)?.split('').reverse())
+	 * );
+	 * const words = await args.repeat(resolver, ['word1', 'word2', 'word3', 'word4', 'word5']);
+	 * await interaction.reply(`You have written ${words.length} word(s): ${words.join(' ')}`);
+	 * // Sends "You have written 2 word(s): olleH !dlroW""
 	 * ```
 	 */
 	public async repeat<T>(type: IArgument<T>, names: string[], options?: ChatInputArgOptions): Promise<T[]>;
@@ -255,8 +272,8 @@ export class ChatInputArgs {
 	 * @param options The repeat options.
 	 * @example
 	 * ```typescript
-	 * // !add 2 Hello World!
-	 * const words = await args.repeat('string', { times: 5 });
+	 * // /add Hello World!
+	 * const words = await args.repeat('string', ['word1', 'word2', 'word3', 'word4', 'word5']);
 	 * await interaction.reply(`You have written ${words.length} word(s): ${words.join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
 	 * ```
