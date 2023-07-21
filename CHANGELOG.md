@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.5.1](https://github.com/sapphiredev/framework/compare/v4.5.0...v4.5.1) - (2023-07-21)
+
+## 🐛 Bug Fixes
+
+- **preconditions:** Resolve deprecated discordjs code ([71cf295](https://github.com/sapphiredev/framework/commit/71cf295366eac9ac4dfc1b0159eb8beec132ee15))
+- **identifiers:** Fix wrong string for Identifiers.ArgumentGuildNewsThreadChannelError ([c711e8c](https://github.com/sapphiredev/framework/commit/c711e8c9cc43718bdee3d7f901c0af9d2d309963))
+- Update transitive sapphire dependencies ([f97ca21](https://github.com/sapphiredev/framework/commit/f97ca21911d0714c4c6c82e6375919636eb701e5))
+
 # [4.5.0](https://github.com/sapphiredev/framework/compare/v4.4.4...v4.5.0) - (2023-06-29)
 
 ## 🐛 Bug Fixes
