@@ -17,7 +17,7 @@ export enum Identifiers {
 	ArgumentGuildChannelError = 'guildChannelError',
 	ArgumentGuildChannelMissingGuildError = 'guildChannelMissingGuildError',
 	ArgumentGuildNewsChannelError = 'guildNewsChannelError',
-	ArgumentGuildNewsThreadChannelError = 'guildNewsChannelError',
+	ArgumentGuildNewsThreadChannelError = 'guildNewsThreadChannelError',
 	ArgumentGuildPrivateThreadChannelError = 'guildPrivateThreadChannelError',
 	ArgumentGuildPublicThreadChannelError = 'guildPublicThreadChannelError',
 	ArgumentGuildStageVoiceChannelError = 'guildStageVoiceChannelError',
