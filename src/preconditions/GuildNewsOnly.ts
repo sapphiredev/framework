@@ -3,7 +3,7 @@ import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	private readonly allowedTypes: TextBasedChannelTypes[] = [ChannelType.GuildNews, ChannelType.GuildNewsThread];
+	private readonly allowedTypes: TextBasedChannelTypes[] = [ChannelType.GuildAnnouncement, ChannelType.AnnouncementThread];
 
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
 		return this.allowedTypes.includes(message.channel.type)

@@ -4,7 +4,7 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
-		return message.thread?.type === ChannelType.GuildNewsThread
+		return message.thread?.type === ChannelType.AnnouncementThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildNewsThreadOnly,
@@ -15,7 +15,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return channel.type === ChannelType.GuildNewsThread
+		return channel.type === ChannelType.AnnouncementThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildNewsThreadOnly,
@@ -26,7 +26,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
-		return channel.type === ChannelType.GuildNewsThread
+		return channel.type === ChannelType.AnnouncementThread
 			? this.ok()
 			: this.error({
 					identifier: Identifiers.PreconditionGuildNewsThreadOnly,
