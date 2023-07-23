@@ -47,7 +47,7 @@
 		"@sapphire/eslint-config": "^5.0.0",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^4.0.1",
-		"@types/node": "^18.16.19",
+		"@types/node": "^18.17.0",
 		"@types/ws": "^8.5.5",
 		"@typescript-eslint/eslint-plugin": "^6.1.0",
 		"@typescript-eslint/parser": "^6.1.0",
