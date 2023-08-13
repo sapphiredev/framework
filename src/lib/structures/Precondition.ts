@@ -2,6 +2,7 @@ import { Piece } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type {
+	ChannelType,
 	ChatInputCommandInteraction,
 	CommandInteraction,
 	ContextMenuCommandInteraction,
@@ -139,6 +140,9 @@ export interface Preconditions {
 	GuildVoiceOnly: never;
 	GuildThreadOnly: never;
 	NSFW: never;
+	RunIn: {
+		types: readonly ChannelType[];
+	};
 	ClientPermissions: {
 		permissions: PermissionsBitField;
 	};

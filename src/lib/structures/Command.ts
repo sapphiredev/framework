@@ -2,6 +2,7 @@ import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphir
 import { AliasPiece, type AliasPieceJSON } from '@sapphire/pieces';
 import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
 import {
+	ChannelType,
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
 	PermissionsBitField,
@@ -19,6 +20,9 @@ import { emitPerRegistryError } from '../utils/application-commands/registriesEr
 import { PreconditionContainerArray, type PreconditionEntryResolvable } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagUnorderedStrategy, type FlagStrategyOptions } from '../utils/strategies/FlagUnorderedStrategy';
 import type { CommandStore } from './CommandStore';
+
+const ChannelTypes = Object.values(ChannelType).filter((type) => typeof type === 'number') as readonly ChannelType[];
+const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM && type !== ChannelType.GroupDM) as readonly ChannelType[];
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -352,14 +356,15 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	}
 
 	/**
-	 * Appends the `DMOnly`, `GuildOnly`, `NewsOnly`, and `TextOnly` preconditions based on the values passed in
-	 * {@link Command.Options.runIn}, optimizing in specific cases (`NewsOnly` + `TextOnly` = `GuildOnly`; `DMOnly` +
-	 * `GuildOnly` = `null`), defaulting to `null`, which doesn't add a precondition.
+	 * Appends the `RunIn` precondition based on the values passed, defaulting to `null`, which doesn't add a
+	 * precondition.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
-		const runIn = this.resolveConstructorPreConditionsRunType(options.runIn);
-		if (runIn !== null) this.preconditions.append(runIn as any);
+		const types = this.resolveConstructorPreConditionsRunType(options.runIn);
+		if (types !== null) {
+			this.preconditions.append({ name: CommandPreConditions.RunIn, context: { types } });
+		}
 	}
 
 	/**
@@ -411,87 +416,51 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		}
 	}
 
-	private resolveConstructorPreConditionsRunType(runIn: Command.Options['runIn']): PreconditionContainerArray | CommandPreConditions | null {
-		if (isNullish(runIn)) return null;
-		if (typeof runIn === 'string') {
-			switch (runIn) {
+	private resolveConstructorPreConditionsRunType(types: Command.Options['runIn']): readonly ChannelType[] | null {
+		if (isNullish(types)) return null;
+		if (typeof types === 'number') return [types];
+		if (typeof types === 'string') {
+			switch (types) {
 				case 'DM':
-					return CommandPreConditions.DirectMessageOnly;
+					return [ChannelType.DM];
 				case 'GUILD_TEXT':
-					return CommandPreConditions.GuildTextOnly;
+					return [ChannelType.GuildText];
 				case 'GUILD_VOICE':
-					return CommandPreConditions.GuildVoiceOnly;
+					return [ChannelType.GuildVoice];
 				case 'GUILD_NEWS':
-					return CommandPreConditions.GuildNewsOnly;
+					return [ChannelType.GuildAnnouncement];
 				case 'GUILD_NEWS_THREAD':
-					return CommandPreConditions.GuildNewsThreadOnly;
+					return [ChannelType.AnnouncementThread];
 				case 'GUILD_PUBLIC_THREAD':
-					return CommandPreConditions.GuildPublicThreadOnly;
+					return [ChannelType.PublicThread];
 				case 'GUILD_PRIVATE_THREAD':
-					return CommandPreConditions.GuildPrivateThreadOnly;
+					return [ChannelType.PrivateThread];
 				case 'GUILD_ANY':
-					return CommandPreConditions.GuildOnly;
+					return GuildChannelTypes;
 				default:
 					return null;
 			}
 		}
 
 		// If there's no channel it can run on, throw an error:
-		if (runIn.length === 0) {
+		if (types.length === 0) {
 			throw new Error(`${this.constructor.name}[${this.name}]: "runIn" was specified as an empty array.`);
 		}
 
-		if (runIn.length === 1) {
-			return this.resolveConstructorPreConditionsRunType(runIn[0]);
+		if (types.length === 1) {
+			return this.resolveConstructorPreConditionsRunType(types[0]);
 		}
 
-		const keys = new Set(runIn);
-
-		const dm = keys.has('DM');
-		const guildText = keys.has('GUILD_TEXT');
-		const guildVoice = keys.has('GUILD_VOICE');
-		const guildNews = keys.has('GUILD_NEWS');
-		const guild = guildText && guildNews && guildVoice;
-
-		// If runs everywhere, optimise to null:
-		if (dm && guild) return null;
-
-		const guildPublicThread = keys.has('GUILD_PUBLIC_THREAD');
-		const guildPrivateThread = keys.has('GUILD_PRIVATE_THREAD');
-		const guildNewsThread = keys.has('GUILD_NEWS_THREAD');
-		const guildThreads = guildPublicThread && guildPrivateThread && guildNewsThread;
-
-		// If runs in any thread, optimise to thread-only:
-		if (guildThreads && keys.size === 3) {
-			return CommandPreConditions.GuildThreadOnly;
+		const resolved = new Set<ChannelType>();
+		for (const typeResolvable of types) {
+			for (const type of this.resolveConstructorPreConditionsRunType(typeResolvable) ?? []) resolved.add(type);
 		}
 
-		const preconditions = new PreconditionContainerArray();
-		if (dm) preconditions.append(CommandPreConditions.DirectMessageOnly);
-		if (guild) {
-			preconditions.append(CommandPreConditions.GuildOnly);
-		} else {
-			// GuildText includes PublicThread and PrivateThread
-			if (guildText) {
-				preconditions.append(CommandPreConditions.GuildTextOnly);
-			} else {
-				if (guildPublicThread) preconditions.append(CommandPreConditions.GuildPublicThreadOnly);
-				if (guildPrivateThread) preconditions.append(CommandPreConditions.GuildPrivateThreadOnly);
-			}
+		// If all types were resolved, optimize to null:
+		if (resolved.size === ChannelTypes.length) return null;
 
-			// GuildNews includes NewsThread
-			if (guildNews) {
-				preconditions.append(CommandPreConditions.GuildNewsOnly);
-			} else if (guildNewsThread) {
-				preconditions.append(CommandPreConditions.GuildNewsThreadOnly);
-			}
-
-			if (guildVoice) {
-				preconditions.append(CommandPreConditions.GuildVoiceOnly);
-			}
-		}
-
-		return preconditions;
+		// Return the resolved types in ascending order:
+		return [...resolved].sort((a, b) => a - b);
 	}
 }
 
@@ -577,14 +546,24 @@ export enum CommandOptionsRunTypeEnum {
  */
 export enum CommandPreConditions {
 	Cooldown = 'Cooldown',
+	/** @deprecated Use {@link RunIn} instead. */
 	DirectMessageOnly = 'DMOnly',
+	RunIn = 'RunIn',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildNewsOnly = 'GuildNewsOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildNewsThreadOnly = 'GuildNewsThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildOnly = 'GuildOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildTextOnly = 'GuildTextOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildVoiceOnly = 'GuildVoiceOnly',
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildThreadOnly = 'GuildThreadOnly',
 	NotSafeForWork = 'NSFW',
 	ClientPermissions = 'ClientPermissions',
@@ -715,7 +694,12 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * @since 2.0.0
 	 * @default null
 	 */
-	runIn?: Command.RunInTypes | CommandOptionsRunTypeEnum | readonly (Command.RunInTypes | CommandOptionsRunTypeEnum)[] | null;
+	runIn?:
+		| ChannelType
+		| Command.RunInTypes
+		| CommandOptionsRunTypeEnum
+		| readonly (ChannelType | Command.RunInTypes | CommandOptionsRunTypeEnum)[]
+		| null;
 
 	/**
 	 * If {@link SapphireClient.typing} is true, this option will override it.

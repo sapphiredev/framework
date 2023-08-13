@@ -4,33 +4,24 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
-		return message.thread?.type === ChannelType.PrivateThread
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
-					message: 'You can only run this message command in private server thread channels.'
-			  });
+		return message.thread?.type === ChannelType.PrivateThread ? this.ok() : this.makeSharedError();
 	}
 
 	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		return channel.type === ChannelType.PrivateThread
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
-					message: 'You can only run this chat input command in private server thread channels.'
-			  });
+		return channel.type === ChannelType.PrivateThread ? this.ok() : this.makeSharedError();
 	}
 
 	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
+		return channel.type === ChannelType.PrivateThread ? this.ok() : this.makeSharedError();
+	}
 
-		return channel.type === ChannelType.PrivateThread
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
-					message: 'You can only run this context menu command in private server thread channels.'
-			  });
+	private makeSharedError(): AllFlowsPrecondition.Result {
+		return this.error({
+			// eslint-disable-next-line deprecation/deprecation
+			identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
+			message: 'You can only run this context menu command in private server thread channels.'
+		});
 	}
 }
