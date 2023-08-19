@@ -23,7 +23,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.error({
 			// eslint-disable-next-line deprecation/deprecation
 			identifier: Identifiers.PreconditionGuildTextOnly,
-			message: 'You can only run this context menu command in server text channels.'
+			message: 'You can only run this command in server text channels.'
 		});
 	}
 }

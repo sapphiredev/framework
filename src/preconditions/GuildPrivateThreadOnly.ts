@@ -21,7 +21,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.error({
 			// eslint-disable-next-line deprecation/deprecation
 			identifier: Identifiers.PreconditionGuildPrivateThreadOnly,
-			message: 'You can only run this context menu command in private server thread channels.'
+			message: 'You can only run this command in private server thread channels.'
 		});
 	}
 }

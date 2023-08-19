@@ -19,7 +19,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.error({
 			// eslint-disable-next-line deprecation/deprecation
 			identifier: Identifiers.PreconditionGuildOnly,
-			message: 'You cannot run this context menu command in DMs.'
+			message: 'You cannot run this command in DMs.'
 		});
 	}
 }
