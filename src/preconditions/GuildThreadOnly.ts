@@ -4,33 +4,24 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
-		return message.thread
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionThreadOnly,
-					message: 'You can only run this message command in server thread channels.'
-			  });
+		return message.thread ? this.ok() : this.makeSharedError();
 	}
 
 	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		return channel.isThread()
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionThreadOnly,
-					message: 'You can only run this chat input command in server thread channels.'
-			  });
+		return channel.isThread() ? this.ok() : this.makeSharedError();
 	}
 
 	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
+		return channel.isThread() ? this.ok() : this.makeSharedError();
+	}
 
-		return channel.isThread()
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionThreadOnly,
-					message: 'You can only run this context menu command in server thread channels.'
-			  });
+	private makeSharedError(): AllFlowsPrecondition.Result {
+		return this.error({
+			// eslint-disable-next-line deprecation/deprecation
+			identifier: Identifiers.PreconditionThreadOnly,
+			message: 'You can only run this command in server thread channels.'
+		});
 	}
 }

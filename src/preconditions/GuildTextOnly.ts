@@ -6,33 +6,24 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	private readonly allowedTypes: TextBasedChannelTypes[] = [ChannelType.GuildText, ChannelType.PublicThread, ChannelType.PrivateThread];
 
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
-		return this.allowedTypes.includes(message.channel.type)
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildTextOnly,
-					message: 'You can only run this message command in server text channels.'
-			  });
+		return this.allowedTypes.includes(message.channel.type) ? this.ok() : this.makeSharedError();
 	}
 
 	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		return this.allowedTypes.includes(channel.type)
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildTextOnly,
-					message: 'You can only run this chat input command in server text channels.'
-			  });
+		return this.allowedTypes.includes(channel.type) ? this.ok() : this.makeSharedError();
 	}
 
 	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
+		return this.allowedTypes.includes(channel.type) ? this.ok() : this.makeSharedError();
+	}
 
-		return this.allowedTypes.includes(channel.type)
-			? this.ok()
-			: this.error({
-					identifier: Identifiers.PreconditionGuildTextOnly,
-					message: 'You can only run this context menu command in server text channels.'
-			  });
+	private makeSharedError(): AllFlowsPrecondition.Result {
+		return this.error({
+			// eslint-disable-next-line deprecation/deprecation
+			identifier: Identifiers.PreconditionGuildTextOnly,
+			message: 'You can only run this command in server text channels.'
+		});
 	}
 }

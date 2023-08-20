@@ -45,20 +45,30 @@ export enum Identifiers {
 	CommandDisabled = 'commandDisabled',
 
 	PreconditionCooldown = 'preconditionCooldown',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionDMOnly = 'preconditionDmOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildNewsOnly = 'preconditionGuildNewsOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildNewsThreadOnly = 'preconditionGuildNewsThreadOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildOnly = 'preconditionGuildOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildPrivateThreadOnly = 'preconditionGuildPrivateThreadOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildPublicThreadOnly = 'preconditionGuildPublicThreadOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildTextOnly = 'preconditionGuildTextOnly',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionGuildVoiceOnly = 'preconditionGuildVoiceOnly',
 	PreconditionNSFW = 'preconditionNsfw',
 	PreconditionClientPermissions = 'preconditionClientPermissions',
 	PreconditionClientPermissionsNoClient = 'preconditionClientPermissionsNoClient',
 	PreconditionClientPermissionsNoPermissions = 'preconditionClientPermissionsNoPermissions',
+	PreconditionRunIn = 'preconditionRunIn',
 	PreconditionUserPermissions = 'preconditionUserPermissions',
 	PreconditionUserPermissionsNoPermissions = 'preconditionUserPermissionsNoPermissions',
+	/** @deprecated Use {@link PreconditionRunIn} instead. */
 	PreconditionThreadOnly = 'preconditionThreadOnly',
 
 	PreconditionUnavailable = 'preconditionUnavailable',

@@ -18,6 +18,7 @@ import { CorePrecondition as GuildTextOnly } from './preconditions/GuildTextOnly
 import { CorePrecondition as GuildThreadOnly } from './preconditions/GuildThreadOnly';
 import { CorePrecondition as GuildVoiceOnly } from './preconditions/GuildVoiceOnly';
 import { CorePrecondition as NSFW } from './preconditions/NSFW';
+import { CorePrecondition as RunIn } from './preconditions/RunIn';
 import { CorePrecondition as UserPermissions } from './preconditions/UserPermissions';
 
 const ApplicationCommandRegistries = {
@@ -32,12 +33,12 @@ const ApplicationCommandRegistries = {
 export {
 	AliasPiece,
 	AliasStore,
-	container,
 	LoaderError,
 	MissingExportsError,
 	Piece,
 	Store,
 	StoreRegistry,
+	container,
 	type AliasPieceOptions,
 	type PieceContext,
 	type PieceOptions,
@@ -46,6 +47,7 @@ export {
 } from '@sapphire/pieces';
 export * from '@sapphire/result';
 export type { Awaitable } from '@sapphire/utilities';
+export * from './lib/SapphireClient';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
@@ -57,7 +59,6 @@ export * from './lib/plugins/symbols';
 export type { EmojiObject } from './lib/resolvers/emoji';
 export * as Resolvers from './lib/resolvers/index';
 export type { MessageResolverOptions } from './lib/resolvers/message';
-export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
 export * from './lib/structures/Command';
@@ -77,32 +78,44 @@ export {
 } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
+export * from './lib/utils/preconditions/IPreconditionContainer';
+export * from './lib/utils/preconditions/PreconditionContainerArray';
+export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionAnd';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionOr';
 export * from './lib/utils/preconditions/containers/ClientPermissionsPrecondition';
 export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition';
-export * from './lib/utils/preconditions/IPreconditionContainer';
-export * from './lib/utils/preconditions/PreconditionContainerArray';
-export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export { ApplicationCommandRegistries };
 
+/* eslint-disable deprecation/deprecation */
 export const CorePreconditions = {
 	ClientPermissions,
 	Cooldown,
+	/** @deprecated Use {@link RunIn} instead. */
 	DMOnly,
 	Enabled,
+	RunIn,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildNewsOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildNewsThreadOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildPrivateThreadOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildPublicThreadOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildTextOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildVoiceOnly,
+	/** @deprecated Use {@link RunIn} instead. */
 	GuildThreadOnly,
 	NSFW,
 	UserPermissions
 };
+/* eslint-enable deprecation/deprecation */
 
 export namespace CorePreconditions {
 	export type UserPermissionsPreconditionContext = PermissionPreconditionContext;

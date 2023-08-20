@@ -4,20 +4,22 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public messageRun(message: Message): AllFlowsPrecondition.Result {
-		return message.guild === null
-			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this message command outside DMs.' });
+		return message.guild === null ? this.ok() : this.makeSharedError();
 	}
 
 	public chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.Result {
-		return interaction.guildId === null
-			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this chat input command outside DMs.' });
+		return interaction.guildId === null ? this.ok() : this.makeSharedError();
 	}
 
 	public contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.Result {
-		return interaction.guildId === null
-			? this.ok()
-			: this.error({ identifier: Identifiers.PreconditionDMOnly, message: 'You cannot run this context menu command outside DMs.' });
+		return interaction.guildId === null ? this.ok() : this.makeSharedError();
+	}
+
+	private makeSharedError(): AllFlowsPrecondition.Result {
+		return this.error({
+			// eslint-disable-next-line deprecation/deprecation
+			identifier: Identifiers.PreconditionDMOnly,
+			message: 'You cannot run this command outside DMs.'
+		});
 	}
 }
