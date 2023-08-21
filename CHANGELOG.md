@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.5.2](https://github.com/sapphiredev/framework/compare/v4.5.1...v4.5.2) - (2023-08-21)
+
+## 🏠 Refactor
+
+- **preconditions:** Add `RunIn`, deprecate everything else (#655) ([2ed7fa5](https://github.com/sapphiredev/framework/commit/2ed7fa540031b247f83889751c8564de9aa81dcb))
+
+## 🐛 Bug Fixes
+
+- **deps:** Update all non-major dependencies (#656) ([6d3b4fc](https://github.com/sapphiredev/framework/commit/6d3b4fc7510d9fb2ca29d831d8f785bfc5d222e6))
+- Bump transitive dependencies ([9103253](https://github.com/sapphiredev/framework/commit/9103253c8da170c229dd87f5e22ef0031d96c436))
+- **deps:** Update all non-major dependencies ([b8ce85d](https://github.com/sapphiredev/framework/commit/b8ce85dd16f4abf1401dfbfb14ebfadd80a023e5))
+
 # [4.5.1](https://github.com/sapphiredev/framework/compare/v4.5.0...v4.5.1) - (2023-07-21)
 
 ## 🐛 Bug Fixes
