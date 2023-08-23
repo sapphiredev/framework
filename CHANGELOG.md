@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.5.3](https://github.com/sapphiredev/framework/compare/v4.5.2...v4.5.3) - (2023-08-23)
+
+## 🐛 Bug Fixes
+
+- **Command:** Make `resolveConstructorPreConditionsRunType` `protected` instead of `private` ([ce73c44](https://github.com/sapphiredev/framework/commit/ce73c4439cf30880e915bbf2946b2af2066efe85))
+
 # [4.5.2](https://github.com/sapphiredev/framework/compare/v4.5.1...v4.5.2) - (2023-08-21)
 
 ## 🏠 Refactor
