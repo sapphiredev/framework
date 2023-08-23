@@ -416,7 +416,12 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		}
 	}
 
-	private resolveConstructorPreConditionsRunType(types: Command.Options['runIn']): readonly ChannelType[] | null {
+	/**
+	 * Resolves the {@link Command.Options.runIn} option into a {@link Command.RunInTypes} array.
+	 * @param types The types to resolve.
+	 * @returns The resolved types, or `null` if no types were resolved.
+	 */
+	protected resolveConstructorPreConditionsRunType(types: Command.Options['runIn']): readonly ChannelType[] | null {
 		if (isNullish(types)) return null;
 		if (typeof types === 'number') return [types];
 		if (typeof types === 'string') {
