@@ -3,8 +3,7 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"types": ["vitest/globals"],
-		"lib": ["DOM", "ESNext"],
-		"skipLibCheck": true
+		"lib": ["DOM", "ESNext"]
 	},
-	"include": ["src", "tests", "scripts", "tsup.config.ts"]
+	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsup.config.ts"]
 }
