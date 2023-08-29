@@ -16,7 +16,7 @@ jobs:
     name: Build Documentation
     runs-on: ubuntu-latest
 
-    if: github.repository_owner == 'sapphiredev'
+    if: github.repository_owner == 'sapphiredev' && false
     outputs:
       NAME: ${{ steps.env.outputs.NAME }}
       TYPE: ${{ steps.env.outputs.TYPE }}
