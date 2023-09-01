@@ -20,7 +20,7 @@ import type {
 	UserApplicationCommandData
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
-import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical } from './ApplicationCommandRegistries';
+import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical, getDefaultGuildIds } from './ApplicationCommandRegistries';
 import { getCommandDifferences, getCommandDifferencesFast, type CommandDifference } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
@@ -58,9 +58,15 @@ export class ApplicationCommandRegistry {
 
 		this.chatInputCommands.add(builtData.name);
 
+		const guildIdsToRegister = this.getGuildIdsToRegister(options);
+
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
+			registerOptions: options ?? {
+				registerCommandIfMissing: true,
+				behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
+				guildIds: guildIdsToRegister
+			},
 			type: InternalRegistryAPIType.ChatInput
 		});
 
@@ -70,12 +76,7 @@ export class ApplicationCommandRegistry {
 			}
 		}
 
-		if (!isNullishOrEmpty(options?.guildIds)) {
-			for (const id of options!.guildIds) {
-				this.guildIdsToFetch.add(id);
-				allGuildIdsToFetchCommandsFor.add(id);
-			}
-		}
+		this.processGuildIds(guildIdsToRegister);
 
 		return this;
 	}
@@ -92,9 +93,15 @@ export class ApplicationCommandRegistry {
 
 		this.contextMenuCommands.add(builtData.name);
 
+		const guildIdsToRegister = this.getGuildIdsToRegister(options);
+
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? { registerCommandIfMissing: true, behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical() },
+			registerOptions: options ?? {
+				registerCommandIfMissing: true,
+				behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
+				guildIds: guildIdsToRegister
+			},
 			type: InternalRegistryAPIType.ContextMenu
 		});
 
@@ -104,12 +111,7 @@ export class ApplicationCommandRegistry {
 			}
 		}
 
-		if (!isNullishOrEmpty(options?.guildIds)) {
-			for (const id of options!.guildIds) {
-				this.guildIdsToFetch.add(id);
-				allGuildIdsToFetchCommandsFor.add(id);
-			}
-		}
+		this.processGuildIds(guildIdsToRegister);
 
 		return this;
 	}
@@ -218,6 +220,26 @@ export class ApplicationCommandRegistry {
 
 			for (const error of errored) {
 				this.error(error.reason.stack ?? error.reason);
+			}
+		}
+	}
+
+	private getGuildIdsToRegister(options?: ApplicationCommandRegistryRegisterOptions) {
+		let guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
+		if (!isNullishOrEmpty(getDefaultGuildIds())) {
+			guildIdsToRegister = getDefaultGuildIds();
+		} else if (!isNullishOrEmpty(options?.guildIds)) {
+			guildIdsToRegister = options!.guildIds;
+		}
+
+		return guildIdsToRegister;
+	}
+
+	private processGuildIds(guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds']) {
+		if (!isNullishOrEmpty(guildIdsToRegister)) {
+			for (const id of guildIdsToRegister) {
+				this.guildIdsToFetch.add(id);
+				allGuildIdsToFetchCommandsFor.add(id);
 			}
 		}
 	}

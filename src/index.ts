@@ -1,8 +1,10 @@
 import {
 	acquire,
 	getDefaultBehaviorWhenNotIdentical,
+	getDefaultGuildIds,
 	registries,
-	setDefaultBehaviorWhenNotIdentical
+	setDefaultBehaviorWhenNotIdentical,
+	setDefaultGuildIds
 } from './lib/utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from './lib/utils/application-commands/ApplicationCommandRegistry';
 import { CorePrecondition as ClientPermissions, type PermissionPreconditionContext } from './preconditions/ClientPermissions';
@@ -24,6 +26,8 @@ import { CorePrecondition as UserPermissions } from './preconditions/UserPermiss
 const ApplicationCommandRegistries = {
 	acquire,
 	setDefaultBehaviorWhenNotIdentical,
+	setDefaultGuildIds,
+	getDefaultGuildIds,
 	getDefaultBehaviorWhenNotIdentical,
 	get registries(): ReadonlyMap<string, ApplicationCommandRegistry> {
 		return registries;

@@ -11,6 +11,7 @@ import { emitBulkOverwriteError, emitPerRegistryError } from './registriesErrors
 import { bulkOverwriteDebug, bulkOverwriteInfo, bulkOverwriteWarn } from './registriesLog';
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
+export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
@@ -46,6 +47,20 @@ export function getDefaultBehaviorWhenNotIdentical() {
 	return defaultBehaviorWhenNotIdentical;
 }
 
+/**
+ * Sets the default guild ids for registering commands. This overwrites any usages of `guildIds` in the regular
+ * {@link Command.registerApplicationCommands} method.
+ * @param guildIds The default guildIds to set. Set this to `null` to reset it to the default
+ * of `undefined`.
+ */
+export function setDefaultGuildIds(guildIds?: ApplicationCommandRegistry.RegisterOptions['guildIds'] | null) {
+	defaultGuildIds = guildIds ?? undefined;
+}
+
+export function getDefaultGuildIds() {
+	return defaultGuildIds;
+}
+
 export async function handleRegistryAPICalls() {
 	container.client.emit(Events.ApplicationCommandRegistriesInitialising);
 
@@ -61,7 +76,7 @@ export async function handleRegistryAPICalls() {
 		}
 	}
 
-	if (defaultBehaviorWhenNotIdentical === RegisterBehavior.BulkOverwrite) {
+	if (getDefaultBehaviorWhenNotIdentical() === RegisterBehavior.BulkOverwrite) {
 		await handleBulkOverwrite(commandStore, container.client.application!.commands);
 		return;
 	}
