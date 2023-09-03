@@ -226,10 +226,11 @@ export class ApplicationCommandRegistry {
 
 	private getGuildIdsToRegister(options?: ApplicationCommandRegistryRegisterOptions) {
 		let guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
-		if (!isNullishOrEmpty(getDefaultGuildIds())) {
-			guildIdsToRegister = getDefaultGuildIds();
-		} else if (!isNullishOrEmpty(options?.guildIds)) {
+
+		if (!isNullishOrEmpty(options?.guildIds)) {
 			guildIdsToRegister = options!.guildIds;
+		} else if (!isNullishOrEmpty(getDefaultGuildIds())) {
+			guildIdsToRegister = getDefaultGuildIds();
 		}
 
 		return guildIdsToRegister;

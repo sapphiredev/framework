@@ -48,8 +48,8 @@ export function getDefaultBehaviorWhenNotIdentical() {
 }
 
 /**
- * Sets the default guild ids for registering commands. This overwrites any usages of `guildIds` in the regular
- * {@link Command.registerApplicationCommands} method.
+ * Sets the default guild ids for registering commands. This is used when a command is registered _without_ providing
+ * `guildIds` in that command's own {@link Command.registerApplicationCommands} method.
  * @param guildIds The default guildIds to set. Set this to `null` to reset it to the default
  * of `undefined`.
  */
