@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.6.0](https://github.com/sapphiredev/framework/compare/v4.6.0...v4.6.0) - (2023-09-06)
+
+## 🏠 Refactor
+
+- Change to tsc emitted declarations (#661) ([ac99774](https://github.com/sapphiredev/framework/commit/ac997749779390496a9d73c08c5cb0cfb3a1070d))
+
+## 🐛 Bug Fixes
+
+- Update transitive dependencies ([dc0cf8a](https://github.com/sapphiredev/framework/commit/dc0cf8afb660611801eb576d9427ebf43e03bfa7))
+
+## 📝 Documentation
+
+- Temporarily typedoc docgen until typedoc-json-parser is fixed ([4eb8306](https://github.com/sapphiredev/framework/commit/4eb830625ff03663c45a020b993912432c4043f6))
+- **SapphireClient:** Fix link to DiscordJS docs ([341d57a](https://github.com/sapphiredev/framework/commit/341d57a881410b6d9288c5ee7c157c1e4255f77a))
+
+## 🚀 Features
+
+- Add global config for setting the guild ids to register commands to (#659) ([de5e8eb](https://github.com/sapphiredev/framework/commit/de5e8ebb84e814794d05535bcb8f22cb1e204480))
+
 # [4.5.3](https://github.com/sapphiredev/framework/compare/v4.5.2...v4.5.3) - (2023-08-23)
 
 ## 🐛 Bug Fixes
