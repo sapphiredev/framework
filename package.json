@@ -60,7 +60,7 @@
 		"esbuild-plugin-version-injector": "^1.2.1",
 		"eslint": "^8.49.0",
 		"eslint-config-prettier": "^9.0.0",
-		"eslint-plugin-deprecation": "^1.5.0",
+		"eslint-plugin-deprecation": "^2.0.0",
 		"eslint-plugin-prettier": "^5.0.0",
 		"gen-esm-wrapper": "^1.1.3",
 		"husky": "^8.0.3",
