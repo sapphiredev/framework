@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.6.1](https://github.com/sapphiredev/framework/compare/v4.6.1...v4.6.1) - (2023-10-05)
+
+## 🐛 Bug Fixes
+
+- **events:** Add missing discordjs events (#667) ([a88c706](https://github.com/sapphiredev/framework/commit/a88c706b1754c3f58048a2d8bdd24b14d266d1ce))
+- **ClientPermissions:** Fixed permissions checking (#668) ([370755e](https://github.com/sapphiredev/framework/commit/370755ec1a81c335bbde0f9225ae0dbfab1619de))
+- Fixed types for Node 20 types ([de8e8d0](https://github.com/sapphiredev/framework/commit/de8e8d09c24f367da0278e9ece8bc89355988b6e))
+
 # [4.6.0](https://github.com/sapphiredev/framework/compare/v4.6.0...v4.6.0) - (2023-09-06)
 
 ## 🏠 Refactor
