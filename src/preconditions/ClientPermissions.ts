@@ -79,15 +79,13 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		let permissions: PermissionsBitField | null = this.dmChannelPermissions;
 
 		if (messageOrInteraction.inGuild() && !channel.isDMBased()) {
-			if (!isNullish(messageOrInteraction.applicationId)) {
-				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
-			}
-
-			if (isNullish(permissions)) {
+			if (isNullish(messageOrInteraction.applicationId)) {
 				const me = await messageOrInteraction.guild?.members.fetchMe();
 				if (me) {
 					permissions = channel.permissionsFor(me);
 				}
+			} else {
+				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
 			}
 		}
 
