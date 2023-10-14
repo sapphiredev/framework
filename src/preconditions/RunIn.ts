@@ -1,17 +1,23 @@
 import type { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../lib/structures/Command';
-import { AllFlowsPrecondition } from '../lib/structures/Precondition';
+import { AllFlowsPrecondition, type Preconditions, type RunInPreconditionCommandSpecificData } from '../lib/structures/Precondition';
 
 export interface RunInPreconditionContext extends AllFlowsPrecondition.Context {
-	types?: readonly ChannelType[];
+	types?: Preconditions['RunIn']['types'];
 }
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public override messageRun(message: Message<boolean>, _: MessageCommand, context: RunInPreconditionContext): AllFlowsPrecondition.Result {
-		return context.types && context.types.includes(message.channel.type) //
-			? this.ok()
-			: this.makeSharedError(context);
+		if (!context.types) return this.ok();
+
+		const channelType = message.channel.type;
+
+		if (typesIsArray(context.types)) {
+			return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		}
+
+		return context.types.messageRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
 	}
 
 	public override async chatInputRun(
@@ -19,9 +25,15 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		_: ChatInputCommand,
 		context: RunInPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
-		return context.types && context.types.includes((await this.fetchChannelFromInteraction(interaction)).type)
-			? this.ok()
-			: this.makeSharedError(context);
+		if (!context.types) return this.ok();
+
+		const channelType = (await this.fetchChannelFromInteraction(interaction)).type;
+
+		if (typesIsArray(context.types)) {
+			return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		}
+
+		return context.types.chatInputRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
 	}
 
 	public override async contextMenuRun(
@@ -29,9 +41,15 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		_: ContextMenuCommand,
 		context: RunInPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
-		return context.types && context.types.includes((await this.fetchChannelFromInteraction(interaction)).type)
-			? this.ok()
-			: this.makeSharedError(context);
+		if (!context.types) return this.ok();
+
+		const channelType = (await this.fetchChannelFromInteraction(interaction)).type;
+
+		if (typesIsArray(context.types)) {
+			return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		}
+
+		return context.types.contextMenuRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
 	}
 
 	private makeSharedError(context: RunInPreconditionContext): AllFlowsPrecondition.Result {
@@ -41,4 +59,8 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			context: { types: context.types }
 		});
 	}
+}
+
+function typesIsArray(types: readonly ChannelType[] | RunInPreconditionCommandSpecificData): types is readonly ChannelType[] {
+	return Array.isArray(types);
 }

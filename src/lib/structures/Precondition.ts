@@ -141,7 +141,7 @@ export interface Preconditions {
 	GuildThreadOnly: never;
 	NSFW: never;
 	RunIn: {
-		types: readonly ChannelType[];
+		types: readonly ChannelType[] | RunInPreconditionCommandSpecificData;
 	};
 	ClientPermissions: {
 		permissions: PermissionsBitField;
@@ -149,6 +149,16 @@ export interface Preconditions {
 	UserPermissions: {
 		permissions: PermissionsBitField;
 	};
+}
+
+/**
+ * The specific data for the precondition types for the `RunIn` precondition, when the command
+ * specified the types for specific command types.
+ */
+export interface RunInPreconditionCommandSpecificData {
+	messageRun: readonly ChannelType[];
+	chatInputRun: readonly ChannelType[];
+	contextMenuRun: readonly ChannelType[];
 }
 
 export type PreconditionKeys = keyof Preconditions;
