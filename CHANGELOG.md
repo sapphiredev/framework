@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.7.0](https://github.com/sapphiredev/framework/compare/v4.7.0...v4.7.0) - (2023-10-15)
+
+## 🚀 Features
+
+- **command:** Make it possible for runIn to be command type specific (#673) ([99ab31e](https://github.com/sapphiredev/framework/commit/99ab31ece05319451560868a72344d2ee4051489))
+
 # [4.6.1](https://github.com/sapphiredev/framework/compare/v4.6.1...v4.6.1) - (2023-10-05)
 
 ## 🐛 Bug Fixes
