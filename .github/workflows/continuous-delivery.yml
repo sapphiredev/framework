@@ -31,10 +31,10 @@ jobs:
           ref: ${{ github.event.inputs.ref || 'main' }}
       - name: Add TypeScript problem matcher
         run: echo "::add-matcher::.github/problemMatchers/tsc.json"
-      - name: Use Node.js v18
+      - name: Use Node.js v20
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
           registry-url: https://registry.yarnpkg.com/
       - name: Install Dependencies
