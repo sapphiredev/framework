@@ -25,9 +25,7 @@
 		"build:types": "tsc -b src",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"postinstall": "husky install .github/husky",
-		"prepack": "rollup-type-bundler -v -e node:url node:events && pinst --disable",
-		"postpack": "pinst --enable"
+		"prepack": "rollup-type-bundler -v -e node:url node:events"
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.6.5",
@@ -63,9 +61,7 @@
 		"eslint-plugin-deprecation": "^2.0.0",
 		"eslint-plugin-prettier": "^5.0.1",
 		"gen-esm-wrapper": "^1.1.3",
-		"husky": "^8.0.3",
 		"lint-staged": "^15.0.0",
-		"pinst": "^3.0.0",
 		"prettier": "^3.0.3",
 		"tsup": "^7.2.0",
 		"typedoc": "^0.25.2",
