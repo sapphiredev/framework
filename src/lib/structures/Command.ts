@@ -1,6 +1,6 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece, type AliasPieceJSON } from '@sapphire/pieces';
-import { isNullish, type Awaitable, type NonNullObject } from '@sapphire/utilities';
+import { isNullish, isObject, type Awaitable, type NonNullObject, type Nullish } from '@sapphire/utilities';
 import {
 	ChannelType,
 	ChatInputCommandInteraction,
@@ -23,6 +23,14 @@ import type { CommandStore } from './CommandStore';
 
 const ChannelTypes = Object.values(ChannelType).filter((type) => typeof type === 'number') as readonly ChannelType[];
 const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM && type !== ChannelType.GroupDM) as readonly ChannelType[];
+function runInTypeIsSpecificsObject(types: Command.Options['runIn']): types is CommandSpecificRunIn {
+	if (!isObject(types)) {
+		return false;
+	}
+
+	const specificTypes = types as CommandSpecificRunIn;
+	return Boolean(specificTypes.chatInputRun || specificTypes.messageRun || specificTypes.contextMenuRun);
+}
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -361,9 +369,31 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
-		const types = this.resolveConstructorPreConditionsRunType(options.runIn);
-		if (types !== null) {
-			this.preconditions.append({ name: CommandPreConditions.RunIn, context: { types } });
+		// Early return if there's no runIn option:
+		if (isNullish(options.runIn)) return;
+
+		if (runInTypeIsSpecificsObject(options.runIn)) {
+			const messageRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.messageRun);
+			const chatInputRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.chatInputRun);
+			const contextMenuRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.contextMenuRun);
+
+			if (messageRunTypes !== null || chatInputRunTypes !== null || contextMenuRunTypes !== null) {
+				this.preconditions.append({
+					name: CommandPreConditions.RunIn,
+					context: {
+						types: {
+							messageRun: messageRunTypes ?? [],
+							chatInputRun: chatInputRunTypes ?? [],
+							contextMenuRun: contextMenuRunTypes ?? []
+						}
+					}
+				});
+			}
+		} else {
+			const types = this.resolveConstructorPreConditionsRunType(options.runIn);
+			if (types !== null) {
+				this.preconditions.append({ name: CommandPreConditions.RunIn, context: { types } });
+			}
 		}
 	}
 
@@ -421,7 +451,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param types The types to resolve.
 	 * @returns The resolved types, or `null` if no types were resolved.
 	 */
-	protected resolveConstructorPreConditionsRunType(types: Command.Options['runIn']): readonly ChannelType[] | null {
+	protected resolveConstructorPreConditionsRunType(types: CommandRunInUnion): readonly ChannelType[] | null {
 		if (isNullish(types)) return null;
 		if (typeof types === 'number') return [types];
 		if (typeof types === 'string') {
@@ -529,6 +559,28 @@ export type CommandOptionsRunType =
 	| 'GUILD_PUBLIC_THREAD'
 	| 'GUILD_PRIVATE_THREAD'
 	| 'GUILD_ANY';
+
+/**
+ * The allowed values for {@link CommandOptions.runIn}.
+ * @since 4.7.0
+ */
+export type CommandRunInUnion =
+	| ChannelType
+	| Command.RunInTypes
+	| CommandOptionsRunTypeEnum
+	| readonly (ChannelType | Command.RunInTypes | CommandOptionsRunTypeEnum)[]
+	| Nullish;
+
+/**
+ * A more detailed structure for {@link CommandOptions.runIn} when you want to have a different `runIn` for each
+ * command type.
+ * @since 4.7.0
+ */
+export interface CommandSpecificRunIn {
+	chatInputRun?: CommandRunInUnion;
+	messageRun?: CommandRunInUnion;
+	contextMenuRun?: CommandRunInUnion;
+}
 
 /**
  * The allowed values for {@link Command.Options.runIn} as an enum.
@@ -695,16 +747,17 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	requiredUserPermissions?: PermissionResolvable;
 
 	/**
-	 * The channels the command should run in. If set to `null`, no precondition entry will be added. Some optimizations are applied when given an array to reduce the amount of preconditions run (e.g. `'GUILD_TEXT'` and `'GUILD_NEWS'` becomes `'GUILD_ANY'`, and if both `'DM'` and `'GUILD_ANY'` are defined, then no precondition entry is added as it runs in all channels).
+	 * The channels the command should run in. If set to `null`, no precondition entry will be added.
+	 * Some optimizations are applied when given an array to reduce the amount of preconditions run
+	 * (e.g. `'GUILD_TEXT'` and `'GUILD_NEWS'` becomes `'GUILD_ANY'`, and if both `'DM'` and `'GUILD_ANY'` are defined,
+	 * then no precondition entry is added as it runs in all channels).
+	 *
+	 * This can be both {@link CommandRunInUnion} which will have the same precondition apply to all the types of commands,
+	 * or you can use {@link CommandSpecificRunIn} to apply different preconditions to different types of commands.
 	 * @since 2.0.0
 	 * @default null
 	 */
-	runIn?:
-		| ChannelType
-		| Command.RunInTypes
-		| CommandOptionsRunTypeEnum
-		| readonly (ChannelType | Command.RunInTypes | CommandOptionsRunTypeEnum)[]
-		| null;
+	runIn?: CommandRunInUnion | CommandSpecificRunIn;
 
 	/**
 	 * If {@link SapphireClient.typing} is true, this option will override it.
@@ -776,6 +829,8 @@ export namespace Command {
 	export type JSON = CommandJSON;
 	export type Context = AliasPiece.Context;
 	export type RunInTypes = CommandOptionsRunType;
+	export type RunInUnion = CommandRunInUnion;
+	export type SpecificRunIn = CommandSpecificRunIn;
 	export type ChatInputCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').ChatInputCommandInteraction<Cached>;
 	export type ContextMenuCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
