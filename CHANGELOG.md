@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.7.1](https://github.com/sapphiredev/framework/compare/v4.7.1...v4.7.1) - (2023-10-16)
+
+## 🏠 Refactor
+
+- Expose `runInTypeIsSpecificsObject` as public static method on `Command` ([6bbe2c1](https://github.com/sapphiredev/framework/commit/6bbe2c10315a6e5f8277c46fa627fef90117acd0))
+
 # [4.7.0](https://github.com/sapphiredev/framework/compare/v4.7.0...v4.7.0) - (2023-10-15)
 
 ## 🚀 Features
