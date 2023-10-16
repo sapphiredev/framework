@@ -23,14 +23,6 @@ import type { CommandStore } from './CommandStore';
 
 const ChannelTypes = Object.values(ChannelType).filter((type) => typeof type === 'number') as readonly ChannelType[];
 const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM && type !== ChannelType.GroupDM) as readonly ChannelType[];
-function runInTypeIsSpecificsObject(types: Command.Options['runIn']): types is CommandSpecificRunIn {
-	if (!isObject(types)) {
-		return false;
-	}
-
-	const specificTypes = types as CommandSpecificRunIn;
-	return Boolean(specificTypes.chatInputRun || specificTypes.messageRun || specificTypes.contextMenuRun);
-}
 
 export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
 	/**
@@ -372,7 +364,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 		// Early return if there's no runIn option:
 		if (isNullish(options.runIn)) return;
 
-		if (runInTypeIsSpecificsObject(options.runIn)) {
+		if (Command.runInTypeIsSpecificsObject(options.runIn)) {
 			const messageRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.messageRun);
 			const chatInputRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.chatInputRun);
 			const contextMenuRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.contextMenuRun);
@@ -496,6 +488,15 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 
 		// Return the resolved types in ascending order:
 		return [...resolved].sort((a, b) => a - b);
+	}
+
+	public static runInTypeIsSpecificsObject(types: Command.Options['runIn']): types is CommandSpecificRunIn {
+		if (!isObject(types)) {
+			return false;
+		}
+
+		const specificTypes = types as CommandSpecificRunIn;
+		return Boolean(specificTypes.chatInputRun || specificTypes.messageRun || specificTypes.contextMenuRun);
 	}
 }
 
