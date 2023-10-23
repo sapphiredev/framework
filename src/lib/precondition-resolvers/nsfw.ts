@@ -1,4 +1,5 @@
-import { CommandPreConditions, type PreconditionContainerArray } from '@sapphire/framework';
+import { CommandPreConditions } from '../types/Enums';
+import type { PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
 
 /**
  * Appends the `NSFW` precondition if {@link SubcommandMappingMethod.nsfw} is set to true.
