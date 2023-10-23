@@ -64,7 +64,7 @@ export enum InternalRegistryAPIType {
 }
 
 /**
- * The allowed values for {@link Command.Options.runIn} as an enum.
+ * The allowed values for {@link CommandOptions.runIn} as an enum.
  * @since 2.0.0
  */
 export enum CommandOptionsRunTypeEnum {

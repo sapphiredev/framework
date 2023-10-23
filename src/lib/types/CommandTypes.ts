@@ -19,7 +19,7 @@ export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObje
 export interface DetailedDescriptionCommandObject extends NonNullObject {}
 
 /**
- * The allowed values for {@link Command.Options.runIn}.
+ * The allowed values for {@link CommandOptions.runIn}.
  * @remark It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
  * @since 2.0.0
  */
@@ -132,14 +132,14 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	nsfw?: boolean;
 
 	/**
-	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link Command.Options.cooldownDelay}, the `Cooldown` precondition will be added to the list.
+	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link CommandOptions.cooldownDelay}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 1
 	 */
 	cooldownLimit?: number;
 
 	/**
-	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link Command.Options.cooldownLimit}, the `Cooldown` precondition will be added to the list.
+	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link CommandOptions.cooldownLimit}, the `Cooldown` precondition will be added to the list.
 	 * @since 2.0.0
 	 * @default 0
 	 */
