@@ -78,8 +78,8 @@
 		"dist/"
 	],
 	"engines": {
-		"node": ">=16.6.0",
-		"npm": ">=7.0.0"
+		"node": ">=v18",
+		"npm": ">=7"
 	},
 	"keywords": [
 		"bot",
