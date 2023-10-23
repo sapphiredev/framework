@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.7.2](https://github.com/sapphiredev/framework/compare/v4.7.2...v4.7.2) - (2023-10-23)
+
+## 🏠 Refactor
+
+- Move preconditions resolvers to dedicated files (#679) ([d9bbb28](https://github.com/sapphiredev/framework/commit/d9bbb28159504f53f5b0d262da3f66bbfb3d0bd6))
+- Move command types to its own file (#678) ([832c979](https://github.com/sapphiredev/framework/commit/832c979a5702891f57539db5aded5eba24a9e95b))
+
 # [4.7.1](https://github.com/sapphiredev/framework/compare/v4.7.1...v4.7.1) - (2023-10-16)
 
 ## 🏠 Refactor
