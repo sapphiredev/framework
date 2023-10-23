@@ -9,7 +9,7 @@ import {
 	parseConstructorPreConditionsRequiredClientPermissions,
 	parseConstructorPreConditionsRequiredUserPermissions,
 	parseConstructorPreConditionsRunIn
-} from '../precondition-resolvers';
+} from '../precondition-resolvers/index';
 import type {
 	AutocompleteCommand,
 	ChatInputCommand,
