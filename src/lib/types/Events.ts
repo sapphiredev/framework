@@ -9,18 +9,18 @@ import {
 	type Message
 } from 'discord.js';
 import type { UserError } from '../errors/UserError';
+import type { Command } from '../structures/Command';
+import type { InteractionHandler } from '../structures/InteractionHandler';
+import type { Listener } from '../structures/Listener';
 import type {
 	AutocompleteCommand,
 	AutocompleteCommandContext,
 	ChatInputCommand,
 	ChatInputCommandContext,
-	Command,
 	ContextMenuCommand,
 	ContextMenuCommandContext,
 	MessageCommand
-} from '../structures/Command';
-import type { InteractionHandler } from '../structures/InteractionHandler';
-import type { Listener } from '../structures/Listener';
+} from '../types/CommandTypes';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import type { PluginHook } from './Enums';
 

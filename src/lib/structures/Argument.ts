@@ -4,8 +4,8 @@ import type { Awaitable } from '@sapphire/utilities';
 import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import { Args } from '../parsers/Args';
+import type { MessageCommand } from '../types/CommandTypes';
 import type { ArgumentStore } from './ArgumentStore';
-import type { MessageCommand } from './Command';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.

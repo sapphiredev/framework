@@ -1,7 +1,7 @@
 import { isStageChannel } from '@sapphire/discord.js-utilities';
 import type { Message } from 'discord.js';
-import type { MessageCommand } from '../../lib/structures/Command';
 import { Listener } from '../../lib/structures/Listener';
+import type { MessageCommand } from '../../lib/types/CommandTypes';
 import { Events, type MessageCommandRunPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.MessageCommandRun> {

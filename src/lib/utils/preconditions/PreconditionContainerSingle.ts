@@ -3,8 +3,8 @@ import { err } from '@sapphire/result';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../../errors/Identifiers';
 import { UserError } from '../../errors/UserError';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { Precondition, PreconditionContext, PreconditionKeys, Preconditions, SimplePreconditionKeys } from '../../structures/Precondition';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../types/CommandTypes';
 import type { IPreconditionContainer } from './IPreconditionContainer';
 
 /**

@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
-import type { ChatInputCommand } from '../../../lib/structures/Command';
 import { Listener } from '../../../lib/structures/Listener';
+import type { ChatInputCommand } from '../../../lib/types/CommandTypes';
 import { Events } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PossibleChatInputCommand> {

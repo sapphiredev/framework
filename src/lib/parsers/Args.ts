@@ -23,7 +23,7 @@ import { Identifiers } from '../errors/Identifiers';
 import { UserError } from '../errors/UserError';
 import type { EmojiObject } from '../resolvers/emoji';
 import type { Argument, IArgument } from '../structures/Argument';
-import type { MessageCommand } from '../structures/Command';
+import type { MessageCommand } from '../types/CommandTypes';
 
 /**
  * The argument parser to be used in {@link Command}.

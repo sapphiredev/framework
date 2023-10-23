@@ -13,7 +13,7 @@ import type {
 import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../types/CommandTypes';
 import type { PreconditionStore } from './PreconditionStore';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;

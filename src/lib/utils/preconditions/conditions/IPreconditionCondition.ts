@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../../structures/Command';
 import type { PreconditionContext } from '../../../structures/Precondition';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../../types/CommandTypes';
 import type { IPreconditionContainer, PreconditionContainerReturn } from '../IPreconditionContainer';
 
 /**
