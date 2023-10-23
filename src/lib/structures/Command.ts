@@ -1,15 +1,15 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece } from '@sapphire/pieces';
 import { isNullish, isObject, type Awaitable } from '@sapphire/utilities';
-import {
-	ChannelType,
-	ChatInputCommandInteraction,
-	ContextMenuCommandInteraction,
-	PermissionsBitField,
-	type AutocompleteInteraction,
-	type Message
-} from 'discord.js';
+import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, type AutocompleteInteraction, type Message } from 'discord.js';
 import { Args } from '../parsers/Args';
+import {
+	parseConstructorPreConditionsCooldown,
+	parseConstructorPreConditionsNsfw,
+	parseConstructorPreConditionsRequiredClientPermissions,
+	parseConstructorPreConditionsRequiredUserPermissions,
+	parseConstructorPreConditionsRunIn
+} from '../precondition-resolvers';
 import type {
 	AutocompleteCommand,
 	ChatInputCommand,
@@ -22,7 +22,7 @@ import type {
 	DetailedDescriptionCommand,
 	MessageCommand
 } from '../types/CommandTypes';
-import { BucketScope, CommandPreConditions, RegisterBehavior } from '../types/Enums';
+import { RegisterBehavior } from '../types/Enums';
 import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
@@ -362,7 +362,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsNsfw(options: Command.Options) {
-		if (options.nsfw) this.preconditions.append(CommandPreConditions.NotSafeForWork);
+		parseConstructorPreConditionsNsfw(options.nsfw, this.preconditions);
 	}
 
 	/**
@@ -371,32 +371,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
-		// Early return if there's no runIn option:
-		if (isNullish(options.runIn)) return;
-
-		if (Command.runInTypeIsSpecificsObject(options.runIn)) {
-			const messageRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.messageRun);
-			const chatInputRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.chatInputRun);
-			const contextMenuRunTypes = this.resolveConstructorPreConditionsRunType(options.runIn.contextMenuRun);
-
-			if (messageRunTypes !== null || chatInputRunTypes !== null || contextMenuRunTypes !== null) {
-				this.preconditions.append({
-					name: CommandPreConditions.RunIn,
-					context: {
-						types: {
-							messageRun: messageRunTypes ?? [],
-							chatInputRun: chatInputRunTypes ?? [],
-							contextMenuRun: contextMenuRunTypes ?? []
-						}
-					}
-				});
-			}
-		} else {
-			const types = this.resolveConstructorPreConditionsRunType(options.runIn);
-			if (types !== null) {
-				this.preconditions.append({ name: CommandPreConditions.RunIn, context: { types } });
-			}
-		}
+		parseConstructorPreConditionsRunIn(options.runIn, this.resolveConstructorPreConditionsRunType.bind(this), this.preconditions);
 	}
 
 	/**
@@ -405,10 +380,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
-		const permissions = new PermissionsBitField(options.requiredClientPermissions);
-		if (permissions.bitfield !== 0n) {
-			this.preconditions.append({ name: CommandPreConditions.ClientPermissions, context: { permissions } });
-		}
+		parseConstructorPreConditionsRequiredClientPermissions(options.requiredClientPermissions, this.preconditions);
 	}
 
 	/**
@@ -417,10 +389,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
-		const permissions = new PermissionsBitField(options.requiredUserPermissions);
-		if (permissions.bitfield !== 0n) {
-			this.preconditions.append({ name: CommandPreConditions.UserPermissions, context: { permissions } });
-		}
+		parseConstructorPreConditionsRequiredUserPermissions(options.requiredUserPermissions, this.preconditions);
 	}
 
 	/**
@@ -429,23 +398,14 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param options The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsCooldown(options: Command.Options) {
-		const { defaultCooldown } = this.container.client.options;
-
-		// We will check for whether the command is filtered from the defaults, but we will allow overridden values to
-		// be set. If an overridden value is passed, it will have priority. Otherwise, it will default to 0 if filtered
-		// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
-		const filtered = defaultCooldown?.filteredCommands?.includes(this.name) ?? false;
-		const limit = options.cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
-		const delay = options.cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
-
-		if (limit && delay) {
-			const scope = options.cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;
-			const filteredUsers = options.cooldownFilteredUsers ?? defaultCooldown?.filteredUsers;
-			this.preconditions.append({
-				name: CommandPreConditions.Cooldown,
-				context: { scope, limit, delay, filteredUsers }
-			});
-		}
+		parseConstructorPreConditionsCooldown(
+			this,
+			options.cooldownLimit,
+			options.cooldownDelay,
+			options.cooldownScope,
+			options.cooldownFilteredUsers,
+			this.preconditions
+		);
 	}
 
 	/**
