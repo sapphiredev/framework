@@ -1,7 +1,8 @@
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
-import { Command, type ChatInputCommand, type ContextMenuCommand, type MessageCommand } from '../lib/structures/Command';
+import { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition, type Preconditions } from '../lib/structures/Precondition';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../lib/types/CommandTypes';
 
 export interface RunInPreconditionContext extends AllFlowsPrecondition.Context {
 	types?: Preconditions['RunIn']['types'];

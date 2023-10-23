@@ -2,7 +2,7 @@ import { Store } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from './Command';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../types/CommandTypes';
 import { Precondition, type AsyncPreconditionResult } from './Precondition';
 
 export class PreconditionStore extends Store<Precondition> {

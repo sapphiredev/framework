@@ -1,9 +1,6 @@
 import { Collection, type ChatInputCommandInteraction, type ContextMenuCommandInteraction, type Message } from 'discord.js';
-import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../structures/Command';
 import type { PreconditionContext, PreconditionKeys, SimplePreconditionKeys } from '../../structures/Precondition';
-import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
-import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
-import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
+import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../../types/CommandTypes';
 import type { IPreconditionContainer, PreconditionContainerReturn } from './IPreconditionContainer';
 import {
 	PreconditionContainerSingle,
@@ -11,6 +8,9 @@ import {
 	type PreconditionSingleResolvableDetails,
 	type SimplePreconditionSingleResolvableDetails
 } from './PreconditionContainerSingle';
+import type { IPreconditionCondition } from './conditions/IPreconditionCondition';
+import { PreconditionConditionAnd } from './conditions/PreconditionConditionAnd';
+import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
 
 /**
  * The run mode for a {@link PreconditionContainerArray}.
