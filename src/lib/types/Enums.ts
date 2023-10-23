@@ -62,3 +62,48 @@ export enum InternalRegistryAPIType {
 	ChatInput,
 	ContextMenu
 }
+
+/**
+ * The allowed values for {@link Command.Options.runIn} as an enum.
+ * @since 2.0.0
+ */
+export enum CommandOptionsRunTypeEnum {
+	Dm = 'DM',
+	GuildText = 'GUILD_TEXT',
+	GuildVoice = 'GUILD_VOICE',
+	GuildNews = 'GUILD_NEWS',
+	GuildNewsThread = 'GUILD_NEWS_THREAD',
+	GuildPublicThread = 'GUILD_PUBLIC_THREAD',
+	GuildPrivateThread = 'GUILD_PRIVATE_THREAD',
+	GuildAny = 'GUILD_ANY'
+}
+
+/**
+ * The available command pre-conditions.
+ * @since 2.0.0
+ */
+export enum CommandPreConditions {
+	Cooldown = 'Cooldown',
+	/** @deprecated Use {@link RunIn} instead. */
+	DirectMessageOnly = 'DMOnly',
+	RunIn = 'RunIn',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildNewsOnly = 'GuildNewsOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildNewsThreadOnly = 'GuildNewsThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildOnly = 'GuildOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildTextOnly = 'GuildTextOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildVoiceOnly = 'GuildVoiceOnly',
+	/** @deprecated Use {@link RunIn} instead. */
+	GuildThreadOnly = 'GuildThreadOnly',
+	NotSafeForWork = 'NSFW',
+	ClientPermissions = 'ClientPermissions',
+	UserPermissions = 'UserPermissions'
+}
