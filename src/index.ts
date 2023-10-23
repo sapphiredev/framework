@@ -60,6 +60,7 @@ export * from './lib/parsers/Args';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
+export * as PreconditionResolvers from './lib/precondition-resolvers/index';
 export type { EmojiObject } from './lib/resolvers/emoji';
 export * as Resolvers from './lib/resolvers/index';
 export type { MessageResolverOptions } from './lib/resolvers/message';
