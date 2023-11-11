@@ -178,7 +178,7 @@ export interface SapphireClientOptions {
  * Sapphire also automatically detects the folders to scan for pieces, please read {@link StoreRegistry.registerPath}
  * for reference. This method is called at the start of the {@link SapphireClient.login} method.
  *
- * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://old.discordjs.dev/#/docs/discord.js/main/typedef/ClientOptions)
+ * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/docs/packages/discord.js/main/ClientOptions:Interface)
  *
  * @since 1.0.0
  * @example
