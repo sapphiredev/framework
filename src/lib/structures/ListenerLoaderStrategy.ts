@@ -3,7 +3,6 @@ import type { Listener } from './Listener';
 import type { ListenerStore } from './ListenerStore';
 
 export class ListenerLoaderStrategy extends LoaderStrategy<Listener> {
-	// @ts-expect-error pieces/#345 - LoaderStrategy needs to be patched to support arguments.
 	public override onLoad(_store: ListenerStore, piece: Listener) {
 		const listenerCallback = piece['_listener'];
 		if (listenerCallback) {
@@ -17,7 +16,6 @@ export class ListenerLoaderStrategy extends LoaderStrategy<Listener> {
 		}
 	}
 
-	// @ts-expect-error pieces/#345 - LoaderStrategy needs to be patched to support arguments.
 	public override onUnload(_store: ListenerStore, piece: Listener) {
 		const listenerCallback = piece['_listener'];
 		if (!piece.once && listenerCallback) {
