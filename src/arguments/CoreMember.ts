@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { GuildMember } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveMember } from '../lib/resolvers/member';
@@ -33,3 +33,9 @@ export class CoreArgument extends Argument<GuildMember> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'member',
+	piece: CoreArgument,
+	store: 'arguments'
+});

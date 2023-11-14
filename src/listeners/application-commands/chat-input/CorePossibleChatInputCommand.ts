@@ -2,6 +2,7 @@ import type { ChatInputCommandInteraction } from 'discord.js';
 import { Listener } from '../../../lib/structures/Listener';
 import type { ChatInputCommand } from '../../../lib/types/CommandTypes';
 import { Events } from '../../../lib/types/Events';
+import { container } from '@sapphire/pieces';
 
 export class CoreListener extends Listener<typeof Events.PossibleChatInputCommand> {
 	public constructor(context: Listener.Context) {
@@ -37,3 +38,9 @@ export class CoreListener extends Listener<typeof Events.PossibleChatInputComman
 		});
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CorePossibleChatInputCommand',
+	piece: CoreListener,
+	store: 'listeners'
+});

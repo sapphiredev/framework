@@ -1,8 +1,9 @@
+import { container } from '@sapphire/pieces';
 import { Listener } from '../lib/structures/Listener';
 import { Events } from '../lib/types/Events';
 import { handleRegistryAPICalls } from '../lib/utils/application-commands/ApplicationCommandRegistries';
 
-export class CoreEvent extends Listener {
+export class CoreListener extends Listener {
 	public constructor(context: Listener.Context) {
 		super(context, { event: Events.ClientReady, once: true });
 	}
@@ -13,3 +14,9 @@ export class CoreEvent extends Listener {
 		await handleRegistryAPICalls();
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CoreInteractionCreate',
+	piece: CoreListener,
+	store: 'listeners'
+});

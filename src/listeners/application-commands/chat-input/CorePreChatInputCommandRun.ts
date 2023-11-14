@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { Listener } from '../../../lib/structures/Listener';
 import { Events, type PreChatInputCommandRunPayload } from '../../../lib/types/Events';
 
@@ -26,3 +27,9 @@ export class CoreListener extends Listener<typeof Events.PreChatInputCommandRun>
 		this.container.client.emit(Events.ChatInputCommandAccepted, payload);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CorePreChatInputCommandRun',
+	piece: CoreListener,
+	store: 'listeners'
+});

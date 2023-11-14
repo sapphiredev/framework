@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import { resolveEnum } from '../lib/resolvers/enum';
 import { Argument } from '../lib/structures/Argument';
 import type { EnumArgumentContext } from '../lib/types/ArgumentContexts';
@@ -20,3 +20,9 @@ export class CoreArgument extends Argument<string> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'enum',
+	piece: CoreArgument,
+	store: 'arguments'
+});

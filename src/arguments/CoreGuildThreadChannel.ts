@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { ThreadChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildThreadChannel } from '../lib/resolvers/guildThreadChannel';
@@ -31,3 +31,9 @@ export class CoreArgument extends Argument<ThreadChannel> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'guildThreadChannel',
+	piece: CoreArgument,
+	store: 'arguments'
+});

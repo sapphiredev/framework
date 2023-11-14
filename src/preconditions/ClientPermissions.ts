@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { isNullish } from '@sapphire/utilities';
 import {
 	BaseInteraction,
@@ -161,3 +162,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		ViewGuildInsights: 'View Guild Insights'
 	};
 }
+
+void container.stores.loadPiece({
+	name: 'ClientPermissions',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

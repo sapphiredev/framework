@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { Command } from '../lib/structures/Command';
@@ -61,3 +62,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		});
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'RunIn',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { Listener } from '../../../lib/structures/Listener';
 import { Events, type PreContextMenuCommandRunPayload } from '../../../lib/types/Events';
 
@@ -26,3 +27,9 @@ export class CoreListener extends Listener<typeof Events.PreContextMenuCommandRu
 		this.container.client.emit(Events.ContextMenuCommandAccepted, payload);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CorePreContextMenuCommandRun',
+	piece: CoreListener,
+	store: 'listeners'
+});

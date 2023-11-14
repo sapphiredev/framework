@@ -1,0 +1,9 @@
+import './CoreInteractionCreate';
+import './CoreReady';
+import './application-commands/CorePossibleAutocompleteInteraction';
+import './application-commands/chat-input/CoreChatInputCommandAccepted';
+import './application-commands/chat-input/CorePossibleChatInputCommand';
+import './application-commands/chat-input/CorePreChatInputCommandRun';
+import './application-commands/context-menu/CoreContextMenuCommandAccepted';
+import './application-commands/context-menu/CorePossibleContextMenuCommand';
+import './application-commands/context-menu/CorePreContextMenuCommandRun';

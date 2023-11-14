@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { NewsChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildNewsChannel } from '../lib/resolvers/guildNewsChannel';
@@ -31,3 +31,9 @@ export class CoreArgument extends Argument<NewsChannel> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'guildNewsChannel',
+	piece: CoreArgument,
+	store: 'arguments'
+});

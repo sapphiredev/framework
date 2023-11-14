@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { URL } from 'node:url';
 import { resolveHyperlink } from '../lib/resolvers/hyperlink';
 import { Argument } from '../lib/structures/Argument';
@@ -20,3 +20,9 @@ export class CoreArgument extends Argument<URL> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'hyperlink',
+	piece: CoreArgument,
+	store: 'arguments'
+});

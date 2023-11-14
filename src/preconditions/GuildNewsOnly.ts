@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, type TextBasedChannelTypes } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
@@ -29,3 +30,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		});
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'GuildNewsOnly',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});
