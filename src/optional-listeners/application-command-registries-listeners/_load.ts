@@ -1,5 +1,6 @@
 import { container } from '@sapphire/pieces';
 import { CoreListener as CoreApplicationCommandRegistriesInitialising } from './CoreApplicationCommandRegistriesInitialising';
+import { CoreListener as CoreApplicationCommandRegistriesRegistered } from './CoreApplicationCommandRegistriesRegistered';
 
 export function loadApplicationCommandRegistriesListeners() {
 	const store = 'listeners' as const;
@@ -9,8 +10,8 @@ export function loadApplicationCommandRegistriesListeners() {
 		store
 	});
 	void container.stores.loadPiece({
-		name: 'CoreApplicationCommandRegistriesInitialising',
-		piece: CoreApplicationCommandRegistriesInitialising,
+		name: 'CoreApplicationCommandRegistriesRegistered',
+		piece: CoreApplicationCommandRegistriesRegistered,
 		store
 	});
 }
