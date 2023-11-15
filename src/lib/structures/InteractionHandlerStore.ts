@@ -4,7 +4,7 @@ import type { Interaction } from 'discord.js';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
 
-export class InteractionHandlerStore extends Store<InteractionHandler> {
+export class InteractionHandlerStore extends Store<InteractionHandler, 'interaction-handlers'> {
 	public constructor() {
 		super(InteractionHandler, { name: 'interaction-handlers' });
 	}

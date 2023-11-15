@@ -5,7 +5,7 @@ import { Identifiers } from '../errors/Identifiers';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../types/CommandTypes';
 import { Precondition, type AsyncPreconditionResult } from './Precondition';
 
-export class PreconditionStore extends Store<Precondition> {
+export class PreconditionStore extends Store<Precondition, 'preconditions'> {
 	private readonly globalPreconditions: Precondition[] = [];
 
 	public constructor() {
