@@ -16,7 +16,7 @@ export class CoreListener extends Listener {
 }
 
 void container.stores.loadPiece({
-	name: 'CoreInteractionCreate',
+	name: 'CoreReady',
 	piece: CoreListener,
 	store: 'listeners'
 });
