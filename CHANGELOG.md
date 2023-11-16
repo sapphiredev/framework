@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.2](https://github.com/sapphiredev/framework/compare/v4.8.2...v4.8.2) - (2023-11-16)
+
+## 🐛 Bug Fixes
+
+- Register `CoreReady` piece correctly (#690) ([4b99b37](https://github.com/sapphiredev/framework/commit/4b99b377c33c8991ae52174a5bda88a047fb0971))
+
 # [4.8.1](https://github.com/sapphiredev/framework/compare/v4.8.1...v4.8.1) - (2023-11-16)
 
 ## 🏠 Refactor
