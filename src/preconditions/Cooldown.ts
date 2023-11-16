@@ -81,9 +81,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			case BucketScope.Global:
 				return 'global';
 			case BucketScope.Channel:
-				return message.channel.id;
+				return message.channelId;
 			case BucketScope.Guild:
-				return message.guild?.id ?? message.channel.id;
+				return message.guildId ?? message.channelId;
 			default:
 				return message.author.id;
 		}
