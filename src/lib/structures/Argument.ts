@@ -5,7 +5,6 @@ import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import { Args } from '../parsers/Args';
 import type { MessageCommand } from '../types/CommandTypes';
-import type { ArgumentStore } from './ArgumentStore';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
@@ -43,13 +42,13 @@ export interface IArgument<T> {
  * @example
  * ```typescript
  * // TypeScript:
- * import { Argument, PieceContext } from '@sapphire/framework';
+ * import { Argument } from '@sapphire/framework';
  * import { URL } from 'node:url';
  *
  * // Define a class extending `Argument`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
  * export class CoreArgument extends Argument<URL> {
- *   public constructor(context: PieceContext) {
+ *   public constructor(context: Argument.LoaderContext) {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
  *   }
  *
@@ -102,11 +101,13 @@ export interface IArgument<T> {
  * }
  * ```
  */
-export abstract class Argument<T = unknown, O extends Argument.Options = Argument.Options> extends AliasPiece<O> implements IArgument<T> {
-	/**
-	 * The {@link ArgumentStore} that contains this {@link Argument}.
-	 */
-	public declare store: ArgumentStore;
+export abstract class Argument<T = unknown, Options extends Argument.Options = Argument.Options>
+	extends AliasPiece<Options, 'arguments'>
+	implements IArgument<T>
+{
+	public constructor(context: Argument.LoaderContext, options: Options = {} as Options) {
+		super(context, options);
+	}
 
 	public abstract run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
 
@@ -143,6 +144,7 @@ export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknow
 export namespace Argument {
 	export type Options = ArgumentOptions;
 	export type Context<T = unknown> = ArgumentContext<T>;
+	export type LoaderContext = AliasPiece.LoaderContext<'arguments'>;
 	export type Result<T> = ArgumentResult<T>;
 	export type AwaitableResult<T> = AwaitableArgumentResult<T>;
 	export type AsyncResult<T> = AsyncArgumentResult<T>;

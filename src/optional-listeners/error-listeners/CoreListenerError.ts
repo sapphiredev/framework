@@ -2,7 +2,7 @@ import { Listener } from '../../lib/structures/Listener';
 import { Events, type ListenerErrorPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.ListenerError> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.ListenerError });
 	}
 

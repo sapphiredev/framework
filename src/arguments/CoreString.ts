@@ -1,4 +1,4 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveString } from '../lib/resolvers/string';
 import { Argument } from '../lib/structures/Argument';
@@ -9,7 +9,7 @@ export class CoreArgument extends Argument<string> {
 		[Identifiers.ArgumentStringTooLong]: ({ maximum }: Argument.Context) => `The argument must be shorter than ${maximum} characters.`
 	} as const;
 
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'string' });
 	}
 

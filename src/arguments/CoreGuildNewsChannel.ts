@@ -1,11 +1,11 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { NewsChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildNewsChannel } from '../lib/resolvers/guildNewsChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<NewsChannel> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'guildNewsChannel' });
 	}
 

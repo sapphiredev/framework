@@ -2,7 +2,7 @@ import { Listener } from '../../lib/structures/Listener';
 import { Events, type InteractionHandlerError } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.InteractionHandlerError> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.InteractionHandlerError });
 	}
 

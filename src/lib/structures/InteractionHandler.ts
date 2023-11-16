@@ -2,21 +2,18 @@ import { Piece } from '@sapphire/pieces';
 import { Option } from '@sapphire/result';
 import type { Awaitable } from '@sapphire/utilities';
 import type { Interaction } from 'discord.js';
-import type { InteractionHandlerStore } from './InteractionHandlerStore';
 
-export abstract class InteractionHandler<O extends InteractionHandler.Options = InteractionHandler.Options> extends Piece<O> {
-	/**
-	 * The {@link InteractionHandlerStore} that contains this {@link InteractionHandler}.
-	 */
-	public declare store: InteractionHandlerStore;
-
+export abstract class InteractionHandler<Options extends InteractionHandler.Options = InteractionHandler.Options> extends Piece<
+	Options,
+	'interaction-handlers'
+> {
 	/**
 	 * The type for this handler
 	 * @since 3.0.0
 	 */
 	public readonly interactionHandlerType: InteractionHandlerTypes;
 
-	public constructor(context: Piece.Context, options: InteractionHandlerOptions) {
+	public constructor(context: InteractionHandler.LoaderContext, options: Options) {
 		super(context, options);
 
 		this.interactionHandlerType = options.interactionHandlerType;
@@ -103,7 +100,9 @@ export interface InteractionHandlerJSON extends Piece.JSON {
 export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
 export namespace InteractionHandler {
-	export type Context = Piece.Context;
+	/** @deprecated Use {@linkcode LoaderContext} instead. */
+	export type Context = LoaderContext;
+	export type LoaderContext = Piece.LoaderContext<'interaction-handlers'>;
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;
 	export type ParseResult<Instance extends InteractionHandler> = InteractionHandlerParseResult<Instance>;

@@ -44,7 +44,9 @@ export {
 	StoreRegistry,
 	container,
 	type AliasPieceOptions,
+	// eslint-disable-next-line deprecation/deprecation
 	type PieceContext,
+	type LoaderPieceContext,
 	type PieceOptions,
 	type StoreOptions,
 	type StoreRegistryEntries

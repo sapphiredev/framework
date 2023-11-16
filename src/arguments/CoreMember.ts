@@ -1,4 +1,4 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { GuildMember } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveMember } from '../lib/resolvers/member';
@@ -6,7 +6,7 @@ import { Argument } from '../lib/structures/Argument';
 import type { MemberArgumentContext } from '../lib/types/ArgumentContexts';
 
 export class CoreArgument extends Argument<GuildMember> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'member' });
 	}
 

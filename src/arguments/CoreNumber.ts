@@ -1,4 +1,4 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveNumber } from '../lib/resolvers/number';
 import { Argument } from '../lib/structures/Argument';
@@ -10,7 +10,7 @@ export class CoreArgument extends Argument<number> {
 		[Identifiers.ArgumentNumberError]: () => 'The argument did not resolve to a valid number.'
 	} as const;
 
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'number' });
 	}
 

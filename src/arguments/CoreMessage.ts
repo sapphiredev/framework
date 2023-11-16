@@ -1,11 +1,11 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { Message } from 'discord.js';
 import { resolveMessage } from '../lib/resolvers/message';
 import { Argument } from '../lib/structures/Argument';
 import type { MessageArgumentContext } from '../lib/types/ArgumentContexts';
 
 export class CoreArgument extends Argument<Message> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'message' });
 	}
 

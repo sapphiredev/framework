@@ -6,7 +6,7 @@ import { Events } from '../../lib/types/Events';
 export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	private readonly requiredPermissions = new PermissionsBitField([PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages]).freeze();
 
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.PreMessageParsed });
 	}
 

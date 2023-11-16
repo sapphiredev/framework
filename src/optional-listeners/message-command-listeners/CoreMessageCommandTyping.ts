@@ -5,7 +5,7 @@ import type { MessageCommand } from '../../lib/types/CommandTypes';
 import { Events, type MessageCommandRunPayload } from '../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.MessageCommandRun });
 		this.enabled = this.container.client.options.typing ?? false;
 	}

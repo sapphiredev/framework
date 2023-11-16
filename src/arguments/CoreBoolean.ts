@@ -1,10 +1,10 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import { resolveBoolean } from '../lib/resolvers/boolean';
 import { Argument } from '../lib/structures/Argument';
 import type { BooleanArgumentContext } from '../lib/types/ArgumentContexts';
 
 export class CoreArgument extends Argument<boolean> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'boolean' });
 	}
 

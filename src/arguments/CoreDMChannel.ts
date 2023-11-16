@@ -1,10 +1,10 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { DMChannel } from 'discord.js';
 import { resolveDMChannel } from '../lib/resolvers/dmChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<DMChannel> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'dmChannel' });
 	}
 
