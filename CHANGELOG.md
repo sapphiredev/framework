@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.0](https://github.com/sapphiredev/framework/compare/v4.8.0...v4.8.0) - (2023-11-16)
+
+## 🏠 Refactor
+
+- Support latest /pieces type utilities (#687) ([a1907e3](https://github.com/sapphiredev/framework/commit/a1907e305a9f311c686c36a31d4b635c654efcf1))
+- **cooldown:** Use id properties for channelId and guildId (#688) ([633d325](https://github.com/sapphiredev/framework/commit/633d3253ff16a7981b8b67f91fe8612527699dc0))
+- **Listener:** Make loader hooks more resilient (#685) ([d310a8a](https://github.com/sapphiredev/framework/commit/d310a8affb32cbbf275f74d4c014af68da30b570))
+
+## 🐛 Bug Fixes
+
+- Update transitive dependencies ([85c0280](https://github.com/sapphiredev/framework/commit/85c0280b08754475c2fbad8787c33c153bf9c8df))
+- Set `engines.node` to `>=18` ([7cbec42](https://github.com/sapphiredev/framework/commit/7cbec42c0b793cef8c4c60a3b2403262b6bae1df))
+
+## 🚀 Features
+
+- Make all pieces virtual (#686) ([41bcc9b](https://github.com/sapphiredev/framework/commit/41bcc9b50054e920a7dfba3172648b2c20ab9a5a))
+
 # [4.7.2](https://github.com/sapphiredev/framework/compare/v4.7.2...v4.7.2) - (2023-10-23)
 
 ## 🏠 Refactor
