@@ -1,4 +1,4 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveDate } from '../lib/resolvers/date';
 import { Argument } from '../lib/structures/Argument';
@@ -10,7 +10,7 @@ export class CoreArgument extends Argument<Date> {
 		[Identifiers.ArgumentDateError]: () => 'The argument did not resolve to a date.'
 	} as const;
 
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'date' });
 	}
 

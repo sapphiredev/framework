@@ -14,20 +14,14 @@ import type { CooldownPreconditionContext } from '../../preconditions/Cooldown';
 import { PreconditionError } from '../errors/PreconditionError';
 import type { UserError } from '../errors/UserError';
 import type { ChatInputCommand, ContextMenuCommand, MessageCommand } from '../types/CommandTypes';
-import type { PreconditionStore } from './PreconditionStore';
 
 export type PreconditionResult = Awaitable<Result<unknown, UserError>>;
 export type AsyncPreconditionResult = Promise<Result<unknown, UserError>>;
 
-export class Precondition<O extends Precondition.Options = Precondition.Options> extends Piece<O> {
-	/**
-	 * The {@link PreconditionStore} that contains this {@link Precondition}.
-	 */
-	public declare store: PreconditionStore;
-
+export class Precondition<Options extends Precondition.Options = Precondition.Options> extends Piece<Options, 'preconditions'> {
 	public readonly position: number | null;
 
-	public constructor(context: Piece.Context, options: Precondition.Options = {}) {
+	public constructor(context: Precondition.LoaderContext, options: Options = {} as Options) {
 		super(context, options);
 		this.position = options.position ?? null;
 	}
@@ -181,6 +175,7 @@ export interface PreconditionContext extends Record<PropertyKey, unknown> {
 
 export namespace Precondition {
 	export type Options = PreconditionOptions;
+	export type LoaderContext = Piece.LoaderContext<'preconditions'>;
 	export type Context = PreconditionContext;
 	export type Result = PreconditionResult;
 	export type AsyncResult = AsyncPreconditionResult;
@@ -188,6 +183,7 @@ export namespace Precondition {
 
 export namespace AllFlowsPrecondition {
 	export type Options = PreconditionOptions;
+	export type LoaderContext = Piece.LoaderContext<'preconditions'>;
 	export type Context = PreconditionContext;
 	export type Result = PreconditionResult;
 	export type AsyncResult = AsyncPreconditionResult;

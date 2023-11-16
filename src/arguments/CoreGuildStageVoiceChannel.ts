@@ -1,11 +1,11 @@
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import type { StageChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildStageVoiceChannel } from '../lib/resolvers/guildStageVoiceChannel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<StageChannel> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'guildStageVoiceChannel' });
 	}
 

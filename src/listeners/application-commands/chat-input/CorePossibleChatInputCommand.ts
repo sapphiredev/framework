@@ -1,11 +1,11 @@
+import { container } from '@sapphire/pieces';
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { Listener } from '../../../lib/structures/Listener';
 import type { ChatInputCommand } from '../../../lib/types/CommandTypes';
 import { Events } from '../../../lib/types/Events';
-import { container } from '@sapphire/pieces';
 
 export class CoreListener extends Listener<typeof Events.PossibleChatInputCommand> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.PossibleChatInputCommand });
 	}
 

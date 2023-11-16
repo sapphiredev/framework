@@ -29,17 +29,11 @@ import { getNeededRegistryParameters } from '../utils/application-commands/getNe
 import { emitPerRegistryError } from '../utils/application-commands/registriesErrors';
 import { PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
-import type { CommandStore } from './CommandStore';
 
 const ChannelTypes = Object.values(ChannelType).filter((type) => typeof type === 'number') as readonly ChannelType[];
 const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM && type !== ChannelType.GroupDM) as readonly ChannelType[];
 
-export class Command<PreParseReturn = Args, O extends Command.Options = Command.Options> extends AliasPiece<O> {
-	/**
-	 * The {@link CommandStore} that contains this {@link Command}.
-	 */
-	public declare store: CommandStore;
-
+export class Command<PreParseReturn = Args, Options extends Command.Options = Command.Options> extends AliasPiece<Options, 'commands'> {
 	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
@@ -99,7 +93,7 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 	 * @param context The context.
 	 * @param options Optional Command settings.
 	 */
-	public constructor(context: AliasPiece.Context, options: O = {} as O) {
+	public constructor(context: Command.LoaderContext, options: Options = {} as Options) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
@@ -473,7 +467,9 @@ export class Command<PreParseReturn = Args, O extends Command.Options = Command.
 export namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	export type Context = AliasPiece.Context;
+	/** @deprecated Use {@linkcode LoaderContext} instead. */
+	export type Context = LoaderContext;
+	export type LoaderContext = AliasPiece.LoaderContext<'commands'>;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunInUnion = CommandRunInUnion;
 	export type SpecificRunIn = CommandSpecificRunIn;

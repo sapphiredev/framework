@@ -3,7 +3,6 @@ import { Result } from '@sapphire/result';
 import type { Client, ClientEvents } from 'discord.js';
 import type { EventEmitter } from 'node:events';
 import { Events } from '../types/Events';
-import type { ListenerStore } from './ListenerStore';
 
 /**
  * The base event class. This class is abstract and is to be extended by subclasses, which should implement the methods. In
@@ -17,7 +16,7 @@ import type { ListenerStore } from './ListenerStore';
  * // Define a class extending `Listener`, then export it.
  * // NOTE: You can use `export default` or `export =` too.
  * export class CoreListener extends Listener<typeof Events.ClientReady> {
- *   public constructor(context: Listener.Context) {
+ *   public constructor(context: Listener.LoaderContext) {
  *     super(context, { event: Events.ClientReady, once: true });
  *   }
  *
@@ -44,12 +43,10 @@ import type { ListenerStore } from './ListenerStore';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', O extends Listener.Options = Listener.Options> extends Piece<O> {
-	/**
-	 * The {@link ListenerStore} that contains this {@link Listener}.
-	 */
-	public declare store: ListenerStore;
-
+export abstract class Listener<E extends keyof ClientEvents | symbol = '', Options extends Listener.Options = Listener.Options> extends Piece<
+	Options,
+	'listeners'
+> {
 	/**
 	 * The emitter, if any.
 	 * @since 2.0.0
@@ -70,7 +67,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	private _listener: ((...args: any[]) => void) | null;
 
-	public constructor(context: Listener.Context, options: O = {} as O) {
+	public constructor(context: Listener.LoaderContext, options: Options = {} as Options) {
 		super(context, options);
 
 		this.emitter =
@@ -123,5 +120,7 @@ export interface ListenerJSON extends Piece.JSON {
 export namespace Listener {
 	export type Options = ListenerOptions;
 	export type JSON = ListenerJSON;
-	export type Context = Piece.Context;
+	/** @deprecated Use {@linkcode LoaderContext} instead. */
+	export type Context = LoaderContext;
+	export type LoaderContext = Piece.LoaderContext<'listeners'>;
 }

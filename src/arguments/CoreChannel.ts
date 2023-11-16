@@ -1,10 +1,10 @@
 import type { ChannelTypes } from '@sapphire/discord.js-utilities';
-import { container, type PieceContext } from '@sapphire/pieces';
+import { container } from '@sapphire/pieces';
 import { resolveChannel } from '../lib/resolvers/channel';
 import { Argument } from '../lib/structures/Argument';
 
 export class CoreArgument extends Argument<ChannelTypes> {
-	public constructor(context: PieceContext) {
+	public constructor(context: Argument.LoaderContext) {
 		super(context, { name: 'channel' });
 	}
 

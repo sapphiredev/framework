@@ -3,7 +3,7 @@ import { Listener } from '../../../lib/structures/Listener';
 import { Events, type PreContextMenuCommandRunPayload } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.PreContextMenuCommandRun> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.PreContextMenuCommandRun });
 	}
 

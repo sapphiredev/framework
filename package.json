@@ -32,7 +32,7 @@
 		"@sapphire/discord-utilities": "^3.1.1",
 		"@sapphire/discord.js-utilities": "^7.0.2",
 		"@sapphire/lexure": "^1.1.5",
-		"@sapphire/pieces": "^3.9.0",
+		"@sapphire/pieces": "^3.10.0",
 		"@sapphire/ratelimits": "^2.4.7",
 		"@sapphire/result": "^2.6.4",
 		"@sapphire/stopwatch": "^1.5.0",

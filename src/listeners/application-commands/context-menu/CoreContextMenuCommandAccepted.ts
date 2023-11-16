@@ -5,7 +5,7 @@ import { Listener } from '../../../lib/structures/Listener';
 import { Events, type ContextMenuCommandAcceptedPayload } from '../../../lib/types/Events';
 
 export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccepted> {
-	public constructor(context: Listener.Context) {
+	public constructor(context: Listener.LoaderContext) {
 		super(context, { event: Events.ContextMenuCommandAccepted });
 	}
 
