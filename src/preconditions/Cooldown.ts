@@ -74,7 +74,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 			return this.error({
 				identifier: Identifiers.PreconditionCooldown,
-				message: `There is a cooldown in effect for this ${commandType} command. It'll be available at ${nextAvailable}.`,
+				message: `There is a cooldown in effect for this ${commandType} command. It'll be available ${nextAvailable}.`,
 				context: { remaining }
 			});
 		}
