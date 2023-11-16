@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.1](https://github.com/sapphiredev/framework/compare/v4.8.1...v4.8.1) - (2023-11-16)
+
+## 🏠 Refactor
+
+- **cooldown:** Improve error message (#689) ([3dc2019](https://github.com/sapphiredev/framework/commit/3dc20190938b43d48e452ac9647403bde3eff544))
+
+## 📝 Documentation
+
+- Fix link to discord.js (#683) ([2f160ba](https://github.com/sapphiredev/framework/commit/2f160bae0ec6825fdbb1ce26605484171812a11c))
+
 # [4.8.0](https://github.com/sapphiredev/framework/compare/v4.8.0...v4.8.0) - (2023-11-16)
 
 ## 🏠 Refactor
