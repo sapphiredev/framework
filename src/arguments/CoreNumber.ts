@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveNumber } from '../lib/resolvers/number';
 import { Argument } from '../lib/structures/Argument';
@@ -26,3 +26,9 @@ export class CoreArgument extends Argument<number> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'number',
+	piece: CoreArgument,
+	store: 'arguments'
+});

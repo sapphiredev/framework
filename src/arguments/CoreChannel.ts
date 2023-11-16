@@ -1,5 +1,5 @@
 import type { ChannelTypes } from '@sapphire/discord.js-utilities';
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import { resolveChannel } from '../lib/resolvers/channel';
 import { Argument } from '../lib/structures/Argument';
 
@@ -20,3 +20,9 @@ export class CoreArgument extends Argument<ChannelTypes> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'channel',
+	piece: CoreArgument,
+	store: 'arguments'
+});

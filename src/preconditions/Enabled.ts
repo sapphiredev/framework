@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
@@ -27,3 +27,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			: this.error({ identifier: Identifiers.CommandDisabled, message: 'This context menu command is disabled.', context });
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'Enabled',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

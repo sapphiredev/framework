@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { RateLimitManager } from '@sapphire/ratelimits';
 import type { ChatInputCommandInteraction, CommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
@@ -110,3 +111,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return manager;
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'Cooldown',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

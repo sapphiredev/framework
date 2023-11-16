@@ -1,8 +1,9 @@
 import type { Interaction } from 'discord.js';
 import { Listener } from '../lib/structures/Listener';
 import { Events } from '../lib/types/Events';
+import { container } from '@sapphire/pieces';
 
-export class CoreEvent extends Listener<typeof Events.InteractionCreate> {
+export class CoreListener extends Listener<typeof Events.InteractionCreate> {
 	public constructor(context: Listener.Context) {
 		super(context, { event: Events.InteractionCreate });
 	}
@@ -21,3 +22,9 @@ export class CoreEvent extends Listener<typeof Events.InteractionCreate> {
 		}
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CoreInteractionCreate',
+	piece: CoreListener,
+	store: 'listeners'
+});

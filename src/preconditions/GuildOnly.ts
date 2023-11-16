@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
@@ -23,3 +24,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		});
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'GuildOnly',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

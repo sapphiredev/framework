@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import type { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
@@ -31,3 +32,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			: this.error({ identifier: Identifiers.PreconditionNSFW, message: 'You cannot run this command outside NSFW channels.' });
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'NSFW',
+	piece: CorePrecondition,
+	store: 'preconditions'
+});

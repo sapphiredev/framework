@@ -1,5 +1,5 @@
 import type { GuildBasedChannelTypes } from '@sapphire/discord.js-utilities';
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildChannel } from '../lib/resolvers/guildChannel';
 import { Argument } from '../lib/structures/Argument';
@@ -31,3 +31,9 @@ export class CoreArgument extends Argument<GuildBasedChannelTypes> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'guildChannel',
+	piece: CoreArgument,
+	store: 'arguments'
+});

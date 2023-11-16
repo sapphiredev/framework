@@ -1,3 +1,4 @@
+import { container } from '@sapphire/pieces';
 import { Result } from '@sapphire/result';
 import { Stopwatch } from '@sapphire/stopwatch';
 import { Listener } from '../../../lib/structures/Listener';
@@ -32,3 +33,9 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 		});
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'CoreChatInputCommandAccepted',
+	piece: CoreListener,
+	store: 'listeners'
+});

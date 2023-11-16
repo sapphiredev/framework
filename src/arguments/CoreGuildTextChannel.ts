@@ -1,4 +1,4 @@
-import type { PieceContext } from '@sapphire/pieces';
+import { container, type PieceContext } from '@sapphire/pieces';
 import type { TextChannel } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { resolveGuildTextChannel } from '../lib/resolvers/guildTextChannel';
@@ -31,3 +31,9 @@ export class CoreArgument extends Argument<TextChannel> {
 		);
 	}
 }
+
+void container.stores.loadPiece({
+	name: 'guildTextChannel',
+	piece: CoreArgument,
+	store: 'arguments'
+});
