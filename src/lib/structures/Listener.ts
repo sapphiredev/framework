@@ -90,34 +90,6 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', O ext
 
 	public abstract run(...args: E extends keyof ClientEvents ? ClientEvents[E] : unknown[]): unknown;
 
-	public override onLoad() {
-		if (this._listener) {
-			const emitter = this.emitter!;
-
-			// Increment the maximum amount of listeners by one:
-			const maxListeners = emitter.getMaxListeners();
-			if (maxListeners !== 0) emitter.setMaxListeners(maxListeners + 1);
-
-			emitter[this.once ? 'once' : 'on'](this.event, this._listener);
-		}
-		return super.onLoad();
-	}
-
-	public override onUnload() {
-		if (!this.once && this._listener) {
-			const emitter = this.emitter!;
-
-			// Increment the maximum amount of listeners by one:
-			const maxListeners = emitter.getMaxListeners();
-			if (maxListeners !== 0) emitter.setMaxListeners(maxListeners - 1);
-
-			emitter.off(this.event, this._listener);
-			this._listener = null;
-		}
-
-		return super.onUnload();
-	}
-
 	public override toJSON(): ListenerJSON {
 		return {
 			...super.toJSON(),

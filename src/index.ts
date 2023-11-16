@@ -71,6 +71,7 @@ export * from './lib/structures/CommandStore';
 export * from './lib/structures/InteractionHandler';
 export * from './lib/structures/InteractionHandlerStore';
 export * from './lib/structures/Listener';
+export * from './lib/structures/ListenerLoaderStrategy';
 export * from './lib/structures/ListenerStore';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
