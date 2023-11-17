@@ -1,6 +1,6 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece } from '@sapphire/pieces';
-import { isNullish, isObject, type Awaitable } from '@sapphire/utilities';
+import { isFunction, isNullish, isObject, type Awaitable } from '@sapphire/utilities';
 import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, type AutocompleteInteraction, type Message } from 'discord.js';
 import { Args } from '../parsers/Args';
 import {
@@ -239,28 +239,28 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * Type-guard that ensures the command supports message commands by checking if the handler for it is present
 	 */
 	public supportsMessageCommands(): this is MessageCommand {
-		return Reflect.has(this, 'messageRun');
+		return isFunction(Reflect.get(this, 'messageRun'));
 	}
 
 	/**
 	 * Type-guard that ensures the command supports chat input commands by checking if the handler for it is present
 	 */
 	public supportsChatInputCommands(): this is ChatInputCommand {
-		return Reflect.has(this, 'chatInputRun');
+		return isFunction(Reflect.get(this, 'chatInputRun'));
 	}
 
 	/**
 	 * Type-guard that ensures the command supports context menu commands by checking if the handler for it is present
 	 */
 	public supportsContextMenuCommands(): this is ContextMenuCommand {
-		return Reflect.has(this, 'contextMenuRun');
+		return isFunction(Reflect.get(this, 'contextMenuRun'));
 	}
 
 	/**
 	 * Type-guard that ensures the command supports handling autocomplete interactions by checking if the handler for it is present
 	 */
 	public supportsAutocompleteInteractions(): this is AutocompleteCommand {
-		return Reflect.has(this, 'autocompleteRun');
+		return isFunction(Reflect.get(this, 'autocompleteRun'));
 	}
 
 	public override async reload() {
