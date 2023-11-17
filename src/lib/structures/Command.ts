@@ -154,7 +154,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get category(): string | null {
-		return this.fullCategory.length > 0 ? this.fullCategory[0] : null;
+		return this.fullCategory.at(0) ?? null;
 	}
 
 	/**
@@ -166,7 +166,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get subCategory(): string | null {
-		return this.fullCategory.length > 1 ? this.fullCategory[1] : null;
+		return this.fullCategory.at(1) ?? null;
 	}
 
 	/**
@@ -178,7 +178,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get parentCategory(): string | null {
-		return this.fullCategory.length > 1 ? this.fullCategory[this.fullCategory.length - 1] : null;
+		return this.fullCategory.at(-1) ?? null;
 	}
 
 	/**
