@@ -142,7 +142,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
 		const parser = new Parser(this.strategy);
 		const args = new ArgumentStream(parser.run(this.lexer.run(parameters)));
-		return new Args(message, this as any, args, context) as any;
+		return new Args(message, this as MessageCommand, args, context) as PreParseReturn;
 	}
 
 	/**
