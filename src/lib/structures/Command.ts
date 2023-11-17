@@ -53,11 +53,14 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	public detailedDescription: DetailedDescriptionCommand;
 
 	/**
-	 * The full category for the command. Either an array of strings that denote every (sub)folder the command is in,
-	 * or `null` if it could not be resolved automatically.
+	 * The full category for the command, can be overridden by setting the {@link Command.Options.fullCategory} option.
 	 *
-	 * If this is `null` with how you set up your code then you can overwrite how the `fullCategory` is resolved by
-	 * extending this class and overwriting the assignment in the constructor.
+	 * If {@link Command.Options.fullCategory} is not set, then:
+	 * - If the command is loaded from the file system, then this is the command's location in file system relative to
+	 *   the commands folder. For example, if you have a command located at `commands/General/Information/info.ts` then
+	 *   this property will be `['General', 'Info']`.
+	 * - If the command is virtual, then this will be `[]`.
+	 *
 	 * @since 2.0.0
 	 */
 	public readonly fullCategory: readonly string[];
