@@ -21,7 +21,8 @@ import type {
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical, getDefaultGuildIds } from './ApplicationCommandRegistries';
-import { getCommandDifferences, getCommandDifferencesFast, type CommandDifference } from './computeDifferences';
+import type { CommandDifference } from './compute-differences/_shared';
+import { getCommandDifferences, getCommandDifferencesFast } from './computeDifferences';
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
 export class ApplicationCommandRegistry {

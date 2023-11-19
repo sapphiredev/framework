@@ -14,6 +14,7 @@ import {
 } from 'discord-api-types/v10';
 import {
 	ApplicationCommand,
+	PermissionsBitField,
 	type ChatInputApplicationCommandData,
 	type MessageApplicationCommandData,
 	type UserApplicationCommandData
@@ -33,19 +34,11 @@ function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommand
 	data.dm_permission ??= true;
 	data.type ??= ApplicationCommandType.ChatInput;
 
-	// Localizations default to null from d.js
-	data.name_localizations ??= null;
-	data.description_localizations ??= null;
-
 	return data;
 }
 
 function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCommandsJSONBody): RESTPostAPIContextMenuApplicationCommandsJSONBody {
 	data.dm_permission ??= true;
-
-	// Localizations default to null from d.js
-	data.name_localizations ??= null;
-	data.description_localizations ??= null;
 
 	return data;
 }
@@ -75,11 +68,13 @@ export function normalizeChatInputCommand(
 		description: command.description,
 		description_localizations: command.descriptionLocalizations,
 		type: ApplicationCommandType.ChatInput,
-		dm_permission: command.dmPermission
+		dm_permission: command.dmPermission,
+		nsfw: command.nsfw
 	};
 
-	if (command.defaultMemberPermissions) {
-		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	if (typeof command.defaultMemberPermissions !== 'undefined') {
+		finalObject.default_member_permissions =
+			command.defaultMemberPermissions === null ? null : new PermissionsBitField(command.defaultMemberPermissions).bitfield.toString();
 	}
 
 	if (command.options?.length) {
@@ -110,11 +105,13 @@ export function normalizeContextMenuCommand(
 		name: command.name,
 		name_localizations: command.nameLocalizations,
 		type: command.type,
-		dm_permission: command.dmPermission
+		dm_permission: command.dmPermission,
+		nsfw: command.nsfw
 	};
 
-	if (command.defaultMemberPermissions) {
-		finalObject.default_member_permissions = String(command.defaultMemberPermissions);
+	if (typeof command.defaultMemberPermissions !== 'undefined') {
+		finalObject.default_member_permissions =
+			command.defaultMemberPermissions === null ? null : new PermissionsBitField(command.defaultMemberPermissions).bitfield.toString();
 	}
 
 	return addDefaultsToContextMenuJSON(finalObject);
@@ -124,7 +121,8 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	const returnData = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		dm_permission: command.dmPermission
+		dm_permission: command.dmPermission,
+		nsfw: command.nsfw
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
 	if (command.defaultMemberPermissions) {
