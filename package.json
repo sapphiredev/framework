@@ -47,7 +47,7 @@
 		"@sapphire/eslint-config": "^5.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.0",
-		"@types/node": "^20.9.1",
+		"@types/node": "^20.9.2",
 		"@types/ws": "^8.5.9",
 		"@typescript-eslint/eslint-plugin": "^6.11.0",
 		"@typescript-eslint/parser": "^6.11.0",
@@ -56,7 +56,7 @@
 		"discord.js": "^14.14.1",
 		"esbuild-plugin-file-path-extensions": "^1.0.0",
 		"esbuild-plugin-version-injector": "^1.2.1",
-		"eslint": "^8.53.0",
+		"eslint": "^8.54.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-deprecation": "^2.0.0",
 		"eslint-plugin-prettier": "^5.0.1",
@@ -116,5 +116,5 @@
 		"minimist": "^1.2.8"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@4.0.1"
+	"packageManager": "yarn@4.0.2"
 }
