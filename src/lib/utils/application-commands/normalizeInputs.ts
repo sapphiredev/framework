@@ -122,12 +122,9 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 		name: command.name,
 		name_localizations: command.nameLocalizations,
 		dm_permission: command.dmPermission,
-		nsfw: command.nsfw
+		nsfw: command.nsfw,
+		default_member_permissions: command.defaultMemberPermissions?.bitfield.toString() ?? null
 	} as RESTPostAPIApplicationCommandsJSONBody;
-
-	if (command.defaultMemberPermissions) {
-		returnData.default_member_permissions = command.defaultMemberPermissions.bitfield.toString();
-	}
 
 	if (command.type === ApplicationCommandType.ChatInput) {
 		returnData.type = ApplicationCommandType.ChatInput;
