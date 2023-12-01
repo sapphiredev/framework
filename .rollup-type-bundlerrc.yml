@@ -1,0 +1,3 @@
+external:
+  - node:url
+  - node:events

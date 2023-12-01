@@ -5,15 +5,15 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
 	clean: true,
 	entry: ['src/**/*.ts'],
-	format: ['cjs'],
+	outDir: 'dist/esm',
+	format: 'esm',
+	dts: true,
 	minify: false,
 	skipNodeModulesBundle: true,
 	sourcemap: true,
-	target: 'es2020',
+	target: 'es2021',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()],
-	treeshake: true,
-	bundle: true,
-	splitting: false
+	treeshake: true
 });
