@@ -23,12 +23,6 @@ import { CorePrecondition as NSFW } from './preconditions/NSFW';
 import { CorePrecondition as RunIn } from './preconditions/RunIn';
 import { CorePrecondition as UserPermissions } from './preconditions/UserPermissions';
 
-// These can be exported as `export * as ___` but it currently isn't supported in @microsoft/api-extractor so instead we
-// import and export as they recommend
-import * as PreconditionResolvers from './lib/precondition-resolvers/index';
-import * as Resolvers from './lib/resolvers/index';
-export { PreconditionResolvers, Resolvers };
-
 const ApplicationCommandRegistries = {
 	acquire,
 	setDefaultBehaviorWhenNotIdentical,
@@ -50,9 +44,9 @@ export {
 	StoreRegistry,
 	container,
 	type AliasPieceOptions,
-	type LoaderPieceContext,
 	// eslint-disable-next-line deprecation/deprecation
 	type PieceContext,
+	type LoaderPieceContext,
 	type PieceOptions,
 	type StoreOptions,
 	type StoreRegistryEntries
@@ -68,7 +62,9 @@ export * from './lib/parsers/Args';
 export * from './lib/plugins/Plugin';
 export * from './lib/plugins/PluginManager';
 export * from './lib/plugins/symbols';
+export * as PreconditionResolvers from './lib/precondition-resolvers/index';
 export type { EmojiObject } from './lib/resolvers/emoji';
+export * as Resolvers from './lib/resolvers/index';
 export type { MessageResolverOptions } from './lib/resolvers/message';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
