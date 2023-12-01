@@ -25,14 +25,12 @@
 		"test:watch": "vitest",
 		"update": "yarn upgrade-interactive",
 		"typecheck": "tsc -p tsconfig.eslint.json",
-		"build": "concurrently \"yarn:build:*\"",
-		"build:cjs": "tsup --config tsup.config.cts",
-		"build:esm": "tsup --config tsup.config.mts",
+		"build": "tsup",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
-		"prepack": "concurrently \"yarn:prepack:*\"",
-		"prepack:cjs": "rollup-type-bundler -b build:cjs -d dist/cjs",
-		"prepack:esm": "rollup-type-bundler -b build:esm -d dist/esm -t .mts"
+		"prepack": "yarn build && concurrently \"yarn:prepack:*\"",
+		"prepack:cjs": "rollup-type-bundler -d dist/cjs",
+		"prepack:esm": "rollup-type-bundler -d dist/esm -t .mts"
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.7.0",
@@ -50,7 +48,7 @@
 		"@commitlint/config-conventional": "^18.4.3",
 		"@favware/cliff-jumper": "^2.2.3",
 		"@favware/npm-deprecate": "^1.0.7",
-		"@favware/rollup-type-bundler": "^3.0.0",
+		"@favware/rollup-type-bundler": "^3.1.0",
 		"@sapphire/eslint-config": "^5.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.0",
