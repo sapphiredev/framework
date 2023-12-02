@@ -1,19 +1,31 @@
 import { esbuildPluginFilePathExtensions } from 'esbuild-plugin-file-path-extensions';
 import { esbuildPluginVersionInjector } from 'esbuild-plugin-version-injector';
-import { defineConfig } from 'tsup';
+import { defineConfig, type Options } from 'tsup';
 
-export default defineConfig({
+const baseOptions: Options = {
 	clean: true,
 	entry: ['src/**/*.ts'],
-	format: ['cjs'],
+	dts: true,
 	minify: false,
 	skipNodeModulesBundle: true,
 	sourcemap: true,
-	target: 'es2020',
+	target: 'es2021',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
 	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()],
-	treeshake: true,
-	bundle: true,
-	splitting: false
-});
+	treeshake: true
+};
+
+export default [
+	defineConfig({
+		...baseOptions,
+		outDir: 'dist/cjs',
+		format: 'cjs',
+		outExtension: () => ({ js: '.cjs' })
+	}),
+	defineConfig({
+		...baseOptions,
+		outDir: 'dist/esm',
+		format: 'esm'
+	})
+];
