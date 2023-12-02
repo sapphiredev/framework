@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.3](https://github.com/sapphiredev/framework/compare/v4.8.3...v4.8.3) - (2023-12-02)
+
+## 🏠 Refactor
+
+- Switch to split cjs and esm builds and fully build with tsup (#697) ([2502abb](https://github.com/sapphiredev/framework/commit/2502abb08b90e6676338457f551b51cc8eaa17a0))
+- **Command:** Make type guards check the type ([3a6b259](https://github.com/sapphiredev/framework/commit/3a6b2598e4ccb2a7ed8b3304aa943e3edc165403))
+
+## 🐛 Bug Fixes
+
+- **computeDifference:** Correctly check for extra properties and split up compute difference (#695) ([281d118](https://github.com/sapphiredev/framework/commit/281d11883f3cf33cbc5f878a2d96457f83c03714))
+- **Command:** `parentCategory` failing with `fullCategory.length === 1` ([04bc519](https://github.com/sapphiredev/framework/commit/04bc519745a7b32b9672a64bad01664f26e49631))
+
+## 📝 Documentation
+
+- **Command:** Update `fullCategory`'s outdated docs ([d2d7967](https://github.com/sapphiredev/framework/commit/d2d7967f3a90b43d2fc6116eacb5f79297cdd784))
+
 # [4.8.2](https://github.com/sapphiredev/framework/compare/v4.8.2...v4.8.2) - (2023-11-16)
 
 ## 🐛 Bug Fixes
