@@ -12,8 +12,8 @@ const baseOptions: Options = {
 	target: 'es2021',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
-	treeshake: true,
-	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()]
+	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()],
+	treeshake: true
 };
 
 export default [
