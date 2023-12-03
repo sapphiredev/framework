@@ -8,7 +8,7 @@
 	"exports": {
 		"import": {
 			"types": "./dist/esm/index.d.mts",
-			"default": "./dist/esm/index.mjs"
+			"default": "./dist/cjs/index.cjs"
 		},
 		"require": {
 			"types": "./dist/cjs/index.d.ts",
