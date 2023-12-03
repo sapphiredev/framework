@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.4](https://github.com/sapphiredev/framework/compare/v4.8.4...v4.8.4) - (2023-12-03)
+
+## 🐛 Bug Fixes
+
+- Convert .js imports to .cjs (#698) ([925e2c9](https://github.com/sapphiredev/framework/commit/925e2c983ef22e17708724d4129cbd5fabf45e2a))
+
 # [4.8.3](https://github.com/sapphiredev/framework/compare/v4.8.3...v4.8.3) - (2023-12-02)
 
 ## 🏠 Refactor
