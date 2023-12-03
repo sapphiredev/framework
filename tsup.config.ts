@@ -26,7 +26,7 @@ export default [
 			{
 				name: 'fix-cjs-imports',
 				setup({ onResolve }) {
-					onResolve({ filter: /.js$/ }, (args) => {
+					onResolve({ filter: /.*/ }, (args) => {
 						if (args.importer) {
 							return {
 								path: `${args.path}.cjs`,
