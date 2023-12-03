@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.8.5](https://github.com/sapphiredev/framework/compare/v4.8.5...v4.8.5) - (2023-12-03)
+
+## 🐛 Bug Fixes
+
+- Point ESM entrypoint to CJS build (#699) ([5132f62](https://github.com/sapphiredev/framework/commit/5132f6248b5067b30792a83ae43a2fff8ce4f027))
+
 # [4.8.4](https://github.com/sapphiredev/framework/compare/v4.8.4...v4.8.4) - (2023-12-03)
 
 ## 🐛 Bug Fixes

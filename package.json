@@ -1,6 +1,6 @@
 {
 	"name": "@sapphire/framework",
-	"version": "4.8.4",
+	"version": "4.8.5",
 	"description": "Discord bot framework built for advanced and amazing bots.",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.mjs",
