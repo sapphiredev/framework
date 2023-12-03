@@ -60,7 +60,7 @@
 		"concurrently": "^8.2.2",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.14.1",
-		"esbuild-plugin-file-path-extensions": "^1.0.0",
+		"esbuild-plugin-file-path-extensions": "^2.0.0",
 		"esbuild-plugin-version-injector": "^1.2.1",
 		"eslint": "^8.55.0",
 		"eslint-config-prettier": "^9.1.0",
