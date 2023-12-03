@@ -21,7 +21,22 @@ export default [
 		...baseOptions,
 		outDir: 'dist/cjs',
 		format: 'cjs',
-		outExtension: () => ({ js: '.cjs' })
+		outExtension: () => ({ js: '.cjs' }),
+		esbuildPlugins: [
+			{
+				name: 'fix-cjs-imports',
+				setup({ onResolve }) {
+					onResolve({ filter: /.js$/ }, (args) => {
+						if (args.importer) {
+							return {
+								path: `${args.path}.cjs`,
+								external: true
+							};
+						}
+					});
+				}
+			}
+		]
 	}),
 	defineConfig({
 		...baseOptions,
