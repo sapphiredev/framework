@@ -12,7 +12,6 @@ const baseOptions: Options = {
 	target: 'es2021',
 	tsconfig: 'src/tsconfig.json',
 	keepNames: true,
-	esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()],
 	treeshake: true
 };
 
@@ -22,25 +21,12 @@ export default [
 		outDir: 'dist/cjs',
 		format: 'cjs',
 		outExtension: () => ({ js: '.cjs' }),
-		esbuildPlugins: [
-			{
-				name: 'fix-cjs-imports',
-				setup({ onResolve }) {
-					onResolve({ filter: /.*/ }, (args) => {
-						if (args.importer) {
-							return {
-								path: `${args.path}.cjs`,
-								external: true
-							};
-						}
-					});
-				}
-			}
-		]
+		esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions({ cjsExtension: 'cjs' })]
 	}),
 	defineConfig({
 		...baseOptions,
 		outDir: 'dist/esm',
-		format: 'esm'
+		format: 'esm',
+		esbuildPlugins: [esbuildPluginVersionInjector(), esbuildPluginFilePathExtensions()]
 	})
 ];
