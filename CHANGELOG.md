@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.0](https://github.com/sapphiredev/framework/compare/v5.0.0...v5.0.0) - (2023-12-04)
+
+## 🚀 Features
+
+- Make ESM properly load ESM endpoint and not masquerade as ESM (#700) ([59b637e](https://github.com/sapphiredev/framework/commit/59b637eb10e00daeaeb8206dab1e81ea245f290b))
+  - 💥 **BREAKING CHANGE:** This ensures that Framework will properly load the files
+from the dist/esm folder. This is BREAKING to ALL plugins that are not
+equally updated to load ESM specific files because they will otherwise
+load the CJS files of @sapphire/framework and every piece will load twice.
+DO NOT use this version without also updating your plugins! Sapphire plugins
+have been released alongside this version, third-party plugins will need
+to be updated by their respective authors!!
+
 # [4.8.5](https://github.com/sapphiredev/framework/compare/v4.8.5...v4.8.5) - (2023-12-03)
 
 ## 🐛 Bug Fixes
