@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.2](https://github.com/sapphiredev/framework/compare/v5.0.2...v5.0.2) - (2023-12-05)
+
+## 🐛 Bug Fixes
+
+- Update transitive dependencies ([16af23b](https://github.com/sapphiredev/framework/commit/16af23bcf0666720bc564bcd8932017d71ed371e))
+
 # [5.0.1](https://github.com/sapphiredev/framework/compare/v5.0.1...v5.0.1) - (2023-12-05)
 
 ## 🐛 Bug Fixes
