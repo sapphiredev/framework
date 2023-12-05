@@ -591,9 +591,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@favware/rollup-type-bundler@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "@favware/rollup-type-bundler@npm:3.2.0"
+"@favware/rollup-type-bundler@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "@favware/rollup-type-bundler@npm:3.2.1"
   dependencies:
     "@sapphire/node-utilities": "npm:^1.0.0"
     "@sapphire/utilities": "npm:^3.13.0"
@@ -606,7 +606,7 @@ __metadata:
   bin:
     rollup-type-bundler: ./dist/cli.js
     rtb: ./dist/cli.js
-  checksum: 04022f0f3d18e5627eefb44a8495a4e1d54f956a2384fa53cfb3ef1b6572b861fe1cb131a32ed65699125ea99f2ff347695d00992d04cca4082f289bbb4ba20d
+  checksum: e032d4cc962bbf0acbcb7df4fcb7606470b66c2db592f18d0962d62582fdd8e8fcb202103399f2b86ce66211ded896a919db495c5e0d6f16211c1386078da56c
   languageName: node
   linkType: hard
 
@@ -929,12 +929,12 @@ __metadata:
     "@discordjs/builders": "npm:^1.7.0"
     "@favware/cliff-jumper": "npm:^2.2.3"
     "@favware/npm-deprecate": "npm:^1.0.7"
-    "@favware/rollup-type-bundler": "npm:^3.2.0"
+    "@favware/rollup-type-bundler": "npm:^3.2.1"
     "@sapphire/discord-utilities": "npm:^3.2.1"
     "@sapphire/discord.js-utilities": "npm:^7.1.3"
     "@sapphire/eslint-config": "npm:^5.0.3"
     "@sapphire/lexure": "npm:^1.1.6"
-    "@sapphire/pieces": "npm:^4.0.1"
+    "@sapphire/pieces": "npm:^4.0.2"
     "@sapphire/prettier-config": "npm:^2.0.0"
     "@sapphire/ratelimits": "npm:^2.4.8"
     "@sapphire/result": "npm:^2.6.5"
@@ -983,14 +983,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@sapphire/pieces@npm:4.0.1"
+"@sapphire/pieces@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@sapphire/pieces@npm:4.0.2"
   dependencies:
     "@discordjs/collection": "npm:^1.5.3"
     "@sapphire/utilities": "npm:^3.14.0"
     tslib: "npm:^2.6.2"
-  checksum: 1a196b36f81cb3872b0ebffc3d77fdc6168ef9a838738411b46f85bd72c11bc467d6b0ac65cdb6cbbb60ef2846cba8b6d1753f049d901ec6d74812ef6202bfe2
+  checksum: ecb34ef853e6bb9b4cf45528b7c2f305bf4509eccf050e095b4b02d83370cad23873bb33c7c8ea18bb60e3f7407e0c24dac8f149b9c9d00756cbd0255d4b9e81
   languageName: node
   linkType: hard
 
