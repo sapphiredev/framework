@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.4](https://github.com/sapphiredev/framework/compare/v5.0.4...v5.0.4) - (2023-12-09)
+
+## 🐛 Bug Fixes
+
+- Update @sapphire/pieces dependency to have bun load ts files automatically ([47945f5](https://github.com/sapphiredev/framework/commit/47945f52d67c617970373a28b5876562ba32b023))
+
 # [5.0.3](https://github.com/sapphiredev/framework/compare/v5.0.3...v5.0.3) - (2023-12-09)
 
 ## 🐛 Bug Fixes
