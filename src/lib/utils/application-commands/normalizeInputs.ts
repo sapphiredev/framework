@@ -33,12 +33,14 @@ function isBuilder(
 function addDefaultsToChatInputJSON(data: RESTPostAPIChatInputApplicationCommandsJSONBody): RESTPostAPIChatInputApplicationCommandsJSONBody {
 	data.dm_permission ??= true;
 	data.type ??= ApplicationCommandType.ChatInput;
+	data.default_member_permissions ??= null;
 
 	return data;
 }
 
 function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCommandsJSONBody): RESTPostAPIContextMenuApplicationCommandsJSONBody {
 	data.dm_permission ??= true;
+	data.default_member_permissions ??= null;
 
 	return data;
 }
