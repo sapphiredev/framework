@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.3](https://github.com/sapphiredev/framework/compare/v5.0.3...v5.0.3) - (2023-12-09)
+
+## 🐛 Bug Fixes
+
+- **normalizeInputs:** Bring back the defaulting I removed (#701) ([0e04eb3](https://github.com/sapphiredev/framework/commit/0e04eb3f13b3928c8348876c27b48d269825bb1d))
+
 # [5.0.2](https://github.com/sapphiredev/framework/compare/v5.0.2...v5.0.2) - (2023-12-05)
 
 ## 🐛 Bug Fixes
