@@ -110,7 +110,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 						.map((perm) => CorePrecondition.readablePermissions[perm])
 						.join(', ')}`,
 					context: { missing }
-			  });
+				});
 	}
 
 	public static readonly readablePermissions: Record<PermissionsString, string> = {

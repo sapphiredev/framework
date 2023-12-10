@@ -19,7 +19,7 @@ export class PreconditionStore extends Store<Precondition, 'preconditions'> {
 				: await precondition.error({
 						identifier: Identifiers.PreconditionMissingMessageHandler,
 						message: `The precondition "${precondition.name}" is missing a "messageRun" handler, but it was requested for the "${command.name}" command.`
-				  });
+					});
 
 			if (result.isErr()) {
 				return result;
@@ -40,7 +40,7 @@ export class PreconditionStore extends Store<Precondition, 'preconditions'> {
 				: await precondition.error({
 						identifier: Identifiers.PreconditionMissingChatInputHandler,
 						message: `The precondition "${precondition.name}" is missing a "chatInputRun" handler, but it was requested for the "${command.name}" command.`
-				  });
+					});
 
 			if (result.isErr()) {
 				return result;
@@ -61,7 +61,7 @@ export class PreconditionStore extends Store<Precondition, 'preconditions'> {
 				: await precondition.error({
 						identifier: Identifiers.PreconditionMissingContextMenuHandler,
 						message: `The precondition "${precondition.name}" is missing a "contextMenuRun" handler, but it was requested for the "${command.name}" command.`
-				  });
+					});
 
 			if (result.isErr()) {
 				return result;

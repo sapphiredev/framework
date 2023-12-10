@@ -79,7 +79,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 						.map((perm) => ClientPrecondition.readablePermissions[perm])
 						.join(', ')}`,
 					context: { missing }
-			  });
+				});
 	}
 }
 
