@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Add problem matcher
         run: echo "::add-matcher::.github/problemMatchers/eslint.json"
       - name: Use Node.js v20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
@@ -26,55 +26,14 @@ jobs:
       - name: Run ESLint
         run: yarn lint --fix=false
 
-  Testing:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v3
-      - name: Use Node.js v20
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Run tests
-        run: yarn test --coverage
-      - name: Store code coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: coverage/
-
-  Building:
-    name: Compile source code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v3
-      - name: Add problem matcher
-        run: echo "::add-matcher::.github/problemMatchers/tsc.json"
-      - name: Use Node.js v20
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Build Code
-        run: yarn build
-
   docs:
     name: Generate Documentation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js v20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
@@ -84,23 +43,34 @@ jobs:
       - name: Generate Documentation
         run: yarn docs
 
-  Upload_Coverage_Report:
-    name: Upload coverage report to codecov
-    needs: [Testing]
+  BuildingAndTesting:
+    name: Building and Testing with node v${{ matrix.node }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 19, 20, 21]
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Add problem matcher
+        run: echo "::add-matcher::.github/problemMatchers/tsc.json"
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 2
-      - name: Download Coverage report
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage
-          path: coverage/
-      - name: Codecov Upload
+          node-version: ${{ matrix.node }}
+          cache: yarn
+          registry-url: https://registry.npmjs.org/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Typecheck And Build Code
+        run: yarn typecheck && yarn build
+      - name: Run tests
+        run: yarn test
+      - name: Codecov Upload ${{ matrix.node }}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: coverage/
+          files: coverage/cobertura-coverage.xml
+          flags: ${{ matrix.node }}
           fail_ci_if_error: true

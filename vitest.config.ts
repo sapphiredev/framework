@@ -4,8 +4,8 @@ export default defineConfig({
 	test: {
 		globals: true,
 		coverage: {
-			provider: 'v8',
-			reporter: ['text', 'lcov', 'clover']
+			enabled: true,
+			reporter: ['text', 'lcov', 'cobertura']
 		}
 	},
 	esbuild: {
