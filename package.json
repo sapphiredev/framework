@@ -35,7 +35,7 @@
 	"dependencies": {
 		"@discordjs/builders": "^1.7.0",
 		"@sapphire/discord-utilities": "^3.2.1",
-		"@sapphire/discord.js-utilities": "^7.1.3",
+		"@sapphire/discord.js-utilities": "^7.1.4",
 		"@sapphire/lexure": "^1.1.6",
 		"@sapphire/pieces": "^4.1.0",
 		"@sapphire/ratelimits": "^2.4.8",
@@ -52,7 +52,7 @@
 		"@sapphire/eslint-config": "^5.0.3",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.0",
-		"@types/node": "^20.10.4",
+		"@types/node": "^20.10.5",
 		"@types/ws": "^8.5.10",
 		"@typescript-eslint/eslint-plugin": "^6.14.0",
 		"@typescript-eslint/parser": "^6.14.0",
@@ -62,7 +62,7 @@
 		"discord.js": "^14.14.1",
 		"esbuild-plugin-file-path-extensions": "^2.0.0",
 		"esbuild-plugin-version-injector": "^1.2.1",
-		"eslint": "^8.55.0",
+		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-deprecation": "^2.0.0",
 		"eslint-plugin-prettier": "^5.0.1",
@@ -73,7 +73,7 @@
 		"typedoc": "^0.25.4",
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.3.3",
-		"vite": "^5.0.7",
+		"vite": "^5.0.10",
 		"vitest": "^1.0.4"
 	},
 	"repository": {
