@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.5](https://github.com/sapphiredev/framework/compare/v5.0.5...v5.0.5) - (2023-12-27)
+
+## 🐛 Bug Fixes
+
+- Update transitive sapphire dependencies ([ddf4f15](https://github.com/sapphiredev/framework/commit/ddf4f159f44f4dff1fbb0bd6a9e497751b5c1d5c))
+- **deps:** Update all non-major dependencies (#704) ([9e2dc3b](https://github.com/sapphiredev/framework/commit/9e2dc3bc3dd6fd615e759c35503bf514672efbd4))
+
 # [5.0.4](https://github.com/sapphiredev/framework/compare/v5.0.4...v5.0.4) - (2023-12-09)
 
 ## 🐛 Bug Fixes
