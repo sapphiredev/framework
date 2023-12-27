@@ -904,15 +904,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^7.1.4":
-  version: 7.1.4
-  resolution: "@sapphire/discord.js-utilities@npm:7.1.4"
+"@sapphire/discord.js-utilities@npm:^7.1.5":
+  version: 7.1.5
+  resolution: "@sapphire/discord.js-utilities@npm:7.1.5"
   dependencies:
     "@sapphire/discord-utilities": "npm:^3.2.1"
     "@sapphire/duration": "npm:^1.1.1"
     "@sapphire/utilities": "npm:^3.14.0"
     tslib: "npm:^2.6.2"
-  checksum: 0864f0294dd656bb4619e6015fbe27b020a75af822aa1512fb30976f3aed0f3cfe4811c1221c387a551acb683fd9dddc64489d3a8c5fa7859705a65d9490631b
+  checksum: 0490077b1f55907518ae69a6acdadbd3595128f3a4a278bcda2117dec94e446b54d3e9d3fec5d81622653614079bfa52c2f6b2567ea2db67daa225d5f7e9a1aa
   languageName: node
   linkType: hard
 
@@ -958,10 +958,10 @@ __metadata:
     "@favware/npm-deprecate": "npm:^1.0.7"
     "@favware/rollup-type-bundler": "npm:^3.2.1"
     "@sapphire/discord-utilities": "npm:^3.2.1"
-    "@sapphire/discord.js-utilities": "npm:^7.1.4"
+    "@sapphire/discord.js-utilities": "npm:^7.1.5"
     "@sapphire/eslint-config": "npm:^5.0.3"
     "@sapphire/lexure": "npm:^1.1.6"
-    "@sapphire/pieces": "npm:^4.1.0"
+    "@sapphire/pieces": "npm:^4.2.0"
     "@sapphire/prettier-config": "npm:^2.0.0"
     "@sapphire/ratelimits": "npm:^2.4.8"
     "@sapphire/result": "npm:^2.6.5"
@@ -1010,14 +1010,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@sapphire/pieces@npm:4.1.0"
+"@sapphire/pieces@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@sapphire/pieces@npm:4.2.0"
   dependencies:
     "@discordjs/collection": "npm:^1.5.3"
     "@sapphire/utilities": "npm:^3.14.0"
     tslib: "npm:^2.6.2"
-  checksum: fbca477af861bf215bac422b338d11b983ba5a7d9b63bcea260d82812b3c74c79882e556b31c0b0f0580fd028f3474c7c6ec649e93589787127d6c181b2c08d0
+  checksum: ca2d737198360bfb4293dc51216c206b2c0278d405431cd1810471ab0833a0e4533bd9395ddbeb37a39ea10dd61fbe4e7ae09abc06ebb95988aec21aa5145639
   languageName: node
   linkType: hard
 
