@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.6](https://github.com/sapphiredev/framework/compare/v5.0.6...v5.0.6) - (2024-01-10)
+
+## 🐛 Bug Fixes
+
+- Re-export more types from @sapphire/pieces (#715) ([662f212](https://github.com/sapphiredev/framework/commit/662f212621bf5403b8b9cecba32b6d1100c62741))
+- **deps:** Update all non-major dependencies (#713) ([134ca45](https://github.com/sapphiredev/framework/commit/134ca45f496de6a4928b670eaa8022eda8a56630))
+
 # [5.0.5](https://github.com/sapphiredev/framework/compare/v5.0.5...v5.0.5) - (2023-12-27)
 
 ## 🐛 Bug Fixes
