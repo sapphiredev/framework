@@ -43,13 +43,22 @@ export {
 	Store,
 	StoreRegistry,
 	container,
+	type AliasPieceJSON,
 	type AliasPieceOptions,
-	// eslint-disable-next-line deprecation/deprecation
-	type PieceContext,
+	type Container,
 	type LoaderPieceContext,
+	type PieceContext, // eslint-disable-line deprecation/deprecation
+	type PieceJSON,
+	type PieceLocationJSON,
+	type PieceOf,
 	type PieceOptions,
+	type StoreManagerManuallyRegisteredPiece,
+	type StoreManuallyRegisteredPiece,
+	type StoreOf,
 	type StoreOptions,
-	type StoreRegistryEntries
+	type StoreRegistryEntries,
+	type StoreRegistryKey,
+	type StoreRegistryValue
 } from '@sapphire/pieces';
 export * from '@sapphire/result';
 export type { Awaitable } from '@sapphire/utilities';
