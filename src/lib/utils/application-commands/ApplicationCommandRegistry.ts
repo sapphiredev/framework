@@ -11,13 +11,13 @@ import {
 	type RESTPostAPIChatInputApplicationCommandsJSONBody,
 	type RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
-import type {
-	ApplicationCommand,
-	ApplicationCommandManager,
-	ChatInputApplicationCommandData,
+import {
 	Collection,
-	MessageApplicationCommandData,
-	UserApplicationCommandData
+	type ApplicationCommand,
+	type ApplicationCommandManager,
+	type ChatInputApplicationCommandData,
+	type MessageApplicationCommandData,
+	type UserApplicationCommandData
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical, getDefaultGuildIds } from './ApplicationCommandRegistries';
@@ -70,17 +70,17 @@ export class ApplicationCommandRegistry {
 	 * @deprecated This field will only show the first guild command id registered for this registry per guild.
 	 * Use {@link ApplicationCommandRegistry.guildIdToChatInputCommandIds} and {@link ApplicationCommandRegistry.guildIdToContextMenuCommandIds} instead.
 	 */
-	public readonly guildCommandIds = new Map<string, string>();
+	public readonly guildCommandIds = new Collection<string, string>();
 
 	/**
 	 * A map of guild ids to a set of registered and valid chat input command ids that point to this registry.
 	 */
-	public readonly guildIdToChatInputCommandIds = new Map<string, Set<string>>();
+	public readonly guildIdToChatInputCommandIds = new Collection<string, Set<string>>();
 
 	/**
 	 * A map of guild ids to a set of registered and valid context menu command ids that point to this registry.
 	 */
-	public readonly guildIdToContextMenuCommandIds = new Map<string, Set<string>>();
+	public readonly guildIdToContextMenuCommandIds = new Collection<string, Set<string>>();
 
 	private readonly apiCalls: InternalAPICall[] = [];
 
@@ -278,9 +278,7 @@ export class ApplicationCommandRegistry {
 				this.addChatInputCommandIds(id);
 
 				if (guildId) {
-					const guildCommandIds = this.guildIdToChatInputCommandIds.get(guildId) ?? new Set<string>();
-					guildCommandIds.add(id);
-					this.guildIdToChatInputCommandIds.set(guildId, guildCommandIds);
+					this.guildIdToChatInputCommandIds.ensure(guildId, () => new Set()).add(id);
 				} else {
 					this.globalChatInputCommandIds.add(id);
 				}
@@ -290,9 +288,7 @@ export class ApplicationCommandRegistry {
 				this.addContextMenuCommandIds(id);
 
 				if (guildId) {
-					const guildCommandIds = this.guildIdToContextMenuCommandIds.get(guildId) ?? new Set<string>();
-					guildCommandIds.add(id);
-					this.guildIdToContextMenuCommandIds.set(guildId, guildCommandIds);
+					this.guildIdToContextMenuCommandIds.ensure(guildId, () => new Set()).add(id);
 				} else {
 					this.globalContextMenuCommandIds.add(id);
 				}
