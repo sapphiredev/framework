@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { container } from '@sapphire/pieces';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { ApplicationCommandType, type ApplicationCommandManager } from 'discord.js';
 import type { Command } from '../../structures/Command';
 import type { CommandStore } from '../../structures/CommandStore';
-import { RegisterBehavior } from '../../types/Enums';
+import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { Events } from '../../types/Events';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from './getNeededParameters';
@@ -125,16 +126,14 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 			if (piece) {
 				const registry = piece.applicationCommandRegistry;
 
-				registry.globalCommandId = id;
-
 				switch (globalCommand.type) {
 					case ApplicationCommandType.ChatInput: {
-						registry.addChatInputCommandIds(id);
+						registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id);
 						break;
 					}
 					case ApplicationCommandType.User:
 					case ApplicationCommandType.Message: {
-						registry.addContextMenuCommandIds(id);
+						registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id);
 						break;
 					}
 				}
@@ -172,16 +171,15 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 
 				if (piece) {
 					const registry = piece.applicationCommandRegistry;
-					registry.guildCommandIds.set(guildId, id);
 
 					switch (guildCommand.type) {
 						case ApplicationCommandType.ChatInput: {
-							registry.addChatInputCommandIds(id);
+							registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id, guildId);
 							break;
 						}
 						case ApplicationCommandType.User:
 						case ApplicationCommandType.Message: {
-							registry.addContextMenuCommandIds(id);
+							registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id, guildId);
 							break;
 						}
 					}
