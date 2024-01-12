@@ -1,6 +1,6 @@
 import { container } from '@sapphire/pieces';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import type { ApplicationCommandManager } from 'discord.js';
+import { ApplicationCommandType, type ApplicationCommandManager } from 'discord.js';
 import type { Command } from '../../structures/Command';
 import type { CommandStore } from '../../structures/CommandStore';
 import { RegisterBehavior } from '../../types/Enums';
@@ -126,7 +126,18 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 				const registry = piece.applicationCommandRegistry;
 
 				registry.globalCommandId = id;
-				registry.addChatInputCommandIds(id);
+
+				switch (globalCommand.type) {
+					case ApplicationCommandType.ChatInput: {
+						registry.addChatInputCommandIds(id);
+						break;
+					}
+					case ApplicationCommandType.User:
+					case ApplicationCommandType.Message: {
+						registry.addContextMenuCommandIds(id);
+						break;
+					}
+				}
 
 				// idHints are useless, and any manually added id or names could end up not being valid any longer if you use bulk overwrites
 				// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
@@ -163,7 +174,17 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 					const registry = piece.applicationCommandRegistry;
 					registry.guildCommandIds.set(guildId, id);
 
-					registry.addChatInputCommandIds(id);
+					switch (guildCommand.type) {
+						case ApplicationCommandType.ChatInput: {
+							registry.addChatInputCommandIds(id);
+							break;
+						}
+						case ApplicationCommandType.User:
+						case ApplicationCommandType.Message: {
+							registry.addContextMenuCommandIds(id);
+							break;
+						}
+					}
 
 					// idHints are useless, and any manually added ids or names could no longer be valid if you use bulk overwrites.
 					// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
