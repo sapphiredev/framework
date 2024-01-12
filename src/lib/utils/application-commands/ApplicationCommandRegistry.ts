@@ -30,13 +30,13 @@ export class ApplicationCommandRegistry {
 
 	/**
 	 * A set of all chat input command names and ids that point to this registry.
-	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalCommandIds} to get all global command ids.
+	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalChatInputCommandIds}
 	 */
 	public readonly chatInputCommands = new Set<string>();
 
 	/**
 	 * A set of all context menu command names and ids that point to this registry.
-	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalCommandIds} to get all global command ids.
+	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalContextMenuCommandIds}
 	 */
 	public readonly contextMenuCommands = new Set<string>();
 
@@ -48,26 +48,36 @@ export class ApplicationCommandRegistry {
 	/**
 	 * The global slash command id for this command.
 	 * @deprecated This field will only show the first global command id registered for this registry.
-	 * Use {@link ApplicationCommandRegistry.globalCommandIds} instead.
+	 * Use {@link ApplicationCommandRegistry.globalChatInputCommandIds} instead.
 	 */
 	public globalCommandId: string | null = null;
 
 	/**
-	 * A set of all registered and valid global command ids that point to this registry.
+	 * A set of all registered and valid global chat input command ids that point to this registry.
 	 */
-	public readonly globalCommandIds = new Set<string>();
+	public readonly globalChatInputCommandIds = new Set<string>();
 
 	/**
-	 * The guild slash command ids for this command.
+	 * A set of all registered and valid global context menu command ids that point to this registry.
+	 */
+	public readonly globalContextMenuCommandIds = new Set<string>();
+
+	/**
+	 * The guild command ids for this command.
 	 * @deprecated This field will only show the first guild command id registered for this registry per guild.
-	 * Use {@link ApplicationCommandRegistry.guildIdToCommandIds} instead.
+	 * Use {@link ApplicationCommandRegistry.guildIdToChatInputCommandIds} and {@link ApplicationCommandRegistry.guildIdToContextMenuCommandIds} instead.
 	 */
 	public readonly guildCommandIds = new Map<string, string>();
 
 	/**
-	 * A map of guild ids to a set of registered and valid command ids that point to this registry.
+	 * A map of guild ids to a set of registered and valid chat input command ids that point to this registry.
 	 */
-	public readonly guildIdToCommandIds = new Map<string, Set<string>>();
+	public readonly guildIdToChatInputCommandIds = new Map<string, Set<string>>();
+
+	/**
+	 * A map of guild ids to a set of registered and valid context menu command ids that point to this registry.
+	 */
+	public readonly guildIdToContextMenuCommandIds = new Map<string, Set<string>>();
 
 	private readonly apiCalls: InternalAPICall[] = [];
 
@@ -263,30 +273,39 @@ export class ApplicationCommandRegistry {
 		switch (type) {
 			case InternalRegistryAPIType.ChatInput: {
 				this.addChatInputCommandIds(id);
+
+				if (guildId) {
+					const guildCommandIds = this.guildIdToChatInputCommandIds.get(guildId) ?? new Set<string>();
+					guildCommandIds.add(id);
+					this.guildIdToChatInputCommandIds.set(guildId, guildCommandIds);
+				} else {
+					this.globalChatInputCommandIds.add(id);
+				}
 				break;
 			}
 			case InternalRegistryAPIType.ContextMenu: {
 				this.addContextMenuCommandIds(id);
+
+				if (guildId) {
+					const guildCommandIds = this.guildIdToContextMenuCommandIds.get(guildId) ?? new Set<string>();
+					guildCommandIds.add(id);
+					this.guildIdToContextMenuCommandIds.set(guildId, guildCommandIds);
+				} else {
+					this.globalContextMenuCommandIds.add(id);
+				}
 				break;
 			}
 		}
 
+		// Old field handling
 		if (guildId) {
 			// Old, wrongly typed field (thx kyra for spotting >_>)
 			if (!this.guildCommandIds.has(guildId)) {
 				this.guildCommandIds.set(guildId, id);
 			}
-
-			// New field
-			const guildCommandIds = this.guildIdToCommandIds.get(guildId) ?? new Set<string>();
-			guildCommandIds.add(id);
-			this.guildIdToCommandIds.set(guildId, guildCommandIds);
 		} else {
 			// First come, first serve (thx kyra for spotting >_>)
 			this.globalCommandId ??= id;
-
-			// New field
-			this.globalCommandIds.add(id);
 		}
 	}
 
