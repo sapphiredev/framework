@@ -535,6 +535,7 @@ export class ApplicationCommandRegistry {
 			);
 
 			switch (apiData.type) {
+				case undefined:
 				case ApplicationCommandType.ChatInput: {
 					this.handleIdAddition(InternalRegistryAPIType.ChatInput, result.id, guildId);
 					break;
@@ -543,11 +544,6 @@ export class ApplicationCommandRegistry {
 				case ApplicationCommandType.User: {
 					this.handleIdAddition(InternalRegistryAPIType.ContextMenu, result.id, guildId);
 					break;
-				}
-				default: {
-					this.warn(
-						`Unknown command type "${apiData.type}" for command "${apiData.name}" (${result.id}) for adding to the registry mappings in the registry`
-					);
 				}
 			}
 		} catch (err) {
