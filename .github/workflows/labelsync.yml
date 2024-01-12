@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v4
         with:
-          repository: 'sapphiredev/readme'
+          repository: 'sapphiredev/.github'
       - name: Run Label Sync
         uses: crazy-max/ghaction-github-labeler@v5
         with:
