@@ -26,6 +26,9 @@ import { getCommandDifferences, getCommandDifferencesFast } from './computeDiffe
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
 export class ApplicationCommandRegistry {
+	/**
+	 * The piece this registry is for.
+	 */
 	public readonly commandName: string;
 
 	/**
