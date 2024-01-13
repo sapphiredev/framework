@@ -11,13 +11,13 @@ import {
 	type RESTPostAPIChatInputApplicationCommandsJSONBody,
 	type RESTPostAPIContextMenuApplicationCommandsJSONBody
 } from 'discord-api-types/v10';
-import type {
-	ApplicationCommand,
-	ApplicationCommandManager,
-	ChatInputApplicationCommandData,
+import {
 	Collection,
-	MessageApplicationCommandData,
-	UserApplicationCommandData
+	type ApplicationCommand,
+	type ApplicationCommandManager,
+	type ChatInputApplicationCommandData,
+	type MessageApplicationCommandData,
+	type UserApplicationCommandData
 } from 'discord.js';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical, getDefaultGuildIds } from './ApplicationCommandRegistries';
@@ -26,14 +26,61 @@ import { getCommandDifferences, getCommandDifferencesFast } from './computeDiffe
 import { convertApplicationCommandToApiData, normalizeChatInputCommand, normalizeContextMenuCommand } from './normalizeInputs';
 
 export class ApplicationCommandRegistry {
+	/**
+	 * The piece this registry is for.
+	 */
 	public readonly commandName: string;
 
+	/**
+	 * A set of all chat input command names and ids that point to this registry.
+	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalChatInputCommandIds}
+	 */
 	public readonly chatInputCommands = new Set<string>();
+
+	/**
+	 * A set of all context menu command names and ids that point to this registry.
+	 * You should not use this field directly, but instead use {@link ApplicationCommandRegistry.globalContextMenuCommandIds}
+	 */
 	public readonly contextMenuCommands = new Set<string>();
+
+	/**
+	 * The guild ids that we need to fetch the commands for.
+	 */
 	public readonly guildIdsToFetch = new Set<string>();
 
+	/**
+	 * The global slash command id for this command.
+	 * @deprecated This field will only show the first global command id registered for this registry.
+	 * Use {@link ApplicationCommandRegistry.globalChatInputCommandIds} instead.
+	 */
 	public globalCommandId: string | null = null;
-	public readonly guildCommandIds = new Map<string, string>();
+
+	/**
+	 * A set of all registered and valid global chat input command ids that point to this registry.
+	 */
+	public readonly globalChatInputCommandIds = new Set<string>();
+
+	/**
+	 * A set of all registered and valid global context menu command ids that point to this registry.
+	 */
+	public readonly globalContextMenuCommandIds = new Set<string>();
+
+	/**
+	 * The guild command ids for this command.
+	 * @deprecated This field will only show the first guild command id registered for this registry per guild.
+	 * Use {@link ApplicationCommandRegistry.guildIdToChatInputCommandIds} and {@link ApplicationCommandRegistry.guildIdToContextMenuCommandIds} instead.
+	 */
+	public readonly guildCommandIds = new Collection<string, string>();
+
+	/**
+	 * A map of guild ids to a set of registered and valid chat input command ids that point to this registry.
+	 */
+	public readonly guildIdToChatInputCommandIds = new Collection<string, Set<string>>();
+
+	/**
+	 * A map of guild ids to a set of registered and valid context menu command ids that point to this registry.
+	 */
+	public readonly guildIdToContextMenuCommandIds = new Collection<string, Set<string>>();
 
 	private readonly apiCalls: InternalAPICall[] = [];
 
@@ -225,6 +272,42 @@ export class ApplicationCommandRegistry {
 		}
 	}
 
+	protected handleIdAddition(type: InternalRegistryAPIType, id: string, guildId?: string | null) {
+		switch (type) {
+			case InternalRegistryAPIType.ChatInput: {
+				this.addChatInputCommandIds(id);
+
+				if (guildId) {
+					this.guildIdToChatInputCommandIds.ensure(guildId, () => new Set()).add(id);
+				} else {
+					this.globalChatInputCommandIds.add(id);
+				}
+				break;
+			}
+			case InternalRegistryAPIType.ContextMenu: {
+				this.addContextMenuCommandIds(id);
+
+				if (guildId) {
+					this.guildIdToContextMenuCommandIds.ensure(guildId, () => new Set()).add(id);
+				} else {
+					this.globalContextMenuCommandIds.add(id);
+				}
+				break;
+			}
+		}
+
+		// Old field handling
+		if (guildId) {
+			// Old, wrongly typed field (thx kyra for spotting >_>)
+			if (!this.guildCommandIds.has(guildId)) {
+				this.guildCommandIds.set(guildId, id);
+			}
+		} else {
+			// First come, first serve (thx kyra for spotting >_>)
+			this.globalCommandId ??= id;
+		}
+	}
+
 	private getGuildIdsToRegister(options?: ApplicationCommandRegistryRegisterOptions) {
 		let guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
 
@@ -298,16 +381,8 @@ export class ApplicationCommandRegistry {
 			const globalCommand = globalCommands.find(findCallback);
 
 			if (globalCommand) {
-				switch (apiCall.type) {
-					case InternalRegistryAPIType.ChatInput:
-						this.addChatInputCommandIds(globalCommand.id);
-						break;
-					case InternalRegistryAPIType.ContextMenu:
-						this.addContextMenuCommandIds(globalCommand.id);
-						break;
-				}
-
 				this.debug(`Checking if command "${commandName}" is identical with global ${type} command with id "${globalCommand.id}"`);
+				this.handleIdAddition(apiCall.type, globalCommand.id);
 				await this.handleCommandPresent(globalCommand, builtData, behaviorIfNotEqual, null);
 			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new global ${type} command with name "${commandName}"`);
@@ -332,16 +407,7 @@ export class ApplicationCommandRegistry {
 
 			if (existingGuildCommand) {
 				this.debug(`Checking if guild ${type} command "${commandName}" is identical to command "${existingGuildCommand.id}"`);
-
-				switch (apiCall.type) {
-					case InternalRegistryAPIType.ChatInput:
-						this.addChatInputCommandIds(existingGuildCommand.id);
-						break;
-					case InternalRegistryAPIType.ContextMenu:
-						this.addContextMenuCommandIds(existingGuildCommand.id);
-						break;
-				}
-
+				this.handleIdAddition(apiCall.type, existingGuildCommand.id, guildId);
 				await this.handleCommandPresent(existingGuildCommand, builtData, behaviorIfNotEqual, guildId);
 			} else if (registerOptions.registerCommandIfMissing ?? true) {
 				this.debug(`Creating new guild ${type} command with name "${commandName}" for guild "${guildId}"`);
@@ -358,12 +424,6 @@ export class ApplicationCommandRegistry {
 		behaviorIfNotEqual: RegisterBehavior,
 		guildId: string | null
 	) {
-		if (guildId) {
-			this.guildCommandIds.set(guildId, applicationCommand.id);
-		} else {
-			this.globalCommandId = applicationCommand.id;
-		}
-
 		if (behaviorIfNotEqual === RegisterBehavior.BulkOverwrite) {
 			this.debug(
 				`Command "${this.commandName}" has the behaviorIfNotEqual set to "BulkOverwrite" which is invalid. Using defaultBehaviorWhenNotIdentical instead`
@@ -467,12 +527,6 @@ export class ApplicationCommandRegistry {
 		try {
 			const result = await commandsManager.create(apiData, guildId);
 
-			if (guildId) {
-				this.guildCommandIds.set(guildId, result.id);
-			} else {
-				this.globalCommandId = result.id;
-			}
-
 			this.info(
 				`Successfully created ${type}${guildId ? ' guild' : ''} command "${apiData.name}" with id "${
 					result.id
@@ -481,13 +535,15 @@ export class ApplicationCommandRegistry {
 
 			switch (apiData.type) {
 				case undefined:
-				case ApplicationCommandType.ChatInput:
-					this.addChatInputCommandIds(result.id);
+				case ApplicationCommandType.ChatInput: {
+					this.handleIdAddition(InternalRegistryAPIType.ChatInput, result.id, guildId);
 					break;
+				}
 				case ApplicationCommandType.Message:
-				case ApplicationCommandType.User:
-					this.addContextMenuCommandIds(result.id);
+				case ApplicationCommandType.User: {
+					this.handleIdAddition(InternalRegistryAPIType.ContextMenu, result.id, guildId);
 					break;
+				}
 			}
 		} catch (err) {
 			this.error(
