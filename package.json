@@ -4,14 +4,14 @@
 	"description": "Discord bot framework built for advanced and amazing bots.",
 	"main": "dist/cjs/index.cjs",
 	"module": "dist/esm/index.mjs",
-	"types": "dist/cjs/index.d.ts",
+	"types": "dist/cjs/index.d.cts",
 	"exports": {
 		"import": {
 			"types": "./dist/esm/index.d.mts",
 			"default": "./dist/esm/index.mjs"
 		},
 		"require": {
-			"types": "./dist/cjs/index.d.ts",
+			"types": "./dist/cjs/index.d.cts",
 			"default": "./dist/cjs/index.cjs"
 		}
 	},
@@ -29,7 +29,7 @@
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build && concurrently \"yarn:prepack:*\"",
-		"prepack:cjs": "rollup-type-bundler -d dist/cjs",
+		"prepack:cjs": "rollup-type-bundler -d dist/cjs -ot cts",
 		"prepack:esm": "rollup-type-bundler -d dist/esm -t .mts"
 	},
 	"dependencies": {
