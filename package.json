@@ -29,7 +29,7 @@
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build && concurrently \"yarn:prepack:*\"",
-		"prepack:cjs": "rollup-type-bundler -d dist/cjs -ot cts",
+		"prepack:cjs": "rollup-type-bundler -d dist/cjs -ot .cts",
 		"prepack:esm": "rollup-type-bundler -d dist/esm -t .mts"
 	},
 	"dependencies": {
