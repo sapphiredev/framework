@@ -1,17 +1,19 @@
 import {
 	ApplicationCommandOptionType,
 	type APIApplicationCommandBasicOption,
-	type APIApplicationCommandOption,
-	type APIApplicationCommandStringOption
+	type APIApplicationCommandChannelOption,
+	type APIApplicationCommandOption
 } from 'discord-api-types/v10';
 import {
+	hasChannelTypesSupport,
 	hasChoicesAndAutocompleteSupport,
 	hasMinMaxLengthSupport,
 	hasMinMaxValueSupport,
 	optionTypeToPrettyName,
 	subcommandTypes,
 	type APIApplicationCommandChoosableAndAutocompletableTypes,
-	type APIApplicationCommandNumericTypes,
+	type APIApplicationCommandMinAndMaxValueTypes,
+	type APIApplicationCommandMinMaxLengthTypes,
 	type APIApplicationCommandSubcommandTypes,
 	type CommandDifference
 } from './_shared';
@@ -19,6 +21,7 @@ import { checkDescription } from './description';
 import { checkLocalizations } from './localizations';
 import { checkName } from './name';
 import { handleAutocomplete } from './option/autocomplete';
+import { checkChannelTypes } from './option/channelTypes';
 import { handleMinMaxLengthOptions } from './option/minMaxLength';
 import { handleMinMaxValueOptions } from './option/minMaxValue';
 import { checkOptionRequired } from './option/required';
@@ -133,7 +136,7 @@ export function* reportOptionDifferences({
 
 	if (hasMinMaxValueSupport(option)) {
 		// Check min and max_value
-		const existingCasted = existingOption as APIApplicationCommandNumericTypes;
+		const existingCasted = existingOption as APIApplicationCommandMinAndMaxValueTypes;
 
 		yield* handleMinMaxValueOptions({
 			currentIndex,
@@ -156,13 +159,25 @@ export function* reportOptionDifferences({
 
 	if (hasMinMaxLengthSupport(option)) {
 		// Check min and max_value
-		const existingCasted = existingOption as APIApplicationCommandStringOption;
+		const existingCasted = existingOption as APIApplicationCommandMinMaxLengthTypes;
 
 		yield* handleMinMaxLengthOptions({
 			currentIndex,
 			existingOption: existingCasted,
 			expectedOption: option,
 			keyPath
+		});
+	}
+
+	if (hasChannelTypesSupport(option)) {
+		// Check channel_types
+		const existingCasted = existingOption as APIApplicationCommandChannelOption;
+
+		yield* checkChannelTypes({
+			currentIndex,
+			existingChannelTypes: existingCasted.channel_types,
+			keyPath,
+			newChannelTypes: option.channel_types
 		});
 	}
 }
