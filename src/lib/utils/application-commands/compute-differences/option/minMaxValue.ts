@@ -1,4 +1,4 @@
-import type { APIApplicationCommandNumericTypes, CommandDifference } from '../_shared';
+import type { APIApplicationCommandMinAndMaxValueTypes, CommandDifference } from '../_shared';
 
 export function* handleMinMaxValueOptions({
 	currentIndex,
@@ -8,8 +8,8 @@ export function* handleMinMaxValueOptions({
 }: {
 	currentIndex: number;
 	keyPath: (index: number) => string;
-	expectedOption: APIApplicationCommandNumericTypes;
-	existingOption: APIApplicationCommandNumericTypes;
+	expectedOption: APIApplicationCommandMinAndMaxValueTypes;
+	existingOption: APIApplicationCommandMinAndMaxValueTypes;
 }): Generator<CommandDifference> {
 	// 0. No min_value and now we have min_value
 	if (existingOption.min_value === undefined && expectedOption.min_value !== undefined) {
