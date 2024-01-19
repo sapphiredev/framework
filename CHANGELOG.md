@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.7](https://github.com/sapphiredev/framework/compare/v5.0.7...v5.0.7) - (2024-01-19)
+
+## 🐛 Bug Fixes
+
+- Update transitive sapphire dependencies ([fba3ce2](https://github.com/sapphiredev/framework/commit/fba3ce2b0ee8539b0fb1cd03edda9ad6dd257dbc))
+- Fixed commonjs typings export mapping (#718) ([d10b4fa](https://github.com/sapphiredev/framework/commit/d10b4fa1aa0052fac0dba2f993849d57cb495852))
+- **computeDifferences:** Check channel types (#719) ([3a1931b](https://github.com/sapphiredev/framework/commit/3a1931bad14087b6ee556b7636c7307d3412a7a8))
+- **deps:** Update all non-major dependencies (#717) ([59f061c](https://github.com/sapphiredev/framework/commit/59f061caece49e6cc50eef6f8bf4a05d44aa0c18))
+- **ApplicationCommandRegistries:** Add the right ids in the right place (#716) ([34193ef](https://github.com/sapphiredev/framework/commit/34193efa717874b0639aeabd11fbdb02b5e43524))
+
 # [5.0.6](https://github.com/sapphiredev/framework/compare/v5.0.6...v5.0.6) - (2024-01-10)
 
 ## 🐛 Bug Fixes
