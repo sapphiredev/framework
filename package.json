@@ -34,14 +34,14 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.7.0",
-		"@sapphire/discord-utilities": "^3.2.1",
-		"@sapphire/discord.js-utilities": "^7.1.5",
-		"@sapphire/lexure": "^1.1.6",
-		"@sapphire/pieces": "^4.2.1",
-		"@sapphire/ratelimits": "^2.4.8",
-		"@sapphire/result": "^2.6.5",
-		"@sapphire/stopwatch": "^1.5.1",
-		"@sapphire/utilities": "^3.15.2"
+		"@sapphire/discord-utilities": "^3.2.2",
+		"@sapphire/discord.js-utilities": "^7.1.6",
+		"@sapphire/lexure": "^1.1.7",
+		"@sapphire/pieces": "^4.2.2",
+		"@sapphire/ratelimits": "^2.4.9",
+		"@sapphire/result": "^2.6.6",
+		"@sapphire/stopwatch": "^1.5.2",
+		"@sapphire/utilities": "^3.15.3"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^18.4.4",
