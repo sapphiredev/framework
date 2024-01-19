@@ -1,6 +1,7 @@
 import {
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	type APIApplicationCommandChannelOption,
 	type APIApplicationCommandIntegerOption,
 	type APIApplicationCommandNumberOption,
 	type APIApplicationCommandOption,
@@ -27,21 +28,30 @@ export const contextMenuTypes = [ApplicationCommandType.Message, ApplicationComm
 export const subcommandTypes = [ApplicationCommandOptionType.SubcommandGroup, ApplicationCommandOptionType.Subcommand];
 
 export type APIApplicationCommandSubcommandTypes = APIApplicationCommandSubcommandOption | APIApplicationCommandSubcommandGroupOption;
-export type APIApplicationCommandNumericTypes = APIApplicationCommandIntegerOption | APIApplicationCommandNumberOption;
-export type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationCommandNumericTypes | APIApplicationCommandStringOption;
+export type APIApplicationCommandMinAndMaxValueTypes = APIApplicationCommandIntegerOption | APIApplicationCommandNumberOption;
+export type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationCommandMinAndMaxValueTypes | APIApplicationCommandStringOption;
+export type APIApplicationCommandMinMaxLengthTypes = APIApplicationCommandStringOption;
 
-export function hasMinMaxValueSupport(option: APIApplicationCommandOption): option is APIApplicationCommandNumericTypes {
+export function hasMinMaxValueSupport(option: APIApplicationCommandOption): option is APIApplicationCommandMinAndMaxValueTypes {
 	return [ApplicationCommandOptionType.Integer, ApplicationCommandOptionType.Number].includes(option.type);
 }
 
 export function hasChoicesAndAutocompleteSupport(
 	option: APIApplicationCommandOption
 ): option is APIApplicationCommandChoosableAndAutocompletableTypes {
-	return [ApplicationCommandOptionType.Integer, ApplicationCommandOptionType.Number, ApplicationCommandOptionType.String].includes(option.type);
+	return [
+		ApplicationCommandOptionType.Integer, //
+		ApplicationCommandOptionType.Number,
+		ApplicationCommandOptionType.String
+	].includes(option.type);
 }
 
-export function hasMinMaxLengthSupport(option: APIApplicationCommandOption): option is APIApplicationCommandStringOption {
+export function hasMinMaxLengthSupport(option: APIApplicationCommandOption): option is APIApplicationCommandMinMaxLengthTypes {
 	return option.type === ApplicationCommandOptionType.String;
+}
+
+export function hasChannelTypesSupport(option: APIApplicationCommandOption): option is APIApplicationCommandChannelOption {
+	return option.type === ApplicationCommandOptionType.Channel;
 }
 
 export interface CommandDifference {

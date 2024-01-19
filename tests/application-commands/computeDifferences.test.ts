@@ -1,4 +1,5 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, type RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import { ChannelType } from 'discord.js';
 import { getCommandDifferences as getCommandDifferencesRaw } from '../../src/lib/utils/application-commands/computeDifferences';
 
 function getCommandDifferences(...args: Parameters<typeof getCommandDifferencesRaw>) {
@@ -1650,5 +1651,77 @@ describe('Compute differences for provided application commands', () => {
 		};
 
 		expect(getCommandDifferences(command1, command2, true)).toEqual([]);
+	});
+
+	// Channel types
+	test('GIVEN a command WHEN a channel option has no channel_types defined and a command with a channel option with channel_types defined THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'test',
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					description: 'description 1',
+					name: 'option1'
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			name: 'test',
+			description: 'description 1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					description: 'description 1',
+					name: 'option1',
+					channel_types: [ChannelType.GuildAnnouncement]
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
+			{
+				key: 'options[0].channel_types',
+				expected: 'channel types present',
+				original: 'no channel types present'
+			}
+		]);
+	});
+
+	test('GIVEN a command WHEN a channel option has one type of channel and a command with a channel option has a different channel type defined THEN return the differences', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			name: 'test',
+			description: 'description 1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					description: 'description 1',
+					name: 'option1',
+					channel_types: [ChannelType.GuildAnnouncement]
+				}
+			]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			name: 'test',
+			description: 'description 1',
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					description: 'description 1',
+					name: 'option1',
+					channel_types: [ChannelType.GuildText]
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
+			{
+				key: 'options[0].channel_types[0]',
+				expected: 'text channel (type 0)',
+				original: 'guild announcement channel (type 5)'
+			}
+		]);
 	});
 });
