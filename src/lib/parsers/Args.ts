@@ -88,7 +88,9 @@ export class Args {
 	 * });
 	 *
 	 * const a = await args.pickResult(resolver);
-	 * if (!a.success) throw new UserError('ArgumentNumberNaN', 'You must write a valid number.');
+	 * if (!a.success) {
+	 *   throw new UserError({ identifier: 'ArgumentNumberNaN', message: 'You must write a valid number.' });
+	 * }
 	 *
 	 * await message.channel.send(`The result is: ${a.value ** 2}!`);
 	 * // Sends "The result is: 25"
@@ -103,10 +105,14 @@ export class Args {
 	 * ```typescript
 	 * // !add 1 2
 	 * const a = await args.pickResult('integer');
-	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write two numbers, but the first one did not match.');
+	 * if (!a.success) {
+	 *   throw new UserError({ identifier: 'AddArgumentError', message: 'You must write two numbers, but the first one did not match.' });
+	 * }
 	 *
 	 * const b = await args.pickResult('integer');
-	 * if (!b.success) throw new UserError('AddArgumentError', 'You must write two numbers, but the second one did not match.');
+	 * if (!b.success) {
+	 *   throw new UserError({ identifier: 'AddArgumentError', message: 'You must write two numbers, but the second one did not match.' });
+	 * }
 	 *
 	 * await message.channel.send(`The result is: ${a.value + b.value}!`);
 	 * // Sends "The result is: 3"
@@ -186,7 +192,9 @@ export class Args {
 	 * const resolver = Args.make((parameter) => Args.ok(parameter.split('').reverse()));
 	 *
 	 * const a = await args.restResult(resolver);
-	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write some text.');
+	 * if (!a.success) {
+	 *   throw new UserError({ identifier: 'AddArgumentError', message: 'You must write some text.' });
+	 * }
 	 *
 	 * await message.channel.send(`The reversed value is... ${a.value}`);
 	 * // Sends "The reversed value is... !dlrow olleH"
@@ -201,10 +209,14 @@ export class Args {
 	 * ```typescript
 	 * // !add 2 Hello World!
 	 * const a = await args.pickResult('integer');
-	 * if (!a.success) throw new UserError('AddArgumentError', 'You must write a number and a text, but the former did not match.');
+	 * if (!a.success) {
+	 *   throw new UserError({ identifier: 'AddArgumentError', message: 'You must write a number and a text, but the former did not match.' });
+	 * }
 	 *
 	 * const b = await args.restResult('string', { minimum: 1 });
-	 * if (!b.success) throw new UserError('AddArgumentError', 'You must write a number and a text, but the latter did not match.');
+	 * if (!b.success) {
+	 *   throw new UserError({ identifier: 'AddArgumentError', message: 'You must write a number and a text, but the latter did not match.' });
+	 * }
 	 *
 	 * await message.channel.send(`The repeated value is... ${b.value.repeat(a.value)}!`);
 	 * // Sends "The repeated value is... Hello World!Hello World!"
@@ -272,7 +284,9 @@ export class Args {
 	 * // !add 2 Hello World!
 	 * const resolver = Args.make((arg) => Args.ok(arg.split('').reverse()));
 	 * const result = await args.repeatResult(resolver, { times: 5 });
-	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
+	 * if (!result.success) {
+	 *   throw new UserError({ identifier: 'CountArgumentError', message: 'You must write up to 5 words.' });
+	 * }
 	 *
 	 * await message.channel.send(`You have written ${result.value.length} word(s): ${result.value.join(' ')}`);
 	 * // Sends "You have written 2 word(s): olleH !dlroW"
@@ -287,7 +301,9 @@ export class Args {
 	 * ```typescript
 	 * // !reverse-each 2 Hello World!
 	 * const result = await args.repeatResult('string', { times: 5 });
-	 * if (!result.success) throw new UserError('CountArgumentError', 'You must write up to 5 words.');
+	 * if (!result.success) {
+	 *   throw new UserError({ identifier: 'CountArgumentError', message: 'You must write up to 5 words.' });
+	 * }
 	 *
 	 * await message.channel.send(`You have written ${result.value.length} word(s): ${result.value.join(' ')}`);
 	 * // Sends "You have written 2 word(s): Hello World!"
