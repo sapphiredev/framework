@@ -1,6 +1,14 @@
 /**
  * The UserError class to be emitted in the pieces.
  * @property name This will be `'UserError'` and can be used to distinguish the type of error when any error gets thrown
+ * @example
+ * ```typescript
+ * throw new UserError({
+ *   identifier: 'AddArgumentError',
+ *   message: 'You must write two numbers, but the second one did not match.',
+ *   context: { received: 2, expected: 3 }
+ * });
+ * ```
  */
 export class UserError extends Error {
 	/**
