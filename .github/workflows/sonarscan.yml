@@ -1,0 +1,24 @@
+name: Sonar Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: '30 1 * * 0'
+
+jobs:
+  sonar:
+    name: Sonar Analysis
+    runs-on: ubuntu-latest
+    env:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: sonarsource/sonarqube-scan-action@master
+      - uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
