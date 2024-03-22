@@ -32,7 +32,8 @@ jobs:
         run: |
           tsc --showConfig -p src/tsconfig.json \
           | jq --raw-output 'del(.compilerOptions.rootDir) | del(.compilerOptions.outDir) | del(.files) | .' \
-          | sponge tsconfig.base.json
+          > tmp \
+          && mv tmp src/tsconfig.json
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
       - name: Quality Gate
