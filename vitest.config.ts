@@ -5,7 +5,7 @@ export default defineConfig({
 		globals: true,
 		coverage: {
 			enabled: true,
-			reporter: ['text', 'lcov', 'cobertura']
+			reporter: ['text', 'lcov']
 		}
 	},
 	esbuild: {

@@ -67,10 +67,10 @@ jobs:
         run: yarn typecheck && yarn build
       - name: Run tests
         run: yarn test
-      - name: Codecov Upload ${{ matrix.node }}
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage/cobertura-coverage.xml
-          flags: ${{ matrix.node }}
-          fail_ci_if_error: true
+      - name: SonarQube Scan
+        if: matrix.node == 20
+        uses: sonarsource/sonarqube-scan-action@master
+      - name: Quality Gate
+        if: matrix.node == 20
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
