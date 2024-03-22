@@ -5,6 +5,8 @@
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
 	"files.eol": "\n",
-	"deno.enable": false,
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"sonarlint.connectedMode.project": {
+		"connectionId": "https-sonarqube-sapphirejs-dev",
+		"projectKey": "sapphiredev_framework_26f499fc-3ac8-4d81-8aef-0d4f2bafc407"
+	}
 }
