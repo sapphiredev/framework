@@ -16,9 +16,25 @@ jobs:
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: sonarsource/sonarqube-scan-action@master
-      - uses: sonarsource/sonarqube-quality-gate-action@master
+      - name: Use Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          registry-url: https://registry.npmjs.org/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Flatten tsconfig
+        run: |
+          tsc --showConfig -p src/tsconfig.json \
+          | jq --raw-output 'del(.compilerOptions.rootDir) | del(.compilerOptions.outDir) | del(.files) | .' \
+          | sponge tsconfig.base.json
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+      - name: Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
