@@ -5,6 +5,7 @@ node_modules/
 *.iml
 coverage/
 docs/
+sonar-report.xml
 
 # Yarn files
 .yarn/install-state.gz
