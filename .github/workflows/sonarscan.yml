@@ -28,6 +28,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install Dependencies
         run: yarn --immutable
+      - name: Run Unit Tests for coverage reporting
+        run: yarn test
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
       - name: Quality Gate
