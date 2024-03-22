@@ -10,13 +10,13 @@ on:
 
 jobs:
   sonar:
-    name: Sonar Analysis
+    name: Sonar
     runs-on: ubuntu-latest
     env:
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: sonarsource/sonarqube-scan-action@master
