@@ -997,7 +997,6 @@ __metadata:
     typescript: "npm:^5.4.2"
     vite: "npm:^5.1.6"
     vitest: "npm:^1.4.0"
-    vitest-sonar-reporter: "npm:^2.0.0"
   languageName: unknown
   linkType: soft
 
@@ -6060,15 +6059,6 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 10/f48073e93ead62fa58034398442de4517c824b3e50184f8b4059fb24077a26f2c04e910e29d7fb7ec51ea53eb61b9c7d94d56b14a38851de80c67480094cc79d
-  languageName: node
-  linkType: hard
-
-"vitest-sonar-reporter@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "vitest-sonar-reporter@npm:2.0.0"
-  peerDependencies:
-    vitest: ">=1"
-  checksum: 10/96647ca12e457d787dc35c9d2c774cb2b28a785ae1b0a0d4e699877128d79f9f5d41939a0c188f01c72c82eab2029db91f93f0e325ee215a2250caae604cc255
   languageName: node
   linkType: hard
 
