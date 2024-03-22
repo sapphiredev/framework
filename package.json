@@ -74,8 +74,7 @@
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.4.2",
 		"vite": "^5.1.6",
-		"vitest": "^1.4.0",
-		"vitest-sonar-reporter": "^2.0.0"
+		"vitest": "^1.4.0"
 	},
 	"repository": {
 		"type": "git",
