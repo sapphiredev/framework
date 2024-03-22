@@ -28,12 +28,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install Dependencies
         run: yarn --immutable
-      - name: Flatten tsconfig
-        run: |
-          tsc --showConfig -p src/tsconfig.json \
-          | jq --raw-output 'del(.compilerOptions.rootDir) | del(.compilerOptions.outDir) | del(.files) | .' \
-          > tmp \
-          && mv tmp src/tsconfig.json
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
       - name: Quality Gate
