@@ -108,13 +108,16 @@ export class ApplicationCommandRegistry {
 
 		const guildIdsToRegister = this.getGuildIdsToRegister(options);
 
+		const registerOptions = {
+			...(options ?? {}),
+			registerCommandIfMissing: true,
+			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
+			guildIds: guildIdsToRegister
+		};
+
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? {
-				registerCommandIfMissing: true,
-				behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
-				guildIds: guildIdsToRegister
-			},
+			registerOptions,
 			type: InternalRegistryAPIType.ChatInput
 		});
 
@@ -143,13 +146,16 @@ export class ApplicationCommandRegistry {
 
 		const guildIdsToRegister = this.getGuildIdsToRegister(options);
 
+		const registerOptions = {
+			...(options ?? {}),
+			registerCommandIfMissing: true,
+			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
+			guildIds: guildIdsToRegister
+		};
+
 		this.apiCalls.push({
 			builtData,
-			registerOptions: options ?? {
-				registerCommandIfMissing: true,
-				behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
-				guildIds: guildIdsToRegister
-			},
+			registerOptions,
 			type: InternalRegistryAPIType.ContextMenu
 		});
 
