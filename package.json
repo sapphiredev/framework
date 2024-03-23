@@ -29,7 +29,6 @@
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build && concurrently \"yarn:prepack:*\"",
-		"prepack:clean-types": "tsx scripts/cleanup-dts-files.mts",
 		"prepack:cjs": "rollup-type-bundler -d dist/cjs -ot .cts",
 		"prepack:esm": "rollup-type-bundler -d dist/esm -t .mts"
 	},
@@ -72,7 +71,6 @@
 		"lint-staged": "^15.2.2",
 		"prettier": "^3.2.5",
 		"tsup": "^8.0.2",
-		"tsx": "^4.7.1",
 		"typedoc": "^0.25.12",
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.4.3",

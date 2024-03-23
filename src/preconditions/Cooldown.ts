@@ -22,7 +22,7 @@ export interface CooldownPreconditionContext extends AllFlowsPrecondition.Contex
 }
 
 export class CorePrecondition extends AllFlowsPrecondition {
-	public buckets = new WeakMap<Command, RateLimitManager<string>>();
+	public buckets: WeakMap<Command, RateLimitManager<string>> = new WeakMap<Command, RateLimitManager<string>>();
 
 	public messageRun(message: Message, command: Command, context: CooldownPreconditionContext): AllFlowsPrecondition.Result {
 		const cooldownId = this.getIdFromMessage(message, context);

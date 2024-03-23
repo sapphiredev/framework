@@ -19,6 +19,9 @@ import {
 	type MessageApplicationCommandData,
 	type UserApplicationCommandData
 } from 'discord.js';
+import type { Args } from '../../parsers/Args';
+import type { Command } from '../../structures/Command';
+import type { CommandOptions } from '../../types/CommandTypes';
 import { InternalRegistryAPIType, RegisterBehavior } from '../../types/Enums';
 import { allGuildIdsToFetchCommandsFor, getDefaultBehaviorWhenNotIdentical, getDefaultGuildIds } from './ApplicationCommandRegistries';
 import type { CommandDifference } from './compute-differences/_shared';
@@ -88,7 +91,7 @@ export class ApplicationCommandRegistry {
 		this.commandName = commandName;
 	}
 
-	public get command() {
+	public get command(): Command<Args, CommandOptions> | undefined {
 		return container.stores.get('commands').get(this.commandName);
 	}
 
