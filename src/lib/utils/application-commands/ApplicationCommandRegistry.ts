@@ -109,10 +109,10 @@ export class ApplicationCommandRegistry {
 		const guildIdsToRegister = this.getGuildIdsToRegister(options);
 
 		const registerOptions = {
-			...(options ?? {}),
 			registerCommandIfMissing: true,
 			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
-			guildIds: guildIdsToRegister
+			guildIds: guildIdsToRegister,
+			...(options ?? {})
 		};
 
 		this.apiCalls.push({
@@ -147,10 +147,10 @@ export class ApplicationCommandRegistry {
 		const guildIdsToRegister = this.getGuildIdsToRegister(options);
 
 		const registerOptions = {
-			...(options ?? {}),
 			registerCommandIfMissing: true,
 			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
-			guildIds: guildIdsToRegister
+			guildIds: guildIdsToRegister,
+			...(options ?? {})
 		};
 
 		this.apiCalls.push({
