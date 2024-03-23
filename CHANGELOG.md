@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.9](https://github.com/sapphiredev/framework/compare/v5.0.8...v5.0.9) - (2024-03-23)
+
+## 🐛 Bug Fixes
+
+- Fixed bundling types ([9c7dfbb](https://github.com/sapphiredev/framework/commit/9c7dfbb615ac4603f8f0f191942f68fc2899dfd8))
+
 # [5.0.8](https://github.com/sapphiredev/framework/compare/v5.0.7...v5.0.8) - (2024-03-23)
 
 ## 🐛 Bug Fixes
