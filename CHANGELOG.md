@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.8](https://github.com/sapphiredev/framework/compare/v5.0.7...v5.0.8) - (2024-03-23)
+
+## 🐛 Bug Fixes
+
+- Resolved issue with registerOptions not picking up default options correctly (#738) ([2ad21b5](https://github.com/sapphiredev/framework/commit/2ad21b53feab9428033ffea430425bc20d5f19dc))
+- Update sonar project key ([b852496](https://github.com/sapphiredev/framework/commit/b852496a5e79d61b690db09dc99de5b4a1815afe))
+
+## 📝 Documentation
+
+- Improve `UserError` docs (#722) ([4f67c5b](https://github.com/sapphiredev/framework/commit/4f67c5b0ce07648ba8b2e4cd3e0e36d0890b9581))
+
 # [5.0.7](https://github.com/sapphiredev/framework/compare/v5.0.7...v5.0.7) - (2024-01-19)
 
 ## 🐛 Bug Fixes
