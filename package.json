@@ -53,10 +53,10 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^20.11.30",
+		"@types/node": "^20.12.2",
 		"@types/ws": "^8.5.10",
-		"@typescript-eslint/eslint-plugin": "^7.3.1",
-		"@typescript-eslint/parser": "^7.3.1",
+		"@typescript-eslint/eslint-plugin": "^7.4.0",
+		"@typescript-eslint/parser": "^7.4.0",
 		"@vitest/coverage-v8": "^1.4.0",
 		"concurrently": "^8.2.2",
 		"cz-conventional-changelog": "^3.3.0",
@@ -74,7 +74,7 @@
 		"typedoc": "^0.25.12",
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.4.3",
-		"vite": "^5.2.6",
+		"vite": "^5.2.7",
 		"vitest": "^1.4.0"
 	},
 	"repository": {
