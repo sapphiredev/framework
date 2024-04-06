@@ -1,8 +1,10 @@
 import {
 	acquire,
+	getBulkOverwriteRetries,
 	getDefaultBehaviorWhenNotIdentical,
 	getDefaultGuildIds,
 	registries,
+	setBulkOverwriteRetries,
 	setDefaultBehaviorWhenNotIdentical,
 	setDefaultGuildIds
 } from './lib/utils/application-commands/ApplicationCommandRegistries';
@@ -27,8 +29,10 @@ const ApplicationCommandRegistries = {
 	acquire,
 	setDefaultBehaviorWhenNotIdentical,
 	setDefaultGuildIds,
+	setBulkOverwriteRetries,
 	getDefaultGuildIds,
 	getDefaultBehaviorWhenNotIdentical,
+	getBulkOverwriteRetries,
 	get registries(): ReadonlyMap<string, ApplicationCommandRegistry> {
 		return registries;
 	}

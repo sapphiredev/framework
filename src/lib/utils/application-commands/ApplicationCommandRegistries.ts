@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { container } from '@sapphire/pieces';
+import { retry } from '@sapphire/utilities';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { ApplicationCommandType, type ApplicationCommandManager } from 'discord.js';
 import type { Command } from '../../structures/Command';
@@ -13,6 +14,7 @@ import { bulkOverwriteDebug, bulkOverwriteInfo, bulkOverwriteWarn } from './regi
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
+let bulkOVerwriteRetries = 1;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
@@ -60,6 +62,24 @@ export function setDefaultGuildIds(guildIds?: ApplicationCommandRegistry.Registe
 
 export function getDefaultGuildIds() {
 	return defaultGuildIds;
+}
+
+/**
+ * Sets the amount of retries for when registering commands, only applies when {@link defaultBehaviorWhenNotIdentical}
+ * is set to {@link RegisterBehavior.BulkOverwrite}. This is used if registering the commands times out.
+ * The default value is `1`, which means no retries are performed.
+ * @param newAmountOfRetries The new amount of retries to set. Set this to `null` to reset it to the default
+ */
+export function setBulkOverwriteRetries(newAmountOfRetries: number | null) {
+	newAmountOfRetries ??= 1;
+
+	if (newAmountOfRetries <= 0) throw new RangeError('The amount of retries must be greater than 0');
+
+	bulkOVerwriteRetries = newAmountOfRetries;
+}
+
+export function getBulkOverwriteRetries() {
+	return bulkOVerwriteRetries;
 }
 
 export async function handleRegistryAPICalls() {
@@ -115,6 +135,21 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 	}
 
 	// Handle global commands
+	await retry(() => handleBulkOverwriteGlobalCommands(commandStore, applicationCommands, foundGlobalCommands), bulkOVerwriteRetries);
+
+	// Handle guild commands
+	for (const [guildId, guildCommands] of Object.entries(foundGuildCommands)) {
+		await retry(() => handleBulkOverwriteGuildCommands(commandStore, applicationCommands, guildId, guildCommands), bulkOVerwriteRetries);
+	}
+
+	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
+}
+
+async function handleBulkOverwriteGlobalCommands(
+	commandStore: CommandStore,
+	applicationCommands: ApplicationCommandManager,
+	foundGlobalCommands: BulkOverwriteData[]
+) {
 	try {
 		bulkOverwriteDebug(`Overwriting global application commands, now at ${foundGlobalCommands.length} commands`);
 		const result = await applicationCommands.set(foundGlobalCommands.map((x) => x.data));
@@ -150,59 +185,65 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 
 		bulkOverwriteInfo(`Successfully overwrote global application commands. The application now has ${result.size} global commands`);
 	} catch (error) {
+		if (error instanceof Error && error.name === 'AbortError') throw error;
+
 		emitBulkOverwriteError(error, null);
 	}
+}
 
-	// Handle guild commands
-	for (const [guildId, guildCommands] of Object.entries(foundGuildCommands)) {
-		try {
-			bulkOverwriteDebug(`Overwriting guild application commands for guild ${guildId}, now at ${guildCommands.length} commands`);
-			const result = await applicationCommands.set(
-				guildCommands.map((x) => x.data),
-				guildId
-			);
+async function handleBulkOverwriteGuildCommands(
+	commandStore: CommandStore,
+	applicationCommands: ApplicationCommandManager,
+	guildId: string,
+	guildCommands: BulkOverwriteData[]
+) {
+	try {
+		bulkOverwriteDebug(`Overwriting guild application commands for guild ${guildId}, now at ${guildCommands.length} commands`);
+		const result = await applicationCommands.set(
+			guildCommands.map((x) => x.data),
+			guildId
+		);
 
-			// Go through each registered command, find its piece and alias it
-			for (const [id, guildCommand] of result.entries()) {
-				// I really hope nobody has a guild command with the same name as another command -.-
-				// Not like they could anyways as Discord would throw an error for duplicate names
-				// But yknow... If you're reading this and you did this... Why?
-				const piece = guildCommands.find((x) => x.data.name === guildCommand.name)?.piece;
+		// Go through each registered command, find its piece and alias it
+		for (const [id, guildCommand] of result.entries()) {
+			// I really hope nobody has a guild command with the same name as another command -.-
+			// Not like they could anyways as Discord would throw an error for duplicate names
+			// But yknow... If you're reading this and you did this... Why?
+			const piece = guildCommands.find((x) => x.data.name === guildCommand.name)?.piece;
 
-				if (piece) {
-					const registry = piece.applicationCommandRegistry;
+			if (piece) {
+				const registry = piece.applicationCommandRegistry;
 
-					switch (guildCommand.type) {
-						case ApplicationCommandType.ChatInput: {
-							registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id, guildId);
-							break;
-						}
-						case ApplicationCommandType.User:
-						case ApplicationCommandType.Message: {
-							registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id, guildId);
-							break;
-						}
+				switch (guildCommand.type) {
+					case ApplicationCommandType.ChatInput: {
+						registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id, guildId);
+						break;
 					}
-
-					// idHints are useless, and any manually added ids or names could no longer be valid if you use bulk overwrites.
-					// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
-					commandStore.aliases.set(id, piece);
-				} else {
-					bulkOverwriteWarn(
-						`Registered guild command "${guildCommand.name}" (${id}) but failed to find the piece in the command store. This should not happen`
-					);
+					case ApplicationCommandType.User:
+					case ApplicationCommandType.Message: {
+						registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id, guildId);
+						break;
+					}
 				}
+
+				// idHints are useless, and any manually added ids or names could no longer be valid if you use bulk overwrites.
+				// That said, this might be an issue, so we might need to do it like `handleAppendOrUpdate`
+				commandStore.aliases.set(id, piece);
+			} else {
+				bulkOverwriteWarn(
+					`Registered guild command "${guildCommand.name}" (${id}) but failed to find the piece in the command store. This should not happen`
+				);
 			}
-
-			bulkOverwriteInfo(
-				`Successfully overwrote guild application commands for guild ${guildId}. The application now has ${result.size} guild commands for guild ${guildId}`
-			);
-		} catch (error) {
-			emitBulkOverwriteError(error, guildId);
 		}
-	}
 
-	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
+		bulkOverwriteInfo(
+			`Successfully overwrote guild application commands for guild ${guildId}. The application now has ${result.size} guild commands for guild ${guildId}`
+		);
+	} catch (error) {
+		if (error instanceof Error && error.name === 'AbortError') throw error;
+
+		emitBulkOverwriteError(error, guildId);
+	}
 }
 
 async function handleAppendOrUpdate(
