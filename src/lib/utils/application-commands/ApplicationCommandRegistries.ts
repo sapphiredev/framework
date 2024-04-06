@@ -14,7 +14,7 @@ import { bulkOverwriteDebug, bulkOverwriteInfo, bulkOverwriteWarn } from './regi
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
-let bulkRegisterCommandRetries = 1;
+let bulkOVerwriteRetries = 1;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
 
@@ -70,12 +70,12 @@ export function getDefaultGuildIds() {
  * The default value is `1`, which means no retries are performed.
  * @param newAmountOfRetries The new amount of retries to set. Set this to `null` to reset it to the default
  */
-export function setBulkRegisterCommandRetries(newAmountOfRetries: number | null) {
-	bulkRegisterCommandRetries = newAmountOfRetries ?? 1;
+export function setBulkOverwriteRetries(newAmountOfRetries: number | null) {
+	bulkOVerwriteRetries = newAmountOfRetries ?? 1;
 }
 
-export function getBulkRegisterCommandRetries() {
-	return bulkRegisterCommandRetries;
+export function getBulkOverwriteRetries() {
+	return bulkOVerwriteRetries;
 }
 
 export async function handleRegistryAPICalls() {
@@ -131,11 +131,11 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 	}
 
 	// Handle global commands
-	await retry(() => handleBulkOverwriteGlobalCommands(commandStore, applicationCommands, foundGlobalCommands), bulkRegisterCommandRetries);
+	await retry(() => handleBulkOverwriteGlobalCommands(commandStore, applicationCommands, foundGlobalCommands), bulkOVerwriteRetries);
 
 	// Handle guild commands
 	for (const [guildId, guildCommands] of Object.entries(foundGuildCommands)) {
-		await retry(() => handleBulkOverwriteGuildCommands(commandStore, applicationCommands, guildId, guildCommands), bulkRegisterCommandRetries);
+		await retry(() => handleBulkOverwriteGuildCommands(commandStore, applicationCommands, guildId, guildCommands), bulkOVerwriteRetries);
 	}
 
 	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
