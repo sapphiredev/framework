@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0](https://github.com/sapphiredev/framework/compare/v5.0.10...v5.1.0) - (2024-04-06)
+
+## 🚀 Features
+
+- Add option to retry bulk overwrites (#741) ([f8a6ad5](https://github.com/sapphiredev/framework/commit/f8a6ad52fad1f5cdc29c5191f4895b1411fd19e9))
+
 # [5.0.10](https://github.com/sapphiredev/framework/compare/v5.0.9...v5.0.10) - (2024-03-23)
 
 ## 🐛 Bug Fixes
