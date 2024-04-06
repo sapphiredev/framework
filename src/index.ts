@@ -29,10 +29,10 @@ const ApplicationCommandRegistries = {
 	acquire,
 	setDefaultBehaviorWhenNotIdentical,
 	setDefaultGuildIds,
-	setBulkRegisterCommandRetries: setBulkOverwriteRetries,
+	setBulkOverwriteRetries,
 	getDefaultGuildIds,
 	getDefaultBehaviorWhenNotIdentical,
-	getBulkRegisterCommandRetries: getBulkOverwriteRetries,
+	getBulkOverwriteRetries,
 	get registries(): ReadonlyMap<string, ApplicationCommandRegistry> {
 		return registries;
 	}

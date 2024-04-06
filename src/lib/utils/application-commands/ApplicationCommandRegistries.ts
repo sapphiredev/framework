@@ -66,12 +66,16 @@ export function getDefaultGuildIds() {
 
 /**
  * Sets the amount of retries for when registering commands, only applies when {@link defaultBehaviorWhenNotIdentical}
- * is set to {@link RegisterBehavior.BulkOverwrite}. This is used if registering the commands fails.
+ * is set to {@link RegisterBehavior.BulkOverwrite}. This is used if registering the commands times out.
  * The default value is `1`, which means no retries are performed.
  * @param newAmountOfRetries The new amount of retries to set. Set this to `null` to reset it to the default
  */
 export function setBulkOverwriteRetries(newAmountOfRetries: number | null) {
-	bulkOVerwriteRetries = newAmountOfRetries ?? 1;
+	newAmountOfRetries ??= 1;
+
+	if (newAmountOfRetries <= 0) throw new RangeError('The amount of retries must be greater than 0');
+
+	bulkOVerwriteRetries = newAmountOfRetries;
 }
 
 export function getBulkOverwriteRetries() {
@@ -181,6 +185,8 @@ async function handleBulkOverwriteGlobalCommands(
 
 		bulkOverwriteInfo(`Successfully overwrote global application commands. The application now has ${result.size} global commands`);
 	} catch (error) {
+		if (error instanceof Error && error.name === 'AbortError') throw error;
+
 		emitBulkOverwriteError(error, null);
 	}
 }
@@ -234,6 +240,8 @@ async function handleBulkOverwriteGuildCommands(
 			`Successfully overwrote guild application commands for guild ${guildId}. The application now has ${result.size} guild commands for guild ${guildId}`
 		);
 	} catch (error) {
+		if (error instanceof Error && error.name === 'AbortError') throw error;
+
 		emitBulkOverwriteError(error, guildId);
 	}
 }
