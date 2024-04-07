@@ -63,7 +63,7 @@
 		"discord.js": "^14.14.1",
 		"esbuild-plugin-file-path-extensions": "^2.0.0",
 		"esbuild-plugin-version-injector": "^1.2.1",
-		"eslint": "^8.57.0",
+		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-deprecation": "^2.0.0",
 		"eslint-plugin-prettier": "^5.1.3",
