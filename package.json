@@ -44,9 +44,9 @@
 		"@sapphire/utilities": "^3.15.3"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.2.2",
+		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
-		"@favware/cliff-jumper": "^3.0.2",
+		"@favware/cliff-jumper": "^3.0.3",
 		"@favware/npm-deprecate": "^1.0.7",
 		"@favware/rollup-type-bundler": "^3.3.0",
 		"@sapphire/eslint-config": "^5.0.4",
@@ -55,9 +55,9 @@
 		"@sapphire/ts-config": "^5.0.1",
 		"@types/node": "^20.12.7",
 		"@types/ws": "^8.5.10",
-		"@typescript-eslint/eslint-plugin": "^7.7.0",
-		"@typescript-eslint/parser": "^7.7.0",
-		"@vitest/coverage-v8": "^1.5.0",
+		"@typescript-eslint/eslint-plugin": "^7.7.1",
+		"@typescript-eslint/parser": "^7.7.1",
+		"@vitest/coverage-v8": "^1.5.2",
 		"concurrently": "^8.2.2",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.14.1",
@@ -75,7 +75,7 @@
 		"typedoc-json-parser": "^9.0.1",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.10",
-		"vitest": "^1.5.0"
+		"vitest": "^1.5.2"
 	},
 	"repository": {
 		"type": "git",
