@@ -105,8 +105,10 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * @param options Optional Command settings.
 	 */
 	public constructor(context: Command.LoaderContext, options: Options = {} as Options) {
-		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
-		this.rawName = options.name ?? context.name;
+		const name = options.name ?? context.name;
+		super(context, { ...options, name: name.toLowerCase() });
+
+		this.rawName = name;
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
