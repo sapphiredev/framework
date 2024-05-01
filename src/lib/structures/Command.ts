@@ -35,6 +35,14 @@ const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM 
 
 export class Command<PreParseReturn = Args, Options extends Command.Options = Command.Options> extends AliasPiece<Options, 'commands'> {
 	/**
+	 * The raw name of the command as provided through file name or constructor options.
+	 *
+	 * This is exactly what is set by the developer, completely unmodified internally by the framework.
+	 * Unlike the `name` which gets lowercased for storing it uniquely in the {@link CommandStore}.
+	 */
+	public rawName: string;
+
+	/**
 	 * A basic summary about the command
 	 * @since 1.0.0
 	 */
@@ -98,6 +106,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 */
 	public constructor(context: Command.LoaderContext, options: Options = {} as Options) {
 		super(context, { ...options, name: (options.name ?? context.name).toLowerCase() });
+		this.rawName = options.name ?? context.name;
 		this.description = options.description ?? '';
 		this.detailedDescription = options.detailedDescription ?? '';
 		this.strategy = new FlagUnorderedStrategy(options);
