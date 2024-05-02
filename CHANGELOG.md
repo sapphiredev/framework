@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.2.0](https://github.com/sapphiredev/framework/compare/v5.1.0...v5.2.0) - (2024-05-02)
+
+## 🚀 Features
+
+- **command:** Add rawName property (#751) ([70e1465](https://github.com/sapphiredev/framework/commit/70e1465ed2e2a516d9510b651ff06facfc285010))
+
 # [5.1.0](https://github.com/sapphiredev/framework/compare/v5.0.10...v5.1.0) - (2024-04-06)
 
 ## 🚀 Features
