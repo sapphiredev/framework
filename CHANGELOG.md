@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.2.1](https://github.com/sapphiredev/framework/compare/v5.2.0...v5.2.1) - (2024-05-06)
+
+## 🐛 Bug Fixes
+
+- **permissions:** Add permissions added by DJS 14.5.2 ([7d6a301](https://github.com/sapphiredev/framework/commit/7d6a3015009364cce300730099d1552ee3bb616a))
+- **deps:** Update all non-major dependencies ([22f7729](https://github.com/sapphiredev/framework/commit/22f7729ce60fed7be1bda45272288862c76120d8))
+
 # [5.2.0](https://github.com/sapphiredev/framework/compare/v5.1.0...v5.2.0) - (2024-05-02)
 
 ## 🚀 Features
