@@ -1,7 +1,7 @@
 import { container, Store, StoreRegistry } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import { Client, type ClientOptions, type Message, type Snowflake } from 'discord.js';
-import { URL } from 'node:url';
+import type { URL } from 'node:url';
 import { loadApplicationCommandRegistriesListeners } from '../optional-listeners/application-command-registries-listeners/_load';
 import { loadErrorListeners } from '../optional-listeners/error-listeners/_load';
 import { loadMessageCommandListeners } from '../optional-listeners/message-command-listeners/_load';
