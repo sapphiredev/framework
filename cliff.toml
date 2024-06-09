@@ -5,32 +5,38 @@ header = """
 All notable changes to this project will be documented in this file.\n
 """
 body = """
+{%- macro remote_url() -%}
+  https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}
+{%- endmacro -%}
 {% if version %}\
-	# [{{ version | trim_start_matches(pat="v") }}]\
-	{% if previous %}\
-		{% if previous.version %}\
-			(https://github.com/sapphiredev/framework/compare/{{ previous.version }}...{{ version }})\
-		{% else %}\
-			(https://github.com/sapphiredev/framework/tree/{{ version }})\
-		{% endif %}\
-	{% endif %} \
-	- ({{ timestamp | date(format="%Y-%m-%d") }})
+    # [{{ version | trim_start_matches(pat="v") }}]\
+    {% if previous %}\
+        {% if previous.version %}\
+            ({{ self::remote_url() }}/compare/{{ previous.version }}...{{ version }})\
+        {% else %}\
+            ({{ self::remote_url() }}/tree/{{ version }})\
+        {% endif %}\
+    {% endif %} \
+    - ({{ timestamp | date(format="%Y-%m-%d") }})
 {% else %}\
-	# [unreleased]
+    # [unreleased]
 {% endif %}\
 {% for group, commits in commits | group_by(attribute="group") %}
-	## {{ group | upper_first }}
-	{% for commit in commits %}
+    ## {{ group | upper_first }}
+    {% for commit in commits %}
 		- {% if commit.scope %}\
 			**{{commit.scope}}:** \
-		{% endif %}\
-			{{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/sapphiredev/framework/commit/{{ commit.id }}))\
+		  {% endif %}\
+            {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ self::remote_url() }}/commit/{{ commit.id }}))\
+            {% if commit.github.pr_number %} (\
+                [#{{ commit.github.pr_number }}]({{ self::remote_url() }}/pull/{{ commit.github.pr_number }}) by @{{ commit.github.username }}) \
+            {%- endif %}\
 		{% if commit.breaking %}\
 			{% for breakingChange in commit.footers %}\
 				\n{% raw %}  {% endraw %}- 💥 **{{ breakingChange.token }}{{ breakingChange.separator }}** {{ breakingChange.value }}\
 			{% endfor %}\
 		{% endif %}\
-	{% endfor %}
+    {% endfor %}
 {% endfor %}\n
 """
 trim = true
@@ -40,24 +46,32 @@ footer = ""
 conventional_commits = true
 filter_unconventional = true
 commit_parsers = [
-	{ message = "^feat", group = "🚀 Features"},
-	{ message = "^fix", group = "🐛 Bug Fixes"},
-	{ message = "^docs", group = "📝 Documentation"},
-	{ message = "^perf", group = "🏃 Performance"},
-	{ message = "^refactor", group = "🏠 Refactor"},
-	{ message = "^typings", group = "⌨️ Typings"},
-	{ message = "^types", group = "⌨️ Typings"},
-	{ message = ".*deprecated", body = ".*deprecated", group = "🚨 Deprecation"},
-	{ message = "^revert", skip = true},
-	{ message = "^style", group = "🪞 Styling"},
-	{ message = "^test", group = "🧪 Testing"},
-	{ message = "^chore", skip = true},
-	{ message = "^ci", skip = true},
-	{ message = "^build", skip = true},
-	{ body = ".*security", group = "🛡️ Security"},
+	{ message = "^feat", group = "🚀 Features" },
+	{ message = "^fix", group = "🐛 Bug Fixes" },
+	{ message = "^docs", group = "📝 Documentation" },
+	{ message = "^perf", group = "🏃 Performance" },
+	{ message = "^refactor", group = "🏠 Refactor" },
+	{ message = "^typings", group = "⌨️ Typings" },
+	{ message = "^types", group = "⌨️ Typings" },
+	{ message = ".*deprecated", body = ".*deprecated", group = "🚨 Deprecation" },
+	{ message = "^revert", skip = true },
+	{ message = "^style", group = "🪞 Styling" },
+	{ message = "^test", group = "🧪 Testing" },
+	{ message = "^chore", skip = true },
+	{ message = "^ci", skip = true },
+	{ message = "^build", skip = true },
+	{ body = ".*security", group = "🛡️ Security" },
+]
+commit_preprocessors = [
+	# remove issue numbers from commits
+	{ pattern = '\s\((\w+\s)?#([0-9]+)\)', replace = "" },
 ]
 filter_commits = true
 tag_pattern = "v[0-9]*"
 ignore_tags = ""
 topo_order = false
 sort_commits = "newest"
+
+[remote.github]
+owner = "sapphiredev"
+repo = "framework"
