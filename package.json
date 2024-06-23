@@ -1,127 +1,172 @@
 {
-	"name": "@sapphire/framework",
-	"version": "5.2.1",
-	"description": "Discord bot framework built for advanced and amazing bots.",
-	"main": "dist/cjs/index.cjs",
-	"module": "dist/esm/index.mjs",
-	"types": "dist/cjs/index.d.cts",
-	"exports": {
-		"import": {
-			"types": "./dist/esm/index.d.mts",
-			"default": "./dist/esm/index.mjs"
-		},
-		"require": {
-			"types": "./dist/cjs/index.d.cts",
-			"default": "./dist/cjs/index.cjs"
-		}
-	},
-	"author": "@sapphire",
-	"license": "MIT",
-	"scripts": {
-		"lint": "eslint src tests --ext mjs,ts --fix",
-		"format": "prettier --write \"{src,tests}/**/*.ts\"",
-		"docs": "typedoc-json-parser",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"update": "yarn upgrade-interactive",
-		"typecheck": "tsc -p tsconfig.eslint.json",
-		"build": "tsup",
-		"bump": "cliff-jumper",
-		"check-update": "cliff-jumper --dry-run",
-		"prepack": "yarn build && concurrently \"yarn:prepack:*\"",
-		"prepack:cjs": "rollup-type-bundler -d dist/cjs -ot .cts",
-		"prepack:esm": "rollup-type-bundler -d dist/esm -t .mts"
-	},
-	"dependencies": {
-		"@discordjs/builders": "^1.8.2",
-		"@sapphire/discord-utilities": "^3.3.0",
-		"@sapphire/discord.js-utilities": "^7.3.0",
-		"@sapphire/lexure": "^1.1.7",
-		"@sapphire/pieces": "^4.2.2",
-		"@sapphire/ratelimits": "^2.4.9",
-		"@sapphire/result": "^2.6.6",
-		"@sapphire/stopwatch": "^1.5.2",
-		"@sapphire/utilities": "^3.16.2"
-	},
-	"devDependencies": {
-		"@commitlint/cli": "^19.3.0",
-		"@commitlint/config-conventional": "^19.2.2",
-		"@favware/cliff-jumper": "^4.0.2",
-		"@favware/npm-deprecate": "^1.0.7",
-		"@favware/rollup-type-bundler": "^3.3.0",
-		"@sapphire/eslint-config": "^5.0.5",
-		"@sapphire/node-utilities": "^1.0.2",
-		"@sapphire/prettier-config": "^2.0.0",
-		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^20.14.8",
-		"@types/ws": "^8.5.10",
-		"@typescript-eslint/eslint-plugin": "^7.13.1",
-		"@typescript-eslint/parser": "^7.13.1",
-		"@vitest/coverage-v8": "^1.6.0",
-		"concurrently": "^8.2.2",
-		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^14.15.3",
-		"esbuild-plugin-file-path-extensions": "^2.1.2",
-		"esbuild-plugin-version-injector": "^1.2.1",
-		"eslint": "^8.57.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-deprecation": "^3.0.0",
-		"eslint-plugin-prettier": "^5.1.3",
-		"gen-esm-wrapper": "^1.1.3",
-		"lint-staged": "^15.2.7",
-		"prettier": "^3.3.2",
-		"tsup": "^8.1.0",
-		"typedoc": "^0.26.1",
-		"typedoc-json-parser": "^10.0.0",
-		"typescript": "^5.5.2",
-		"vite": "^5.3.1",
-		"vitest": "^1.6.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/sapphiredev/framework.git"
-	},
-	"files": [
-		"dist/"
-	],
-	"engines": {
-		"node": ">=v18",
-		"npm": ">=7"
-	},
-	"keywords": [
-		"bot",
-		"typescript",
-		"ts",
-		"yarn",
-		"discord",
-		"sapphire",
-		"standalone"
-	],
-	"bugs": {
-		"url": "https://github.com/sapphiredev/framework/issues"
-	},
-	"homepage": "https://www.sapphirejs.dev",
-	"commitlint": {
-		"extends": [
-			"@commitlint/config-conventional"
-		]
-	},
-	"lint-staged": {
-		"*": "prettier --ignore-unknown --write",
-		"*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
-	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
-		}
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"resolutions": {
-		"ansi-regex": "^5.0.1",
-		"minimist": "^1.2.8"
-	},
-	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@4.3.1"
+  "name": "@favware/graphql-pokemon",
+  "version": "8.6.0",
+  "description": "Extensive Pokemon GraphQL API",
+  "author": "@favware",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/codegen/cjs/graphql-pokemon.cjs",
+  "module": "dist/codegen/esm/graphql-pokemon.mjs",
+  "types": "dist/codegen/cjs/graphql-pokemon.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/codegen/esm/graphql-pokemon.d.ts",
+        "default": "./dist/codegen/esm/graphql-pokemon.mjs"
+      },
+      "require": {
+        "types": "./dist/codegen/cjs/graphql-pokemon.d.cts",
+        "default": "./dist/codegen/cjs/graphql-pokemon.cjs"
+      }
+    },
+    "./utilities": {
+      "import": {
+        "types": "./dist/utilities/esm/index.d.ts",
+        "default": "./dist/utilities/esm/index.mjs"
+      },
+      "require": {
+        "types": "./dist/utilities/cjs/index.d.cts",
+        "default": "./dist/utilities/cjs/index.cjs"
+      }
+    }
+  },
+  "sideEffects": false,
+  "imports": {
+    "#assets/*": "./api/lib/assets/*.js",
+    "#jsonAssets/*": "./api/lib/assets/*.json",
+    "#dexdata/*": "./api/lib/assets/pokedex-data/*.js",
+    "#resolvers/*": "./api/lib/resolvers/*.js",
+    "#types/*": "./api/lib/types/*.js",
+    "#utils/*": "./api/lib/utils/*.js",
+    "#validations/*": "./api/lib/validations/*.js",
+    "#mappers/*": "./api/lib/mappers/*.js",
+    "#root/*": "./api/*.js"
+  },
+  "homepage": "https://graphql-pokemon.js.org/",
+  "scripts": {
+    "lint": "eslint src tests scripts --ext ts --fix",
+    "format": "prettier --write --log-level=warn \"{src,tests,scripts}/**/*.{ts,json}\"",
+    "test": "vitest run",
+    "typecheck": "tsc -b src && tsc -b tests",
+    "start": "node --enable-source-maps api/index.js",
+    "build": "tsup --onSuccess \"yarn tsx scripts/on-build-success.ts\"",
+    "watch": "tsup --watch --onSuccess \"yarn tsx scripts/on-build-success.ts\"",
+    "docs": "yarn magidoc generate -f ./docs/magidoc.mjs",
+    "dev": "yarn build && yarn start",
+    "clean": "rimraf codegen/ dist/ api/",
+    "bump": "cliff-jumper",
+    "check-update": "cliff-jumper --dry-run",
+    "package": "graphql-codegen && npm-run-all -s \"package:*\"",
+    "package:replace-invalid-code": "replace-in-file /\\}\\;/g \"}\" codegen/graphql-pokemon.ts --isRegex",
+    "package:compile": "tsup --config tsup.config-package.ts",
+    "tsx": "tsx --tsconfig ./scripts/tsconfig.json",
+    "au:tiers": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/asset-updaters/tiers-updater.ts",
+    "au:learnsets": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/asset-updaters/learnsets-updater.ts",
+    "au:testdata": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/update-test-files.ts",
+    "au:flavors": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/flavor-text-updater/flavor-text-updater.ts",
+    "au:classifications": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/classification-updater/classification-updater.ts",
+    "au:ipa": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/ipa-name-updater/ipa-updater.ts",
+    "au:abilities": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/asset-updaters/abilities-updater.ts",
+    "au:items": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/asset-updaters/items-updater.ts",
+    "au:moves": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/asset-updaters/moves-updater.ts",
+    "au:cries": "yarn tsx ./scripts/data-gen-scripts/scripted-updaters/cries-updater/cry-updater.ts"
+  },
+  "dependencies": {
+    "graphql": "^16.9.0"
+  },
+  "devDependencies": {
+    "@apollo/server": "^4.10.4",
+    "@as-integrations/koa": "^1.1.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@discordjs/collection": "^2.1.0",
+    "@favware/cliff-jumper": "^4.0.2",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/schema-ast": "^4.0.2",
+    "@graphql-codegen/typescript": "^4.0.7",
+    "@graphql-codegen/typescript-resolvers": "^4.1.0",
+    "@koa/cors": "^5.0.0",
+    "@magidoc/cli": "^5.0.3",
+    "@sapphire/eslint-config": "^5.0.5",
+    "@sapphire/fetch": "^3.0.2",
+    "@sapphire/prettier-config": "^2.0.0",
+    "@sapphire/shapeshift": "^4.0.0",
+    "@sapphire/timestamp": "^1.0.3",
+    "@sapphire/ts-config": "^5.0.1",
+    "@skyra/jaro-winkler": "^1.1.1",
+    "@swc/core": "^1.6.5",
+    "@types/async": "^3.2.24",
+    "@types/cheerio": "^0.22.35",
+    "@types/koa": "^2.15.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa__cors": "^5.0.0",
+    "@types/node": "20.14.8",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitest/coverage-v8": "^1.6.0",
+    "async": "^3.2.5",
+    "cheerio": "^1.0.0-rc.12",
+    "colorette": "^2.0.20",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "graphql-tag": "^2.12.6",
+    "json-stream-stringify": "^3.1.4",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "lint-staged": "^15.2.7",
+    "npm-run-all2": "^6.2.0",
+    "prettier": "^3.3.2",
+    "replace-in-file": "^7.2.0",
+    "rimraf": "^5.0.7",
+    "tsup": "^8.1.0",
+    "tsx": "^4.15.7",
+    "typescript": "~5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "resolutions": {
+    "ansi-regex": "^5.0.1",
+    "minimist": "^1.2.8",
+    "graphql@npm:^16.8.2": "patch:graphql@npm%3A16.8.2#~/.yarn/patches/graphql-npm-16.8.2-c2cd08b4c0.patch"
+  },
+  "files": [
+    "dist/",
+    "graphql/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favware/graphql-pokemon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/favware/graphql-pokemon/issues"
+  },
+  "keywords": [
+    "favware",
+    "typescript",
+    "ts",
+    "yarn",
+    "graphql"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*": "prettier --ignore-unknown --write",
+    "*.{mjs,js,ts}": "eslint --fix --ext mjs,js,ts"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "yarn@4.3.1",
+  "volta": {
+    "node": "20.15.0"
+  }
 }
