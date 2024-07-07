@@ -37,7 +37,7 @@
 		"@sapphire/discord-utilities": "^3.3.0",
 		"@sapphire/discord.js-utilities": "^7.3.0",
 		"@sapphire/lexure": "^1.1.7",
-		"@sapphire/pieces": "^4.2.2",
+		"@sapphire/pieces": "^4.3.1",
 		"@sapphire/ratelimits": "^2.4.9",
 		"@sapphire/result": "^2.6.6",
 		"@sapphire/stopwatch": "^1.5.2",
@@ -53,7 +53,7 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^20.14.9",
+		"@types/node": "^20.14.10",
 		"@types/ws": "^8.5.10",
 		"@typescript-eslint/eslint-plugin": "^7.13.1",
 		"@typescript-eslint/parser": "^7.13.1",
@@ -74,7 +74,7 @@
 		"typedoc": "^0.25.13",
 		"typedoc-json-parser": "^10.0.0",
 		"typescript": "~5.4.5",
-		"vite": "^5.3.2",
+		"vite": "^5.3.3",
 		"vitest": "^1.6.0"
 	},
 	"repository": {
