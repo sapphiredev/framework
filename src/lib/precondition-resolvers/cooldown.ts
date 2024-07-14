@@ -28,8 +28,8 @@ export function parseConstructorPreConditionsCooldown<P, O extends Command.Optio
 	// be set. If an overridden value is passed, it will have priority. Otherwise, it will default to 0 if filtered
 	// (causing the precondition to not be registered) or the default value with a fallback to a single-use cooldown.
 	const filtered = defaultCooldown?.filteredCommands?.includes(command.name) ?? false;
-	const limit = cooldownLimit ?? (filtered ? 0 : defaultCooldown?.limit ?? 1);
-	const delay = cooldownDelay ?? (filtered ? 0 : defaultCooldown?.delay ?? 0);
+	const limit = cooldownLimit ?? (filtered ? 0 : (defaultCooldown?.limit ?? 1));
+	const delay = cooldownDelay ?? (filtered ? 0 : (defaultCooldown?.delay ?? 0));
 
 	if (limit && delay) {
 		const scope = cooldownScope ?? defaultCooldown?.scope ?? BucketScope.User;

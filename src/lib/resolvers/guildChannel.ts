@@ -16,7 +16,7 @@ export function resolveGuildChannel(parameter: string, guild: Guild): Result<Gui
 
 function resolveById(argument: string, guild: Guild): GuildBasedChannelTypes | null {
 	const channelId = ChannelMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
-	return channelId ? (guild.channels.cache.get(channelId[1] as Snowflake) as GuildBasedChannelTypes) ?? null : null;
+	return channelId ? ((guild.channels.cache.get(channelId[1] as Snowflake) as GuildBasedChannelTypes) ?? null) : null;
 }
 
 function resolveByQuery(argument: string, guild: Guild): GuildBasedChannelTypes | null {
