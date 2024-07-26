@@ -41,7 +41,7 @@
 		"@sapphire/ratelimits": "^2.4.9",
 		"@sapphire/result": "^2.6.6",
 		"@sapphire/stopwatch": "^1.5.2",
-		"@sapphire/utilities": "^3.16.2"
+		"@sapphire/utilities": "^3.17.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.3.0",
