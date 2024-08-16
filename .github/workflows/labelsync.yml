@@ -7,17 +7,4 @@ on:
 
 jobs:
   label_sync:
-    name: Automatic Label Synchronization
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/labels.yml
-          sparse-checkout-cone-mode: false
-          repository: 'sapphiredev/.github'
-      - name: Run Label Sync
-        uses: crazy-max/ghaction-github-labeler@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          yaml-file: .github/labels.yml
+    uses: sapphiredev/.github/.github/workflows/reusable-labelsync.yml@main

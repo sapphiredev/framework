@@ -7,78 +7,27 @@ on:
   pull_request:
 
 jobs:
-  Linting:
+  linting:
     name: Linting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-      - name: Add problem matcher
-        run: echo "::add-matcher::.github/problemMatchers/eslint.json"
-      - name: Use Node.js v20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Run ESLint
-        run: yarn lint --fix=false
+    uses: sapphiredev/.github/.github/workflows/reusable-lint.yml@main
 
   docs:
     name: Generate Documentation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-      - name: Use Node.js v20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Generate Documentation
-        run: yarn docs
+    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
+    with:
+      script-name: docs
 
-  BuildingAndTesting:
+  build-and-test:
     name: Building and Testing with node v${{ matrix.node }}
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         node: [18, 19, 20, 21]
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Add problem matcher
-        run: echo "::add-matcher::.github/problemMatchers/tsc.json"
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Typecheck And Build Code
-        run: yarn typecheck && yarn build
-      - name: Run tests
-        run: yarn test
-      - name: SonarQube Scan
-        if: matrix.node == 20
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Quality Gate
-        if: matrix.node == 20
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
+    with:
+      script-name: typecheck && yarn build && yarn test
+      node-version: ${{ matrix.node }}
+      enable-sonar: true
+    secrets:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

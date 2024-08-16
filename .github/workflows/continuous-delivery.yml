@@ -21,35 +21,10 @@ on:
 jobs:
   Publish:
     name: Publish Next to npm
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          repository: ${{ github.event.inputs.repository || 'sapphiredev/framework' }}
-          ref: ${{ github.event.inputs.ref || 'main' }}
-      - name: Add TypeScript problem matcher
-        run: echo "::add-matcher::.github/problemMatchers/tsc.json"
-      - name: Use Node.js v20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: yarn
-          registry-url: https://registry.yarnpkg.com/
-      - name: Install Dependencies
-        run: yarn --immutable
-      - name: Bump Version & Publish
-        run: |
-          # Resolve the tag to be used. "next" for push events, "pr-{prNumber}" for dispatch events.
-          TAG=$([[ ${{ github.event_name }} == 'push' ]] && echo 'next' || echo 'pr-${{ github.event.inputs.prNumber }}')
-
-          yarn config set npmAuthToken ${NODE_AUTH_TOKEN}
-          yarn config set npmPublishRegistry "https://registry.yarnpkg.com"
-
-          yarn bump --preid "${TAG}.$(git rev-parse --verify --short HEAD)" --skip-changelog
-
-          yarn npm publish --tag ${TAG}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: sapphiredev/.github/.github/workflows/reusable-continuous-delivery.yml@main
+    with:
+      pr-number: ${{ github.event.inputs.prNumber }}
+      ref: ${{ github.event.inputs.ref }}
+      repository: ${{ github.event.inputs.repository }}
+    secrets:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
