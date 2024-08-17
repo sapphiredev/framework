@@ -9,7 +9,7 @@ on:
 
 jobs:
   docgen:
-    uses: sapphiredev/.github/.github/workflows/reusable-docgen.yml@main
+    uses: sapphiredev/.github/.github/workflows/reusable-documentation.yml@main
     with:
       project-name: framework
     secrets:
