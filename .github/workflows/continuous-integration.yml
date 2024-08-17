@@ -17,17 +17,26 @@ jobs:
     with:
       script-name: docs
 
-  build-and-test:
-    name: Building and Testing with node v${{ matrix.node }}
+  build:
+    name: Building
+    uses: sapphiredev/.github/.github/workflows/reusable-build.yml@main
+
+  test:
+    name: Tests
+    uses: sapphiredev/.github/.github/workflows/reusable-tests.yml@main
+    with:
+      enable-sonar: true
+    secrets:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  typecheck:
+    name: Typecheck node v${{ matrix.node }}
     strategy:
       fail-fast: false
       matrix:
         node: [18, 19, 20, 21]
     uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
     with:
-      script-name: typecheck && yarn build && yarn test
+      script-name: typecheck
       node-version: ${{ matrix.node }}
-      enable-sonar: true
-    secrets:
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

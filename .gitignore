@@ -5,6 +5,7 @@ node_modules/
 *.iml
 coverage/
 docs/
+.tsup/
 sonar-report.xml
 
 # Yarn files
