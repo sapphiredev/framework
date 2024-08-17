@@ -12,14 +12,10 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
-      - name: Use Node.js v20
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        uses: sapphiredev/.github/actions/install-yarn-dependencies@main
         with:
           node-version: 20
-          cache: yarn
-          registry-url: https://registry.npmjs.org/
-      - name: Install Dependencies
-        run: yarn --immutable
       - name: Deprecate versions
         run: yarn npm-deprecate --name "*pr-${PR_NUMBER}*" -d -v
         env:
