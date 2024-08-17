@@ -1,6 +1,7 @@
 {
 	"extends": ["@sapphire/ts-config", "@sapphire/ts-config/bundler", "@sapphire/ts-config/extra-strict", "@sapphire/ts-config/verbatim"],
 	"compilerOptions": {
+		"noEmit": true,
 		"incremental": false,
 		"useDefineForClassFields": false
 	}
