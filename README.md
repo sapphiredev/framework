@@ -7,7 +7,6 @@
 **A pleasant Discord Bot framework**
 
 [![GitHub](https://img.shields.io/github/license/sapphiredev/framework)](https://github.com/sapphiredev/framework/blob/main/LICENSE.md)
-[![codecov](https://codecov.io/gh/sapphiredev/framework/branch/main/graph/badge.svg?token=AHPITY8WY9)](https://codecov.io/gh/sapphiredev/framework)
 [![npm](https://img.shields.io/npm/v/@sapphire/framework?color=crimson&logo=npm&style=flat-square)](https://www.npmjs.com/package/@sapphire/framework)
 
 [![Support Server](https://discord.com/api/guilds/737141877803057244/embed.png?style=banner2)](https://sapphirejs.dev/discord)
