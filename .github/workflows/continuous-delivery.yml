@@ -6,14 +6,17 @@ on:
       prNumber:
         description: The number of the PR that is being deployed
         required: false
+        type: string
       ref:
         description: The branch that is being deployed. Should be a branch on the given repository
         required: false
         default: main
+        type: string
       repository:
         description: The {owner}/{repository} that is being deployed.
         required: false
         default: sapphiredev/framework
+        type: string
   push:
     branches:
       - main
