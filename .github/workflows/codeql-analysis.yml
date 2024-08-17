@@ -1,4 +1,4 @@
-name: Code Scanning
+name: Code scanning
 
 on:
   push:
@@ -12,5 +12,5 @@ on:
 
 jobs:
   codeql:
-    name: CodeQL
+    name: Analysis
     uses: sapphiredev/.github/.github/workflows/reusable-codeql.yml@main

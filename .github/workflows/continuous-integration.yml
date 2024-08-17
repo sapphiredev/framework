@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     uses: sapphiredev/.github/.github/workflows/reusable-lint.yml@main
 
   docs:
-    name: Generate Documentation
+    name: Docgen
     uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
     with:
       script-name: docs
