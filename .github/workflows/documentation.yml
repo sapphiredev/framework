@@ -12,3 +12,5 @@ jobs:
     uses: sapphiredev/.github/.github/workflows/reusable-docgen.yml@main
     with:
       project-name: framework
+    secrets:
+      SKYRA_TOKEN: ${{ secrets.SKYRA_TOKEN }}
