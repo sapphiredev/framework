@@ -31,11 +31,5 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   typecheck:
-    name: Typecheck node v${{ matrix.node }}
-    strategy:
-      fail-fast: false
-      matrix:
-        node: [18, 19, 20, 21, 22]
+    name: Typecheck
     uses: sapphiredev/.github/.github/workflows/reusable-typecheck.yml@main
-    with:
-      node-version: ${{ matrix.node }}
