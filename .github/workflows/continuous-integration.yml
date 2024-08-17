@@ -36,7 +36,6 @@ jobs:
       fail-fast: false
       matrix:
         node: [18, 19, 20, 21, 22]
-    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
+    uses: sapphiredev/.github/.github/workflows/reusable-typecheck.yml@main
     with:
-      script-name: typecheck
       node-version: ${{ matrix.node }}
