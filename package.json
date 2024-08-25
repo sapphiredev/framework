@@ -46,14 +46,14 @@
 	"devDependencies": {
 		"@commitlint/cli": "^19.4.0",
 		"@commitlint/config-conventional": "^19.2.2",
-		"@favware/cliff-jumper": "^4.0.3",
+		"@favware/cliff-jumper": "^4.1.0",
 		"@favware/npm-deprecate": "^1.0.7",
 		"@favware/rollup-type-bundler": "^3.3.0",
 		"@sapphire/eslint-config": "^5.0.5",
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^20.15.0",
+		"@types/node": "^20.16.1",
 		"@types/ws": "^8.5.12",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
@@ -74,7 +74,7 @@
 		"typedoc": "^0.26.5",
 		"typedoc-json-parser": "^10.1.5",
 		"typescript": "~5.4.5",
-		"vite": "^5.4.1",
+		"vite": "^5.4.2",
 		"vitest": "^2.0.5"
 	},
 	"repository": {
@@ -123,5 +123,5 @@
 		"minimist": "^1.2.8"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@4.4.0"
+	"packageManager": "yarn@4.4.1"
 }
