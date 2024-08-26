@@ -97,7 +97,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * // Given a file named `ping.js` at the path of `commands/General/ping.js`
 	 * ['General']
 	 *
-	 * // Given a file named `info.js` at the path of `commands/General/About/ping.js`
+	 * // Given a file named `info.js` at the path of `commands/General/About/info.js`
 	 * ['General', 'About']
 	 * ```
 	 */
