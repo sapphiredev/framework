@@ -34,7 +34,7 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.8.2",
-		"@sapphire/discord-utilities": "^3.3.0",
+		"@sapphire/discord-utilities": "^3.4.0",
 		"@sapphire/discord.js-utilities": "^7.3.0",
 		"@sapphire/lexure": "^1.1.7",
 		"@sapphire/pieces": "^4.3.1",
