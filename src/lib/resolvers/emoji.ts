@@ -1,10 +1,14 @@
-import { EmojiRegex, TwemojiRegex } from '@sapphire/discord-utilities';
+import { EmojiRegex, createTwemojiRegex } from '@sapphire/discord-utilities';
 import { Result } from '@sapphire/result';
 import { parseEmoji } from 'discord.js';
 import { Identifiers } from '../errors/Identifiers';
 
+const TwemojiRegex = createTwemojiRegex();
+
 export function resolveEmoji(parameter: string): Result<EmojiObject, Identifiers> {
 	const twemoji = TwemojiRegex.exec(parameter)?.[0] ?? null;
+
+	TwemojiRegex.lastIndex = 0;
 
 	if (twemoji) {
 		return Result.ok<EmojiObject>({
