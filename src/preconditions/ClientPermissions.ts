@@ -159,6 +159,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		UseExternalStickers: 'Use External Stickers',
 		UseSoundboard: 'Use Soundboard',
 		UseVAD: 'Use Voice Activity',
+		UseExternalApps: 'Use External Apps',
 		ViewAuditLog: 'View Audit Log',
 		ViewChannel: 'Read Messages',
 		ViewCreatorMonetizationAnalytics: 'View Creator Monetization Analytics',

@@ -1,5 +1,5 @@
 import { isDMChannel } from '@sapphire/discord.js-utilities';
-import { PermissionFlagsBits, PermissionsBitField, type Message } from 'discord.js';
+import { ChannelType, PermissionFlagsBits, PermissionsBitField, type Message } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import { Events } from '../../lib/types/Events';
 
@@ -40,6 +40,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 	}
 
 	private async canRunInChannel(message: Message): Promise<boolean> {
+		if (message.channel.type === ChannelType.GroupDM) return false;
 		if (isDMChannel(message.channel)) return true;
 
 		const me = await message.guild?.members.fetchMe();
