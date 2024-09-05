@@ -12,6 +12,8 @@ import { checkDMPermission } from './compute-differences/dm_permission';
 import { checkLocalizations } from './compute-differences/localizations';
 import { checkName } from './compute-differences/name';
 import { checkOptions } from './compute-differences/options';
+import { checkIntegrationTypes } from './compute-differences/integration_types';
+import { checkInteractionContextTypes } from './compute-differences/contexts';
 
 /**
  * @returns `true` if there are differences, `false` otherwise
@@ -61,6 +63,12 @@ export function* getCommandDifferences(
 				originalLocalizedDescriptions: originalLocalizedNames,
 				expectedLocalizedDescriptions: expectedLocalizedNames
 			});
+
+			// Check integration types
+			yield* checkIntegrationTypes(existingCommand.integration_types, casted.integration_types);
+
+			// Check contexts
+			yield* checkInteractionContextTypes(existingCommand.contexts, casted.contexts);
 		}
 
 		return;
@@ -105,6 +113,12 @@ export function* getCommandDifferences(
 		originalLocalizedDescriptions,
 		expectedLocalizedDescriptions
 	});
+
+	// Check integration types
+	yield* checkIntegrationTypes(existingCommand.integration_types, casted.integration_types);
+
+	// Check contexts
+	yield* checkInteractionContextTypes(existingCommand.contexts, casted.contexts);
 
 	yield* checkOptions(existingCommand.options, casted.options);
 }
