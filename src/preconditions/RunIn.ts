@@ -11,15 +11,16 @@ export interface RunInPreconditionContext extends AllFlowsPrecondition.Context {
 
 export class CorePrecondition extends AllFlowsPrecondition {
 	public override messageRun(message: Message<boolean>, _: MessageCommand, context: RunInPreconditionContext): AllFlowsPrecondition.Result {
+		const commandType = 'message';
 		if (!context.types) return this.ok();
 
 		const channelType = message.channel.type;
 
 		if (Command.runInTypeIsSpecificsObject(context.types)) {
-			return context.types.messageRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
+			return context.types.messageRun.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 		}
 
-		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 	}
 
 	public override async chatInputRun(
@@ -27,15 +28,16 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		_: ChatInputCommand,
 		context: RunInPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
+		const commandType = 'chat input';
 		if (!context.types) return this.ok();
 
 		const channelType = (await this.fetchChannelFromInteraction(interaction)).type;
 
 		if (Command.runInTypeIsSpecificsObject(context.types)) {
-			return context.types.chatInputRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
+			return context.types.chatInputRun.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 		}
 
-		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 	}
 
 	public override async contextMenuRun(
@@ -43,21 +45,22 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		_: ContextMenuCommand,
 		context: RunInPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
+		const commandType = 'context menu';
 		if (!context.types) return this.ok();
 
 		const channelType = (await this.fetchChannelFromInteraction(interaction)).type;
 
 		if (Command.runInTypeIsSpecificsObject(context.types)) {
-			return context.types.contextMenuRun.includes(channelType) ? this.ok() : this.makeSharedError(context);
+			return context.types.contextMenuRun.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 		}
 
-		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context);
+		return context.types.includes(channelType) ? this.ok() : this.makeSharedError(context, commandType);
 	}
 
-	private makeSharedError(context: RunInPreconditionContext): AllFlowsPrecondition.Result {
+	private makeSharedError(context: RunInPreconditionContext, commandType: string): AllFlowsPrecondition.Result {
 		return this.error({
 			identifier: Identifiers.PreconditionRunIn,
-			message: 'You cannot run this message command in this type of channel.',
+			message: `You cannot run this ${commandType} command in this type of channel.`,
 			context: { types: context.types }
 		});
 	}
