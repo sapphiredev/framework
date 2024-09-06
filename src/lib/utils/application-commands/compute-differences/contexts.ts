@@ -43,7 +43,7 @@ export function* checkInteractionContextTypes(
 			while ((type = existingContexts![index]) !== undefined) {
 				yield {
 					key: `contexts[${index}]`,
-					original: 'context present',
+					original: `context ${type} present`,
 					expected: `no context present`
 				};
 

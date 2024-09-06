@@ -43,8 +43,8 @@ export function* checkIntegrationTypes(
 			while ((type = existingIntegrationTypes![index]) !== undefined) {
 				yield {
 					key: `integrationTypes[${index}]`,
-					original: 'integration type present',
-					expected: `no integration type present`
+					original: `integration type ${type} present`,
+					expected: 'no integration type present'
 				};
 
 				index++;
