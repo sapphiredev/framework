@@ -1,5 +1,5 @@
 import { isStageChannel } from '@sapphire/discord.js-utilities';
-import type { Message } from 'discord.js';
+import { ChannelType, type Message } from 'discord.js';
 import { Listener } from '../../lib/structures/Listener';
 import type { MessageCommand } from '../../lib/types/CommandTypes';
 import { Events, type MessageCommandRunPayload } from '../../lib/types/Events';
@@ -12,6 +12,10 @@ export class CoreListener extends Listener<typeof Events.MessageCommandRun> {
 
 	public async run(message: Message, command: MessageCommand, payload: MessageCommandRunPayload) {
 		if (!command.typing || isStageChannel(message.channel)) {
+			return;
+		}
+
+		if (message.channel.type === ChannelType.GroupDM) {
 			return;
 		}
 

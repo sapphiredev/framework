@@ -154,6 +154,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		Stream: 'Stream',
 		UseApplicationCommands: 'Use Application Commands',
 		UseEmbeddedActivities: 'Start Activities',
+		UseExternalApps: 'Use External Apps',
 		UseExternalEmojis: 'Use External Emojis',
 		UseExternalSounds: 'Use External Sounds',
 		UseExternalStickers: 'Use External Stickers',

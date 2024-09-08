@@ -15,7 +15,9 @@ import {
 import {
 	ApplicationCommand,
 	PermissionsBitField,
+	type ApplicationIntegrationType,
 	type ChatInputApplicationCommandData,
+	type InteractionContextType,
 	type MessageApplicationCommandData,
 	type UserApplicationCommandData
 } from 'discord.js';
@@ -71,7 +73,9 @@ export function normalizeChatInputCommand(
 		description_localizations: command.descriptionLocalizations,
 		type: ApplicationCommandType.ChatInput,
 		dm_permission: command.dmPermission,
-		nsfw: command.nsfw
+		nsfw: command.nsfw,
+		integration_types: command.integrationTypes as ApplicationIntegrationType[] | undefined,
+		contexts: command.contexts as InteractionContextType[] | undefined
 	};
 
 	if (typeof command.defaultMemberPermissions !== 'undefined') {
@@ -108,7 +112,9 @@ export function normalizeContextMenuCommand(
 		name_localizations: command.nameLocalizations,
 		type: command.type,
 		dm_permission: command.dmPermission,
-		nsfw: command.nsfw
+		nsfw: command.nsfw,
+		integration_types: command.integrationTypes as ApplicationIntegrationType[] | undefined,
+		contexts: command.contexts as InteractionContextType[] | undefined
 	};
 
 	if (typeof command.defaultMemberPermissions !== 'undefined') {
@@ -125,7 +131,9 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 		name_localizations: command.nameLocalizations,
 		dm_permission: command.dmPermission,
 		nsfw: command.nsfw,
-		default_member_permissions: command.defaultMemberPermissions?.bitfield.toString() ?? null
+		default_member_permissions: command.defaultMemberPermissions?.bitfield.toString() ?? null,
+		integration_types: command.integrationTypes,
+		contexts: command.contexts
 	} as RESTPostAPIApplicationCommandsJSONBody;
 
 	if (command.type === ApplicationCommandType.ChatInput) {
