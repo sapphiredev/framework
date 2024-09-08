@@ -71,7 +71,7 @@
 		"lint-staged": "^15.2.10",
 		"prettier": "^3.3.3",
 		"tsup": "^8.2.4",
-		"typedoc": "^0.26.5",
+		"typedoc": "^0.26.6",
 		"typedoc-json-parser": "^10.1.5",
 		"typescript": "~5.4.5",
 		"vite": "^5.4.3",

@@ -1274,7 +1274,7 @@ __metadata:
     lint-staged: "npm:^15.2.10"
     prettier: "npm:^3.3.3"
     tsup: "npm:^8.2.4"
-    typedoc: "npm:^0.26.5"
+    typedoc: "npm:^0.26.6"
     typedoc-json-parser: "npm:^10.1.5"
     typescript: "npm:~5.4.5"
     vite: "npm:^5.4.3"
@@ -6270,7 +6270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc@npm:^0.26.3, typedoc@npm:^0.26.5":
+"typedoc@npm:^0.26.3":
   version: 0.26.5
   resolution: "typedoc@npm:0.26.5"
   dependencies:
@@ -6284,6 +6284,23 @@ __metadata:
   bin:
     typedoc: bin/typedoc
   checksum: 10/9965479c87d8cb97742ae2622e3c6640e1204bca4b5652c66b82e0f768184443a2b800eae1090c92130ef321e29afc948510d4d65a4a2073c4fd6101d737ba0d
+  languageName: node
+  linkType: hard
+
+"typedoc@npm:^0.26.6":
+  version: 0.26.6
+  resolution: "typedoc@npm:0.26.6"
+  dependencies:
+    lunr: "npm:^2.3.9"
+    markdown-it: "npm:^14.1.0"
+    minimatch: "npm:^9.0.5"
+    shiki: "npm:^1.9.1"
+    yaml: "npm:^2.4.5"
+  peerDependencies:
+    typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x
+  bin:
+    typedoc: bin/typedoc
+  checksum: 10/ae8dc99d2d1e45350d8117238e44a288a1b1272c499e14285f0778855139876325ff8f46ef8a9efac33356dee1853e467d4018edacad1e77cb2065294b9ab120
   languageName: node
   linkType: hard
 
