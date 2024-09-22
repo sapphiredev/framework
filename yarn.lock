@@ -1254,7 +1254,7 @@ __metadata:
     concurrently: "npm:^9.0.1"
     cz-conventional-changelog: "npm:^3.3.0"
     discord.js: "npm:^14.16.2"
-    esbuild-plugin-file-path-extensions: "npm:^2.1.2"
+    esbuild-plugin-file-path-extensions: "npm:^2.1.3"
     esbuild-plugin-version-injector: "npm:^1.2.1"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
@@ -1267,7 +1267,7 @@ __metadata:
     typedoc: "npm:^0.26.6"
     typedoc-json-parser: "npm:^10.1.5"
     typescript: "npm:~5.4.5"
-    vite: "npm:^5.4.6"
+    vite: "npm:^5.4.7"
     vitest: "npm:^2.1.1"
   languageName: unknown
   linkType: soft
@@ -2744,10 +2744,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-plugin-file-path-extensions@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "esbuild-plugin-file-path-extensions@npm:2.1.2"
-  checksum: 10/01e00d5bb35d719ebe9d1b2526278923e5790f7c3d78c9b0af05af17408be076c914135eef43a3e6021c07f715214d9c848d93c648f4d4cb3fa0605d83d2b55a
+"esbuild-plugin-file-path-extensions@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "esbuild-plugin-file-path-extensions@npm:2.1.3"
+  checksum: 10/9b0058c00b46507ec6c14f131e39842a9a8c5d4ffe2b32518e3cac956ce48aec7ab60e314f622e8050d8058e55b05ab8ce2ae81d0893aada64883a125c0e8cce
   languageName: node
   linkType: hard
 
@@ -6421,9 +6421,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0, vite@npm:^5.4.6":
-  version: 5.4.6
-  resolution: "vite@npm:5.4.6"
+"vite@npm:^5.0.0, vite@npm:^5.4.7":
+  version: 5.4.7
+  resolution: "vite@npm:5.4.7"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
@@ -6460,7 +6460,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/8489fa55c48675fc12b64bf7af58b5e2f8a11b2aebc63cb177861bd53dc196d7c496d6918f5a8c48828f51b6fe498166a1a2350334bbfaae10d015a0c71f1c77
+  checksum: 10/3f27e870930ad83b51e009604c6b69ab090e69bb5bfe85007c7e4ec3326efae4e33ac799645926363f258595b3be3055cc1ebc5ee158cff4bacdf41adf4ef8ed
   languageName: node
   linkType: hard
 
