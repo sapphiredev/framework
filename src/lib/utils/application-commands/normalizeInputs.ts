@@ -110,6 +110,7 @@ export function normalizeContextMenuCommand(
 	const finalObject: RESTPostAPIContextMenuApplicationCommandsJSONBody = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
+		// @ts-expect-error temporarily ignore the error because discord.js broke types
 		type: command.type,
 		dm_permission: command.dmPermission,
 		nsfw: command.nsfw,
