@@ -8,4 +8,5 @@ identifierBase: false
 pushTag: true
 githubRelease: true
 githubReleaseLatest: true
-githubRepo: sapphiredev/framework
+gitRepo: sapphiredev/framework
+gitHostVariant: github
