@@ -1,5 +1,5 @@
 import { AliasPiece, type AliasPieceJSON } from '@sapphire/pieces';
-import { type NonNullObject, type Nullish } from '@sapphire/utilities';
+import type { Nullish } from '@sapphire/utilities';
 import {
 	ChannelType,
 	ChatInputCommandInteraction,
@@ -16,7 +16,7 @@ import { BucketScope, CommandOptionsRunTypeEnum } from './Enums';
 
 export type DetailedDescriptionCommand = string | DetailedDescriptionCommandObject;
 
-export interface DetailedDescriptionCommandObject extends NonNullObject {}
+export interface DetailedDescriptionCommandObject {}
 
 /**
  * The allowed values for {@link CommandOptions.runIn}.
