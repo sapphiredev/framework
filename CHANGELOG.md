@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.0](https://github.com/sapphiredev/framework/compare/v5.2.1...v5.3.0) - (2024-11-02)
+
+## 🐛 Bug Fixes
+
+- Update sapphire dependencies ([e5d6763](https://github.com/sapphiredev/framework/commit/e5d67631235443400618ad7fa05f5f3c7177150f)) ([#794](https://github.com/sapphiredev/framework/pull/794) by @favna)
+- **RunIn:** Show the correct command type when throwing error ([40967b3](https://github.com/sapphiredev/framework/commit/40967b3622ab802f4d5f77e4dd10a9e8327d0c26)) ([#783](https://github.com/sapphiredev/framework/pull/783) by @yuansheng1549)
+- **compute-difference:** Ensure tsup outputs correct import code ([86698fc](https://github.com/sapphiredev/framework/commit/86698fcf02f5112e08c798a2989d0e88d15e0ea0)) ([#781](https://github.com/sapphiredev/framework/pull/781) by @favna)
+- Use a custom instance of TwemojiRegex for validators and reset lastIndex ([fe2405d](https://github.com/sapphiredev/framework/commit/fe2405d44fce8fccc8b419b75bef99c8e37d61b7)) ([#779](https://github.com/sapphiredev/framework/pull/779) by @vladfrangu)
+- Bump @sapphire/utilities ([7c21798](https://github.com/sapphiredev/framework/commit/7c217982b0ac9b341b5c1aa803d3e469c903498c))
+- **deps:** Update all non-major dependencies ([d13ac35](https://github.com/sapphiredev/framework/commit/d13ac3572fb4689bcc421edc22da05ae8d7253a5)) ([#768](https://github.com/sapphiredev/framework/pull/768) by @renovate[bot])
+- **deps:** Update all non-major dependencies ([23c4517](https://github.com/sapphiredev/framework/commit/23c45176986729758a8112d7f1d67046ef3797ff)) ([#760](https://github.com/sapphiredev/framework/pull/760) by @renovate[bot])
+- **deps:** Update all non-major dependencies ([e6f90e2](https://github.com/sapphiredev/framework/commit/e6f90e21fcfefc9f382010391fa93775a9c232eb)) ([#756](https://github.com/sapphiredev/framework/pull/756) by @renovate[bot])
+- **deps:** Update all non-major dependencies ([3654d37](https://github.com/sapphiredev/framework/commit/3654d37f0fcbeab869d752f5f913ea8af72d3b56)) ([#753](https://github.com/sapphiredev/framework/pull/753) by @renovate[bot])
+
+## 📝 Documentation
+
+- Fix typo in CommandTypes.ts ([0fcfc2a](https://github.com/sapphiredev/framework/commit/0fcfc2a0e8b90da0338ed927213e49d542eee4d7)) ([#778](https://github.com/sapphiredev/framework/pull/778) by @Krumbit)
+
+## 🚀 Features
+
+- Add support for user-installable apps ([e783074](https://github.com/sapphiredev/framework/commit/e783074b6c321f6ee62bf211a3df7e51cafbc302)) ([#782](https://github.com/sapphiredev/framework/pull/782) by @SerenModz21)
+
 # [5.2.1](https://github.com/sapphiredev/framework/compare/v5.2.0...v5.2.1) - (2024-05-06)
 
 ## 🐛 Bug Fixes
