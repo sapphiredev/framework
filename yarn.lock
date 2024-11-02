@@ -1305,7 +1305,7 @@ __metadata:
     prettier: "npm:^3.3.3"
     tsup: "npm:^8.3.5"
     typedoc: "npm:^0.26.11"
-    typedoc-json-parser: "npm:^10.1.6"
+    typedoc-json-parser: "npm:^10.2.0"
     typescript: "npm:~5.4.5"
     vite: "npm:^5.4.10"
     vitest: "npm:^2.1.4"
@@ -6437,9 +6437,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-json-parser@npm:^10.1.6":
-  version: 10.1.6
-  resolution: "typedoc-json-parser@npm:10.1.6"
+"typedoc-json-parser@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "typedoc-json-parser@npm:10.2.0"
   dependencies:
     "@favware/colorette-spinner": "npm:^1.0.1"
     "@sapphire/node-utilities": "npm:^1.0.2"
@@ -6451,7 +6451,7 @@ __metadata:
     typescript: "npm:^5.5.3"
   bin:
     typedoc-json-parser: ./dist/bin/index.js
-  checksum: 10/798aa9d3649a54b603e8fbc63a05e410fa6b23d9b9d0794ce56ba5ce5797becc515972e6229e6102e0d18b09dccc1b7ec9b15d8744d2543d955fe9e1a94105c0
+  checksum: 10/c1f8153fc35df469e2a68d6d9aaa6f82bb5637a09e3d581feed3a007acc841e633a7ea5ead64a62babfbc096eb26c4c5f3b75597d3f138ac9cefdfa8af0798aa
   languageName: node
   linkType: hard
 
