@@ -1288,7 +1288,7 @@ __metadata:
     "@sapphire/discord-utilities": "npm:^3.4.2"
     "@sapphire/discord.js-utilities": "npm:^7.3.1"
     "@sapphire/eslint-config": "npm:^5.0.5"
-    "@sapphire/lexure": "npm:^1.1.8"
+    "@sapphire/lexure": "npm:^1.1.9"
     "@sapphire/node-utilities": "npm:^1.0.2"
     "@sapphire/pieces": "npm:^4.3.1"
     "@sapphire/prettier-config": "npm:^2.0.0"
@@ -1323,12 +1323,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sapphire/lexure@npm:^1.1.8":
-  version: 1.1.8
-  resolution: "@sapphire/lexure@npm:1.1.8"
+"@sapphire/lexure@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@sapphire/lexure@npm:1.1.9"
   dependencies:
-    "@sapphire/result": "npm:^2.7.0"
-  checksum: 10/0cb426bbc606c36a0f258267e92cb5467a194c5c9ed3714c4c68598ae0f4f49590ee414fddf7ced67604d07bc9c392a53a54a969d203866a17875f540cd8b757
+    "@sapphire/result": "npm:^2.7.1"
+  checksum: 10/12e434f6c4369e06b7f90bc7aefee12127fec690be9264146b4a34ccaea426c9c799368f2febfa5836f33c5326b82d0586f913c070c3b6bba93de088f6b71532
   languageName: node
   linkType: hard
 
@@ -1366,14 +1366,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/result@npm:^2.6.4, @sapphire/result@npm:^2.6.6, @sapphire/result@npm:^2.7.0":
-  version: 2.7.0
-  resolution: "@sapphire/result@npm:2.7.0"
-  checksum: 10/9a10ed36c967882f394e5294fc1f983099653de9c8f46e7772e9b5dc4246467e6460e8f3b422d4a7aa9c02251eeb0b0b1b62bc4f541b15c6c70b03fe740de411
-  languageName: node
-  linkType: hard
-
-"@sapphire/result@npm:^2.7.1":
+"@sapphire/result@npm:^2.6.4, @sapphire/result@npm:^2.6.6, @sapphire/result@npm:^2.7.1":
   version: 2.7.1
   resolution: "@sapphire/result@npm:2.7.1"
   checksum: 10/978dcde1048449d0f7512a87e83dc8bcc026e2d7e27d64756a9300fb446c9dcbf878b435da7eb2058a427aa5dcc0768710c98d5d86c93881ee0bbc337083dae4
