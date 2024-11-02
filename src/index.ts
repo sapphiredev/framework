@@ -41,17 +41,17 @@ const ApplicationCommandRegistries = {
 export {
 	AliasPiece,
 	AliasStore,
+	container,
 	LoaderError,
 	MissingExportsError,
 	Piece,
 	Store,
 	StoreRegistry,
-	container,
 	type AliasPieceJSON,
 	type AliasPieceOptions,
 	type Container,
 	type LoaderPieceContext,
-	type PieceContext, // eslint-disable-line deprecation/deprecation
+	type PieceContext,
 	type PieceJSON,
 	type PieceLocationJSON,
 	type PieceOf,
@@ -66,7 +66,6 @@ export {
 } from '@sapphire/pieces';
 export * from '@sapphire/result';
 export type { Awaitable } from '@sapphire/utilities';
-export * from './lib/SapphireClient';
 export * from './lib/errors/ArgumentError';
 export * from './lib/errors/Identifiers';
 export * from './lib/errors/PreconditionError';
@@ -79,6 +78,7 @@ export * as PreconditionResolvers from './lib/precondition-resolvers/index';
 export type { EmojiObject } from './lib/resolvers/emoji';
 export * as Resolvers from './lib/resolvers/index';
 export type { MessageResolverOptions } from './lib/resolvers/message';
+export * from './lib/SapphireClient';
 export * from './lib/structures/Argument';
 export * from './lib/structures/ArgumentStore';
 export * from './lib/structures/Command';
@@ -100,14 +100,14 @@ export {
 } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
-export * from './lib/utils/preconditions/IPreconditionContainer';
-export * from './lib/utils/preconditions/PreconditionContainerArray';
-export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionAnd';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionOr';
 export * from './lib/utils/preconditions/containers/ClientPermissionsPrecondition';
 export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition';
+export * from './lib/utils/preconditions/IPreconditionContainer';
+export * from './lib/utils/preconditions/PreconditionContainerArray';
+export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export { ApplicationCommandRegistries };
 
 /* eslint-disable deprecation/deprecation */

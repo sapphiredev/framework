@@ -20,7 +20,6 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	private makeSharedError(): AllFlowsPrecondition.Result {
 		return this.error({
-			// eslint-disable-next-line deprecation/deprecation
 			identifier: Identifiers.PreconditionGuildPublicThreadOnly,
 			message: 'You can only run this command in public server thread channels.'
 		});

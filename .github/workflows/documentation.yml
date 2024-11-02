@@ -10,6 +10,7 @@ on:
 jobs:
   docgen:
     uses: sapphiredev/.github/.github/workflows/reusable-documentation.yml@main
+    if: false
     with:
       project-name: framework
     secrets:

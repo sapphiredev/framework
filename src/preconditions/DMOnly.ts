@@ -18,7 +18,6 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	private makeSharedError(): AllFlowsPrecondition.Result {
 		return this.error({
-			// eslint-disable-next-line deprecation/deprecation
 			identifier: Identifiers.PreconditionDMOnly,
 			message: 'You cannot run this command outside DMs.'
 		});

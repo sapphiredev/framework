@@ -13,7 +13,7 @@ jobs:
 
   docs:
     name: Docgen
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && false
     uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
     with:
       script-name: docs
