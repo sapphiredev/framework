@@ -55,13 +55,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
-		if (!interaction.channel) return this.ok(); // When using user-installable apps channel will be always null
+		const availablePermissions = await this.getAvailablePermissions(interaction);
 
-		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		const permissions = await this.getPermissionsForChannel(channel, interaction);
-
-		return this.sharedRun(required, permissions, 'chat input');
+		return this.sharedRun(required, availablePermissions, 'chat input');
 	}
 
 	public async contextMenuRun(
@@ -71,13 +67,9 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
-		if (!interaction.channel) return this.ok(); // When using user-installable apps channel will be always null
+		const availablePermissions = await this.getAvailablePermissions(interaction);
 
-		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		const permissions = await this.getPermissionsForChannel(channel, interaction);
-
-		return this.sharedRun(required, permissions, 'context menu');
+		return this.sharedRun(required, availablePermissions, 'context menu');
 	}
 
 	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: Message | BaseInteraction) {
@@ -115,6 +107,17 @@ export class CorePrecondition extends AllFlowsPrecondition {
 						.join(', ')}`,
 					context: { missing }
 				});
+	}
+
+	private async getAvailablePermissions(interaction: ChatInputCommandInteraction | ContextMenuCommandInteraction) {
+		if (interaction.channel) {
+			if (interaction.channel.isDMBased()) return this.dmChannelPermissions;
+
+			const channel = await this.fetchChannelFromInteraction(interaction);
+			return this.getPermissionsForChannel(channel, interaction);
+		}
+
+		return interaction.appPermissions;
 	}
 
 	public static readonly readablePermissions: Record<PermissionsString, string> = {
