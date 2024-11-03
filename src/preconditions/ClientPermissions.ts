@@ -55,6 +55,8 @@ export class CorePrecondition extends AllFlowsPrecondition {
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
 
+		if (!interaction.channel) return this.ok(); // When using user-installable apps channel will be always null
+
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		const permissions = await this.getPermissionsForChannel(channel, interaction);
@@ -68,6 +70,8 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		context: PermissionPreconditionContext
 	): AllFlowsPrecondition.AsyncResult {
 		const required = context.permissions ?? new PermissionsBitField();
+
+		if (!interaction.channel) return this.ok(); // When using user-installable apps channel will be always null
 
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
