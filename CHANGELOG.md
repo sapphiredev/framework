@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.1](https://github.com/sapphiredev/framework/compare/v5.3.0...v5.3.1) - (2024-11-04)
+
+## 🐛 Bug Fixes
+
+- **ClientPermissions:** Check app permissions when used with user apps ([ebdf0f7](https://github.com/sapphiredev/framework/commit/ebdf0f7b81344ed78424be56d1a53d8d839c8b89)) ([#797](https://github.com/sapphiredev/framework/pull/797) by @yuansheng1549)
+
 # [5.3.0](https://github.com/sapphiredev/framework/compare/v5.2.1...v5.3.0) - (2024-11-02)
 
 ## 🐛 Bug Fixes
