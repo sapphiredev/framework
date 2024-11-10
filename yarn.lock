@@ -1214,12 +1214,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^3.4.2":
-  version: 3.4.2
-  resolution: "@sapphire/discord-utilities@npm:3.4.2"
+"@sapphire/discord-utilities@npm:^3.4.2, @sapphire/discord-utilities@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "@sapphire/discord-utilities@npm:3.4.3"
   dependencies:
     discord-api-types: "npm:0.37.100"
-  checksum: 10/a79220d5ec0a7f8a12cc516cb4cee9ce43520135f3bbaf3d71436f11813c678f6253176ad2b3eaada49e32b8e9737f0729dcba49efe1be690cca9733991b45c9
+  checksum: 10/190ecc214e45444281b0b82e380e2bf788a5938e600acbce29f8e470d8ab2e707947eab4c7022a5cc59ec6b9139d76bc7c3236113af9259833def216cbfefe36
   languageName: node
   linkType: hard
 
@@ -1274,19 +1274,19 @@ __metadata:
     "@favware/cliff-jumper": "npm:^5.0.0"
     "@favware/npm-deprecate": "npm:^2.0.0"
     "@favware/rollup-type-bundler": "npm:^3.3.0"
-    "@sapphire/discord-utilities": "npm:^3.4.2"
+    "@sapphire/discord-utilities": "npm:^3.4.3"
     "@sapphire/discord.js-utilities": "npm:^7.3.1"
     "@sapphire/eslint-config": "npm:^5.0.5"
-    "@sapphire/lexure": "npm:^1.1.9"
+    "@sapphire/lexure": "npm:^1.1.10"
     "@sapphire/node-utilities": "npm:^1.0.2"
     "@sapphire/pieces": "npm:^4.3.1"
     "@sapphire/prettier-config": "npm:^2.0.0"
-    "@sapphire/ratelimits": "npm:^2.4.10"
-    "@sapphire/result": "npm:^2.7.1"
-    "@sapphire/stopwatch": "npm:^1.5.3"
+    "@sapphire/ratelimits": "npm:^2.4.11"
+    "@sapphire/result": "npm:^2.7.2"
+    "@sapphire/stopwatch": "npm:^1.5.4"
     "@sapphire/ts-config": "npm:^5.0.1"
-    "@sapphire/utilities": "npm:^3.18.0"
-    "@types/node": "npm:^22.8.7"
+    "@sapphire/utilities": "npm:^3.18.1"
+    "@types/node": "npm:^22.9.0"
     "@types/ws": "npm:^8.5.13"
     "@typescript-eslint/eslint-plugin": "npm:^7.18.0"
     "@typescript-eslint/parser": "npm:^7.18.0"
@@ -1312,12 +1312,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sapphire/lexure@npm:^1.1.9":
-  version: 1.1.9
-  resolution: "@sapphire/lexure@npm:1.1.9"
+"@sapphire/lexure@npm:^1.1.10":
+  version: 1.1.10
+  resolution: "@sapphire/lexure@npm:1.1.10"
   dependencies:
-    "@sapphire/result": "npm:^2.7.1"
-  checksum: 10/12e434f6c4369e06b7f90bc7aefee12127fec690be9264146b4a34ccaea426c9c799368f2febfa5836f33c5326b82d0586f913c070c3b6bba93de088f6b71532
+    "@sapphire/result": "npm:^2.7.2"
+  checksum: 10/59beca329d5ef9c08d128a353726ab0eb7b4465e0df797accd10ef947206541488fe653185c8e53471c8e99dfdf1aa83a413ab8f8fc031c787522ba830a37ecc
   languageName: node
   linkType: hard
 
@@ -1348,17 +1348,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.4.10":
-  version: 2.4.10
-  resolution: "@sapphire/ratelimits@npm:2.4.10"
-  checksum: 10/fde9257c799bb8d835eda2a6a51506586276cda96e48f929b40e37e88942b14e738fde70fd7c79669cb3cb8a54c07ff6e8098b5ef544bdf08721cb858d68a8b0
+"@sapphire/ratelimits@npm:^2.4.11":
+  version: 2.4.11
+  resolution: "@sapphire/ratelimits@npm:2.4.11"
+  checksum: 10/cd88badd6fabcfe16632374b882cbf1c81b599ff40395175d03d4602d75c7ae97209e638b61cf6919f2806f7d0906f2a5f45722bc1f4fd42bac1e5a42992d436
   languageName: node
   linkType: hard
 
-"@sapphire/result@npm:^2.6.4, @sapphire/result@npm:^2.6.6, @sapphire/result@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "@sapphire/result@npm:2.7.1"
-  checksum: 10/978dcde1048449d0f7512a87e83dc8bcc026e2d7e27d64756a9300fb446c9dcbf878b435da7eb2058a427aa5dcc0768710c98d5d86c93881ee0bbc337083dae4
+"@sapphire/result@npm:^2.6.4, @sapphire/result@npm:^2.6.6, @sapphire/result@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@sapphire/result@npm:2.7.2"
+  checksum: 10/8456a23c1e5fa20f74ba976097dcd5358df0e962aaf89c36aefb656dbe78a8fc93478ae29de88721784b93a4a1b0cbd3780a9cd13c61d842e5e5e3b511bfd59b
   languageName: node
   linkType: hard
 
@@ -1386,12 +1386,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/stopwatch@npm:^1.5.3":
-  version: 1.5.3
-  resolution: "@sapphire/stopwatch@npm:1.5.3"
+"@sapphire/stopwatch@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "@sapphire/stopwatch@npm:1.5.4"
   dependencies:
     tslib: "npm:^2.8.1"
-  checksum: 10/48c346c315ec77096cf0c208afae67c2d0d5a08c17b34942328f89c564f23026649b684bed3ab8155920032ff9855cd3feab2194ec59211ecc25324af4b6a7cc
+  checksum: 10/17fd84c665340cd19a49b615837225f78fc2b1c6bac7d17680efafd7af475a6744297e8205a60f2392a87c4798231d49e32a1caeb570b73fc5a39346f2b9fcde
   languageName: node
   linkType: hard
 
@@ -1412,10 +1412,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/utilities@npm:^3.15.2, @sapphire/utilities@npm:^3.16.2, @sapphire/utilities@npm:^3.17.0, @sapphire/utilities@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "@sapphire/utilities@npm:3.18.0"
-  checksum: 10/4185555696d97fa8b514118f94d66f5bd4c278fbc7ef70f3ee70505f8b90f865d2b8319a686739d78bf29711cc2e16aa99933f493515116e3226d466805c254a
+"@sapphire/utilities@npm:^3.15.2, @sapphire/utilities@npm:^3.16.2, @sapphire/utilities@npm:^3.17.0, @sapphire/utilities@npm:^3.18.0, @sapphire/utilities@npm:^3.18.1":
+  version: 3.18.1
+  resolution: "@sapphire/utilities@npm:3.18.1"
+  checksum: 10/e13fdc6f83d2a326dfe124a65d0db4243cd5ca636cc770d881927a5e466221065d5f241e3e7673bf133b76c2359f86e4c0b1b834485f0470e25941457ee2cb90
   languageName: node
   linkType: hard
 
@@ -1519,12 +1519,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^22.8.7":
-  version: 22.8.7
-  resolution: "@types/node@npm:22.8.7"
+"@types/node@npm:*, @types/node@npm:^22.9.0":
+  version: 22.9.0
+  resolution: "@types/node@npm:22.9.0"
   dependencies:
     undici-types: "npm:~6.19.8"
-  checksum: 10/9c73d4cbcbf9773a5986421025c26d6139d8ab960317b3062fbb449c00dbe8197230334be550ffcdb6059bd25f4cb903546bace905155628537283a80c2075d5
+  checksum: 10/a7df3426891868b0f5fb03e46aeddd8446178233521c624a44531c92a040cf08a82d8235f7e1e02af731fd16984665d4d71f3418caf9c2788313b10f040d615d
   languageName: node
   linkType: hard
 

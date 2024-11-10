@@ -34,14 +34,14 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.9.0",
-		"@sapphire/discord-utilities": "^3.4.2",
+		"@sapphire/discord-utilities": "^3.4.3",
 		"@sapphire/discord.js-utilities": "^7.3.1",
-		"@sapphire/lexure": "^1.1.9",
+		"@sapphire/lexure": "^1.1.10",
 		"@sapphire/pieces": "^4.3.1",
-		"@sapphire/ratelimits": "^2.4.10",
-		"@sapphire/result": "^2.7.1",
-		"@sapphire/stopwatch": "^1.5.3",
-		"@sapphire/utilities": "^3.18.0"
+		"@sapphire/ratelimits": "^2.4.11",
+		"@sapphire/result": "^2.7.2",
+		"@sapphire/stopwatch": "^1.5.4",
+		"@sapphire/utilities": "^3.18.1"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.5.0",
@@ -53,7 +53,7 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^22.8.7",
+		"@types/node": "^22.9.0",
 		"@types/ws": "^8.5.13",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
