@@ -57,7 +57,7 @@
 		"@types/ws": "^8.5.13",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
-		"@vitest/coverage-v8": "^2.1.4",
+		"@vitest/coverage-v8": "^2.1.5",
 		"concurrently": "^9.1.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.16.3",
@@ -74,8 +74,8 @@
 		"typedoc": "^0.26.11",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
-		"vite": "^5.4.10",
-		"vitest": "^2.1.4"
+		"vite": "^5.4.11",
+		"vitest": "^2.1.5"
 	},
 	"repository": {
 		"type": "git",
