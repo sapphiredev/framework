@@ -44,7 +44,7 @@
 		"@sapphire/utilities": "^3.18.1"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^19.6.0",
+		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-conventional": "^19.6.0",
 		"@favware/cliff-jumper": "^5.0.0",
 		"@favware/npm-deprecate": "^2.0.0",
@@ -74,7 +74,7 @@
 		"typedoc": "^0.26.11",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
-		"vite": "^6.0.3",
+		"vite": "^6.0.5",
 		"vitest": "^2.1.8"
 	},
 	"repository": {
