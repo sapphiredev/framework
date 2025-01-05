@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.2](https://github.com/sapphiredev/framework/compare/v5.3.1...v5.3.2) - (2025-01-05)
+
+## 🐛 Bug Fixes
+
+- Update `@sapphire/discord-utilities` and `@sapphire/discord.js-utilities` ([7771726](https://github.com/sapphiredev/framework/commit/77717269fb452983aa0bbe6d790660d77335cf2b))
+- **deps:** Update all non-major dependencies ([e896558](https://github.com/sapphiredev/framework/commit/e8965588a68d4b18d5699a47acb97849a9deb4f2)) ([#807](https://github.com/sapphiredev/framework/pull/807) by @renovate[bot])
+- **deps:** Update all non-major dependencies ([59905eb](https://github.com/sapphiredev/framework/commit/59905ebd7f4ba46e4aafa096a012bf5d1c4556cb)) ([#798](https://github.com/sapphiredev/framework/pull/798) by @renovate[bot])
+
 # [5.3.1](https://github.com/sapphiredev/framework/compare/v5.3.0...v5.3.1) - (2024-11-04)
 
 ## 🐛 Bug Fixes
