@@ -48,7 +48,7 @@
 		"@commitlint/config-conventional": "^19.6.0",
 		"@favware/cliff-jumper": "^5.0.0",
 		"@favware/npm-deprecate": "^2.0.0",
-		"@favware/rollup-type-bundler": "^3.3.0",
+		"@favware/rollup-type-bundler": "^4.0.0",
 		"@sapphire/eslint-config": "^5.0.5",
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
