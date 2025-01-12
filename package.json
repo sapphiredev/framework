@@ -60,7 +60,7 @@
 		"@vitest/coverage-v8": "^2.1.8",
 		"concurrently": "^9.1.2",
 		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^14.17.2",
+		"discord.js": "^14.17.3",
 		"esbuild-plugin-file-path-extensions": "^2.1.4",
 		"esbuild-plugin-version-injector": "^1.2.1",
 		"eslint": "^8.57.1",

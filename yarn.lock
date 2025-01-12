@@ -1308,7 +1308,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:^2.1.8"
     concurrently: "npm:^9.1.2"
     cz-conventional-changelog: "npm:^3.3.0"
-    discord.js: "npm:^14.17.2"
+    discord.js: "npm:^14.17.3"
     esbuild-plugin-file-path-extensions: "npm:^2.1.4"
     esbuild-plugin-version-injector: "npm:^1.2.1"
     eslint: "npm:^8.57.1"
@@ -2698,9 +2698,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:^14.17.2":
-  version: 14.17.2
-  resolution: "discord.js@npm:14.17.2"
+"discord.js@npm:^14.17.3":
+  version: 14.17.3
+  resolution: "discord.js@npm:14.17.3"
   dependencies:
     "@discordjs/builders": "npm:^1.10.0"
     "@discordjs/collection": "npm:1.5.3"
@@ -2714,7 +2714,7 @@ __metadata:
     lodash.snakecase: "npm:4.1.1"
     tslib: "npm:^2.6.3"
     undici: "npm:6.19.8"
-  checksum: 10/5da04c578a3bf7d6263d45b808c21738c6c546d244d5d9d1c3a25c6d33156b7e0c602152544ea74b3e89133b7f79efb781d222a0f912984f98a7faafed067fda
+  checksum: 10/4df34dcce5fec945c3f117d0f23e13c4f51f7e7070051977b10a39100d0ebc36e8d3a44e1b7355b2c5490d2f589352a15e2629da3cf1339c896bdc09a10222b2
   languageName: node
   linkType: hard
 
