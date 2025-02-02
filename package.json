@@ -41,7 +41,7 @@
 		"@sapphire/ratelimits": "^2.4.11",
 		"@sapphire/result": "^2.7.2",
 		"@sapphire/stopwatch": "^1.5.4",
-		"@sapphire/utilities": "^3.18.1"
+		"@sapphire/utilities": "^3.18.2"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.6.1",
@@ -53,7 +53,7 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^22.12.0",
+		"@types/node": "^22.13.0",
 		"@types/ws": "^8.5.14",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
