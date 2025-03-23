@@ -53,11 +53,11 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@types/node": "^22.13.10",
+		"@types/node": "^22.13.11",
 		"@types/ws": "^8.18.0",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
-		"@vitest/coverage-v8": "^3.0.8",
+		"@vitest/coverage-v8": "^3.0.9",
 		"concurrently": "^9.1.2",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.18.0",
@@ -75,7 +75,7 @@
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
 		"vite": "^6.2.2",
-		"vitest": "^3.0.8"
+		"vitest": "^3.0.9"
 	},
 	"repository": {
 		"type": "git",
