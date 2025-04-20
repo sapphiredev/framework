@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.4](https://github.com/sapphiredev/framework/compare/v5.3.3...v5.3.4) - (2025-04-20)
+
+## 🐛 Bug Fixes
+
+- **clientpermissions:** Resolve client permissions for older applications ([010fef5](https://github.com/sapphiredev/framework/commit/010fef5b4b3c8d25dabc5e9f6e88fdcb76bca57c)) ([#835](https://github.com/sapphiredev/framework/pull/835) by @SirDeadlystrike)
+
 # [5.3.3](https://github.com/sapphiredev/framework/compare/v5.3.2...v5.3.3) - (2025-04-07)
 
 ## 🐛 Bug Fixes
