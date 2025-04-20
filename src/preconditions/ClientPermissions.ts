@@ -83,6 +83,12 @@ export class CorePrecondition extends AllFlowsPrecondition {
 				}
 			} else {
 				permissions = channel.permissionsFor(messageOrInteraction.applicationId);
+				if (isNullish(permissions)) {
+					const me = await messageOrInteraction.guild?.members.fetchMe();
+					if (me) {
+					  permissions = channel.permissionsFor(me);
+					}
+				  }
 			}
 		}
 
