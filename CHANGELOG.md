@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.6](https://github.com/sapphiredev/framework/compare/v5.3.5...v5.3.6) - (2025-06-06)
+
+## 🐛 Bug Fixes
+
+- **dependencies:** Update @sapphire/pieces ([2f251c0](https://github.com/sapphiredev/framework/commit/2f251c01b70b7fc49dc3ecb26ce4ba584473d14c))
+
 # [5.3.5](https://github.com/sapphiredev/framework/compare/v5.3.4...v5.3.5) - (2025-05-12)
 
 ## 🐛 Bug Fixes
