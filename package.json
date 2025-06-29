@@ -74,7 +74,7 @@
 		"typedoc": "^0.26.11",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
-		"vite": "^6.3.5",
+		"vite": "^7.0.0",
 		"vitest": "^3.2.4"
 	},
 	"repository": {
