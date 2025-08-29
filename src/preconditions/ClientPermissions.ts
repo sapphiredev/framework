@@ -155,6 +155,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		ModerateMembers: 'Moderate Members',
 		MoveMembers: 'Move Members',
 		MuteMembers: 'Mute Members',
+		PinMessages: 'Pin Messages',
 		PrioritySpeaker: 'Priority Speaker',
 		ReadMessageHistory: 'Read Message History',
 		RequestToSpeak: 'Request to Speak',

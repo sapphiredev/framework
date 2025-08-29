@@ -10,7 +10,6 @@ const channelTypeToPrettyName: Record<Exclude<APIApplicationCommandChannelOption
 	[ChannelType.PublicThread]: 'guild public thread (type 11)',
 	[ChannelType.PrivateThread]: 'guild private thread (type 12)',
 	[ChannelType.GuildStageVoice]: 'guild stage voice channel (type 13)',
-	[ChannelType.GuildDirectory]: 'guild directory (type 14)',
 	[ChannelType.GuildForum]: 'guild forum (type 15)',
 	[ChannelType.GuildMedia]: 'guild media channel (type 16)'
 };
