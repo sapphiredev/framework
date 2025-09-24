@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.3.7](https://github.com/sapphiredev/framework/compare/v5.3.6...v5.3.7) - (2025-09-24)
+
+## 🐛 Bug Fixes
+
+- Update result and lexure ([c9d86ce](https://github.com/sapphiredev/framework/commit/c9d86cefaa8d9fd1c5faf98c34976bec64d581b3))
+- Update code in ClientPermissions and command channel types to match latest discordjs changes ([43d7e4a](https://github.com/sapphiredev/framework/commit/43d7e4aaacd153a2b9ccafa2f1e3dbd636904da7)) ([#849](https://github.com/sapphiredev/framework/pull/849) by @favna)
+- **deps:** Update all non-major dependencies ([e9190b8](https://github.com/sapphiredev/framework/commit/e9190b89f70488bcd565097c9402811f455e02f1))
+
 # [5.3.6](https://github.com/sapphiredev/framework/compare/v5.3.5...v5.3.6) - (2025-06-06)
 
 ## 🐛 Bug Fixes
