@@ -36,10 +36,10 @@
 		"@discordjs/builders": "^1.11.3",
 		"@sapphire/discord-utilities": "^3.5.0",
 		"@sapphire/discord.js-utilities": "^7.3.3",
-		"@sapphire/lexure": "^1.1.10",
+		"@sapphire/lexure": "^1.1.11",
 		"@sapphire/pieces": "^4.4.1",
 		"@sapphire/ratelimits": "^2.4.11",
-		"@sapphire/result": "^2.7.2",
+		"@sapphire/result": "^2.7.3",
 		"@sapphire/stopwatch": "^1.5.4",
 		"@sapphire/utilities": "^3.18.2"
 	},
