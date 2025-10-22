@@ -10,7 +10,7 @@ import { Events } from '../../types/Events';
 import { ApplicationCommandRegistry } from './ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from './getNeededParameters';
 import { emitBulkOverwriteError, emitPerRegistryError } from './registriesErrors';
-import { bulkOverwriteDebug, bulkOverwriteInfo, bulkOverwriteWarn } from './registriesLog';
+import { bulkOverwriteDebug, bulkOverwriteWarn } from './registriesLog';
 
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
 export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
@@ -183,7 +183,7 @@ async function handleBulkOverwriteGlobalCommands(
 			}
 		}
 
-		bulkOverwriteInfo(`Successfully overwrote global application commands. The application now has ${result.size} global commands`);
+		container.client.emit(Events.ApplicationCommandRegistriesBulkOverwrite, result, null);
 	} catch (error) {
 		if (error instanceof Error && error.name === 'AbortError') throw error;
 
@@ -236,9 +236,7 @@ async function handleBulkOverwriteGuildCommands(
 			}
 		}
 
-		bulkOverwriteInfo(
-			`Successfully overwrote guild application commands for guild ${guildId}. The application now has ${result.size} guild commands for guild ${guildId}`
-		);
+		container.client.emit(Events.ApplicationCommandRegistriesBulkOverwrite, result, guildId);
 	} catch (error) {
 		if (error instanceof Error && error.name === 'AbortError') throw error;
 
