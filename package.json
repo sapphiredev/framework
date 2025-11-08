@@ -54,7 +54,7 @@
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
 		"@swc/core": "^1.14.0",
-		"@types/node": "^22.18.13",
+		"@types/node": "^24.10.0",
 		"@types/ws": "^8.18.1",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
