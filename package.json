@@ -53,8 +53,8 @@
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
 		"@sapphire/ts-config": "^5.0.1",
-		"@swc/core": "^1.15.1",
-		"@types/node": "^24.10.0",
+		"@swc/core": "^1.15.2",
+		"@types/node": "^24.10.1",
 		"@types/ws": "^8.18.1",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
@@ -75,7 +75,7 @@
 		"typedoc": "^0.26.11",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
-		"vite": "^7.1.12",
+		"vite": "^7.2.2",
 		"vitest": "^3.2.4"
 	},
 	"repository": {
@@ -124,5 +124,5 @@
 		"minimist": "^1.2.8"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@4.10.3"
+	"packageManager": "yarn@4.11.0"
 }
