@@ -2,7 +2,8 @@
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		"types": ["vitest/globals"],
-		"lib": ["DOM", "ESNext"]
+		"lib": ["DOM", "ESNext"],
+		"skipLibCheck": true
 	},
-	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsup.config.ts"]
+	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsdown.config.ts"]
 }
