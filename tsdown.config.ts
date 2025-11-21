@@ -29,7 +29,10 @@ export default [
 	defineConfig({
 		...baseOptions,
 		outDir: 'dist/cjs',
-		format: 'cjs'
+		format: 'cjs',
+		banner: {
+			js: '"use strict";'
+		}
 	}),
 	defineConfig({
 		...baseOptions,
