@@ -1,9 +1,5 @@
 import { container } from '@sapphire/pieces';
 
-export function bulkOverwriteInfo(message: string, ...other: unknown[]) {
-	container.logger.info(`ApplicationCommandRegistries(BulkOverwrite) ${message}`, ...other);
-}
-
 export function bulkOverwriteError(message: string, ...other: unknown[]) {
 	container.logger.error(`ApplicationCommandRegistries(BulkOverwrite) ${message}`, ...other);
 }

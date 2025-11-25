@@ -6,7 +6,9 @@ import {
 	type ChatInputCommandInteraction,
 	type ContextMenuCommandInteraction,
 	type Interaction,
-	type Message
+	type Message,
+	type Collection,
+	type Snowflake
 } from 'discord.js';
 import type { UserError } from '../errors/UserError';
 import type { Command } from '../structures/Command';
@@ -218,6 +220,13 @@ export const Events = {
 	 * @param {Map<string, ApplicationCommandRegistry>} registries The initialised registries
 	 */
 	ApplicationCommandRegistriesRegistered: 'applicationCommandRegistriesRegistered' as const,
+
+	/**
+	 * Emitted when handling the command registries in bulk overwrite mode.
+	 * @param {Collection<Snowflake, ApplicationCommand>} result The result of the bulk overwrite
+	 * @param {string|null} guildId The guild id where the bulk overwrite was applied, null if global
+	 */
+	ApplicationCommandRegistriesBulkOverwrite: 'applicationCommandRegistriesBulkOverwrite' as const,
 
 	/**
 	 * Emitted when an error is encountered when handling the command registries in bulk overwrite mode.
@@ -606,6 +615,7 @@ declare module 'discord.js' {
 		[SapphireEvents.CommandApplicationCommandRegistryError]: [error: unknown, command: Command];
 		[SapphireEvents.ApplicationCommandRegistriesInitialising]: [];
 		[SapphireEvents.ApplicationCommandRegistriesRegistered]: [registries: Map<string, ApplicationCommandRegistry>, timeTaken: number];
+		[SapphireEvents.ApplicationCommandRegistriesBulkOverwrite]: [result: Collection<Snowflake, ApplicationCommand>, guildId: string | null];
 		[SapphireEvents.ApplicationCommandRegistriesBulkOverwriteError]: [error: unknown, guildId: string | null];
 
 		[SapphireEvents.PreMessageParsed]: [message: Message];
