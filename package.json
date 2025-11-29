@@ -52,7 +52,7 @@
 		"@sapphire/eslint-config": "^5.0.6",
 		"@sapphire/node-utilities": "^1.0.2",
 		"@sapphire/prettier-config": "^2.0.0",
-		"@sapphire/ts-config": "^5.0.2",
+		"@sapphire/ts-config": "^5.0.3",
 		"@types/node": "^24.10.1",
 		"@types/ws": "^8.18.1",
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
@@ -60,14 +60,14 @@
 		"@vitest/coverage-v8": "^3.2.4",
 		"concurrently": "^9.2.1",
 		"cz-conventional-changelog": "^3.3.0",
-		"discord.js": "^14.24.2",
+		"discord.js": "^14.25.1",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-deprecation": "^3.0.0",
 		"eslint-plugin-prettier": "^5.5.4",
 		"lint-staged": "^16.2.7",
-		"prettier": "^3.6.2",
-		"tsdown": "^0.16.6",
+		"prettier": "^3.7.3",
+		"tsdown": "^0.16.8",
 		"typedoc": "^0.26.11",
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
@@ -121,5 +121,5 @@
 		"minimist": "^1.2.8"
 	},
 	"prettier": "@sapphire/prettier-config",
-	"packageManager": "yarn@4.10.3"
+	"packageManager": "yarn@4.12.0"
 }
