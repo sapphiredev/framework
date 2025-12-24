@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.4.0](https://github.com/sapphiredev/framework/compare/v5.3.7...v5.4.0) - (2025-11-08)
+
+## 🐛 Bug Fixes
+
+- **deps:** Update all non-major dependencies ([9e5943d](https://github.com/sapphiredev/framework/commit/9e5943dddbc73f147cb52ac907b592407ea00e44)) ([#857](https://github.com/sapphiredev/framework/pull/857) by @renovate[bot])
+- **deps:** Update all non-major dependencies ([f458712](https://github.com/sapphiredev/framework/commit/f458712aee446f2bd9e79de790fff7e07ec3dfdb)) ([#853](https://github.com/sapphiredev/framework/pull/853) by @renovate[bot])
+
+## 🚀 Features
+
+- Update sapphire dependencies ([d3aad6a](https://github.com/sapphiredev/framework/commit/d3aad6a40a4fe5bc2d21c67731cbcbeefd6c5dbe))
+
 # [5.3.7](https://github.com/sapphiredev/framework/compare/v5.3.6...v5.3.7) - (2025-09-24)
 
 ## 🐛 Bug Fixes
