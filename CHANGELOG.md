@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.5.0](https://github.com/sapphiredev/framework/compare/v5.4.0...v5.5.0) - (2025-12-24)
+
+## 🚀 Features
+
+- Add CoreApplicationCommandRegistriesBulkOverwrite event listener ([7c32b44](https://github.com/sapphiredev/framework/commit/7c32b44673d277b258398f8f454a1e58105a9d6c)) ([#855](https://github.com/sapphiredev/framework/pull/855) by @minemalox)
+
 # [5.4.0](https://github.com/sapphiredev/framework/compare/v5.3.7...v5.4.0) - (2025-11-08)
 
 ## 🐛 Bug Fixes
