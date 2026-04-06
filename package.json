@@ -72,7 +72,7 @@
 		"typedoc-json-parser": "^10.2.0",
 		"typescript": "~5.4.5",
 		"unplugin-replace": "^0.6.2",
-		"vite": "^7.2.4",
+		"vite": "^8.0.5",
 		"vitest": "^3.2.4"
 	},
 	"repository": {
