@@ -23,24 +23,26 @@ export function* checkIntegrationTypes(
 	}
 	// 2. Maybe changes in order or additions, log
 	else if (newIntegrationTypes?.length) {
+		const sortedExistingIntegrationTypes = [...existingIntegrationTypes!].sort((first, second) => first - second);
+		const sortedNewIntegrationTypes = [...newIntegrationTypes].sort((first, second) => first - second);
 		let index = 0;
 
-		for (const newIntegrationType of newIntegrationTypes) {
+		for (const newIntegrationType of sortedNewIntegrationTypes) {
 			const currentIndex = index++;
 
-			if (existingIntegrationTypes![currentIndex] !== newIntegrationType) {
+			if (sortedExistingIntegrationTypes[currentIndex] !== newIntegrationType) {
 				yield {
 					key: `integrationTypes[${currentIndex}]`,
-					original: `integration type ${existingIntegrationTypes?.[currentIndex]}`,
+					original: `integration type ${sortedExistingIntegrationTypes[currentIndex]}`,
 					expected: `integration type ${newIntegrationType}`
 				};
 			}
 		}
 
-		if (index < existingIntegrationTypes!.length) {
+		if (index < sortedExistingIntegrationTypes.length) {
 			let type: ApplicationIntegrationType;
 
-			while ((type = existingIntegrationTypes![index]) !== undefined) {
+			while ((type = sortedExistingIntegrationTypes[index]) !== undefined) {
 				yield {
 					key: `integrationTypes[${index}]`,
 					original: `integration type ${type} present`,
