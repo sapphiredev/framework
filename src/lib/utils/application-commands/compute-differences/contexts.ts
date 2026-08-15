@@ -23,8 +23,8 @@ export function* checkInteractionContextTypes(
 	}
 	// 2. Maybe changes in order or additions, log
 	else if (newContexts?.length) {
-		const existingContextSorted = existingContexts?.toSorted() ?? [];
-		const newContextSorted = newContexts?.toSorted() ?? [];
+		const existingContextSorted = existingContexts?.toSorted((a, b) => a - b) ?? [];
+		const newContextSorted = newContexts?.toSorted((a, b) => a - b) ?? [];
 		let index = 0;
 
 		for (const newContext of newContextSorted) {

@@ -23,8 +23,8 @@ export function* checkIntegrationTypes(
 	}
 	// 2. Maybe changes in order or additions, log
 	else if (newIntegrationTypes?.length) {
-		const existingIntegrationTypesSorted = existingIntegrationTypes?.toSorted() ?? [];
-		const newIntegrationTypesSorted = newIntegrationTypes?.toSorted() ?? [];
+		const existingIntegrationTypesSorted = existingIntegrationTypes?.toSorted((a, b) => a - b) ?? [];
+		const newIntegrationTypesSorted = newIntegrationTypes?.toSorted((a, b) => a - b) ?? [];
 		let index = 0;
 
 		for (const newIntegrationType of newIntegrationTypesSorted) {
