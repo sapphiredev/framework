@@ -23,24 +23,26 @@ export function* checkInteractionContextTypes(
 	}
 	// 2. Maybe changes in order or additions, log
 	else if (newContexts?.length) {
+		const existingContextSorted = existingContexts?.toSorted() ?? [];
+		const newContextSorted = newContexts?.toSorted() ?? [];
 		let index = 0;
 
-		for (const newContext of newContexts) {
+		for (const newContext of newContextSorted) {
 			const currentIndex = index++;
 
-			if (existingContexts![currentIndex] !== newContext) {
+			if (existingContextSorted[currentIndex] !== newContext) {
 				yield {
 					key: `contexts[${currentIndex}]`,
-					original: `contexts type ${existingContexts?.[currentIndex]}`,
+					original: `contexts type ${existingContextSorted[currentIndex]}`,
 					expected: `contexts type ${newContext}`
 				};
 			}
 		}
 
-		if (index < existingContexts!.length) {
+		if (index < existingContextSorted.length) {
 			let type: InteractionContextType;
 
-			while ((type = existingContexts![index]) !== undefined) {
+			while ((type = existingContextSorted[index]) !== undefined) {
 				yield {
 					key: `contexts[${index}]`,
 					original: `context ${type} present`,
