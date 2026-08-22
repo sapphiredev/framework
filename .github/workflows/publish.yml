@@ -3,6 +3,10 @@ name: Publish
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   PublishPackage:
     name: Publish @sapphire/framework
@@ -10,5 +14,4 @@ jobs:
     with:
       project-name: '@sapphire/framework'
     secrets:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
       SKYRA_TOKEN: ${{ secrets.SKYRA_TOKEN }}
