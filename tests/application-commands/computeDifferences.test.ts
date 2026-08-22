@@ -1,4 +1,10 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, type RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import {
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	ApplicationIntegrationType,
+	InteractionContextType,
+	type RESTPostAPIChatInputApplicationCommandsJSONBody
+} from 'discord-api-types/v10';
 import { ChannelType } from 'discord.js';
 import { getCommandDifferences as getCommandDifferencesRaw } from '../../src/lib/utils/application-commands/computeDifferences';
 
@@ -54,6 +60,44 @@ describe('Compute differences for provided application commands', () => {
 		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 			description: 'description 1',
 			name: 'command1'
+		};
+
+		expect(getCommandDifferences(command1, command2, false)).toEqual([]);
+	});
+
+	test('GIVEN two commands with the same integration types in a different order THEN do not return any difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			integration_types: [ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 2',
+			name: 'command1',
+			integration_types: [ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall]
+		};
+
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
+			{
+				key: 'description',
+				original: command1.description,
+				expected: command2.description
+			}
+		]);
+	});
+
+	test('GIVEN two commands with the same contexts in a different order THEN do not return any difference', () => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			contexts: [InteractionContextType.PrivateChannel, InteractionContextType.Guild]
+		};
+
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			description: 'description 1',
+			name: 'command1',
+			contexts: [InteractionContextType.Guild, InteractionContextType.PrivateChannel]
 		};
 
 		expect(getCommandDifferences(command1, command2, false)).toEqual([]);
