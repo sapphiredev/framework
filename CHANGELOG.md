@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.5.1](https://github.com/sapphiredev/framework/compare/v5.5.0...v5.5.1) - (2026-08-22)
+
+## 🐛 Bug Fixes
+
+- Change contents permission from read to write ([68dac5a](https://github.com/sapphiredev/framework/commit/68dac5ac87bd3525ff7115c4fbfb8eb1a8aa3993))
+- Sort integration types & contexts before comparing ([e1a2151](https://github.com/sapphiredev/framework/commit/e1a2151aec6f811a3cb759aaf72c198be0a1fb5d)) ([#871](https://github.com/sapphiredev/framework/pull/871) by @Lexouden)
+
 # [5.5.0](https://github.com/sapphiredev/framework/compare/v5.4.0...v5.5.0) - (2025-12-24)
 
 ## 🚀 Features
