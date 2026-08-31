@@ -1,7 +1,28 @@
 name: Publish
+run-name: Publish @sapphire/framework
 
 on:
   workflow_dispatch:
+    inputs:
+      skip-automatic-bump:
+        description: Whether to skip the automatic bumping of the package version
+        required: false
+        default: false
+        type: boolean
+      prNumber:
+        description: The number of the PR that is being deployed
+        required: false
+        type: string
+      ref:
+        description: The branch that is being deployed. Should be a branch on the given repository
+        required: false
+        default: main
+        type: string
+      prerelease:
+        description: Whether to publish a prerelease version (default `false`)
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   id-token: write
@@ -13,5 +34,9 @@ jobs:
     uses: sapphiredev/.github/.github/workflows/reusable-publish.yml@main
     with:
       project-name: '@sapphire/framework'
+      skip-automatic-bump: ${{ inputs.skip-automatic-bump }}
+      pr-number: ${{ inputs.prNumber }}
+      ref: ${{ inputs.ref }}
+      prerelease: ${{ inputs.prerelease }}
     secrets:
       SKYRA_TOKEN: ${{ secrets.SKYRA_TOKEN }}
