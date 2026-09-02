@@ -44,8 +44,8 @@
 		"@sapphire/utilities": "^3.18.2"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^20.1.0",
-		"@commitlint/config-conventional": "^20.0.0",
+		"@commitlint/cli": "^21.2.2",
+		"@commitlint/config-conventional": "^21.2.2",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@favware/npm-deprecate": "^2.0.0",
 		"@favware/rollup-type-bundler": "^4.0.0",
