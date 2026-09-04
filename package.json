@@ -61,7 +61,7 @@
 		"concurrently": "^9.2.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"discord.js": "^14.24.2",
-		"eslint": "^8.57.1",
+		"eslint": "^10.10.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-deprecation": "^3.0.0",
 		"eslint-plugin-prettier": "^5.5.4",
