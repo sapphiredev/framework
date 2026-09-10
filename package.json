@@ -73,7 +73,7 @@
 		"typescript": "~5.4.5",
 		"unplugin-replace": "^0.6.2",
 		"vite": "^7.2.4",
-		"vitest": "^3.2.4"
+		"vitest": "^4.0.0"
 	},
 	"repository": {
 		"type": "git",
