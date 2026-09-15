@@ -65,7 +65,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-deprecation": "^3.0.0",
 		"eslint-plugin-prettier": "^5.5.4",
-		"lint-staged": "^16.2.7",
+		"lint-staged": "^17.5.1",
 		"prettier": "^3.6.2",
 		"tsdown": "^0.16.6",
 		"typedoc": "^0.26.11",
