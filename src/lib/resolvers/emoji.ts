@@ -31,7 +31,7 @@ export function resolveEmoji(parameter: string): Result<EmojiObject, Identifiers
 }
 
 export interface EmojiObject {
-	name: string | null;
-	id: string | null;
 	animated?: boolean;
+	id: string | null;
+	name: string | null;
 }

@@ -1,12 +1,14 @@
 import { PermissionsBitField, type PermissionResolvable } from 'discord.js';
 import { CommandPreConditions } from '../types/Enums';
 import type { PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
+import type { Command } from '../structures/Command';
 
 /**
  * Appends the `ClientPermissions` precondition when {@link Command.Options.requiredClientPermissions} resolves to a
  * non-zero bitfield.
- * @param requiredClientPermissions The required client permissions.
- * @param preconditionContainerArray The precondition container array to append the precondition to.
+ *
+ * @param requiredClientPermissions - The required client permissions.
+ * @param preconditionContainerArray - The precondition container array to append the precondition to.
  */
 export function parseConstructorPreConditionsRequiredClientPermissions(
 	requiredClientPermissions: PermissionResolvable | undefined,

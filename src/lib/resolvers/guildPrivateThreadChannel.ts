@@ -9,7 +9,7 @@ export function resolveGuildPrivateThreadChannel(
 	guild: Guild
 ): Result<
 	ThreadChannel,
-	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildThreadChannelError | Identifiers.ArgumentGuildPrivateThreadChannelError
+	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildPrivateThreadChannelError | Identifiers.ArgumentGuildThreadChannelError
 > {
 	return resolveGuildChannelPredicate(parameter, guild, isPrivateThreadChannel, Identifiers.ArgumentGuildPrivateThreadChannelError);
 }

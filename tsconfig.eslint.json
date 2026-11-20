@@ -1,9 +1,11 @@
 {
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
+		"allowJs": true,
+		"module": "esnext",
 		"types": ["vitest/globals"],
 		"lib": ["DOM", "ESNext"],
 		"skipLibCheck": true
 	},
-	"include": ["src", "tests", "scripts", "vitest.config.ts", "tsdown.config.ts"]
+	"include": ["src", "tests", "scripts", "eslint.config.mjs", "vitest.config.ts", "tsdown.config.ts"]
 }

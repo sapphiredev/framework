@@ -6,7 +6,7 @@ import { resolveChannel } from './channel';
 
 export function resolveDMChannel(
 	parameter: string,
-	messageOrInteraction: Message | CommandInteraction
+	messageOrInteraction: CommandInteraction | Message
 ): Result<DMChannel, Identifiers.ArgumentChannelError | Identifiers.ArgumentDMChannelError> {
 	const result = resolveChannel(parameter, messageOrInteraction);
 	return result.mapInto((value) => {

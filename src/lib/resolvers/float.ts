@@ -3,8 +3,8 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveFloat(
 	parameter: string,
-	options?: { minimum?: number; maximum?: number }
-): Result<number, Identifiers.ArgumentFloatError | Identifiers.ArgumentFloatTooSmall | Identifiers.ArgumentFloatTooLarge> {
+	options?: { maximum?: number; minimum?: number }
+): Result<number, Identifiers.ArgumentFloatError | Identifiers.ArgumentFloatTooLarge | Identifiers.ArgumentFloatTooSmall> {
 	const parsed = Number(parameter);
 
 	if (Number.isNaN(parsed)) {

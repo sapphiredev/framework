@@ -13,7 +13,8 @@ import { Command } from './Command';
 
 /**
  * Stores all Command pieces
- * @since 1.0.0
+ *
+ * @remarks Available since 1.0.0
  */
 export class CommandStore extends AliasStore<Command, 'commands'> {
 	public constructor() {
@@ -29,7 +30,8 @@ export class CommandStore extends AliasStore<Command, 'commands'> {
 		return [...categories] as string[];
 	}
 
-	public override unload(name: string | Command): Promise<Command<Args, Command.Options>> {
+	// eslint-disable-next-line @typescript-eslint/promise-function-async -- Resolution errors must still throw synchronously.
+	public override unload(name: Command | string): Promise<Command<Args, Command.Options>> {
 		const piece = this.resolve(name);
 
 		// Remove the aliases from the store

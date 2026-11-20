@@ -10,22 +10,20 @@ jobs:
   linting:
     name: Linting
     uses: sapphiredev/.github/.github/workflows/reusable-lint.yml@main
-
-  docs:
-    name: Docgen
-    if: github.event_name == 'pull_request'
-    uses: sapphiredev/.github/.github/workflows/reusable-yarn-job.yml@main
     with:
-      script-name: docs
+      node-version: 24
 
   build:
     name: Building
     uses: sapphiredev/.github/.github/workflows/reusable-build.yml@main
+    with:
+      node-version: 24
 
   test:
     name: Tests
     uses: sapphiredev/.github/.github/workflows/reusable-tests.yml@main
     with:
+      node-version: 24
       enable-sonar: true
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -33,3 +31,5 @@ jobs:
   typecheck:
     name: Typecheck
     uses: sapphiredev/.github/.github/workflows/reusable-typecheck.yml@main
+    with:
+      node-version: 24

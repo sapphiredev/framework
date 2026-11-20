@@ -14,7 +14,7 @@ import { Events } from '../types/Events';
  * import { Events, Listener } from '@sapphire/framework';
  *
  * // Define a class extending `Listener`, then export it.
- * // NOTE: You can use `export default` or `export =` too.
+ * // NOTE: You can use `export default` too.
  * export class CoreListener extends Listener<typeof Events.ClientReady> {
  *   public constructor(context: Listener.LoaderContext) {
  *     super(context, { event: Events.ClientReady, once: true });
@@ -25,14 +25,13 @@ import { Events } from '../types/Events';
  *   }
  * }
  * ```
- *
  * @example
  * ```javascript
  * // JavaScript:
- * const { Events, Listener } = require('@sapphire/framework');
+ * import { Events, Listener } from '@sapphire/framework';
  *
  * // Define a class extending `Listener`, then export it.
- * module.exports = class CoreListener extends Listener {
+ * export class CoreListener extends Listener {
  *   constructor(context) {
  *     super(context, { event: Events.ClientReady, once: true });
  *   }
@@ -43,28 +42,33 @@ import { Events } from '../types/Events';
  * }
  * ```
  */
-export abstract class Listener<E extends keyof ClientEvents | symbol = '', Options extends Listener.Options = Listener.Options> extends Piece<
+export abstract class Listener<E extends symbol | keyof ClientEvents = '', Options extends Listener.Options = Listener.Options> extends Piece<
 	Options,
 	'listeners'
 > {
 	/**
 	 * The emitter, if any.
-	 * @since 2.0.0
+	 *
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly emitter: EventEmitter | null;
 
 	/**
 	 * The name of the event the listener listens to.
-	 * @since 2.0.0
+	 *
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly event: string | symbol;
 
 	/**
 	 * Whether the listener will be unloaded after the first run.
-	 * @since 2.0.0
+	 *
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly once: boolean;
 
+	// ListenerLoaderStrategy clears this callback when unloading the piece.
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly
 	private _listener: ((...args: any[]) => void) | null;
 
 	public constructor(context: Listener.LoaderContext, options: Options = {} as Options) {
@@ -97,6 +101,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', Optio
 
 	private async _run(...args: unknown[]) {
 		const result = await Result.fromAsync(() => this.run(...(args as E extends keyof ClientEvents ? ClientEvents[E] : unknown[])));
+		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		result.inspectErr((error) => this.container.client.emit(Events.ListenerError, error, { piece: this }));
 	}
 
@@ -107,7 +112,7 @@ export abstract class Listener<E extends keyof ClientEvents | symbol = '', Optio
 }
 
 export interface ListenerOptions extends Piece.Options {
-	readonly emitter?: keyof Client | EventEmitter;
+	readonly emitter?: EventEmitter | keyof Client;
 	readonly event?: string | symbol;
 	readonly once?: boolean;
 }
@@ -117,10 +122,8 @@ export interface ListenerJSON extends Piece.JSON {
 	once: boolean;
 }
 
-export namespace Listener {
+export declare namespace Listener {
 	export type Options = ListenerOptions;
 	export type JSON = ListenerJSON;
-	/** @deprecated Use {@linkcode LoaderContext} instead. */
-	export type Context = LoaderContext;
 	export type LoaderContext = Piece.LoaderContext<'listeners'>;
 }

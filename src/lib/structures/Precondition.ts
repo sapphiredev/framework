@@ -42,19 +42,18 @@ export class Precondition<Options extends Precondition.Options = Precondition.Op
 
 	/**
 	 * Constructs a {@link PreconditionError} with the precondition parameter set to `this`.
-	 * @param options The information.
+	 *
+	 * @param options - The information.
 	 */
 	public error(options: Omit<PreconditionError.Options, 'precondition'> = {}): Precondition.Result {
 		return Result.err(new PreconditionError({ precondition: this, ...options }));
 	}
 
 	protected async fetchChannelFromInteraction(interaction: CommandInteraction): Promise<TextBasedChannel> {
-		const channel = (await interaction.client.channels.fetch(interaction.channelId, {
+		return (await interaction.client.channels.fetch(interaction.channelId, {
 			cache: false,
 			allowUnknownGuild: true
 		})) as TextBasedChannel;
-
-		return channel;
 	}
 }
 
@@ -122,23 +121,14 @@ export abstract class AllFlowsPrecondition extends Precondition {
  * ```
  */
 export interface Preconditions {
-	Cooldown: CooldownPreconditionContext;
-	DMOnly: never;
-	Enabled: never;
-	GuildNewsOnly: never;
-	GuildNewsThreadOnly: never;
-	GuildOnly: never;
-	GuildPrivateThreadOnly: never;
-	GuildPublicThreadOnly: never;
-	GuildTextOnly: never;
-	GuildVoiceOnly: never;
-	GuildThreadOnly: never;
-	NSFW: never;
-	RunIn: {
-		types: readonly ChannelType[] | RunInPreconditionCommandSpecificData;
-	};
 	ClientPermissions: {
 		permissions: PermissionsBitField;
+	};
+	Cooldown: CooldownPreconditionContext;
+	Enabled: never;
+	NSFW: never;
+	RunIn: {
+		types: RunInPreconditionCommandSpecificData | readonly ChannelType[];
 	};
 	UserPermissions: {
 		permissions: PermissionsBitField;
@@ -150,9 +140,9 @@ export interface Preconditions {
  * specified the types for specific command types.
  */
 export interface RunInPreconditionCommandSpecificData {
-	messageRun: readonly ChannelType[];
 	chatInputRun: readonly ChannelType[];
 	contextMenuRun: readonly ChannelType[];
+	messageRun: readonly ChannelType[];
 }
 
 export type PreconditionKeys = keyof Preconditions;
@@ -164,7 +154,8 @@ export interface PreconditionOptions extends Piece.Options {
 	/**
 	 * The position for the precondition to be set at in the global precondition list. If set to `null`, this
 	 * precondition will not be set as a global one.
-	 * @default null
+	 *
+	 * @defaultValue null
 	 */
 	position?: number | null;
 }
@@ -173,7 +164,7 @@ export interface PreconditionContext extends Record<PropertyKey, unknown> {
 	external?: boolean;
 }
 
-export namespace Precondition {
+export declare namespace Precondition {
 	export type Options = PreconditionOptions;
 	export type LoaderContext = Piece.LoaderContext<'preconditions'>;
 	export type Context = PreconditionContext;
@@ -181,7 +172,7 @@ export namespace Precondition {
 	export type AsyncResult = AsyncPreconditionResult;
 }
 
-export namespace AllFlowsPrecondition {
+export declare namespace AllFlowsPrecondition {
 	export type Options = PreconditionOptions;
 	export type LoaderContext = Piece.LoaderContext<'preconditions'>;
 	export type Context = PreconditionContext;

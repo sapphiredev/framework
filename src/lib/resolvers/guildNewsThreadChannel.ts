@@ -9,7 +9,7 @@ export function resolveGuildNewsThreadChannel(
 	guild: Guild
 ): Result<
 	ThreadChannel,
-	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildThreadChannelError | Identifiers.ArgumentGuildNewsThreadChannelError
+	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildNewsThreadChannelError | Identifiers.ArgumentGuildThreadChannelError
 > {
 	return resolveGuildChannelPredicate(parameter, guild, isNewsThreadChannel, Identifiers.ArgumentGuildNewsThreadChannelError);
 }

@@ -52,13 +52,6 @@ export class ApplicationCommandRegistry {
 	public readonly guildIdsToFetch = new Set<string>();
 
 	/**
-	 * The global slash command id for this command.
-	 * @deprecated This field will only show the first global command id registered for this registry.
-	 * Use {@link ApplicationCommandRegistry.globalChatInputCommandIds} instead.
-	 */
-	public globalCommandId: string | null = null;
-
-	/**
 	 * A set of all registered and valid global chat input command ids that point to this registry.
 	 */
 	public readonly globalChatInputCommandIds = new Set<string>();
@@ -67,13 +60,6 @@ export class ApplicationCommandRegistry {
 	 * A set of all registered and valid global context menu command ids that point to this registry.
 	 */
 	public readonly globalContextMenuCommandIds = new Set<string>();
-
-	/**
-	 * The guild command ids for this command.
-	 * @deprecated This field will only show the first guild command id registered for this registry per guild.
-	 * Use {@link ApplicationCommandRegistry.guildIdToChatInputCommandIds} and {@link ApplicationCommandRegistry.guildIdToContextMenuCommandIds} instead.
-	 */
-	public readonly guildCommandIds = new Collection<string, string>();
 
 	/**
 	 * A map of guild ids to a set of registered and valid chat input command ids that point to this registry.
@@ -98,10 +84,10 @@ export class ApplicationCommandRegistry {
 	public registerChatInputCommand(
 		command:
 			| ChatInputApplicationCommandData
-			| SlashCommandBuilder
-			| SlashCommandSubcommandsOnlyBuilder
-			| SlashCommandOptionsOnlyBuilder
 			| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+			| SlashCommandBuilder
+			| SlashCommandOptionsOnlyBuilder
+			| SlashCommandSubcommandsOnlyBuilder
 			| ((builder: SlashCommandBuilder) => unknown),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
@@ -115,6 +101,7 @@ export class ApplicationCommandRegistry {
 			registerCommandIfMissing: true,
 			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
 			guildIds: guildIdsToRegister,
+			// eslint-disable-next-line unicorn/no-useless-fallback-in-spread
 			...(options ?? {})
 		};
 
@@ -137,9 +124,9 @@ export class ApplicationCommandRegistry {
 
 	public registerContextMenuCommand(
 		command:
-			| UserApplicationCommandData
-			| MessageApplicationCommandData
 			| ContextMenuCommandBuilder
+			| MessageApplicationCommandData
+			| UserApplicationCommandData
 			| ((builder: ContextMenuCommandBuilder) => unknown),
 		options?: ApplicationCommandRegistryRegisterOptions
 	) {
@@ -153,6 +140,7 @@ export class ApplicationCommandRegistry {
 			registerCommandIfMissing: true,
 			behaviorWhenNotIdentical: getDefaultBehaviorWhenNotIdentical(),
 			guildIds: guildIdsToRegister,
+			// eslint-disable-next-line unicorn/no-useless-fallback-in-spread
 			...(options ?? {})
 		};
 
@@ -218,6 +206,7 @@ export class ApplicationCommandRegistry {
 					'Please use the "addChatInputCommandIds" method with a valid command id instead.'
 				);
 			}
+
 			this.chatInputCommands.add(entry);
 		}
 
@@ -239,6 +228,7 @@ export class ApplicationCommandRegistry {
 					'Please use the "addContextMenuCommandIds" method with a valid command id instead.'
 				);
 			}
+
 			this.contextMenuCommands.add(entry);
 		}
 
@@ -267,7 +257,7 @@ export class ApplicationCommandRegistry {
 		this.debug(`Preparing to process ${this.apiCalls.length} possible command registrations / updates...`);
 
 		const results = await Promise.allSettled(
-			this.apiCalls.map((call) => this.handleAPICall(applicationCommands, globalCommands, guildCommands, call))
+			this.apiCalls.map(async (call) => this.handleAPICall(applicationCommands, globalCommands, guildCommands, call))
 		);
 
 		const errored = results.filter((result) => result.status === 'rejected') as PromiseRejectedResult[];
@@ -291,8 +281,10 @@ export class ApplicationCommandRegistry {
 				} else {
 					this.globalChatInputCommandIds.add(id);
 				}
+
 				break;
 			}
+
 			case InternalRegistryAPIType.ContextMenu: {
 				this.addContextMenuCommandIds(id);
 
@@ -301,24 +293,14 @@ export class ApplicationCommandRegistry {
 				} else {
 					this.globalContextMenuCommandIds.add(id);
 				}
+
 				break;
 			}
-		}
-
-		// Old field handling
-		if (guildId) {
-			// Old, wrongly typed field (thx kyra for spotting >_>)
-			if (!this.guildCommandIds.has(guildId)) {
-				this.guildCommandIds.set(guildId, id);
-			}
-		} else {
-			// First come, first serve (thx kyra for spotting >_>)
-			this.globalCommandId ??= id;
 		}
 	}
 
 	private getGuildIdsToRegister(options?: ApplicationCommandRegistryRegisterOptions) {
-		let guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
+		let guildIdsToRegister: ApplicationCommandRegistry.RegisterOptions['guildIds'];
 
 		if (!isNullishOrEmpty(options?.guildIds)) {
 			guildIdsToRegister = options!.guildIds;
@@ -371,6 +353,7 @@ export class ApplicationCommandRegistry {
 				type = 'chat input';
 				break;
 			case InternalRegistryAPIType.ContextMenu:
+				// eslint-disable-next-line sonarjs/no-nested-switch
 				switch (apiCall.builtData.type) {
 					case ApplicationCommandType.Message:
 						type = 'message context menu';
@@ -381,6 +364,7 @@ export class ApplicationCommandRegistry {
 					default:
 						type = 'unknown-type context menu';
 				}
+
 				break;
 			default:
 				type = 'unknown';
@@ -430,9 +414,10 @@ export class ApplicationCommandRegistry {
 	private async handleCommandPresent(
 		applicationCommand: ApplicationCommand,
 		apiData: InternalAPICall['builtData'],
-		behaviorIfNotEqual: RegisterBehavior,
+		requestedBehavior: RegisterBehavior,
 		guildId: string | null
 	) {
+		let behaviorIfNotEqual = requestedBehavior;
 		if (behaviorIfNotEqual === RegisterBehavior.BulkOverwrite) {
 			this.debug(
 				`Command "${this.commandName}" has the behaviorIfNotEqual set to "BulkOverwrite" which is invalid. Using defaultBehaviorWhenNotIdentical instead`
@@ -524,7 +509,11 @@ export class ApplicationCommandRegistry {
 		const finalMessageNewLine = finalMessage.length ? '\n' : '';
 		const header = `Found differences for command "${applicationCommand.name}" (${applicationCommand.id}) versus provided api data.${finalMessageNewLine}`;
 
-		logAsWarn ? this.warn(header, ...finalMessage) : this.debug(header, ...finalMessage);
+		if (logAsWarn) {
+			this.warn(header, ...finalMessage);
+		} else {
+			this.debug(header, ...finalMessage);
+		}
 	}
 
 	private async createMissingCommand(
@@ -548,18 +537,19 @@ export class ApplicationCommandRegistry {
 					this.handleIdAddition(InternalRegistryAPIType.ChatInput, result.id, guildId);
 					break;
 				}
+
 				case ApplicationCommandType.Message:
 				case ApplicationCommandType.User: {
 					this.handleIdAddition(InternalRegistryAPIType.ContextMenu, result.id, guildId);
 					break;
 				}
 			}
-		} catch (err) {
+		} catch (error) {
 			this.error(
 				`Failed to register${guildId ? ' guild' : ''} application command with name "${apiData.name}"${
 					guildId ? ` for guild "${guildId}"` : ''
 				}`,
-				err
+				error
 			);
 		}
 	}
@@ -585,27 +575,30 @@ export class ApplicationCommandRegistry {
 	}
 }
 
-export namespace ApplicationCommandRegistry {
+export declare namespace ApplicationCommandRegistry {
 	export interface RegisterOptions {
+		/**
+		 * Specifies what we should do when the command is present, but not identical with the data you provided
+		 *
+		 * @defaultValue `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
+		 */
+		behaviorWhenNotIdentical?: Exclude<RegisterBehavior, RegisterBehavior.BulkOverwrite>;
 		/**
 		 * If this is specified, the application commands will only be registered for these guild ids.
 		 */
 		guildIds?: string[];
 		/**
-		 * If we should register the command when it is missing
-		 * @default true
-		 */
-		registerCommandIfMissing?: boolean;
-		/**
-		 * Specifies what we should do when the command is present, but not identical with the data you provided
-		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
-		 */
-		behaviorWhenNotIdentical?: Exclude<RegisterBehavior, RegisterBehavior.BulkOverwrite>;
-		/**
 		 * Specifies a list of command ids that we should check in the event of a name mismatch
-		 * @default []
+		 *
+		 * @defaultValue `[]`
 		 */
 		idHints?: string[];
+		/**
+		 * If we should register the command when it is missing
+		 *
+		 * @defaultValue true
+		 */
+		registerCommandIfMissing?: boolean;
 	}
 }
 

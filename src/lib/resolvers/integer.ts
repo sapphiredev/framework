@@ -3,8 +3,8 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveInteger(
 	parameter: string,
-	options?: { minimum?: number; maximum?: number }
-): Result<number, Identifiers.ArgumentIntegerError | Identifiers.ArgumentIntegerTooSmall | Identifiers.ArgumentIntegerTooLarge> {
+	options?: { maximum?: number; minimum?: number }
+): Result<number, Identifiers.ArgumentIntegerError | Identifiers.ArgumentIntegerTooLarge | Identifiers.ArgumentIntegerTooSmall> {
 	const parsed = Number(parameter);
 
 	if (!Number.isInteger(parsed)) {

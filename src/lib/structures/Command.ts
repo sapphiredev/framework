@@ -1,7 +1,13 @@
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece } from '@sapphire/pieces';
 import { isFunction, isNullish, isObject, type Awaitable } from '@sapphire/utilities';
-import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, type AutocompleteInteraction, type Message } from 'discord.js';
+import {
+	ChannelType,
+	type AutocompleteInteraction,
+	type ChatInputCommandInteraction,
+	type ContextMenuCommandInteraction,
+	type Message
+} from 'discord.js';
 import { Args } from '../parsers/Args';
 import {
 	parseConstructorPreConditionsCooldown,
@@ -10,6 +16,7 @@ import {
 	parseConstructorPreConditionsRequiredUserPermissions,
 	parseConstructorPreConditionsRunIn
 } from '../precondition-resolvers/index';
+import type { SapphireClientOptions } from '../SapphireClient';
 import type {
 	AutocompleteCommand,
 	ChatInputCommand,
@@ -22,13 +29,15 @@ import type {
 	DetailedDescriptionCommand,
 	MessageCommand
 } from '../types/CommandTypes';
-import { RegisterBehavior } from '../types/Enums';
+import { CommandOptionsRunTypeEnum, RegisterBehavior } from '../types/Enums';
 import { acquire, getDefaultBehaviorWhenNotIdentical, handleBulkOverwrite } from '../utils/application-commands/ApplicationCommandRegistries';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import { getNeededRegistryParameters } from '../utils/application-commands/getNeededParameters';
 import { emitPerRegistryError } from '../utils/application-commands/registriesErrors';
 import { PreconditionContainerArray } from '../utils/preconditions/PreconditionContainerArray';
 import { FlagUnorderedStrategy } from '../utils/strategies/FlagUnorderedStrategy';
+import type { CommandStore } from './CommandStore';
+import type { InteractionHandler } from './InteractionHandler';
 
 const ChannelTypes = Object.values(ChannelType).filter((type) => typeof type === 'number') as readonly ChannelType[];
 const GuildChannelTypes = ChannelTypes.filter((type) => type !== ChannelType.DM && type !== ChannelType.GroupDM) as readonly ChannelType[];
@@ -44,19 +53,22 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * A basic summary about the command
-	 * @since 1.0.0
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	public description: string;
 
 	/**
 	 * The preconditions to be run.
-	 * @since 1.0.0
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	public preconditions: PreconditionContainerArray;
 
 	/**
 	 * Longer version of command's summary and how to use it
-	 * @since 1.0.0
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	public detailedDescription: DetailedDescriptionCommand;
 
@@ -69,40 +81,43 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 *   this property will be `['General', 'Info']`.
 	 * - If the command is virtual, then this will be `[]`.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly fullCategory: readonly string[];
 
 	/**
 	 * The strategy to use for the lexer.
-	 * @since 1.0.0
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	public strategy: IUnorderedStrategy;
 
 	/**
-	 * If {@link SapphireClient.typing} is true, it can be overridden for a specific command using this property, set via its options.
+	 * If {@link SapphireClientOptions.typing} is true, it can be overridden for a specific command using this property, set via its options.
 	 * Otherwise, this property will be ignored.
-	 * @default true
+	 *
+	 * @defaultValue true
 	 */
 	public typing: boolean;
 
 	/**
 	 * The application command registry associated with this command.
-	 * @since 3.0.0
+	 *
+	 * @remarks Available since 3.0.0
 	 */
 	public readonly applicationCommandRegistry = acquire(this.name);
 
 	/**
 	 * The lexer to be used for command parsing
-	 * @since 1.0.0
-	 * @private
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	protected lexer: Lexer;
 
 	/**
-	 * @since 1.0.0
-	 * @param context The context.
-	 * @param options Optional Command settings.
+	 * @remarks Available since 1.0.0
+	 * @param context - The context.
+	 * @param options - Optional Command settings.
 	 */
 	public constructor(context: Command.LoaderContext, options: Options = {} as Options) {
 		const name = options.name ?? context.name;
@@ -126,16 +141,16 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 		if (options.generateDashLessAliases) {
 			const dashLessAliases: string[] = [];
-			if (this.name.includes('-')) dashLessAliases.push(this.name.replace(/-/g, ''));
-			for (const alias of this.aliases) if (alias.includes('-')) dashLessAliases.push(alias.replace(/-/g, ''));
+			if (this.name.includes('-')) dashLessAliases.push(this.name.replaceAll('-', ''));
+			for (const alias of this.aliases) if (alias.includes('-')) dashLessAliases.push(alias.replaceAll('-', ''));
 
 			this.aliases = [...this.aliases, ...dashLessAliases];
 		}
 
 		if (options.generateUnderscoreLessAliases) {
 			const underscoreLessAliases: string[] = [];
-			if (this.name.includes('_')) underscoreLessAliases.push(this.name.replace(/_/g, ''));
-			for (const alias of this.aliases) if (alias.includes('_')) underscoreLessAliases.push(alias.replace(/_/g, ''));
+			if (this.name.includes('_')) underscoreLessAliases.push(this.name.replaceAll('_', ''));
+			for (const alias of this.aliases) if (alias.includes('_')) underscoreLessAliases.push(alias.replaceAll('_', ''));
 
 			this.aliases = [...this.aliases, ...underscoreLessAliases];
 		}
@@ -146,9 +161,10 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * The message pre-parse method. This method can be overridden by plugins to define their own argument parser.
-	 * @param message The message that triggered the command.
-	 * @param parameters The raw parameters as a single string.
-	 * @param context The command-context used in this execution.
+	 *
+	 * @param message - The message that triggered the command.
+	 * @param parameters - The raw parameters as a single string.
+	 * @param context - The command-context used in this execution.
 	 */
 	public messagePreParse(message: Message, parameters: string, context: MessageCommand.RunContext): Awaitable<PreParseReturn> {
 		const parser = new Parser(this.strategy);
@@ -162,7 +178,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the first value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get category(): string | null {
 		return this.fullCategory.at(0) ?? null;
@@ -174,7 +190,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the second value of {@link Command.fullCategory}, if it has at least two items, otherwise
 	 * it returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get subCategory(): string | null {
 		return this.fullCategory.at(1) ?? null;
@@ -186,7 +202,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the last value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get parentCategory(): string | null {
 		return this.fullCategory.at(-1) ?? null;
@@ -194,23 +210,26 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * Executes the message command's logic.
-	 * @param message The message that triggered the command.
-	 * @param args The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
-	 * @param context The context in which the command was executed.
+	 *
+	 * @param message - The message that triggered the command.
+	 * @param args - The value returned by {@link Command.messagePreParse}, by default an instance of {@link Args}.
+	 * @param context - The context in which the command was executed.
 	 */
 	public messageRun?(message: Message, args: PreParseReturn, context: MessageCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the application command's logic.
-	 * @param interaction The interaction that triggered the command.
-	 * @param context The chat input command run context.
+	 *
+	 * @param interaction - The interaction that triggered the command.
+	 * @param context - The chat input command run context.
 	 */
 	public chatInputRun?(interaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext): Awaitable<unknown>;
 
 	/**
 	 * Executes the context menu's logic.
-	 * @param interaction The interaction that triggered the command.
-	 * @param context The context menu command run context.
+	 *
+	 * @param interaction - The interaction that triggered the command.
+	 * @param context - The context menu command run context.
 	 */
 	public contextMenuRun?(interaction: ContextMenuCommandInteraction, context: ContextMenuCommand.RunContext): Awaitable<unknown>;
 
@@ -219,12 +238,12 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 *
 	 * :::tip
 	 *
-	 * You may use this, or alternatively create an {@link InteractionHandler interaction handler} to handle autocomplete interactions.
+	 * You may use this, or alternatively create an {@link InteractionHandler | interaction handler} to handle autocomplete interactions.
 	 * Keep in mind that commands take precedence over interaction handlers.
 	 *
 	 * :::
 	 *
-	 * @param interaction The interaction that triggered the autocomplete.
+	 * @param interaction - The interaction that triggered the autocomplete.
 	 */
 	public autocompleteRun?(interaction: AutocompleteInteraction): Awaitable<unknown>;
 
@@ -242,7 +261,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * Registers the application commands that should be handled by this command.
-	 * @param registry This command's registry
+	 *
+	 * @param registry - This command's registry
 	 */
 	public registerApplicationCommands?(registry: ApplicationCommandRegistry): Awaitable<void>;
 
@@ -314,8 +334,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 			// Rerun the registry
 			try {
 				await updatedPiece.registerApplicationCommands(updatedRegistry);
-			} catch (err) {
-				emitPerRegistryError(err, updatedPiece);
+			} catch (error) {
+				emitPerRegistryError(error, updatedPiece);
 				// No point on continuing
 				return;
 			}
@@ -354,8 +374,9 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * {@link Command#parseConstructorPreConditionsNsfw},
 	 * {@link Command#parseConstructorPreConditionsRequiredClientPermissions}, and
 	 * {@link Command#parseConstructorPreConditionsCooldown}.
-	 * @since 2.0.0
-	 * @param options The command options given from the constructor.
+	 *
+	 * @remarks Available since 2.0.0
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditions(options: Command.Options): void {
 		this.parseConstructorPreConditionsRunIn(options);
@@ -367,7 +388,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * Appends the `NSFW` precondition if {@link Command.Options.nsfw} is set to true.
-	 * @param options The command options given from the constructor.
+	 *
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsNsfw(options: Command.Options) {
 		parseConstructorPreConditionsNsfw(options.nsfw, this.preconditions);
@@ -376,7 +398,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	/**
 	 * Appends the `RunIn` precondition based on the values passed, defaulting to `null`, which doesn't add a
 	 * precondition.
-	 * @param options The command options given from the constructor.
+	 *
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRunIn(options: Command.Options) {
 		parseConstructorPreConditionsRunIn(options.runIn, this.resolveConstructorPreConditionsRunType.bind(this), this.preconditions);
@@ -385,7 +408,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	/**
 	 * Appends the `ClientPermissions` precondition when {@link Command.Options.requiredClientPermissions} resolves to a
 	 * non-zero bitfield.
-	 * @param options The command options given from the constructor.
+	 *
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredClientPermissions(options: Command.Options) {
 		parseConstructorPreConditionsRequiredClientPermissions(options.requiredClientPermissions, this.preconditions);
@@ -394,7 +418,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	/**
 	 * Appends the `UserPermissions` precondition when {@link Command.Options.requiredUserPermissions} resolves to a
 	 * non-zero bitfield.
-	 * @param options The command options given from the constructor.
+	 *
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsRequiredUserPermissions(options: Command.Options) {
 		parseConstructorPreConditionsRequiredUserPermissions(options.requiredUserPermissions, this.preconditions);
@@ -403,7 +428,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	/**
 	 * Appends the `Cooldown` precondition when {@link Command.Options.cooldownLimit} and
 	 * {@link Command.Options.cooldownDelay} are both non-zero.
-	 * @param options The command options given from the constructor.
+	 *
+	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditionsCooldown(options: Command.Options) {
 		parseConstructorPreConditionsCooldown(
@@ -418,7 +444,8 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 
 	/**
 	 * Resolves the {@link Command.Options.runIn} option into a {@link Command.RunInTypes} array.
-	 * @param types The types to resolve.
+	 *
+	 * @param types - The types to resolve.
 	 * @returns The resolved types, or `null` if no types were resolved.
 	 */
 	protected resolveConstructorPreConditionsRunType(types: CommandRunInUnion): readonly ChannelType[] | null {
@@ -426,21 +453,21 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 		if (typeof types === 'number') return [types];
 		if (typeof types === 'string') {
 			switch (types) {
-				case 'DM':
+				case CommandOptionsRunTypeEnum.Dm:
 					return [ChannelType.DM];
-				case 'GUILD_TEXT':
+				case CommandOptionsRunTypeEnum.GuildText:
 					return [ChannelType.GuildText];
-				case 'GUILD_VOICE':
+				case CommandOptionsRunTypeEnum.GuildVoice:
 					return [ChannelType.GuildVoice];
-				case 'GUILD_NEWS':
+				case CommandOptionsRunTypeEnum.GuildNews:
 					return [ChannelType.GuildAnnouncement];
-				case 'GUILD_NEWS_THREAD':
+				case CommandOptionsRunTypeEnum.GuildNewsThread:
 					return [ChannelType.AnnouncementThread];
-				case 'GUILD_PUBLIC_THREAD':
+				case CommandOptionsRunTypeEnum.GuildPublicThread:
 					return [ChannelType.PublicThread];
-				case 'GUILD_PRIVATE_THREAD':
+				case CommandOptionsRunTypeEnum.GuildPrivateThread:
 					return [ChannelType.PrivateThread];
-				case 'GUILD_ANY':
+				case CommandOptionsRunTypeEnum.GuildAny:
 					return GuildChannelTypes;
 				default:
 					return null;
@@ -474,24 +501,24 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 		}
 
 		const specificTypes = types as CommandSpecificRunIn;
-		return Boolean(specificTypes.chatInputRun || specificTypes.messageRun || specificTypes.contextMenuRun);
+		return Boolean(specificTypes.chatInputRun) || Boolean(specificTypes.messageRun) || Boolean(specificTypes.contextMenuRun);
 	}
 }
 
-export namespace Command {
+export declare namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	/** @deprecated Use {@linkcode LoaderContext} instead. */
-	export type Context = LoaderContext;
 	export type LoaderContext = AliasPiece.LoaderContext<'commands'>;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunInUnion = CommandRunInUnion;
 	export type SpecificRunIn = CommandSpecificRunIn;
+	/* eslint-disable @typescript-eslint/consistent-type-imports */
 	export type ChatInputCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').ChatInputCommandInteraction<Cached>;
 	export type ContextMenuCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').ContextMenuCommandInteraction<Cached>;
 	export type AutocompleteInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').AutocompleteInteraction<Cached>;
+	/* eslint-enable @typescript-eslint/consistent-type-imports */
 	export type Registry = ApplicationCommandRegistry;
 }

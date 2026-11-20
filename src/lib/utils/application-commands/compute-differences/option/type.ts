@@ -6,9 +6,9 @@ export function* checkOptionType({
 	expectedType,
 	originalType
 }: {
+	expectedType: ApplicationCommandOptionType;
 	key: string;
 	originalType: ApplicationCommandOptionType;
-	expectedType: ApplicationCommandOptionType;
 }): Generator<CommandDifference> {
 	const expectedTypeString =
 		optionTypeToPrettyName.get(expectedType) ?? `unknown (${expectedType}); please contact Sapphire developers about this!`;

@@ -1,6 +1,6 @@
 /**
  * The UserError class to be emitted in the pieces.
- * @property name This will be `'UserError'` and can be used to distinguish the type of error when any error gets thrown
+ *
  * @example
  * ```typescript
  * throw new UserError({
@@ -23,7 +23,8 @@ export class UserError extends Error {
 
 	/**
 	 * Constructs an UserError.
-	 * @param options The UserError options
+	 *
+	 * @param options - The UserError options
 	 */
 	public constructor(options: UserError.Options) {
 		super(options.message);
@@ -31,35 +32,41 @@ export class UserError extends Error {
 		this.context = options.context ?? null;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
+	/**
+	 * This will be `'UserError'` and can be used to distinguish the type of error when any error gets thrown.
+	 */
 	public override get name(): string {
 		return 'UserError';
 	}
 }
 
-export namespace UserError {
+export declare namespace UserError {
 	/**
 	 * The options for {@link UserError}.
-	 * @since 1.0.0
+	 *
+	 * @remarks Available since 1.0.0
 	 */
 	export interface Options {
 		/**
+		 * The extra context to provide more information about this error.
+		 *
+		 * @remarks Available since 1.0.0
+		 * @defaultValue null
+		 */
+		context?: unknown;
+
+		/**
 		 * The identifier for this error.
-		 * @since 1.0.0
+		 *
+		 * @remarks Available since 1.0.0
 		 */
 		identifier: string;
 
 		/**
 		 * The message to be passed to the Error constructor.
-		 * @since 1.0.0
+		 *
+		 * @remarks Available since 1.0.0
 		 */
 		message?: string;
-
-		/**
-		 * The extra context to provide more information about this error.
-		 * @since 1.0.0
-		 * @default null
-		 */
-		context?: unknown;
 	}
 }
