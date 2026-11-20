@@ -21,7 +21,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	private makeSharedError(): AllFlowsPrecondition.Result {
 		return this.error({
-			identifier: Identifiers.PreconditionGuildVoiceOnly,
+			identifier: Identifiers.PreconditionRunIn,
 			message: 'You can only run this command in server voice channels.'
 		});
 	}

@@ -20,7 +20,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	private makeSharedError(): AllFlowsPrecondition.Result {
 		return this.error({
-			identifier: Identifiers.PreconditionGuildNewsThreadOnly,
+			identifier: Identifiers.PreconditionRunIn,
 			message: 'You can only run this command in server announcement thread channels.'
 		});
 	}

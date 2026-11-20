@@ -18,7 +18,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	private makeSharedError(): AllFlowsPrecondition.Result {
 		return this.error({
-			identifier: Identifiers.PreconditionGuildOnly,
+			identifier: Identifiers.PreconditionRunIn,
 			message: 'You cannot run this command in DMs.'
 		});
 	}
