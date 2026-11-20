@@ -9,9 +9,9 @@ export function* handleAutocomplete({
 	keyPath
 }: {
 	currentIndex: number;
-	keyPath: (index: number) => string;
-	expectedOption: APIApplicationCommandChoosableAndAutocompletableTypes;
 	existingOption: APIApplicationCommandChoosableAndAutocompletableTypes;
+	expectedOption: APIApplicationCommandChoosableAndAutocompletableTypes;
+	keyPath(this: void, index: number): string;
 }): Generator<CommandDifference> {
 	// 0. No autocomplete and now it should autocomplete
 	if (!existingOption.autocomplete && expectedOption.autocomplete) {

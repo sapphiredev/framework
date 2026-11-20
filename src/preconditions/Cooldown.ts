@@ -15,10 +15,10 @@ import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 import { BucketScope } from '../lib/types/Enums';
 
 export interface CooldownPreconditionContext extends AllFlowsPrecondition.Context {
-	scope?: BucketScope;
 	delay: number;
-	limit?: number;
 	filteredUsers?: Snowflake[];
+	limit?: number;
+	scope?: BucketScope;
 }
 
 export class CorePrecondition extends AllFlowsPrecondition {
@@ -70,7 +70,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 		if (rateLimit.limited) {
 			const remaining = rateLimit.remainingTime;
-			const nextAvailable = time(Math.floor(rateLimit.expires / 1000), TimestampStyles.RelativeTime);
+			const nextAvailable = time(Math.floor(rateLimit.expires / 1_000), TimestampStyles.RelativeTime);
 
 			return this.error({
 				identifier: Identifiers.PreconditionCooldown,
@@ -115,6 +115,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 			manager = new RateLimitManager(context.delay, context.limit);
 			this.buckets.set(command, manager);
 		}
+
 		return manager;
 	}
 }

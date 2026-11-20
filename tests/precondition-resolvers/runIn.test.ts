@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { isNullish } from '@sapphire/utilities';
 import { ChannelType } from 'discord.js';
 import { parseConstructorPreConditionsRunIn } from '../../src/lib/precondition-resolvers/runIn';
 import type { CommandRunInUnion } from '../../src/lib/types/CommandTypes';
-import { CommandPreConditions } from '../../src/lib/types/Enums';
+import { CommandOptionsRunTypeEnum, CommandPreConditions } from '../../src/lib/types/Enums';
 import { PreconditionContainerArray } from '../../src/lib/utils/preconditions/PreconditionContainerArray';
 import type { PreconditionContainerSingle } from '../../src/lib/utils/preconditions/PreconditionContainerSingle';
 
@@ -56,21 +55,21 @@ function resolveConstructorPreConditionsRunType(types: CommandRunInUnion): reado
 	if (typeof types === 'number') return [types];
 	if (typeof types === 'string') {
 		switch (types) {
-			case 'DM':
+			case CommandOptionsRunTypeEnum.Dm:
 				return [ChannelType.DM];
-			case 'GUILD_TEXT':
+			case CommandOptionsRunTypeEnum.GuildText:
 				return [ChannelType.GuildText];
-			case 'GUILD_VOICE':
+			case CommandOptionsRunTypeEnum.GuildVoice:
 				return [ChannelType.GuildVoice];
-			case 'GUILD_NEWS':
+			case CommandOptionsRunTypeEnum.GuildNews:
 				return [ChannelType.GuildAnnouncement];
-			case 'GUILD_NEWS_THREAD':
+			case CommandOptionsRunTypeEnum.GuildNewsThread:
 				return [ChannelType.AnnouncementThread];
-			case 'GUILD_PUBLIC_THREAD':
+			case CommandOptionsRunTypeEnum.GuildPublicThread:
 				return [ChannelType.PublicThread];
-			case 'GUILD_PRIVATE_THREAD':
+			case CommandOptionsRunTypeEnum.GuildPrivateThread:
 				return [ChannelType.PrivateThread];
-			case 'GUILD_ANY':
+			case CommandOptionsRunTypeEnum.GuildAny:
 				return GuildChannelTypes;
 			default:
 				return null;

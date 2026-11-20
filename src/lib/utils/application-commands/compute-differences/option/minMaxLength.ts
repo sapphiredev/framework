@@ -8,9 +8,9 @@ export function* handleMinMaxLengthOptions({
 	keyPath
 }: {
 	currentIndex: number;
-	keyPath: (index: number) => string;
-	expectedOption: APIApplicationCommandStringOption;
 	existingOption: APIApplicationCommandStringOption;
+	expectedOption: APIApplicationCommandStringOption;
+	keyPath(this: void, index: number): string;
 }): Generator<CommandDifference> {
 	// 0. No min_length and now we have min_length
 	if (existingOption.min_length === undefined && expectedOption.min_length !== undefined) {

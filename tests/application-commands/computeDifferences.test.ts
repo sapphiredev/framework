@@ -1768,4 +1768,41 @@ describe('Compute differences for provided application commands', () => {
 			}
 		]);
 	});
+
+	test.each([
+		[ChannelType.DM, 'DM channel (type 1)'],
+		[ChannelType.GroupDM, 'group DM channel (type 3)']
+	] as const)('GIVEN a channel option changes to type %s THEN return its readable name', (channelType, expected) => {
+		const command1: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			name: 'test',
+			description: 'description',
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					name: 'channel',
+					description: 'channel',
+					channel_types: [ChannelType.GuildText]
+				}
+			]
+		};
+		const command2: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+			...command1,
+			options: [
+				{
+					type: ApplicationCommandOptionType.Channel,
+					name: 'channel',
+					description: 'channel',
+					channel_types: [channelType]
+				}
+			]
+		};
+
+		expect(getCommandDifferences(command1, command2, false)).toEqual([
+			{
+				key: 'options[0].channel_types[0]',
+				original: 'text channel (type 0)',
+				expected
+			}
+		]);
+	});
 });

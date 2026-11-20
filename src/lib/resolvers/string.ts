@@ -3,8 +3,8 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveString(
 	parameter: string,
-	options?: { minimum?: number; maximum?: number }
-): Result<string, Identifiers.ArgumentStringTooShort | Identifiers.ArgumentStringTooLong> {
+	options?: { maximum?: number; minimum?: number }
+): Result<string, Identifiers.ArgumentStringTooLong | Identifiers.ArgumentStringTooShort> {
 	if (typeof options?.minimum === 'number' && parameter.length < options.minimum) {
 		return Result.err(Identifiers.ArgumentStringTooShort);
 	}

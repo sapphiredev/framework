@@ -5,6 +5,7 @@ import type { Message } from 'discord.js';
 import type { ArgumentError } from '../errors/ArgumentError';
 import { Args } from '../parsers/Args';
 import type { MessageCommand } from '../types/CommandTypes';
+import type { Command } from './Command';
 
 /**
  * Defines a synchronous result of an {@link Argument}, check {@link Argument.AsyncResult} for the asynchronous version.
@@ -29,8 +30,9 @@ export interface IArgument<T> {
 
 	/**
 	 * The method which is called when invoking the argument.
-	 * @param parameter The string parameter to parse.
-	 * @param context The context for the method call, contains the message, command, and other options.
+	 *
+	 * @param parameter - The string parameter to parse.
+	 * @param context - The context for the method call, contains the message, command, and other options.
 	 */
 	run(parameter: string, context: Argument.Context<T>): Argument.AwaitableResult<T>;
 }
@@ -46,7 +48,7 @@ export interface IArgument<T> {
  * import { URL } from 'node:url';
  *
  * // Define a class extending `Argument`, then export it.
- * // NOTE: You can use `export default` or `export =` too.
+ * // NOTE: You can use `export default` too.
  * export class CoreArgument extends Argument<URL> {
  *   public constructor(context: Argument.LoaderContext) {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
@@ -74,14 +76,13 @@ export interface IArgument<T> {
  *   }
  * }
  * ```
- *
  * @example
  * ```javascript
  * // JavaScript:
- * const { Argument } = require('@sapphire/framework');
+ * import { Argument } from '@sapphire/framework';
  *
  * // Define a class extending `Argument`, then export it.
- * module.exports = class CoreArgument extends Argument {
+ * export class CoreArgument extends Argument {
  *   constructor(context) {
  *     super(context, { name: 'hyperlink', aliases: ['url'] });
  *   }
@@ -113,15 +114,17 @@ export abstract class Argument<T = unknown, Options extends Argument.Options = A
 
 	/**
 	 * Wraps a value into a successful value.
-	 * @param value The value to wrap.
+	 *
+	 * @param value - The value to wrap.
 	 */
 	public ok(value: T): Argument.Result<T> {
 		return Args.ok(value);
 	}
 
 	/**
-	 * Constructs an {@link Err} result containing an {@link ArgumentError} with a custom type.
-	 * @param options The options to pass to the ArgumentError.
+	 * Constructs an {@link Result.Err} result containing an {@link ArgumentError} with a custom type.
+	 *
+	 * @param options - The options to pass to the ArgumentError.
 	 */
 	public error(options: Omit<ArgumentError.Options<T>, 'argument'>): Argument.Result<T> {
 		return Args.error({ argument: this, identifier: this.name, ...options });
@@ -131,17 +134,17 @@ export abstract class Argument<T = unknown, Options extends Argument.Options = A
 export interface ArgumentOptions extends AliasPiece.Options {}
 
 export interface ArgumentContext<T = unknown> extends Record<PropertyKey, unknown> {
-	argument: IArgument<T>;
 	args: Args;
-	message: Message;
+	argument: IArgument<T>;
 	command: MessageCommand;
 	commandContext: MessageCommand.RunContext;
-	minimum?: number;
-	maximum?: number;
 	inclusive?: boolean;
+	maximum?: number;
+	message: Message;
+	minimum?: number;
 }
 
-export namespace Argument {
+export declare namespace Argument {
 	export type Options = ArgumentOptions;
 	export type Context<T = unknown> = ArgumentContext<T>;
 	export type LoaderContext = AliasPiece.LoaderContext<'arguments'>;

@@ -1,4 +1,4 @@
-import { container, Store, StoreRegistry } from '@sapphire/pieces';
+import { container, Store, type StoreRegistry } from '@sapphire/pieces';
 import type { Awaitable } from '@sapphire/utilities';
 import { Client, type ClientOptions, type Message, type Snowflake } from 'discord.js';
 import type { URL } from 'node:url';
@@ -12,7 +12,7 @@ import { CommandStore } from './structures/CommandStore';
 import { InteractionHandlerStore } from './structures/InteractionHandlerStore';
 import { ListenerStore } from './structures/ListenerStore';
 import { PreconditionStore } from './structures/PreconditionStore';
-import { BucketScope, PluginHook } from './types/Enums';
+import { type BucketScope, PluginHook } from './types/Enums';
 import { Events } from './types/Events';
 import { acquire } from './utils/application-commands/ApplicationCommandRegistries';
 import { LogLevel, type ILogger } from './utils/logger/ILogger';
@@ -27,9 +27,9 @@ container.applicationCommandRegistries = { acquire };
 
 /**
  * A valid prefix in Sapphire.
- * * `string`: a single prefix, e.g. `'!'`.
- * * `string[]`: an array of prefixes, e.g. `['!', '.']`.
- * * `null`: disabled prefix, locks the bot's command usage to mentions only.
+ * `string`: a single prefix, e.g. `'!'`.
+ * `string[]`: an array of prefixes, e.g. `['!', '.']`.
+ * `null`: disabled prefix, locks the bot's command usage to mentions only.
  */
 export type SapphirePrefix = string | readonly string[] | null;
 
@@ -42,6 +42,7 @@ export interface SapphireClientOptions {
 	 * The base user directory, if set to `null`, Sapphire will not call {@linkcode StoreRegistry.registerPath()},
 	 * meaning that you will need to manually set each folder for each store or use {@linkcode StoreRegistry.loadPiece()}.
 	 * Please read the aforementioned methods' documentation for more information.
+	 *
 	 * @since 1.0.0
 	 * @default undefined
 	 */
@@ -49,6 +50,7 @@ export interface SapphireClientOptions {
 
 	/**
 	 * Whether commands can be case-insensitive
+	 *
 	 * @since 1.0.0
 	 * @default false
 	 */
@@ -56,20 +58,111 @@ export interface SapphireClientOptions {
 
 	/**
 	 * Whether prefixes can be case-insensitive
+	 *
 	 * @since 1.0.0
 	 * @default false
 	 */
 	caseInsensitivePrefixes?: boolean | null;
 
 	/**
+	 * Sets the default cooldown time for all commands.
+	 *
+	 * @default "No cooldown options"
+	 */
+	defaultCooldown?: CooldownOptions;
+
+	/**
 	 * The default prefix, in case of `null`, only mention prefix will trigger the bot's commands.
+	 *
 	 * @since 1.0.0
 	 * @default null
 	 */
 	defaultPrefix?: SapphirePrefix;
 
 	/**
+	 * Controls whether the bot has mention as a prefix disabled
+	 *
+	 * @default false
+	 */
+	disableMentionPrefix?: boolean;
+
+	/**
+	 * Whether trace logging should be enabled.
+	 *
+	 * @since 2.0.0
+	 * @default container.logger.has(LogLevel.Trace)
+	 */
+	enableLoaderTraceLoggings?: boolean;
+
+	/**
+	 * The prefix hook, by default it is a callback function that returns {@link SapphireClientOptions.defaultPrefix}.
+	 *
+	 * @since 1.0.0
+	 * @default `() => client.options.defaultPrefix`
+	 */
+	fetchPrefix?: SapphirePrefixHook;
+
+	/**
+	 * The client's ID, this is automatically set by the CoreReady event.
+	 *
+	 * @since 1.0.0
+	 * @default this.client.user?.id ?? null
+	 */
+	id?: Snowflake;
+
+	/**
+	 * If Sapphire should load the pre-included application command registries status listeners that log the status of registering application commands to the {@link SapphireClient.logger} instance.
+	 * This includes the events {@link Events.ApplicationCommandRegistriesInitialising} and {@link Events.ApplicationCommandRegistriesRegistered}.
+	 *
+	 * @since 4.4.0
+	 * @default true
+	 */
+	loadApplicationCommandRegistriesStatusListeners?: boolean;
+
+	/**
+	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
+	 *
+	 * @since 1.0.0
+	 * @default true
+	 */
+	loadDefaultErrorListeners?: boolean;
+
+	/**
+	 * If Sapphire should load the pre-included message command listeners that are used to process incoming messages for commands.
+	 *
+	 * @since 3.0.0
+	 * @default false
+	 */
+	loadMessageCommandListeners?: boolean;
+
+	/**
+	 * The logger options, defaults to an instance of {@link Logger} when {@link ClientLoggerOptions."instance"} is not specified.
+	 *
+	 * @since 1.0.0
+	 * @default `{ instance: new Logger(LogLevel.Info) }`
+	 */
+	logger?: ClientLoggerOptions;
+
+	/**
+	 * Whenever starting the bot process Sapphire may report errors when failing to fetch guild commands.
+	 * One of the causes for this can be when a bot was invited to a server without the `application.commands` scope.
+	 *
+	 * Normally this produce a log in the console at the WARN level, however because bot lists have a tendency to invite your
+	 * bot specifically without the scope to ensure that your Chat Input and Context Menu commands do not show up as usable commands
+	 * in that server, you may want to include their guild ids in this list.
+	 *
+	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
+	 *
+	 * By setting this value to `true`, no warning log message will be emitted for any guilds we couldn't fetch the commands from.
+	 *
+	 * Note that this specifically applies to the warning log:
+	 *
+	 * `ApplicationCommandRegistries: Failed to fetch guild commands for guild <guild name> (<guild id>). Make sure to authorize your application with the "applications.commands" scope in that guild.`
+	 */
+	preventFailedToFetchLogForGuilds?: string[] | true;
+	/**
 	 * The regex prefix, an alternative to a mention or regular prefix to allow creating natural language command messages
+	 *
 	 * @since 1.0.0
 	 * @example
 	 * ```typescript
@@ -87,89 +180,11 @@ export interface SapphireClientOptions {
 	regexPrefix?: RegExp;
 
 	/**
-	 * The prefix hook, by default it is a callback function that returns {@link SapphireClientOptions.defaultPrefix}.
-	 * @since 1.0.0
-	 * @default () => client.options.defaultPrefix
-	 */
-	fetchPrefix?: SapphirePrefixHook;
-
-	/**
-	 * The client's ID, this is automatically set by the CoreReady event.
-	 * @since 1.0.0
-	 * @default this.client.user?.id ?? null
-	 */
-	id?: Snowflake;
-
-	/**
-	 * The logger options, defaults to an instance of {@link Logger} when {@link ClientLoggerOptions.instance} is not specified.
-	 * @since 1.0.0
-	 * @default { instance: new Logger(LogLevel.Info) }
-	 */
-	logger?: ClientLoggerOptions;
-
-	/**
-	 * Whether trace logging should be enabled.
-	 * @since 2.0.0
-	 * @default container.logger.has(LogLevel.Trace)
-	 */
-	enableLoaderTraceLoggings?: boolean;
-
-	/**
-	 * If Sapphire should load the pre-included application command registries status listeners that log the status of registering application commands to the {@link SapphireClient.logger} instance.
-	 * This includes the events {@link Events.ApplicationCommandRegistriesInitialising} and {@link Events.ApplicationCommandRegistriesRegistered}.
-	 * @since 4.4.0
-	 * @default true
-	 */
-	loadApplicationCommandRegistriesStatusListeners?: boolean;
-
-	/**
-	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
-	 * @since 1.0.0
-	 * @default true
-	 */
-	loadDefaultErrorListeners?: boolean;
-
-	/**
-	 * If Sapphire should load the pre-included message command listeners that are used to process incoming messages for commands.
-	 * @since 3.0.0
-	 * @default false
-	 */
-	loadMessageCommandListeners?: boolean;
-
-	/**
 	 * Controls whether the bot will automatically appear to be typing when a command is accepted.
+	 *
 	 * @default false
 	 */
 	typing?: boolean;
-
-	/**
-	 * Sets the default cooldown time for all commands.
-	 * @default "No cooldown options"
-	 */
-	defaultCooldown?: CooldownOptions;
-	/**
-	 * Controls whether the bot has mention as a prefix disabled
-	 * @default false
-	 */
-	disableMentionPrefix?: boolean;
-
-	/**
-	 * Whenever starting the bot process Sapphire may report errors when failing to fetch guild commands.
-	 * One of the causes for this can be when a bot was invited to a server without the `application.commands` scope.
-	 *
-	 * Normally this produce a log in the console at the WARN level, however because bot lists have a tendency to invite your
-	 * bot specifically without the scope to ensure that your Chat Input and Context Menu commands do not show up as usable commands
-	 * in that server, you may want to include their guild ids in this list.
-	 *
-	 * By adding ids to this list, whenever a guild id matches one of the ids in the list no warning log message will be emitted for that guild.
-	 *
-	 * By setting this value to `true`, no warning log message will be emitted for any guilds we couldn't fetch the commands from.
-	 *
-	 * Note that this specifically applies to the warning log:
-	 *
-	 * > ApplicationCommandRegistries: Failed to fetch guild commands for guild \<guild name\> (\<guild id\>). Make sure to authorize your application with the "applications.commands" scope in that guild.
-	 */
-	preventFailedToFetchLogForGuilds?: string[] | true;
 }
 
 /**
@@ -180,7 +195,6 @@ export interface SapphireClientOptions {
  * for reference. This method is called at the start of the {@link SapphireClient.login} method.
  *
  * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/docs/packages/discord.js/main/ClientOptions:Interface)
- *
  * @since 1.0.0
  * @example
  * ```typescript
@@ -196,18 +210,16 @@ export interface SapphireClientOptions {
  * client.login(process.env.DISCORD_TOKEN)
  *   .catch(console.error);
  * ```
- *
  * @example
  * ```typescript
  * // Automatically scan from a specific directory, e.g. the main
  * // file is at `/home/me/bot/index.js` and all your pieces are at
  * // `/home/me/bot/pieces` (e.g. `/home/me/bot/pieces/commands/MyCommand.js`):
  * const client = new SapphireClient({
- *   baseUserDirectory: join(__dirname, 'pieces'),
+ *   baseUserDirectory: new URL('./pieces/', import.meta.url),
  *   // More options...
  * });
  * ```
- *
  * @example
  * ```typescript
  * // Opt-out automatic scanning:
@@ -220,12 +232,14 @@ export interface SapphireClientOptions {
 export class SapphireClient<Ready extends boolean = boolean> extends Client<Ready> {
 	/**
 	 * The client's ID, used for the user prefix.
+	 *
 	 * @since 1.0.0
 	 */
 	public override id: Snowflake | null = null;
 
 	/**
 	 * The method to be overridden by the developer.
+	 *
 	 * @since 1.0.0
 	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
 	 * @example
@@ -257,12 +271,14 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	/**
 	 * The logger to be used by the framework and plugins. By default, a {@link Logger} instance is used, which emits the
 	 * messages to the console.
+	 *
 	 * @since 1.0.0
 	 */
 	public override logger: ILogger;
 
 	/**
 	 * Whether the bot has mention as a prefix disabled
+	 *
 	 * @default false
 	 * @example
 	 * ```typescript
@@ -273,6 +289,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 	/**
 	 * The registered stores.
+	 *
 	 * @since 1.0.0
 	 */
 	public override stores: StoreRegistry;
@@ -332,8 +349,9 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 
 	/**
 	 * Loads all pieces, then logs the client in, establishing a websocket connection to Discord.
+	 *
 	 * @since 1.0.0
-	 * @param token Token of the account to log in with.
+	 * @param token - Token of the account to log in with.
 	 * @return Token of the account used.
 	 */
 	public override async login(token?: string) {
@@ -349,7 +367,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 		}
 
 		// Loads all stores, then call login:
-		await Promise.all([...this.stores.values()].map((store) => store.loadAll()));
+		await Promise.all([...this.stores.values()].map(async (store) => store.loadAll()));
 		const login = await super.login(token);
 
 		// Call post-login plugins:
@@ -370,24 +388,24 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 }
 
 export interface ClientLoggerOptions {
-	level?: LogLevel;
 	instance?: ILogger;
+	level?: LogLevel;
 }
 
 export interface CooldownOptions {
-	scope?: BucketScope;
 	delay?: number;
-	limit?: number;
-	filteredUsers?: Snowflake[];
 	filteredCommands?: string[];
+	filteredUsers?: Snowflake[];
+	limit?: number;
+	scope?: BucketScope;
 }
 
 declare module 'discord.js' {
 	interface Client {
+		fetchPrefix: SapphirePrefixHook;
 		id: Snowflake | null;
 		logger: ILogger;
 		stores: StoreRegistry;
-		fetchPrefix: SapphirePrefixHook;
 	}
 
 	interface ClientOptions extends SapphireClientOptions {}
@@ -395,11 +413,11 @@ declare module 'discord.js' {
 
 declare module '@sapphire/pieces' {
 	interface Container {
-		client: SapphireClient;
-		logger: ILogger;
 		applicationCommandRegistries: {
 			acquire: typeof acquire;
 		};
+		client: SapphireClient;
+		logger: ILogger;
 	}
 
 	interface StoreRegistryEntries {

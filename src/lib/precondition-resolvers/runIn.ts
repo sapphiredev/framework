@@ -8,9 +8,10 @@ import type { PreconditionContainerArray } from '../utils/preconditions/Precondi
 /**
  * Appends the `RunIn` precondition based on the values passed, defaulting to `null`, which doesn't add a
  * precondition.
- * @param runIn The command's `runIn` option field from the constructor.
- * @param resolveConstructorPreConditionsRunType The function to resolve the run type from the constructor.
- * @param preconditionContainerArray The precondition container array to append the precondition to.
+ *
+ * @param runIn - The command's `runIn` option field from the constructor.
+ * @param resolveConstructorPreConditionsRunType - The function to resolve the run type from the constructor.
+ * @param preconditionContainerArray - The precondition container array to append the precondition to.
  */
 export function parseConstructorPreConditionsRunIn(
 	runIn: CommandRunInUnion | CommandSpecificRunIn,

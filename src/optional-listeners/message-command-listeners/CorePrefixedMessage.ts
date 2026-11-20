@@ -8,7 +8,7 @@ export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 		super(context, { event: Events.PrefixedMessage });
 	}
 
-	public run(message: Message, prefix: string | RegExp) {
+	public run(message: Message, prefix: RegExp | string) {
 		const { client, stores } = this.container;
 		// Retrieve the command name and validate:
 		const commandPrefix = this.getCommandPrefix(message.content, prefix);
@@ -37,7 +37,7 @@ export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 		}
 
 		// Run the last stage before running the command:
-		const parameters = spaceIndex === -1 ? '' : prefixLess.substring(spaceIndex + 1).trim();
+		const parameters = spaceIndex === -1 ? '' : prefixLess.slice(Math.max(0, spaceIndex + 1)).trim();
 		client.emit(Events.PreMessageCommandRun, {
 			message,
 			command: command as MessageCommand,
@@ -46,7 +46,7 @@ export class CoreListener extends Listener<typeof Events.PrefixedMessage> {
 		});
 	}
 
-	private getCommandPrefix(content: string, prefix: string | RegExp): string {
+	private getCommandPrefix(content: string, prefix: RegExp | string): string {
 		return typeof prefix === 'string' ? prefix : prefix.exec(content)![0];
 	}
 }

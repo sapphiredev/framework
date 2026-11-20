@@ -90,8 +90,8 @@ export * from './lib/structures/ListenerLoaderStrategy';
 export * from './lib/structures/ListenerStore';
 export * from './lib/structures/Precondition';
 export * from './lib/structures/PreconditionStore';
-export * from './lib/types/ArgumentContexts';
-export * from './lib/types/CommandTypes';
+export type * from './lib/types/ArgumentContexts';
+export type * from './lib/types/CommandTypes';
 export * from './lib/types/Enums';
 export * from './lib/types/Events';
 export {
@@ -100,55 +100,73 @@ export {
 } from './lib/utils/application-commands/ApplicationCommandRegistry';
 export * from './lib/utils/logger/ILogger';
 export * from './lib/utils/logger/Logger';
-export * from './lib/utils/preconditions/conditions/IPreconditionCondition';
+export type * from './lib/utils/preconditions/conditions/IPreconditionCondition';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionAnd';
 export * from './lib/utils/preconditions/conditions/PreconditionConditionOr';
 export * from './lib/utils/preconditions/containers/ClientPermissionsPrecondition';
 export * from './lib/utils/preconditions/containers/UserPermissionsPrecondition';
-export * from './lib/utils/preconditions/IPreconditionContainer';
+export type * from './lib/utils/preconditions/IPreconditionContainer';
 export * from './lib/utils/preconditions/PreconditionContainerArray';
 export * from './lib/utils/preconditions/PreconditionContainerSingle';
 export { ApplicationCommandRegistries };
 
-/* eslint-disable deprecation/deprecation */
+/* eslint-disable @typescript-eslint/no-deprecated */
 export const CorePreconditions = {
 	ClientPermissions,
 	Cooldown,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	DMOnly,
 	Enabled,
 	RunIn,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildNewsOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildNewsThreadOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildPrivateThreadOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildPublicThreadOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildTextOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildVoiceOnly,
-	/** @deprecated Use {@link RunIn} instead. */
+	/**
+	 * @deprecated Use {@link RunIn} instead.
+	 */
 	GuildThreadOnly,
 	NSFW,
 	UserPermissions
 };
-/* eslint-enable deprecation/deprecation */
+/* eslint-enable @typescript-eslint/no-deprecated */
 
-export namespace CorePreconditions {
+export declare namespace CorePreconditions {
 	export type UserPermissionsPreconditionContext = PermissionPreconditionContext;
 	export type CooldownContext = CooldownPreconditionContext;
 }
 
 /**
- * The [@sapphire/framework](https://github.com/sapphiredev/framework) version that you are currently using.
+ * The [`@sapphire/framework`](https://github.com/sapphiredev/framework) version that you are currently using.
  * An example use of this is showing it of in a bot information command.
  *
- * Note to Sapphire developers: This needs to explicitly be `string` so it is not typed as the string that gets replaced by esbuild
+ * Note to Sapphire developers: This needs to explicitly be `string` so it is not typed as the string that gets replaced by Rolldown
  */
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const version: string = '[VI]{{inject}}[/VI]';

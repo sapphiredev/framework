@@ -3,6 +3,7 @@ import type { IPreconditionCondition } from './IPreconditionCondition';
 
 /**
  * An {@link IPreconditionCondition} which runs all containers similarly to doing (V0 && V1 [&& V2 [&& V3 ...]]).
+ *
  * @since 1.0.0
  */
 export const PreconditionConditionAnd: IPreconditionCondition = {
@@ -15,7 +16,7 @@ export const PreconditionConditionAnd: IPreconditionCondition = {
 		return Result.ok();
 	},
 	async messageParallel(message, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.messageRun(message, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.messageRun(message, command, context)));
 		// This is simplified compared to PreconditionContainerAny, because we're looking for the first error.
 		// However, the base implementation short-circuits with the first Ok.
 		return results.find((res) => res.isErr()) ?? Result.ok();
@@ -29,7 +30,7 @@ export const PreconditionConditionAnd: IPreconditionCondition = {
 		return Result.ok();
 	},
 	async chatInputParallel(interaction, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.chatInputRun(interaction, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.chatInputRun(interaction, command, context)));
 		// This is simplified compared to PreconditionContainerAny, because we're looking for the first error.
 		// However, the base implementation short-circuits with the first Ok.
 		return results.find((res) => res.isErr()) ?? Result.ok();
@@ -43,7 +44,7 @@ export const PreconditionConditionAnd: IPreconditionCondition = {
 		return Result.ok();
 	},
 	async contextMenuParallel(interaction, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.contextMenuRun(interaction, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.contextMenuRun(interaction, command, context)));
 		// This is simplified compared to PreconditionContainerAny, because we're looking for the first error.
 		// However, the base implementation short-circuits with the first Ok.
 		return results.find((res) => res.isErr()) ?? Result.ok();

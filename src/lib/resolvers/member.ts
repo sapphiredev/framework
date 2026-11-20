@@ -24,12 +24,14 @@ export async function resolveMember(
 
 async function resolveById(argument: string, guild: Guild): Promise<GuildMember | null> {
 	const memberId = UserOrMemberMentionRegex.exec(argument) ?? SnowflakeRegex.exec(argument);
-	return memberId ? guild.members.fetch(memberId[1] as Snowflake).catch(() => null) : null;
+	if (!memberId) return null;
+	const result = await Result.fromAsync(async () => guild.members.fetch(memberId[1] as Snowflake));
+	return result.unwrapOr(null);
 }
 
 async function resolveByQuery(argument: string, guild: Guild): Promise<GuildMember | null> {
-	argument = argument.length > 5 && argument.at(-5) === '#' ? argument.slice(0, -5) : argument;
+	const query = argument.length > 5 && argument.at(-5) === '#' ? argument.slice(0, -5) : argument;
 
-	const members = await guild.members.fetch({ query: argument, limit: 1 }).catch(() => null);
+	const members = await guild.members.fetch({ query, limit: 1 }).catch(() => null);
 	return members?.first() ?? null;
 }

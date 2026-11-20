@@ -25,10 +25,10 @@ import {
 function isBuilder(
 	command: unknown
 ): command is
+	| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
 	| SlashCommandBuilder
-	| SlashCommandSubcommandsOnlyBuilder
 	| SlashCommandOptionsOnlyBuilder
-	| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'> {
+	| SlashCommandSubcommandsOnlyBuilder {
 	return command instanceof SlashCommandBuilder;
 }
 
@@ -50,10 +50,10 @@ function addDefaultsToContextMenuJSON(data: RESTPostAPIContextMenuApplicationCom
 export function normalizeChatInputCommand(
 	command:
 		| ChatInputApplicationCommandData
-		| SlashCommandBuilder
-		| SlashCommandSubcommandsOnlyBuilder
-		| SlashCommandOptionsOnlyBuilder
 		| Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+		| SlashCommandBuilder
+		| SlashCommandOptionsOnlyBuilder
+		| SlashCommandSubcommandsOnlyBuilder
 		| ((builder: SlashCommandBuilder) => unknown)
 ): RESTPostAPIChatInputApplicationCommandsJSONBody {
 	if (isFunction(command)) {
@@ -92,10 +92,7 @@ export function normalizeChatInputCommand(
 
 export function normalizeContextMenuCommand(
 	command:
-		| UserApplicationCommandData
-		| MessageApplicationCommandData
-		| ContextMenuCommandBuilder
-		| ((builder: ContextMenuCommandBuilder) => unknown)
+		ContextMenuCommandBuilder | MessageApplicationCommandData | UserApplicationCommandData | ((builder: ContextMenuCommandBuilder) => unknown)
 ): RESTPostAPIContextMenuApplicationCommandsJSONBody {
 	if (isFunction(command)) {
 		const builder = new ContextMenuCommandBuilder();
@@ -110,8 +107,6 @@ export function normalizeContextMenuCommand(
 	const finalObject: RESTPostAPIContextMenuApplicationCommandsJSONBody = {
 		name: command.name,
 		name_localizations: command.nameLocalizations,
-		// TODO (favna 2024-10-19): Remove this line after discord.js has been updated past 14.16.3
-		// @ts-ignore temporarily ignore the error because discord.js broke types
 		type: command.type,
 		dm_permission: command.dmPermission,
 		nsfw: command.nsfw,
@@ -141,8 +136,6 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 	if (command.type === ApplicationCommandType.ChatInput) {
 		returnData.type = ApplicationCommandType.ChatInput;
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description = command.description;
-		// TODO (favna): Remove this line after website rewrite is done
-		// @ts-ignore this is currently ignored for the website
 		(returnData as RESTPostAPIChatInputApplicationCommandsJSONBody).description_localizations = command.descriptionLocalizations;
 	} else if (command.type === ApplicationCommandType.Message) {
 		returnData.type = ApplicationCommandType.Message;
@@ -152,7 +145,7 @@ export function convertApplicationCommandToApiData(command: ApplicationCommand):
 		throw new Error(`Unknown command type received: ${command.type}`);
 	}
 
-	if (command.options.length) {
+	if (returnData.type === ApplicationCommandType.ChatInput && command.options.length) {
 		returnData.options = command.options.map((option) => ApplicationCommand['transformOption'](option as any) as APIApplicationCommandOption);
 	}
 

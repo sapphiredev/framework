@@ -1,7 +1,0 @@
-{
-	"extends": "@sapphire",
-	"plugins": ["deprecation"],
-	"rules": {
-		"deprecation/deprecation": "warn"
-	}
-}

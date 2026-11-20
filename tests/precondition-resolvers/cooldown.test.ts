@@ -3,30 +3,31 @@ import { parseConstructorPreConditionsCooldown } from '../../src/lib/preconditio
 import { BucketScope } from '../../src/lib/types/Enums';
 import { PreconditionContainerArray } from '../../src/lib/utils/preconditions/PreconditionContainerArray';
 import type { PreconditionContainerSingle } from '../../src/lib/utils/preconditions/PreconditionContainerSingle';
+import type * as Pieces from '@sapphire/pieces';
 
-describe('parseConstructorPreConditionsCooldown', () => {
-	vi.mock('@sapphire/pieces', async () => {
-		const mod = await vi.importActual<typeof import('@sapphire/pieces')>('@sapphire/pieces');
-		const { BucketScope } = await import('../../src/lib/types/Enums');
+vi.mock('@sapphire/pieces', async () => {
+	const mod = await vi.importActual<typeof Pieces>('@sapphire/pieces');
+	const { BucketScope } = await import('../../src/lib/types/Enums');
 
-		return {
-			...mod,
-			container: {
-				client: {
-					options: {
-						defaultCooldown: {
-							limit: 1,
-							delay: 2,
-							scope: BucketScope.User,
-							filteredCommands: undefined,
-							filteredUsers: undefined
-						} as CooldownOptions
-					}
+	return {
+		...mod,
+		container: {
+			client: {
+				options: {
+					defaultCooldown: {
+						limit: 1,
+						delay: 2,
+						scope: BucketScope.User,
+						filteredCommands: undefined,
+						filteredUsers: undefined
+					} as CooldownOptions
 				}
 			}
-		};
-	});
+		}
+	};
+});
 
+describe('parseConstructorPreConditionsCooldown', () => {
 	afterAll(() => {
 		vi.restoreAllMocks();
 	});

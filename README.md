@@ -28,24 +28,37 @@ Sapphire is a Discord bot framework built on top of [discord.js] for advanced an
 
 ## Features
 
--   Written in TypeScript
--   Command Handler, Arguments, Pre-conditions and Listeners Store
--   Completely Modular and Extendable
--   Advanced Plugins Support
--   Supports many [plugins](https://github.com/sapphiredev/plugins)
--   Full TypeScript & JavaScript support
+- Written in TypeScript
+- Command Handler, Arguments, Pre-conditions and Listeners Store
+- Completely Modular and Extendable
+- Advanced Plugins Support
+- Supports many [plugins](https://github.com/sapphiredev/plugins)
+- Full TypeScript & JavaScript support
 
 ## Installation
 
+Node.js 24 or newer and npm 11 or newer are required. This package is ESM-only and uses `@sapphire/pieces` v5.
+Use `import` instead of `require`, and set `"type": "module"` in your application's `package.json` (or use `.mjs` files).
+Custom pieces and plugins must also use ESM exports.
+
 `@sapphire/framework` depends on the following packages. Be sure to install these along with this package!
 
--   [`discord.js`](https://www.npmjs.com/package/discord.js)
+- [`discord.js`](https://www.npmjs.com/package/discord.js)
 
 You can use the following command to install this package, or replace `npm install` with your package manager of choice.
 
 ```sh
 npm install @sapphire/framework discord.js@14.x
 ```
+
+```js
+import { SapphireClient } from '@sapphire/framework';
+
+const client = new SapphireClient({ intents: [] });
+```
+
+For contributors, `yarn build` generates ESM JavaScript and declarations in `dist`. Packing runs this build automatically;
+there is no CommonJS build or separate declaration-bundling step.
 
 ---
 

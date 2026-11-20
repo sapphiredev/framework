@@ -1,5 +1,11 @@
 import { container } from '@sapphire/pieces';
-import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, type TextBasedChannelTypes } from 'discord.js';
+import {
+	ChannelType,
+	type ChatInputCommandInteraction,
+	type ContextMenuCommandInteraction,
+	type Message,
+	type TextBasedChannelTypes
+} from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 
@@ -10,16 +16,14 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.allowedTypes.includes(message.channel.type) ? this.ok() : this.makeSharedError();
 	}
 
-	public async chatInputRun(interaction: ChatInputCommandInteraction): AllFlowsPrecondition.AsyncResult {
+	public async chatInputRun(interaction: ChatInputCommandInteraction | ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
 		const channel = await this.fetchChannelFromInteraction(interaction);
 
 		return this.allowedTypes.includes(channel.type) ? this.ok() : this.makeSharedError();
 	}
 
 	public async contextMenuRun(interaction: ContextMenuCommandInteraction): AllFlowsPrecondition.AsyncResult {
-		const channel = await this.fetchChannelFromInteraction(interaction);
-
-		return this.allowedTypes.includes(channel.type) ? this.ok() : this.makeSharedError();
+		return this.chatInputRun(interaction);
 	}
 
 	private makeSharedError(): AllFlowsPrecondition.Result {

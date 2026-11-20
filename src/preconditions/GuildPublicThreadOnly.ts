@@ -1,5 +1,5 @@
 import { container } from '@sapphire/pieces';
-import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, Message } from 'discord.js';
+import { ChannelType, type ChatInputCommandInteraction, type ContextMenuCommandInteraction, type Message } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
 

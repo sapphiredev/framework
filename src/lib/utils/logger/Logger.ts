@@ -51,4 +51,4 @@ export class Logger implements ILogger {
 	]);
 }
 
-export type LogMethods = 'trace' | 'debug' | 'info' | 'warn' | 'error';
+export type LogMethods = 'debug' | 'error' | 'info' | 'trace' | 'warn';

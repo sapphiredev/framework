@@ -5,9 +5,9 @@ export function* checkDescription({
 	newDescription,
 	key = 'description'
 }: {
-	oldDescription: string;
-	newDescription: string;
 	key?: string;
+	newDescription: string;
+	oldDescription: string;
 }): Generator<CommandDifference> {
 	if (oldDescription !== newDescription) {
 		yield {

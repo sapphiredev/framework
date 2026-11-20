@@ -7,9 +7,9 @@ export function* handleMinMaxValueOptions({
 	keyPath
 }: {
 	currentIndex: number;
-	keyPath: (index: number) => string;
-	expectedOption: APIApplicationCommandMinAndMaxValueTypes;
 	existingOption: APIApplicationCommandMinAndMaxValueTypes;
+	expectedOption: APIApplicationCommandMinAndMaxValueTypes;
+	keyPath(this: void, index: number): string;
 }): Generator<CommandDifference> {
 	// 0. No min_value and now we have min_value
 	if (existingOption.min_value === undefined && expectedOption.min_value !== undefined) {
