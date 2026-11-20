@@ -8,7 +8,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  * @example
  * ```typescript
  * export class CoreCommand extends Command {
- *   public constructor(context: Command.Context) {
+ *   public constructor(context: Command.LoaderContext) {
  *     super(context, {
  *       preconditions: [
  *         'GuildOnly',

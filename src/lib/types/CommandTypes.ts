@@ -275,10 +275,6 @@ export type AutocompleteCommand = Command & Required<Pick<Command, 'autocomplete
 export declare namespace AutocompleteCommand {
 	export type Options = Command.Options;
 	export type JSON = Command.JSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Command.LoaderContext;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = AutocompleteCommandContext;
@@ -291,10 +287,6 @@ export type ContextMenuCommand = Command & Required<Pick<Command, 'contextMenuRu
 export declare namespace ContextMenuCommand {
 	export type Options = Command.Options;
 	export type JSON = Command.JSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Command.LoaderContext;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ContextMenuCommandContext;
@@ -307,10 +299,6 @@ export type MessageCommand = Command & Required<Pick<Command, 'messageRun'>>;
 export declare namespace MessageCommand {
 	export type Options = Command.Options;
 	export type JSON = Command.JSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Command.LoaderContext;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = MessageCommandContext;
@@ -321,10 +309,6 @@ export type ChatInputCommand = Command & Required<Pick<Command, 'chatInputRun'>>
 export declare namespace ChatInputCommand {
 	export type Options = Command.Options;
 	export type JSON = Command.JSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Command.LoaderContext;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunContext = ChatInputCommandContext;

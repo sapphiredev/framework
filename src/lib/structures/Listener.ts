@@ -124,9 +124,5 @@ export interface ListenerJSON extends Piece.JSON {
 export declare namespace Listener {
 	export type Options = ListenerOptions;
 	export type JSON = ListenerJSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Piece.LoaderContext<'listeners'>;
 }

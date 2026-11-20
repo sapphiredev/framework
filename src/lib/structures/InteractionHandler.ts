@@ -99,10 +99,6 @@ export interface InteractionHandlerJSON extends Piece.JSON {
 export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
 export declare namespace InteractionHandler {
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = Piece.LoaderContext<'interaction-handlers'>;
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;

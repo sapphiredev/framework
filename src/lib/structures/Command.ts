@@ -504,10 +504,6 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 export declare namespace Command {
 	export type Options = CommandOptions;
 	export type JSON = CommandJSON;
-	/**
-	 * @deprecated Use {@linkcode LoaderContext} instead.
-	 */
-	export type Context = LoaderContext;
 	export type LoaderContext = AliasPiece.LoaderContext<'commands'>;
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunInUnion = CommandRunInUnion;
