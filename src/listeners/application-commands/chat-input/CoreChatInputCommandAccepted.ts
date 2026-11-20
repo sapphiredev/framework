@@ -24,6 +24,7 @@ export class CoreListener extends Listener<typeof Events.ChatInputCommandAccepte
 			return duration;
 		});
 
+		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		result.inspectErr((error) => this.container.client.emit(Events.ChatInputCommandError, error, { ...payload, duration: -1 }));
 
 		this.container.client.emit(Events.ChatInputCommandFinish, interaction, command, {

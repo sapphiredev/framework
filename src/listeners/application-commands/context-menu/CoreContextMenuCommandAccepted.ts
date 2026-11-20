@@ -24,6 +24,7 @@ export class CoreListener extends Listener<typeof Events.ContextMenuCommandAccep
 			return duration;
 		});
 
+		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		result.inspectErr((error) => this.container.client.emit(Events.ContextMenuCommandError, error, { ...payload, duration: -1 }));
 
 		this.container.client.emit(Events.ContextMenuCommandFinish, interaction, command, {
