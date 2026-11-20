@@ -860,7 +860,7 @@ export interface RepeatArgOptions extends ArgOptions {
 	/**
 	 * The maximum amount of times the argument can be repeated.
 	 *
-	 * @default Infinity
+	 * @defaultValue Infinity
 	 */
 	times?: number;
 }

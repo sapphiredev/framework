@@ -164,7 +164,7 @@ export interface PreconditionOptions extends Piece.Options {
 	 * The position for the precondition to be set at in the global precondition list. If set to `null`, this
 	 * precondition will not be set as a global one.
 	 *
-	 * @default null
+	 * @defaultValue null
 	 */
 	position?: number | null;
 }

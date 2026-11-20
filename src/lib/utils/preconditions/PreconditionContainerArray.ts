@@ -15,14 +15,14 @@ import { PreconditionConditionOr } from './conditions/PreconditionConditionOr';
 /**
  * The run mode for a {@link PreconditionContainerArray}.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export enum PreconditionRunMode {
 	/**
 	 * The entries are run sequentially, this is the default behaviour and can be slow when doing long asynchronous
 	 * tasks, but is performance savvy.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	Sequential,
 
@@ -30,7 +30,7 @@ export enum PreconditionRunMode {
 	 * All entries are run in parallel using `Promise.all`, then the results are processed after all of them have
 	 * completed.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	Parallel
 }
@@ -42,14 +42,14 @@ export enum PreconditionRunCondition {
 	/**
 	 * Defines a condition where all the entries must pass. This uses {@link PreconditionConditionAnd}.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	And,
 
 	/**
 	 * Defines a condition where at least one entry must pass. This uses {@link PreconditionConditionOr}.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	Or
 }
@@ -58,20 +58,20 @@ export enum PreconditionRunCondition {
  * Defines the detailed options for the {@link PreconditionContainerArray}, where both the {@link PreconditionRunMode} and the
  * entries can be defined.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export interface PreconditionArrayResolvableDetails {
 	/**
 	 * The data that will be used to resolve {@link IPreconditionContainer} dependent of this one.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	entries: readonly PreconditionEntryResolvable[];
 
 	/**
 	 * The mode the {@link PreconditionContainerArray} will run.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	mode: PreconditionRunMode;
 }
@@ -79,16 +79,16 @@ export interface PreconditionArrayResolvableDetails {
 /**
  * Defines the data accepted by {@link PreconditionContainerArray}'s constructor.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export type PreconditionArrayResolvable = PreconditionArrayResolvableDetails | readonly PreconditionEntryResolvable[];
 
 /**
  * Defines the data accepted for each entry of the array.
  *
- * @since 1.0.0
- * @seealso {@link PreconditionArrayResolvable}
- * @seealso {@link PreconditionArrayResolvableDetails.entries}
+ * @remarks Available since 1.0.0
+ * @see {@link PreconditionArrayResolvable}
+ * @see {@link PreconditionArrayResolvableDetails.entries}
  */
 export type PreconditionEntryResolvable = PreconditionArrayResolvable | PreconditionSingleResolvable;
 
@@ -112,29 +112,30 @@ function isSingle(entry: PreconditionEntryResolvable): entry is PreconditionSing
  * Connect && (Moderator || (DJ && SongAuthor));
  * ```
  *
- * @remark More advanced logic can be accomplished by adding more {@link IPreconditionCondition}s (e.g. other operators),
+ * @remarks More advanced logic can be accomplished by adding more {@link IPreconditionCondition}s (e.g. other operators),
  * see {@link PreconditionContainerArray.conditions} for more information.
- * @since 1.0.0
+ *
+ * Available since 1.0.0
  */
 export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * The mode at which this precondition will run.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public readonly mode: PreconditionRunMode;
 
 	/**
 	 * The {@link IPreconditionContainer}s the array holds.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public readonly entries: IPreconditionContainer[];
 
 	/**
 	 * The {@link PreconditionRunCondition} that defines how entries must be handled.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public readonly runCondition: PreconditionRunCondition;
 
@@ -158,7 +159,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Adds a new entry to the array.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param entry - The value to add to the entries.
 	 */
 	public add(entry: IPreconditionContainer): this {
@@ -176,7 +177,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param message - The message that ran this precondition.
 	 * @param command - The command the message invoked.
 	 * @param context - The context for the message command precondition.
@@ -190,7 +191,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param context - The context for the chat input precondition.
@@ -208,7 +209,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param context - The context for the context menu precondition.
@@ -226,7 +227,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Parses the precondition entry resolvables, and adds them to the entries.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param entries - The entries to parse.
 	 */
 	protected parse(entries: Iterable<PreconditionEntryResolvable>): this {
@@ -244,7 +245,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	/**
 	 * Retrieves a condition from {@link PreconditionContainerArray.conditions}, assuming existence.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	protected get condition(): IPreconditionCondition {
 		return PreconditionContainerArray.conditions.get(this.runCondition)!;
@@ -254,7 +255,7 @@ export class PreconditionContainerArray implements IPreconditionContainer {
 	 * The preconditions to be run. Extra ones can be added by augmenting {@link PreconditionRunCondition} and then
 	 * inserting {@link IPreconditionCondition}s.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @example
 	 * ```typescript
 	 * // Adding more kinds of conditions

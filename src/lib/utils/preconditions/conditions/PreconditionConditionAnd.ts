@@ -4,7 +4,7 @@ import type { IPreconditionCondition } from './IPreconditionCondition';
 /**
  * An {@link IPreconditionCondition} which runs all containers similarly to doing (V0 && V1 [&& V2 [&& V3 ...]]).
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export const PreconditionConditionAnd: IPreconditionCondition = {
 	async messageSequential(message, command, entries, context) {

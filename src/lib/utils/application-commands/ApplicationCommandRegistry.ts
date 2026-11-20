@@ -607,7 +607,7 @@ export declare namespace ApplicationCommandRegistry {
 		/**
 		 * Specifies what we should do when the command is present, but not identical with the data you provided
 		 *
-		 * @default `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
+		 * @defaultValue `ApplicationCommandRegistries.getDefaultBehaviorWhenNotIdentical()`
 		 */
 		behaviorWhenNotIdentical?: Exclude<RegisterBehavior, RegisterBehavior.BulkOverwrite>;
 		/**
@@ -617,13 +617,13 @@ export declare namespace ApplicationCommandRegistry {
 		/**
 		 * Specifies a list of command ids that we should check in the event of a name mismatch
 		 *
-		 * @default []
+		 * @defaultValue `[]`
 		 */
 		idHints?: string[];
 		/**
 		 * If we should register the command when it is missing
 		 *
-		 * @default true
+		 * @defaultValue true
 		 */
 		registerCommandIfMissing?: boolean;
 	}

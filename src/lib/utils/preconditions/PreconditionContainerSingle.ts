@@ -12,13 +12,13 @@ import type { PreconditionStore } from '../../structures/PreconditionStore';
  * Defines the simple options for the {@link PreconditionContainerSingle}, where only the name of the precondition can
  * be defined.
  *
- * @since 2.0.0
+ * @remarks Available since 2.0.0
  */
 export interface SimplePreconditionSingleResolvableDetails {
 	/**
 	 * The name of the precondition to retrieve from the {@link PreconditionStore}.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	name: SimplePreconditionKeys;
 }
@@ -27,20 +27,20 @@ export interface SimplePreconditionSingleResolvableDetails {
  * Defines the detailed options for the {@link PreconditionContainerSingle}, where both the {@link PreconditionContext} and the
  * name of the precondition can be defined.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export interface PreconditionSingleResolvableDetails<K extends PreconditionKeys = PreconditionKeys> {
 	/**
 	 * The context to be set at {@link PreconditionContainerSingle.context}.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	context: Preconditions[K];
 
 	/**
 	 * The name of the precondition to retrieve from the {@link PreconditionStore}.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	name: K;
 }
@@ -48,14 +48,14 @@ export interface PreconditionSingleResolvableDetails<K extends PreconditionKeys 
 /**
  * Defines the data accepted by {@link PreconditionContainerSingle}'s constructor.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export type PreconditionSingleResolvable = PreconditionSingleResolvableDetails | SimplePreconditionKeys | SimplePreconditionSingleResolvableDetails;
 
 /**
  * An {@link IPreconditionContainer} which runs a single precondition from the {@link PreconditionStore}.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export class PreconditionContainerSingle implements IPreconditionContainer {
 	/**
@@ -63,14 +63,14 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	 * container was constructed with a string, otherwise it is a direct reference to the value from
 	 * {@link PreconditionSingleResolvableDetails.context}.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public readonly context: Record<PropertyKey, unknown>;
 
 	/**
 	 * The name of the precondition to run.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public readonly name: string;
 
@@ -87,7 +87,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param message - The message that ran this precondition.
 	 * @param command - The command the message invoked.
 	 * @param context - The context for the message precondition.
@@ -109,7 +109,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param context - The context for the chat input command precondition.
@@ -131,7 +131,7 @@ export class PreconditionContainerSingle implements IPreconditionContainer {
 	/**
 	 * Runs the container.
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param context - The context for the context menu command precondition.

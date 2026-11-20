@@ -4,7 +4,7 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
 /**
  * Constructs a contextful permissions precondition requirement.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  * @example
  * ```typescript
  * export class CoreCommand extends Command {

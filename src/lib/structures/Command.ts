@@ -49,21 +49,21 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	/**
 	 * A basic summary about the command
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public description: string;
 
 	/**
 	 * The preconditions to be run.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public preconditions: PreconditionContainerArray;
 
 	/**
 	 * Longer version of command's summary and how to use it
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public detailedDescription: DetailedDescriptionCommand;
 
@@ -76,14 +76,14 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 *   this property will be `['General', 'Info']`.
 	 * - If the command is virtual, then this will be `[]`.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly fullCategory: readonly string[];
 
 	/**
 	 * The strategy to use for the lexer.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public strategy: IUnorderedStrategy;
 
@@ -91,27 +91,26 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * If {@link SapphireClientOptions.typing} is true, it can be overridden for a specific command using this property, set via its options.
 	 * Otherwise, this property will be ignored.
 	 *
-	 * @default true
+	 * @defaultValue true
 	 */
 	public typing: boolean;
 
 	/**
 	 * The application command registry associated with this command.
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 */
 	public readonly applicationCommandRegistry = acquire(this.name);
 
 	/**
 	 * The lexer to be used for command parsing
 	 *
-	 * @since 1.0.0
-	 * @private
+	 * @remarks Available since 1.0.0
 	 */
 	protected lexer: Lexer;
 
 	/**
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param context - The context.
 	 * @param options - Optional Command settings.
 	 */
@@ -174,7 +173,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the first value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get category(): string | null {
 		return this.fullCategory.at(0) ?? null;
@@ -186,7 +185,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the second value of {@link Command.fullCategory}, if it has at least two items, otherwise
 	 * it returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get subCategory(): string | null {
 		return this.fullCategory.at(1) ?? null;
@@ -198,7 +197,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * This getter retrieves the last value of {@link Command.fullCategory}, if it has at least one item, otherwise it
 	 * returns `null`.
 	 *
-	 * @note You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
+	 * @remarks You can set {@link Command.Options.fullCategory} to override the built-in category resolution.
 	 */
 	public get parentCategory(): string | null {
 		return this.fullCategory.at(-1) ?? null;
@@ -371,7 +370,7 @@ export class Command<PreParseReturn = Args, Options extends Command.Options = Co
 	 * {@link Command#parseConstructorPreConditionsRequiredClientPermissions}, and
 	 * {@link Command#parseConstructorPreConditionsCooldown}.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 * @param options - The command options given from the constructor.
 	 */
 	protected parseConstructorPreConditions(options: Command.Options): void {

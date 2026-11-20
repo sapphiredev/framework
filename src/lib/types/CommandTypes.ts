@@ -26,8 +26,9 @@ export interface DetailedDescriptionCommandObject {}
 /**
  * The allowed values for {@link CommandOptions.runIn}.
  *
- * @remark It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
- * @since 2.0.0
+ * @remarks It is discouraged to use this type, we recommend using {@link CommandOptionsRunTypeEnum} instead.
+ *
+ * Available since 2.0.0
  */
 export type CommandOptionsRunType =
 	'DM' | 'GUILD_ANY' | 'GUILD_NEWS_THREAD' | 'GUILD_NEWS' | 'GUILD_PRIVATE_THREAD' | 'GUILD_PUBLIC_THREAD' | 'GUILD_TEXT' | 'GUILD_VOICE';
@@ -35,7 +36,7 @@ export type CommandOptionsRunType =
 /**
  * The allowed values for {@link CommandOptions.runIn}.
  *
- * @since 4.7.0
+ * @remarks Available since 4.7.0
  */
 export type CommandRunInUnion =
 	| ChannelType
@@ -48,7 +49,7 @@ export type CommandRunInUnion =
  * A more detailed structure for {@link CommandOptions.runIn} when you want to have a different `runIn` for each
  * command type.
  *
- * @since 4.7.0
+ * @remarks Available since 4.7.0
  */
 export interface CommandSpecificRunIn {
 	chatInputRun?: CommandRunInUnion;
@@ -59,14 +60,14 @@ export interface CommandSpecificRunIn {
 /**
  * The {@link Command} options.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions {
 	/**
 	 * The time in milliseconds for the cooldown entries to reset, if set to a non-zero value alongside {@link CommandOptions.cooldownLimit}, the `Cooldown` precondition will be added to the list.
 	 *
-	 * @since 2.0.0
-	 * @default 0
+	 * @remarks Available since 2.0.0
+	 * @defaultValue 0
 	 */
 	cooldownDelay?: number;
 
@@ -74,48 +75,48 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * The users that are exempt from the Cooldown precondition.
 	 * Use this to filter out someone like a bot owner
 	 *
-	 * @since 2.0.0
-	 * @default undefined
+	 * @remarks Available since 2.0.0
+	 * @defaultValue undefined
 	 */
 	cooldownFilteredUsers?: Snowflake[];
 
 	/**
 	 * The amount of entries the cooldown can have before filling up, if set to a non-zero value alongside {@link CommandOptions.cooldownDelay}, the `Cooldown` precondition will be added to the list.
 	 *
-	 * @since 2.0.0
-	 * @default 1
+	 * @remarks Available since 2.0.0
+	 * @defaultValue 1
 	 */
 	cooldownLimit?: number;
 
 	/**
 	 * The scope of the cooldown entries.
 	 *
-	 * @since 2.0.0
-	 * @default BucketScope.User
+	 * @remarks Available since 2.0.0
+	 * @defaultValue BucketScope.User
 	 */
 	cooldownScope?: BucketScope;
 
 	/**
 	 * The description for the command.
 	 *
-	 * @since 1.0.0
-	 * @default ''
+	 * @remarks Available since 1.0.0
+	 * @defaultValue ''
 	 */
 	description?: string;
 
 	/**
 	 * The detailed description for the command.
 	 *
-	 * @since 1.0.0
-	 * @default ''
+	 * @remarks Available since 1.0.0
+	 * @defaultValue ''
 	 */
 	detailedDescription?: DetailedDescriptionCommand;
 
 	/**
 	 * The full category path for the command
 	 *
-	 * @since 2.0.0
-	 * @default 'An array of folder names that lead back to the folder that is registered for in the commands store'
+	 * @remarks Available since 2.0.0
+	 * @defaultValue 'An array of folder names that lead back to the folder that is registered for in the commands store'
 	 * @example
 	 * ```typescript
 	 * // Given a file named `ping.js` at the path of `commands/General/ping.js`
@@ -130,41 +131,41 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	/**
 	 * Whether to add aliases for commands with dashes in them
 	 *
-	 * @since 1.0.0
-	 * @default false
+	 * @remarks Available since 1.0.0
+	 * @defaultValue false
 	 */
 	generateDashLessAliases?: boolean;
 
 	/**
 	 * Whether to add aliases for commands with underscores in them
 	 *
-	 * @since 3.0.0
-	 * @default false
+	 * @remarks Available since 3.0.0
+	 * @defaultValue false
 	 */
 	generateUnderscoreLessAliases?: boolean;
 
 	/**
 	 * Sets whether the command should be treated as NSFW. If set to true, the `NSFW` precondition will be added to the list.
 	 *
-	 * @since 2.0.0
-	 * @default false
+	 * @remarks Available since 2.0.0
+	 * @defaultValue false
 	 */
 	nsfw?: boolean;
 
 	/**
 	 * The {@link Precondition}s to be run, accepts an array of their names.
 	 *
-	 * @seealso {@link PreconditionContainerArray}
-	 * @since 1.0.0
-	 * @default []
+	 * @see {@link PreconditionContainerArray}
+	 * @remarks Available since 1.0.0
+	 * @defaultValue `[]`
 	 */
 	preconditions?: readonly PreconditionEntryResolvable[];
 
 	/**
 	 * The quotes accepted by this command, pass `[]` to disable them.
 	 *
-	 * @since 1.0.0
-	 * @default
+	 * @remarks Available since 1.0.0
+	 * @defaultValue
 	 * [
 	 *   ['"', '"'], // Double quotes
 	 *   ['“', '”'], // Fancy quotes (on iOS)
@@ -177,16 +178,16 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	/**
 	 * The required permissions for the client.
 	 *
-	 * @since 2.0.0
-	 * @default 0
+	 * @remarks Available since 2.0.0
+	 * @defaultValue 0
 	 */
 	requiredClientPermissions?: PermissionResolvable;
 
 	/**
 	 * The required permissions for the user.
 	 *
-	 * @since 2.0.0
-	 * @default 0
+	 * @remarks Available since 2.0.0
+	 * @defaultValue 0
 	 */
 	requiredUserPermissions?: PermissionResolvable;
 
@@ -199,8 +200,8 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * This can be both {@link CommandRunInUnion} which will have the same precondition apply to all the types of commands,
 	 * or you can use {@link CommandSpecificRunIn} to apply different preconditions to different types of commands.
 	 *
-	 * @since 2.0.0
-	 * @default null
+	 * @remarks Available since 2.0.0
+	 * @defaultValue null
 	 */
 	runIn?: CommandRunInUnion | CommandSpecificRunIn;
 
@@ -208,7 +209,7 @@ export interface CommandOptions extends AliasPiece.Options, FlagStrategyOptions 
 	 * If {@link SapphireClientOptions.typing} is true, this option will override it.
 	 * Otherwise, this option has no effect - you may call `channel.sendTyping()` in the run method if you want specific commands to display the typing status.
 	 *
-	 * @default true
+	 * @defaultValue true
 	 */
 	typing?: boolean;
 }

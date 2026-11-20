@@ -39,74 +39,74 @@ export interface SapphirePrefixHook {
 
 export interface SapphireClientOptions {
 	/**
-	 * The base user directory, if set to `null`, Sapphire will not call {@linkcode StoreRegistry.registerPath()},
-	 * meaning that you will need to manually set each folder for each store or use {@linkcode StoreRegistry.loadPiece()}.
+	 * The base user directory, if set to `null`, Sapphire will not call {@link StoreRegistry.registerPath | `StoreRegistry.registerPath()`},
+	 * meaning that you will need to manually set each folder for each store or use {@link StoreRegistry.loadPiece | `StoreRegistry.loadPiece()`}.
 	 * Please read the aforementioned methods' documentation for more information.
 	 *
-	 * @since 1.0.0
-	 * @default undefined
+	 * @remarks Available since 1.0.0
+	 * @defaultValue undefined
 	 */
 	baseUserDirectory?: URL | string | null;
 
 	/**
 	 * Whether commands can be case-insensitive
 	 *
-	 * @since 1.0.0
-	 * @default false
+	 * @remarks Available since 1.0.0
+	 * @defaultValue false
 	 */
 	caseInsensitiveCommands?: boolean | null;
 
 	/**
 	 * Whether prefixes can be case-insensitive
 	 *
-	 * @since 1.0.0
-	 * @default false
+	 * @remarks Available since 1.0.0
+	 * @defaultValue false
 	 */
 	caseInsensitivePrefixes?: boolean | null;
 
 	/**
 	 * Sets the default cooldown time for all commands.
 	 *
-	 * @default "No cooldown options"
+	 * @defaultValue "No cooldown options"
 	 */
 	defaultCooldown?: CooldownOptions;
 
 	/**
 	 * The default prefix, in case of `null`, only mention prefix will trigger the bot's commands.
 	 *
-	 * @since 1.0.0
-	 * @default null
+	 * @remarks Available since 1.0.0
+	 * @defaultValue null
 	 */
 	defaultPrefix?: SapphirePrefix;
 
 	/**
 	 * Controls whether the bot has mention as a prefix disabled
 	 *
-	 * @default false
+	 * @defaultValue false
 	 */
 	disableMentionPrefix?: boolean;
 
 	/**
 	 * Whether trace logging should be enabled.
 	 *
-	 * @since 2.0.0
-	 * @default container.logger.has(LogLevel.Trace)
+	 * @remarks Available since 2.0.0
+	 * @defaultValue container.logger.has(LogLevel.Trace)
 	 */
 	enableLoaderTraceLoggings?: boolean;
 
 	/**
 	 * The prefix hook, by default it is a callback function that returns {@link SapphireClientOptions.defaultPrefix}.
 	 *
-	 * @since 1.0.0
-	 * @default `() => client.options.defaultPrefix`
+	 * @remarks Available since 1.0.0
+	 * @defaultValue `() => client.options.defaultPrefix`
 	 */
 	fetchPrefix?: SapphirePrefixHook;
 
 	/**
 	 * The client's ID, this is automatically set by the CoreReady event.
 	 *
-	 * @since 1.0.0
-	 * @default this.client.user?.id ?? null
+	 * @remarks Available since 1.0.0
+	 * @defaultValue this.client.user?.id ?? null
 	 */
 	id?: Snowflake;
 
@@ -114,32 +114,32 @@ export interface SapphireClientOptions {
 	 * If Sapphire should load the pre-included application command registries status listeners that log the status of registering application commands to the {@link SapphireClient.logger} instance.
 	 * This includes the events {@link Events.ApplicationCommandRegistriesInitialising} and {@link Events.ApplicationCommandRegistriesRegistered}.
 	 *
-	 * @since 4.4.0
-	 * @default true
+	 * @remarks Available since 4.4.0
+	 * @defaultValue true
 	 */
 	loadApplicationCommandRegistriesStatusListeners?: boolean;
 
 	/**
 	 * If Sapphire should load the pre-included error event listeners that log any encountered errors to the {@link SapphireClient.logger} instance
 	 *
-	 * @since 1.0.0
-	 * @default true
+	 * @remarks Available since 1.0.0
+	 * @defaultValue true
 	 */
 	loadDefaultErrorListeners?: boolean;
 
 	/**
 	 * If Sapphire should load the pre-included message command listeners that are used to process incoming messages for commands.
 	 *
-	 * @since 3.0.0
-	 * @default false
+	 * @remarks Available since 3.0.0
+	 * @defaultValue false
 	 */
 	loadMessageCommandListeners?: boolean;
 
 	/**
 	 * The logger options, defaults to an instance of {@link Logger} when {@link ClientLoggerOptions."instance"} is not specified.
 	 *
-	 * @since 1.0.0
-	 * @default `{ instance: new Logger(LogLevel.Info) }`
+	 * @remarks Available since 1.0.0
+	 * @defaultValue `{ instance: new Logger(LogLevel.Info) }`
 	 */
 	logger?: ClientLoggerOptions;
 
@@ -163,7 +163,7 @@ export interface SapphireClientOptions {
 	/**
 	 * The regex prefix, an alternative to a mention or regular prefix to allow creating natural language command messages
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @example
 	 * ```typescript
 	 * /^(hey +)?bot[,! ]/i
@@ -182,7 +182,7 @@ export interface SapphireClientOptions {
 	/**
 	 * Controls whether the bot will automatically appear to be typing when a command is accepted.
 	 *
-	 * @default false
+	 * @defaultValue false
 	 */
 	typing?: boolean;
 }
@@ -195,7 +195,7 @@ export interface SapphireClientOptions {
  * for reference. This method is called at the start of the {@link SapphireClient.login} method.
  *
  * @see {@link SapphireClientOptions} for all options available to the Sapphire Client. You can also provide all of discord.js' [ClientOptions](https://discord.js.org/docs/packages/discord.js/main/ClientOptions:Interface)
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  * @example
  * ```typescript
  * const client = new SapphireClient({
@@ -233,15 +233,15 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	/**
 	 * The client's ID, used for the user prefix.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public override id: Snowflake | null = null;
 
 	/**
 	 * The method to be overridden by the developer.
 	 *
-	 * @since 1.0.0
-	 * @return A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
+	 * @remarks Available since 1.0.0
+	 * @returns A string for a single prefix, an array of strings for matching multiple, or null for no match (mention prefix only).
 	 * @example
 	 * ```typescript
 	 * // Return always the same prefix (unconfigurable):
@@ -272,14 +272,14 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	 * The logger to be used by the framework and plugins. By default, a {@link Logger} instance is used, which emits the
 	 * messages to the console.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public override logger: ILogger;
 
 	/**
 	 * Whether the bot has mention as a prefix disabled
 	 *
-	 * @default false
+	 * @defaultValue false
 	 * @example
 	 * ```typescript
 	 * client.disableMentionPrefix = false;
@@ -290,7 +290,7 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	/**
 	 * The registered stores.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 */
 	public override stores: StoreRegistry;
 
@@ -350,9 +350,9 @@ export class SapphireClient<Ready extends boolean = boolean> extends Client<Read
 	/**
 	 * Loads all pieces, then logs the client in, establishing a websocket connection to Discord.
 	 *
-	 * @since 1.0.0
+	 * @remarks Available since 1.0.0
 	 * @param token - Token of the account to log in with.
-	 * @return Token of the account used.
+	 * @returns Token of the account used.
 	 */
 	public override async login(token?: string) {
 		// Register the user directory if not null:

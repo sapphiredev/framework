@@ -10,7 +10,7 @@ export abstract class InteractionHandler<Options extends InteractionHandler.Opti
 	/**
 	 * The type for this handler
 	 *
-	 * @since 3.0.0
+	 * @remarks Available since 3.0.0
 	 */
 	public readonly interactionHandlerType: InteractionHandlerTypes;
 

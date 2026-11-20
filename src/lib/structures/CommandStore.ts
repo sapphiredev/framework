@@ -14,7 +14,7 @@ import { Command } from './Command';
 /**
  * Stores all Command pieces
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export class CommandStore extends AliasStore<Command, 'commands'> {
 	public constructor() {

@@ -10,7 +10,7 @@ export interface FlagStrategyOptions {
 	 * An array of strings, e.g. [`silent`].
 	 * A boolean defining whether the strategy should accept all keys (`true`) or none at all (`false`).
 	 *
-	 * @default []
+	 * @defaultValue `[]`
 	 */
 	flags?: boolean | readonly string[];
 
@@ -19,21 +19,21 @@ export interface FlagStrategyOptions {
 	 * An array of strings, e.g. [`silent`].
 	 * A boolean defining whether the strategy should accept all keys (`true`) or none at all (`false`).
 	 *
-	 * @default []
+	 * @defaultValue `[]`
 	 */
 	options?: boolean | readonly string[];
 
 	/**
 	 * The prefixes for both flags and options.
 	 *
-	 * @default ['--', '-', '—']
+	 * @defaultValue ['--', '-', '—']
 	 */
 	prefixes?: string[];
 
 	/**
 	 * The flag separators.
 	 *
-	 * @default ['=', ':']
+	 * @defaultValue ['=', ':']
 	 */
 	separators?: string[];
 }

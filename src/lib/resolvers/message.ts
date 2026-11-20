@@ -23,7 +23,7 @@ export interface MessageResolverOptions {
 	/**
 	 * Channel to resolve the message in.
 	 *
-	 * @default message.channel
+	 * @defaultValue message.channel
 	 */
 	channel?: TextBasedChannelTypes;
 	/**
@@ -34,7 +34,7 @@ export interface MessageResolverOptions {
 	 * Whether to scan the entire guild cache for the message.
 	 * If channel is given with this option, this option is ignored.
 	 *
-	 * @default false
+	 * @defaultValue false
 	 */
 	scan?: boolean;
 }

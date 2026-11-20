@@ -55,7 +55,7 @@ export enum RegisterBehavior {
 	/**
 	 * Finds all differences in the commands provided using our internal computation method, and logs them to the console, while applying them.
 	 *
-	 * @danger This can potentially cause slowdowns when booting up your bot as computing differences on big commands can take a while.
+	 * @remarks **Warning:** This can potentially cause slowdowns when booting up your bot as computing differences on big commands can take a while.
 	 * We recommend you use `OVERWRITE` instead in production.
 	 */
 	VerboseOverwrite = 'VERBOSE_OVERWRITE'
@@ -69,7 +69,7 @@ export enum InternalRegistryAPIType {
 /**
  * The allowed values for {@link CommandOptions.runIn} as an enum.
  *
- * @since 2.0.0
+ * @remarks Available since 2.0.0
  */
 export enum CommandOptionsRunTypeEnum {
 	Dm = 'DM',
@@ -85,7 +85,7 @@ export enum CommandOptionsRunTypeEnum {
 /**
  * The available command pre-conditions.
  *
- * @since 2.0.0
+ * @remarks Available since 2.0.0
  */
 export enum CommandPreConditions {
 	ClientPermissions = 'ClientPermissions',

@@ -7,14 +7,14 @@ import type { PreconditionContainerArray, PreconditionRunMode } from '../Precond
 /**
  * Defines the condition for {@link PreconditionContainerArray}s to run.
  *
- * @since 1.0.0
+ * @remarks Available since 1.0.0
  */
 export interface IPreconditionCondition {
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
 	 *
-	 * @seealso {@link PreconditionRunMode.Parallel}
-	 * @since 3.0.0
+	 * @see {@link PreconditionRunMode.Parallel}
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param entries - The containers to run.
@@ -30,8 +30,8 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
 	 *
-	 * @seealso {@link PreconditionRunMode.Sequential}
-	 * @since 3.0.0
+	 * @see {@link PreconditionRunMode.Sequential}
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param entries - The containers to run.
@@ -47,8 +47,8 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
 	 *
-	 * @seealso {@link PreconditionRunMode.Parallel}
-	 * @since 3.0.0
+	 * @see {@link PreconditionRunMode.Parallel}
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param entries - The containers to run.
@@ -64,8 +64,8 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
 	 *
-	 * @seealso {@link PreconditionRunMode.Sequential}
-	 * @since 3.0.0
+	 * @see {@link PreconditionRunMode.Sequential}
+	 * @remarks Available since 3.0.0
 	 * @param interaction - The interaction that ran this precondition.
 	 * @param command - The command the interaction invoked.
 	 * @param entries - The containers to run.
@@ -81,8 +81,8 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs all the containers using `Promise.all`, then checks the results once all tasks finished running.
 	 *
-	 * @seealso {@link PreconditionRunMode.Parallel}
-	 * @since 1.0.0
+	 * @see {@link PreconditionRunMode.Parallel}
+	 * @remarks Available since 1.0.0
 	 * @param message - The message that ran this precondition.
 	 * @param command - The command the message invoked.
 	 * @param entries - The containers to run.
@@ -98,8 +98,8 @@ export interface IPreconditionCondition {
 	/**
 	 * Runs the containers one by one.
 	 *
-	 * @seealso {@link PreconditionRunMode.Sequential}
-	 * @since 1.0.0
+	 * @see {@link PreconditionRunMode.Sequential}
+	 * @remarks Available since 1.0.0
 	 * @param message - The message that ran this precondition.
 	 * @param command - The command the message invoked.
 	 * @param entries - The containers to run.

@@ -49,21 +49,21 @@ export abstract class Listener<E extends symbol | keyof ClientEvents = '', Optio
 	/**
 	 * The emitter, if any.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly emitter: EventEmitter | null;
 
 	/**
 	 * The name of the event the listener listens to.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly event: string | symbol;
 
 	/**
 	 * Whether the listener will be unloaded after the first run.
 	 *
-	 * @since 2.0.0
+	 * @remarks Available since 2.0.0
 	 */
 	public readonly once: boolean;
 
