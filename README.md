@@ -28,12 +28,14 @@ Sapphire is a Discord bot framework built on top of [discord.js] for advanced an
 
 ## Features
 
-- Written in TypeScript
-- Command Handler, Arguments, Pre-conditions and Listeners Store
-- Completely Modular and Extendable
-- Advanced Plugins Support
-- Supports many [plugins](https://github.com/sapphiredev/plugins)
-- Full TypeScript & JavaScript support
+- Piece-based architecture for organizing commands, listeners, and preconditions.
+- Unified support for message commands, chat input commands, context menu commands, and autocomplete interactions.
+- Configurable message-command prefixes, aliases, flags, and argument parsing, with built-in resolvers for common values and Discord entities.
+- Declarative command options for channel restrictions with `runIn`, cooldowns, NSFW checks, and user or client permissions.
+- Composable precondition containers for combining built-in and custom checks with AND/OR logic.
+- Application command registry for global and guild commands, with registration strategies and command-difference detection.
+- Lifecycle hooks for extending client initialization and login, plus a rich ecosystem of [community plugins](https://github.com/sapphiredev/plugins).
+- TypeScript-first APIs with JavaScript support.
 
 ## Installation
 
