@@ -1,8 +1,13 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { ArgumentStream, Lexer, Parser, type IUnorderedStrategy } from '@sapphire/lexure';
 import { AliasPiece } from '@sapphire/pieces';
 import { isFunction, isNullish, isObject, type Awaitable } from '@sapphire/utilities';
-import { ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, type AutocompleteInteraction, type Message } from 'discord.js';
+import {
+	ChannelType,
+	type AutocompleteInteraction,
+	type ChatInputCommandInteraction,
+	type ContextMenuCommandInteraction,
+	type Message
+} from 'discord.js';
 import { Args } from '../parsers/Args';
 import {
 	parseConstructorPreConditionsCooldown,
@@ -507,11 +512,13 @@ export declare namespace Command {
 	export type RunInTypes = CommandOptionsRunType;
 	export type RunInUnion = CommandRunInUnion;
 	export type SpecificRunIn = CommandSpecificRunIn;
+	/* eslint-disable @typescript-eslint/consistent-type-imports */
 	export type ChatInputCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').ChatInputCommandInteraction<Cached>;
 	export type ContextMenuCommandInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').ContextMenuCommandInteraction<Cached>;
 	export type AutocompleteInteraction<Cached extends import('discord.js').CacheType = import('discord.js').CacheType> =
 		import('discord.js').AutocompleteInteraction<Cached>;
+	/* eslint-enable @typescript-eslint/consistent-type-imports */
 	export type Registry = ApplicationCommandRegistry;
 }
