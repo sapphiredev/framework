@@ -52,14 +52,6 @@ export class ApplicationCommandRegistry {
 	public readonly guildIdsToFetch = new Set<string>();
 
 	/**
-	 * The global slash command id for this command.
-	 *
-	 * @deprecated This field will only show the first global command id registered for this registry.
-	 * Use {@link ApplicationCommandRegistry.globalChatInputCommandIds} instead.
-	 */
-	public globalCommandId: string | null = null;
-
-	/**
 	 * A set of all registered and valid global chat input command ids that point to this registry.
 	 */
 	public readonly globalChatInputCommandIds = new Set<string>();
@@ -68,14 +60,6 @@ export class ApplicationCommandRegistry {
 	 * A set of all registered and valid global context menu command ids that point to this registry.
 	 */
 	public readonly globalContextMenuCommandIds = new Set<string>();
-
-	/**
-	 * The guild command ids for this command.
-	 *
-	 * @deprecated This field will only show the first guild command id registered for this registry per guild.
-	 * Use {@link ApplicationCommandRegistry.guildIdToChatInputCommandIds} and {@link ApplicationCommandRegistry.guildIdToContextMenuCommandIds} instead.
-	 */
-	public readonly guildCommandIds = new Collection<string, string>();
 
 	/**
 	 * A map of guild ids to a set of registered and valid chat input command ids that point to this registry.
@@ -312,17 +296,6 @@ export class ApplicationCommandRegistry {
 
 				break;
 			}
-		}
-
-		// Old field handling
-		if (guildId) {
-			// Old, wrongly typed field (thx kyra for spotting >_>)
-			if (!this.guildCommandIds.has(guildId)) {
-				this.guildCommandIds.set(guildId, id);
-			}
-		} else {
-			// First come, first serve (thx kyra for spotting >_>)
-			this.globalCommandId ??= id;
 		}
 	}
 
