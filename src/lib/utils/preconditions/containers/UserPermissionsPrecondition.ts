@@ -10,8 +10,8 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  * export class CoreCommand extends Command {
  *   public constructor(context: Command.LoaderContext) {
  *     super(context, {
+ *       runIn: [CommandOptionsRunTypeEnum.GuildAny],
  *       preconditions: [
- *         'GuildOnly',
  *         new UserPermissionsPrecondition('ADD_REACTIONS')
  *       ]
  *     });

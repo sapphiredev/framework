@@ -125,16 +125,7 @@ export interface Preconditions {
 		permissions: PermissionsBitField;
 	};
 	Cooldown: CooldownPreconditionContext;
-	DMOnly: never;
 	Enabled: never;
-	GuildNewsOnly: never;
-	GuildNewsThreadOnly: never;
-	GuildOnly: never;
-	GuildPrivateThreadOnly: never;
-	GuildPublicThreadOnly: never;
-	GuildTextOnly: never;
-	GuildThreadOnly: never;
-	GuildVoiceOnly: never;
 	NSFW: never;
 	RunIn: {
 		types: RunInPreconditionCommandSpecificData | readonly ChannelType[];

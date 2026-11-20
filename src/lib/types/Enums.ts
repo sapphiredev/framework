@@ -90,42 +90,6 @@ export enum CommandOptionsRunTypeEnum {
 export enum CommandPreConditions {
 	ClientPermissions = 'ClientPermissions',
 	Cooldown = 'Cooldown',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	DirectMessageOnly = 'DMOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildNewsOnly = 'GuildNewsOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildNewsThreadOnly = 'GuildNewsThreadOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildOnly = 'GuildOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildPrivateThreadOnly = 'GuildPrivateThreadOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildPublicThreadOnly = 'GuildPublicThreadOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildTextOnly = 'GuildTextOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildThreadOnly = 'GuildThreadOnly',
-	/**
-	 * @deprecated Use {@link RunIn} instead.
-	 */
-	GuildVoiceOnly = 'GuildVoiceOnly',
 	NotSafeForWork = 'NSFW',
 	RunIn = 'RunIn',
 	UserPermissions = 'UserPermissions'
