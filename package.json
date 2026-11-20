@@ -25,15 +25,15 @@
 	},
 	"dependencies": {
 		"@discordjs/builders": "^1.15.0",
-		"@sapphire/discord-utilities": "^4.0.0",
-		"@sapphire/discord.js-utilities": "^7.3.3",
-		"@sapphire/lexure": "^1.1.12",
-		"@sapphire/pieces": "^5.0.1",
-		"@sapphire/ratelimits": "^2.4.11",
-		"@sapphire/result": "^2.8.0",
-		"@sapphire/stopwatch": "^1.5.4",
-		"@sapphire/utilities": "^3.18.3",
-		"discord-api-types": "^0.38.60"
+		"@sapphire/discord-utilities": "^5.0.0",
+		"@sapphire/discord.js-utilities": "^8.0.0",
+		"@sapphire/lexure": "^2.0.0",
+		"@sapphire/pieces": "^4.4.1",
+		"@sapphire/ratelimits": "^3.0.0",
+		"@sapphire/result": "^3.0.0",
+		"@sapphire/stopwatch": "^2.0.0",
+		"@sapphire/utilities": "^4.0.0",
+		"discord-api-types": "^0.38.59"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^21.2.4",
@@ -41,10 +41,10 @@
 		"@favware/cliff-jumper": "^6.1.0",
 		"@favware/npm-deprecate": "^2.0.0",
 		"@sapphire/eslint-config": "^6.0.0",
-		"@sapphire/node-utilities": "^1.0.2",
-		"@sapphire/prettier-config": "^2.0.0",
-		"@sapphire/ts-config": "^5.0.3",
-		"@types/node": "^24.19.2",
+		"@sapphire/node-utilities": "^2.0.0",
+		"@sapphire/prettier-config": "^3.0.0",
+		"@sapphire/ts-config": "^6.0.0",
+		"@types/node": "^26.6.6",
 		"@types/ws": "^8.18.2",
 		"@typescript-eslint/eslint-plugin": "^8.73.0",
 		"@typescript-eslint/parser": "^8.73.0",
@@ -57,7 +57,7 @@
 		"tsdown": "^0.23.7",
 		"typescript": "~6.0.3",
 		"unplugin-replace": "^0.9.1",
-		"vite": "^7.3.7",
+		"vite": "^8.3.8",
 		"vitest": "^5.1.1"
 	},
 	"repository": {
