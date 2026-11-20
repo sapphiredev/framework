@@ -1982,7 +1982,7 @@ __metadata:
     "@sapphire/eslint-config": "npm:^6.0.0"
     "@sapphire/lexure": "npm:^1.1.12"
     "@sapphire/node-utilities": "npm:^1.0.2"
-    "@sapphire/pieces": "npm:^5.0.0"
+    "@sapphire/pieces": "npm:^5.0.1"
     "@sapphire/prettier-config": "npm:^2.0.0"
     "@sapphire/ratelimits": "npm:^2.4.11"
     "@sapphire/result": "npm:^2.8.0"
@@ -2024,13 +2024,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@sapphire/pieces@npm:5.0.0"
+"@sapphire/pieces@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@sapphire/pieces@npm:5.0.1"
   dependencies:
     "@discordjs/collection": "npm:^2.1.1"
     "@sapphire/utilities": "npm:^3.18.3"
-  checksum: 10/8a71243673b761e6c9a82c42a8ea6cb7c2c3bba56de0407695f0bd3c5e57ba5aa2246fa65a8f22e7851d4c5694337dc545e0d319a465dfef14747c8d5c7bfe25
+  checksum: 10/1d9b37f7fccefe60e01c6f82322ec446beb89aca4335215c71642276b217e12a1bc475a902da659fb53b5086cf04e3b7b9e8086d42e72933559da3431350b370
   languageName: node
   linkType: hard
 
