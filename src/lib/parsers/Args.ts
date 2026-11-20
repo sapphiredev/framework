@@ -582,6 +582,7 @@ export class Args {
 	 * ```
 	 */
 	public nextMaybe<T>(cb: ArgsNextCallback<T>): Option<T>;
+	// eslint-disable-next-line promise/prefer-await-to-callbacks
 	public nextMaybe<T>(cb?: ArgsNextCallback<T>): Option<T | string> {
 		return Option.from<T | string>(typeof cb === 'function' ? this.parser.singleMap(cb) : this.parser.single());
 	}
@@ -616,6 +617,7 @@ export class Args {
 	 * ```
 	 */
 	public next<T>(cb: ArgsNextCallback<T>): T;
+	// eslint-disable-next-line promise/prefer-await-to-callbacks
 	public next<T>(cb?: ArgsNextCallback<T>): T | string | null {
 		const value = cb ? this.nextMaybe<T | string | null>(cb) : this.nextMaybe();
 		return value.unwrapOr(null);

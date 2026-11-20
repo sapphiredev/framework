@@ -101,6 +101,7 @@ export abstract class Listener<E extends symbol | keyof ClientEvents = '', Optio
 
 	private async _run(...args: unknown[]) {
 		const result = await Result.fromAsync(() => this.run(...(args as E extends keyof ClientEvents ? ClientEvents[E] : unknown[])));
+		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		result.inspectErr((error) => this.container.client.emit(Events.ListenerError, error, { piece: this }));
 	}
 
