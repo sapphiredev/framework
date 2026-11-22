@@ -51,7 +51,7 @@
 		"@favware/rollup-type-bundler": "^4.0.0",
 		"@sapphire/eslint-config": "^5.0.6",
 		"@sapphire/node-utilities": "^1.0.2",
-		"@sapphire/prettier-config": "^2.0.0",
+		"@sapphire/prettier-config": "^3.0.0",
 		"@sapphire/ts-config": "^5.0.2",
 		"@types/node": "^24.10.1",
 		"@types/ws": "^8.18.1",
