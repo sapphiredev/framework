@@ -6,7 +6,7 @@ const baseFalses = ['0', 'false', '-', 'f', 'no', 'n'] as const;
 
 export function resolveBoolean(
 	parameter: string,
-	customs?: { truths?: readonly string[]; falses?: readonly string[] }
+	customs?: { falses?: readonly string[]; truths?: readonly string[] }
 ): Result<boolean, Identifiers.ArgumentBooleanError> {
 	const boolean = parameter.toLowerCase();
 

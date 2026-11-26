@@ -23,6 +23,7 @@ export function getCommandDifferencesFast(
 	apiData: InternalAPICall['builtData'],
 	guildCommand: boolean
 ) {
+	// eslint-disable-next-line no-unreachable-loop
 	for (const _ of getCommandDifferences(existingCommand, apiData, guildCommand)) {
 		// Return immediately on first difference found (also means we skip all other checks)
 		return true;

@@ -3,8 +3,8 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveNumber(
 	parameter: string,
-	options?: { minimum?: number; maximum?: number }
-): Result<number, Identifiers.ArgumentNumberError | Identifiers.ArgumentNumberTooSmall | Identifiers.ArgumentNumberTooLarge> {
+	options?: { maximum?: number; minimum?: number }
+): Result<number, Identifiers.ArgumentNumberError | Identifiers.ArgumentNumberTooLarge | Identifiers.ArgumentNumberTooSmall> {
 	const parsed = Number(parameter);
 	if (Number.isNaN(parsed)) {
 		return Result.err(Identifiers.ArgumentNumberError);

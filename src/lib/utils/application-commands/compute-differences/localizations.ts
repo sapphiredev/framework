@@ -8,11 +8,11 @@ export function* checkLocalizations({
 	originalLocalizedDescriptions,
 	expectedLocalizedDescriptions
 }: {
-	localeMapName: string;
-	localePresentMessage: string;
-	localeMissingMessage: string;
-	originalLocalizedDescriptions?: LocalizationMap | null;
 	expectedLocalizedDescriptions?: LocalizationMap | null;
+	localeMapName: string;
+	localeMissingMessage: string;
+	localePresentMessage: string;
+	originalLocalizedDescriptions?: LocalizationMap | null;
 }) {
 	if (!originalLocalizedDescriptions && expectedLocalizedDescriptions) {
 		yield {
@@ -62,7 +62,6 @@ function* reportLocalizationMapDifferences(
 			};
 		}
 		// Not equal
-		// eslint-disable-next-line no-negated-condition
 		else if (possiblyExistingEntry !== value) {
 			yield {
 				key: `${mapName}.${key}`,

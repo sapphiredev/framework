@@ -1,15 +1,14 @@
 import { container } from '@sapphire/pieces';
 import { isNullish } from '@sapphire/utilities';
-import {
+import type {
 	BaseInteraction,
 	ChatInputCommandInteraction,
 	ContextMenuCommandInteraction,
-	PermissionFlagsBits,
-	PermissionsBitField,
-	type Message,
-	type PermissionsString,
-	type TextBasedChannel
+	Message,
+	PermissionsString,
+	TextBasedChannel
 } from 'discord.js';
+import { PermissionFlagsBits, PermissionsBitField } from 'discord.js';
 import { Identifiers } from '../lib/errors/Identifiers';
 import type { Command } from '../lib/structures/Command';
 import { AllFlowsPrecondition } from '../lib/structures/Precondition';
@@ -72,7 +71,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		return this.sharedRun(required, availablePermissions, 'context menu');
 	}
 
-	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: Message | BaseInteraction) {
+	private async getPermissionsForChannel(channel: TextBasedChannel, messageOrInteraction: BaseInteraction | Message) {
 		let permissions: PermissionsBitField | null = this.dmChannelPermissions;
 
 		if (messageOrInteraction.inGuild() && !channel.isDMBased()) {
@@ -131,6 +130,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		Administrator: 'Administrator',
 		AttachFiles: 'Attach Files',
 		BanMembers: 'Ban Members',
+		BypassSlowmode: 'Bypass Slowmode',
 		ChangeNickname: 'Change Nickname',
 		Connect: 'Connect',
 		CreateEvents: 'Create Events',
@@ -164,6 +164,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 		SendPolls: 'Create Polls',
 		SendTTSMessages: 'Send TTS Messages',
 		SendVoiceMessages: 'Send Voice Messages',
+		SetVoiceChannelStatus: 'Set Voice Channel Status',
 		Speak: 'Speak',
 		Stream: 'Stream',
 		UseApplicationCommands: 'Use Application Commands',

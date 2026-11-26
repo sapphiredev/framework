@@ -5,9 +5,9 @@ export function* checkOptionRequired({
 	newRequired,
 	key
 }: {
-	oldRequired?: boolean;
-	newRequired?: boolean;
 	key: string;
+	newRequired?: boolean;
+	oldRequired?: boolean;
 }): Generator<CommandDifference> {
 	if ((oldRequired ?? false) !== (newRequired ?? false)) {
 		yield {

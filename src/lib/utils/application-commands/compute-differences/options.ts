@@ -81,10 +81,10 @@ function* reportOptionDifferences({
 	currentIndex,
 	keyPath = (index: number) => `options[${index}]`
 }: {
-	option: APIApplicationCommandOption;
 	currentIndex: number;
 	existingOption?: APIApplicationCommandOption;
-	keyPath?: (index: number) => string;
+	keyPath?(this: void, index: number): string;
+	option: APIApplicationCommandOption;
 }): Generator<CommandDifference> {
 	// If current option doesn't exist, report and return
 	if (!existingOption) {
@@ -236,10 +236,10 @@ function* handleSubcommandOptions({
 	currentIndex,
 	keyPath
 }: {
-	expectedOptions?: APIApplicationCommandBasicOption[];
-	existingOptions?: APIApplicationCommandBasicOption[];
 	currentIndex: number;
-	keyPath: (index: number) => string;
+	existingOptions?: APIApplicationCommandBasicOption[];
+	expectedOptions?: APIApplicationCommandBasicOption[];
+	keyPath(this: void, index: number): string;
 }): Generator<CommandDifference> {
 	// 0. No existing options and now we have options
 	if (!existingOptions?.length && expectedOptions?.length) {

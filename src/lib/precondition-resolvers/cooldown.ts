@@ -7,12 +7,12 @@ import { type PreconditionContainerArray } from '../utils/preconditions/Precondi
  * Appends the `Cooldown` precondition when {@link Command.Options.cooldownLimit} and
  * {@link Command.Options.cooldownDelay} are both non-zero.
  *
- * @param command The command to parse cooldowns for.
- * @param cooldownLimit The cooldown limit to use.
- * @param cooldownDelay The cooldown delay to use.
- * @param cooldownScope The cooldown scope to use.
- * @param cooldownFilteredUsers The cooldown filtered users to use.
- * @param preconditionContainerArray The precondition container array to append the precondition to.
+ * @param command - The command to parse cooldowns for.
+ * @param cooldownLimit - The cooldown limit to use.
+ * @param cooldownDelay - The cooldown delay to use.
+ * @param cooldownScope - The cooldown scope to use.
+ * @param cooldownFilteredUsers - The cooldown filtered users to use.
+ * @param preconditionContainerArray - The precondition container array to append the precondition to.
  */
 export function parseConstructorPreConditionsCooldown<P, O extends Command.Options>(
 	command: Command<P, O>,

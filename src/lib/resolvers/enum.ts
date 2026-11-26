@@ -3,7 +3,7 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveEnum(
 	parameter: string,
-	options?: { enum?: string[]; caseInsensitive?: boolean }
+	options?: { caseInsensitive?: boolean; enum?: string[] }
 ): Result<string, Identifiers.ArgumentEnumEmptyError | Identifiers.ArgumentEnumError> {
 	if (!options?.enum?.length) {
 		return Result.err(Identifiers.ArgumentEnumEmptyError);

@@ -22,7 +22,7 @@ import type {
 	ContextMenuCommand,
 	ContextMenuCommandContext,
 	MessageCommand
-} from '../types/CommandTypes';
+} from './CommandTypes';
 import type { ApplicationCommandRegistry } from '../utils/application-commands/ApplicationCommandRegistry';
 import type { PluginHook } from './Enums';
 
@@ -109,104 +109,121 @@ export const Events = {
 	// Message commands chain
 	/**
 	 * Emitted when a message is created that was not sent by bots or webhooks.
-	 * @param {Message} message The created message
+	 *
+	 * @param message - The created message
 	 */
 	PreMessageParsed: 'preMessageParsed' as const,
 	/**
 	 * Emitted when a message is created consisting of only the bot's mention.
-	 * @param {Message} message The created message
+	 *
+	 * @param message - The created message
 	 */
 	MentionPrefixOnly: 'mentionPrefixOnly' as const,
 	/**
 	 * Emitted when a message is created that does not start with a valid prefix.
-	 * @param {Message} message The created message
+	 *
+	 * @param message - The created message
 	 */
 	NonPrefixedMessage: 'nonPrefixedMessage' as const,
 	/**
 	 * Emitted when a message is created that does starts with a valid prefix.
-	 * @param {Message} message The created message
+	 *
+	 * @param message - The created message
 	 */
 	PrefixedMessage: 'prefixedMessage' as const,
 
 	/**
 	 * Emitted when a message starts with a valid prefix but does not include a command name.
-	 * @param {UnknownMessageCommandNamePayload} payload
+	 *
+	 * @param payload - The contextual payload.
 	 */
 	UnknownMessageCommandName: 'unknownMessageCommandName' as const,
 	/**
 	 * Emitted when the name of a sent message command does not match any loaded commands.
-	 * @param {UnknownMessageCommandPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	UnknownMessageCommand: 'unknownMessageCommand' as const,
 	/**
 	 * Emitted when a message command is executed but a `messageRun` method is not found.
-	 * @param {CommandDoesNotHaveMessageCommandHandler} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	CommandDoesNotHaveMessageCommandHandler: 'commandDoesNotHaveMessageCommandHandler' as const,
 	/**
 	 * Emitted before the `messageRun` method of a command is run.
-	 * @param {PreMessageCommandRunPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	PreMessageCommandRun: 'preMessageCommandRun' as const,
 
 	/**
 	 * Emitted when a precondition denies a message command from being run.
-	 * @param {UserError} error The error reported by the precondition
-	 * @param {MessageCommandDeniedPayload} payload The contextual payload
+	 *
+	 * @param error - The error reported by the precondition
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandDenied: 'messageCommandDenied' as const,
 	/**
 	 * Emitted when a message command passes all precondition checks, if any.
-	 * @param {MessageCommandAcceptedPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandAccepted: 'messageCommandAccepted' as const,
 
 	/**
 	 * Emitted directly before a message command is run.
-	 * @param {Message} message The message that executed the command
-	 * @param {Command} command The command that is being run
-	 * @param {MessageCommandRunPayload} payload The contextual payload
+	 *
+	 * @param message - The message that executed the command
+	 * @param command - The command that is being run
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandRun: 'messageCommandRun' as const,
 	/**
 	 * Emitted after a message command runs successfully.
-	 * @param {MessageCommandSuccessPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandSuccess: 'messageCommandSuccess' as const,
 	/**
 	 * Emitted after a message command runs unsuccesfully.
-	 * @param {*} error The error that was thrown
-	 * @param {MessageCommandErrorPayload} payload The contextual payload
+	 *
+	 * @param error - The error that was thrown
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandError: 'messageCommandError' as const,
 	/**
 	 * Emitted directly after a message command finished running, regardless of the outcome.
-	 * @param {Message} message The message that executed the command
-	 * @param {Command} command The command that finished running
-	 * @param {MessageCommandFinishPayload} payload The contextual payload
+	 *
+	 * @param message - The message that executed the command
+	 * @param command - The command that finished running
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandFinish: 'messageCommandFinish' as const,
 
 	/**
 	 * Emitted after the bot unsuccessfully tried to start typing when a command is executed.
-	 * @param error The error that was thrown
-	 * @param payload The contextual payload
+	 *
+	 * @param error - The error that was thrown
+	 * @param payload - The contextual payload
 	 */
 	MessageCommandTypingError: 'messageCommandTypingError' as const,
 
 	// Listener errors
 	/**
 	 * Emitted when an error is encountered when executing a listener.
-	 * @param {*} error The error that was thrown
-	 * @param {ListenerErrorPayload} payload The contextual payload
+	 *
+	 * @param error - The error that was thrown
+	 * @param payload - The contextual payload
 	 */
 	ListenerError: 'listenerError' as const,
 
 	// Registry errors
 	/**
 	 * Emitted when an error is encountered when handling the command application command registry.
-	 * @param {*} error The error that was thrown
-	 * @param {Command} command The command whose registry caused the error
+	 *
+	 * @param error - The error that was thrown
+	 * @param command - The command whose registry caused the error
 	 */
 	CommandApplicationCommandRegistryError: 'commandApplicationCommandRegistryError' as const,
 
@@ -217,43 +234,49 @@ export const Events = {
 
 	/**
 	 * Emitted once the application command registries have been initialized.
-	 * @param {Map<string, ApplicationCommandRegistry>} registries The initialised registries
+	 *
+	 * @param registries - The initialised registries
 	 */
 	ApplicationCommandRegistriesRegistered: 'applicationCommandRegistriesRegistered' as const,
 
 	/**
 	 * Emitted when handling the command registries in bulk overwrite mode.
-	 * @param {Collection<Snowflake, ApplicationCommand>} result The result of the bulk overwrite
-	 * @param {string|null} guildId The guild id where the bulk overwrite was applied, null if global
+	 *
+	 * @param result - The result of the bulk overwrite containing `ApplicationCommand` instances
+	 * @param guildId - The guild id where the bulk overwrite was applied, null if global
 	 */
 	ApplicationCommandRegistriesBulkOverwrite: 'applicationCommandRegistriesBulkOverwrite' as const,
 
 	/**
 	 * Emitted when an error is encountered when handling the command registries in bulk overwrite mode.
-	 * @param {*} error The error that was thrown
-	 * @param {string|null} guildId The guild id where the error was thrown
+	 *
+	 * @param error - The error that was thrown
+	 * @param guildId - The guild id where the error was thrown
 	 */
 	ApplicationCommandRegistriesBulkOverwriteError: 'applicationCommandRegistriesBulkOverwriteError' as const,
 
 	// Piece store?
 	/**
 	 * Emitted after a piece is loaded.
-	 * @param {Store<Piece>} store The store in which the piece belongs to
-	 * @param {Piece} piece The piece that was loaded
+	 *
+	 * @param store - The store in which the piece belongs to
+	 * @param piece - The piece that was loaded
 	 */
 	PiecePostLoad: 'piecePostLoad' as const,
 	/**
 	 * Emitted when a piece is unloaded.
-	 * @param {Store<Piece>} store The store in which the piece belongs to
-	 * @param {Piece} piece The piece that was unloaded
+	 *
+	 * @param store - The store in which the piece belongs to
+	 * @param piece - The piece that was unloaded
 	 */
 	PieceUnload: 'pieceUnload' as const,
 
 	// Plugin
 	/**
 	 * Emitted when a plugin is loaded.
-	 * @param {PluginHook} hook The plugin hook that was loaded
-	 * @param {string | undefined} name The name of the plugin, if any
+	 *
+	 * @param hook - The plugin hook that was loaded
+	 * @param name - The name of the plugin, if any
 	 */
 	PluginLoaded: 'pluginLoaded' as const,
 
@@ -261,170 +284,198 @@ export const Events = {
 	/**
 	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered)
 	 * Use the {@link option} parameter to determine if `some` or `none` was passed.
-	 * @param {Option.None | Option.Some<unknown>} option The {@link Option} from the `parse` method.
-	 * @param {InteractionHandlerParseSuccess} payload The contextual payload
+	 *
+	 * @param option - The {@link Option} from the `parse` method.
+	 * @param payload - The contextual payload
 	 */
 	InteractionHandlerParseSuccess: 'interactionHandlerParseSuccess' as const,
 	/**
 	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered) and `some` is returned.
-	 * @param {Option.Some<unknown>} option The {@link Option.Some} from the `parse` method.
-	 * @param {InteractionHandlerParseSome} payload The contextual payload
+	 *
+	 * @param option - The {@link Option.Some} from the `parse` method.
+	 * @param payload - The contextual payload
 	 */
 	InteractionHandlerParseSome: 'interactionHandlerParseSome' as const,
 	/**
 	 * Emitted when the `parse` method of an interaction handler passes successfully (no errors are encountered) and `none` is returned.
-	 * @param {Option.None} option The {@link Option.None} from the `parse` method.
-	 * @param {InteractionHandlerParseNone} payload The contextual payload
+	 *
+	 * @param option - The {@link Option.None} from the `parse` method.
+	 * @param payload - The contextual payload
 	 */
 	InteractionHandlerParseNone: 'interactionHandlerParseNone' as const,
 	/**
 	 * Emitted when the `parse` method of an interaction handler encounters an error.
-	 * @param {*} error The error that was encountered
-	 * @param {InteractionHandlerParseError} payload The contextual payload
+	 *
+	 * @param error - The error that was encountered
+	 * @param payload - The contextual payload
 	 */
 	InteractionHandlerParseError: 'interactionHandlerParseError' as const,
 	/**
 	 * Emitted when an error is encountered when executing an interaction handler.
-	 * @param {*} error The error that was encountered
-	 * @param {InteractionHandlerError} payload The contextual payload
+	 *
+	 * @param error - The error that was encountered
+	 * @param payload - The contextual payload
 	 */
 	InteractionHandlerError: 'interactionHandlerError' as const,
 
 	// Autocomplete interaction
 	/**
 	 * Emitted when an autocomplete interaction is recieved.
-	 * @param {AutocompleteInteraction} interaction The interaction that was recieved
+	 *
+	 * @param interaction - The interaction that was recieved
 	 */
 	PossibleAutocompleteInteraction: 'possibleAutocompleteInteraction' as const,
 	/**
 	 * Emitted after an autocomplete interaction handler runs successfully.
-	 * @param {AutocompleteInteractionPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	CommandAutocompleteInteractionSuccess: 'commandAutocompleteInteractionSuccess' as const,
 	/**
 	 * Emitted when an error is encountered when executing an autocomplete interaction handler.
-	 * @param {*} error The error that was encountered
-	 * @param {AutocompleteInteractionPayload} payload The contextual payload
+	 *
+	 * @param error - The error that was encountered
+	 * @param payload - The contextual payload
 	 */
 	CommandAutocompleteInteractionError: 'commandAutocompleteInteractionError' as const,
 
 	// Chat input command chain
 	/**
 	 * Emitted when a chat input command interaction is recieved.
-	 * @param {ChatInputCommandInteraction} interaction The interaction that was recieved.
+	 *
+	 * @param interaction - The interaction that was recieved.
 	 */
 	PossibleChatInputCommand: 'possibleChatInputCommand' as const,
 	/**
 	 * Emitted when the name of a sent chat input command does not match any loaded commands.
-	 * @param {UnknownChatInputCommandPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	UnknownChatInputCommand: 'unknownChatInputCommand' as const,
 	/**
 	 * Emitted when a chat input command is executed but a `chatInputRun` method is not found.
-	 * @param {CommandDoesNotHaveChatInputCommandHandlerPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	CommandDoesNotHaveChatInputCommandHandler: 'commandDoesNotHaveChatInputCommandHandler' as const,
 	/**
 	 * Emitted before the `chatInputRun` method of a command is run.
-	 * @param {PreChatInputCommandRunPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	PreChatInputCommandRun: 'preChatInputCommandRun' as const,
 
 	/**
 	 * Emitted when a precondition denies a chat input command from being run.
-	 * @param {UserError} error The error reported by the precondition
-	 * @param {ChatInputCommandDeniedPayload} payload The contextual payload
+	 *
+	 * @param error - The error reported by the precondition
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandDenied: 'chatInputCommandDenied' as const,
 	/**
 	 * Emitted when a chat input command passes all precondition checks, if any.
-	 * @param {ChatInputCommandAcceptedPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandAccepted: 'chatInputCommandAccepted' as const,
 
 	/**
 	 * Emitted directly before a chat input command is run.
-	 * @param {ChatInputCommandInteraction} interaction The interaction that executed the command
-	 * @param {ChatInputCommand} command The command that is being run
-	 * @param {ChatInputCommandRunPayload} payload The contextual payload
+	 *
+	 * @param interaction - The interaction that executed the command
+	 * @param command - The command that is being run
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandRun: 'chatInputCommandRun' as const,
 	/**
 	 * Emitted after a chat input command runs successfully.
-	 * @param {ChatInputCommandSuccessPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandSuccess: 'chatInputCommandSuccess' as const,
 	/**
 	 * Emitted after a chat input command runs unsuccesfully.
-	 * @param {*} error The error that was thrown
-	 * @param {ChatInputCommandErrorPayload} payload The contextual payload
+	 *
+	 * @param error - The error that was thrown
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandError: 'chatInputCommandError' as const,
 	/**
 	 * Emitted directly after a chat input command finished running, regardless of the outcome.
-	 * @param {Interaction} interaction The interaction that executed the command
-	 * @param {ChatInputCommand} command The command that finished running
-	 * @param {ChatInputCommandFinishPayload} payload The contextual payload
+	 *
+	 * @param interaction - The interaction that executed the command
+	 * @param command - The command that finished running
+	 * @param payload - The contextual payload
 	 */
 	ChatInputCommandFinish: 'chatInputCommandFinish' as const,
 
 	// Context menu chain
 	/**
 	 * Emitted when a context menu interaction is recieved.
-	 * @param {ContextMenuCommandInteraction} interaction The interaction that was recieved.
+	 *
+	 * @param interaction - The interaction that was recieved.
 	 */
 	PossibleContextMenuCommand: 'possibleContextMenuCommand' as const,
 	/**
 	 * Emitted when the name of a sent context menu command does not match any loaded commands.
-	 * @param {UnknownContextMenuCommandPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	UnknownContextMenuCommand: 'unknownContextMenuCommand' as const,
 	/**
 	 * Emitted when a chat input command is executed but a `contextMenuRun` method is not found.
-	 * @param {CommandDoesNotHaveContextMenuCommandHandlerPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	CommandDoesNotHaveContextMenuCommandHandler: 'commandDoesNotHaveContextMenuCommandHandler' as const,
 	/**
 	 * Emitted before the `contextMenuRun` method of a command is run.
-	 * @param {PreContextMenuCommandRunPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	PreContextMenuCommandRun: 'preContextMenuCommandRun' as const,
 
 	/**
 	 * Emitted when a precondition denies a context menu command from being run.
-	 * @param {UserError} error The error reported by the precondition
-	 * @param {ContextMenuCommandDeniedPayload} payload The contextual payload
+	 *
+	 * @param error - The error reported by the precondition
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandDenied: 'contextMenuCommandDenied' as const,
 	/**
 	 * Emitted when a context menu command passes all precondition checks, if any.
-	 * @param {ContextMenuCommandAcceptedPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandAccepted: 'contextMenuCommandAccepted' as const,
 
 	/**
 	 * Emitted directly before a context menu command is run.
-	 * @param {ContextMenuCommandInteraction} interaction The interaction that executed the command
-	 * @param {ContextMenuCommand} command The command that is being run
-	 * @param {ContextMenuCommandRunPayload} payload The contextual payload
+	 *
+	 * @param interaction - The interaction that executed the command
+	 * @param command - The command that is being run
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandRun: 'contextMenuCommandRun' as const,
 	/**
 	 * Emitted after a context menu command runs successfully.
-	 * @param {ContextMenuCommandSuccessPayload} payload The contextual payload
+	 *
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandSuccess: 'contextMenuCommandSuccess' as const,
 	/**
 	 * Emitted after a context menu command runs unsuccesfully.
-	 * @param {*} error The error that was thrown
-	 * @param {ContextMenuCommandErrorPayload} payload The contextual payload
+	 *
+	 * @param error - The error that was thrown
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandError: 'contextMenuCommandError' as const,
 	/**
 	 * Emitted directly after a context menu command finished running, regardless of the outcome.
-	 * @param {Interaction} interaction The interaction that executed the command
-	 * @param {ContextMenuCommand} command The command that finished running
-	 * @param {ContextMenuCommandFinishPayload} payload The contextual payload
+	 *
+	 * @param interaction - The interaction that executed the command
+	 * @param command - The command that finished running
+	 * @param payload - The contextual payload
 	 */
 	ContextMenuCommandFinish: 'contextMenuCommandFinish' as const
 
@@ -440,16 +491,16 @@ export interface ListenerErrorPayload extends IPieceError {
 }
 
 export interface UnknownMessageCommandNamePayload {
-	message: Message;
-	prefix: string | RegExp;
 	commandPrefix: string;
+	message: Message;
+	prefix: RegExp | string;
 }
 
 export interface CommandDoesNotHaveMessageCommandHandler {
-	message: Message;
-	prefix: string | RegExp;
-	commandPrefix: string;
 	command: Command;
+	commandPrefix: string;
+	message: Message;
+	prefix: RegExp | string;
 }
 
 export interface UnknownMessageCommandPayload extends UnknownMessageCommandNamePayload {
@@ -457,20 +508,20 @@ export interface UnknownMessageCommandPayload extends UnknownMessageCommandNameP
 }
 
 export interface IMessageCommandPayload {
-	message: Message;
 	command: MessageCommand;
+	message: Message;
 }
 
 export interface PreMessageCommandRunPayload extends MessageCommandDeniedPayload {}
 
 export interface MessageCommandDeniedPayload extends IMessageCommandPayload {
-	parameters: string;
 	context: MessageCommand.RunContext;
+	parameters: string;
 }
 
 export interface MessageCommandAcceptedPayload extends IMessageCommandPayload {
-	parameters: string;
 	context: MessageCommand.RunContext;
+	parameters: string;
 }
 
 export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload {
@@ -478,8 +529,8 @@ export interface MessageCommandRunPayload extends MessageCommandAcceptedPayload 
 }
 
 export interface MessageCommandFinishPayload extends MessageCommandRunPayload {
-	success: boolean;
 	duration: number;
+	success: boolean;
 }
 
 export interface MessageCommandErrorPayload extends MessageCommandRunPayload {
@@ -487,26 +538,26 @@ export interface MessageCommandErrorPayload extends MessageCommandRunPayload {
 }
 
 export interface MessageCommandSuccessPayload extends MessageCommandRunPayload {
-	result: unknown;
 	duration: number;
+	result: unknown;
 }
 
 export interface MessageCommandTypingErrorPayload extends MessageCommandRunPayload {}
 
 export interface UnknownChatInputCommandPayload {
-	interaction: ChatInputCommandInteraction;
 	context: ChatInputCommandContext;
+	interaction: ChatInputCommandInteraction;
 }
 
 export interface CommandDoesNotHaveChatInputCommandHandlerPayload {
-	interaction: ChatInputCommandInteraction;
 	command: Command;
 	context: ChatInputCommandContext;
+	interaction: ChatInputCommandInteraction;
 }
 
 export interface IChatInputCommandPayload {
-	interaction: ChatInputCommandInteraction;
 	command: ChatInputCommand;
+	interaction: ChatInputCommandInteraction;
 }
 
 export interface PreChatInputCommandRunPayload extends IChatInputCommandPayload {
@@ -522,13 +573,13 @@ export interface ChatInputCommandAcceptedPayload extends PreChatInputCommandRunP
 export interface ChatInputCommandRunPayload extends ChatInputCommandAcceptedPayload {}
 
 export interface ChatInputCommandFinishPayload extends ChatInputCommandAcceptedPayload {
-	success: boolean;
 	duration: number;
+	success: boolean;
 }
 
 export interface ChatInputCommandSuccessPayload extends ChatInputCommandRunPayload {
-	result: unknown;
 	duration: number;
+	result: unknown;
 }
 
 export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
@@ -536,19 +587,19 @@ export interface ChatInputCommandErrorPayload extends IChatInputCommandPayload {
 }
 
 export interface UnknownContextMenuCommandPayload {
-	interaction: ContextMenuCommandInteraction;
 	context: ContextMenuCommandContext;
+	interaction: ContextMenuCommandInteraction;
 }
 
 export interface CommandDoesNotHaveContextMenuCommandHandlerPayload {
-	interaction: ContextMenuCommandInteraction;
-	context: ContextMenuCommandContext;
 	command: Command;
+	context: ContextMenuCommandContext;
+	interaction: ContextMenuCommandInteraction;
 }
 
 export interface IContextMenuCommandPayload {
-	interaction: ContextMenuCommandInteraction;
 	command: ContextMenuCommand;
+	interaction: ContextMenuCommandInteraction;
 }
 
 export interface PreContextMenuCommandRunPayload extends IContextMenuCommandPayload {
@@ -564,13 +615,13 @@ export interface ContextMenuCommandAcceptedPayload extends PreContextMenuCommand
 export interface ContextMenuCommandRunPayload extends ContextMenuCommandAcceptedPayload {}
 
 export interface ContextMenuCommandFinishPayload extends ContextMenuCommandAcceptedPayload {
-	success: boolean;
 	duration: number;
+	success: boolean;
 }
 
 export interface ContextMenuCommandSuccessPayload extends ContextMenuCommandRunPayload {
-	result: unknown;
 	duration: number;
+	result: unknown;
 }
 
 export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPayload {
@@ -578,8 +629,8 @@ export interface ContextMenuCommandErrorPayload extends IContextMenuCommandPaylo
 }
 
 export interface IInteractionHandlerPayload {
-	interaction: Interaction;
 	handler: InteractionHandler;
+	interaction: Interaction;
 }
 
 export interface InteractionHandlerParseSuccess extends IInteractionHandlerPayload {}
@@ -598,9 +649,9 @@ export interface InteractionHandlerParseError extends IInteractionHandlerPayload
 export interface InteractionHandlerError extends IInteractionHandlerPayload {}
 
 export interface AutocompleteInteractionPayload {
-	interaction: AutocompleteInteraction;
 	command: AutocompleteCommand;
 	context: AutocompleteCommandContext;
+	interaction: AutocompleteInteraction;
 }
 
 declare const SapphireEvents: typeof Events;
@@ -621,7 +672,7 @@ declare module 'discord.js' {
 		[SapphireEvents.PreMessageParsed]: [message: Message];
 		[SapphireEvents.MentionPrefixOnly]: [message: Message];
 		[SapphireEvents.NonPrefixedMessage]: [message: Message];
-		[SapphireEvents.PrefixedMessage]: [message: Message, prefix: string | RegExp];
+		[SapphireEvents.PrefixedMessage]: [message: Message, prefix: RegExp | string];
 
 		[SapphireEvents.UnknownMessageCommandName]: [payload: UnknownMessageCommandNamePayload];
 		[SapphireEvents.UnknownMessageCommand]: [payload: UnknownMessageCommandPayload];

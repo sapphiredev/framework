@@ -1,9 +1,9 @@
 import { container } from '@sapphire/pieces';
 import {
-	ChatInputCommandInteraction,
-	ContextMenuCommandInteraction,
 	PermissionFlagsBits,
 	PermissionsBitField,
+	type ChatInputCommandInteraction,
+	type ContextMenuCommandInteraction,
 	type Message,
 	type NewsChannel,
 	type TextChannel
@@ -30,7 +30,7 @@ export class CorePrecondition extends AllFlowsPrecondition {
 
 	public messageRun(message: Message, _command: Command, context: PermissionPreconditionContext): AllFlowsPrecondition.Result {
 		const required = context.permissions ?? new PermissionsBitField();
-		const channel = message.channel as TextChannel | NewsChannel;
+		const channel = message.channel as NewsChannel | TextChannel;
 		const permissions = message.guild ? channel.permissionsFor(message.author) : this.dmChannelPermissions;
 
 		return this.sharedRun(required, permissions, 'message');

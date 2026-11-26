@@ -22,17 +22,19 @@ import { Identifiers } from '../errors/Identifiers';
 export interface MessageResolverOptions {
 	/**
 	 * Channel to resolve the message in.
-	 * @default message.channel
+	 *
+	 * @defaultValue message.channel
 	 */
 	channel?: TextBasedChannelTypes;
 	/**
 	 * Base {@link Message} or {@link AnyInteraction} to resolve the message from (e.g. pick the channel if not given).
 	 */
-	messageOrInteraction: Message | AnyInteraction;
+	messageOrInteraction: AnyInteraction | Message;
 	/**
 	 * Whether to scan the entire guild cache for the message.
 	 * If channel is given with this option, this option is ignored.
-	 * @default false
+	 *
+	 * @defaultValue false
 	 */
 	scan?: boolean;
 }

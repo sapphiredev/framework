@@ -94,6 +94,6 @@ export class PreconditionStore extends Store<Precondition, 'preconditions'> {
 
 	public override clear(): void {
 		this.globalPreconditions.length = 0;
-		return super.clear();
+		super.clear();
 	}
 }

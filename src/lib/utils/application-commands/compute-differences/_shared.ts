@@ -27,7 +27,7 @@ export const optionTypeToPrettyName = new Map<ApplicationCommandOptionType, stri
 export const contextMenuTypes = [ApplicationCommandType.Message, ApplicationCommandType.User];
 export const subcommandTypes = [ApplicationCommandOptionType.SubcommandGroup, ApplicationCommandOptionType.Subcommand];
 
-export type APIApplicationCommandSubcommandTypes = APIApplicationCommandSubcommandOption | APIApplicationCommandSubcommandGroupOption;
+export type APIApplicationCommandSubcommandTypes = APIApplicationCommandSubcommandGroupOption | APIApplicationCommandSubcommandOption;
 export type APIApplicationCommandMinAndMaxValueTypes = APIApplicationCommandIntegerOption | APIApplicationCommandNumberOption;
 export type APIApplicationCommandChoosableAndAutocompletableTypes = APIApplicationCommandMinAndMaxValueTypes | APIApplicationCommandStringOption;
 export type APIApplicationCommandMinMaxLengthTypes = APIApplicationCommandStringOption;
@@ -55,7 +55,7 @@ export function hasChannelTypesSupport(option: APIApplicationCommandOption): opt
 }
 
 export interface CommandDifference {
-	key: string;
 	expected: string;
+	key: string;
 	original: string;
 }

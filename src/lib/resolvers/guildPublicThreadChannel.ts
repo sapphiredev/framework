@@ -9,7 +9,7 @@ export function resolveGuildPublicThreadChannel(
 	guild: Guild
 ): Result<
 	ThreadChannel,
-	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildThreadChannelError | Identifiers.ArgumentGuildPublicThreadChannelError
+	Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildPublicThreadChannelError | Identifiers.ArgumentGuildThreadChannelError
 > {
 	return resolveGuildChannelPredicate(parameter, guild, isPublicThreadChannel, Identifiers.ArgumentGuildPublicThreadChannelError);
 }

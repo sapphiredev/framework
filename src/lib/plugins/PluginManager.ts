@@ -5,7 +5,7 @@ import { PluginHook } from '../types/Enums';
 import type { Plugin } from './Plugin';
 import { postInitialization, postLogin, preGenericsInitialization, preInitialization, preLogin } from './symbols';
 
-export type AsyncPluginHooks = PluginHook.PreLogin | PluginHook.PostLogin;
+export type AsyncPluginHooks = PluginHook.PostLogin | PluginHook.PreLogin;
 export interface SapphirePluginAsyncHook {
 	(this: SapphireClient, options: ClientOptions): Awaitable<unknown>;
 }
@@ -15,10 +15,10 @@ export interface SapphirePluginHook {
 	(this: SapphireClient, options: ClientOptions): unknown;
 }
 
-export interface SapphirePluginHookEntry<T = SapphirePluginHook | SapphirePluginAsyncHook> {
+export interface SapphirePluginHookEntry<T = SapphirePluginAsyncHook | SapphirePluginHook> {
 	hook: T;
-	type: PluginHook;
 	name?: string;
+	type: PluginHook;
 }
 
 export class PluginManager {
@@ -26,7 +26,7 @@ export class PluginManager {
 
 	public registerHook(hook: SapphirePluginHook, type: SyncPluginHooks, name?: string): this;
 	public registerHook(hook: SapphirePluginAsyncHook, type: AsyncPluginHooks, name?: string): this;
-	public registerHook(hook: SapphirePluginHook | SapphirePluginAsyncHook, type: PluginHook, name?: string): this {
+	public registerHook(hook: SapphirePluginAsyncHook | SapphirePluginHook, type: PluginHook, name?: string): this {
 		if (typeof hook !== 'function') throw new TypeError(`The provided hook ${name ? `(${name}) ` : ''}is not a function`);
 		this.registry.add({ hook, type, name });
 		return this;
@@ -61,10 +61,11 @@ export class PluginManager {
 			[postLogin, PluginHook.PostLogin]
 		];
 		for (const [hookSymbol, hookType] of possibleSymbolHooks) {
-			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginHook | SapphirePluginAsyncHook;
+			const hook = Reflect.get(plugin, hookSymbol) as SapphirePluginAsyncHook | SapphirePluginHook;
 			if (typeof hook !== 'function') continue;
 			this.registerHook(hook, hookType as any);
 		}
+
 		return this;
 	}
 

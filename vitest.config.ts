@@ -7,8 +7,5 @@ export default defineConfig({
 			enabled: true,
 			reporter: ['text', 'lcov']
 		}
-	},
-	esbuild: {
-		target: 'es2022'
 	}
 });

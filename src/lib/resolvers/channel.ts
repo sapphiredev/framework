@@ -6,7 +6,7 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveChannel(
 	parameter: string,
-	messageOrInteraction: Message | CommandInteraction
+	messageOrInteraction: CommandInteraction | Message
 ): Result<ChannelTypes, Identifiers.ArgumentChannelError> {
 	const channelId = (ChannelMentionRegex.exec(parameter)?.[1] ?? parameter) as Snowflake;
 	const channel = (messageOrInteraction.guild ? messageOrInteraction.guild.channels : container.client.channels).cache.get(channelId);

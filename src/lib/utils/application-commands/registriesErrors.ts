@@ -5,8 +5,9 @@ import { bulkOverwriteError } from './registriesLog';
 
 /**
  * Opinionatedly logs the encountered registry error.
- * @param error The emitted error
- * @param command The command which had the error
+ *
+ * @param error - The emitted error
+ * @param command - The command which had the error
  */
 export function emitPerRegistryError(error: unknown, command: Command<any, any>) {
 	const { name, location } = command;
@@ -24,8 +25,9 @@ export function emitPerRegistryError(error: unknown, command: Command<any, any>)
 
 /**
  * Opinionatedly logs any bulk overwrite registries error.
- * @param error The emitted error
- * @param guildId The guild id in which the error was caused
+ *
+ * @param error - The emitted error
+ * @param guildId - The guild id in which the error was caused
  */
 export function emitBulkOverwriteError(error: unknown, guildId: string | null) {
 	const { client } = container;

@@ -22,7 +22,7 @@ async function fetchGuildCommands(commands: ApplicationCommandManager, guildIds:
 		try {
 			const guildCommands = await commands.fetch({ guildId, withLocalizations: true });
 			map.set(guildId, guildCommands);
-		} catch (err) {
+		} catch {
 			const { preventFailedToFetchLogForGuilds } = container.client.options;
 
 			if (preventFailedToFetchLogForGuilds === true) continue;

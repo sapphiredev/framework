@@ -4,7 +4,8 @@ import type { IPreconditionCondition } from './IPreconditionCondition';
 
 /**
  * An {@link IPreconditionCondition} which runs all containers similarly to doing (V0 || V1 [|| V2 [|| V3 ...]]).
- * @since 1.0.0
+ *
+ * @remarks Available since 1.0.0
  */
 export const PreconditionConditionOr: IPreconditionCondition = {
 	async messageSequential(message, command, entries, context) {
@@ -18,7 +19,7 @@ export const PreconditionConditionOr: IPreconditionCondition = {
 		return error ?? Result.ok();
 	},
 	async messageParallel(message, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.messageRun(message, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.messageRun(message, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {
@@ -39,7 +40,7 @@ export const PreconditionConditionOr: IPreconditionCondition = {
 		return error ?? Result.ok();
 	},
 	async chatInputParallel(interaction, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.chatInputRun(interaction, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.chatInputRun(interaction, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {
@@ -60,7 +61,7 @@ export const PreconditionConditionOr: IPreconditionCondition = {
 		return error ?? Result.ok();
 	},
 	async contextMenuParallel(interaction, command, entries, context) {
-		const results = await Promise.all(entries.map((entry) => entry.contextMenuRun(interaction, command, context)));
+		const results = await Promise.all(entries.map(async (entry) => entry.contextMenuRun(interaction, command, context)));
 
 		let error: PreconditionContainerResult | null = null;
 		for (const result of results) {

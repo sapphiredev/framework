@@ -4,6 +4,14 @@ import type { Interaction } from 'discord.js';
 import { Events } from '../types/Events';
 import { InteractionHandler, InteractionHandlerTypes, type InteractionHandlerOptions } from './InteractionHandler';
 
+export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (interaction: Interaction) => boolean>([
+	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
+	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isAnySelectMenu()],
+	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.isModalSubmit()],
+	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
+	[InteractionHandlerTypes.Autocomplete, (interaction) => interaction.isAutocomplete()]
+]);
+
 export class InteractionHandlerStore extends Store<InteractionHandler, 'interaction-handlers'> {
 	public constructor() {
 		super(InteractionHandler, { name: 'interaction-handlers' });
@@ -13,7 +21,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler, 'interact
 		// Early-exit for optimization
 		if (this.size === 0) return false;
 
-		const promises: Promise<Result<unknown, { handler: InteractionHandler<InteractionHandlerOptions>; error: unknown }>>[] = [];
+		const promises: Promise<Result<unknown, { error: unknown; handler: InteractionHandler<InteractionHandlerOptions> }>>[] = [];
 
 		// Iterate through every registered handler
 		for (const handler of this.values()) {
@@ -42,6 +50,7 @@ export class InteractionHandlerStore extends Store<InteractionHandler, 'interact
 
 							// Schedule the run of the handler method
 							const promise = Result.fromAsync(() => handler.run(interaction, value)) //
+								// eslint-disable-next-line promise/prefer-await-to-then, promise/prefer-await-to-callbacks
 								.then((res) => res.mapErr((error) => ({ handler, error })));
 
 							promises.push(promise);
@@ -83,12 +92,3 @@ export class InteractionHandlerStore extends Store<InteractionHandler, 'interact
 		return true;
 	}
 }
-
-export const InteractionHandlerFilters = new Map<InteractionHandlerTypes, (interaction: Interaction) => boolean>([
-	[InteractionHandlerTypes.Button, (interaction) => interaction.isButton()],
-	[InteractionHandlerTypes.SelectMenu, (interaction) => interaction.isAnySelectMenu()],
-	[InteractionHandlerTypes.ModalSubmit, (interaction) => interaction.isModalSubmit()],
-
-	[InteractionHandlerTypes.MessageComponent, (interaction) => interaction.isMessageComponent()],
-	[InteractionHandlerTypes.Autocomplete, (Interaction) => Interaction.isAutocomplete()]
-]);

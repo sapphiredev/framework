@@ -9,7 +9,8 @@ export abstract class InteractionHandler<Options extends InteractionHandler.Opti
 > {
 	/**
 	 * The type for this handler
-	 * @since 3.0.0
+	 *
+	 * @remarks Available since 3.0.0
 	 */
 	public readonly interactionHandlerType: InteractionHandlerTypes;
 
@@ -41,7 +42,6 @@ export abstract class InteractionHandler<Options extends InteractionHandler.Opti
 	 *   return this.none();
 	 * }
 	 * ```
-	 *
 	 * @example
 	 * ```typescript
 	 * // Getting data from a database based on the custom id
@@ -60,9 +60,8 @@ export abstract class InteractionHandler<Options extends InteractionHandler.Opti
 	 *   return this.none();
 	 * }
 	 * ```
-	 *
-	 * @returns An {@link Option} (or a {@link Promise Promised} {@link Option}) that indicates if this interaction should be
-	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler.run run method}
+	 * @returns An {@link Option} (or a {@link Promise | Promised} {@link Option}) that indicates if this interaction should be
+	 * handled by this handler, and any extra data that should be passed to the {@link InteractionHandler.run | run method}
 	 */
 	public parse(_interaction: Interaction): Awaitable<Option<unknown>> {
 		return this.some();
@@ -99,9 +98,7 @@ export interface InteractionHandlerJSON extends Piece.JSON {
 
 export type InteractionHandlerParseResult<Instance extends InteractionHandler> = Option.UnwrapSome<Awaited<ReturnType<Instance['parse']>>>;
 
-export namespace InteractionHandler {
-	/** @deprecated Use {@linkcode LoaderContext} instead. */
-	export type Context = LoaderContext;
+export declare namespace InteractionHandler {
 	export type LoaderContext = Piece.LoaderContext<'interaction-handlers'>;
 	export type Options = InteractionHandlerOptions;
 	export type JSON = InteractionHandlerJSON;

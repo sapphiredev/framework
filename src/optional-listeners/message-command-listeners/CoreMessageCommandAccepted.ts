@@ -24,6 +24,7 @@ export class CoreListener extends Listener<typeof Events.MessageCommandAccepted>
 			return duration;
 		});
 
+		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		result.inspectErr((error) => message.client.emit(Events.MessageCommandError, error, { ...payload, args, duration: -1 }));
 
 		message.client.emit(Events.MessageCommandFinish, message, command, {

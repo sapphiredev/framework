@@ -3,7 +3,9 @@ import type { CommandDifference } from '../_shared';
 
 const channelTypeToPrettyName: Record<Exclude<APIApplicationCommandChannelOption['channel_types'], undefined>[number], string> = {
 	[ChannelType.GuildText]: 'text channel (type 0)',
+	[ChannelType.DM]: 'DM channel (type 1)',
 	[ChannelType.GuildVoice]: 'voice channel (type 2)',
+	[ChannelType.GroupDM]: 'group DM channel (type 3)',
 	[ChannelType.GuildCategory]: 'guild category (type 4)',
 	[ChannelType.GuildAnnouncement]: 'guild announcement channel (type 5)',
 	[ChannelType.AnnouncementThread]: 'guild announcement thread (type 10)',
@@ -27,8 +29,8 @@ export function* checkChannelTypes({
 	keyPath
 }: {
 	currentIndex: number;
-	keyPath: (index: number) => string;
 	existingChannelTypes?: APIApplicationCommandChannelOption['channel_types'];
+	keyPath(this: void, index: number): string;
 	newChannelTypes?: APIApplicationCommandChannelOption['channel_types'];
 }): Generator<CommandDifference> {
 	// 0. No existing channel types and now we have channel types

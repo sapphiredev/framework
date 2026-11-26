@@ -12,8 +12,11 @@ import { getNeededRegistryParameters } from './getNeededParameters';
 import { emitBulkOverwriteError, emitPerRegistryError } from './registriesErrors';
 import { bulkOverwriteDebug, bulkOverwriteWarn } from './registriesLog';
 
+// These live bindings are updated by the public registry setters.
+// eslint-disable-next-line import-x/no-mutable-exports
 export let defaultBehaviorWhenNotIdentical = RegisterBehavior.Overwrite;
-export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'] = undefined;
+// eslint-disable-next-line import-x/no-mutable-exports
+export let defaultGuildIds: ApplicationCommandRegistry.RegisterOptions['guildIds'];
 let bulkOVerwriteRetries = 1;
 
 export const registries = new Map<string, ApplicationCommandRegistry>();
@@ -22,7 +25,8 @@ export const allGuildIdsToFetchCommandsFor = new Set<string>();
 
 /**
  * Acquires a registry for a command by its name.
- * @param commandName The name of the command.
+ *
+ * @param commandName - The name of the command.
  * @returns The application command registry for the command
  */
 export function acquire(commandName: string) {
@@ -39,7 +43,8 @@ export function acquire(commandName: string) {
 
 /**
  * Sets the default behavior when registered commands aren't identical to provided data.
- * @param behavior The default behavior to have. Set this to `null` to reset it to the default
+ *
+ * @param behavior - The default behavior to have. Set this to `null` to reset it to the default
  * of `RegisterBehavior.Overwrite`.
  */
 export function setDefaultBehaviorWhenNotIdentical(behavior?: RegisterBehavior | null) {
@@ -53,7 +58,8 @@ export function getDefaultBehaviorWhenNotIdentical() {
 /**
  * Sets the default guild ids for registering commands. This is used when a command is registered _without_ providing
  * `guildIds` in that command's own {@link Command.registerApplicationCommands} method.
- * @param guildIds The default guildIds to set. Set this to `null` to reset it to the default
+ *
+ * @param guildIds - The default guildIds to set. Set this to `null` to reset it to the default
  * of `undefined`.
  */
 export function setDefaultGuildIds(guildIds?: ApplicationCommandRegistry.RegisterOptions['guildIds'] | null) {
@@ -68,14 +74,15 @@ export function getDefaultGuildIds() {
  * Sets the amount of retries for when registering commands, only applies when {@link defaultBehaviorWhenNotIdentical}
  * is set to {@link RegisterBehavior.BulkOverwrite}. This is used if registering the commands times out.
  * The default value is `1`, which means no retries are performed.
- * @param newAmountOfRetries The new amount of retries to set. Set this to `null` to reset it to the default
+ *
+ * @param newAmountOfRetries - The new amount of retries to set. Set this to `null` to reset it to the default
  */
-export function setBulkOverwriteRetries(newAmountOfRetries: number | null) {
-	newAmountOfRetries ??= 1;
+export function setBulkOverwriteRetries(newAmountOfRetries: number | null = 1) {
+	const retries = newAmountOfRetries ?? 1;
 
-	if (newAmountOfRetries <= 0) throw new RangeError('The amount of retries must be greater than 0');
+	if (retries <= 0) throw new RangeError('The amount of retries must be greater than 0');
 
-	bulkOVerwriteRetries = newAmountOfRetries;
+	bulkOVerwriteRetries = retries;
 }
 
 export function getBulkOverwriteRetries() {
@@ -126,6 +133,7 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 
 					foundGuildCommands[guildId].push({ piece: command, data: call.builtData });
 				}
+
 				continue;
 			}
 
@@ -135,11 +143,11 @@ export async function handleBulkOverwrite(commandStore: CommandStore, applicatio
 	}
 
 	// Handle global commands
-	await retry(() => handleBulkOverwriteGlobalCommands(commandStore, applicationCommands, foundGlobalCommands), bulkOVerwriteRetries);
+	await retry(async () => handleBulkOverwriteGlobalCommands(commandStore, applicationCommands, foundGlobalCommands), bulkOVerwriteRetries);
 
 	// Handle guild commands
 	for (const [guildId, guildCommands] of Object.entries(foundGuildCommands)) {
-		await retry(() => handleBulkOverwriteGuildCommands(commandStore, applicationCommands, guildId, guildCommands), bulkOVerwriteRetries);
+		await retry(async () => handleBulkOverwriteGuildCommands(commandStore, applicationCommands, guildId, guildCommands), bulkOVerwriteRetries);
 	}
 
 	container.client.emit(Events.ApplicationCommandRegistriesRegistered, registries, Date.now() - now);
@@ -166,11 +174,15 @@ async function handleBulkOverwriteGlobalCommands(
 						registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id);
 						break;
 					}
+
 					case ApplicationCommandType.User:
 					case ApplicationCommandType.Message: {
 						registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id);
 						break;
 					}
+
+					case ApplicationCommandType.PrimaryEntryPoint:
+						break;
 				}
 
 				// idHints are useless, and any manually added id or names could end up not being valid any longer if you use bulk overwrites
@@ -219,11 +231,15 @@ async function handleBulkOverwriteGuildCommands(
 						registry['handleIdAddition'](InternalRegistryAPIType.ChatInput, id, guildId);
 						break;
 					}
+
 					case ApplicationCommandType.User:
 					case ApplicationCommandType.Message: {
 						registry['handleIdAddition'](InternalRegistryAPIType.ContextMenu, id, guildId);
 						break;
 					}
+
+					case ApplicationCommandType.PrimaryEntryPoint:
+						break;
 				}
 
 				// idHints are useless, and any manually added ids or names could no longer be valid if you use bulk overwrites.
@@ -251,7 +267,6 @@ async function handleAppendOrUpdate(
 	const now = Date.now();
 
 	for (const registry of registries.values()) {
-		// eslint-disable-next-line @typescript-eslint/dot-notation
 		await registry['runAPICalls'](applicationCommands, globalCommands, guildCommands);
 
 		const piece = registry.command;
@@ -271,6 +286,6 @@ async function handleAppendOrUpdate(
 }
 
 interface BulkOverwriteData {
-	piece: Command;
 	data: RESTPostAPIApplicationCommandsJSONBody;
+	piece: Command;
 }

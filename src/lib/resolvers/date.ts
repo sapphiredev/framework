@@ -3,7 +3,7 @@ import { Identifiers } from '../errors/Identifiers';
 
 export function resolveDate(
 	parameter: string,
-	options?: { minimum?: number; maximum?: number }
+	options?: { maximum?: number; minimum?: number }
 ): Result<Date, Identifiers.ArgumentDateError | Identifiers.ArgumentDateTooEarly | Identifiers.ArgumentDateTooFar> {
 	const parsed = new Date(parameter);
 

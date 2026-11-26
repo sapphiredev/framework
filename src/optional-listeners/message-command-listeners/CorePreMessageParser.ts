@@ -15,7 +15,7 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const canRun = await this.canRunInChannel(message);
 		if (!canRun) return;
 
-		let prefix: string | null | RegExp = null;
+		let prefix: RegExp | string | null = null;
 		const mentionPrefix = this.getMentionPrefix(message);
 		const { client } = this.container;
 		const { regexPrefix } = client.options;
@@ -72,22 +72,25 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (message.content[offsetWithId] !== '>') return null;
 
 		// Check whether or not the ID is the same as the managed role ID:
+		// eslint-disable-next-line unicorn/prefer-string-slice
 		const mentionId = message.content.substring(offset, offsetWithId);
+		// eslint-disable-next-line unicorn/prefer-string-slice
 		if (mentionId === id) return message.content.substring(0, offsetWithId + 1);
 
 		return null;
 	}
 
-	private getPrefix(content: string, prefixes: readonly string[] | string | null): string | null {
+	private getPrefix(content: string, prefixes: string | readonly string[] | null): string | null {
 		if (prefixes === null) return null;
 		const { caseInsensitivePrefixes } = this.container.client.options;
 
-		if (caseInsensitivePrefixes) content = content.toLowerCase();
+		const matchingContent = caseInsensitivePrefixes ? content.toLowerCase() : content;
 
 		if (typeof prefixes === 'string') {
-			return content.startsWith(caseInsensitivePrefixes ? prefixes.toLowerCase() : prefixes) ? prefixes : null;
+			const matchingPrefix = caseInsensitivePrefixes ? prefixes.toLowerCase() : prefixes;
+			return matchingContent.startsWith(matchingPrefix) ? prefixes : null;
 		}
 
-		return prefixes.find((prefix) => content.startsWith(caseInsensitivePrefixes ? prefix.toLowerCase() : prefix)) ?? null;
+		return prefixes.find((prefix) => matchingContent.startsWith(caseInsensitivePrefixes ? prefix.toLowerCase() : prefix)) ?? null;
 	}
 }

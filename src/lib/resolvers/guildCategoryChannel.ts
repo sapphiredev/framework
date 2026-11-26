@@ -7,6 +7,6 @@ import { resolveGuildChannelPredicate } from '../utils/resolvers/resolveGuildCha
 export function resolveGuildCategoryChannel(
 	parameter: string,
 	guild: Guild
-): Result<CategoryChannel, Identifiers.ArgumentGuildChannelError | Identifiers.ArgumentGuildCategoryChannelError> {
+): Result<CategoryChannel, Identifiers.ArgumentGuildCategoryChannelError | Identifiers.ArgumentGuildChannelError> {
 	return resolveGuildChannelPredicate(parameter, guild, isCategoryChannel, Identifiers.ArgumentGuildCategoryChannelError);
 }

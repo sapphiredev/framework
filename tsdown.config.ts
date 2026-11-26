@@ -1,42 +1,28 @@
-import { defineConfig, type UserConfig } from 'tsdown';
+import { defineConfig } from 'tsdown';
 import Replace from 'unplugin-replace/rolldown';
-import { version } from './package.json';
+import packageJson from './package.json' with { type: 'json' };
 
-const baseOptions: UserConfig = {
+export default defineConfig({
 	clean: true,
 	entry: ['src/**/*.ts'],
 	dts: true,
 	unbundle: true,
 	minify: false,
-	skipNodeModulesBundle: true,
+	deps: { neverBundle: true },
 	sourcemap: true,
-	target: 'es2021',
+	target: 'node24',
 	tsconfig: 'src/tsconfig.json',
+	outDir: 'dist',
+	format: 'esm',
 	plugins: [
 		Replace({
 			values: [
 				{
-					find: /\[VI\]{{inject}}\[\/VI\]/,
-					replacement: version
+					find: /\[VI]{{inject}}\[\/VI]/,
+					replacement: packageJson.version
 				}
 			]
 		})
 	],
 	treeshake: true
-};
-
-export default [
-	defineConfig({
-		...baseOptions,
-		outDir: 'dist/cjs',
-		format: 'cjs',
-		banner: {
-			js: '"use strict";'
-		}
-	}),
-	defineConfig({
-		...baseOptions,
-		outDir: 'dist/esm',
-		format: 'esm'
-	})
-];
+});

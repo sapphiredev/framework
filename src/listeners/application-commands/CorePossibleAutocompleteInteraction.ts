@@ -25,13 +25,14 @@ export class CoreListener extends Listener<typeof Events.PossibleAutocompleteInt
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction
 				});
-			} catch (err) {
-				this.container.client.emit(Events.CommandAutocompleteInteractionError, err, {
+			} catch (error) {
+				this.container.client.emit(Events.CommandAutocompleteInteractionError, error, {
 					command: command as AutocompleteCommand,
 					context: { commandId: interaction.commandId, commandName: interaction.commandName },
 					interaction
 				});
 			}
+
 			return;
 		}
 

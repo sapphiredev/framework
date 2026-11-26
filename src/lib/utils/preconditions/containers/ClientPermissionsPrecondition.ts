@@ -3,14 +3,15 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
 
 /**
  * Constructs a contextful permissions precondition requirement.
- * @since 1.0.0
+ *
+ * @remarks Available since 1.0.0
  * @example
  * ```typescript
  * export class CoreCommand extends Command {
- *   public constructor(context: Command.Context) {
+ *   public constructor(context: Command.LoaderContext) {
  *     super(context, {
+ *       runIn: [CommandOptionsRunTypeEnum.GuildAny],
  *       preconditions: [
- *         'GuildOnly',
  *         new ClientPermissionsPrecondition('ADD_REACTIONS')
  *       ]
  *     });
@@ -24,11 +25,13 @@ import type { PreconditionSingleResolvableDetails } from '../PreconditionContain
  */
 export class ClientPermissionsPrecondition implements PreconditionSingleResolvableDetails<'ClientPermissions'> {
 	public name: 'ClientPermissions';
+
 	public context: { permissions: PermissionsBitField };
 
 	/**
 	 * Constructs a precondition container entry.
-	 * @param permissions The permissions that will be required by this command.
+	 *
+	 * @param permissions - The permissions that will be required by this command.
 	 */
 	public constructor(permissions: PermissionResolvable) {
 		this.name = 'ClientPermissions';
