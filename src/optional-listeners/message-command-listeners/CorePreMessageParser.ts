@@ -87,7 +87,8 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		const matchingContent = caseInsensitivePrefixes ? content.toLowerCase() : content;
 
 		if (typeof prefixes === 'string') {
-			return matchingContent.startsWith(caseInsensitivePrefixes ? prefixes.toLowerCase() : prefixes) ? prefixes : null;
+			const matchingPrefix = caseInsensitivePrefixes ? prefixes.toLowerCase() : prefixes;
+			return matchingContent.startsWith(matchingPrefix) ? prefixes : null;
 		}
 
 		return prefixes.find((prefix) => matchingContent.startsWith(caseInsensitivePrefixes ? prefix.toLowerCase() : prefix)) ?? null;
