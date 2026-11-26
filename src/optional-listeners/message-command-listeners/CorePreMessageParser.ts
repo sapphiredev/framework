@@ -72,8 +72,10 @@ export class CoreListener extends Listener<typeof Events.PreMessageParsed> {
 		if (message.content[offsetWithId] !== '>') return null;
 
 		// Check whether or not the ID is the same as the managed role ID:
-		const mentionId = message.content.slice(offset, offsetWithId);
-		if (mentionId === id) return message.content.slice(0, Math.max(0, offsetWithId + 1));
+		// eslint-disable-next-line unicorn/prefer-string-slice
+		const mentionId = message.content.substring(offset, offsetWithId);
+		// eslint-disable-next-line unicorn/prefer-string-slice
+		if (mentionId === id) return message.content.substring(0, offsetWithId + 1);
 
 		return null;
 	}
